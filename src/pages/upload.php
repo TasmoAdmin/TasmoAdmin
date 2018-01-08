@@ -1,0 +1,275 @@
+<?php
+	$msg   = "";
+	$error = FALSE;
+	
+	try {
+		
+		// Undefined | Multiple Files | $_FILES Corruption Attack
+		// If this request falls under any of them, treat it invalid.
+		if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
+		     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
+			throw new RuntimeException( 'Invalid parameters.' );
+		}
+		
+		// Check $_FILES['minimal_firmware']['error'] value.
+		switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
+			case UPLOAD_ERR_OK:
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
+			case UPLOAD_ERR_INI_SIZE:
+			case UPLOAD_ERR_FORM_SIZE:
+				throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
+			default:
+				throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
+		}
+		
+		// You should also check filesize here.
+		if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
+			throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
+		}
+		
+		if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream" ) {
+			$ext = "bin";
+		} else {
+			throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
+		}
+		//		$finfo = new finfo( FILEINFO_MIME_TYPE );
+		//		if ( FALSE === $ext = array_search(
+		//				$finfo->file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ),
+		//				array(
+		//					'bin' => 'application/octet-stream',
+		//				),
+		//				TRUE
+		//			) ) {
+		//			throw new RuntimeException( 'Invalid file format.' );
+		//		}
+		
+		$minimal_firmware_path = sprintf(
+			'./data/firmwares/%s-%s.%s',
+			$_FILES[ 'minimal_firmware' ][ 'name' ],
+			substr( sha1_file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ), 0, 6 ),
+			$ext
+		);
+		
+		if ( !move_uploaded_file(
+			$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
+			$minimal_firmware_path
+		) ) {
+			throw new RuntimeException( 'Konnte Datei nicht speichern!' );
+		}
+		
+		$msg .= "Minimal Firmware: Erfolgreich hochgeladen!</br>";
+		
+	}
+	catch ( RuntimeException $e ) {
+		$error = TRUE;
+		$msg   .= "Minimal Firmware: ".$e->getMessage()."!</br>";
+		
+	}
+	
+	try {
+		
+		// Undefined | Multiple Files | $_FILES Corruption Attack
+		// If this request falls under any of them, treat it invalid.
+		if ( !isset( $_FILES[ 'new_firmware' ][ 'error' ] )
+		     || is_array( $_FILES[ 'new_firmware' ][ 'error' ] ) ) {
+			throw new RuntimeException( 'Invalid parameters.' );
+		}
+		
+		// Check $_FILES['new_firmware']['error'] value.
+		switch ( $_FILES[ 'new_firmware' ][ 'error' ] ) {
+			case UPLOAD_ERR_OK:
+				break;
+			case UPLOAD_ERR_NO_FILE:
+				throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
+			case UPLOAD_ERR_INI_SIZE:
+			case UPLOAD_ERR_FORM_SIZE:
+				throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
+			default:
+				throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
+		}
+		
+		// You should also check filesize here.
+		if ( $_FILES[ 'new_firmware' ][ 'size' ] > 1000000 ) {
+			throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
+		}
+		
+		if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream" ) {
+			$ext = "bin";
+		} else {
+			throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
+		}
+		//		$finfo = new finfo( FILEINFO_MIME_TYPE );
+		//		if ( FALSE === $ext = array_search(
+		//				$finfo->file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ),
+		//				array(
+		//					'bin' => 'application/octet-stream',
+		//				),
+		//				TRUE
+		//			) ) {
+		//			throw new RuntimeException( 'Invalid file format.' );
+		//		}
+		
+		$new_firmware_path = sprintf(
+			'./data/firmwares/%s-%s.%s',
+			$_FILES[ 'new_firmware' ][ 'name' ],
+			substr( sha1_file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ), 0, 6 ),
+			$ext
+		);
+		if ( !move_uploaded_file(
+			$_FILES[ 'new_firmware' ][ 'tmp_name' ],
+			
+			$new_firmware_path
+		) ) {
+			throw new RuntimeException( 'Konnte Datei nicht speichern!' );
+		}
+		
+		$msg .= "Neue Firmware: Erfolgreich hochgeladen!</br>";
+		
+	}
+	catch ( RuntimeException $e ) {
+		$error = TRUE;
+		$msg   .= "Neue Firmware: ".$e->getMessage()."!</br>";
+		
+	}
+
+
+?>
+
+
+<?php if ( $error ): ?>
+	<div class='center'>
+		<p>
+			<?php echo $msg; ?>
+		</p>
+	</div>
+
+<?php else: ?>
+	<?php
+	$file = fopen( $filename, 'r' );
+	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
+		//$line is an array of the csv elements
+		$devices[] = $line;
+	}
+	fclose( $file );
+	
+	?>
+	<div class='center'>
+		<p>
+			<?php echo $msg; ?>
+		</p>
+		<p>
+			Wähle die Geräte zum Update aus:
+		</p>
+	</div>
+	<form name='update_devices'
+	      class='center'
+	      id='update_devices'
+	      method='post'
+	      action='index.php?page=device_update'>
+		<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
+		<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
+		<table id='device-list' class='center-table' border='0' cellspacing='0'>
+			<thead>
+			<tr>
+				<td colspan='4'>
+					<button type='submit' class='btn' name='submit' value='submit'>Starte Update</button>
+				</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<th>
+					<input class='select_all' type='checkbox' name='select_all' value='select_all'
+					       checked='checked'>
+					<label for='select_all'>Alle auswählen</label>
+				</th>
+				<th>ID</th>
+				<th>Name</th>
+				<th>IP</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php
+				$odd = TRUE;
+				if ( isset( $devices ) && !empty( $devices ) ):
+					foreach ( $devices as $device ): ?>
+						<tr class='<?php echo $odd ? "odd" : "even"; ?>'
+						    data-device_id='<?php echo $device[ 0 ]; ?>'
+						    data-device_ip='<?php echo $device[ 2 ]; ?>'
+						
+						>
+							<td><input type='checkbox'
+							           name='device_ips[]'
+							           value='<?php echo $device[ 2 ]; ?>'
+							           checked='checked'
+							           class='device_checkbox'
+								></td>
+							<td><?php echo $device[ 0 ]; ?></td>
+							<td><?php echo $device[ 1 ]; ?></td>
+							<td><?php echo $device[ 2 ]; ?></td>
+						</tr>
+						<?php
+						$odd = !$odd;
+					endforeach;
+				endif; ?>
+			</tbody>
+			<tfoot>
+			<tr class='bottom'>
+				<th>
+					<input class='select_all' type='checkbox' name='select_all' value='all'
+					       checked='checked'>
+					<label for='select_all'>Alle auswählen</label>
+				</th>
+				<th>ID</th>
+				<th>Name</th>
+				<th>IP</th>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan='4'>
+					<button type='submit' class='btn' name='submit' value='submit'>Starte Update</button>
+				</td>
+			</tr>
+			</tfoot>
+		</table>
+	</form>
+	
+	<script>
+		$( document ).on( "ready", function () {
+			//select all checkboxes
+			$( ".select_all" ).change( function () {  //"select all" change
+				var status = this.checked; // "select all" checked status
+				$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
+					this.checked = status; //change ".checkbox" checked status
+				} );
+				
+				$( '.select_all' ).each( function () { //iterate all listed checkbox items
+					this.checked = status; //change ".checkbox" checked status
+				} );
+				
+			} );
+			
+			$( '.device_checkbox' ).change( function () { //".checkbox" change
+				//uncheck "select all", if one of the listed checkbox item is unchecked
+				if ( this.checked == false ) { //if this item is unchecked
+					$( '.select_all' ).each( function () { //iterate all listed checkbox items
+						this.checked = false; //change ".checkbox" checked status
+					} );
+				}
+				
+				//check "select all" if all checkbox items are checked
+				if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
+					$( '.select_all' ).each( function () { //iterate all listed checkbox items
+						this.checked = true; //change ".checkbox" checked status
+					} );
+				}
+			} );
+			
+		} );
+	</script>
+<?php endif; ?>

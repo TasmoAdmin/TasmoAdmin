@@ -1,6 +1,5 @@
 <?php
-	$filename = "../data/devices.csv";
-	$file     = fopen( $filename, 'r' );
+	$file = fopen( $filename, 'r' );
 	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
 		//$line is an array of the csv elements
 		$devices[] = $line;
@@ -18,7 +17,7 @@
 		<th>Name</th>
 		<th>IP</th>
 		<th>Status</th>
-		<th><a href='/pages/device_action.php?action=add'>Neues Gerät</a></th>
+		<th><a href='/index.php?page=device_action&action=add'>Neues Gerät</a></th>
 	</tr>
 	</thead>
 	<tbody>
@@ -36,9 +35,9 @@
 					<td><?php echo $device[ 2 ]; ?></td>
 					<td class='status'>Lädt...</td>
 					<td>
-						<a href='/pages/device_action.php?action=update&device_id=<?php echo $device[ 0 ]; ?>'>Update</a>
-						<a href='/pages/device_action.php?action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
-						<a href='/pages/device_action.php?action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
+						<a href='/index.php?page=device_action&action=update&device_id=<?php echo $device[ 0 ]; ?>'>Update</a>
+						<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
+						<a href='/index.php?page=device_action&action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
 					</td>
 				</tr>
 				<?php
@@ -52,15 +51,8 @@
 		<th>Name</th>
 		<th>IP</th>
 		<th>Status</th>
-		<th><a href='/pages/device_action.php?action=add'>Neues Gerät</a></th>
+		<th><a href='/index.php?page=device_action&action=add'>Neues Gerät</a></th>
 	</tr>
 	</tfoot>
 </table>
 
-<script>
-	$( document ).on( "ready" );
-	{
-	
-	
-	}
-</script>

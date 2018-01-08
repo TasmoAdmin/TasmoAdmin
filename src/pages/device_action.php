@@ -1,5 +1,4 @@
 <?php
-	$filename = "../data/devices.csv";
 	
 	//	var_dump( $_GET );
 	$action = $_GET[ "action" ];
@@ -96,7 +95,7 @@
 ?>
 
 <?php if ( $action == "add" || $action == "edit" ): ?>
-	<form class='form' name='save_device' method='post' action='/pages/device_action.php?action=add'>
+	<form class='form' name='save_device' method='post' action='/index.php?page=device_action&action=add'>
 		<input type='hidden' name='device_id' value='<?php echo isset( $device ) ? $device[ 0 ] : ""; ?>'>
 		<table class='center-table' border='0' cellspacing='0'>
 			<tr>
@@ -136,6 +135,6 @@
 <?php elseif ( $action == "done" ): ?>
 	<div class='center'>
 		<p><?php echo $msg; ?></p>
-		<a href='/pages/devices.php'>Zurück</a>
+		<a href='/index.php?page=devices'>Zurück</a>
 	</div>
 <?php endif; ?>
