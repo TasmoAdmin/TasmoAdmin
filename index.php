@@ -1,5 +1,5 @@
 <?php
-	include_once( "/includes/Config.php" );
+	include_once( "includes/Config.php" );
 	
 	$Config = new Config();
 	
@@ -47,7 +47,7 @@
 	
 	<div id="content-holder" class=''>
 		<div id='content'>
-			<?php include_once( "/pages/".$page.".php" ); ?>
+			<?php include_once( "pages/".$page.".php" ); ?>
 		</div>
 	</div>
 

@@ -1,0 +1,1 @@
+<?php return array( "ota_server_ip" => "IP VON DIESEM PC EINTRAGEN!!!" ); ?>

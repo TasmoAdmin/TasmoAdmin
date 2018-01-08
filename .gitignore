@@ -1,8 +1,6 @@
 .idea
 /bin/docs/
-/src/data/firmwares/*
+/data/firmwares/*
 
-/src/data/devices.csv
-/src/data/MyConfig.php
 
 !.empty

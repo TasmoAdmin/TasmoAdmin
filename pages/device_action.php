@@ -9,7 +9,7 @@
 		$file = fopen( $filename, 'r' );
 		while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
 			//$line is an array of the csv elements
-			var_dump( $line );
+			//var_dump( $line );
 			if ( $line[ 0 ] == $_GET[ "device_id" ] ) {
 				$device = $line;
 				break;
@@ -18,7 +18,7 @@
 		fclose( $file );
 	} else if ( $action == "delete" ) {
 		$device[ 0 ] = $_GET[ "device_id" ];
-		$tempfile    = tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
+		$tempfile    = @tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
 		
 		if ( !$input = fopen( $filename, 'r' ) ) {
 			die( 'could not open existing csv file' );
@@ -51,7 +51,7 @@
 			$device[ 1 ] = $_POST[ "device_name" ];
 			$device[ 2 ] = $_POST[ "device_ip" ];
 			
-			$tempfile = tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
+			$tempfile = @tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
 			
 			if ( !$input = fopen( $filename, 'r' ) ) {
 				die( 'could not open existing csv file' );
