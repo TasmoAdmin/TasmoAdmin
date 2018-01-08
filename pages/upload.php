@@ -46,7 +46,7 @@
 		//		}
 		
 		$minimal_firmware_path = sprintf(
-			'./data/firmwares/%s-%s.%s',
+			'data/firmwares/%s-%s.%s',
 			$_FILES[ 'minimal_firmware' ][ 'name' ],
 			substr( sha1_file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ), 0, 6 ),
 			$ext
@@ -112,7 +112,7 @@
 		//		}
 		
 		$new_firmware_path = sprintf(
-			'./data/firmwares/%s-%s.%s',
+			'data/firmwares/%s-%s.%s',
 			$_FILES[ 'new_firmware' ][ 'name' ],
 			substr( sha1_file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ), 0, 6 ),
 			$ext
@@ -133,6 +133,10 @@
 		$msg   .= "Neue Firmware: ".$e->getMessage()."!</br>";
 		
 	}
+	
+	$ota_server_ip = $_POST[ "ota_server_ip" ];
+	
+	$Config->write( "ota_server_ip", $ota_server_ip );
 
 
 ?>

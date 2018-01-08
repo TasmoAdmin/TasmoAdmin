@@ -15,5 +15,5 @@
 <body>
 
 <div id='header'>
-	<h1><a href='/pages/start.php'>SonWEB</a></h1>
+	<h1><a href='/index.php?page=start'>SonWEB</a></h1>
 </div>

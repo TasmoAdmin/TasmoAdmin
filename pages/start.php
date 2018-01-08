@@ -1,6 +1,5 @@
 <?php
-	
-	echo "ok"
+
 ?>
 
-START
+coming soon...&trade;

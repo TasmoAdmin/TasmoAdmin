@@ -10,6 +10,19 @@
 	<table border='0' cellspacing='0' class='center-table'>
 		<tr>
 			<td>
+				SERVER IP:
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type='text' name='ota_server_ip' value='<?php echo $Config->read( "ota_server_ip" ); ?>'>
+			</td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td>
 				MINIMAL Firmware:
 			</td>
 		</tr>
@@ -36,7 +49,7 @@
 		</tr>
 		<tr>
 			<td>
-				<button type='submit' class='btn' name='submit' value='submit'>Starte Upload</button>
+				<button type='submit' class='btn' name='submit' value='submit'>Weiter</button>
 			</td>
 		</tr>
 	</table>

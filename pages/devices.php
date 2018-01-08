@@ -35,7 +35,6 @@
 					<td><?php echo $device[ 2 ]; ?></td>
 					<td class='status'>Lädt...</td>
 					<td>
-						<a href='/index.php?page=device_action&action=update&device_id=<?php echo $device[ 0 ]; ?>'>Update</a>
 						<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
 						<a href='/index.php?page=device_action&action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
 					</td>

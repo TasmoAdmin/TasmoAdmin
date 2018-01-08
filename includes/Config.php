@@ -1,10 +1,11 @@
 <?php
 	
 	class Config {
-		private $cfgFile = "/data/MyConfig.php";
+		private $cfgFile = "data/MyConfig.php";
 		
 		public function read( $key ) {
 			$config = include $this->cfgFile;
+			
 			
 			return isset( $config[ $key ] ) ? $config[ $key ] : NULL;
 		}

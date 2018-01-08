@@ -92,6 +92,7 @@ td.label, th.label {
 }
 
 input[type=text], input[type=number], textarea {
+	width : calc(100% - 6px);
 }
 
 input[type='number'] {
@@ -168,4 +169,29 @@ tr.even {
 
 td.status {
 	cursor : pointer;
+}
+
+#progressbox {
+	border     : 1px solid black;
+	width      : 100%;
+	overflow   : auto;
+	height     : 500px;
+	text-align : left;
+}
+
+#progressbox span {
+	display : inline-block;
+	width   : 100%;
+}
+
+#progressbox span.error {
+	color : red;
+}
+
+#progressbox span.success {
+	color : green;
+}
+
+#progressbox span.warning {
+	color : darkorange;
 }
