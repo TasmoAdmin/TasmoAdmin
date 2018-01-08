@@ -28,7 +28,7 @@
 	var progressBox = $( "#progressbox" );
 	
 	$( document ).on( "ready", function () {
-		log( "", "", "GOBAL", "Update Start", "success" );
+		log( "", "", "GLOBAL", "Update Start", "success" );
 		
 		$.each( device_ips, step1 );
 	} );
@@ -121,9 +121,9 @@
 	}
 	
 	function step2( ip ) {
-		log( ip, 2, "Global", "Starte Step 2", "info" );
+		log( ip, 2, "GLOBAL", "Starte Step 2", "info" );
 		
-		device_responses( ip, setOTAURL, ip, "NEW", 2 );
+		device_responses( ip, setOTAURL, ip, "NEW FW", 2 );
 	}
 	
 	function checkUpdateDone( ip, step, i ) {
@@ -169,9 +169,11 @@
 	
 	function log( ip, step, block, msg, level ) {
 		var dt   = new Date();
-		var time = dt.getDay()
+		var time = (
+			           dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()
+		           )
 		           + "-"
-		           + dt.getMonth()
+		           + dt.getMonth() + 1
 		           + "-"
 		           + dt.getFullYear()
 		           + " "
