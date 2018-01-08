@@ -1,0 +1,6 @@
+.idea
+/bin/docs/
+/src/data/firmwares/*
+
+
+!.empty
