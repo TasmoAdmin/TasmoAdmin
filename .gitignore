@@ -3,5 +3,6 @@
 /src/data/firmwares/*
 
 /src/data/devices.csv
+/src/data/MyConfig.php
 
 !.empty
