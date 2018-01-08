@@ -26,8 +26,6 @@
 ?>
 <?php include_once( "includes/header.php" ); //always load header?>
 	
-	
-	<!-- Sichtbarer Dokumentinhalt im body -->
 	<div id="navi">
 		<ul>
 			<a href='/index.php?page=start' title='Startseite'>
@@ -50,5 +48,4 @@
 			<?php include_once( "pages/".$page.".php" ); ?>
 		</div>
 	</div>
-
 <?php include_once( "includes/footer.php" ); //always load header?>

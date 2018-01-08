@@ -132,7 +132,7 @@
 			return;
 		}
 		var sec = 5;
-		if ( i == 1 ) {
+		if ( i <= 1 ) {
 			sec = 60;
 		}
 		log( ip, 1, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
@@ -177,11 +177,18 @@
 		           + "-"
 		           + dt.getFullYear()
 		           + " "
-		           + dt.getHours()
+		           + (
+			           dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours()
+		           )
 		           + ":"
-		           + dt.getMinutes()
+		           + (
+			           dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes()
+		           )
 		           + ":"
-		           + dt.getSeconds();
+		           + (
+			           dt.getSeconds() < 10 ? "0" + dt.getSeconds() : dt.getSeconds()
+		           )
+		;
 		
 		var entry = "[" + time + "]";
 		
@@ -197,6 +204,7 @@
 		
 		entry += " " + msg;
 		
-		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" );
+		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" )
+		           .animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 2000 );
 	}
 </script>

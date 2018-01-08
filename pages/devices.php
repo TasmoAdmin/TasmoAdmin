@@ -31,7 +31,10 @@
 				
 				>
 					<td><?php echo $device[ 0 ]; ?></td>
-					<td><?php echo $device[ 1 ]; ?></td>
+					<td><a href='http://<?php echo $device[ 2 ]; ?>/'
+					       target='_blank'
+					       title='Oberfläche aufrufen'><?php echo $device[ 1 ]; ?></a>
+					</td>
 					<td><?php echo $device[ 2 ]; ?></td>
 					<td class='status'>Lädt...</td>
 					<td>
