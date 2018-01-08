@@ -24,25 +24,27 @@
 	<tbody>
 	<?php
 		$odd = TRUE;
-		foreach ( $devices as $device ): ?>
-			<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-			    data-device_id='<?php echo $device[ 0 ]; ?>'
-			    data-device_ip='<?php echo $device[ 2 ]; ?>'
-			
-			>
-				<td><?php echo $device[ 0 ]; ?></td>
-				<td><?php echo $device[ 1 ]; ?></td>
-				<td><?php echo $device[ 2 ]; ?></td>
-				<td class='status'>Lädt...</td>
-				<td>
-					<a href='/pages/device_action.php?action=update&device_id=<?php echo $device[ 0 ]; ?>'>Update</a>
-					<a href='/pages/device_action.php?action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
-					<a href='/pages/device_action.php?action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
-				</td>
-			</tr>
-			<?php
-			$odd = !$odd;
-		endforeach; ?>
+		if ( isset( $devices ) && !empty( $devices ) ):
+			foreach ( $devices as $device ): ?>
+				<tr class='<?php echo $odd ? "odd" : "even"; ?>'
+				    data-device_id='<?php echo $device[ 0 ]; ?>'
+				    data-device_ip='<?php echo $device[ 2 ]; ?>'
+				
+				>
+					<td><?php echo $device[ 0 ]; ?></td>
+					<td><?php echo $device[ 1 ]; ?></td>
+					<td><?php echo $device[ 2 ]; ?></td>
+					<td class='status'>Lädt...</td>
+					<td>
+						<a href='/pages/device_action.php?action=update&device_id=<?php echo $device[ 0 ]; ?>'>Update</a>
+						<a href='/pages/device_action.php?action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
+						<a href='/pages/device_action.php?action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
+					</td>
+				</tr>
+				<?php
+				$odd = !$odd;
+			endforeach;
+		endif; ?>
 	</tbody>
 	<tfoot>
 	<tr class='bottom'>

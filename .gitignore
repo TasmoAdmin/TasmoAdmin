@@ -2,5 +2,6 @@
 /bin/docs/
 /src/data/firmwares/*
 
+/src/data/devices.csv
 
 !.empty

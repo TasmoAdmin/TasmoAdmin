@@ -74,7 +74,7 @@
 			unlink( $filename );
 			rename( $tempfile, $filename );
 			
-			$msg    = "Gerät hinzugefügt";
+			$msg    = "Gerät aktualisiert";
 			$action = "done";
 			
 		} else { //add
@@ -86,6 +86,9 @@
 			$handle = fopen( $filename, "a" );
 			fputcsv( $handle, $device );
 			fclose( $handle );
+			
+			$msg    = "Gerät hinzugefügt";
+			$action = "done";
 		}
 		
 	}

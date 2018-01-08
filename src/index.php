@@ -32,7 +32,6 @@
 	
 	<div id="content-holder" class='loading' data-page='start'>
 		<div id='content'>
-		
 		</div>
 	</div>
 
