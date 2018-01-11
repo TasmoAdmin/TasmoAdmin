@@ -1,5 +1,1 @@
-<?php
-
-?>
-
-coming soon...&trade;
+<?php	$file    = fopen( $filename, 'r' );	$devices = [];	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {		//$line is an array of the csv elements		$devices[] = $line;	}	fclose( $file );?><div class='center'>	<?php foreach ( $devices as $device ) { ?>		<?php		if ( !isset( $device[ 4 ] ) || empty( $device[ 4 ] ) ) {			$device[ 4 ] = "bulb_1";		}		$img = "resources/img/device_icons/".$device[ 4 ]."_off.png";		?>		<div class='box_device' data-device_ip='<?php echo $device[ 2 ]; ?>'>			<div class="animated rubberBand"><img data-icon='<?php echo $device[ 4 ]; ?>'			                                      src='<?php echo $img; ?>'			                                      alt=''>			</div>						<div class='box_device_name'>				<?php echo $device[ 1 ]; ?>			</div>		</div>	<?php } ?></div><script type='text/javascript' src='/resources/js/start.js'></script>

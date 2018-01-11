@@ -58,3 +58,5 @@
 	</tfoot>
 </table>
 
+
+<script type='text/javascript' src='/resources/js/devices.js'></script>

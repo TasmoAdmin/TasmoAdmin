@@ -22,7 +22,9 @@
 	
 	
 	$filename = "data/devices.csv"; //csv file name
-
+	if ( !file_exists( $filename ) ) {
+		fopen( $filename, 'w' ) or die( "Can't create file" );
+	}
 ?>
 <?php include_once( "includes/header.php" ); //always load header?>
 	
