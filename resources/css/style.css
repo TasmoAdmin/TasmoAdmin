@@ -212,6 +212,10 @@ td.status {
 	border-radius : 5px;
 }
 
+.box_device.error {
+	border : 1px solid red;
+}
+
 .box_device img {
 	max-width  : 100%;
 	padding    : 10px;

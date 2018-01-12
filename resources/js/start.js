@@ -10,21 +10,25 @@ function updateStatus() {
 		console.log( "get status for " + $( elem ).data( "device_ip" ) );
 		var device_ip     = $( elem ).data( "device_ip" );
 		var device_relais = $( elem ).data( "device_relais" );
-		
-		Sonoff.getStatus( device_ip, device_relais, function ( data ) {
-			console.log( data );
-			if ( data ) {
-				var img           = $( elem ).find( "img" );
-				var src           = "/resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
-				var device_status = data.POWER || eval( "data.POWER" + device_relais );
-				src               = src.replace( "%pw", device_status.toLowerCase() );
-				img.attr( "src", src ).parent().removeClass( "animated" );
-			} else {
-				$( elem ).css( "border", "1px solid red" ).find( ".animated" ).removeClass( "animated" );
-			}
-			//console.log( result );
-			
-		} );
+		if ( !$( elem ).hasClass( "updating" ) ) {
+			$( elem ).addClass( "updating" );
+			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
+				$( elem ).removeClass( "updating" );
+				console.log( data );
+				if ( data ) {
+					var img           = $( elem ).find( "img" );
+					var src           = "/resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+					var device_status = data.POWER || eval( "data.POWER" + device_relais );
+					src               = src.replace( "%pw", device_status.toLowerCase() );
+					img.attr( "src", src ).parent().removeClass( "animated" );
+					$( elem ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
+				} else {
+					$( elem ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
+				}
+				//console.log( result );
+				
+			} );
+		}
 	} );
 	
 	
@@ -48,8 +52,9 @@ function deviceTools() {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				src               = src.replace( "%pw", device_status );
 				img.attr( "src", src ).parent().removeClass( "animated" );
+				device_box.removeClass( "error" );
 			} else {
-				device_box.css( "border", "1px solid red" );
+				device_box.addClass( "error" );
 			}
 		} );
 		
