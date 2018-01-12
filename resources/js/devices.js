@@ -41,10 +41,16 @@ function updateStatus() {
 							.each( function ( key, grouptr ) {
 								
 								$( grouptr ).find( ".status" ).html( "Fehler" );
+								$( grouptr ).find( ".rssi" ).html( "Fehler" );
+								$( grouptr ).find( ".runtime" ).html( "Fehler" );
+								$( grouptr ).find( ".version" ).html( "Fehler" );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
 						$( tr ).find( ".status" ).html( "Fehler" );
+						$( tr ).find( ".rssi" ).html( "Fehler" );
+						$( tr ).find( ".runtime" ).html( "Fehler" );
+						$( tr ).find( ".version" ).html( "Fehler" );
 						$( tr ).removeClass( "updating" );
 					}
 				}
@@ -54,8 +60,8 @@ function updateStatus() {
 	} );
 	
 	setTimeout( function () {
-		//updateStatus();
-	}, 1000 );
+		updateStatus();
+	}, 2000 );
 	
 };
 

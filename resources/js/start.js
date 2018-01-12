@@ -70,8 +70,8 @@ function updateStatus() {
 	} );
 	
 	setTimeout( function () {
-		//updateStatus();
-	}, 1000 );
+		updateStatus();
+	}, 2000 );
 	
 };
 
