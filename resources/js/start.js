@@ -5,36 +5,73 @@ $( document ).on( "ready", function () {
 
 
 function updateStatus() {
-	$( '#content .box_device' ).each( function ( key, elem ) {
+	$( '#content .box_device' ).each( function ( key, box ) {
 		
-		console.log( "get status for " + $( elem ).data( "device_ip" ) );
-		var device_ip     = $( elem ).data( "device_ip" );
-		var device_relais = $( elem ).data( "device_relais" );
-		if ( !$( elem ).hasClass( "updating" ) ) {
-			$( elem ).addClass( "updating" );
+		console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
+		var device_ip     = $( box ).data( "device_ip" );
+		var device_relais = $( box ).data( "device_relais" );
+		var device_group  = $( box ).data( "device_group" );
+		
+		if ( !$( box ).hasClass( "updating" ) ) {
+			$( box ).addClass( "updating" );
+			
+			if ( device_group == "multi" && device_relais > 1 ) {
+				console.log( "[Start][updateStatus]skip multi " + $( box ).data( "device_ip" ) );
+				return; //relais 1 will update all others
+			}
+			
+			
 			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
-				$( elem ).removeClass( "updating" );
-				console.log( data );
-				if ( data ) {
-					var img           = $( elem ).find( "img" );
-					var src           = "/resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
-					var device_status = data.POWER || eval( "data.POWER" + device_relais );
-					src               = src.replace( "%pw", device_status.toLowerCase() );
-					img.attr( "src", src ).parent().removeClass( "animated" );
-					$( elem ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
-				} else {
-					$( elem ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
-				}
-				//console.log( result );
 				
-			} );
+				                  if ( data ) {
+					
+					                  if ( device_group == "multi" ) {
+						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
+							                  .each( function ( key, groupbox ) {
+								                  var img           = $( groupbox ).find( "img" );
+								                  var src           = "/resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
+									                  .data( "device_relais" ) );
+								
+								                  src = src.replace( "%pw", device_status.toLowerCase() );
+								                  img.attr( "src", src ).parent().removeClass( "animated" );
+								                  $( groupbox ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
+								                  $( groupbox ).removeClass( "updating" );
+							                  } );
+					                  } else {
+						                  var img           = $( box ).find( "img" );
+						                  var src           = "/resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
+						
+						                  src = src.replace( "%pw", device_status.toLowerCase() );
+						                  img.attr( "src", src ).parent().removeClass( "animated" );
+						                  $( box ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
+						                  $( box ).removeClass( "updating" );
+					                  }
+					
+					
+				                  } else {
+					                  if ( device_group == "multi" ) {
+						                  $( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
+							                  .each( function ( key, groupbox ) {
+								                  $( groupbox ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
+								                  $( groupbox ).removeClass( "updating" );
+							                  } );
+					                  } else {
+						                  $( box ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
+						                  $( box ).removeClass( "updating" );
+					                  }
+				                  }
+				                  //console.log( result );
+				
+			                  }
+			);
 		}
 	} );
 	
-	
 	setTimeout( function () {
-		updateStatus();
-	}, 5000 );
+		//updateStatus();
+	}, 1000 );
 	
 };
 

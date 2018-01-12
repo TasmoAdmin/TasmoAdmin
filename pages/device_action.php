@@ -52,7 +52,6 @@
 		if ( isset( $_POST[ "search" ] ) ) {
 			if ( isset( $_POST[ 'device_ip' ] ) ) {
 				$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
-				
 			} else {
 				die( "Bitte IP eingeben" );
 			}
@@ -91,15 +90,14 @@
 			if ( isset( $_POST[ "search" ] ) ) {
 				if ( isset( $_POST[ 'device_ip' ] ) ) {
 					$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
-					
 				} else {
 					die( "Bitte IP eingeben" );
 				}
 			} else {
 				$fp          = file( $filename );
 				$device[ 0 ] = count( $fp ) + 1;
-				$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
-				$device[ 2 ] = $_POST[ "device_ip" ];
+				$device[ 1 ] = implode( "|", isset( $_POST[ "device_name" ] ) ? $_POST[ "device_name" ] : array() );
+				$device[ 2 ] = isset( $_POST[ "device_ip" ] ) ? $_POST[ "device_ip" ] : "";
 				
 				
 				$handle = fopen( $filename, "a" );
@@ -126,7 +124,7 @@
 		<input type='hidden' name='device_id' value='<?php echo isset( $device ) ? $device[ 0 ] : ""; ?>'>
 		<table class='center-table' border='0' cellspacing='0'>
 			<tr>
-				<td>IP:</td>
+				<td>IP vom Sonoff:</td>
 				<td><input type='text'
 				           id="device_ip"
 				           name='device_ip'
@@ -147,71 +145,84 @@
 			
 			
 			<?php if ( isset( $status ) && !empty( $status ) ): ?>
-				<tr>
-					<td colspan='3' style='text-align: center; margin-top: 20px;'>
-						<br/><br/>Gerät gefunden!<br/><br/>
-					</td>
-				</tr>
-				<?php if ( isset( $status->StatusSTS->POWER ) ): ?>
+				<?php if ( isset( $status->WARNING ) && !empty( $status->WARNING ) ): ?>
 					<tr>
-						<td>Name:</td>
-						<td><input type='text'
-						           id="device_name"
-						           name='device_name[1]'
-						           required
-						           value='<?php echo isset( $device )
-							           ? $device[ 1 ][ 0 ] : ( isset( $_POST[ 'device_name' ][ 1 ] )
-								           ? $_POST[ 'device_name' ][ 1 ]
-								           : $status->Status->FriendlyName ); ?>'></td>
-						<td class='default-value'>( <a href='#' title='Übernehmen'
-						                               class='default-name'><?php echo $status->Status->FriendlyName; ?></a>
-						                          )
+						<td colspan='3' style='text-align: center; margin-top: 20px; '>
+							<p> Gerät gefunden!</p>
+							<p class='error' style='color: red;'>FEHLER: <?php echo $status->WARNING; ?></p>
 						</td>
 					</tr>
-				<?php endif; ?>
-				
-				
-				<?php
-				$i     = 1;
-				$power = "POWER".$i;
-				while ( isset( $status->StatusSTS->$power ) )  : ?>
+				<?php else: ?>
 					<tr>
-						<td>Name <?php echo $i; ?>:</td>
-						<td><input type='text'
-						           id="device_name"
-						           name='device_name[<?php echo $i; ?>]'
-						           required
-						           value='<?php echo isset( $device[ 1 ][ $i - 1 ] ) && !empty( $device[ 1 ][ $i - 1 ] )
-							           ? $device[ 1 ][ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
-								           ? $_POST[ 'device_name' ][ $i ]
-								           : $status->Status->FriendlyName." ".$i ); ?>'></td>
-						<td class='default-value'>( <a href='#' title='Übernehmen'
-						                               class='default-name'><?php echo $status->Status->FriendlyName
-						                                                               ." "
-						                                                               .$i; ?></a> )
+						<td colspan='3' style='text-align: center; margin-top: 20px;'>
+							<br/><br/>Gerät gefunden!<br/><br/>
 						</td>
 					</tr>
+					<?php if ( isset( $status->StatusSTS->POWER ) ): ?>
+						<tr>
+							<td>Name:</td>
+							<td><input type='text'
+							           id="device_name"
+							           name='device_name[1]'
+							           required
+							           value='<?php echo isset( $device )
+								           ? $device[ 1 ][ 0 ] : ( isset( $_POST[ 'device_name' ][ 1 ] )
+									           ? $_POST[ 'device_name' ][ 1 ]
+									           : $status->Status->FriendlyName ); ?>'></td>
+							<td class='default-value'>( <a href='#' title='Übernehmen'
+							                               class='default-name'><?php echo $status->Status->FriendlyName; ?></a>
+							                          )
+							</td>
+						</tr>
+					<?php endif; ?>
 					
 					
 					<?php
-					
-					$i++;
+					$i     = 1;
 					$power = "POWER".$i;
-					?>
-				
-				<?php endwhile; ?>
-				<tr>
-					<td style='text-align: right' colspan='3'>
-						<br/><br/>
-						<button type='submit'
-						        name='submit'
-						        value='<?php echo isset( $device ) ? "edit" : "add"; ?>'
-						        class='btn'
-						>
-							Speichern
-						</button>
-					</td>
-				</tr>
+					while ( isset( $status->StatusSTS->$power ) )  : ?>
+						<tr>
+							<td>Name <?php echo $i; ?>:</td>
+							<td><input type='text'
+							           id="device_name"
+							           name='device_name[<?php echo $i; ?>]'
+							           required
+							           value='<?php echo isset( $device[ 1 ][ $i - 1 ] )
+							                             && !empty(
+							           $device[ 1 ][ $i
+							                         - 1 ]
+							           )
+								           ? $device[ 1 ][ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
+									           ? $_POST[ 'device_name' ][ $i ]
+									           : $status->Status->FriendlyName." ".$i ); ?>'></td>
+							<td class='default-value'>( <a href='#' title='Übernehmen'
+							                               class='default-name'><?php echo $status->Status->FriendlyName
+							                                                               ." "
+							                                                               .$i; ?></a> )
+							</td>
+						</tr>
+						
+						
+						<?php
+						
+						$i++;
+						$power = "POWER".$i;
+						?>
+					
+					<?php endwhile; ?>
+					<tr>
+						<td style='text-align: right' colspan='3'>
+							<br/><br/>
+							<button type='submit'
+							        name='submit'
+							        value='<?php echo isset( $device ) ? "edit" : "add"; ?>'
+							        class='btn'
+							>
+								Speichern
+							</button>
+						</td>
+					</tr>
+				<?php endif; ?>
 			<?php endif; ?>
 		</table>
 	</form>

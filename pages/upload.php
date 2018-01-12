@@ -154,6 +154,7 @@
 	$file = fopen( $filename, 'r' );
 	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
 		//$line is an array of the csv elements
+		$line[ 1 ] = explode( "|", $line[ 1 ] );
 		$devices[] = $line;
 	}
 	fclose( $file );
@@ -177,7 +178,7 @@
 		<table id='device-list' class='center-table' border='0' cellspacing='0'>
 			<thead>
 			<tr>
-				<td colspan='4'>
+				<td colspan='8'>
 					<button type='submit' class='btn' name='submit' value='submit'>Starte Update</button>
 				</td>
 			</tr>
@@ -188,35 +189,70 @@
 				<th>
 					<input class='select_all' type='checkbox' name='select_all' value='select_all'
 					       checked='checked'>
-					<label for='select_all'>Alle auswählen</label>
+					<label for='select_all'>Alle</label>
 				</th>
 				<th>ID</th>
 				<th>Name</th>
 				<th>IP</th>
+				<th>Status</th>
+				<th>RSSI</th>
+				<th>Version</th>
+				<th>Laufzeit</th>
 			</tr>
 			</thead>
 			<tbody>
 			<?php
 				$odd = TRUE;
 				if ( isset( $devices ) && !empty( $devices ) ):
-					foreach ( $devices as $device ): ?>
-						<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-						    data-device_id='<?php echo $device[ 0 ]; ?>'
-						    data-device_ip='<?php echo $device[ 2 ]; ?>'
-						
-						>
-							<td><input type='checkbox'
-							           name='device_ips[]'
-							           value='<?php echo $device[ 2 ]; ?>'
-							           checked='checked'
-							           class='device_checkbox'
-								></td>
-							<td><?php echo $device[ 0 ]; ?></td>
-							<td><?php echo $device[ 1 ]; ?></td>
-							<td><?php echo $device[ 2 ]; ?></td>
-						</tr>
-						<?php
-						$odd = !$odd;
+					foreach ( $devices as $device_group ):
+						foreach ( $device_group[ 1 ] as $key => $device ): ?>
+							<tr class='<?php echo $odd ? "odd" : "even"; ?>'
+							    data-device_id='<?php echo $device_group[ 0 ]; ?>'
+							    data-device_group='<?php echo count( $device_group[ 1 ] ) > 1 ? "multi" : "single"; ?>'
+							    data-device_ip='<?php echo $device_group[ 2 ]; ?>'
+							    data-device_relais='<?php echo $key + 1; ?>'
+							>
+								<td>
+									<?php if ( $key == 0 ): ?>
+										<input type='checkbox'
+										       name='device_ips[]'
+										       value='<?php echo $device_group[ 2 ]; ?>'
+										       checked='checked'
+										       class='device_checkbox'
+										>
+									<?php endif; ?>
+								</td>
+								<td><?php echo $device_group[ 0 ]; ?></td>
+								<td><?php echo $device; ?></td>
+								<td><?php echo $device_group[ 2 ]; ?></td>
+								<td class='status'>
+									<div class='loader'><img
+												src='/resources/img/loading.gif'
+												alt='Lädt...'
+												title='Lädt...'></div>
+								</td>
+								<td class='rssi'>
+									<div class='loader'><img
+												src='/resources/img/loading.gif'
+												alt='Lädt...'
+												title='Lädt...'></div>
+								</td>
+								<td class='version'>
+									<div class='loader'><img
+												src='/resources/img/loading.gif'
+												alt='Lädt...'
+												title='Lädt...'></div>
+								</td>
+								<td class='runtime'>
+									<div class='loader'><img
+												src='/resources/img/loading.gif'
+												alt='Lädt...'
+												title='Lädt...'></div>
+								</td>
+							</tr>
+							<?php
+							$odd = !$odd;
+						endforeach;
 					endforeach;
 				endif; ?>
 			</tbody>
@@ -225,17 +261,21 @@
 				<th>
 					<input class='select_all' type='checkbox' name='select_all' value='all'
 					       checked='checked'>
-					<label for='select_all'>Alle auswählen</label>
+					<label for='select_all'>Alle</label>
 				</th>
 				<th>ID</th>
 				<th>Name</th>
 				<th>IP</th>
+				<th>Status</th>
+				<th>RSSI</th>
+				<th>Version</th>
+				<th>Laufzeit</th>
 			</tr>
 			<tr>
 				<td>&nbsp;</td>
 			</tr>
 			<tr>
-				<td colspan='4'>
+				<td colspan='8'>
 					<button type='submit' class='btn' name='submit' value='submit'>Starte Update</button>
 				</td>
 			</tr>
@@ -276,4 +316,7 @@
 			
 		} );
 	</script>
+	<script type='text/javascript' src='/resources/js/devices.js'></script>
 <?php endif; ?>
+
+

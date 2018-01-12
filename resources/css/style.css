@@ -165,7 +165,7 @@ tr th, tr td {
 }
 
 tr.odd {
-	background-color : rgba(0, 148, 204, 0.37);
+	background-color : rgb(210, 243, 255);
 }
 
 tr.even {

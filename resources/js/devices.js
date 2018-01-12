@@ -7,31 +7,55 @@ $( document ).on( "ready", function () {
 function updateStatus() {
 	$( '#device-list tbody tr' ).each( function ( key, tr ) {
 		
-		console.log( "get status for " + $( tr ).data( "device_ip" ) );
+		console.log( "[Devices][updateStatus]get status from " + $( tr ).data( "device_ip" ) );
 		var device_ip     = $( tr ).data( "device_ip" );
 		var device_relais = $( tr ).data( "device_relais" );
+		var device_group  = $( tr ).data( "device_group" );
 		if ( !$( tr ).hasClass( "updating" ) ) {
 			$( tr ).addClass( "updating" );
 			
+			if ( device_group == "multi" && device_relais > 1 ) {
+				console.log( "[Devices][updateStatus]skip multi " + $( tr ).data( "device_ip" ) );
+				return; //relais 1 will update all others
+			}
+			
 			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
-				$( tr ).removeClass( "updating" );
 				if ( data ) {
-					var device_status = data.POWER || eval( "data.POWER" + device_relais );
-					$( tr ).find( ".status" ).html( (
-						                                device_status == "ON" ? "AN" : "AUS"
-					                                ) );
+					if ( device_group == "multi" ) {
+						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
+							.each( function ( key, grouptr ) {
+								var device_status = eval( "data.StatusSTS.POWER" + $( grouptr )
+									.data( "device_relais" ) );
+								
+								updateRow( $( grouptr ), data, device_status );
+								$( grouptr ).removeClass( "updating" );
+							} );
+					} else {
+						var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
+						
+						updateRow( $( tr ), data, device_status );
+					}
 				} else {
-					$( tr ).find( ".status" ).html( "Fehler" );
+					if ( device_group == "multi" ) {
+						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
+							.each( function ( key, grouptr ) {
+								
+								$( grouptr ).find( ".status" ).html( "Fehler" );
+								$( grouptr ).removeClass( "updating" );
+							} );
+					} else {
+						$( tr ).find( ".status" ).html( "Fehler" );
+						$( tr ).removeClass( "updating" );
+					}
 				}
-				//console.log( result );
 				
 			} );
 		}
 	} );
 	
 	setTimeout( function () {
-		updateStatus();
-	}, 5000 );
+		//updateStatus();
+	}, 1000 );
 	
 };
 
@@ -54,4 +78,17 @@ function deviceTools() {
 		
 		
 	} );
+}
+
+function updateRow( row, data, device_status ) {
+	$( row ).find( ".status" ).html( (
+		                                 device_status == "ON" ? "AN" : "AUS"
+	                                 ) );
+	
+	$( row ).find( ".rssi" ).html( data.StatusSTS.WLAN.RSSI ).attr( "title", data.StatusSTS.WLAN.SSID );
+	$( row ).find( ".runtime" ).html( "~" + data.StatusSTS.Laufzeit + "h" );
+	$( row ).find( ".version" ).html( data.StatusFWR.Version );
+	
+	
+	$( row ).removeClass( "updating" );
 }

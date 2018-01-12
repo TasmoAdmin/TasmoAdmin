@@ -38,7 +38,7 @@ var Sonoff = function ( options ) {
 	 */
 	this.getStatus = function ( ip, relais, callback, params ) {
 		relais   = relais || 1;
-		var cmnd = "Power" + relais;
+		var cmnd = "Status 0";
 		doAjax( ip, cmnd, callback, params );
 	};
 	

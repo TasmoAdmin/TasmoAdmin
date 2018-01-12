@@ -21,6 +21,9 @@
 		case "upload_form":
 			$title = "Upload new Firmware";
 			break;
+		case "device_action":
+			$title = "Gerät verwalten";
+			break;
 		default:
 			$title = ucfirst( $page );
 	}
@@ -45,6 +48,12 @@
 			<a href='/index.php?page=upload_form' title='Update'>
 				<li class=''>Update</li>
 			</a>
+			
+			
+			<!--			<hr/>-->
+			<!--			<a href='/index.php?page=chat' title='Chat'>-->
+			<!--				<li class=''>Chat</li>-->
+			<!--			</a>-->
 		
 		</ul>
 	</div>

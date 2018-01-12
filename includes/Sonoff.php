@@ -22,6 +22,22 @@
 		
 		
 		/**
+		 * @param     $ip
+		 * @param int $level
+		 * @param int $try
+		 *
+		 * @return mixed
+		 */
+		public function setWebLog( $ip, $level = 2, $try = 1 ) {
+			$cmnd = "Weblog ".$level;
+			
+			$weblog = $this->doRequest( $ip, $cmnd, $try );
+			
+			return $weblog;
+		}
+		
+		
+		/**
 		 * @param $ip
 		 * @param $cmnd
 		 *
@@ -35,14 +51,16 @@
 		}
 		
 		/**
-		 * @param $ip
-		 * @param $cmnd
+		 * @param     $ip
+		 * @param     $cmnd
+		 * @param int $try
 		 *
 		 * @return mixed
 		 */
-		private function doRequest( $ip, $cmnd ) {
+		private function doRequest( $ip, $cmnd, $try = 1 ) {
 			$url = $this->buildCmndUrl( $ip, $cmnd );
 			
+			$result = NULL;
 			
 			if ( !$json = @file_get_contents( $url ) ) {
 				$result = NULL;
@@ -50,7 +68,16 @@
 				$result = json_decode( $json );
 			}
 			
-			return $result;
+			if ( isset( $result->WARNING ) && !empty( $result->WARNING ) && $try == 1 ) {
+				$try++;
+				//set web log level 2 and try again
+				$webLog = $this->setWebLog( $ip, 2, $try );
+				if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
+					$result = $this->doRequest( $ip, $cmnd, $try );
+				}
+			}
 			
+			
+			return $result;
 		}
 	}

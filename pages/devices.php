@@ -18,6 +18,9 @@
 		<th>Name</th>
 		<th>IP</th>
 		<th>Status</th>
+		<th>RSSI</th>
+		<th>Version</th>
+		<th>Laufzeit</th>
 		<th><a href='/index.php?page=device_action&action=add'>Neues Gerät</a></th>
 	</tr>
 	</thead>
@@ -25,10 +28,11 @@
 	<?php
 		$odd = TRUE;
 		if ( isset( $devices ) && !empty( $devices ) ):
-			foreach ( $devices as $device_group ): ?>
-				<?php foreach ( $device_group[ 1 ] as $key => $device ): ?>
+			foreach ( $devices as $device_group ):
+				foreach ( $device_group[ 1 ] as $key => $device ): ?>
 					<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 					    data-device_id='<?php echo $device_group[ 0 ]; ?>'
+					    data-device_group='<?php echo count( $device_group[ 1 ] ) > 1 ? "multi" : "single"; ?>'
 					    data-device_ip='<?php echo $device_group[ 2 ]; ?>'
 					    data-device_relais='<?php echo $key + 1; ?>'
 					>
@@ -38,7 +42,30 @@
 						       title='Oberfläche aufrufen'><?php echo $device; ?></a>
 						</td>
 						<td><?php echo $device_group[ 2 ]; ?></td>
-						<td class='status'>Lädt...</td>
+						<td class='status'>
+							<div class='loader'><img
+										src='/resources/img/loading.gif'
+										alt='Lädt...'
+										title='Lädt...'></div>
+						</td>
+						<td class='rssi'>
+							<div class='loader'><img
+										src='/resources/img/loading.gif'
+										alt='Lädt...'
+										title='Lädt...'></div>
+						</td>
+						<td class='version'>
+							<div class='loader'><img
+										src='/resources/img/loading.gif'
+										alt='Lädt...'
+										title='Lädt...'></div>
+						</td>
+						<td class='runtime'>
+							<div class='loader'><img
+										src='/resources/img/loading.gif'
+										alt='Lädt...'
+										title='Lädt...'></div>
+						</td>
 						<td>
 							<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device_group[ 0 ]; ?>'>
 								Bearbeiten</a>
@@ -57,6 +84,9 @@
 		<th>Name</th>
 		<th>IP</th>
 		<th>Status</th>
+		<th>RSSI</th>
+		<th>Version</th>
+		<th>Laufzeit</th>
 		<th><a href='/index.php?page=device_action&action=add'>Neues Gerät</a></th>
 	</tr>
 	</tfoot>
