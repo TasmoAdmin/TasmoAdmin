@@ -2,6 +2,7 @@
 	$file = fopen( $filename, 'r' );
 	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
 		//$line is an array of the csv elements
+		$line[ 1 ] = explode( "|", $line[ 1 ] );
 		$devices[] = $line;
 	}
 	fclose( $file );
@@ -24,26 +25,29 @@
 	<?php
 		$odd = TRUE;
 		if ( isset( $devices ) && !empty( $devices ) ):
-			foreach ( $devices as $device ): ?>
-				<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-				    data-device_id='<?php echo $device[ 0 ]; ?>'
-				    data-device_ip='<?php echo $device[ 2 ]; ?>'
-				
-				>
-					<td><?php echo $device[ 0 ]; ?></td>
-					<td><a href='http://<?php echo $device[ 2 ]; ?>/'
-					       target='_blank'
-					       title='Oberfläche aufrufen'><?php echo $device[ 1 ]; ?></a>
-					</td>
-					<td><?php echo $device[ 2 ]; ?></td>
-					<td class='status'>Lädt...</td>
-					<td>
-						<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device[ 0 ]; ?>'>Bearbeiten</a>
-						<a href='/index.php?page=device_action&action=delete&device_id=<?php echo $device[ 0 ]; ?>'>Löschen</a>
-					</td>
-				</tr>
-				<?php
-				$odd = !$odd;
+			foreach ( $devices as $device_group ): ?>
+				<?php foreach ( $device_group[ 1 ] as $key => $device ): ?>
+					<tr class='<?php echo $odd ? "odd" : "even"; ?>'
+					    data-device_id='<?php echo $device_group[ 0 ]; ?>'
+					    data-device_ip='<?php echo $device_group[ 2 ]; ?>'
+					    data-device_relais='<?php echo $key + 1; ?>'
+					>
+						<td><?php echo $device_group[ 0 ]; ?></td>
+						<td><a href='http://<?php echo $device_group[ 2 ]; ?>/'
+						       target='_blank'
+						       title='Oberfläche aufrufen'><?php echo $device; ?></a>
+						</td>
+						<td><?php echo $device_group[ 2 ]; ?></td>
+						<td class='status'>Lädt...</td>
+						<td>
+							<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device_group[ 0 ]; ?>'>
+								Bearbeiten</a>
+							<a href='/index.php?page=device_action&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>Löschen</a>
+						</td>
+					</tr>
+					<?php
+					$odd = !$odd;
+				endforeach;
 			endforeach;
 		endif; ?>
 	</tbody>

@@ -1,7 +1,12 @@
 <?php
+	/**
+	 * @property Sonoff Sonoff
+	 */
 	include_once( "includes/Config.php" );
+	include_once( "includes/Sonoff.php" );
 	
 	$Config = new Config();
+	$Sonoff = new Sonoff();
 	
 	$page = "start";
 	if ( isset( $_GET ) ) {

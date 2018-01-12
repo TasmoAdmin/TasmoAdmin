@@ -11,11 +11,14 @@
 			//$line is an array of the csv elements
 			//var_dump( $line );
 			if ( $line[ 0 ] == $_GET[ "device_id" ] ) {
-				$device = $line;
+				$line[ 1 ] = explode( "|", $line[ 1 ] );
+				$device    = $line;
 				break;
 			}
 		}
 		fclose( $file );
+		
+		$status = $Sonoff->getAllStatus( $device[ 2 ] );
 	} else if ( $action == "delete" ) {
 		$device[ 0 ] = $_GET[ "device_id" ];
 		$tempfile    = @tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
@@ -45,10 +48,17 @@
 	}
 	
 	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		//		var_dump( $_POST );
-		if ( !empty( $_POST[ 'device_id' ] ) ) {//update
+		
+		if ( isset( $_POST[ "search" ] ) ) {
+			if ( isset( $_POST[ 'device_ip' ] ) ) {
+				$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
+				
+			} else {
+				die( "Bitte IP eingeben" );
+			}
+		} else if ( !empty( $_POST[ 'device_id' ] ) ) {//update
 			$device[ 0 ] = $_POST[ "device_id" ];
-			$device[ 1 ] = $_POST[ "device_name" ];
+			$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
 			$device[ 2 ] = $_POST[ "device_ip" ];
 			
 			$tempfile = @tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
@@ -77,17 +87,29 @@
 			$action = "done";
 			
 		} else { //add
-			$fp          = file( $filename );
-			$device[ 0 ] = count( $fp ) + 1;
-			$device[ 1 ] = $_POST[ "device_name" ];
-			$device[ 2 ] = $_POST[ "device_ip" ];
 			
-			$handle = fopen( $filename, "a" );
-			fputcsv( $handle, $device );
-			fclose( $handle );
+			if ( isset( $_POST[ "search" ] ) ) {
+				if ( isset( $_POST[ 'device_ip' ] ) ) {
+					$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
+					
+				} else {
+					die( "Bitte IP eingeben" );
+				}
+			} else {
+				$fp          = file( $filename );
+				$device[ 0 ] = count( $fp ) + 1;
+				$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
+				$device[ 2 ] = $_POST[ "device_ip" ];
+				
+				
+				$handle = fopen( $filename, "a" );
+				fputcsv( $handle, $device );
+				fclose( $handle );
+				
+				$msg    = "Gerät hinzugefügt";
+				$action = "done";
+			}
 			
-			$msg    = "Gerät hinzugefügt";
-			$action = "done";
 		}
 		
 	}
@@ -95,40 +117,102 @@
 ?>
 
 <?php if ( $action == "add" || $action == "edit" ): ?>
-	<form class='form' name='save_device' method='post' action='/index.php?page=device_action&action=add'>
+	<form class='form'
+	      name='save_device'
+	      method='post'
+	      action='/index.php?page=device_action&action=<?php echo $action ?><?php echo isset( $device ) ? "&device_id="
+	                                                                                                      .$device[ 0 ]
+		      : "" ?>'>
 		<input type='hidden' name='device_id' value='<?php echo isset( $device ) ? $device[ 0 ] : ""; ?>'>
 		<table class='center-table' border='0' cellspacing='0'>
-			<tr>
-				<td>Name:</td>
-				<td><input type='text'
-				           id="device_name"
-				           name='device_name'
-				           required
-				           value='<?php echo isset( $device ) ? $device[ 1 ] : ""; ?>'></td>
-			</tr>
 			<tr>
 				<td>IP:</td>
 				<td><input type='text'
 				           id="device_ip"
 				           name='device_ip'
 				           required
-				           value='<?php echo isset( $device ) ? $device[ 2 ] : ""; ?>'></td>
-			</tr>
-			<tr>
+				           value='<?php echo( isset( $device )
+					           ? $device[ 2 ] : ( isset( $_POST[ 'device_ip' ] )
+						           ? $_POST[ 'device_ip' ] : "" ) ); ?>'></td>
 				<td>
-					&nbsp;
-				</td>
-				<td style='text-align: right'>
 					<button type='submit'
-					        name='submit'
-					        value='<?php echo isset( $device ) ? "edit" : "add"; ?>'
+					        name='search'
+					        value='search'
 					        class='btn'
 					>
-						Speichern
+						Suchen
 					</button>
 				</td>
 			</tr>
-		
+			
+			
+			<?php if ( isset( $status ) && !empty( $status ) ): ?>
+				<tr>
+					<td colspan='3' style='text-align: center; margin-top: 20px;'>
+						<br/><br/>Gerät gefunden!<br/><br/>
+					</td>
+				</tr>
+				<?php if ( isset( $status->StatusSTS->POWER ) ): ?>
+					<tr>
+						<td>Name:</td>
+						<td><input type='text'
+						           id="device_name"
+						           name='device_name[1]'
+						           required
+						           value='<?php echo isset( $device )
+							           ? $device[ 1 ][ 0 ] : ( isset( $_POST[ 'device_name' ][ 1 ] )
+								           ? $_POST[ 'device_name' ][ 1 ]
+								           : $status->Status->FriendlyName ); ?>'></td>
+						<td class='default-value'>( <a href='#' title='Übernehmen'
+						                               class='default-name'><?php echo $status->Status->FriendlyName; ?></a>
+						                          )
+						</td>
+					</tr>
+				<?php endif; ?>
+				
+				
+				<?php
+				$i     = 1;
+				$power = "POWER".$i;
+				while ( isset( $status->StatusSTS->$power ) )  : ?>
+					<tr>
+						<td>Name <?php echo $i; ?>:</td>
+						<td><input type='text'
+						           id="device_name"
+						           name='device_name[<?php echo $i; ?>]'
+						           required
+						           value='<?php echo isset( $device[ 1 ][ $i - 1 ] ) && !empty( $device[ 1 ][ $i - 1 ] )
+							           ? $device[ 1 ][ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
+								           ? $_POST[ 'device_name' ][ $i ]
+								           : $status->Status->FriendlyName." ".$i ); ?>'></td>
+						<td class='default-value'>( <a href='#' title='Übernehmen'
+						                               class='default-name'><?php echo $status->Status->FriendlyName
+						                                                               ." "
+						                                                               .$i; ?></a> )
+						</td>
+					</tr>
+					
+					
+					<?php
+					
+					$i++;
+					$power = "POWER".$i;
+					?>
+				
+				<?php endwhile; ?>
+				<tr>
+					<td style='text-align: right' colspan='3'>
+						<br/><br/>
+						<button type='submit'
+						        name='submit'
+						        value='<?php echo isset( $device ) ? "edit" : "add"; ?>'
+						        class='btn'
+						>
+							Speichern
+						</button>
+					</td>
+				</tr>
+			<?php endif; ?>
 		</table>
 	</form>
 
@@ -138,3 +222,13 @@
 		<a href='/index.php?page=devices'>Zurück</a>
 	</div>
 <?php endif; ?>
+
+<script>
+	$( document ).on( "ready", function () {
+		$( ".default-name" ).on( "click", function ( e ) {
+			e.preventDefault();
+			console.log( $( this ).parent().parent().find( "input" ) );
+			$( this ).parent().parent().find( "input" ).val( $( this ).html() );
+		} );
+	} );
+</script>
