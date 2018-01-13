@@ -87,14 +87,37 @@ function deviceTools() {
 }
 
 function updateRow( row, data, device_status ) {
+	
+	var version = parseVersion( data.StatusFWR.Version );
+	
+	if ( version >= 51009 ) {//no json translations since 5.10.0j
+		var rssi   = data.StatusSTS.Wifi.RSSI;
+		var ssid   = data.StatusSTS.Wifi.SSId;
+		var uptime = data.StatusSTS.Uptime;
+	} else {
+		var rssi   = data.StatusSTS.WLAN.RSSI;
+		var ssid   = data.StatusSTS.WLAN.SSID;
+		var uptime = data.StatusSTS.Laufzeit;
+	}
+	$( row ).find( ".version" ).html( data.StatusFWR.Version );
 	$( row ).find( ".status" ).html( (
 		                                 device_status == "ON" ? "AN" : "AUS"
 	                                 ) );
 	
-	$( row ).find( ".rssi" ).html( data.StatusSTS.WLAN.RSSI ).attr( "title", data.StatusSTS.WLAN.SSID );
-	$( row ).find( ".runtime" ).html( "~" + data.StatusSTS.Laufzeit + "h" );
-	$( row ).find( ".version" ).html( data.StatusFWR.Version );
+	$( row ).find( ".rssi" ).html( rssi + "%" ).attr( "title", ssid );
+	$( row ).find( ".runtime" ).html( "~" + uptime + "h" );
 	
 	
 	$( row ).removeClass( "updating" );
 }
+
+var parseVersion = function ( versionString ) {
+	versionString = versionString.replace( /\./g, "" );
+	var last      = versionString.slice( -1 );
+	if ( isNaN( last ) ) {
+		versionString = versionString.replace( last, last.charCodeAt( 0 ) - 97 );
+	} else {
+		versionString = versionString + "0";
+	}
+	return versionString;
+};

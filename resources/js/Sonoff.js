@@ -71,8 +71,8 @@ var Sonoff = function ( options ) {
 			        url     : url,
 			        timeout : options.timeout * 1000,
 			        success : function ( data ) {
-				        console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
-					        data ) );
+				        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
+				        //   data ) );
 				        if ( data.WARNING ) {
 					        alert( ip + ": " + data.WARNING );
 				        }
