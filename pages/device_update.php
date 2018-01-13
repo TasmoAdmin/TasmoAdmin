@@ -150,7 +150,7 @@
 							        log( ip, step, "CHECK UPDATE", "Update fertig!", "success" );
 							        step2( ip );
 						        } else {
-							        log( ip, step, "UPDATE", "Update fertig!", "success" );
+							        log( ip, step, "DONE", "Update fertig!", "success" );
 						        }
 					        },
 					        error  : function ( badData ) {
