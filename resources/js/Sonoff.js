@@ -65,7 +65,7 @@ var Sonoff = function ( options ) {
 	 * Can only be called inside class
 	 */
 	var doAjax = function ( ip, cmnd, callback ) {
-		var url = buildCmndUrl( ip, cmnd );
+		var url = root.buildCmndUrl( ip, cmnd );
 		
 		
 		$.ajax( {
@@ -90,7 +90,7 @@ var Sonoff = function ( options ) {
 		        } );
 	};
 	
-	var buildCmndUrl = function ( ip, cmnd ) {
+	this.buildCmndUrl = function ( ip, cmnd ) {
 		cmnd    = cmnd.replace( " ", "%20" );
 		var url = "http://" + ip + "/cm?cmnd=" + cmnd;
 		url     = encodeURIComponent( url );

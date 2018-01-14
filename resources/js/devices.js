@@ -133,7 +133,7 @@ function updateRow( row, data, device_status ) {
 }
 
 var parseVersion = function ( versionString ) {
-	versionString = versionString.replace( /\./g, "" );
+	versionString = versionString.replace( "-minimal", "" ).replace( /\./g, "" );
 	var last      = versionString.slice( -1 );
 	if ( isNaN( last ) ) {
 		versionString = versionString.replace(

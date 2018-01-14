@@ -89,7 +89,7 @@
 			return $result;
 		}
 		
-		public function doAjax( $url ) {
+		public function doAjax( $url, $try = 1 ) {
 			
 			$result = NULL;
 			$ch     = curl_init();
@@ -101,9 +101,9 @@
 			if ( isset( $result->WARNING ) && !empty( $result->WARNING ) && $try == 1 ) {
 				$try++;
 				//set web log level 2 and try again
-				$webLog = $this->setWebLog( $ip, 2, $try );
+				$webLog = $this->setWebLog( parse_url( $url, PHP_URL_HOST ), 2, $try );
 				if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
-					$result = $this->doRequest( $ip, $cmnd, $try );
+					$result = $this->doAjax( $url, $try );
 				}
 			}
 			
