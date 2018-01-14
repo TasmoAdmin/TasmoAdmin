@@ -336,3 +336,12 @@ td.status {
 .form-switch.error i::before, .form-switch.error input:checked + i {
 	background-color : red;
 }
+
+p.warning {
+	padding   : 5px;
+	color     : red;
+	border    : 3px solid red;
+	font-size : 12px;
+	width     : 50%;
+	margin    : 0 auto;
+}

@@ -233,6 +233,7 @@
 		<p>
 			<?php echo $msg; ?>
 		</p>
+	
 	</div>
 
 <?php else: ?>
@@ -250,6 +251,13 @@
 		<p>
 			<?php echo $msg; ?>
 		</p>
+		<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
+			<p class='warning'>
+				Achtung: Hast du zuvor den CFG_HOLDER geändert, so ist dieser nun wieder zurückgesetzt.<br/>
+				Das bedeutet, es wird die default user_config.h aus dem Tasmota GIT geladen und deine vorherigen<br/>
+				Einstellungen werden überschrieben!
+			</p>
+		<?php endif; ?>
 		<p>
 			Wähle die Geräte zum Update aus:
 		</p>
