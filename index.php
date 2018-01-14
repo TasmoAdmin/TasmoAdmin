@@ -1,4 +1,10 @@
 <?php
+	ini_set( 'session.gc_maxlifetime', 2678400 );
+	session_start();
+	if ( !isset ( $_SESSION[ "login" ] ) ) {
+		header( "Location: login.php" );
+	}
+	
 	/**
 	 * @property Sonoff Sonoff
 	 */
@@ -53,6 +59,10 @@
 			<!--			<a href='/index.php?page=chat' title='Chat'>-->
 			<!--				<li class=''>Chat</li>-->
 			<!--			</a>-->
+			<hr/>
+			<a href='/login.php?logout' title='Ausloggen'>
+				<li class=''>Logout</li>
+			</a>
 		
 		</ul>
 	</div>

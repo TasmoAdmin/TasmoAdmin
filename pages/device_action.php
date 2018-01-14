@@ -189,8 +189,7 @@
 							           required
 							           value='<?php echo isset( $device[ 1 ][ $i - 1 ] )
 							                             && !empty(
-							           $device[ 1 ][ $i
-							                         - 1 ]
+							           $device[ 1 ][ $i - 1 ]
 							           )
 								           ? $device[ 1 ][ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
 									           ? $_POST[ 'device_name' ][ $i ]
@@ -223,9 +222,16 @@
 						</td>
 					</tr>
 				<?php endif; ?>
+			
+			<?php elseif ( isset( $status ) && $status == FALSE ): ?>
+				<div class='center'>
+					<p><?php echo "Gerät konnte nicht gefunden werden => ".print_r( $status, TRUE ); ?></p>
+				
+				</div>
 			<?php endif; ?>
 		</table>
 	</form>
+
 
 <?php elseif ( $action == "done" ): ?>
 	<div class='center'>

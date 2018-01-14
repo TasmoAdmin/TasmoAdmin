@@ -31,6 +31,8 @@ a:hover {
 	border-top : 1px solid black;
 	padding    : 10px 0;
 	width      : 100%;
+	position   : absolute;
+	bottom     : 0;
 }
 
 #navi {
@@ -233,4 +235,16 @@ td.status {
 	width            : 100%;
 	padding          : 5px;
 	box-sizing       : border-box;
+}
+
+#login {
+	display : block;
+}
+
+#login label {
+	font-weight : bold;
+	font-size   : 12px;
+	width       : 100%;
+	display     : inline-block;
+	text-align  : left;
 }

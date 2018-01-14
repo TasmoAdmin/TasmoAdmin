@@ -71,11 +71,10 @@
 			
 			$result = NULL;
 			
-			if ( !$json = @file_get_contents( $url ) ) {
-				$result = NULL;
-			} else {
-				$result = json_decode( $json );
-			}
+			$ch = curl_init();
+			curl_setopt( $ch, CURLOPT_URL, $url );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+			$result = json_decode( curl_exec( $ch ) );
 			
 			if ( isset( $result->WARNING ) && !empty( $result->WARNING ) && $try == 1 ) {
 				$try++;

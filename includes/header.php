@@ -1,7 +1,4 @@
 <?php
-	header( "Cache-Control: no-cache, must-revalidate" ); // HTTP/1.1
-	header( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" ); // Date in the past
-	header( "Pragma: no-cache" );
 	
 	$version = "1.0.0a";
 ?>
@@ -10,7 +7,9 @@
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	<meta http-equiv="Cache-control" content="public">
+	<meta http-equiv="Cache-control" content="no-cache, must-revalidate"/>
+	<meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT"/>
+	<meta http-equiv="Pragma" content="no-cache"/>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	
 	<link rel="apple-touch-icon" sizes="57x57" href="/resources/img/favicons/apple-icon-57x57.png">
