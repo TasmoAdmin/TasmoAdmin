@@ -40,14 +40,19 @@ function updateStatus() {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
 								
-								$( grouptr ).find( ".status" ).html( "Fehler" );
+								$( grouptr )
+									.find( ".status" )
+									.find( "input" )
+									.removeProp( "checked" )
+									.parent()
+									.addClass( "error" );
 								$( grouptr ).find( ".rssi" ).html( "Fehler" );
 								$( grouptr ).find( ".runtime" ).html( "Fehler" );
 								$( grouptr ).find( ".version" ).html( "Fehler" );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
-						$( tr ).find( ".status" ).html( "Fehler" );
+						$( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
 						$( tr ).find( ".rssi" ).html( "Fehler" );
 						$( tr ).find( ".runtime" ).html( "Fehler" );
 						$( tr ).find( ".version" ).html( "Fehler" );
@@ -76,16 +81,23 @@ function deviceTools() {
 		var statusField   = $( this );
 		var device_ip     = $( this ).closest( "tr" ).data( "device_ip" );
 		var device_relais = $( this ).closest( "tr" ).data( "device_relais" );
+		
+		if ( statusField.find( "input" ).prop( "checked" ) ) {
+			statusField.find( "input" ).removeProp( "checked" );
+		} else {
+			statusField.find( "input" ).prop( "checked", "checked" );
+		}
+		
 		Sonoff.toggle( device_ip, device_relais, function ( data ) {
 			if ( data ) {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
-				statusField.html( (
-					                  device_status == "ON" ? "AN" : (
-						                  device_status == "OFF" ? "AUS" : device_status
-					                  )
-				                  ) );
+				if ( device_status == "ON" ) {
+					statusField.find( "input" ).prop( "checked", "checked" );
+				} else {
+					statusField.find( "input" ).removeProp( "checked" );
+				}
 			} else {
-				statusField.html( "Fehler" );
+				statusField.find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
 			}
 		} );
 		
@@ -107,10 +119,12 @@ function updateRow( row, data, device_status ) {
 		var uptime = data.StatusSTS.Laufzeit;
 	}
 	$( row ).find( ".version" ).html( data.StatusFWR.Version );
-	$( row ).find( ".status" ).html( (
-		                                 device_status == "ON" ? "AN" : "AUS"
-	                                 ) );
 	
+	if ( device_status == "ON" ) {
+		$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
+	} else {
+		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
+	}
 	$( row ).find( ".rssi" ).html( rssi + "%" ).attr( "title", ssid );
 	$( row ).find( ".runtime" ).html( "~" + uptime + "h" );
 	

@@ -226,10 +226,10 @@
 								<td><?php echo $device; ?></td>
 								<td><?php echo $device_group[ 2 ]; ?></td>
 								<td class='status'>
-									<div class='loader'><img
-												src='/resources/img/loading.gif'
-												alt='Lädt...'
-												title='Lädt...'></div>
+									<label class="form-switch">
+										<input type="checkbox">
+										<i></i>
+									</label>
 								</td>
 								<td class='rssi'>
 									<div class='loader'><img
