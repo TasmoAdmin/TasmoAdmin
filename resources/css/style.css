@@ -322,7 +322,7 @@ td.status {
 }
 
 .form-switch input:checked + i {
-	background-color : #4BD763;
+	background-color : #008FCC;
 }
 
 .form-switch input:checked + i::before {
