@@ -51,7 +51,8 @@
 		</tr>
 		<tr>
 			<td>
-				<button type='submit' class='btn' name='auto' value='submit'>Automatik</button>
+				<button type='submit' class='btn' name='auto' value='submit' style='margin-right: 20px;'>Automatik
+				</button>
 				<button type='submit' class='btn' name='upload' value='submit'>Weiter</button>
 			</td>
 		</tr>

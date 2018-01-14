@@ -144,7 +144,7 @@
 			$msg   .= "Neue Firmware: ".$e->getMessage()."!</br>";
 			
 		}
-	} else if ( $_POST[ "auto" ] ) {
+	} else if ( isset( $_POST[ "auto" ] ) ) {
 		//File to save the contents to
 		
 		

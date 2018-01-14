@@ -54,7 +54,7 @@ $( document ).on( "ready", function () {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "/?doAjax=" + url,
-			        timeout : 3 * 1000,
+			        timeout : 6 * 1000,
 			        success : function ( data ) {
 				        console.log( data );
 				        if ( data.WARNING ) {
