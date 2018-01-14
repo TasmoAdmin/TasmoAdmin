@@ -1,0 +1,79 @@
+@media only screen and (max-width : 800px) {
+	.hide-mobile {
+		display : none;
+	}
+	
+	#footer {
+		display : none;
+	}
+	
+	html {
+		height : 100%;
+	}
+	
+	#content-holder {
+		width  : calc(100% - 40px);
+		border : none;
+	}
+	
+	#header h1 {
+		display : inline-block;
+		width   : calc(100% - 50px);
+	}
+	
+	.hamburger {
+		cursor  : pointer;
+		display : inline-block;
+	}
+	
+	.hamburger div {
+		position       : absolute;
+		left           : 100%;
+		top            : 64%;
+		padding-right  : 8px;
+		margin-top     : -0.50em;
+		line-height    : 1.2;
+		font-size      : 18px;
+		font-weight    : 200;
+		vertical-align : middle;
+		z-index        : 99;
+	}
+	
+	.hamburger span {
+		display    : block;
+		width      : 19px;
+		height     : 3px;
+		margin     : 4px 0;
+		background : rgb(0, 0, 0);
+		z-index    : 99;
+	}
+	
+	.hamburger.open {
+		-webkit-transform : rotate(90deg);
+		transform         : rotate(90deg);
+	}
+	
+	#navi {
+		display : none;
+	}
+	
+	#navi.show {
+		display          : block;
+		position         : absolute;
+		width            : 100%;
+		background-color : #FFFFFF;
+		z-index          : 1;
+		text-align       : center;
+	}
+	
+}
+
+@media only screen and (max-width : 657px) {
+	table {
+		width : 100%;
+	}
+	
+	table tr th, table tr td {
+		display : block;
+	}
+}

@@ -1,8 +1,15 @@
+html {
+	height : calc(100% - 39px);
+	width  : 100%;
+}
+
 body {
 	font-family : Verdana;
 	margin      : 0px;
 	padding     : 0px;
 	font-size   : 14px;
+	height      : 100%;
+	width       : 100%;
 }
 
 a {
@@ -31,7 +38,7 @@ a:hover {
 	border-top : 1px solid black;
 	padding    : 10px 0;
 	width      : 100%;
-	position   : absolute;
+	position   : fixed;
 	bottom     : 0;
 }
 
@@ -41,13 +48,14 @@ a:hover {
 	display    : inline;
 	margin     : 0px;
 	padding    : 0px;
-	min-height : 600px;
+	height     : calc(100% - 56px);
 	margin-top : 10px;
 }
 
 #navi ul {
-	padding : 0px;
-	margin  : 0px;
+	padding    : 0px;
+	margin     : 0px;
+	list-style : none;
 }
 
 #navi ul li {
@@ -71,15 +79,16 @@ a:hover {
 	float       : left;
 	margin      : 0px;
 	display     : inline;
-	min-height  : 610px;
+	height      : calc(100% - 56px - 40px);
 	border-left : 1px solid black;
 	position    : relative;
+	padding     : 20px;
+	overflow    : auto;
 }
 
 #content-holder #content {
-	width   : 100%;
-	height  : 100%;
-	padding : 20px;
+	width  : 100%;
+	height : 100%;
 }
 
 #content-holder.loading #content {
@@ -96,9 +105,9 @@ td.label, th.label {
 	text-align : left;
 }
 
-input[type=text], input[type=number], textarea {
-	width : calc(100% - 6px);
-}
+/*input[type=text], input[type=number], textarea {*/
+/*width : calc(100% - 6px);*/
+/*}*/
 
 input[type='number'] {
 	-moz-appearance : textfield;

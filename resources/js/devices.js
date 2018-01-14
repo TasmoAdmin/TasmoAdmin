@@ -75,7 +75,9 @@ function deviceTools() {
 			if ( data ) {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				statusField.html( (
-					                  device_status == "ON" ? "AN" : "AUS"
+					                  device_status == "ON" ? "AN" : (
+						                  device_status == "OFF" ? "AUS" : device_status
+					                  )
 				                  ) );
 			} else {
 				statusField.html( "Fehler" );
@@ -115,9 +117,20 @@ var parseVersion = function ( versionString ) {
 	versionString = versionString.replace( /\./g, "" );
 	var last      = versionString.slice( -1 );
 	if ( isNaN( last ) ) {
-		versionString = versionString.replace( last, last.charCodeAt( 0 ) - 97 );
+		versionString = versionString.replace(
+			last,
+			last.charCodeAt( 0 )
+			- 97
+			< 10
+				? "0"
+				  + last.charCodeAt( 0 )
+				  - 97
+				: last.charCodeAt( 0 )
+				  - 97
+		);
 	} else {
-		versionString = versionString + "0";
+		versionString = versionString + "00";
 	}
+	
 	return versionString;
 };

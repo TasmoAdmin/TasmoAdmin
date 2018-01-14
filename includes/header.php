@@ -42,10 +42,19 @@
 	<link href="/resources/js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
 	<link href='/resources/css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
 	<link href='/resources/css/style.css?<?php echo time(); ?>' rel='stylesheet'>
+	<link href='/resources/css/mobile.css?<?php echo time(); ?>' rel='stylesheet'>
 
 </head>
 <body>
 
 <div id='header'>
+	
+	<div class="hamburger">
+		<div></div>
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
+	
 	<h1><a href='/index.php?page=start'>SonWEB</a></h1>
 </div>

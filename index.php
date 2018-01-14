@@ -41,7 +41,8 @@
 ?>
 <?php include_once( "includes/header.php" ); //always load header?>
 	
-	<div id="navi">
+	
+	<div id="navi" class='open desktop'>
 		<ul>
 			<a href='/index.php?page=start' title='Startseite'>
 				<li class=''>Start</li>
@@ -50,7 +51,7 @@
 			<a href='/index.php?page=devices' title='Geräte'>
 				<li class=''>Geräte</li>
 			</a>
-			<a href='/index.php?page=upload_form' title='Update'>
+			<a href='/index.php?page=upload_form' class='hide-mobile' title='Update'>
 				<li class=''>Update</li>
 			</a>
 			

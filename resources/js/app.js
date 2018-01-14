@@ -17,6 +17,13 @@ $( document ).on( "ready", function () {
 			$( elem ).append( loader );
 		}
 	};
+	
+	$( '.hamburger' ).click( function () {
+		$( "#navi" ).toggleClass( "show" );
+		$( '.hamburger' ).toggleClass( "open" );
+	} );
+	
+	
 } );
 
 
