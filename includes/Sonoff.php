@@ -30,6 +30,12 @@
 		}
 		
 		
+		public function saveConfig( $ip, $backlog ) {
+			$status = $this->doRequest( $ip, $backlog );
+			
+			return $status;
+		}
+		
 		/**
 		 * @param     $ip
 		 * @param int $level

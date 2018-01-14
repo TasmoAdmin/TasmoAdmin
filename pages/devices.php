@@ -68,6 +68,7 @@
 										title='Lädt...'></div>
 						</td>
 						<td>
+							<a href='/index.php?page=device_config&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>Konfig</a>
 							<a href='/index.php?page=device_action&action=edit&device_id=<?php echo $device_group[ 0 ]; ?>'>
 								Bearbeiten</a>
 							<a href='/index.php?page=device_action&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>Löschen</a>
