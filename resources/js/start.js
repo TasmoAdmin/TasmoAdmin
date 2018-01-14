@@ -69,9 +69,15 @@ function updateStatus() {
 		}
 	} );
 	
-	setTimeout( function () {
-		updateStatus();
-	}, 2000 );
+	
+	if ( refreshtime ) {
+		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
+		setTimeout( function () {
+			updateStatus();
+		}, refreshtime );
+	} else {
+		console.log( "[Global][Refreshtime]Dont refresh" );
+	}
 	
 };
 

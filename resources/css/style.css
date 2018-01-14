@@ -109,8 +109,15 @@ td.label, th.label {
 /*width : calc(100% - 6px);*/
 /*}*/
 
-input[type='number'] {
-	-moz-appearance : textfield;
+/*input[type='number'] {*/
+/*-moz-appearance : textfield;*/
+/*}*/
+
+input, select {
+	-ms-box-sizing     : content-box;
+	-moz-box-sizing    : content-box;
+	-webkit-box-sizing : content-box;
+	box-sizing         : content-box;
 }
 
 input::-webkit-outer-spin-button,

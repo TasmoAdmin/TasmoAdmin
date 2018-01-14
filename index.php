@@ -38,6 +38,8 @@
 	if ( !file_exists( $filename ) ) {
 		fopen( $filename, 'w' ) or die( "Can't create file" );
 	}
+
+
 ?>
 <?php include_once( "includes/header.php" ); //always load header?>
 	
@@ -61,6 +63,10 @@
 			<!--				<li class=''>Chat</li>-->
 			<!--			</a>-->
 			<hr/>
+			<a href='/index.php?page=site_config' title='Web Einstellungen'>
+				<li class=''>Einstellungen</li>
+			</a>
+			
 			<a href='/login.php?logout' title='Ausloggen'>
 				<li class=''>Logout</li>
 			</a>
@@ -70,7 +76,7 @@
 	
 	
 	<div id="content-holder" class=''>
-		<div id='content'>
+		<div id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
 			<?php include_once( "pages/".$page.".php" ); ?>
 		</div>
 	</div>

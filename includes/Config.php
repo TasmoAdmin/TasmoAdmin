@@ -8,6 +8,7 @@
 				"ota_server_ip" => "Bitte Server IP eingeben!",
 				"username"      => "",
 				"password"      => "",
+				"refreshtime"   => "2",
 			);
 		
 		function __construct() {
@@ -27,10 +28,19 @@
 			
 		}
 		
+		public function readAll() {
+			$config = include $this->cfgFile;
+			if ( $config === 1 ) { //its empty
+				return array();
+			}
+			
+			return $config;
+		}
+		
 		public function read( $key ) {
 			$config = include $this->cfgFile;
 			if ( $config === 1 ) { //its empty
-				return NULL;
+				return array();
 			}
 			
 			return isset( $config[ $key ] ) ? $config[ $key ] : NULL;

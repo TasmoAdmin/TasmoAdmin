@@ -1,4 +1,5 @@
 var Sonoff;
+var refreshtime = false;
 $( document ).on( "ready", function () {
 	/**
 	 * Sonoff Handler
@@ -23,6 +24,9 @@ $( document ).on( "ready", function () {
 		$( '.hamburger' ).toggleClass( "open" );
 	} );
 	
+	if ( $( "#content" ).data( "refreshtime" ) !== "none" ) {
+		refreshtime = $( "#content" ).data( "refreshtime" ) * 1000;
+	}
 	
 } );
 
