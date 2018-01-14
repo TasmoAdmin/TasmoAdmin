@@ -2,7 +2,7 @@
 	
 	//	var_dump( $_GET );
 	$action = $_GET[ "action" ];
-	
+	$status = FALSE;
 	$device = NULL;
 	$msg    = NULL;
 	if ( $action == "edit" ) {
@@ -60,7 +60,8 @@
 			$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
 			$device[ 2 ] = $_POST[ "device_ip" ];
 			
-			$tempfile = @tempnam( "../data/", "tmp" ); // produce a temporary file name, in the current directory
+			$tempfile = @tempnam( "data/", "tmp" ); // produce a temporary file name, in the current directory
+			
 			
 			if ( !$input = fopen( $filename, 'r' ) ) {
 				die( 'could not open existing csv file' );
@@ -129,9 +130,8 @@
 				           id="device_ip"
 				           name='device_ip'
 				           required
-				           value='<?php echo( isset( $device )
-					           ? $device[ 2 ] : ( isset( $_POST[ 'device_ip' ] )
-						           ? $_POST[ 'device_ip' ] : "" ) ); ?>'></td>
+				           value='<?php echo( isset( $device ) && !isset( $_POST[ 'device_ip' ] ) ? $device[ 2 ]
+					           : ( isset( $_POST[ 'device_ip' ] ) ? $_POST[ 'device_ip' ] : "" ) ); ?>'></td>
 				<td>
 					<button type='submit'
 					        name='search'
@@ -166,8 +166,8 @@
 							           name='device_name[1]'
 							           required
 							           value='<?php echo isset( $device )
-								           ? $device[ 1 ][ 0 ] : ( isset( $_POST[ 'device_name' ][ 1 ] )
-									           ? $_POST[ 'device_name' ][ 1 ]
+								           ? $device[ 1 ][ 0 ]
+								           : ( isset( $_POST[ 'device_name' ][ 1 ] ) ? $_POST[ 'device_name' ][ 1 ]
 									           : $status->Status->FriendlyName ); ?>'></td>
 							<td class='default-value'>( <a href='#' title='Übernehmen'
 							                               class='default-name'><?php echo $status->Status->FriendlyName; ?></a>
@@ -191,8 +191,8 @@
 							                             && !empty(
 							           $device[ 1 ][ $i - 1 ]
 							           )
-								           ? $device[ 1 ][ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
-									           ? $_POST[ 'device_name' ][ $i ]
+								           ? $device[ 1 ][ $i - 1 ]
+								           : ( isset( $_POST[ 'device_name' ][ $i ] ) ? $_POST[ 'device_name' ][ $i ]
 									           : $status->Status->FriendlyName." ".$i ); ?>'></td>
 							<td class='default-value'>( <a href='#' title='Übernehmen'
 							                               class='default-name'><?php echo $status->Status->FriendlyName
