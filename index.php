@@ -6,7 +6,6 @@
 	include_once( "includes/Sonoff.php" );
 	
 	$Config = new Config();
-	$Sonoff = new Sonoff();
 	
 	$page = "start";
 	if ( isset( $_GET ) ) {

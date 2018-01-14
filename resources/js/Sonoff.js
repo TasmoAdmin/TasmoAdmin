@@ -49,13 +49,13 @@ var Sonoff = function ( options ) {
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
-	this.toggle = function ( ip, relais, callback, params ) {
+	this.toggle = function ( ip, relais, callback ) {
 		relais   = relais || 1;
 		var cmnd = "Power" + relais + " toggle";
 		
 		console.log( "[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd );
 		
-		doAjax( ip, cmnd, callback, params );
+		doAjax( ip, cmnd, callback );
 		
 	}
 	
@@ -66,13 +66,17 @@ var Sonoff = function ( options ) {
 	 */
 	var doAjax = function ( ip, cmnd, callback ) {
 		var url = buildCmndUrl( ip, cmnd );
+		
+		
 		$.ajax( {
 			        dataType: "json",
-			        url     : url,
+			        url     : "/?doAjax=" + url,
 			        timeout : options.timeout * 1000,
-			        success : function ( data ) {
-				        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
-				        //   data ) );
+			        cache   : false,
+			
+			        success: function ( data ) {
+				        console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
+					        data ) );
 				        if ( data.WARNING ) {
 					        alert( ip + ": " + data.WARNING );
 				        }
@@ -80,7 +84,7 @@ var Sonoff = function ( options ) {
 				        callback( data );
 				
 			        },
-			        error   : function ( xmlhttprequest, textstatus, message ) {
+			        error  : function ( xmlhttprequest, textstatus, message ) {
 				        callback();
 			        },
 		        } );
@@ -89,6 +93,7 @@ var Sonoff = function ( options ) {
 	var buildCmndUrl = function ( ip, cmnd ) {
 		cmnd    = cmnd.replace( " ", "%20" );
 		var url = "http://" + ip + "/cm?cmnd=" + cmnd;
+		url     = encodeURIComponent( url );
 		return url;
 	};
 	

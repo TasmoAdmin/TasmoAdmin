@@ -1,6 +1,7 @@
 <?php
 	header( "Cache-Control: no-cache, must-revalidate" ); // HTTP/1.1
 	header( "Expires: Sat, 26 Jul 1997 05:00:00 GMT" ); // Date in the past
+	header( "Pragma: no-cache" );
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="de" xmlns="http://www.w3.org/1999/html">
@@ -33,13 +34,13 @@
 	<script src="/resources/js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
 	<script src="/resources/js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	
-	<script type='text/javascript' src='/resources/js/Sonoff.js'></script>
+	<script type='text/javascript' src='/resources/js/Sonoff.js?<?php echo time(); ?>'></script>
 	
-	<script type='text/javascript' src='/resources/js/app.js'></script>
+	<script type='text/javascript' src='/resources/js/app.js?<?php echo time(); ?>'></script>
 	
 	<link href="/resources/js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css" rel="stylesheet">
-	<link href='/resources/css/animate.css' rel='stylesheet'>
-	<link href='/resources/css/style.css' rel='stylesheet'>
+	<link href='/resources/css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
+	<link href='/resources/css/style.css?<?php echo time(); ?>' rel='stylesheet'>
 
 </head>
 <body>
