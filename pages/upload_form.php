@@ -5,7 +5,9 @@
 
 <form class='center' name='update_form' method='post' enctype='multipart/form-data' action='index.php?page=upload'>
 	<p>
-		Bitte wähle eine MINIMAL und dann die normale Firmware Version aus!
+		Bitte wähle eine MINIMAL und dann die normale Firmware Version aus!<br/>
+		Der Automatik Modus benutzt die neuste Release Version aus dem Tasmota GIT<br/>
+		<a href='https://github.com/arendst/Sonoff-Tasmota/releases' target='_blank'>Tasmota Releases</a>
 	</p>
 	<table border='0' cellspacing='0' class='center-table'>
 		<tr>
@@ -49,7 +51,8 @@
 		</tr>
 		<tr>
 			<td>
-				<button type='submit' class='btn' name='submit' value='submit'>Weiter</button>
+				<button type='submit' class='btn' name='auto' value='submit'>Automatik</button>
+				<button type='submit' class='btn' name='upload' value='submit'>Weiter</button>
 			</td>
 		</tr>
 	</table>

@@ -1,138 +1,224 @@
 <?php
-	$msg   = "";
-	$error = FALSE;
+	$msg            = "";
+	$error          = FALSE;
+	$firmwarefolder = "data/firmwares/";
 	
-	try {
-		
-		// Undefined | Multiple Files | $_FILES Corruption Attack
-		// If this request falls under any of them, treat it invalid.
-		if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
-		     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
-			throw new RuntimeException( 'Invalid parameters.' );
-		}
-		
-		// Check $_FILES['minimal_firmware']['error'] value.
-		switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
-			case UPLOAD_ERR_OK:
-				break;
-			case UPLOAD_ERR_NO_FILE:
-				throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
-			case UPLOAD_ERR_INI_SIZE:
-			case UPLOAD_ERR_FORM_SIZE:
-				throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
-			default:
-				throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
-		}
-		
-		// You should also check filesize here.
-		if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
-			throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
-		}
-		
-		if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream" ) {
-			$ext = "bin";
-		} else {
-			throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
-		}
-		//		$finfo = new finfo( FILEINFO_MIME_TYPE );
-		//		if ( FALSE === $ext = array_search(
-		//				$finfo->file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ),
-		//				array(
-		//					'bin' => 'application/octet-stream',
-		//				),
-		//				TRUE
-		//			) ) {
-		//			throw new RuntimeException( 'Invalid file format.' );
-		//		}
-		
-		$minimal_firmware_path = sprintf(
-			'data/firmwares/%s-%s.%s',
-			$_FILES[ 'minimal_firmware' ][ 'name' ],
-			substr( sha1_file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ), 0, 6 ),
-			$ext
-		);
-		
-		if ( !move_uploaded_file(
-			$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
-			$minimal_firmware_path
-		) ) {
-			throw new RuntimeException( 'Konnte Datei nicht speichern!' );
-		}
-		
-		$msg .= "Minimal Firmware: Erfolgreich hochgeladen!</br>";
-		
-	}
-	catch ( RuntimeException $e ) {
-		$error = TRUE;
-		$msg   .= "Minimal Firmware: ".$e->getMessage()."!</br>";
-		
-	}
-	
-	try {
-		
-		// Undefined | Multiple Files | $_FILES Corruption Attack
-		// If this request falls under any of them, treat it invalid.
-		if ( !isset( $_FILES[ 'new_firmware' ][ 'error' ] )
-		     || is_array( $_FILES[ 'new_firmware' ][ 'error' ] ) ) {
-			throw new RuntimeException( 'Invalid parameters.' );
-		}
-		
-		// Check $_FILES['new_firmware']['error'] value.
-		switch ( $_FILES[ 'new_firmware' ][ 'error' ] ) {
-			case UPLOAD_ERR_OK:
-				break;
-			case UPLOAD_ERR_NO_FILE:
-				throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
-			case UPLOAD_ERR_INI_SIZE:
-			case UPLOAD_ERR_FORM_SIZE:
-				throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
-			default:
-				throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
-		}
-		
-		// You should also check filesize here.
-		if ( $_FILES[ 'new_firmware' ][ 'size' ] > 1000000 ) {
-			throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
-		}
-		
-		if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream" ) {
-			$ext = "bin";
-		} else {
-			throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
-		}
-		//		$finfo = new finfo( FILEINFO_MIME_TYPE );
-		//		if ( FALSE === $ext = array_search(
-		//				$finfo->file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ),
-		//				array(
-		//					'bin' => 'application/octet-stream',
-		//				),
-		//				TRUE
-		//			) ) {
-		//			throw new RuntimeException( 'Invalid file format.' );
-		//		}
-		
-		$new_firmware_path = sprintf(
-			'data/firmwares/%s-%s.%s',
-			$_FILES[ 'new_firmware' ][ 'name' ],
-			substr( sha1_file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ), 0, 6 ),
-			$ext
-		);
-		if ( !move_uploaded_file(
-			$_FILES[ 'new_firmware' ][ 'tmp_name' ],
+	$files = glob( $firmwarefolder.'*' ); // get all file names
+	foreach ( $files as $file ) { // iterate files
+		if ( is_file( $file ) && strpos( $file, ".empty" ) === FALSE ) {
 			
-			$new_firmware_path
-		) ) {
-			throw new RuntimeException( 'Konnte Datei nicht speichern!' );
+			unlink( $file );
+		} // delete file
+	}
+	
+	
+	if ( isset( $_POST[ "upload" ] ) ) {
+		try {
+			
+			// Undefined | Multiple Files | $_FILES Corruption Attack
+			// If this request falls under any of them, treat it invalid.
+			if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
+			     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
+				throw new RuntimeException( 'Invalid parameters.' );
+			}
+			
+			// Check $_FILES['minimal_firmware']['error'] value.
+			switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
+				case UPLOAD_ERR_OK:
+					break;
+				case UPLOAD_ERR_NO_FILE:
+					throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
+				case UPLOAD_ERR_INI_SIZE:
+				case UPLOAD_ERR_FORM_SIZE:
+					throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
+				default:
+					throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
+			}
+			
+			// You should also check filesize here.
+			if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
+				throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
+			}
+			
+			if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream" ) {
+				$ext = "bin";
+			} else {
+				throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
+			}
+			//		$finfo = new finfo( FILEINFO_MIME_TYPE );
+			//		if ( FALSE === $ext = array_search(
+			//				$finfo->file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ),
+			//				array(
+			//					'bin' => 'application/octet-stream',
+			//				),
+			//				TRUE
+			//			) ) {
+			//			throw new RuntimeException( 'Invalid file format.' );
+			//		}
+			
+			$minimal_firmware_path = sprintf(
+				$firmwarefolder.'%s-%s.%s',
+				$_FILES[ 'minimal_firmware' ][ 'name' ],
+				substr( sha1_file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ), 0, 6 ),
+				$ext
+			);
+			
+			if ( !move_uploaded_file(
+				$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
+				$minimal_firmware_path
+			) ) {
+				throw new RuntimeException( 'Konnte Datei nicht speichern!' );
+			}
+			
+			$msg .= "Minimal Firmware: Erfolgreich hochgeladen!</br>";
+			
+		}
+		catch ( RuntimeException $e ) {
+			$error = TRUE;
+			$msg   .= "Minimal Firmware: ".$e->getMessage()."!</br>";
+			
 		}
 		
-		$msg .= "Neue Firmware: Erfolgreich hochgeladen!</br>";
+		try {
+			
+			// Undefined | Multiple Files | $_FILES Corruption Attack
+			// If this request falls under any of them, treat it invalid.
+			if ( !isset( $_FILES[ 'new_firmware' ][ 'error' ] )
+			     || is_array( $_FILES[ 'new_firmware' ][ 'error' ] ) ) {
+				throw new RuntimeException( 'Invalid parameters.' );
+			}
+			
+			// Check $_FILES['new_firmware']['error'] value.
+			switch ( $_FILES[ 'new_firmware' ][ 'error' ] ) {
+				case UPLOAD_ERR_OK:
+					break;
+				case UPLOAD_ERR_NO_FILE:
+					throw new RuntimeException( 'Server Error: Keine Datei übertragen' );
+				case UPLOAD_ERR_INI_SIZE:
+				case UPLOAD_ERR_FORM_SIZE:
+					throw new RuntimeException( 'Server Error: Dateigröße zu groß' );
+				default:
+					throw new RuntimeException( 'Server Error: Unbekannter Fehler' );
+			}
+			
+			// You should also check filesize here.
+			if ( $_FILES[ 'new_firmware' ][ 'size' ] > 1000000 ) {
+				throw new RuntimeException( 'Datei zu groß (max. 502kb)' );
+			}
+			
+			if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream" ) {
+				$ext = "bin";
+			} else {
+				throw new RuntimeException( 'Falsches Format! Bitte eine BIN Datei auswählen!' );
+			}
+			//		$finfo = new finfo( FILEINFO_MIME_TYPE );
+			//		if ( FALSE === $ext = array_search(
+			//				$finfo->file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ),
+			//				array(
+			//					'bin' => 'application/octet-stream',
+			//				),
+			//				TRUE
+			//			) ) {
+			//			throw new RuntimeException( 'Invalid file format.' );
+			//		}
+			
+			$new_firmware_path = sprintf(
+				$firmwarefolder.'%s-%s.%s',
+				$_FILES[ 'new_firmware' ][ 'name' ],
+				substr( sha1_file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ), 0, 6 ),
+				$ext
+			);
+			if ( !move_uploaded_file(
+				$_FILES[ 'new_firmware' ][ 'tmp_name' ],
+				
+				$new_firmware_path
+			) ) {
+				throw new RuntimeException( 'Konnte Datei nicht speichern!' );
+			}
+			
+			$msg .= "Neue Firmware: Erfolgreich hochgeladen!</br>";
+			
+		}
+		catch ( RuntimeException $e ) {
+			$error = TRUE;
+			$msg   .= "Neue Firmware: ".$e->getMessage()."!</br>";
+			
+		}
+	} else if ( $_POST[ "auto" ] ) {
+		//File to save the contents to
 		
-	}
-	catch ( RuntimeException $e ) {
+		
+		$url = "https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest";
+		
+		$ch = curl_init();
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt(
+			$ch,
+			CURLOPT_USERAGENT,
+			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+		);
+		$result = curl_exec( $ch );
+		curl_close( $ch );
+		
+		$data = json_decode( $result );
+		
+		
+		foreach ( $data->assets as $binfileData ) {
+			if ( $binfileData->name == "sonoff-DE.bin" ) {
+				$fwUrl = $binfileData->browser_download_url;
+			}
+			if ( $binfileData->name == "sonoff-minimal.bin" ) {
+				$fwMinimalUrl = $binfileData->browser_download_url;
+			}
+		}
+		if ( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
+			$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
+			$new_firmware_path     = $firmwarefolder.'sonoff-DE.bin';
+			$file                  = fopen( $minimal_firmware_path, 'w' );
+			// cURL
+			$ch = curl_init();
+			curl_setopt( $ch, CURLOPT_URL, $fwMinimalUrl );
+			// set cURL options
+			curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
+			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+			// set file handler option
+			curl_setopt( $ch, CURLOPT_FILE, $file );
+			// execute cURL
+			curl_exec( $ch );
+			// close cURL
+			curl_close( $ch );
+			// close file
+			fclose( $file );
+			
+			$file = fopen( $new_firmware_path, 'w' );
+			$ch   = curl_init();
+			curl_setopt( $ch, CURLOPT_URL, $fwUrl );
+			// set cURL options
+			curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
+			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+			// set file handler option
+			curl_setopt( $ch, CURLOPT_FILE, $file );
+			// execute cURL
+			curl_exec( $ch );
+			// close cURL
+			curl_close( $ch );
+			// close file
+			fclose( $file );
+			$msg .= "Firmware erfolgreich von GitHUB geladen!<br/>";
+			$msg .= "Version: ".$data->tag_name." | vom ".$data->published_at;
+		} else {
+			$error = TRUE;
+			$msg   .= "Konnte Firmware nicht von GitHUB laden!";
+		}
+		
+	} else {
 		$error = TRUE;
-		$msg   .= "Neue Firmware: ".$e->getMessage()."!</br>";
-		
+		$msg   .= "Keine Firmware ausgewählt!</br>";
 	}
+	
 	
 	$ota_server_ip = $_POST[ "ota_server_ip" ];
 	
