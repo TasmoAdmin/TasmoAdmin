@@ -30,7 +30,7 @@
 	}
 }
 
-.flash {
+.animated.flash {
 	animation-name : flash;
 }
 
@@ -46,7 +46,7 @@
 	}
 }
 
-.pulse {
+.animated.pulse {
 	animation-name     : pulse;
 	animation-duration : 1s;
 }
@@ -69,7 +69,7 @@
 	}
 }
 
-.rubberBand {
+.animated.rubberBand {
 	animation-name : rubberBand;
 }
 
@@ -85,7 +85,7 @@
 	}
 }
 
-.shake {
+.animated.shake {
 	animation-name : shake;
 }
 
@@ -107,7 +107,7 @@
 	}
 }
 
-.swing {
+.animated.swing {
 	transform-origin : top center;
 	animation-name   : swing;
 }
@@ -136,7 +136,7 @@
 	}
 }
 
-.wobble {
+.animated.wobble {
 	animation-name : wobble;
 }
 
@@ -163,7 +163,7 @@
 	}
 }
 
-.animated.flip {
+.animated.animated.flip {
 	backface-visibility : visible;
 	animation-name      : flip;
 }
@@ -187,7 +187,7 @@
 	}
 }
 
-.lightSpeedIn {
+.animated.lightSpeedIn {
 	animation-name            : lightSpeedIn;
 	animation-timing-function : ease-out;
 }
@@ -203,7 +203,7 @@
 	}
 }
 
-.rollIn {
+.animated.rollIn {
 	animation-name : rollIn;
 }
 
@@ -220,7 +220,7 @@
 	}
 }
 
-.rotateIn {
+.animated.rotateIn {
 	animation-name : rotateIn;
 }
 
@@ -250,7 +250,7 @@
 	}
 }
 
-.hinge {
+.animated.hinge {
 	margin         : 20px;
 	animation-name : hinge;
 }
