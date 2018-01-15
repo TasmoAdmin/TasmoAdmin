@@ -1,12 +1,10 @@
 <?php
 	include_once( "./includes/top.php" );
 	
-	ini_set( 'session.gc_maxlifetime', 2678400 );
-	session_start();
+	
 	if ( !isset ( $_SESSION[ "login" ] ) ) {
 		header( "Location: "._APPROOT_."login.php" );
 	}
-	
 	
 	$page = "start";
 	if ( isset( $_GET ) ) {
@@ -87,7 +85,7 @@
 </div>
 
 
-<div id="content-holder" class=''>
+<div id="content-holder" class='<?php echo $page == "start" ? "full-width" : ""; ?>'>
 	<div id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
 		<?php include_once( _PAGESDIR_.$page.".php" ); ?>
 	</div>

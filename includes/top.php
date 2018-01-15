@@ -1,4 +1,8 @@
 <?php
+	ini_set( 'session.gc_maxlifetime', 2678400 );
+	session_start();
+	
+	
 	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
@@ -21,6 +25,11 @@
 	$Config = new Config();
 	$i18n   = new i18n();
 	
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
+	if ( isset( $lang ) ) {
+		$_SESSION[ 'lang' ] = $lang;
+	}
+	
 	
 	$i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
 	$i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
@@ -30,6 +39,7 @@
 	$i18n->setMergeFallback( TRUE ); // make keys available from the fallback language
 	$i18n->init();
 	
+	$lang = $i18n->getAppliedLang();
 	
 	function __( $string, $category = NULL, $args = NULL ) {
 		$cat = "";

@@ -31,6 +31,7 @@ a:hover {
 
 #header h1 {
 	margin : 10px 0;
+	width  : calc(100% - 30px);
 }
 
 #footer {
@@ -75,7 +76,7 @@ a:hover {
 }
 
 #content-holder {
-	width       : calc(100% - 201px); /* 160nav + 1px border + 40px padding left/right */
+	width       : calc(100% - 335px);
 	float       : left;
 	margin      : 0px;
 	display     : inline;
@@ -84,6 +85,10 @@ a:hover {
 	position    : relative;
 	padding     : 20px;
 	overflow    : auto;
+}
+
+#content-holder.full-width {
+	width : calc(100% - 201px);
 }
 
 #content-holder #content {
@@ -344,4 +349,15 @@ p.warning {
 	font-size : 12px;
 	width     : 50%;
 	margin    : 0 auto;
+}
+
+#language-switch {
+	position : absolute;
+	right    : 16px;
+	top      : 16px;
+	display  : inline-block;
+}
+
+.hamburger {
+	display : none;
 }

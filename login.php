@@ -5,8 +5,6 @@
 	
 	$Config = new Config();
 	
-	session_start();
-	
 	
 	$register = FALSE;
 	$msg      = FALSE;

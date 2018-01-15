@@ -56,6 +56,19 @@ $( document ).on( "ready", function () {
 		}
 	} );
 	
+	
+	$( "#language-switch" ).on( "change", function ( e ) {
+		
+		
+		var optionSelected = $( "option:selected", this );
+		var valueSelected  = this.value;
+		
+		window.location.href = "/?lang=" + valueSelected;
+		console.log( valueSelected );
+		
+		
+	} );
+	
 } );
 
 
