@@ -1,5 +1,7 @@
 <?php
-include_once( _INCLUDESDIR_ . "Config.php" );
+
+include_once( "./includes/top.php" );
+
 
 $Config = new Config();
 

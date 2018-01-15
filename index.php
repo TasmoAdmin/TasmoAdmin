@@ -1,24 +1,12 @@
 <?php
+include_once( "./includes/top.php" );
+
 ini_set( 'session.gc_maxlifetime', 2678400 );
 session_start();
 if( !isset ( $_SESSION[ "login" ] ) ) {
 	header( "Location: " . _APPROOT_ . "login.php" );
 }
-define( "_VERSION_", "1.0.0b" );
 
-define( "_APPROOT_", "./" );
-define( "_RESOURCESDIR_", _APPROOT_ . "resources/" );
-define( "_INCLUDESDIR_", _APPROOT_ . "includes/" );
-define( "_PAGESDIR_", _APPROOT_ . "pages/" );
-define( "_DATADIR_", _APPROOT_ . "data/" );
-
-/**
- * @property Sonoff Sonoff
- */
-include_once( _INCLUDESDIR_ . "Config.php" );
-include_once( _INCLUDESDIR_ . "Sonoff.php" );
-
-$Config = new Config();
 
 $page = "start";
 if( isset( $_GET ) ) {
@@ -31,18 +19,18 @@ if( isset( $_GET ) ) {
 
 switch( $page ) {
 	case "upload_form":
-		$title = "Upload new Firmware";
+		$title = __( "UPLOAD_NEW_FIRMWARE", "PAGE_TITLES" );
 		break;
 	case "device_action":
-		$title = "Gerät verwalten";
+		$title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
 		if( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "add" ) {
-			$title = "Gerät hinzufügen";
+			$title = __( "ADD_DEVICE", "PAGE_TITLES" );
 		} else if( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "edit" ) {
-			$title = "Gerät bearbeiten";
+			$title = __( "EDIT_DEVICE", "PAGE_TITLES" );
 			break;
 		}
 	case "devices":
-		$title = "Geräte";
+		$title = __( "DEVICES", "PAGE_TITLES" );
 		break;
 	default:
 		$title = ucfirst( $page );
@@ -61,15 +49,16 @@ if( !file_exists( $filename ) ) {
 
 <div id="navi" class='open desktop'>
     <ul>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=start' title='Startseite'>
-            <li class=''>Start</li>
+        <a href='<?php echo _APPROOT_; ?>index.php?page=start' title='<?php echo __( "STARTPAGE_TOOLTIP", "NAVI" ); ?>'>
+            <li class=''><?php echo __( "STARTPAGE", "NAVI" ); ?></li>
         </a>
         <hr/>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=devices' title='Geräte'>
-            <li class=''>Geräte</li>
+        <a href='<?php echo _APPROOT_; ?>index.php?page=devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
+            <li class=''><?php echo __( "DEVICES", "NAVI" ); ?></li>
         </a>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class='hide-mobile' title='Update'>
-            <li class=''>Update</li>
+        <a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class='hide-mobile'
+           title='<?php echo __( "UPDATE_TOOLTIP", "NAVI" ); ?>'>
+            <li class=''><?php echo __( "UPDATE", "NAVI" ); ?></li>
         </a>
 
 
@@ -78,12 +67,13 @@ if( !file_exists( $filename ) ) {
         <!--				<li class=''>Chat</li>-->
         <!--			</a>-->
         <hr/>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=site_config' title='Web Einstellungen'>
-            <li class=''>Einstellungen</li>
+        <a href='<?php echo _APPROOT_; ?>index.php?page=site_config'
+           title='<?php echo __( "SETTINGS_TOOLTIP", "NAVI" ); ?>'>
+            <li class=''><?php echo __( "SETTINGS", "NAVI" ); ?></li>
         </a>
 
-        <a href='/login.php?logout' title='Ausloggen'>
-            <li class=''>Logout</li>
+        <a href='<?php echo _APPROOT_; ?>login.php?logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
+            <li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
         </a>
 
     </ul>

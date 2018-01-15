@@ -15,7 +15,7 @@ if( isset( $_GET[ "device_id" ] ) ) {
 	}
 	fclose( $file );
 } else {
-	$msg = "Kein Device ausgewählt";
+	$msg = __( "ERROR_NO_DEVICE_SELECTED", "DEVICE_CONFIG" );
 }
 
 if( isset( $_POST ) && !empty( $_POST ) ) {
@@ -28,7 +28,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 			$backlog .= $settingKey . " " . $settingVal . ";";
 		}
 		$result = $Sonoff->saveConfig( $device[ 2 ], $backlog );
-		$msg    = "Einstellungen gespeichert";
+		$msg    = __( "MSG_CONFIG_SAVED", "DEVICE_CONFIG" );
 		sleep( count( $settings ) );
 	}
 	
@@ -47,7 +47,9 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
     <table border='0' cellspacing='0' class='center-table' style='text-align: left;'>
         <tr>
             <td>
-                <p title='Name den Alexa findet'> FriendlyName:<br/></p>
+                <p title='<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>'><?php echo __(
+						"CONFIG_FRIENDLYNAME", "DEVICE_CONFIG"
+					); ?>:<br/></p>
             </td>
             <td>
                 <input type='text'
@@ -61,34 +63,36 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
 
         <tr>
             <td>
-                <p title='Status nach Stromausfall'> PowerOnState: <br/></p>
+                <p title='<?php echo __( "CONFIG_POWERONSTATE_HELP", "DEVICE_CONFIG" ); ?>'>
+					<?php echo __( "CONFIG_POWERONSTATE", "DEVICE_CONFIG" ); ?>: <br/>
+                </p>
             </td>
             <td>
                 <select name='PowerOnState' class='config select'>
                     <option value='0' <?php echo isset( $status->Status->PowerOnState )
 					                             && $status->Status->PowerOnState == 0 ? "selected=\selected\""
 						: ""; ?>>
-                        Bleib ausgeschaltet
+						<?php echo __( "CONFIG_POWERONSTATE_OPTION_0", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='1' <?php echo isset( $status->Status->PowerOnState )
 					                             && $status->Status->PowerOnState == 1 ? "selected=\selected\""
 						: ""; ?>>
-                        Einschalten
+						<?php echo __( "CONFIG_POWERONSTATE_OPTION_1", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='2' <?php echo isset( $status->Status->PowerOnState )
 					                             && $status->Status->PowerOnState == 2 ? "selected=\selected\""
 						: ""; ?>>
-                        Gegenteil vom letzten Schaltzustand
+						<?php echo __( "CONFIG_POWERONSTATE_OPTION_2", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='3' <?php echo isset( $status->Status->PowerOnState )
 					                             && $status->Status->PowerOnState == 3 ? "selected=\selected\""
 						: ""; ?>>
-                        Letzter Schaltzustand
+						<?php echo __( "CONFIG_POWERONSTATE_OPTION_3", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='4' <?php echo isset( $status->Status->PowerOnState )
 					                             && $status->Status->PowerOnState == 4 ? "selected=\selected\""
 						: ""; ?>>
-                        Einschalten und Schalter deaktivieren
+						<?php echo __( "CONFIG_POWERONSTATE_OPTION_4", "DEVICE_CONFIG" ); ?>
                     </option>
 
                 </select><br/>
@@ -96,41 +100,43 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
         </tr>
         <tr>
             <td>
-                <p title='LED Verhalten'> LedState: <br/></p>
+                <p title='<?php echo __( "CONFIG_LEDSTATE", "DEVICE_CONFIG" ); ?>'>
+					<?php echo __( "CONFIG_LEDSTATE", "DEVICE_CONFIG" ); ?>: <br/>
+                </p>
             </td>
             <td>
                 <select name='LedState' class='config select'>
                     <option value='0' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 0 ? "selected=\selected\"" : ""; ?>>
-                        Aus
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_0", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='1' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 1 ? "selected=\selected\"" : ""; ?>>
-                        Wie Schaltzustand (umgekehrt für Sonoff Touch)
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_1", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='2' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 2 ? "selected=\selected\"" : ""; ?>>
-                        Blinken für MQTT Subscriptions
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_2", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='3' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 3 ? "selected=\selected\"" : ""; ?>>
-                        Wie Schaltzustand und blinken für MQTT Subscriptions
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_3", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='4' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 4 ? "selected=\selected\"" : ""; ?>>
-                        Blinken für MQTT Publications
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_4", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='5' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 5 ? "selected=\selected\"" : ""; ?>>
-                        Wie Schaltzustand und blinken für MQTT Publications
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_5", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='6' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 6 ? "selected=\selected\"" : ""; ?>>
-                        Blinken für alle MQTT Messages
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_6", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='7' <?php echo isset( $status->Status->LedState )
 					                             && $status->Status->LedState == 7 ? "selected=\selected\"" : ""; ?>>
-                        Wie Schaltzustand und blinken für alle MQTT Messages
+						<?php echo __( "CONFIG_LEDSTATE_OPTION_7", "DEVICE_CONFIG" ); ?>
                     </option>
                 </select><br/>
             </td>
@@ -138,7 +144,9 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
 
         <tr>
             <td>
-                <p title='Pause zwischen Ablauf zum Energiesparen'> Sleep (0-250ms): <br/></p>
+                <p title='<?php echo __( "CONFIG_SLEEP_HELP", "DEVICE_CONFIG" ); ?>'>
+					<?php echo __( "CONFIG_SLEEP", "DEVICE_CONFIG" ); ?>: <br/>
+                </p>
             </td>
             <td>
                 <input type='number' step='25' max='250' min='0' pattern="\d{1,3}"
@@ -152,39 +160,41 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
 
         <tr>
             <td>
-                <p title='Was beim Wifi Verbindungsfehler passieren soll'> WifiConfig: <br/></p>
+                <p title='<?php echo __( "CONFIG_WIFICONFIG_HELP", "DEVICE_CONFIG" ); ?>'>
+					<?php echo __( "CONFIG_WIFICONFIG", "DEVICE_CONFIG" ); ?>: <br/>
+                </p>
             </td>
             <td>
                 <select name='WifiConfig' class='config select'>
                     <option value='0' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 0 ? "selected=\selected\""
 						: ""; ?>>
-                        Weiter Versuchen mit Neustart um Speicher suaber zu halten (WIFI_RESTART)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_0", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='1' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 1 ? "selected=\selected\""
 						: ""; ?>>
-                        Starte SmartConfig Tool für eine Minute (WIFI_SMARTCONFIG)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_1", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='2' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 2 ? "selected=\selected\""
 						: ""; ?>>
-                        Starte Wifi Manager (mit Sonoff Wlan verbinden und dann 192.168.4.1 aufrufen) (WIFI_MANAGER)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_2", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='3' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 3 ? "selected=\selected\""
 						: ""; ?>>
-                        Starte WPS Konfiguration für 1 Minute (WIFI_WPSCONFIG)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_3", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='4' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 4 ? "selected=\selected\""
 						: ""; ?>>
-                        Abwechselnd zwischen WIFI 1 und WIFI 2 versuchen ohne Neustart (WIFI_RETRY)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_4", "DEVICE_CONFIG" ); ?>
                     </option>
                     <option value='5' <?php echo isset( $status->StatusNET->WifiConfig )
 					                             && $status->StatusNET->WifiConfig == 5 ? "selected=\selected\""
 						: ""; ?>>
-                        Nochmal versuchen ohne Neustart und Flash änderungen (WIFI_WAIT)
+						<?php echo __( "CONFIG_WIFICONFIG_OPTION_5", "DEVICE_CONFIG" ); ?>
                     </option>
                 </select><br/>
             </td>
@@ -196,7 +206,9 @@ $status = $Sonoff->getAllStatus( $device[ 2 ] );
         </tr>
         <tr>
             <td colspan='2'>
-                <button type='submit' class='btn' name='save' value='submit'>Speichern</button>
+                <button type='submit' class='btn' name='save' value='submit'>
+					<?php echo __( "BTN_SAVE_DEVICE_CONFIG" ); ?>
+                </button>
             </td>
         </tr>
     </table>

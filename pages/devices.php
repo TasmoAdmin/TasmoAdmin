@@ -14,14 +14,17 @@ fclose( $file );
 <table id='device-list' class='center-table' border='0' cellspacing='0'>
     <thead>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>IP</th>
-        <th>Status</th>
-        <th>RSSI</th>
-        <th>Version</th>
-        <th>Laufzeit</th>
-        <th><a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>Neues Gerät</a></th>
+        <th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+        <th><a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
+				<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+            </a>
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -39,7 +42,7 @@ fclose( $file );
                     <td><?php echo $device_group[ 0 ]; ?></td>
                     <td><a href='http://<?php echo $device_group[ 2 ]; ?>/'
                            target='_blank'
-                           title='Oberfläche aufrufen'><?php echo $device; ?></a>
+                           title='<?php echo __( "LINK_OPEN_DEVICE_WEBUI", "DEVICES" ); ?>'><?php echo $device; ?></a>
                     </td>
                     <td><?php echo $device_group[ 2 ]; ?></td>
                     <td class='status'>
@@ -52,26 +55,31 @@ fclose( $file );
                     <td class='rssi'>
                         <div class='loader'><img
                                     src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-                                    alt='Lädt...'
-                                    title='Lädt...'></div>
+                                    alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                    title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
                     </td>
                     <td class='version'>
                         <div class='loader'><img
                                     src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-                                    alt='Lädt...'
-                                    title='Lädt...'></div>
+                                    alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                    title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
                     </td>
                     <td class='runtime'>
                         <div class='loader'><img
                                     src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-                                    alt='Lädt...'
-                                    title='Lädt...'></div>
+                                    alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                    title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
                     </td>
                     <td>
-                        <a href='<?php echo _APPROOT_; ?>index.php?page=device_config&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>Konfig</a>
+                        <a href='<?php echo _APPROOT_; ?>index.php?page=device_config&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>
+							<?php echo __( "LINK_DEVICE_CONFIG", "DEVICES" ); ?>
+                        </a>
                         <a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=edit&device_id=<?php echo $device_group[ 0 ]; ?>'>
-                            Bearbeiten</a>
-                        <a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>Löschen</a>
+							<?php echo __( "LINK_DEVICE_EDIT", "DEVICES" ); ?>
+                        </a>
+                        <a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>
+							<?php echo __( "LINK_DEVICE_DELETE", "DEVICES" ); ?>
+                        </a>
                     </td>
                 </tr>
 				<?php
@@ -82,14 +90,17 @@ fclose( $file );
     </tbody>
     <tfoot>
     <tr class='bottom'>
-        <th>ID</th>
-        <th>Name</th>
-        <th>IP</th>
-        <th>Status</th>
-        <th>RSSI</th>
-        <th>Version</th>
-        <th>Laufzeit</th>
-        <th><a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>Neues Gerät</a></th>
+        <th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+        <th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+        <th><a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
+				<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+            </a>
+        </th>
     </tr>
     </tfoot>
 </table>

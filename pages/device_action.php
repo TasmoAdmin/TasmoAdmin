@@ -21,13 +21,13 @@ if( $action == "edit" ) {
 	$status = $Sonoff->getAllStatus( $device[ 2 ] );
 } else if( $action == "delete" ) {
 	$device[ 0 ] = $_GET[ "device_id" ];
-	$tempfile    = @tempnam( _DATADIR_, "tmp" ); // produce a temporary file name, in the current directory
+	$tempfile    = @tempnam( _TMPDIR_, "tmp" ); // produce a temporary file name, in the current directory
 	
 	if( !$input = fopen( $filename, 'r' ) ) {
-		die( 'could not open existing csv file' );
+		die( __( "ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", [ "csvFilePath" => $filename ] ) );
 	}
 	if( !$output = fopen( $tempfile, 'w' ) ) {
-		die( 'could not open temporary output file' );
+		die( __( "ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", [ "tmpFilePath" => $tempfile ] ) );
 	}
 	
 	while( ( $data = fgetcsv( $input ) ) !== FALSE ) {
@@ -43,7 +43,7 @@ if( $action == "edit" ) {
 	unlink( $filename );
 	rename( $tempfile, $filename );
 	
-	$msg    = "Gerät entfernt";
+	$msg    = __( "MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS" );
 	$action = "done";
 }
 
@@ -53,21 +53,21 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 		if( isset( $_POST[ 'device_ip' ] ) ) {
 			$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
 		} else {
-			die( "Bitte IP eingeben" );
+			die( __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" ) );
 		}
 	} else if( !empty( $_POST[ 'device_id' ] ) ) {//update
 		$device[ 0 ] = $_POST[ "device_id" ];
 		$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
 		$device[ 2 ] = $_POST[ "device_ip" ];
 		
-		$tempfile = @tempnam( _DATADIR_, "tmp" ); // produce a temporary file name, in the current directory
+		$tempfile = @tempnam( _TMPDIR_, "tmp" ); // produce a temporary file name, in the current directory
 		
 		
 		if( !$input = fopen( $filename, 'r' ) ) {
-			die( 'could not open existing csv file' );
+			die( __( "ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", [ "csvFilePath" => $filename ] ) );
 		}
 		if( !$output = fopen( $tempfile, 'w' ) ) {
-			die( 'could not open temporary output file' );
+			die( __( "ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", [ "tmpFilePath" => $tempfile ] ) );
 		}
 		
 		while( ( $data = fgetcsv( $input ) ) !== FALSE ) {
@@ -83,7 +83,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 		unlink( $filename );
 		rename( $tempfile, $filename );
 		
-		$msg    = "Gerät aktualisiert";
+		$msg    = __( "MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS" );
 		$action = "done";
 		
 	} else { //add
@@ -92,7 +92,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 			if( isset( $_POST[ 'device_ip' ] ) ) {
 				$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
 			} else {
-				die( "Bitte IP eingeben" );
+				die( __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" ) );
 			}
 		} else {
 			$fp          = file( $filename );
@@ -105,7 +105,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 			fputcsv( $handle, $device );
 			fclose( $handle );
 			
-			$msg    = "Gerät hinzugefügt";
+			$msg    = __( "MSG_DEVICE_ADD_DONE", "DEVICE_ACTIONS" );
 			$action = "done";
 		}
 		
@@ -139,7 +139,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
                             value='search'
                             class='btn'
                     >
-                        Suchen
+						<?php echo __( "BTN_SEARCH_DEVICE", "DEVICE_ACTIONS" ); ?>
                     </button>
                 </td>
             </tr>
@@ -149,7 +149,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 				<?php if( isset( $status->WARNING ) && !empty( $status->WARNING ) ): ?>
                     <tr>
                         <td colspan='3' style='text-align: center; margin-top: 20px; '>
-                            <p> Gerät gefunden!</p>
+                            <p><?php echo __( "MSG_DEVICE_FOUND" ); ?></p>
                             <p class='error' style='color: red;'>FEHLER: <?php echo $status->WARNING; ?></p>
                         </td>
                     </tr>
@@ -237,7 +237,7 @@ if( isset( $_POST ) && !empty( $_POST ) ) {
 <?php elseif( $action == "done" ): ?>
     <div class='center'>
         <p><?php echo $msg; ?></p>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=devices'>Zurück</a>
+        <a href='<?php echo _APPROOT_; ?>index.php?page=devices'><?php echo __( "BTN_BACK" ); ?></a>
     </div>
 <?php endif; ?>
 

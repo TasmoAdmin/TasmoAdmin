@@ -1,9 +1,15 @@
 .idea
-/data/firmwares/*
 /RELEASE/
 
-!.empty
 
+/tmp/cache/i18n/*
 
+/data/firmwares/*
 /data/devices.csv
 /data/MyConfig.php
+
+
+
+
+
+!.empty

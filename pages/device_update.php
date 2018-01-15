@@ -10,9 +10,6 @@ $ota_new_firmware_url     = $otaServer . $_POST[ "new_firmware_path" ];
 $device_ips = $_POST[ "device_ips" ];
 ?>
 <div class='center'>
-    <p>
-        Update Prozess
-    </p>
     <div id='progressbox'>
 
     </div>
