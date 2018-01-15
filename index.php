@@ -30,6 +30,9 @@ switch( $page ) {
 	case "devices":
 		$title = __( "DEVICES", "PAGE_TITLES" );
 		break;
+	case "site_config":
+		$title = __( "SITE_CONFIG", "PAGE_TITLES" );
+		break;
 	default:
 		$title = ucfirst( $page );
 }
