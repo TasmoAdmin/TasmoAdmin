@@ -33,6 +33,9 @@
 		case "device_update":
 			$title = __( "DEVICE_UPDATE", "PAGE_TITLES" );
 			break;
+		case "device_config":
+			$title = __( "DEVICE_CONFIG", "PAGE_TITLES" );
+			break;
 		case "site_config":
 			$title = __( "SITE_CONFIG", "PAGE_TITLES" );
 			break;
