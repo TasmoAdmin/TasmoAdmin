@@ -10,7 +10,7 @@ $( document ).on( "ready", function () {
 	
 	var appendLoading = function ( elem, replace ) {
 		var replace = replace || false;
-		var loader  = $( '<div>', { class: "loader" } ).append( $( 'img', { src: "<?php echo _RESOURCESDIR_; ?>img/loading.gif" } ) );
+		var loader  = $( '<div>', { class: "loader" } ).append( $( 'img', { src: "./resources/img/loading.gif" } ) );
 		
 		if ( replace ) {
 			$( elem ).html( loader );
@@ -65,7 +65,7 @@ function notifyMe( msg, title ) {
 		title = " - " + title;
 	}
 	
-	var icon = "<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-180x180.png";
+	var icon = "./resources/img/favicons/apple-icon-180x180.png";
 	
 	// Let's check if the browser supports notifications
 	if ( !(
