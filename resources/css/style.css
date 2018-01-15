@@ -166,12 +166,22 @@ input::-webkit-inner-spin-button {
 	clear : both;
 }
 
+table {
+	border        : 1px solid #0037CC;
+	border-radius : 5px;
+	padding       : 20px;
+}
+
 .center-table {
 	margin : 0 auto;
 }
 
 .center {
 	text-align : center;
+}
+
+.inline {
+	display : inline;
 }
 
 tr th {
@@ -203,7 +213,7 @@ td.status {
 	border     : 1px solid black;
 	width      : 100%;
 	overflow   : auto;
-	height     : 500px;
+	height     : 100%;
 	text-align : left;
 }
 

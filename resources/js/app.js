@@ -63,7 +63,11 @@ $( document ).on( "ready", function () {
 		var optionSelected = $( "option:selected", this );
 		var valueSelected  = this.value;
 		
-		window.location.href = "/?lang=" + valueSelected;
+		var curUrl = window.location.toString();
+		console.log( curUrl );
+		window.location.href = curUrl + (
+			curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
+		) + "lang=" + valueSelected;
 		console.log( valueSelected );
 		
 		

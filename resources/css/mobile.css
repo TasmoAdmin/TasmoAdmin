@@ -1,4 +1,10 @@
-@media only screen and (max-width : 800px) {
+@media only screen and (max-width : 1141px) {
+	#content-holder, #content-holder.full-width {
+		width : calc(100% - 201px);
+	}
+}
+
+@media only screen and (max-width : 802px) {
 	.hide-mobile {
 		display : none;
 	}
