@@ -3,6 +3,7 @@
 
 
 /tmp/cache/i18n/*
+/lang/lang_new.ini
 
 /data/firmwares/*
 /data/devices.csv

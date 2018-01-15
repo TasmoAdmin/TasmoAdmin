@@ -12,8 +12,6 @@ $page = "start";
 if( isset( $_GET ) ) {
 	if( isset( $_GET[ "page" ] ) ) {
 		$page = $_GET[ "page" ];
-		
-		
 	}
 }
 
