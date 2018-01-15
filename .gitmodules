@@ -1,0 +1,6 @@
+[submodule "libs/PHP_i18n/php-i18n"]
+	path = libs/PHP_i18n/php-i18n
+	url = https://github.com/Philipp15b/php-i18n.git
+[submodule "libs/php-i18n"]
+	path = libs/php-i18n
+	url = https://github.com/Philipp15b/php-i18n.git
