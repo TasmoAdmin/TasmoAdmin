@@ -19,6 +19,10 @@
 		fclose( $file );
 		
 		$status = $Sonoff->getAllStatus( $device[ 2 ] );
+		if ( isset( $status->ERROR ) ) {
+			$msg = __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" )."<br/>";
+			$msg .= $status->ERROR."<br/>";
+		}
 	} else if ( $action == "delete" ) {
 		$device[ 0 ] = $_GET[ "device_id" ];
 		$tempfile    = @tempnam( _TMPDIR_, "tmp" ); // produce a temporary file name, in the current directory
@@ -55,8 +59,12 @@
 		if ( isset( $_POST[ "search" ] ) ) {
 			if ( isset( $_POST[ 'device_ip' ] ) ) {
 				$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
+				if ( isset( $status->ERROR ) ) {
+					$msg = __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" )."<br/>";
+					$msg .= $status->ERROR."<br/>";
+				}
 			} else {
-				die( __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" ) );
+				$msg = __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" );
 			}
 		} else if ( !empty( $_POST[ 'device_id' ] ) ) {//update
 			$device[ 0 ] = $_POST[ "device_id" ];
@@ -94,8 +102,12 @@
 			if ( isset( $_POST[ "search" ] ) ) {
 				if ( isset( $_POST[ 'device_ip' ] ) ) {
 					$status = $Sonoff->getAllStatus( $_POST[ 'device_ip' ] );
+					if ( isset( $status->ERROR ) ) {
+						$msg = __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" )."<br/>";
+						$msg .= $status->ERROR."<br/>";
+					}
 				} else {
-					die( __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" ) );
+					$msg = __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" );
 				}
 			} else {
 				$fp          = file( $filename );
@@ -146,23 +158,24 @@
 			</tr>
 			
 			
-			<?php if ( isset( $status ) && !empty( $status ) ): ?>
+			<?php if ( isset( $status ) && !empty( $status ) && !isset( $status->ERROR ) ): ?>
 				<?php if ( isset( $status->WARNING ) && !empty( $status->WARNING ) ): ?>
 					<tr>
 						<td colspan='3' style='text-align: center; margin-top: 20px; '>
-							<p><?php echo __( "MSG_DEVICE_FOUND" ); ?></p>
-							<p class='error' style='color: red;'>FEHLER: <?php echo $status->WARNING; ?></p>
+							<p><?php echo __( "MSG_DEVICE_FOUND", "DEVICE_ACTIONS" ); ?></p>
+							<p class='error' style='color: red;'><?php echo __( "ERROR" ); ?>
+								: <?php echo $status->WARNING; ?></p>
 						</td>
 					</tr>
 				<?php else: ?>
 					<tr>
 						<td colspan='3' style='text-align: center; margin-top: 20px;'>
-							<br/><br/>Gerät gefunden!<br/><br/>
+							<br/><br/><?php echo __( "MSG_DEVICE_FOUND", "DEVICE_ACTIONS" ); ?><br/><br/>
 						</td>
 					</tr>
 					<?php if ( isset( $status->StatusSTS->POWER ) ): ?>
 						<tr>
-							<td>Name:</td>
+							<td><?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?>:</td>
 							<td><input type='text'
 							           id="device_name"
 							           name='device_name[1]'
@@ -184,7 +197,7 @@
 					$power = "POWER".$i;
 					while ( isset( $status->StatusSTS->$power ) )  : ?>
 						<tr>
-							<td>Name <?php echo $i; ?>:</td>
+							<td><?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?> <?php echo $i; ?>:</td>
 							<td><input type='text'
 							           id="device_name"
 							           name='device_name[<?php echo $i; ?>]'
@@ -196,7 +209,11 @@
 								           ? $device[ 1 ][ $i - 1 ]
 								           : ( isset( $_POST[ 'device_name' ][ $i ] ) ? $_POST[ 'device_name' ][ $i ]
 									           : $status->Status->FriendlyName." ".$i ); ?>'></td>
-							<td class='default-value'>( <a href='#' title='Übernehmen'
+							<td class='default-value'>( <a href='#'
+							                               title='<?php echo __(
+								                               "DEVICE_NAME_TOOLTIP",
+								                               "DEVICE_ACTIONS"
+							                               ); ?>'
 							                               class='default-name'><?php echo $status->Status->FriendlyName
 							                                                               ." "
 							                                                               .$i; ?></a> )
@@ -219,15 +236,18 @@
 							        value='<?php echo isset( $device ) ? "edit" : "add"; ?>'
 							        class='btn'
 							>
-								Speichern
+								<?php echo __( "BTN_SAVE", "DEVICE_ACTIONS" ); ?>
 							</button>
 						</td>
 					</tr>
 				<?php endif; ?>
 			
-			<?php elseif ( isset( $status ) && $status == FALSE ): ?>
+			<?php elseif ( isset( $status->ERROR ) && $status->ERROR != "" ): ?>
 				<div class='center'>
-					<p><?php echo "Gerät konnte nicht gefunden werden => ".print_r( $status, TRUE ); ?></p>
+					<p><?php echo __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" ); ?>
+						<br/>
+						<?php echo $status->ERROR; ?>
+					</p>
 				
 				</div>
 			<?php endif; ?>

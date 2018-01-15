@@ -48,12 +48,7 @@
 			}
 			
 			
-			$minimal_firmware_path = sprintf(
-				$firmwarefolder.'%s-%s.%s',
-				$_FILES[ 'minimal_firmware' ][ 'name' ],
-				substr( sha1_file( $_FILES[ 'minimal_firmware' ][ 'tmp_name' ] ), 0, 6 ),
-				$ext
-			);
+			$minimal_firmware_path = $firmwarefolder."sonoff-minimal.bin";
 			
 			if ( !move_uploaded_file(
 				$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
@@ -113,12 +108,8 @@
 				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE" ) );
 			}
 			
-			$new_firmware_path = sprintf(
-				$firmwarefolder.'%s-%s.%s',
-				$_FILES[ 'new_firmware' ][ 'name' ],
-				substr( sha1_file( $_FILES[ 'new_firmware' ][ 'tmp_name' ] ), 0, 6 ),
-				$ext
-			);
+			$new_firmware_path = $firmwarefolder."sonoff-full.bin";
+			
 			if ( !move_uploaded_file(
 				$_FILES[ 'new_firmware' ][ 'tmp_name' ],
 				
@@ -168,7 +159,7 @@
 		}
 		if ( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
 			$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
-			$new_firmware_path     = $firmwarefolder.'sonoff-DE.bin';
+			$new_firmware_path     = $firmwarefolder.'sonoff-full.bin';
 			$file                  = fopen( $minimal_firmware_path, 'w' );
 			// cURL
 			$ch = curl_init();
