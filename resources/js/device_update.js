@@ -107,9 +107,9 @@ $( document ).on( "ready", function () {
 			log( ip, step, "CHECK UPDATE", "Gerät nach 5 Minuten immer noch nicht erreichbar!!!", "error" );
 			return;
 		}
-		var sec = 5;
-		if ( i <= 1 ) {
-			sec = 60;
+		var sec = 60;
+		if ( i > 1 ) {
+			sec = 5;
 		}
 		log( ip, 1, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
 		setTimeout(
@@ -126,12 +126,12 @@ $( document ).on( "ready", function () {
 							        log( ip, step, "CHECK UPDATE", "Update fertig!", "success" );
 							        step2( ip );
 						        } else {
-							        log( ip, step, "DONE", "Update fertig!", "success" );
+							        log( ip, step, "DONE", "============= Update fertig! =============", "success" );
 						        }
 					        },
 					        error  : function ( badData ) {
 						        log( ip, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
-						        checkUpdateDone( ip, step, i++ );
+						        checkUpdateDone( ip, step, i + 1 );
 					        },
 				        } );
 			}, sec * 1000
@@ -176,7 +176,7 @@ $( document ).on( "ready", function () {
 		
 		entry += " " + msg;
 		
-		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" )
-		           .animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 500 );
+		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" );
+		$( "#content-holder" ).animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 500 );
 	}
 } );
