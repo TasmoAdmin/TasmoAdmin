@@ -75,7 +75,7 @@
 				<td>
 					<br/>
 					<button type='submit' name='<?php echo $register ? "register" : "login"; ?>' class='btn'>
-						<?php echo $register ? __( "BTN_REGISTER" ) : __( "BTN_LOGIN" ); ?>
+						<?php echo $register ? __( "BTN_REGISTER", "LOGIN" ) : __( "BTN_LOGIN", "LOGIN" ); ?>
 					</button>
 				</td>
 			</tr>

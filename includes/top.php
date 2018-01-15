@@ -16,7 +16,7 @@
 	require_once _INCLUDESDIR_."Config.php";
 	require_once _INCLUDESDIR_."Sonoff.php";
 	require_once _LIBSDIR_.'phpi18n/i18n.class.php';
-	include_once( _INCLUDESDIR_."Config.php" );
+	require_once _INCLUDESDIR_."Config.php";
 	
 	$Config = new Config();
 	$i18n   = new i18n();
