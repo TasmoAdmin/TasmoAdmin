@@ -177,6 +177,6 @@ $( document ).on( "ready", function () {
 		entry += " " + msg;
 		
 		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" )
-		           .animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 2000 );
+		           .animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 500 );
 	}
 } );

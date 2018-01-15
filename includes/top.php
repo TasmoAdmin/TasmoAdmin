@@ -1,5 +1,5 @@
 <?php
-	define( "_VERSION_", "1.0.0b" );
+	define( "_VERSION_", "1.0.0c" );
 	
 	define( "_APPROOT_", "./" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
