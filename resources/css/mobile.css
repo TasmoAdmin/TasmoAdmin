@@ -56,7 +56,8 @@
 	}
 	
 	#navi {
-		display : none;
+		display    : none;
+		margin-top : 0px;
 	}
 	
 	#navi.show {
