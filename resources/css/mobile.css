@@ -1,4 +1,10 @@
-@media only screen and (max-width : 800px) {
+@media only screen and (max-width : 1141px) {
+	#content-holder, #content-holder.full-width {
+		width : calc(100% - 201px);
+	}
+}
+
+@media only screen and (max-width : 802px) {
 	.hide-mobile {
 		display : none;
 	}
@@ -11,32 +17,22 @@
 		height : 100%;
 	}
 	
-	#content-holder {
+	#content-holder, #content-holder.full-width {
 		width  : calc(100% - 40px);
 		border : none;
 	}
 	
 	#header h1 {
 		display : inline-block;
-		width   : calc(100% - 50px);
+		width   : calc(100% - 130px);
 	}
 	
 	.hamburger {
-		cursor  : pointer;
-		display : inline-block;
-	}
-	
-	.hamburger div {
-		position       : absolute;
-		left           : 100%;
-		top            : 64%;
-		padding-right  : 8px;
-		margin-top     : -0.50em;
-		line-height    : 1.2;
-		font-size      : 18px;
-		font-weight    : 200;
-		vertical-align : middle;
-		z-index        : 99;
+		cursor   : pointer;
+		position : absolute;
+		left     : 16px;
+		top      : 15px;
+		display  : block;
 	}
 	
 	.hamburger span {
@@ -44,13 +40,19 @@
 		width      : 19px;
 		height     : 3px;
 		margin     : 4px 0;
-		background : rgb(0, 0, 0);
+		background : #008FCC;
 		z-index    : 99;
+	}
+	
+	.hamburger:hover span {
+		background : #0037CC;
 	}
 	
 	.hamburger.open {
 		-webkit-transform : rotate(90deg);
 		transform         : rotate(90deg);
+		top               : 15px;
+		left              : 16px;
 	}
 	
 	#navi {
@@ -75,5 +77,11 @@
 	
 	table tr th, table tr td {
 		display : block;
+	}
+}
+
+@media only screen and (max-width : 371px) {
+	#content-holder {
+		height : calc(100% - 56px - 80px);
 	}
 }

@@ -1,7 +1,7 @@
 <?php
 
 class Config {
-	private $cfgFile = "data/MyConfig.php";
+	private $cfgFile = _APPROOT_ . "data/MyConfig.php";
 	
 	private $defaultConfigs
 		= [
@@ -18,7 +18,8 @@ class Config {
 				"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
 			)
 			);
-			$config                    = $this->defaultConfigs;
+			$config = $this->defaultConfigs;
+			
 			$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
 			$config                    = var_export( $config, TRUE );
 			file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
@@ -26,7 +27,7 @@ class Config {
 		
 		foreach( $this->defaultConfigs as $configName => $configValue ) {
 			$config = $this->read( $configName );
-			if( !isset( $config ) ) {
+			if( !isset( $config ) || $config == "" ) {
 				$this->write( $configName, $configValue );
 			}
 		}
@@ -44,8 +45,9 @@ class Config {
 	
 	public function read( $key ) {
 		$config = include $this->cfgFile;
+		
 		if( $config === 1 ) { //its empty
-			return [];
+			$config = [];
 		}
 		
 		return isset( $config[ $key ] ) ? $config[ $key ] : null;
@@ -53,6 +55,7 @@ class Config {
 	
 	public function write( $key, $value ) {
 		$config = include $this->cfgFile;
+		
 		if( $config === 1 ) { //its empty
 			$config = [];
 		}
