@@ -35,5 +35,9 @@
 				<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
 			</button>
 		</form>
+	<?php else: ?>
+		<p>
+			<?php echo __( "NO_UPDATE_FOUND", "SELFUPDATE" ); ?>
+		</p>
 	<?php endif; ?>
 </div>
