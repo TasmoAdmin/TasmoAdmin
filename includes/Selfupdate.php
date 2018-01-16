@@ -26,6 +26,7 @@
 			
 			$commits         = json_decode( $this->doRequest( $action ) );
 			$this->latestSha = $commits[ 0 ]->sha;
+			
 			if ( $this->currentSha != $this->latestSha ) {
 				return TRUE;
 			} else {
@@ -34,12 +35,13 @@
 		}
 		
 		public function update() {
+			$this->checkForUpdate();
 			$action = "zipball/master";
 			if ( $this->saveZip( $action ) ) {
 				$this->log[] = __( "SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE" );
 				if ( $this->install() ) {
 					$this->Config->write( "current_git_sha", $this->latestSha );
-					$this->log[] = __( "NEWEST_SHA_VERSION", "SELFUPDATE", [ $this->latestSha ] );
+					$this->log[] = __( "NEW_SHA_VERSION", "SELFUPDATE", [ $this->latestSha ] );
 				}
 			} else {
 				$this->log[] = __( "ERROR_COULD_NOT_DOWNLOAD_ZIP", "SELFUPDATE" );
