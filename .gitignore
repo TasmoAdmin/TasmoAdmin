@@ -3,11 +3,14 @@
 
 
 /tmp/cache/i18n/*
+/tmp/reloxx13-SonWEB-*
 /lang/lang_new.ini
 
 /data/firmwares/*
 /data/devices.csv
 /data/MyConfig.php
+/data/updates/*.zip
+
 
 
 
