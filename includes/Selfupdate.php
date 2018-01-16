@@ -39,7 +39,7 @@
 				$this->log[] = __( "SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE" );
 				if ( $this->install() ) {
 					$this->Config->write( "current_git_sha", $this->latestSha );
-					$this->log[] = __( "NEWEST_SHA_VERSION => %s", "SELFUPDATE", [ $this->latestSha ] );
+					$this->log[] = __( "NEWEST_SHA_VERSION", "SELFUPDATE", [ $this->latestSha ] );
 				}
 			} else {
 				$this->log[] = __( "ERROR_COULD_NOT_DOWNLOAD_ZIP", "SELFUPDATE" );
