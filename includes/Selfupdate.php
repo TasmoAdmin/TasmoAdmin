@@ -50,69 +50,60 @@
 		}
 		
 		private function install() {
+			
+			
+			$file = $this->zipfile;        // full path to zip file needing extracted
+			$temp = _TMPDIR_;        // full path to temp dir to process extractions
+			$path = _APPROOT_;       // full path to final destination to put the files (not the folder)
+			
+			$firstDir = NULL;       // holds the name of the first directory
+			
 			$zip = new ZipArchive;
-			if ( $zip->open( $this->zipfile ) === TRUE ) {
-				$zip->extractTo( _APPROOT_ );
+			$res = $zip->open( $file );
+			if ( $res === TRUE ) {
+				$firstDir = $zip->getNameIndex( 0 );
+				$zip->extractTo( $temp );
 				$zip->close();
-				
-				
-				$file = $this->zipfile;        // full path to zip file needing extracted
-				$temp = _TMPDIR_;        // full path to temp dir to process extractions
-				$path = _APPROOT_;       // full path to final destination to put the files (not the folder)
-				
-				$firstDir = NULL;       // holds the name of the first directory
-				
-				$zip = new ZipArchive;
-				$res = $zip->open( $file );
-				if ( $res === TRUE ) {
-					$firstDir = $zip->getNameIndex( 0 );
-					$zip->extractTo( $temp );
-					$zip->close();
-					$this->log[] = __(
-						"SUCCESS_FILE_EXTRACTED_TO",
-						"SELFUPDATE",
-						[ $file, $temp ]
-					);
-				} else {
-					$this->log[] = __( "ERROR_FILE_EXTRACTED_TO", "SELFUPDATE", [ $file, $temp ] );
-				}
-				
-				
-				if ( empty( $firstDir ) ) {
-					$this->log[] = __( "ERROR_EMPTY_FIRST_DIR", "SELFUPDATE" );
-				} else {
-					$firstDir    = realpath( $temp.'/'.$firstDir );
-					$this->log[] = __( "FIRST_DIRECTORY", "SELFUPDATE", [ $firstDir ] );
-					
-					if ( is_dir( $firstDir ) ) {
-						if ( $this->copyDirectoryContents( $firstDir, $path ) ) {
-							$this->log[] = __( "CONTENT_COPY_DONE", "SELFUPDATE" );
-							
-							if ( $this->removeDirectory( $firstDir ) ) {
-								$this->log[] = __( "TEMP_DIR_DELETED", "SELFUPDATE" );
-								$this->log[] = __( "COPY_DONE", "SELFUPDATE" );
-								
-							} else {
-								echo 'Error deleting temp directory!<br />';
-								$this->log[] = __( "ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE" );
-							}
+				$this->log[] = __(
+					"SUCCESS_FILE_EXTRACTED_TO",
+					"SELFUPDATE",
+					[ $file, $temp ]
+				);
+			} else {
+				$this->log[] = __( "ERROR_FILE_EXTRACTED_TO", "SELFUPDATE", [ $file, $temp ] );
+			}
+			
+			
+			if ( empty( $firstDir ) ) {
+				$this->log[] = __( "ERROR_EMPTY_FIRST_DIR", "SELFUPDATE" );
+			} else {
+				$firstDir    = realpath( $temp.'/'.$firstDir );
+				$this->log[] = __( "FIRST_DIRECTORY", "SELFUPDATE", [ $firstDir ] );
+				if ( is_dir( $firstDir ) ) {
+					if ( $this->copyDirectoryContents( $firstDir, $path ) ) {
+						$this->log[] = __( "CONTENT_COPY_DONE", "SELFUPDATE" );
+						
+						if ( $this->removeDirectory( $firstDir ) ) {
+							$this->log[] = __( "TEMP_DIR_DELETED", "SELFUPDATE" );
+							$this->log[] = __( "COPY_DONE", "SELFUPDATE" );
 							
 						} else {
-							echo 'Error copying directory contents!<br />';
-							$this->log[] = __( "ERROR_COULD_NOT_COPY_UPDATE", "SELFUPDATE" );
+							echo 'Error deleting temp directory!<br />';
+							$this->log[] = __( "ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE" );
 						}
 						
 					} else {
-						$this->log[] = __( "ERROR_EMPTY_FIRST_DIR", "SELFUPDATE" );
+						echo 'Error copying directory contents!<br />';
+						$this->log[] = __( "ERROR_COULD_NOT_COPY_UPDATE", "SELFUPDATE" );
 					}
+					
+				} else {
+					$this->log[] = __( "ERROR_EMPTY_FIRST_DIR", "SELFUPDATE" );
 				}
-				
-				return TRUE;
-			} else {
-				$this->log[] = __( "ERROR_COULD_NOT_EXTRACT", "SELFUPDATE" );
-				
-				return FALSE;
 			}
+			
+			return TRUE;
+			
 		}
 		
 		
