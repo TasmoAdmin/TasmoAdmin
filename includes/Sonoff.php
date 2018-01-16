@@ -80,7 +80,7 @@
 			
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
-			curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
+			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			$result = curl_exec( $ch );
@@ -112,35 +112,35 @@
 			
 			$result = NULL;
 			$ch     = curl_init();
+			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
+			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			$result = json_decode( curl_exec( $ch ) );
+			$result = curl_exec( $ch );
 			
-			
-			if ( isset( $result->WARNING ) && !empty( $result->WARNING ) && $try == 1 ) {
-				$try++;
-				//set web log level 2 and try again
-				$webLog = $this->setWebLog( parse_url( $url, PHP_URL_HOST ), 2, $try );
-				if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
-					$result = $this->doAjax( $url, $try );
+			if ( !$result ) {
+				$data        = new stdClass();
+				$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $ch ).": ".curl_error( $ch );
+			} else {
+				
+				$data = json_decode( $result );
+				
+				
+				if ( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try < 1 ) {
+					$try++;
+					//set web log level 2 and try again
+					$webLog = $this->setWebLog( parse_url( $url, PHP_URL_HOST ), 2, $try );
+					if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
+						$data = $this->doAjax( $url, $try );
+					}
 				}
 			}
 			
+			curl_close( $ch );
 			
-			return $result;
+			return $data;
 		}
 	}
 	
-	$Sonoff = new Sonoff();
 	
-	if ( isset( $_GET[ "doAjax" ] ) && !empty( $_GET[ "doAjax" ] ) ) {
-		
-		$action = $_GET[ "doAjax" ];
-		
-		
-		$result = $Sonoff->doAjax( $action );
-		
-		echo json_encode( $result );
-		exit;
-	}
 	

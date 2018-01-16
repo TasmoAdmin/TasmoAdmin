@@ -1,3 +1,4 @@
+var ajaxTimeout = 8;
 $( document ).on( "ready", function () {
 	console.log( device_ips );
 	device_ips = $.parseJSON( device_ips );
@@ -19,22 +20,29 @@ $( document ).on( "ready", function () {
 	function device_responses( ip, callback, p1, p2, step, tries ) {
 		var tries = tries || 1;
 		var url   = Sonoff.buildCmndUrl( ip, "Status 2" );
-		log( ip, step, "Erreichbarkeit", "Prüfe Erreichbarkeit", "info" );
+		log( ip, step, "Erreichbarkeit", "Prüfe Erreichbarkeit Versuch " + tries, "info" );
 		$.ajax( {
 			        dataType: "json",
 			        url     : "/?doAjax=" + url,
-			        timeout : 3 * 1000,
+			        timeout : ajaxTimeout * 1000,
 			        custom  : {
 				        callback: callback,
 			        },
 			        success : function ( data ) {
-				        console.log( data );
-				        if ( data.WARNING ) {
-					        log( ip, step, "Erreichbarkeit", "Fehler! - MSG =>" + data.WARNING, "error" );
+				        if ( data && !data.ERROR ) {
+					        if ( data.WARNING ) {
+						        log( ip, step, "Erreichbarkeit", "Fehler! - MSG =>" + data.WARNING, "error" );
+					        }
+					        log( ip, step, "Erreichbarkeit", "OK! - Aktuelle Version => "
+					                                         + data.StatusFWR.Version, "success" );
+					        this.custom.callback( p1, p2, step );
+				        } else {
+					        log( ip, step, "Erreichbarkeit", "Fehler! - Antwortet nicht! => " + data.ERROR, "error" );
+					        if ( tries < 3 ) {
+						        tries = tries + 1;
+						        device_responses( ip, callback, p1, p2, step, tries );
+					        }
 				        }
-				        log( ip, step, "Erreichbarkeit", "OK! - Aktuelle Version => "
-				                                         + data.StatusFWR.Version, "success" );
-				        this.custom.callback( p1, p2, step );
 			        },
 			        error   : function ( badData ) {
 				        log( ip, step, "Erreichbarkeit", "Fehler! - Antwortet nicht!", "error" );
@@ -59,7 +67,7 @@ $( document ).on( "ready", function () {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "/?doAjax=" + url,
-			        timeout : 6 * 1000,
+			        timeout : ajaxTimeout * 1000,
 			        success : function ( data ) {
 				        console.log( data );
 				        if ( data.WARNING ) {
@@ -82,7 +90,7 @@ $( document ).on( "ready", function () {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "/?doAjax=" + url,
-			        timeout : 3 * 1000,
+			        timeout : ajaxTimeout * 1000,
 			        success : function ( data ) {
 				        console.log( data );
 				        if ( data.WARNING ) {
@@ -123,7 +131,7 @@ $( document ).on( "ready", function () {
 				$.ajax( {
 					        dataType: "json",
 					        url     : "/?doAjax=" + url,
-					        timeout : 3 * 1000,
+					        timeout : ajaxTimeout * 1000,
 					
 					        success: function ( data ) {
 						        console.log( data );

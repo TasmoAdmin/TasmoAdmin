@@ -67,7 +67,6 @@ var Sonoff = function ( options ) {
 	var doAjax = function ( ip, cmnd, callback ) {
 		var url = root.buildCmndUrl( ip, cmnd );
 		
-		
 		$.ajax( {
 			        dataType: "json",
 			        url     : "/?doAjax=" + url,
@@ -84,8 +83,8 @@ var Sonoff = function ( options ) {
 				        callback( data );
 				
 			        },
-			        error  : function ( xmlhttprequest, textstatus, message ) {
-				        callback();
+			        error  : function ( data, xmlhttprequest, textstatus, message ) {
+				        callback( data );
 			        },
 		        } );
 	};

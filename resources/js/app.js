@@ -5,7 +5,7 @@ $( document ).on( "ready", function () {
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
-	Sonoff = new Sonoff( { timeout: 5 } );
+	Sonoff = new Sonoff( { timeout: 8 } );
 	
 	
 	var appendLoading = function ( elem, replace ) {

@@ -7,13 +7,14 @@ $( document ).on( "ready", function () {
 function updateStatus() {
 	$( '#content .box_device' ).each( function ( key, box ) {
 		
-		console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
 		var device_ip     = $( box ).data( "device_ip" );
 		var device_relais = $( box ).data( "device_relais" );
 		var device_group  = $( box ).data( "device_group" );
 		
 		if ( !$( box ).hasClass( "updating" ) ) {
 			$( box ).addClass( "updating" );
+			
+			console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
 			
 			if ( device_group == "multi" && device_relais > 1 ) {
 				console.log( "[Start][updateStatus]skip multi " + $( box ).data( "device_ip" ) );
@@ -23,7 +24,7 @@ function updateStatus() {
 			
 			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
 				
-				                  if ( data ) {
+				                  if ( data && !data.ERROR ) {
 					
 					                  if ( device_group == "multi" ) {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
@@ -55,6 +56,11 @@ function updateStatus() {
 					
 					
 				                  } else {
+					                  console.log( "[Start][updateStatus]ERROR "
+					                               + device_ip
+					                               + " => "
+					                               + data.ERROR
+					                               || "Unknown Error" );
 					                  if ( device_group == "multi" ) {
 						                  $( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
@@ -93,7 +99,7 @@ function deviceTools() {
 		var device_ip     = device_box.data( "device_ip" );
 		var device_relais = device_box.data( "device_relais" );
 		Sonoff.toggle( device_ip, device_relais, function ( data ) {
-			if ( data ) {
+			if ( data && !data.ERROR ) {
 				var img           = device_box.find( "img" );
 				var src           = "./resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
@@ -102,6 +108,11 @@ function deviceTools() {
 				device_box.removeClass( "error" );
 			} else {
 				device_box.addClass( "error" );
+				console.log( "[Start][toggle]ERROR "
+				             + device_ip
+				             + " => "
+				             + data.ERROR
+				             || "Unknown Error" );
 			}
 		} );
 		

@@ -20,7 +20,7 @@ function updateStatus() {
 			}
 			
 			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
-				if ( data ) {
+				if ( data && !data.ERROR ) {
 					if ( device_group == "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
@@ -89,7 +89,7 @@ function deviceTools() {
 		}
 		
 		Sonoff.toggle( device_ip, device_relais, function ( data ) {
-			if ( data ) {
+			if ( data && !data.ERROR ) {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				if ( device_status == "ON" ) {
 					statusField.find( "input" ).prop( "checked", "checked" );
