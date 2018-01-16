@@ -83,11 +83,11 @@
 				$this->log[] = __( "FIRST_DIRECTORY", "SELFUPDATE", [ $firstDir ] );
 				if ( is_dir( $firstDir ) ) {
 					if ( $this->copyDirectoryContents( $firstDir, $path ) ) {
-						$this->log[] = "<br/><strong>".__( "CONTENT_COPY_DONE", "SELFUPDATE" )."</strong>";
+						$this->log[] = __( "CONTENT_COPY_DONE", "SELFUPDATE" );
 						
 						if ( $this->removeDirectory( $firstDir ) ) {
 							$this->log[] = __( "TEMP_DIR_DELETED", "SELFUPDATE" );
-							$this->log[] = __( "COPY_DONE", "SELFUPDATE" );
+							$this->log[] = "<br/><strong>".__( "COPY_DONE", "SELFUPDATE" )."</strong>";
 							
 						} else {
 							echo 'Error deleting temp directory!<br />';
