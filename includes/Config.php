@@ -27,7 +27,7 @@ class Config {
 		
 		foreach( $this->defaultConfigs as $configName => $configValue ) {
 			$config = $this->read( $configName );
-			if( !isset( $config ) ) {
+			if( !isset( $config ) || $config == "" ) {
 				$this->write( $configName, $configValue );
 			}
 		}
@@ -47,12 +47,10 @@ class Config {
 		$config = include $this->cfgFile;
 		
 		if( $config === 1 ) { //its empty
-			unlink( $this->cfgFile );
-			$this->__construct();
-			$config = $this->read( $key );
+			$config = [];
 		}
 		
-		return isset( $config[ $key ] ) ? $config[ $key ] : "";
+		return isset( $config[ $key ] ) ? $config[ $key ] : null;
 	}
 	
 	public function write( $key, $value ) {
