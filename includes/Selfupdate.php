@@ -50,8 +50,6 @@
 		}
 		
 		private function install() {
-			
-			
 			$file = $this->zipfile;        // full path to zip file needing extracted
 			$temp = _TMPDIR_;        // full path to temp dir to process extractions
 			$path = _APPROOT_;       // full path to final destination to put the files (not the folder)
@@ -172,25 +170,6 @@
 		private function saveZip( $action = "" ) {
 			$url = $this->repoUrl.$action;
 			
-			//			$ch = curl_init( $url );
-			//			curl_setopt( $ch, CURLOPT_HEADER, 1 );
-			//			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-			//			//			curl_setopt( $ch, CURLOPT_BINARYTRANSFER, 1 );
-			//			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 0 );
-			//			curl_setopt(
-			//				$ch,
-			//				CURLOPT_USERAGENT,
-			//				'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-			//			);
-			//			$raw_file_data = curl_exec( $ch );
-			//
-			//			if ( curl_errno( $ch ) ) {
-			//				echo 'error:'.curl_error( $ch );
-			//			}
-			//			curl_close( $ch );
-			//
-			//			file_put_contents( $this->zipfile, $raw_file_data );
-			
 			
 			//https://codeload.github.com/reloxx13/SonWEB/legacy.zip/master
 			$file = fopen( $this->zipfile, 'w' );
@@ -217,7 +196,6 @@
 			curl_close( $ch );
 			
 			fclose( $file );
-			
 			
 			return ( filesize( $this->zipfile ) > 0 ) ? TRUE : FALSE;
 			
