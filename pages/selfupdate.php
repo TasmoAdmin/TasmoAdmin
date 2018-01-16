@@ -8,7 +8,7 @@
 	
 	if ( isset( $_POST[ "selfupdate" ] ) ) {
 		$updateResult = $Selfupdate->update();
-		$msg          = implode( "</br>", $updateResult );
+		$msg          = implode( "<br/>", $updateResult );
 	}
 	
 	$newUpdate = $Selfupdate->checkForUpdate();
