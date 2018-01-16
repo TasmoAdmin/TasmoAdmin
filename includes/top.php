@@ -5,7 +5,6 @@
 	if ( !function_exists( 'curl_version' ) ) {
 		die( "CURL is required, please install CURL for your Webserver!" );
 	}
-	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
