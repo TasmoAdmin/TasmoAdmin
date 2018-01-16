@@ -6,13 +6,13 @@
 	$msg        = "";
 	$Selfupdate = new Selfupdate( $Config );
 	
-	$newUpdate = $Selfupdate->checkForUpdate();
-	
-	
 	if ( isset( $_POST[ "selfupdate" ] ) ) {
 		$updateResult = $Selfupdate->update();
 		$msg          = implode( "</br>", $updateResult );
 	}
+	
+	$newUpdate = $Selfupdate->checkForUpdate();
+
 
 ?>
 
