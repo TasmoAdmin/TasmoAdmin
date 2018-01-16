@@ -40,9 +40,10 @@
 			if ( $this->saveZip( $action ) ) {
 				$this->log[] = __( "SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE" );
 				if ( $this->install() ) {
+					$this->log[] = __( "OLD_SHA_VERSION", "SELFUPDATE", [ $this->currentSha ] );
+					$this->log[] = __( "NEW_SHA_VERSION", "SELFUPDATE", [ $this->latestSha ] );
 					$this->Config->write( "current_git_sha", $this->latestSha );
 					$this->currentSha = $this->latestSha;
-					$this->log[]      = __( "NEW_SHA_VERSION", "SELFUPDATE", [ $this->latestSha ] );
 				}
 			} else {
 				$this->log[] = __( "ERROR_COULD_NOT_DOWNLOAD_ZIP", "SELFUPDATE" );
@@ -82,7 +83,7 @@
 				$this->log[] = __( "FIRST_DIRECTORY", "SELFUPDATE", [ $firstDir ] );
 				if ( is_dir( $firstDir ) ) {
 					if ( $this->copyDirectoryContents( $firstDir, $path ) ) {
-						$this->log[] = __( "CONTENT_COPY_DONE", "SELFUPDATE" );
+						$this->log[] = "<br/><strong>".__( "CONTENT_COPY_DONE", "SELFUPDATE" )."</strong>";
 						
 						if ( $this->removeDirectory( $firstDir ) ) {
 							$this->log[] = __( "TEMP_DIR_DELETED", "SELFUPDATE" );

@@ -18,14 +18,18 @@
 
 
 <div class='center'>
+	
+	<p class='warning'>
+		<?php echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
+	</p>
+	<br/>
+	<br/>
+	<br/>
 	<?php if ( $msg != "" ): ?>
 		<p>
 			<?php echo $msg; ?>
 		</p>
 	<?php endif; ?>
-	<p class='warning'>
-		<?php echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
-	</p>
 	<br/>
 	<br/>
 	<br/>
