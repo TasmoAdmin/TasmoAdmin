@@ -16,8 +16,9 @@ $( document ).on( "ready", function () {
 	}
 	
 	
-	function device_responses( ip, callback, p1, p2, step ) {
-		var url = Sonoff.buildCmndUrl( ip, "Status 2" );
+	function device_responses( ip, callback, p1, p2, step, tries ) {
+		var tries = tries || 1;
+		var url   = Sonoff.buildCmndUrl( ip, "Status 2" );
 		log( ip, step, "Erreichbarkeit", "Prüfe Erreichbarkeit", "info" );
 		$.ajax( {
 			        dataType: "json",
@@ -37,6 +38,10 @@ $( document ).on( "ready", function () {
 			        },
 			        error   : function ( badData ) {
 				        log( ip, step, "Erreichbarkeit", "Fehler! - Antwortet nicht!", "error" );
+				        if ( tries < 3 ) {
+					        tries = tries + 1;
+					        device_responses( ip, callback, p1, p2, step, tries );
+				        }
 			        },
 		        } );
 	}
@@ -109,7 +114,7 @@ $( document ).on( "ready", function () {
 		}
 		var sec = 60;
 		if ( i > 1 ) {
-			sec = 5;
+			sec = 30;
 		}
 		log( ip, 1, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
 		setTimeout(
