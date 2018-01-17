@@ -13,6 +13,7 @@ Supported Languages: EN, DE
 -Auto state refresh   
 -Mobile Responsive   
 -Config devices   
+-SelfUpdate for SonWEB
 
 
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/0.png)
