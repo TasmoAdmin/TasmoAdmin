@@ -37,6 +37,9 @@
 		case "site_config":
 			$title = __( "SITE_CONFIG", "PAGE_TITLES" );
 			break;
+		case "selfupdate":
+			$title = __( "SITE_SELFUPDATE", "PAGE_TITLES" );
+			break;
 		default:
 			$title = ucfirst( $page );
 	}
