@@ -108,8 +108,8 @@ function deviceTools() {
 function updateRow( row, data, device_status ) {
 	
 	var version = parseVersion( data.StatusFWR.Version );
-	
-	if ( version >= 51009 ) {//no json translations since 5.10.0j
+
+    if( version >= 510009 ) {//no json translations since 5.10.0j
 		var rssi   = data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Uptime;
