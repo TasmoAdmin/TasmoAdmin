@@ -109,7 +109,7 @@ function updateRow( row, data, device_status ) {
 	
 	var version = parseVersion( data.StatusFWR.Version );
 	
-	if ( version >= 51009 ) {//no json translations since 5.10.0j
+	if ( version >= 510009 ) {//no json translations since 5.10.0j
 		var rssi   = data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Uptime;
@@ -134,18 +134,18 @@ function updateRow( row, data, device_status ) {
 
 var parseVersion = function ( versionString ) {
 	versionString = versionString.replace( "-minimal", "" ).replace( /\./g, "" );
-	var last      = versionString.slice( -1 );
+	
+	var last = versionString.slice( -1 );
 	if ( isNaN( last ) ) {
 		versionString = versionString.replace(
 			last,
-			last.charCodeAt( 0 )
-			- 97
-			< 10
-				? "0"
-				  + last.charCodeAt( 0 )
-				  - 97
-				: last.charCodeAt( 0 )
-				  - 97
+			(
+				last.charCodeAt( 0 ) - 97 < 10
+					? (
+						  last.charCodeAt( 0 ) - 97
+					  ) * 10
+					: last.charCodeAt( 0 ) - 97
+			)
 		);
 	} else {
 		versionString = versionString + "00";
