@@ -5,11 +5,12 @@
 		
 		private $defaultConfigs
 			= [
-				"ota_server_ip"   => "",
-				"username"        => "",
-				"password"        => "",
-				"refreshtime"     => "2",
-				"current_git_sha" => "",
+				"ota_server_ip"         => "",
+				"username"              => "",
+				"password"              => "",
+				"refreshtime"           => "2",
+				"current_git_sha"       => "",
+				"update_automatic_lang" => "",
 			];
 		
 		function __construct() {
