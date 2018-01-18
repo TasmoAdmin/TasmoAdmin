@@ -12,20 +12,24 @@
 			];
 		
 		function __construct() {
-			$fh = fopen( $this->cfgFile, 'w+' ) or die(
-			__(
-				"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
-			)
-			);
-			$config = $this->defaultConfigs;
-			
-			$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
-			$config                    = var_export( $config, TRUE );
-			if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
-				die( "COULD NOT CREATE ORWRITE IN CONFIG FILE" );
+			if( !file_exists( $this->cfgFile ) ) { //create file if not exists
+				
+				$fh = fopen( $this->cfgFile, 'w+' ) or die(
+				__(
+					"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
+				)
+				);
+				$config = $this->defaultConfigs;
+				
+				$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
+				$config                    = var_export( $config, TRUE );
+				if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
+					die( "COULD NOT CREATE ORWRITE IN CONFIG FILE" );
+				}
+				fclose( $fh );
 			}
-			fclose( $fh );
 			
+			//write default config if does not exists in file
 			foreach( $this->defaultConfigs as $configName => $configValue ) {
 				$config = $this->read( $configName );
 				if( !isset( $config ) || $config == "" ) {
