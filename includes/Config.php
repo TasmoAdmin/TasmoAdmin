@@ -1,19 +1,18 @@
 <?php
-
-class Config {
-	private $cfgFile = _APPROOT_ . "data/MyConfig.php";
 	
-	private $defaultConfigs
-		= [
-			"ota_server_ip" => "",
-			"username"      => "",
-			"password"      => "",
-			"refreshtime"   => "2",
-		];
-	
-	function __construct() {
-		if( !file_exists( $this->cfgFile ) ) {
-			fopen( $this->cfgFile, 'w' ) or die(
+	class Config {
+		private $cfgFile = _DATADIR_ . "MyConfig.php";
+		
+		private $defaultConfigs
+			= [
+				"ota_server_ip" => "",
+				"username"      => "",
+				"password"      => "",
+				"refreshtime"   => "2",
+			];
+		
+		function __construct() {
+			$fh = fopen( $this->cfgFile, 'w+' ) or die(
 			__(
 				"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
 			)
@@ -22,46 +21,59 @@ class Config {
 			
 			$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
 			$config                    = var_export( $config, TRUE );
-			file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
-		}
-		
-		foreach( $this->defaultConfigs as $configName => $configValue ) {
-			$config = $this->read( $configName );
-			if( !isset( $config ) || $config == "" ) {
-				$this->write( $configName, $configValue );
+			if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
+				die( "COULD NOT CREATE ORWRITE IN CONFIG FILE" );
 			}
+			fclose( $fh );
+			
+			foreach( $this->defaultConfigs as $configName => $configValue ) {
+				$config = $this->read( $configName );
+				if( !isset( $config ) || $config == "" ) {
+					$this->write( $configName, $configValue );
+				}
+			}
+			
 		}
 		
-	}
-	
-	public function readAll() {
-		$config = include $this->cfgFile;
-		if( $config === 1 ) { //its empty
-			return [];
+		public function readAll() {
+			$config = include $this->cfgFile;
+			if( $config === 1 ) { //its empty
+				return [];
+			}
+			
+			return $config;
 		}
 		
-		return $config;
-	}
-	
-	public function read( $key ) {
-		$config = include $this->cfgFile;
-		
-		if( $config === 1 ) { //its empty
-			$config = [];
+		public function read( $key ) {
+			$config = include $this->cfgFile;
+			
+			if( $config === 1 ) { //its empty
+				$config = [];
+			}
+			
+			return isset( $config[ $key ] ) ? $config[ $key ] : null;
 		}
 		
-		return isset( $config[ $key ] ) ? $config[ $key ] : null;
-	}
-	
-	public function write( $key, $value ) {
-		$config = include $this->cfgFile;
-		
-		if( $config === 1 ) { //its empty
-			$config = [];
+		public function write( $key, $value ) {
+			$config = include $this->cfgFile;
+			
+			if( $config === 1 ) { //its empty
+				$config = [];
+			}
+			
+			$config[ $key ] = $value;
+			$config         = var_export( $config, TRUE );
+			$fh = fopen( $this->cfgFile, 'w+' ) or die(
+			__(
+				"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
+			)
+			);
+			if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
+				die( "COULD NOT WRITE IN CONFIG FILE" );
+			}
+			fclose( $fh );
+			
+			
+			return TRUE;
 		}
-		
-		$config[ $key ] = $value;
-		$config         = var_export( $config, TRUE );
-		file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
 	}
-}

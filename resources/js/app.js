@@ -64,7 +64,7 @@ $( document ).on( "ready", function() {
 
         var curUrl = window.location.toString();
         curUrl     = curUrl.replace( /[\?\&]lang=[a-z]*/g, "" );
-        
+
         window.location.href = curUrl + (
             curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
         ) + "lang=" + valueSelected;

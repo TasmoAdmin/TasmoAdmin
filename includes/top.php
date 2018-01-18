@@ -1,38 +1,39 @@
 <?php
 	ini_set( 'session.gc_maxlifetime', 2678400 );
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', '1' );
 	session_start();
 	
-	if ( !function_exists( 'curl_version' ) ) {
-		die( "CURL is required, please install CURL for your Webserver!" );
-	}
+	
+	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
-	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
-	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
-	define( "_LIBSDIR_", _APPROOT_."libs/" );
-	define( "_PAGESDIR_", _APPROOT_."pages/" );
-	define( "_DATADIR_", _APPROOT_."data/" );
-	define( "_LANGDIR_", _APPROOT_."lang/" );
-	define( "_TMPDIR_", _APPROOT_."tmp/" );
+	define( "_RESOURCESDIR_", _APPROOT_ . "resources/" );
+	define( "_INCLUDESDIR_", _APPROOT_ . "includes/" );
+	define( "_LIBSDIR_", _APPROOT_ . "libs/" );
+	define( "_PAGESDIR_", _APPROOT_ . "pages/" );
+	define( "_DATADIR_", _APPROOT_ . "data/" );
+	define( "_LANGDIR_", _APPROOT_ . "lang/" );
+	define( "_TMPDIR_", _APPROOT_ . "tmp/" );
 	
 	/**
 	 * @property Sonoff Sonoff
 	 */
-	require_once _INCLUDESDIR_."Config.php";
-	require_once _INCLUDESDIR_."Sonoff.php";
-	require_once _LIBSDIR_.'phpi18n/i18n.class.php';
-	require_once _INCLUDESDIR_."Config.php";
+	require_once _INCLUDESDIR_ . "Config.php";
+	require_once _INCLUDESDIR_ . "Sonoff.php";
+	require_once _LIBSDIR_ . 'phpi18n/i18n.class.php';
+	require_once _INCLUDESDIR_ . "Config.php";
 	
 	$i18n = new i18n();
 	
-	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
-	if ( isset( $lang ) ) {
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : null;
+	if( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
 	}
 	
 	
-	$i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
-	$i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
+	$i18n->setCachePath( _TMPDIR_ . 'cache/i18n/' );
+	$i18n->setFilePath( _LANGDIR_ . 'lang_{LANGUAGE}.ini' ); // language file path
 	$i18n->setFallbackLang( 'en' );
 	$i18n->setPrefix( '__L' );
 	$i18n->setSectionSeperator( '_' );
@@ -45,28 +46,27 @@
 	$Config = new Config();
 	
 	
-	function __( $string, $category = NULL, $args = NULL ) {
+	function __( $string, $category = null, $args = null ) {
 		$cat = "";
-		if ( isset( $category ) && !empty( $category ) ) {
-			$cat = $category."_";
+		if( isset( $category ) && !empty( $category ) ) {
+			$cat = $category . "_";
 		}
-		$txt        = $cat.$string;
+		$txt        = $cat . $string;
 		$translated = @__L::$txt( $args );
 		
-		if ( $translated == "" ) {
-			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
+		if( $translated == "" ) {
+			$myfile = fopen( _LANGDIR_ . "lang_new.ini", "a" ) or die( "Unable to open file!" );
 			$txt = "";
-			if ( $category != "" ) {
-				$txt .= "\n[".$category."]\n";
+			if( $category != "" ) {
+				$txt .= "\n[" . $category . "]\n";
 			}
-			$txt .= $string."\n";
-			//$txt .= $string." = \"MISSING_TRANSLATION\"\n";
+			$txt .= $string . " = \"MISSING_TRANSLATION\"\n";
 			fwrite( $myfile, $txt );
 			fclose( $myfile );
-			$translated = $txt;//"MISSING_TRANSLATION";
-			$files      = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
-			foreach ( $files as $file ) { // iterate files
-				if ( is_file( $file ) ) {
+			$translated = "MISSING_TRANSLATION";
+			$files      = glob( _TMPDIR_ . 'cache/i18n/*' ); // get all file names
+			foreach( $files as $file ) { // iterate files
+				if( is_file( $file ) ) {
 					unlink( $file );
 				}
 			}
@@ -74,18 +74,4 @@
 		}
 		
 		return $translated;
-	}
-	
-	
-	$Sonoff = new Sonoff();
-	
-	if ( isset( $_GET[ "doAjax" ] ) && !empty( $_GET[ "doAjax" ] ) ) {
-		
-		$action = $_GET[ "doAjax" ];
-		
-		
-		$result = $Sonoff->doAjax( $action );
-		
-		echo json_encode( $result );
-		exit;
 	}
