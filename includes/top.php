@@ -4,7 +4,21 @@
 	ini_set( 'display_errors', '1' );
 	session_start();
 	
+	if ( !function_exists( "curl_init" ) ) {
+		echo "ERROR: PHP Curl is missing.";
+		echo "Please install PHP Curl";
+		echo "sudo apt-get install php7.0-curl";
+		echo "and restart webserver";
+		die();
+	}
 	
+	if ( !class_exists( "ZipArchive" ) ) {
+		echo "ERROR: PHP Zip is missing.";
+		echo "Please install PHP Zip";
+		echo "sudo apt-get install php7.0-zip";
+		echo "and restart webserver";
+		die();
+	}
 	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
