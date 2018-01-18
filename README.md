@@ -1,21 +1,44 @@
 # SonWEB
-Website to manage Sonoff Devices flashed with Tasmota.
-
-Supported Languages: EN, DE
+Managing Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).
 
 ## Features
--Login   
--Multi Update Process (minimal => full)   
----Automatic Update (Downloads latest bin file from Tasmota GitHUB))    
-*only german firmware is downloaded for now, will change to all availble languages next   
+* Login protected
+* Multi Update Process
+  * Select devices to update
+  * Automatic Modus downoads latest firmware bin from teh Tasmota GIT
+* Show device informations
+* Mobile Responsive
+* Config devices
+* SelfUpdate function for SonWEB
 
--Device Informations   
--Auto state refresh   
--Mobile Responsive   
--Config devices   
--SelfUpdate for SonWEB
+## Requirements
+
+### Windows
+I provide a ready2use ZIP on the releases page with XAMPP
+
+### Unix
+* A Webserver 
+  * recommend apache2
+  * recommend php7 (works with php5, too)
+  * php-curl php-zip Modules installed
+
+## Installation
+### Windows
+1. Download the XAMPP Zip package from the releases page
+2. Extract the Zip (recommend to put the xamp folder in C:\
+3. Run once the xamp\setup_xampp.bat
+4. Start xampp-control.exe
+5. Start Apache in the opened ControlCenter
+6. Get your local IP Address
+
+Now you can type in your browser http://YOURLOCALIP and SonWEB shows up.
+
+### Unix
+For unix its a bit harder. You need to instal a web server with php-zip and php-curl modules installed.
+I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/SonWEB/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
 
 
+## Example Images
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/0.png)
 ![Startpage](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/1.png)
 ![Devices](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/2.png)
