@@ -74,8 +74,6 @@ var Sonoff = function( options ) {
                     cache    : false,
 
                     success : function( data ) {
-                        var data = data || { ERROR : "NO DATA" };
-
                         console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
                             data ) );
                         if( data.WARNING ) {
