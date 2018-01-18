@@ -57,15 +57,10 @@
 		
 		if ( $translated == "" ) {
 			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
-			$txt = "";
-			if ( $category != "" ) {
-				$txt .= "\n[".$category."]\n";
-			}
-			$txt .= $string." = \"MISSING_TRANSLATION\"\n";
+			$translated = $txt;
 			fwrite( $myfile, $txt );
 			fclose( $myfile );
-			$translated = "MISSING_TRANSLATION";
-			$files      = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
+			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
 			foreach ( $files as $file ) { // iterate files
 				if ( is_file( $file ) ) {
 					unlink( $file );
