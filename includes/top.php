@@ -44,6 +44,7 @@
 	
 	
 	$Config = new Config();
+	$Sonoff = new Sonoff();
 	
 	
 	function __( $string, $category = null, $args = null ) {
