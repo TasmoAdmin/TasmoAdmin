@@ -1,7 +1,8 @@
 <?php
 
+
 class Config {
-	private $cfgFile = _APPROOT_ . "data/MyConfig.php";
+	private $cfgFile = _DATADIR_ . "MyConfig.php";
 	
 	private $defaultConfigs
 		= [
@@ -12,18 +13,19 @@ class Config {
 		];
 	
 	function __construct() {
-		if( !file_exists( $this->cfgFile ) ) {
-			fopen( $this->cfgFile, 'w' ) or die(
-			__(
-				"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
-			)
-			);
-			$config = $this->defaultConfigs;
-			
-			$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
-			$config                    = var_export( $config, TRUE );
-			file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
+		$fh = fopen( $this->cfgFile, 'w+' ) or die(
+		__(
+			"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
+		)
+		);
+		$config = $this->defaultConfigs;
+		
+		$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
+		$config                    = var_export( $config, TRUE );
+		if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
+			die( "COULD NOT CREATE ORWRITE IN CONFIG FILE" );
 		}
+		fclose( $fh );
 		
 		foreach( $this->defaultConfigs as $configName => $configValue ) {
 			$config = $this->read( $configName );
@@ -62,6 +64,17 @@ class Config {
 		
 		$config[ $key ] = $value;
 		$config         = var_export( $config, TRUE );
-		file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
+		$fh = fopen( $this->cfgFile, 'w+' ) or die(
+		__(
+			"ERROR_CANNOT_CREATE_FILE", "USER_CONFIG", [ "cfgFilePath" => $this->cfgFile ]
+		)
+		);
+		if( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
+			die( "COULD NOT WRITE IN CONFIG FILE" );
+		}
+		fclose( $fh );
+		
+		
+		return TRUE;
 	}
 }
