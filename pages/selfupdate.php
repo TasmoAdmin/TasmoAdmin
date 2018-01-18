@@ -34,7 +34,11 @@
 	<?php if ( $newUpdate ): ?>
 		<p>
 			<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!<br/><br/>
-			<?php echo __( "OLD_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getCurrentSha() ] ); ?><br/>
+			<?php echo __(
+				"OLD_SHA_VERSION",
+				"SELFUPDATE",
+				[ $Selfupdate->getCurrentSha() ? $Selfupdate->getCurrentSha() : __( "UNKNOWN", "SELFUPDATE" ) ]
+			); ?><br/>
 			<?php echo __( "NEW_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestSha() ] ); ?><br/>
 			<br/>
 		</p>
