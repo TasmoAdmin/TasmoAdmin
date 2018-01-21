@@ -1,10 +1,25 @@
 <?php
 	ini_set( 'session.gc_maxlifetime', 2678400 );
+	error_reporting( E_ALL );
+	ini_set( 'display_errors', '1' );
 	session_start();
 	
-	if ( !function_exists( 'curl_version' ) ) {
-		die( "CURL is required, please install CURL for your Webserver!" );
+	if ( !function_exists( "curl_init" ) ) {
+		echo "ERROR: PHP Curl is missing.";
+		echo "Please install PHP Curl";
+		echo "sudo apt-get install php7.0-curl";
+		echo "and restart webserver";
+		die();
 	}
+	
+	if ( !class_exists( "ZipArchive" ) ) {
+		echo "ERROR: PHP Zip is missing.";
+		echo "Please install PHP Zip";
+		echo "sudo apt-get install php7.0-zip";
+		echo "and restart webserver";
+		die();
+	}
+	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
@@ -43,6 +58,7 @@
 	
 	
 	$Config = new Config();
+	$Sonoff = new Sonoff();
 	
 	
 	function __( $string, $category = NULL, $args = NULL ) {
@@ -55,15 +71,10 @@
 		
 		if ( $translated == "" ) {
 			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
-			$txt = "";
-			if ( $category != "" ) {
-				$txt .= "\n[".$category."]\n";
-			}
-			$txt .= $string." = \"MISSING_TRANSLATION\"\n";
+			$translated = $txt;
 			fwrite( $myfile, $txt );
 			fclose( $myfile );
-			$translated = "MISSING_TRANSLATION";
-			$files      = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
+			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
 			foreach ( $files as $file ) { // iterate files
 				if ( is_file( $file ) ) {
 					unlink( $file );
@@ -75,16 +86,11 @@
 		return $translated;
 	}
 	
-	
-	$Sonoff = new Sonoff();
-	
-	if ( isset( $_GET[ "doAjax" ] ) && !empty( $_GET[ "doAjax" ] ) ) {
-		
-		$action = $_GET[ "doAjax" ];
-		
-		
-		$result = $Sonoff->doAjax( $action );
-		
-		echo json_encode( $result );
-		exit;
+	if ( isset( $_GET ) ) {
+		if ( isset( $_GET[ "doAjax" ] ) ) {
+			$data = $Sonoff->doAjax( $_GET[ "doAjax" ] );
+			echo json_encode( $data );
+			die();
+		}
 	}
+	

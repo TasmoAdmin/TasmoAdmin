@@ -36,6 +36,7 @@ function updateStatus() {
 								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
 									                  .data( "device_relais" ) );
 								
+								                  console.log( device_status.toLowerCase() );
 								                  src = src.replace( "%pw", device_status.toLowerCase() );
 								                  img.attr( "src", src ).parent().removeClass( "animated" );
 								                  $( groupbox ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
@@ -103,7 +104,7 @@ function deviceTools() {
 				var img           = device_box.find( "img" );
 				var src           = "./resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
-				src               = src.replace( "%pw", device_status );
+				src               = src.replace( "%pw", device_status.toLowerCase() );
 				img.attr( "src", src ).parent().removeClass( "animated" );
 				device_box.removeClass( "error" );
 			} else {

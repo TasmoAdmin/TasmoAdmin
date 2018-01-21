@@ -53,6 +53,90 @@
 			
 		}
 		
+		/**
+		 * @return string
+		 */
+		public function getRepoUrl() {
+			return $this->repoUrl;
+		}
+		
+		/**
+		 * @param string $repoUrl
+		 */
+		public function setRepoUrl( $repoUrl ) {
+			$this->repoUrl = $repoUrl;
+		}
+		
+		/**
+		 * @return string
+		 */
+		public function getLatestSha() {
+			return $this->latestSha;
+		}
+		
+		/**
+		 * @param string $latestSha
+		 */
+		public function setLatestSha( $latestSha ) {
+			$this->latestSha = $latestSha;
+		}
+		
+		/**
+		 * @return string
+		 */
+		public function getCurrentSha() {
+			return $this->currentSha;
+		}
+		
+		/**
+		 * @param string $currentSha
+		 */
+		public function setCurrentSha( $currentSha ) {
+			$this->currentSha = $currentSha;
+		}
+		
+		/**
+		 * @return string
+		 */
+		public function getZipfile() {
+			return $this->zipfile;
+		}
+		
+		/**
+		 * @param string $zipfile
+		 */
+		public function setZipfile( $zipfile ) {
+			$this->zipfile = $zipfile;
+		}
+		
+		/**
+		 * @return array
+		 */
+		public function getLog() {
+			return $this->log;
+		}
+		
+		/**
+		 * @param array $log
+		 */
+		public function setLog( $log ) {
+			$this->log = $log;
+		}
+		
+		/**
+		 * @return null
+		 */
+		public function getConfig() {
+			return $this->Config;
+		}
+		
+		/**
+		 * @param null $Config
+		 */
+		public function setConfig( $Config ) {
+			$this->Config = $Config;
+		}
+		
 		private function install() {
 			$file = $this->zipfile;        // full path to zip file needing extracted
 			$temp = _TMPDIR_;        // full path to temp dir to process extractions

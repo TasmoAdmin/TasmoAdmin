@@ -44,7 +44,7 @@
 		 * @return mixed
 		 */
 		public function setWebLog( $ip, $level = 2, $try = 1 ) {
-			$cmnd = "Weblog ".$level;
+			$cmnd = "Weblog " . $level;
 			
 			$weblog = $this->doRequest( $ip, $cmnd, $try );
 			
@@ -59,7 +59,7 @@
 		 * @return mixed|string
 		 */
 		private function buildCmndUrl( $ip, $cmnd ) {
-			$url = "http://".$ip."/cm?cmnd=".$cmnd;
+			$url = "http://" . $ip . "/cm?cmnd=" . $cmnd;
 			$url = str_replace( " ", "%20", $url );
 			
 			return $url;
@@ -75,7 +75,7 @@
 		private function doRequest( $ip, $cmnd, $try = 1 ) {
 			$url = $this->buildCmndUrl( $ip, $cmnd );
 			
-			$result = NULL;
+			$result = null;
 			
 			
 			$ch = curl_init();
@@ -85,18 +85,18 @@
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			$result = curl_exec( $ch );
 			
-			if ( !$result ) {
+			if( !$result ) {
 				$data        = new stdClass();
-				$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $ch ).": ".curl_error( $ch );
+				$data->ERROR = __( "CURL_ERROR" ) . " => " . curl_errno( $ch ) . ": " . curl_error( $ch );
 			} else {
 				
 				$data = json_decode( $result );
 				
-				if ( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try == 1 ) {
+				if( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try == 1 ) {
 					$try++;
 					//set web log level 2 and try again
 					$webLog = $this->setWebLog( $ip, 2, $try );
-					if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
+					if( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
 						$data = $this->doRequest( $ip, $cmnd, $try );
 					}
 				}
@@ -110,7 +110,7 @@
 		
 		public function doAjax( $url, $try = 1 ) {
 			
-			$result = NULL;
+			$result = null;
 			$ch     = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -118,19 +118,19 @@
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			$result = curl_exec( $ch );
 			
-			if ( !$result ) {
+			if( !$result ) {
 				$data        = new stdClass();
-				$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $ch ).": ".curl_error( $ch );
+				$data->ERROR = __( "CURL_ERROR" ) . " => " . curl_errno( $ch ) . ": " . curl_error( $ch );
 			} else {
 				
 				$data = json_decode( $result );
 				
 				
-				if ( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try < 1 ) {
+				if( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try < 1 ) {
 					$try++;
 					//set web log level 2 and try again
 					$webLog = $this->setWebLog( parse_url( $url, PHP_URL_HOST ), 2, $try );
-					if ( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
+					if( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
 						$data = $this->doAjax( $url, $try );
 					}
 				}

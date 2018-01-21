@@ -131,81 +131,93 @@
 		}
 	} else if ( isset( $_POST[ "auto" ] ) ) {
 		//File to save the contents to
-		
-		
-		$url = "https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest";
-		
-		$ch = curl_init();
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt(
-			$ch,
-			CURLOPT_USERAGENT,
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-		);
-		$result = curl_exec( $ch );
-		curl_close( $ch );
-		
-		$data = json_decode( $result );
-		
-		
-		foreach ( $data->assets as $binfileData ) {
-			if ( $binfileData->name == "sonoff-DE.bin" ) {
-				$fwUrl = $binfileData->browser_download_url;
+		$lCode = $Config->read( "update_automatic_lang" );
+		if ( $lCode != "" ) {
+			if ( $lCode != "EN" ) {
+				$lCodeTasmota = "-".$lCode;
+			} else {
+				$lCodeTasmota = "";
 			}
-			if ( $binfileData->name == "sonoff-minimal.bin" ) {
-				$fwMinimalUrl = $binfileData->browser_download_url;
-			}
-		}
-		if ( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
-			$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
-			$new_firmware_path     = $firmwarefolder.'sonoff-full.bin';
-			$file                  = fopen( $minimal_firmware_path, 'w' );
-			// cURL
-			$ch = curl_init();
-			curl_setopt( $ch, CURLOPT_URL, $fwMinimalUrl );
-			// set cURL options
-			curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
-			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
-			// set file handler option
-			curl_setopt( $ch, CURLOPT_FILE, $file );
-			// execute cURL
-			curl_exec( $ch );
-			// close cURL
-			curl_close( $ch );
-			// close file
-			fclose( $file );
 			
-			$file = fopen( $new_firmware_path, 'w' );
-			$ch   = curl_init();
-			curl_setopt( $ch, CURLOPT_URL, $fwUrl );
-			// set cURL options
-			curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
-			curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
-			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
-			// set file handler option
-			curl_setopt( $ch, CURLOPT_FILE, $file );
-			// execute cURL
-			curl_exec( $ch );
-			// close cURL
+			$url = "https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest";
+			
+			$ch = curl_init();
+			curl_setopt( $ch, CURLOPT_URL, $url );
+			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+			curl_setopt(
+				$ch,
+				CURLOPT_USERAGENT,
+				'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
+			);
+			$result = curl_exec( $ch );
 			curl_close( $ch );
-			// close file
-			fclose( $file );
-			$msg .= __( "AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE" )."<br/>";
-			$msg .= "Version: ".$data->tag_name." | vom ".$data->published_at;
+			
+			$data = json_decode( $result );
+			
+			foreach ( $data->assets as $binfileData ) {
+				if ( $binfileData->name == "sonoff-minimal.bin" ) {
+					$fwMinimalUrl = $binfileData->browser_download_url;
+				}
+				if ( $binfileData->name == sprintf( "sonoff%s.bin", $lCodeTasmota ) ) {
+					$fwUrl = $binfileData->browser_download_url;
+				}
+				
+			}
+			if ( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
+				$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
+				$new_firmware_path     = $firmwarefolder.'sonoff-full.bin';
+				$file                  = fopen( $minimal_firmware_path, 'w' );
+				// cURL
+				$ch = curl_init();
+				curl_setopt( $ch, CURLOPT_URL, $fwMinimalUrl );
+				// set cURL options
+				curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
+				curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+				// set file handler option
+				curl_setopt( $ch, CURLOPT_FILE, $file );
+				// execute cURL
+				curl_exec( $ch );
+				// close cURL
+				curl_close( $ch );
+				// close file
+				fclose( $file );
+				
+				$file = fopen( $new_firmware_path, 'w' );
+				$ch   = curl_init();
+				curl_setopt( $ch, CURLOPT_URL, $fwUrl );
+				// set cURL options
+				curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
+				curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, TRUE );
+				// set file handler option
+				curl_setopt( $ch, CURLOPT_FILE, $file );
+				// execute cURL
+				curl_exec( $ch );
+				// close cURL
+				curl_close( $ch );
+				// close file
+				fclose( $file );
+				$msg .= __( "AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE" )."<br/>";
+				$msg .= __( "LANGUAGE", "DEVICE_UPDATE" ).": <strong>".$lCode."</strong> | ".__(
+						"VERSION",
+						"DEVICE_UPDATE"
+					).": ".$data->tag_name." | ".__( "DATE", "DEVICE_UPDATE" )." ".$data->published_at;
+			} else {
+				$error = TRUE;
+				$msg   .= __( "AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE" )."<br/>";
+			}
 		} else {
 			$error = TRUE;
-			$msg   .= __( "AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE" )."<br/>";
+			$msg   = __( "MSG_SET_AUTOMATIC_LANG_FIRST", "DEVICE_UPDATE" );
 		}
-		
 	} else {
 		$error = TRUE;
 		$msg   .= __( "UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE" )."<br/>";
 	}
 	
 	
-	$ota_server_ip = $_POST[ "ota_server_ip" ];
+	$ota_server_ip = isset( $_POST[ "ota_server_ip" ] ) ? $_POST[ "ota_server_ip" ] : "";
 	
 	$Config->write( "ota_server_ip", $ota_server_ip );
 
@@ -266,8 +278,7 @@
 			</tr>
 			<tr>
 				<th>
-					<input class='select_all' type='checkbox' name='select_all' value='select_all'
-					       checked='checked'>
+					<input class='select_all' type='checkbox' name='select_all' value='select_all'>
 					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
 				</th>
 				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
@@ -296,7 +307,6 @@
 										<input type='checkbox'
 										       name='device_ips[]'
 										       value='<?php echo $device_group[ 2 ]; ?>'
-										       checked='checked'
 										       class='device_checkbox'
 										>
 									<?php endif; ?>
@@ -338,8 +348,7 @@
 			<tfoot>
 			<tr class='bottom'>
 				<th>
-					<input class='select_all' type='checkbox' name='select_all' value='select_all'
-					       checked='checked'>
+					<input class='select_all' type='checkbox' name='select_all' value='select_all'>
 					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
 				</th>
 				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>

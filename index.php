@@ -64,7 +64,7 @@
 		<a href='<?php echo _APPROOT_; ?>index.php?page=devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "DEVICES", "NAVI" ); ?></li>
 		</a>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class='hide-mobile'
+		<a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class=''
 		   title='<?php echo __( "UPDATE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "UPDATE", "NAVI" ); ?></li>
 		</a>

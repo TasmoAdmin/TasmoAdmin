@@ -24,7 +24,6 @@
 	</p>
 	<br/>
 	<br/>
-	<br/>
 	<?php if ( $msg != "" ): ?>
 		<p>
 			<?php echo $msg; ?>
@@ -32,8 +31,17 @@
 	<?php endif; ?>
 	<br/>
 	<br/>
-	<br/>
 	<?php if ( $newUpdate ): ?>
+		<p>
+			<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!<br/><br/>
+			<?php echo __(
+				"OLD_SHA_VERSION",
+				"SELFUPDATE",
+				[ $Selfupdate->getCurrentSha() ? $Selfupdate->getCurrentSha() : __( "UNKNOWN", "SELFUPDATE" ) ]
+			); ?><br/>
+			<?php echo __( "NEW_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestSha() ] ); ?><br/>
+			<br/>
+		</p>
 		<form name='selfupdateform' method='post'>
 			<button type='submit' name='selfupdate' value='selfupdate' class='btn'>
 				<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
