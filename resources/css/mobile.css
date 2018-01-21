@@ -2,6 +2,10 @@
 	#content-holder, #content-holder.full-width {
 		width : calc(100% - 201px);
 	}
+	
+	p.warning {
+		width : 80%;
+	}
 }
 
 @media only screen and (max-width : 802px) {
@@ -79,6 +83,7 @@
 	table tr th, table tr td {
 		display : block;
 	}
+	
 }
 
 @media only screen and (max-width : 371px) {
