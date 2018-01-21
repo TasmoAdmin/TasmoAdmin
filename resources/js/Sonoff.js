@@ -69,7 +69,7 @@ var Sonoff = function( options ) {
 
         $.ajax( {
                     dataType : "json",
-                    url      : "/?doAjax=" + url,
+                    url      : "?doAjax=" + url,
                     timeout  : options.timeout * 1000,
                     cache    : false,
 
