@@ -30,7 +30,7 @@ function updateStatus() {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
 								                  var img           = $( groupbox ).find( "img" );
-								                  var src           = "./resources/img/device_icons/"
+								                  var src           = "resources/img/device_icons/"
 								                                      + img.data( "icon" )
 								                                      + "_%pw.png";
 								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
@@ -44,7 +44,7 @@ function updateStatus() {
 							                  } );
 					                  } else {
 						                  var img           = $( box ).find( "img" );
-						                  var src           = "./resources/img/device_icons/"
+						                  var src           = "resources/img/device_icons/"
 						                                      + img.data( "icon" )
 						                                      + "_%pw.png";
 						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
@@ -102,7 +102,7 @@ function deviceTools() {
 		Sonoff.toggle( device_ip, device_relais, function ( data ) {
 			if ( data && !data.ERROR ) {
 				var img           = device_box.find( "img" );
-				var src           = "./resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+				var src           = "resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				src               = src.replace( "%pw", device_status.toLowerCase() );
 				img.attr( "src", src ).parent().removeClass( "animated" );
