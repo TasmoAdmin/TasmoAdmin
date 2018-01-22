@@ -29,6 +29,7 @@ $( document ).on( "ready", function () {
 				        callback: callback,
 			        },
 			        success : function ( data ) {
+				        console.log( data );
 				        if ( data && !data.ERROR ) {
 					        if ( data.WARNING ) {
 						        log( ip, step, "Erreichbarkeit", "Fehler! - MSG =>" + data.WARNING, "error" );
@@ -93,12 +94,16 @@ $( document ).on( "ready", function () {
 			        timeout : ajaxTimeout * 1000,
 			        success : function ( data ) {
 				        console.log( data );
-				        if ( data.WARNING ) {
-					        log( ip, step, "UPDATE", "Fehler! - MSG =>" + data.WARNING, "error" );
+				        if ( data && !data.ERROR ) {
+					        if ( data.WARNING ) {
+						        log( ip, step, "UPDATE", "Fehler! - MSG =>" + data.WARNING, "error" );
+					        } else {
+						        log( ip, step, "UPDATE", "Update angetoßen!", "info" );
+					        }
+					        checkUpdateDone( ip, step, 1 );
+				        } else {
+					        log( ip, step, "UPDATE", "Antwortet nicht!", "error" );
 				        }
-				        log( ip, step, "UPDATE", "Update angetoßen!", "info" );
-				
-				        checkUpdateDone( ip, step, 1 );
 				
 			        },
 			        error   : function ( badData ) {
@@ -124,7 +129,7 @@ $( document ).on( "ready", function () {
 		if ( i > 1 ) {
 			sec = 30;
 		}
-		log( ip, 1, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
+		log( ip, step, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
 		setTimeout(
 			function () {
 				var url = Sonoff.buildCmndUrl( ip, "Status 2" );
@@ -135,11 +140,22 @@ $( document ).on( "ready", function () {
 					
 					        success: function ( data ) {
 						        console.log( data );
-						        if ( step == 1 ) {
-							        log( ip, step, "CHECK UPDATE", "Update fertig!", "success" );
-							        step2( ip );
+						        if ( data && !data.ERROR ) {
+							        if ( step == 1 ) {
+								        log( ip, step, "CHECK UPDATE", "Update fertig!", "success" );
+								        step2( ip );
+							        } else {
+								        log(
+									        ip,
+									        step,
+									        "DONE",
+									        "============= Update fertig! =============",
+									        "success"
+								        );
+							        }
 						        } else {
-							        log( ip, step, "DONE", "============= Update fertig! =============", "success" );
+							        log( ip, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
+							        checkUpdateDone( ip, step, i + 1 );
 						        }
 					        },
 					        error  : function ( badData ) {
