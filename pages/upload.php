@@ -44,7 +44,13 @@
 			if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream" ) {
 				$ext = "bin";
 			} else {
-				throw new RuntimeException( __( "UPLAOD_FIRMWARE_MIN_WRONG_FORMAT", "DEVICE_UPDATE" ) );
+				throw new RuntimeException(
+					__(
+						"UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT",
+						"DEVICE_UPDATE",
+						$_FILES[ 'minimal_firmware' ][ "type" ]
+					)
+				);
 			}
 			
 			
@@ -105,7 +111,9 @@
 			if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream" ) {
 				$ext = "bin";
 			} else {
-				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE" ) );
+				throw new RuntimeException(
+					__( "UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES[ 'new_firmware' ][ "type" ] )
+				);
 			}
 			
 			$new_firmware_path = $firmwarefolder."sonoff-full.bin";
