@@ -51,12 +51,12 @@
         </tr>
         <tr>
             <td>
-                <button type='submit' class='btn' name='auto' value='submit' style='margin-right: 20px;'><?php echo __(
+                <button type='submit' class='btn widget' name='auto' value='submit' style='margin-right: 20px;'><?php echo __(
 						"BTN_UPLOAD_AUTOMATIC",
 						"DEVICE_UPDATE"
 					); ?>
                 </button>
-                <button type='submit' class='btn' name='upload' value='submit'><?php echo __(
+                <button type='submit' class='btn widget' name='upload' value='submit'><?php echo __(
 						"BTN_UPLOAD_NEXT",
 						"DEVICE_UPDATE"
 					); ?></button>

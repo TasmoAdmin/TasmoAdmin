@@ -1,5 +1,139 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin         : 0;
+	padding        : 0;
+	border         : 0;
+	font-size      : 100%;
+	font           : inherit;
+	vertical-align : baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display : block;
+}
+
+body {
+	line-height : 1;
+}
+
+ol, ul {
+	list-style : none;
+}
+
+blockquote, q {
+	quotes : none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content : '';
+	content : none;
+}
+
+table {
+	/*border-collapse : collapse;*/
+	border-spacing : 0;
+}
+
+input, select, .ui-selectmenu-button.ui-button {
+	-webkit-box-sizing : border-box;
+	-moz-box-sizing    : border-box;
+	box-sizing         : border-box;
+	width              : 100%;
+}
+
+.ui-selectmenu-button.ui-button {
+	white-space : normal;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active {
+	font-weight : inherit;
+}
+
+input[type=checkbox], input[type=radio] {
+	width : auto;
+}
+
+hr {
+	
+	color : #0037CC;
+}
+
+p {
+	margin : 10px;
+}
+
+p.toastr {
+	width      : 90%;
+	border     : 1px solid #0037CC;
+	padding    : 10px 20px;
+	margin     : 10px auto;
+	text-align : center;
+}
+
+p.toastr.error {
+	border : 1px solid #E4001C;
+	color  : #E4001C;
+}
+
+p.toastr.success {
+	border : 1px solid #19D300;
+	color  : #19D300;
+}
+
+p.label {
+	cursor      : help;
+	font-weight : bold;
+}
+
+.ui-button {
+	padding      : 0.3em 1em;
+	margin-right : 0px;
+}
+
+input {
+	padding : 0.3em 1em;
+}
+
+.fas {
+	color : #008FCC;
+}
+
+a.fas:hover {
+	color : #0037CC;
+}
+
+a.delete .fas, a .error .fas, a .fas.error {
+	color : #E4001C;
+}
+
+a.delete .fas:hover, a .error .fas:hover, a .fas.error:hover {
+	color : #A10016;
+}
+
+a.add .fas, a .fas.add {
+	color : #19D300;
+}
+
+a.add .fas:hover, a .fas.add:hover {
+	color : #3CA100;
+}
+
 html {
-	height : calc(100% - 39px);
+	height : calc(100% - 20px);
 	width  : 100%;
 }
 
@@ -10,6 +144,11 @@ body {
 	font-size   : 14px;
 	height      : 100%;
 	width       : 100%;
+}
+
+h1 {
+	font-size   : 20px;
+	font-weight : bold;
 }
 
 a {
@@ -24,7 +163,7 @@ a:hover {
 
 #header {
 	text-align    : center;
-	border-bottom : 1px solid black;
+	border-bottom : 1px solid #0037CC;
 	width         : 100%;
 	display       : inline-block;
 }
@@ -34,9 +173,21 @@ a:hover {
 	width  : calc(100% - 30px);
 }
 
+#language-switch, #language-switch-button {
+	position : absolute;
+	right    : 16px;
+	top      : 5px;
+	display  : inline-block;
+	width    : 40px;
+}
+
+.hamburger {
+	display : none;
+}
+
 #footer {
 	text-align : center;
-	border-top : 1px solid black;
+	border-top : 1px solid #0037CC;
 	padding    : 10px 0;
 	width      : 100%;
 	position   : fixed;
@@ -81,7 +232,7 @@ a:hover {
 	margin      : 0px;
 	display     : inline;
 	height      : calc(100% - 56px - 40px);
-	border-left : 1px solid black;
+	border-left : 1px solid #0037CC;
 	position    : relative;
 	padding     : 20px;
 	overflow    : auto;
@@ -118,19 +269,12 @@ td.label, th.label {
 /*-moz-appearance : textfield;*/
 /*}*/
 
-input, select {
-	-ms-box-sizing     : content-box;
-	-moz-box-sizing    : content-box;
-	-webkit-box-sizing : content-box;
-	box-sizing         : content-box;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
 	-webkit-appearance : none;
 }
 
-.btn {
+.btnx {
 	text-align       : center;
 	color            : #008FCC;
 	box-shadow       : none;
@@ -142,7 +286,7 @@ input::-webkit-inner-spin-button {
 	background-color : #FFFFFF;
 }
 
-.btn:hover {
+.btnx:hover {
 	background-color : rgba(0, 148, 204, 0.7);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
@@ -172,6 +316,11 @@ table {
 	padding       : 20px;
 }
 
+#config_tabs table {
+	border  : 0px none;
+	padding : 0px;
+}
+
 .center-table {
 	margin : 0 auto;
 }
@@ -185,16 +334,22 @@ table {
 }
 
 tr th {
-	border-bottom : 2px solid black;
+	border-bottom : 1px solid #0037CC;
+}
+
+th .ui-icon {
+	width  : 20px;
+	height : 20px;
 }
 
 tr.bottom th {
 	border-bottom : 0px none;
-	border-top    : 2px solid black;
+	border-top    : 1px solid #0037CC;
 }
 
 tr th, tr td {
-	padding-right : 10px;
+	padding        : 5px 10px 5px 0px;
+	vertical-align : middle;
 }
 
 tr.odd {
@@ -209,8 +364,19 @@ td.status {
 	cursor : pointer;
 }
 
+td.actions {
+	text-align : center;
+	width      : 130px;
+}
+
+td.actions a {
+	text-align : center;
+	padding    : 0px 7px;
+	margin     : 0px 3px;
+}
+
 #progressbox {
-	border     : 1px solid black;
+	border     : 1px solid #0037CC;
 	width      : 100%;
 	overflow   : auto;
 	height     : 100%;
@@ -359,15 +525,4 @@ p.warning {
 	font-size : 12px;
 	width     : 50%;
 	margin    : 0 auto;
-}
-
-#language-switch {
-	position : absolute;
-	right    : 16px;
-	top      : 16px;
-	display  : inline-block;
-}
-
-.hamburger {
-	display : none;
 }

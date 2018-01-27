@@ -43,7 +43,7 @@
 			<br/>
 		</p>
 		<form name='selfupdateform' method='post'>
-			<button type='submit' name='selfupdate' value='selfupdate' class='btn'>
+			<button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
 				<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
 			</button>
 		</form>

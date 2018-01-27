@@ -28,14 +28,19 @@
 	
 	#header h1 {
 		display : inline-block;
-		width   : calc(100% - 130px);
+		width   : calc(100% - 185px);
+	}
+	
+	#language-switch, #language-switch-button {
+		top   : 5px;
+		right : 10px;
 	}
 	
 	.hamburger {
 		cursor   : pointer;
 		position : absolute;
 		left     : 16px;
-		top      : 15px;
+		top      : 9px;
 		display  : block;
 	}
 	
@@ -55,7 +60,7 @@
 	.hamburger.open {
 		-webkit-transform : rotate(90deg);
 		transform         : rotate(90deg);
-		top               : 15px;
+		top               : 10px;
 		left              : 16px;
 	}
 	
@@ -88,6 +93,8 @@
 
 @media only screen and (max-width : 371px) {
 	#content-holder {
-		height : calc(100% - 56px - 80px);
+		height  : calc(100% - 56px);
+		width   : 100%;
+		padding : 0px;
 	}
 }

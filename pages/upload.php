@@ -267,7 +267,7 @@
 			<thead>
 			<tr>
 				<td colspan='8'>
-					<button type='submit' class='btn' name='submit' value='submit'><?php echo __(
+					<button type='submit' class='btn widget' name='submit' value='submit'><?php echo __(
 							"BTN_START_UPDATE",
 							"DEVICE_UPDATE"
 						); ?></button>
@@ -285,7 +285,7 @@
 				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?></th>
+				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
 				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 			</tr>
@@ -355,7 +355,7 @@
 				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?></th>
+				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
 				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 			</tr>
@@ -364,7 +364,7 @@
 			</tr>
 			<tr>
 				<td colspan='8'>
-					<button type='submit' class='btn' name='submit' value='submit'><?php echo __(
+					<button type='submit' class='btn widget' name='submit' value='submit'><?php echo __(
 							"BTN_START_UPDATE",
 							"DEVICE_UPDATE"
 						); ?></button>

@@ -126,7 +126,7 @@
 		</tr>
 		<tr>
 			<td colspan='2'>
-				<button type='submit' class='btn' name='save' value='submit'><?php echo __(
+				<button type='submit' class='btn widget' name='save' value='submit'><?php echo __(
 						"BTN_SAVE_USER_CONFIG",
 						"USER_CONFIG"
 					); ?></button>

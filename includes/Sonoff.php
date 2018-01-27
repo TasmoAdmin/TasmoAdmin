@@ -21,6 +21,20 @@
 			return $status;
 		}
 		
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getNTPStatus( $ip ) {
+			$cmnd = "NTPServer 1";
+			
+			
+			$status = $this->doRequest( $ip, $cmnd );
+			
+			return $status;
+		}
+		
 		public function toggle( $ip ) {
 			$cmnd = "Status 0";
 			

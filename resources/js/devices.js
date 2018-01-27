@@ -116,6 +116,45 @@ function deviceTools() {
 		
 		
 	} );
+	
+	$( '#device-list tbody tr td a.delete' ).on( "click", function ( e ) {
+		e.preventDefault();
+		var actionUrl = $( this ).attr( "href" );
+		var dialog    = $( '<div id="msg_dialog">' + $( this ).data( "dialog-text" ) + '</div>' ).dialog();
+		dialog.dialog( {
+			               resizable: false,
+			               height   : "auto",
+			               width    : "70%",
+			               modal    : true,
+			               title    : $( this ).data( "dialog-title" ),
+			               buttons  :
+				               [
+					               {
+						               text : $( this ).data( "dialog-btn-cancel-text" ),
+						               icon : "ui-icon-closethick",
+						               click: function () {
+							               $( this ).dialog( "close" );
+							               dialog.remove();
+						               },
+						
+						               // Uncommenting the following line would hide the text,
+						               // resulting in the label being used as a tooltip
+						               //showText: false
+					               },
+					               {
+						               text : $( this ).data( "dialog-btn-ok-text" ),
+						               icon : "ui-icon-check",
+						               click: function () {
+							               $( this ).dialog( "close" );
+							               dialog.remove();
+							               location.href = actionUrl;
+						               },
+						
+					               },
+				               ],
+		               } );
+		
+	} );
 }
 
 function updateRow( row, data, device_status ) {

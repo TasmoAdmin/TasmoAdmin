@@ -71,7 +71,7 @@ if( empty( $user ) || $user == "" || empty( $password ) || $password == "" ) {
             <tr>
                 <td>
                     <br/>
-                    <button type='submit' name='<?php echo $register ? "register" : "login"; ?>' class='btn'>
+                    <button type='submit' name='<?php echo $register ? "register" : "login"; ?>' class='btn widget'>
 						<?php echo $register ? __( "BTN_REGISTER", "LOGIN" ) : __( "BTN_LOGIN", "LOGIN" ); ?>
                     </button>
                 </td>
