@@ -27,7 +27,7 @@
 		 * @return mixed
 		 */
 		public function getNTPStatus( $ip ) {
-			$cmnd = "NTPServer 1";
+			$cmnd = "NtpServer1";
 			
 			
 			$status = $this->doRequest( $ip, $cmnd );

@@ -92,8 +92,8 @@
 }
 
 @media only screen and (max-width : 371px) {
-	#content-holder {
-		height  : calc(100% - 56px);
+	#content-holder, #content-holder, #content-holder.full-width {
+		height  : calc(100% - 81px);
 		width   : 100%;
 		padding : 0px;
 	}
