@@ -411,6 +411,6 @@
 			
 		} );
 	</script>
-	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js'></script>
+	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
 <?php endif; ?>
 
