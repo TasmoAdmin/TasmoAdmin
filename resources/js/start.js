@@ -8,6 +8,7 @@ function updateStatus() {
 	$( '#content .box_device' ).each( function ( key, box ) {
 		
 		var device_ip     = $( box ).data( "device_ip" );
+		var device_id     = $( box ).data( "device_id" );
 		var device_relais = $( box ).data( "device_relais" );
 		var device_group  = $( box ).data( "device_group" );
 		
@@ -22,15 +23,15 @@ function updateStatus() {
 			}
 			
 			
-			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
+			Sonoff.getStatus( device_ip, device_id, device_relais, function ( data ) {
 				
-				                  if ( data && !data.ERROR ) {
+				                  if ( data && !data.ERROR && !data.WARNING ) {
 					
 					                  if ( device_group == "multi" ) {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
 								                  var img           = $( groupbox ).find( "img" );
-								                  var src           = "resources/img/device_icons/"
+								                  var src           = "./resources/img/device_icons/"
 								                                      + img.data( "icon" )
 								                                      + "_%pw.png";
 								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
@@ -44,7 +45,7 @@ function updateStatus() {
 							                  } );
 					                  } else {
 						                  var img           = $( box ).find( "img" );
-						                  var src           = "resources/img/device_icons/"
+						                  var src           = "./resources/img/device_icons/"
 						                                      + img.data( "icon" )
 						                                      + "_%pw.png";
 						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
@@ -98,9 +99,10 @@ function deviceTools() {
 		var device_box = $( this );
 		device_box.find( "img" ).effect( "shake", { distance: 3 } );
 		var device_ip     = device_box.data( "device_ip" );
+		var device_id     = device_box.data( "device_id" );
 		var device_relais = device_box.data( "device_relais" );
-		Sonoff.toggle( device_ip, device_relais, function ( data ) {
-			if ( data && !data.ERROR ) {
+		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
+			if ( data && !data.ERROR && !data.WARNING ) {
 				var img           = device_box.find( "img" );
 				var src           = "resources/img/device_icons/" + img.data( "icon" ) + "_%pw.png";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );

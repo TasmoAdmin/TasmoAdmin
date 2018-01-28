@@ -4,17 +4,7 @@
 	$activeTabIndex = 0;
 	
 	if ( isset( $_GET[ "device_id" ] ) ) {
-		$file = fopen( $filename, 'r' );
-		while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
-			//$line is an array of the csv elements
-			//var_dump( $line );
-			if ( $line[ 0 ] == $_GET[ "device_id" ] ) {
-				$line[ 1 ] = explode( "|", $line[ 1 ] );
-				$device    = $line;
-				break;
-			}
-		}
-		fclose( $file );
+		$device = $Sonoff->getDeviceById( $_GET[ "device_id" ] );
 	} else {
 		$msg = __( "ERROR_NO_DEVICE_SELECTED", "DEVICE_CONFIG" );
 	}
@@ -36,7 +26,7 @@
 			if ( isset( $settings[ "IPAddress1" ] ) && !empty( $settings[ "IPAddress1" ] )
 			     && $settings[ "IPAddress1" ] != "" ) {
 				if ( $settings[ "IPAddress1" ] != "0.0.0.0" ) {
-					if ( $device[ 2 ] == $settings[ "IPAddress1" ] ) {
+					if ( $device->ip == $settings[ "IPAddress1" ] ) {
 						unset( $settings[ "IPAddress1" ] );
 					}
 				}
@@ -49,7 +39,7 @@
 				}
 				$backlog .= $settingKey." ".$settingVal.";";
 			}
-			$result = $Sonoff->saveConfig( $device[ 2 ], $backlog );
+			$result = $Sonoff->saveConfig( $device, $backlog );
 			$msg    = __( "MSG_CONFIG_SAVED", "DEVICE_CONFIG" );
 			$msg    .= "<br/> ".$backlog;
 			sleep( count( $settings ) );
@@ -58,8 +48,8 @@
 		
 	}
 	
-	$status            = $Sonoff->getAllStatus( $device[ 2 ] );
-	$status->statusNTP = $Sonoff->getNTPStatus( $device[ 2 ] );
+	$status            = $Sonoff->getAllStatus( $device );
+	$status->statusNTP = $Sonoff->getNTPStatus( $device );
 
 
 ?>

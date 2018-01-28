@@ -7,10 +7,10 @@
 	$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
 	$ota_new_firmware_url     = $otaServer."data/firmwares/sonoff-full.bin";
 	
-	$device_ips = isset( $_POST[ "device_ips" ] ) ? $_POST[ "device_ips" ] : FALSE;
+	$device_ids = isset( $_POST[ "device_ids" ] ) ? $_POST[ "device_ids" ] : FALSE;
 ?>
 <div class='center'>
-	<?php if ( !$device_ips ): ?>
+	<?php if ( !$device_ids ): ?>
 	<br/>
 	<br/>
 		<p class='warning'>
@@ -27,7 +27,7 @@
 		
 		
 		<script>
-			var device_ips = '<?php echo json_encode( $device_ips ); ?>';
+			var device_ids = '<?php echo json_encode( $device_ids ); ?>';
 		
 		</script>
 		

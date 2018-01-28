@@ -242,13 +242,7 @@
 
 <?php else: ?>
 	<?php
-	$file = fopen( $filename, 'r' );
-	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
-		//$line is an array of the csv elements
-		$line[ 1 ] = explode( "|", $line[ 1 ] );
-		$devices[] = $line;
-	}
-	fclose( $file );
+	$devices = $Sonoff->getDevices();
 	
 	?>
 	<div class='center'>
@@ -303,25 +297,26 @@
 				$odd = TRUE;
 				if ( isset( $devices ) && !empty( $devices ) ):
 					foreach ( $devices as $device_group ):
-						foreach ( $device_group[ 1 ] as $key => $device ): ?>
+						foreach ( $device_group->names as $key => $devicename ): ?>
 							<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-							    data-device_id='<?php echo $device_group[ 0 ]; ?>'
-							    data-device_group='<?php echo count( $device_group[ 1 ] ) > 1 ? "multi" : "single"; ?>'
-							    data-device_ip='<?php echo $device_group[ 2 ]; ?>'
+							    data-device_id='<?php echo $device_group->id; ?>'
+							    data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi"
+								    : "single"; ?>'
+							    data-device_ip='<?php echo $device_group->ip; ?>'
 							    data-device_relais='<?php echo $key + 1; ?>'
 							>
 								<td>
 									<?php if ( $key == 0 ): ?>
 										<input type='checkbox'
-										       name='device_ips[]'
-										       value='<?php echo $device_group[ 2 ]; ?>'
+										       name='device_ids[]'
+										       value='<?php echo $device_group->id; ?>'
 										       class='device_checkbox'
 										>
 									<?php endif; ?>
 								</td>
-								<td><?php echo $device_group[ 0 ]; ?></td>
-								<td><?php echo $device; ?></td>
-								<td><?php echo $device_group[ 2 ]; ?></td>
+								<td><?php echo $device_group->id; ?></td>
+								<td><?php echo $devicename; ?></td>
+								<td><?php echo $device_group->ip; ?></td>
 								<td class='status'>
 									<label class="form-switch">
 										<input type="checkbox">

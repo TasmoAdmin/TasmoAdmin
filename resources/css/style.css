@@ -526,3 +526,11 @@ p.warning {
 	width     : 50%;
 	margin    : 0 auto;
 }
+
+.pull-right {
+	float : right
+}
+
+.pull-right:after {
+	clear : both;
+}

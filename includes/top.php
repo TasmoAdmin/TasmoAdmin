@@ -19,7 +19,6 @@
 		echo "and restart webserver";
 		die();
 	}
-	define( "_VERSION_", "1.0.1a" );
 	
 	define( "_APPROOT_", "./" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
@@ -29,7 +28,11 @@
 	define( "_DATADIR_", _APPROOT_."data/" );
 	define( "_LANGDIR_", _APPROOT_."lang/" );
 	define( "_TMPDIR_", _APPROOT_."tmp/" );
-	
+	define( "_CSVFILE_", _DATADIR_."devices.csv" );
+	$filename = _CSVFILE_; //csv file name
+	if ( !file_exists( $filename ) ) {
+		fopen( $filename, 'w' ) or die( "Can't create file" );
+	}
 	/**
 	 * @property Sonoff Sonoff
 	 */
@@ -70,10 +73,10 @@
 		$translated = @__L::$txt( $args );
 		
 		if ( $translated == "" ) {
-			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
 			$translated = $txt;
-			fwrite( $myfile, $txt );
-			fclose( $myfile );
+			//			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
+			//			fwrite( $myfile, $txt."\n" );
+			//			fclose( $myfile );
 			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
 			foreach ( $files as $file ) { // iterate files
 				if ( is_file( $file ) ) {
@@ -88,7 +91,7 @@
 	
 	if ( isset( $_GET ) ) {
 		if ( isset( $_GET[ "doAjax" ] ) ) {
-			$data = $Sonoff->doAjax( $_GET[ "doAjax" ] );
+			$data = $Sonoff->doAjax();
 			echo json_encode( $data );
 			die();
 		}

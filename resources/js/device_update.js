@@ -1,29 +1,33 @@
 var ajaxTimeout = 8;
 $( document ).on( "ready", function () {
-	console.log( device_ips );
-	device_ips = $.parseJSON( device_ips );
+	console.log( device_ids );
+	device_ids = $.parseJSON( device_ids );
 	
 	var progressBox = $( "#progressbox" );
 	
 	
 	log( "", "", "GLOBAL", "Update Start", "success" );
 	
-	$.each( device_ips, step1 );
+	$.each( device_ids, step1 );
 	
 	
-	function step1( index, ip ) {
-		log( ip, 1, "Starte Step 1", "info" );
-		device_responses( ip, setOTAURL, ip, "MINIMAL", 1 );
+	function step1( index, id ) {
+		log( id, 1, "Starte Step 1", "info" );
+		device_responses( id, setOTAURL, id, "MINIMAL", 1 );
 	}
 	
 	
-	function device_responses( ip, callback, p1, p2, step, tries ) {
+	function device_responses( id, callback, p1, p2, step, tries ) {
 		var tries = tries || 1;
-		var url   = Sonoff.buildCmndUrl( ip, "Status 2" );
-		log( ip, step, "Erreichbarkeit", "Prüfe Erreichbarkeit Versuch " + tries, "info" );
+		var cmnd  = "Status 2";
+		log( id, step, "Erreichbarkeit", "Prüfe Erreichbarkeit Versuch " + tries, "info" );
 		$.ajax( {
 			        dataType: "json",
-			        url     : "/?doAjax=" + url,
+			        url     : "index.php?doAjax",
+			        data    : {
+				        id  : id,
+				        cmnd: cmnd,
+			        },
 			        timeout : ajaxTimeout * 1000,
 			        custom  : {
 				        callback: callback,
@@ -32,30 +36,30 @@ $( document ).on( "ready", function () {
 				        console.log( data );
 				        if ( data && !data.ERROR ) {
 					        if ( data.WARNING ) {
-						        log( ip, step, "Erreichbarkeit", "Fehler! - MSG =>" + data.WARNING, "error" );
+						        log( id, step, "Erreichbarkeit", "Fehler! - MSG =>" + data.WARNING, "error" );
 					        }
-					        log( ip, step, "Erreichbarkeit", "OK! - Aktuelle Version => "
+					        log( id, step, "Erreichbarkeit", "OK! - Aktuelle Version => "
 					                                         + data.StatusFWR.Version, "success" );
 					        this.custom.callback( p1, p2, step );
 				        } else {
-					        log( ip, step, "Erreichbarkeit", "Fehler! - Antwortet nicht! => " + data.ERROR, "error" );
+					        log( id, step, "Erreichbarkeit", "Fehler! - Antwortet nicht! => " + data.ERROR, "error" );
 					        if ( tries < 3 ) {
 						        tries = tries + 1;
-						        device_responses( ip, callback, p1, p2, step, tries );
+						        device_responses( id, callback, p1, p2, step, tries );
 					        }
 				        }
 			        },
 			        error   : function ( badData ) {
-				        log( ip, step, "Erreichbarkeit", "Fehler! - Antwortet nicht!", "error" );
+				        log( id, step, "Erreichbarkeit", "Fehler! - Antwortet nicht!", "error" );
 				        if ( tries < 3 ) {
 					        tries = tries + 1;
-					        device_responses( ip, callback, p1, p2, step, tries );
+					        device_responses( id, callback, p1, p2, step, tries );
 				        }
 			        },
 		        } );
 	}
 	
-	function setOTAURL( ip, fwType, step ) {
+	function setOTAURL( id, fwType, step ) {
 		var fw = "";
 		if ( fwType === "MINIMAL" ) {
 			fw = $( "#ota_minimal_firmware_url" ).val();
@@ -63,90 +67,102 @@ $( document ).on( "ready", function () {
 			fw = $( "#ota_new_firmware_url" ).val();
 		}
 		
-		log( ip, step, "OTAURL", "Setze " + fwType + " OTA URL", "info" );
-		var url = Sonoff.buildCmndUrl( ip, "OtaUrl " + fw );
+		log( id, step, "OTAURL", "Setze " + fwType + " OTA URL", "info" );
+		var cmnd = "OtaUrl " + fw;
 		$.ajax( {
 			        dataType: "json",
-			        url     : "/?doAjax=" + url,
+			        url     : "index.php?doAjax",
+			        data    : {
+				        id  : id,
+				        cmnd: cmnd,
+			        },
 			        timeout : ajaxTimeout * 1000,
 			        success : function ( data ) {
 				        console.log( data );
 				        if ( data.WARNING ) {
-					        log( ip, step, "OTAURL", "Fehler! - MSG =>" + data.WARNING, "error" );
+					        log( id, step, "OTAURL", "Fehler! - MSG =>" + data.WARNING, "error" );
 				        }
-				        log( ip, 1, "OTAURL", fwType + " OTA URL gesetzt!", "success" );
-				        startUpdate( ip, step );
+				        log( id, 1, "OTAURL", fwType + " OTA URL gesetzt!", "success" );
+				        startUpdate( id, step );
 				
 			        },
 			        error   : function ( badData ) {
-				        log( ip, step, "OTAURL", "Fehler! - Antwortet nicht!", "error" );
+				        log( id, step, "OTAURL", "Fehler! - Antwortet nicht!", "error" );
 				
 			        },
 		        } );
 	}
 	
-	function startUpdate( ip, step ) {
-		log( ip, step, "UPDATE", "Starte Update", "info" );
-		var url = Sonoff.buildCmndUrl( ip, "Upgrade 1" );
+	function startUpdate( id, step ) {
+		log( id, step, "UPDATE", "Starte Update", "info" );
+		var cmnd = "Upgrade 1";
 		$.ajax( {
 			        dataType: "json",
-			        url     : "/?doAjax=" + url,
+			        url     : "index.php?doAjax",
+			        data    : {
+				        id  : id,
+				        cmnd: cmnd,
+			        },
 			        timeout : ajaxTimeout * 1000,
 			        success : function ( data ) {
 				        console.log( data );
 				        if ( data && !data.ERROR ) {
 					        if ( data.WARNING ) {
-						        log( ip, step, "UPDATE", "Fehler! - MSG =>" + data.WARNING, "error" );
+						        log( id, step, "UPDATE", "Fehler! - MSG =>" + data.WARNING, "error" );
 					        } else {
-						        log( ip, step, "UPDATE", "Update angetoßen!", "info" );
+						        log( id, step, "UPDATE", "Update angetoßen!", "info" );
 					        }
-					        checkUpdateDone( ip, step, 1 );
+					        checkUpdateDone( id, step, 1 );
 				        } else {
-					        log( ip, step, "UPDATE", "Antwortet nicht!", "error" );
+					        log( id, step, "UPDATE", "Antwortet nicht!", "error" );
 				        }
 				
 			        },
 			        error   : function ( badData ) {
-				        log( ip, step, "UPDATE", "Antwortet nicht!", "error" );
+				        log( id, step, "UPDATE", "Antwortet nicht!", "error" );
 				
 			        },
 		        } );
 		
 	}
 	
-	function step2( ip ) {
-		log( ip, 2, "GLOBAL", "Starte Step 2", "info" );
+	function step2( id ) {
+		log( id, 2, "GLOBAL", "Starte Step 2", "info" );
 		
-		device_responses( ip, setOTAURL, ip, "NEW FW", 2 );
+		device_responses( id, setOTAURL, id, "NEW FW", 2 );
 	}
 	
-	function checkUpdateDone( ip, step, i ) {
+	function checkUpdateDone( id, step, i ) {
 		if ( i > 48 ) {
-			log( ip, step, "CHECK UPDATE", "Gerät nach 5 Minuten immer noch nicht erreichbar!!!", "error" );
+			log( id, step, "CHECK UPDATE", "Gerät nach 5 Minuten immer noch nicht erreichbar!!!", "error" );
 			return;
 		}
 		var sec = 60;
 		if ( i > 1 ) {
 			sec = 30;
 		}
-		log( ip, step, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
+		log( id, step, "CHECK UPDATE", "Warte " + sec + " Sekunden auf Update", "info" );
 		setTimeout(
 			function () {
-				var url = Sonoff.buildCmndUrl( ip, "Status 2" );
+				var cmnd = "Status 2";
 				$.ajax( {
 					        dataType: "json",
-					        url     : "/?doAjax=" + url,
+					        url     : "index.php?doAjax",
+					        data    : {
+						        id  : id,
+						        cmnd: cmnd,
+					        },
 					        timeout : ajaxTimeout * 1000,
 					
 					        success: function ( data ) {
 						        console.log( data );
 						        if ( data && !data.ERROR ) {
 							        if ( step == 1 ) {
-								        log( ip, step, "CHECK UPDATE", "Update fertig!", "success" );
-								        step2( ip );
+								        log( id, step, "CHECK UPDATE", "Update fertig!", "success" );
+								        step2( id );
 							        } else {
 								        log(
-									        ip,
+									        id,
 									        step,
 									        "DONE",
 									        "============= Update fertig! =============",
@@ -154,13 +170,13 @@ $( document ).on( "ready", function () {
 								        );
 							        }
 						        } else {
-							        log( ip, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
-							        checkUpdateDone( ip, step, i + 1 );
+							        log( id, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
+							        checkUpdateDone( id, step, i + 1 );
 						        }
 					        },
 					        error  : function ( badData ) {
-						        log( ip, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
-						        checkUpdateDone( ip, step, i + 1 );
+						        log( id, step, "CHECK UPDATE", "Update noch nicht fertig!", "info" );
+						        checkUpdateDone( id, step, i + 1 );
 					        },
 				        } );
 			}, sec * 1000
@@ -168,7 +184,7 @@ $( document ).on( "ready", function () {
 	}
 	
 	
-	function log( ip, step, block, msg, level ) {
+	function log( id, step, block, msg, level ) {
 		var dt   = new Date();
 		var time = (
 			           dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()
@@ -193,8 +209,8 @@ $( document ).on( "ready", function () {
 		
 		var entry = "[" + time + "]";
 		
-		if ( ip !== "" ) {
-			entry += "[" + ip + "]";
+		if ( id !== "" ) {
+			entry += "[" + id + "]";
 		}
 		if ( step !== "" ) {
 			entry += "[STEP-" + step + "]";

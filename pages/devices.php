@@ -1,11 +1,6 @@
 <?php
-	$file = fopen( $filename, 'r' );
-	while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
-		//$line is an array of the csv elements
-		$line[ 1 ] = explode( "|", $line[ 1 ] );
-		$devices[] = $line;
-	}
-	fclose( $file );
+	
+	$devices = $Sonoff->getDevices();
 	
 	
 	//var_dump( $devices );
@@ -37,22 +32,22 @@
 		$odd = TRUE;
 		if ( isset( $devices ) && !empty( $devices ) ):
 			foreach ( $devices as $device_group ):
-				foreach ( $device_group[ 1 ] as $key => $device ): ?>
+				foreach ( $device_group->names as $key => $devicename ): ?>
 					<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-					    data-device_id='<?php echo $device_group[ 0 ]; ?>'
-					    data-device_group='<?php echo count( $device_group[ 1 ] ) > 1 ? "multi" : "single"; ?>'
-					    data-device_ip='<?php echo $device_group[ 2 ]; ?>'
+					    data-device_id='<?php echo $device_group->id; ?>'
+					    data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi" : "single"; ?>'
+					    data-device_ip='<?php echo $device_group->ip; ?>'
 					    data-device_relais='<?php echo $key + 1; ?>'
 					>
-						<td><?php echo $device_group[ 0 ]; ?></td>
-						<td><a href='http://<?php echo $device_group[ 2 ]; ?>/'
+						<td><?php echo $device_group->id; ?></td>
+						<td><a href='http://<?php echo $device_group->ip; ?>/'
 						       target='_blank'
 						       title='<?php echo __(
 							       "LINK_OPEN_DEVICE_WEBUI",
 							       "DEVICES"
-						       ); ?>'><?php echo $device; ?></a>
+						       ); ?>'><?php echo $devicename; ?></a>
 						</td>
-						<td><?php echo $device_group[ 2 ]; ?></td>
+						<td><?php echo $device_group->ip; ?></td>
 						<td class='status'>
 							<label class="form-switch">
 								<input type="checkbox">
@@ -79,11 +74,11 @@
 										title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
 						</td>
 						<td class='actions'>
-							<a href='<?php echo _APPROOT_; ?>index.php?page=device_config&device_id=<?php echo $device_group[ 0 ]; ?>'>
+							<a href='<?php echo _APPROOT_; ?>index.php?page=device_config&device_id=<?php echo $device_group->id; ?>'>
 								<i class="fas fa-cogs fa-lg"
 								   title='<?php echo __( "LINK_DEVICE_CONFIG", "DEVICES" ); ?>'></i>
 							</a>
-							<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=edit&device_id=<?php echo $device_group[ 0 ]; ?>'>
+							<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=edit&device_id=<?php echo $device_group->id; ?>'>
 								<i class="fas fa-edit fa-lg"
 								   title='<?php echo __( "LINK_DEVICE_EDIT", "DEVICES" ); ?>'></i>
 							</a>
@@ -95,12 +90,12 @@
 								   "DELETE_DEVICE_CONFIRM_TEXT",
 								   "DEVICES",
 								   [
-									   $device,
-									   $device_group[ 2 ],
+									   $devicename,
+									   $device_group->ip,
 								   ]
 							   ); ?>'
 							
-							   href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=delete&device_id=<?php echo $device_group[ 0 ]; ?>'>
+							   href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=delete&device_id=<?php echo $device_group->id; ?>'>
 								<i class="fas fa-trash fa-lg"
 								   title='<?php echo __( "LINK_DEVICE_DELETE", "DEVICES" ); ?>'></i>
 							</a>

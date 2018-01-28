@@ -22,6 +22,7 @@ function updateStatus() {
 		
 		console.log( "[Devices][updateStatus]get status from " + $( tr ).data( "device_ip" ) );
 		var device_ip     = $( tr ).data( "device_ip" );
+		var device_id     = $( tr ).data( "device_id" );
 		var device_relais = $( tr ).data( "device_relais" );
 		var device_group  = $( tr ).data( "device_group" );
 		if ( !$( tr ).hasClass( "updating" ) ) {
@@ -32,8 +33,8 @@ function updateStatus() {
 				return; //relais 1 will update all others
 			}
 			
-			Sonoff.getStatus( device_ip, device_relais, function ( data ) {
-				if ( data && !data.ERROR ) {
+			Sonoff.getStatus( device_ip, device_id, device_relais, function ( data ) {
+				if ( data && !data.ERROR && !data.WARNING ) {
 					if ( device_group == "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
@@ -93,6 +94,7 @@ function deviceTools() {
 		e.preventDefault();
 		var statusField   = $( this );
 		var device_ip     = $( this ).closest( "tr" ).data( "device_ip" );
+		var device_id     = $( this ).closest( "tr" ).data( "device_id" );
 		var device_relais = $( this ).closest( "tr" ).data( "device_relais" );
 		
 		if ( statusField.find( "input" ).prop( "checked" ) ) {
@@ -101,8 +103,8 @@ function deviceTools() {
 			statusField.find( "input" ).prop( "checked", "checked" );
 		}
 		
-		Sonoff.toggle( device_ip, device_relais, function ( data ) {
-			if ( data && !data.ERROR ) {
+		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
+			if ( data && !data.ERROR && !data.WARNING ) {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				if ( device_status == "ON" ) {
 					statusField.find( "input" ).prop( "checked", "checked" );
@@ -120,9 +122,11 @@ function deviceTools() {
 	$( '#device-list tbody tr td a.delete' ).on( "click", function ( e ) {
 		e.preventDefault();
 		var actionUrl = $( this ).attr( "href" );
-		var dialog    = $( '<div id="msg_dialog">' + $( this ).data( "dialog-text" ) + '</div>' ).dialog();
+		var dialog    = $( '<div id="msg_dialog">' + $( this ).data( "dialog-text" ) + '</div>' )
+			.appendTo( "body" );
 		dialog.dialog( {
 			               resizable: false,
+			               dragable : false,
 			               height   : "auto",
 			               width    : "70%",
 			               modal    : true,
@@ -136,10 +140,6 @@ function deviceTools() {
 							               $( this ).dialog( "close" );
 							               dialog.remove();
 						               },
-						
-						               // Uncommenting the following line would hide the text,
-						               // resulting in the label being used as a tooltip
-						               //showText: false
 					               },
 					               {
 						               text : $( this ).data( "dialog-btn-ok-text" ),

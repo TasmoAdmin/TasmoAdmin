@@ -7,7 +7,7 @@
 				<p class='label' title='<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>'><?php echo __(
 						"CONFIG_FRIENDLYNAME",
 						"DEVICE_CONFIG"
-					); ?> <i class='fas fa-info-circle'></i> :<br/></p>
+					); ?> <i class='fas fa-info-circle'></i> :</p>
 			</td>
 			<td>
 				<input type='text'
