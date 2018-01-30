@@ -53,12 +53,13 @@
 		
 		public function read( $key ) {
 			$config = file_get_contents( $this->cfgFile );
-			$config = eval( "?>".$config."<?php" );
+			$config = str_replace( [ "<?php", "?>" ], "", $config );
+			$config = eval( $config );
 			if ( $config === 1 ) { //its empty
 				$config = [];
 			}
 			
-			return isset( $config[ $key ] ) ? $config[ $key ] : NULL;
+			return isset( $config[ $key ] ) ? $config[ $key ] : null;
 		}
 		
 		public function write( $key, $value ) {
