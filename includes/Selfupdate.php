@@ -199,16 +199,16 @@
 			}
 			
 			if ( !is_dir( $destination ) && $create === TRUE ) {
-				@mkdir( $destination );
+				mkdir( $destination );
 			}
 			
 			if ( is_dir( $destination ) ) {
 				$files = array_diff( scandir( $source ), array( '.', '..' ) );
 				foreach ( $files as $file ) {
-					if ( is_dir( $file ) ) {
+					if ( is_dir( "$source/$file" ) ) {
 						$this->copyDirectoryContents( "$source/$file", "$destination/$file" );
 					} else {
-						@copy( "$source/$file", "$destination/$file" );
+						copy( "$source/$file", "$destination/$file" );
 					}
 				}
 				
