@@ -1,6 +1,20 @@
 var Sonoff;
 var refreshtime = false;
+
+
 $( document ).on( "ready", function () {
+	
+	var $lang    = $( "html" ).attr( "lang" );
+	var i18nfile = './tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
+	$.ajax( {
+		        dataType: "json",
+		        url     : i18nfile,
+		        async   : false,
+		        success : function ( data ) {
+			
+			        $.i18n().load( data );
+		        },
+	        } );
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}

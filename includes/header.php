@@ -1,11 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="de" xmlns="http://www.w3.org/1999/html">
+<html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<meta http-equiv="Cache-control" content="no-cache, must-revalidate"/>
 	<meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT"/>
 	<meta http-equiv="Pragma" content="no-cache"/>
+	<!--
+	Always force latest IE rendering engine (even in intranet) & Chrome Frame
+	Remove this if you use the .htaccess
+	-->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	
 	<link rel="apple-touch-icon" sizes="57x57" href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-57x57.png">
@@ -37,6 +41,26 @@
 	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
 	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.messagestore.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.fallbacks.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.parser.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.emitter.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.language.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/bs.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/dsb.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/fi.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ga.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/he.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hsb.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hu.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hy.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/la.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ml.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/os.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ru.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/sl.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/uk.js"></script>
 	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
 	
 	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/app.js?<?php echo time(); ?>'></script>

@@ -60,16 +60,16 @@ function updateStatus() {
 									.removeProp( "checked" )
 									.parent()
 									.addClass( "error" );
-								$( grouptr ).find( ".rssi" ).html( "Fehler" );
-								$( grouptr ).find( ".runtime" ).html( "Fehler" );
-								$( grouptr ).find( ".version" ).html( "Fehler" );
+								$( grouptr ).find( ".rssi" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".runtime" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".version" ).html( $.i18n( 'ERROR' ) );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
 						$( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
-						$( tr ).find( ".rssi" ).html( "Fehler" );
-						$( tr ).find( ".runtime" ).html( "Fehler" );
-						$( tr ).find( ".version" ).html( "Fehler" );
+						$( tr ).find( ".rssi" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".runtime" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".version" ).html( $.i18n( 'ERROR' ) );
 						$( tr ).removeClass( "updating" );
 					}
 				}
@@ -84,7 +84,7 @@ function updateStatus() {
 			updateStatus();
 		}, refreshtime );
 	} else {
-		console.log( "[Global][Refreshtime]Dont refresh" );
+		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
 	}
 	
 };
