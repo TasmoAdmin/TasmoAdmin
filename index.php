@@ -14,9 +14,6 @@
 	}
 	
 	switch ( $page ) {
-		case "upload_form":
-			$title = __( "UPLOAD_NEW_FIRMWARE", "PAGE_TITLES" );
-			break;
 		case "device_action":
 			$title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
 			if ( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "add" ) {
@@ -29,6 +26,9 @@
 			$title = __( "DEVICES", "PAGE_TITLES" );
 			break;
 		case "device_update":
+		case "update_devices":
+		case "upload_form":
+		case "upload":
 			$title = __( "DEVICE_UPDATE", "PAGE_TITLES" );
 			break;
 		case "device_config":
@@ -41,7 +41,7 @@
 			$title = __( "SITE_SELFUPDATE", "PAGE_TITLES" );
 			break;
 		default:
-			$title = ucfirst( $page );
+			$title = __( strtoupper( str_replace( " ", "_", $page ) ), "PAGE_TITLES" );
 	}
 	
 	
