@@ -69,6 +69,7 @@
 			<option value='en' <?php echo $lang == "en" ? "selected=\"selected\"" : ""; ?>>EN</option>
 			<option value='es' <?php echo $lang == "es" ? "selected=\"selected\"" : ""; ?>>ES</option>
 			<option value='fr' <?php echo $lang == "fr" ? "selected=\"selected\"" : ""; ?>>FR</option>
+			<option value='fr' <?php echo $lang == "it" ? "selected=\"selected\"" : ""; ?>>IT</option>
 			<option value='nl' <?php echo $lang == "nl" ? "selected=\"selected\"" : ""; ?>>NL</option>
 			<option value='pl' <?php echo $lang == "pl" ? "selected=\"selected\"" : ""; ?>>PL</option>
 			<option value='ru' <?php echo $lang == "ru" ? "selected=\"selected\"" : ""; ?>>RU</option>
