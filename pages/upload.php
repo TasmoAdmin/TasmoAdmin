@@ -41,7 +41,8 @@
 				);
 			}
 			
-			if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream" ) {
+			if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream"
+			     || $_FILES[ 'minimal_firmware' ][ "type" ] == "application/macbinary" ) {
 				$ext = "bin";
 			} else {
 				throw new RuntimeException(
@@ -108,7 +109,8 @@
 				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE" ) );
 			}
 			
-			if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream" ) {
+			if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream"
+			     || $_FILES[ 'new_firmware' ][ "type" ] == "application/macbinary" ) {
 				$ext = "bin";
 			} else {
 				throw new RuntimeException(
