@@ -193,7 +193,7 @@
 		}
 		
 		
-		private function copyDirectoryContents( $source, $destination, $create = FALSE ) {
+		private function copyDirectoryContents( $source, $destination, $create = TRUE ) {
 			if ( !is_dir( $source ) ) {
 				return FALSE;
 			}
