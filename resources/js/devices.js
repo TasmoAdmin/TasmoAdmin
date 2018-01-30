@@ -166,10 +166,11 @@ function updateRow( row, data, device_status ) {
 		var rssi   = data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Uptime;
-	} else {
-		var rssi   = data.StatusSTS.WLAN.RSSI;
-		var ssid   = data.StatusSTS.WLAN.SSID;
-		var uptime = data.StatusSTS.Laufzeit;
+	} else { //try german else use english
+		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
+		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
+		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
+		console.log( uptime );
 	}
 	$( row ).find( ".version" ).html( data.StatusFWR.Version );
 	
