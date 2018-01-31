@@ -60,16 +60,16 @@ function updateStatus() {
 									.removeProp( "checked" )
 									.parent()
 									.addClass( "error" );
-								$( grouptr ).find( ".rssi" ).html( $.i18n( 'ERROR' ) );
-								$( grouptr ).find( ".runtime" ).html( $.i18n( 'ERROR' ) );
-								$( grouptr ).find( ".version" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
 						$( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
-						$( tr ).find( ".rssi" ).html( $.i18n( 'ERROR' ) );
-						$( tr ).find( ".runtime" ).html( $.i18n( 'ERROR' ) );
-						$( tr ).find( ".version" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 						$( tr ).removeClass( "updating" );
 					}
 				}
@@ -172,15 +172,15 @@ function updateRow( row, data, device_status ) {
 		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 		console.log( uptime );
 	}
-	$( row ).find( ".version" ).html( data.StatusFWR.Version );
+	$( row ).find( ".version span" ).html( data.StatusFWR.Version );
 	
 	if ( device_status == "ON" ) {
 		$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
 	} else {
 		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 	}
-	$( row ).find( ".rssi" ).html( rssi + "%" ).attr( "title", ssid );
-	$( row ).find( ".runtime" ).html( "~" + uptime + "h" );
+	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
+	$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
 	
 	
 	$( row ).removeClass( "updating" );

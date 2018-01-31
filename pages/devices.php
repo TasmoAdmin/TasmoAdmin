@@ -6,7 +6,11 @@
 	//var_dump( $devices );
 ?>
 
-<table id='device-list' class='center-table' border='0' cellspacing='0'>
+<table id='device-list'
+       class='center-table tablesaw tablesaw-stack'
+       data-tablesaw-mode="stack"
+       border='0'
+       cellspacing='0'>
 	<thead>
 	<tr>
 		<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
@@ -18,7 +22,8 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-		<th>
+		<th class='more'><?php echo __( "more", "DEVICES" ); ?></th>
+		<th class='link'>
 			<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
 				<i class="fas fa-plus add"
 				   title='<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>'></i>
@@ -56,22 +61,34 @@
 						
 						</td>
 						<td class='rssi'>
-							<div class='loader'><img
-										src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-										alt='<?php echo __( "TEXT_LOADING" ); ?>'
-										title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
 						</td>
 						<td class='version'>
-							<div class='loader'><img
-										src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-										alt='<?php echo __( "TEXT_LOADING" ); ?>'
-										title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
 						</td>
 						<td class='runtime'>
-							<div class='loader'><img
-										src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-										alt='<?php echo __( "TEXT_LOADING" ); ?>'
-										title='<?php echo __( "TEXT_LOADING" ); ?>'></div>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more'>
+							more
 						</td>
 						<td class='actions'>
 							<a href='<?php echo _APPROOT_; ?>index.php?page=device_config&device_id=<?php echo $device_group->id; ?>'>
@@ -100,6 +117,7 @@
 								   title='<?php echo __( "LINK_DEVICE_DELETE", "DEVICES" ); ?>'></i>
 							</a>
 						</td>
+					
 					</tr>
 					<?php
 					$odd = !$odd;
@@ -118,7 +136,8 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-		<th>
+		<th class='more'><?php echo __( "more", "DEVICES" ); ?></th>
+		<th class='link'>
 			<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
 				<i class="fas fa-plus add"
 				   title='<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>'></i>

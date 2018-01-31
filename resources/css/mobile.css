@@ -8,7 +8,21 @@
 	}
 }
 
-@media only screen and (max-width : 802px) {
+@media only screen and (max-width : 962px) {
+	table {
+		width : 100%;
+	}
+	
+	table tr th, table tr td {
+		display : block;
+	}
+	
+	.tablesaw th, .tablesaw td {
+		padding : 0px 3px;
+	}
+}
+
+@media only screen and (max-width : 854px) {
 	.hide-mobile {
 		display : none;
 	}
@@ -76,17 +90,6 @@
 		background-color : #FFFFFF;
 		z-index          : 1;
 		text-align       : center;
-	}
-	
-}
-
-@media only screen and (max-width : 657px) {
-	table {
-		width : 100%;
-	}
-	
-	table tr th, table tr td {
-		display : block;
 	}
 	
 }

@@ -61,12 +61,18 @@
 	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ru.js"></script>
 	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/sl.js"></script>
 	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/uk.js"></script>
+	
+	<script src="<?php echo _RESOURCESDIR_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/tablesaw/tablesaw-init.js"></script>
+	
 	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
 	
 	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/app.js?<?php echo time(); ?>'></script>
 	
 	<link href='<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css?<?php echo time(); ?>'
 	      rel='stylesheet'>
+	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
+	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
 	<link href="<?php echo _RESOURCESDIR_; ?>css/fontawesome/css/fontawesome-all.css?<?php echo time(); ?>"
 	      rel="stylesheet">
 	<link href='<?php echo _RESOURCESDIR_; ?>css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
