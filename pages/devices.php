@@ -31,6 +31,7 @@
 		
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
@@ -117,6 +118,15 @@
 							</span>
 						</td>
 						<td class='more mac'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more mqtt'>
 							<span>
 								<div class='loader'>
 									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
@@ -256,6 +266,7 @@
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
