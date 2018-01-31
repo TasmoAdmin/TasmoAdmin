@@ -6,6 +6,12 @@
 	//var_dump( $devices );
 ?>
 
+<div class='btn-group'>
+	<div style='text-align: right;'>
+		<input type='checkbox' name='showmore' class='showmore'>
+		<label for='showmore'><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
+	</div>
+</div>
 <table id='device-list'
        class='center-table tablesaw tablesaw-stack'
        data-tablesaw-mode="stack"
@@ -22,7 +28,19 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-		<th class='more'><?php echo __( "more", "DEVICES" ); ?></th>
+		
+		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SLEEP", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "BOOTCOUNT", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SAVECOUNT", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
+		
 		<th class='link'>
 			<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
 				<i class="fas fa-plus add"
@@ -87,9 +105,109 @@
 								</div>
 							</span>
 						</td>
-						<td class='more'>
-							more
+						
+						
+						<td class='more hostname'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
 						</td>
+						<td class='more mac'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more poweronstate'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more ledstate'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more savedata'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more sleep'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more bootcount'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more savecount'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more log'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more wificonfig'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						<td class='more vcc'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+						</td>
+						
+						
 						<td class='actions'>
 							<a href='<?php echo _APPROOT_; ?>index.php?page=device_config&device_id=<?php echo $device_group->id; ?>'>
 								<i class="fas fa-cogs fa-lg"
@@ -136,7 +254,17 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-		<th class='more'><?php echo __( "more", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SLEEP", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "BOOTCOUNT", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "SAVECOUNT", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
+		<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
 		<th class='link'>
 			<a href='<?php echo _APPROOT_; ?>index.php?page=device_action&action=add'>
 				<i class="fas fa-plus add"
@@ -147,6 +275,11 @@
 	</tr>
 	</tfoot>
 </table>
-
+<div class='btn-group'>
+	<div style='text-align: right;'>
+		<input type='checkbox' name='showmore' class='showmore'>
+		<label for='showmore'><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
+	</div>
+</div>
 
 <script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>

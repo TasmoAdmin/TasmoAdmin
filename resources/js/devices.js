@@ -2,6 +2,10 @@ $( document ).on( "ready", function () {
 	deviceTools();
 	updateStatus();
 	
+	$( ".showmore" ).on( "change", function ( e ) {
+		$( "#device-list .more" ).toggle();
+	} );
+	
 	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
 	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
 	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
@@ -181,6 +185,36 @@ function updateRow( row, data, device_status ) {
 	}
 	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
 	$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
+	
+	
+	//MORE
+	$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?" );
+	$( row ).find( ".mac span" ).html( data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?" );
+	$( row ).find( ".poweronstate span" ).html( data.Status.PowerOnState
+	                                            !== undefined
+		                                            ? data.Status.PowerOnState
+		                                            : "?" );
+	$( row ).find( ".ledstate span" ).html( data.Status.LedState !== undefined ? data.Status.LedState : "?" );
+	$( row ).find( ".savedata span" ).html( data.Status.SaveData !== undefined ? data.Status.SaveData : "?" );
+	$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep : "?" );
+	$( row ).find( ".bootcount span" ).html( data.StatusPRM.BootCount !== undefined ? data.StatusPRM.BootCount : "?" );
+	$( row ).find( ".savecount span" ).html( data.StatusPRM.SaveCount !== undefined ? data.StatusPRM.SaveCount : "?" );
+	$( row ).find( ".log span" ).html( (
+		                                   data.StatusLOG.SerialLog !== undefined ? data.StatusLOG.SerialLog : "?"
+	                                   )
+	                                   + "|"
+	                                   + (
+		                                   data.StatusLOG.WebLog !== undefined ? data.StatusLOG.WebLog : "?"
+	                                   )
+	                                   + "|"
+	                                   + (
+		                                   data.StatusLOG.SysLog !== undefined ? data.StatusLOG.SysLog : "?"
+	                                   ) );
+	$( row ).find( ".wificonfig span" ).html( data.StatusNET.WifiConfig
+	                                          !== undefined
+		                                          ? data.StatusNET.WifiConfig
+		                                          : "?" );
+	$( row ).find( ".vcc span" ).html( data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?" );
 	
 	
 	$( row ).removeClass( "updating" );
