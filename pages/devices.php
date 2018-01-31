@@ -8,7 +8,7 @@
 
 <div class='btn-group'>
 	<div style='text-align: right;'>
-		<input type='checkbox' name='showmore' class='showmore'>
+		<input type='checkbox' name='showmore' id='showmore' class='showmore'>
 		<label for='showmore'><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
 	</div>
 </div>
@@ -288,7 +288,7 @@
 </table>
 <div class='btn-group'>
 	<div style='text-align: right;'>
-		<input type='checkbox' name='showmore' class='showmore'>
+		<input type='checkbox' name='showmore' id='showmore' class='showmore'>
 		<label for='showmore'><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
 	</div>
 </div>

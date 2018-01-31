@@ -5,8 +5,10 @@ $( document ).on( "ready", function () {
 	
 	$( ".showmore" ).on( "change", function ( e ) {
 		if ( $( this ).prop( "checked" ) ) {
+			$( ".showmore" ).prop( "checked", true );
 			Cookies.set( 'devices_show_more', '1' );
 		} else {
+			$( ".showmore" ).prop( "checked", false );
 			Cookies.set( 'devices_show_more', '0' );
 		}
 		$( "#device-list .more" ).toggle();
