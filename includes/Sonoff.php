@@ -262,6 +262,12 @@
 				$device,
 				urldecode( $_GET[ "cmnd" ] )
 			);
+			
+			
+			//			if ( $_GET[ "id" ] == 3 ) {
+			//				$url = "http://sonweb/dev/test.json";
+			//			}
+			
 			$result = NULL;
 			$ch     = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );

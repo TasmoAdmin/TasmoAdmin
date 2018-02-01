@@ -164,3 +164,26 @@ $.fn.attachDragger = function () {
 		$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
 	} );
 };
+
+
+var parseVersion = function ( versionString ) {
+	versionString = versionString.replace( "-minimal", "" ).replace( /\./g, "" );
+	
+	var last = versionString.slice( -1 );
+	if ( isNaN( last ) ) {
+		versionString = versionString.replace(
+			last,
+			(
+				last.charCodeAt( 0 ) - 97 < 10
+					? "0" + (
+					last.charCodeAt( 0 ) - 97
+				)
+					: last.charCodeAt( 0 ) - 97
+			)
+		);
+	} else {
+		versionString = versionString + "00";
+	}
+	
+	return versionString;
+};
