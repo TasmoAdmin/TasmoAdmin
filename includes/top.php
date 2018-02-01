@@ -1,7 +1,9 @@
 <?php
-	ini_set( 'session.gc_maxlifetime', 2678400 );
 	error_reporting( E_ALL );
 	ini_set( 'display_errors', '1' );
+	
+	ini_set( 'session.gc_maxlifetime', 30 * 24 * 60 * 60 );
+	session_set_cookie_params( 30 * 24 * 60 * 60 );
 	session_start();
 	
 	if ( !function_exists( "curl_init" ) ) {
