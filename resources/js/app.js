@@ -131,3 +131,36 @@ function notifyMe( msg, title ) {
 	// Finally, if the user has denied notifications and you
 	// want to be respectful there is no need to bother them any more.
 }
+
+
+$.fn.attachDragger = function () {
+	var attachment = false, lastPosition, position, difference;
+	$( $( this ).selector ).on( "mousedown mouseup mousemove", function ( e ) {
+		if ( e.type == "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
+			attachment = true, lastPosition = [ e.clientX, e.clientY ];
+			$( ".tablesaw-cell-content" ).addClass( "dontselect" );
+		}
+		if ( e.type == "mouseup" ) {
+			attachment = false;
+			$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
+		}
+		if ( e.type == "mousemove" && attachment == true ) {
+			position   = [ e.clientX, e.clientY ];
+			difference = [
+				(
+					position[ 0 ] - lastPosition[ 0 ]
+				),
+				(
+					position[ 1 ] - lastPosition[ 1 ]
+				),
+			];
+			$( this ).scrollLeft( $( this ).scrollLeft() - difference[ 0 ] );
+			$( this ).scrollTop( $( this ).scrollTop() - difference[ 1 ] );
+			lastPosition = [ e.clientX, e.clientY ];
+		}
+	} );
+	$( window ).on( "mouseup", function () {
+		attachment = false;
+		$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
+	} );
+};

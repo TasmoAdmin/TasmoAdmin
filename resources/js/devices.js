@@ -18,6 +18,8 @@ $( document ).on( "ready", function () {
 		$( ".showmore" ).prop( "checked", true );
 		$( "#device-list .more" ).toggle();
 	}
+	
+	$( '#content-holder' ).attachDragger();
 	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
 	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
 	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
