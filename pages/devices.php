@@ -29,6 +29,7 @@
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 		<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
+		<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
@@ -108,6 +109,11 @@
 							</span>
 						</td>
 						<td class='temp hidden'>
+							<span>
+								-
+							</span>
+						</td>
+						<td class='humidity hidden'>
 							<span>
 								-
 							</span>
@@ -276,6 +282,7 @@
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 		<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
+		<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>

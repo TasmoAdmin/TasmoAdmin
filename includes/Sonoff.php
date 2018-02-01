@@ -265,7 +265,7 @@
 			
 			
 			//			if ( $_GET[ "id" ] == 3 ) {
-			//				$url = "http://sonweb/dev/test.json";
+			//				$url = "http://sonweb/dev/DHT11.json";
 			//			}
 			
 			$result = NULL;

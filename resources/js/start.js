@@ -139,18 +139,18 @@ function updateBox( row, data, device_status ) {
 		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		console.log( uptime );
+		//console.log( uptime );
 	}
 	
-	var temp = (
-		data.StatusSNS.DS18B20 ? data.StatusSNS.DS18B20.Temperature + (
-			data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
-		)
-			: ""
-	);
+	var temp = getTemp( data );
 	
 	if ( temp != "" ) {
 		$( row ).find( ".temp span" ).html( temp ).parent().removeClass( "hidden" );
+	}
+	var humidity = getHumidity( data );
+	
+	if ( humidity != "" ) {
+		$( row ).find( ".humidity span" ).html( humidity ).parent().removeClass( "hidden" );
 	}
 	
 	var idx = (

@@ -3,7 +3,9 @@ var refreshtime = false;
 
 
 $( document ).on( "ready", function () {
-	
+	$( "#content-holder" ).css( "width", "calc(100% - " + (
+	                                     $( "#navi" ).width() + 41
+	) + "px)" );
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = './tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
 	$.ajax( {
@@ -187,3 +189,53 @@ var parseVersion = function ( versionString ) {
 	
 	return versionString;
 };
+
+
+function getTemp( data ) {
+	var temp = [];
+	
+	if ( data.StatusSNS.DS18B20 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.DS18B20.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	if ( data.StatusSNS.DHT11 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.DHT11.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	if ( data.StatusSNS.AM2301 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.AM2301.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	
+	//console.log( temp );
+	
+	return temp.join( "<br/>" );
+}
+
+function getHumidity( data ) {
+	var humi = [];
+	
+	if ( data.StatusSNS.AM2301 !== undefined ) {
+		if ( data.StatusSNS.AM2301.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.AM2301.Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS.DHT11 !== undefined ) {
+		if ( data.StatusSNS.DHT11.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.DHT11.Humidity + "%" );
+		}
+	}
+	
+	//console.log( humi );
+	
+	return humi.join( "<br/>" );
+}

@@ -19,7 +19,7 @@ $( document ).on( "ready", function () {
 		$( "#device-list .more:not(.hidden)" ).toggle();
 	}
 	
-	$( '#content-holder' ).attachDragger();
+	$( '#content' ).attachDragger();
 	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
 	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
 	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
@@ -191,16 +191,18 @@ function updateRow( row, data, device_status ) {
 		console.log( uptime );
 	}
 	
-	var temp = (
-		data.StatusSNS.DS18B20 ? data.StatusSNS.DS18B20.Temperature + (
-			data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
-		)
-			: ""
-	);
+	
+	var temp = getTemp( data );
 	
 	if ( temp != "" ) {
 		$( row ).find( ".temp span" ).html( temp );
 		$( "#device-list .temp" ).removeClass( "hidden" );
+	}
+	var humidity = getHumidity( data );
+	
+	if ( humidity != "" ) {
+		$( row ).find( ".humidity span" ).html( humidity );
+		$( "#device-list .humidity" ).removeClass( "hidden" );
 	}
 	
 	var idx = (
@@ -255,4 +257,7 @@ function updateRow( row, data, device_status ) {
 	
 	$( row ).removeClass( "updating" );
 }
+
+
+
 
