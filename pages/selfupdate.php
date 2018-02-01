@@ -29,9 +29,16 @@
 			<?php echo $msg; ?>
 		</p>
 	<?php endif; ?>
+	<?php if ( $newUpdate[ "error" ] ): ?>
+		<p class='toastr error'>
+			<?php echo $newUpdate[ "msg" ]; ?>
+			<br/>
+			<?php echo __( "ERROR_CHECK_CONNECTION", "SELFUPDATE" ); ?>
+		</p>
+	<?php endif; ?>
 	<br/>
 	<br/>
-	<?php if ( $newUpdate ): ?>
+	<?php if ( $newUpdate[ "update" ] ): ?>
 		<p>
 			<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!<br/><br/>
 			<?php echo __(
