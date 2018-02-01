@@ -363,6 +363,11 @@ td.status {
 	cursor : pointer;
 }
 
+.tablesaw-stack td.actions {
+	display : inline-block;
+	width   : 150px;
+}
+
 td.actions span {
 	text-align : center;
 }
@@ -550,4 +555,9 @@ p.warning {
 	-moz-user-select    : none;
 	-o-user-select      : none;
 	user-select         : none;
+}
+
+.hidden,
+.tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
+	display : none;
 }

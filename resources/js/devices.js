@@ -11,12 +11,12 @@ $( document ).on( "ready", function () {
 			$( ".showmore" ).prop( "checked", false );
 			Cookies.set( 'devices_show_more', '0' );
 		}
-		$( "#device-list .more" ).toggle();
+		$( "#device-list .more:not(.hidden)" ).toggle();
 	} );
 	
 	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
 		$( ".showmore" ).prop( "checked", true );
-		$( "#device-list .more" ).toggle();
+		$( "#device-list .more:not(.hidden)" ).toggle();
 	}
 	
 	$( '#content-holder' ).attachDragger();
@@ -190,6 +190,27 @@ function updateRow( row, data, device_status ) {
 		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 		console.log( uptime );
 	}
+	
+	var temp = (
+		data.StatusSNS.DS18B20 ? data.StatusSNS.DS18B20.Temperature + (
+			data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+		)
+			: ""
+	);
+	
+	if ( temp != "" ) {
+		$( row ).find( ".temp span" ).html( temp );
+		$( "#device-list .temp" ).removeClass( "hidden" );
+	}
+	
+	var idx = (
+		data.idx ? data.idx : ""
+	);
+	if ( idx != "" ) {
+		$( row ).find( ".idx span" ).html( idx );
+		$( "#device-list .idx" ).removeClass( "hidden" ).show();
+	}
+	
 	$( row ).find( ".version span" ).html( data.StatusFWR.Version );
 	
 	if ( device_status == "ON" ) {

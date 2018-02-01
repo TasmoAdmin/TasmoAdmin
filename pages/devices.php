@@ -28,10 +28,11 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-		
+		<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
+		<th class='more idx hidden'><?php echo __( "TABLE_HEAD_IDX", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
@@ -106,6 +107,11 @@
 								</div>
 							</span>
 						</td>
+						<td class='temp hidden'>
+							<span>
+								-
+							</span>
+						</td>
 						
 						
 						<td class='more hostname'>
@@ -133,6 +139,11 @@
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
+							</span>
+						</td>
+						<td class='more idx hidden'>
+							<span>
+								-
 							</span>
 						</td>
 						<td class='more poweronstate'>
@@ -264,9 +275,11 @@
 		</th>
 		<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 		<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+		<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
+		<th class='more idx hidden'><?php echo __( "TABLE_HEAD_IDX", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
 		<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
