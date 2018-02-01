@@ -46,7 +46,7 @@
 	.tablesaw-stack th .tablesaw-cell-label {
 		display : inline-block;
 		padding : 0 .6em 0 0;
-		width   : 30%;
+		width   : 40%;
 	}
 	
 	/* For grouped headers, have a different style to visually separate the levels by classing the first label in each col group */
@@ -83,12 +83,12 @@
 	.tablesaw-stack thead td,
 	.tablesaw-stack thead th,
 	.tablesaw-stack tfoot th {
-		display : none;
+		display : none !important;
 	}
 	
 	.tablesaw-stack thead th.link,
 	.tablesaw-stack tfoot th.link {
-		display : block;
+		display : block !important;
 	}
 	
 	.tablesaw-stack tbody td,
@@ -105,7 +105,7 @@
 	
 	.tablesaw-cell-content {
 		display   : inline-block;
-		max-width : 67%;
+		max-width : 57%;
 	}
 	
 	.tablesaw-stack .tablesaw-stack-block .tablesaw-cell-label,

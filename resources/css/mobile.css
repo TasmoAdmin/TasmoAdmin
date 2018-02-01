@@ -35,6 +35,10 @@
 		height : 100%;
 	}
 	
+	#content-holder {
+		height : calc(100% - 81px);
+	}
+	
 	#content-holder, #content-holder.full-width {
 		width  : calc(100% - 40px);
 		border : none;
@@ -96,8 +100,12 @@
 
 @media only screen and (max-width : 371px) {
 	#content-holder, #content-holder, #content-holder.full-width {
-		height  : calc(100% - 81px);
+		height  : calc(100% - 61px);
 		width   : 100%;
 		padding : 0px;
+	}
+	
+	.center-table {
+		border : 0px none;
 	}
 }
