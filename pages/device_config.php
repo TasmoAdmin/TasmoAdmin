@@ -1,6 +1,6 @@
 <?php
 	$msg            = FALSE;
-	$device         = NULL;
+	$device         = null;
 	$activeTabIndex = 0;
 	
 	if ( isset( $_GET[ "device_id" ] ) ) {
@@ -53,41 +53,46 @@
 
 
 ?>
+<h2 class="center">
+	<?php echo __( "DEVICE", "DEVICE_CONFIG" ); ?>:
+	<?php echo implode( " | ", $device->names ); ?>
+    <small>( ID: <?php echo $device->id; ?> )</small>
+</h2>
 <?php if ( isset( $msg ) && !empty( $msg ) ): ?>
-	<p class='toastr success'>
+    <p class='toastr success'>
 		<?php echo $msg ? $msg : ""; ?>
-	</p>
+    </p>
 <?php endif; ?>
 
 <?php if ( isset( $status->ERROR ) && !empty( $status->ERROR ) ): ?>
-	<p class='toastr error'>
+    <p class='toastr error'>
 		<?php echo __( "ERROR_COULD_NOT_GET_DATA", "DEVICE_CONFIG" ); ?><br/><br/>
 		<?php echo $status->ERROR; ?><br/><br/>
-		<a href='#' class='reload'><?php echo __( "PAGE_RELOAD" ); ?></a>
-	</p>
+        <a href='#' class='reload'><?php echo __( "PAGE_RELOAD" ); ?></a>
+    </p>
 
 <?php else: ?>
-	<div id="config_tabs">
-		<ul>
-			<li data-tab-index='0' class='<?php echo $activeTabIndex == 0 ? "active" : ""; ?>'>
-				<a href="#config_general_tab">
+    <div id="config_tabs">
+        <ul>
+            <li data-tab-index='0' class='<?php echo $activeTabIndex == 0 ? "active" : ""; ?>'>
+                <a href="#config_general_tab">
 					<?php echo __( "TAB_HL_GENERAL", "DEVICE_CONFIG" ); ?>
-				</a>
-			</li>
-			<li data-tab-index='1' class='<?php echo $activeTabIndex == 1 ? "active" : ""; ?>'>
-				<a href="#config_network_tab">
+                </a>
+            </li>
+            <li data-tab-index='1' class='<?php echo $activeTabIndex == 1 ? "active" : ""; ?>'>
+                <a href="#config_network_tab">
 					<?php echo __( "TAB_HL_NETWORK", "DEVICE_CONFIG" ); ?>
-				</a>
-			</li>
-		</ul>
-		<div id="config_general_tab">
+                </a>
+            </li>
+        </ul>
+        <div id="config_general_tab">
 			<?php include_once _PAGESDIR_."device_config_tabs/config_general_tab.php"; ?>
-		</div>
-		<div id="config_network_tab">
+        </div>
+        <div id="config_network_tab">
 			<?php include_once _PAGESDIR_."device_config_tabs/config_network_tab.php"; ?>
-		</div>
-	
-	</div>
+        </div>
+
+    </div>
 
 <?php endif; ?>
 
