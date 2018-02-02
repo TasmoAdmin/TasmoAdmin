@@ -37,13 +37,13 @@ AddDefaultCharset UTF-8
     RewriteRule ^doAjax$ /index.php?doAjax=doAjax [L]
 
     ##Lang Switch detection
-    RewriteRule ([a-z]{2})/ ?lang=$1 [L]
+    RewriteRule /([a-z]{2})/ ?lang=$1 [L]
 
 
     ##Pages routing
-    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([0-9_]+)/?$ ?page=$1&action=$2&device_id=$3
-    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/?$ ?page=$1&action=$2
-    RewriteRule ^([a-zA-Z_]+)/([0-9]+)/?$ ?page=$1&device_id=$2
-    RewriteRule ^([a-zA-Z_]+)/?$ ?page=$1
+    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([0-9_]+)/?$ /?page=$1&action=$2&device_id=$3
+    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/?$ /?page=$1&action=$2
+    RewriteRule ^([a-zA-Z_]+)/([0-9]+)/?$ /?page=$1&device_id=$2
+    RewriteRule ^([a-zA-Z_]+)/?$ /?page=$1
 
 </IfModule>

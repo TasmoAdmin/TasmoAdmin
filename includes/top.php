@@ -54,10 +54,10 @@
 	
 	$i18n = new i18n();
 	
-	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : null;
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
 	if ( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
-		header( "Location: "._BASEURL_ );
+		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
 	}
 	
 	
@@ -76,7 +76,7 @@
 	$Sonoff = new Sonoff();
 	
 	
-	function __( $string, $category = null, $args = null ) {
+	function __( $string, $category = NULL, $args = NULL ) {
 		$cat = "";
 		if ( isset( $category ) && !empty( $category ) ) {
 			$cat = $category."_";

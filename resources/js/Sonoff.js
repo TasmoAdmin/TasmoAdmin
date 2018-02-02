@@ -74,6 +74,7 @@ var Sonoff = function ( options ) {
 			        url     : "index.php?doAjax",
 			        timeout : options.timeout * 1000,
 			        cache   : false,
+			        type    : "post",
 			        data    : {
 				        id  : id,
 				        cmnd: encodeURIComponent( cmnd ),
