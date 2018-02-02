@@ -2,7 +2,7 @@
 	include_once( "./includes/top.php" );
 	
 	
-	if ( !isset ( $_SESSION[ "login" ] ) ) {
+	if ( !isset ( $_SESSION[ "login" ] ) && $Config->read( "login" ) == "1" ) {
 		header( "Location: "._BASEURL_."login" );
 	}
 	
@@ -76,10 +76,12 @@
 		   title='<?php echo __( "SELFUPDATE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "SELFUPDATE", "NAVI" ); ?></li>
 		</a>
-		<hr/>
-		<a href='<?php echo _BASEURL_; ?>logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
-			<li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
-		</a>
+		<?php if ( $Config->read( "login" ) == "1" ): ?>
+			<hr/>
+			<a href='<?php echo _BASEURL_; ?>logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
+				<li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
+			</a>
+		<?php endif; ?>
 	
 	</ul>
 </div>

@@ -11,6 +11,8 @@
 				"refreshtime"           => "2",
 				"current_git_sha"       => "",
 				"update_automatic_lang" => "",
+				"nightmode"             => "auto",
+				"login"                 => "1",
 			];
 		
 		function __construct() {
@@ -59,7 +61,7 @@
 				$config = [];
 			}
 			
-			return isset( $config[ $key ] ) ? $config[ $key ] : null;
+			return isset( $config[ $key ] ) ? $config[ $key ] : NULL;
 		}
 		
 		public function write( $key, $value ) {
@@ -72,7 +74,6 @@
 			$config[ $key ] = $value;
 			$config         = var_export( $config, TRUE );
 			file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
-			
 			
 			return TRUE;
 		}

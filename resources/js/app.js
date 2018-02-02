@@ -3,12 +3,8 @@ var refreshtime = false;
 
 
 $( document ).on( "ready", function () {
-	var currentTime = new Date();
-	var hour        = currentTime.getHours();
 	
-	if ( hour >= 18 || hour <= 8 ) {
-		$( "body" ).addClass( "nightmode" );
-	}
+	checkNightmode( nightmodeconfig );
 	
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
@@ -104,6 +100,10 @@ $( document ).on( "ready", function () {
 		// ) + "lang=" + valueSelected;
 	} );
 	
+	setTimeout( function () {
+		console.log( "checknightmode" );
+		checkNightmode( nightmodeconfig );
+	}, 15 * 60 * 1000 );
 } );
 
 
@@ -249,4 +249,24 @@ function getHumidity( data ) {
 	//console.log( humi );
 	
 	return humi.join( "<br/>" );
+}
+
+
+function checkNightmode( config ) {
+	console.log( config );
+	var config = config || "auto";
+	
+	var currentTime = new Date();
+	var hour        = currentTime.getHours();
+	
+	
+	if ( config === "disable" ) {
+		$( "body" ).removeClass( "nightmode" );
+	} else {
+		if ( "auto" ) {
+			if ( hour >= 18 || hour <= 8 || config === "enable" ) {
+				$( "body" ).addClass( "nightmode" );
+			}
+		}
+	}
 }
