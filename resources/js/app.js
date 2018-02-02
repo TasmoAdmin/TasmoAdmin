@@ -13,6 +13,9 @@ $( document ).on( "ready", function () {
 		        success : function ( data ) {
 			
 			        $.i18n().load( data );
+			
+			        
+			        
 		        },
 	        } );
 	/**
@@ -90,9 +93,7 @@ $( document ).on( "ready", function () {
 			curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
 		) + "lang=" + valueSelected;
 	} );
-	$( "#content-holder" ).css( "width", "calc(100% - " + (
-	                                     $( "#navi" ).width() + 42
-	) + "px)" );
+	
 } );
 
 

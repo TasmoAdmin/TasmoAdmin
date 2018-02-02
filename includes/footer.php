@@ -12,5 +12,12 @@
 		Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
 	</a>
 </div>
+<script>
+	$( "#content-holder" ).css(
+		"width", "calc(100% - " + (
+		         $( "#navi" ).innerWidth() + 42
+	) + "px)"
+	);
+</script>
 </body>
 </html>

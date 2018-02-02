@@ -3,7 +3,7 @@
 	
 	class Selfupdate {
 		
-		private $repoUrl    = "https://api.github.com/repos/reloxx13/SonWEB/";
+		private $repoUrl    = "https://api.github.com/repos/reloxx13/SonWEB";
 		private $latestSha  = "";
 		private $currentSha = "";
 		private $zipfile    = "";
@@ -22,7 +22,7 @@
 		}
 		
 		public function checkForUpdate() {
-			$action = "commits";
+			$action = "/commits";
 			$result = [
 				"update" => FALSE,
 				"error"  => FALSE,
@@ -49,7 +49,7 @@
 		
 		public function update() {
 			$this->checkForUpdate();
-			$action = "zipball/master";
+			$action = "/zipball/master";
 			if ( $this->saveZip( $action ) ) {
 				$this->log[] = __( "SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE" );
 				if ( $this->install() ) {
