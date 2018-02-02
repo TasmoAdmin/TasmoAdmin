@@ -18,28 +18,28 @@
 
 
 <div class='center'>
-	
-	<p class='warning'>
-		<?php echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
-	</p>
-	<br/>
-	<br/>
+
+    <!--	<p class='warning'>-->
+    <!--		--><?php //echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
+    <!--	</p>-->
+    <!--	<br/>-->
+    <!--	<br/>-->
 	<?php if ( $msg != "" ): ?>
-		<p>
+        <p>
 			<?php echo $msg; ?>
-		</p>
+        </p>
 	<?php endif; ?>
 	<?php if ( $newUpdate[ "error" ] ): ?>
-		<p class='toastr error'>
+        <p class='toastr error'>
 			<?php echo $newUpdate[ "msg" ]; ?>
-			<br/>
+            <br/>
 			<?php echo __( "ERROR_CHECK_CONNECTION", "SELFUPDATE" ); ?>
-		</p>
+        </p>
 	<?php endif; ?>
-	<br/>
-	<br/>
+    <br/>
+    <br/>
 	<?php if ( $newUpdate[ "update" ] ): ?>
-		<p>
+        <p>
 			<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!<br/><br/>
 			<?php echo __(
 				"OLD_SHA_VERSION",
@@ -47,21 +47,21 @@
 				[ $Selfupdate->getCurrentSha() ? $Selfupdate->getCurrentSha() : __( "UNKNOWN", "SELFUPDATE" ) ]
 			); ?><br/>
 			<?php echo __( "NEW_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestSha() ] ); ?><br/>
-			<br/>
-		</p>
-		<form name='selfupdateform' method='post'>
-			<button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
+            <br/>
+        </p>
+        <form name='selfupdateform' method='post'>
+            <button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
 				<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-			</button>
-		</form>
+            </button>
+        </form>
 	<?php else: ?>
-		<p>
+        <p>
 			<?php echo __( "NO_UPDATE_FOUND", "SELFUPDATE" ); ?>
-		</p>
-		<form name='selfupdateform' method='post'>
-			<button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
+        </p>
+        <form name='selfupdateform' method='post'>
+            <button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
 				<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-			</button>
-		</form>
+            </button>
+        </form>
 	<?php endif; ?>
 </div>
