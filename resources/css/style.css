@@ -600,7 +600,8 @@ p.warning {
 	display : none;
 }
 
-.nightmode {
+.nightmode, .nightmode .ui-widget-content {
+	background       : none;
 	background-color : #19162F;
 	color            : #707070;
 }
@@ -619,7 +620,8 @@ p.warning {
 	text-shadow : none;
 }
 
-.nightmode #footer, .nightmode #content-holder, .nightmode #header, .nightmode .box_device {
+.nightmode #footer, .nightmode #content-holder, .nightmode #header, .nightmode .box_device,
+.nightmode .ui-widget.ui-widget-content {
 	border-color : #284681;
 }
 
@@ -632,6 +634,7 @@ p.warning {
 .nightmode .ui-widget-content .ui-state-default,
 .nightmode .ui-widget-header .ui-state-default,
 .nightmode .ui-button,
+.nightmode .ui-widget-header,
 html .nightmode .ui-button.ui-state-disabled:hover,
 html .nightmode .ui-button.ui-state-disabled:active {
 	background-color : #031959;
@@ -646,6 +649,10 @@ html .nightmode .ui-button.ui-state-disabled:active {
 .nightmode a:hover,
 .nightmode a.fas:hover, .nightmode a:hover .fas {
 	color : #007EB4;
+}
+
+.nightmode .ui-state-active a {
+	color : #00B2F5;
 }
 
 .nightmode #navi ul li:hover {
