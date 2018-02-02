@@ -21,9 +21,16 @@
 		echo "and restart webserver";
 		die();
 	}
+	$subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
+	$subdir
+	        = $subdir = str_replace( "\\", "/", $subdir );
+	$subdir = $subdir == "//" ? "/" : $subdir;
 	
-	define( "_APPROOT_", "./" );
-	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
+	
+	define( "_BASEURL_", $subdir );
+	define( "_RESOURCESDIR_", _BASEURL_."resources/" );
+	
+	define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
 	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
 	define( "_LIBSDIR_", _APPROOT_."libs/" );
 	define( "_PAGESDIR_", _APPROOT_."pages/" );
@@ -31,6 +38,8 @@
 	define( "_LANGDIR_", _APPROOT_."lang/" );
 	define( "_TMPDIR_", _APPROOT_."tmp/" );
 	define( "_CSVFILE_", _DATADIR_."devices.csv" );
+	
+	
 	$filename = _CSVFILE_; //csv file name
 	if ( !file_exists( $filename ) ) {
 		fopen( $filename, 'w' ) or die( "Can't create file" );
@@ -45,9 +54,10 @@
 	
 	$i18n = new i18n();
 	
-	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : null;
 	if ( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
+		header( "Location: "._BASEURL_ );
 	}
 	
 	
@@ -66,7 +76,7 @@
 	$Sonoff = new Sonoff();
 	
 	
-	function __( $string, $category = NULL, $args = NULL ) {
+	function __( $string, $category = null, $args = null ) {
 		$cat = "";
 		if ( isset( $category ) && !empty( $category ) ) {
 			$cat = $category."_";

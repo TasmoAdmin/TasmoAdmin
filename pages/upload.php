@@ -234,188 +234,188 @@
 
 
 <?php if ( $error ): ?>
-	<div class='center'>
-		<p>
+    <div class='center'>
+        <p>
 			<?php echo $msg; ?>
-		</p>
-	
-	</div>
+        </p>
+
+    </div>
 
 <?php else: ?>
 	<?php
 	$devices = $Sonoff->getDevices();
 	
 	?>
-	<div class='center'>
-		<p>
+    <div class='center'>
+        <p>
 			<?php echo $msg; ?>
-		</p>
+        </p>
 		<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
-			<p class='warning'>
+            <p class='warning'>
 				<?php echo __( "AUTO_WARNING_CFG_HOLDER", "DEVICE_UPDATE" ); ?>
-			</p>
+            </p>
 		<?php endif; ?>
-		<p>
+        <p>
 			<?php echo __( "CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE" ); ?>:
-		</p>
-	</div>
-	<form name='update_devices'
-	      class='center'
-	      id='update_devices'
-	      method='post'
-	      action='<?php echo _APPROOT_; ?>index.php?page=device_update'>
-		<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
-		<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-		<div class='btn-group'>
-			<button type='submit' class='btn widget' name='submit' value='submit'>
+        </p>
+    </div>
+    <form name='update_devices'
+          class='center'
+          id='update_devices'
+          method='post'
+          action='<?php echo _BASEURL_; ?>device_update'>
+        <input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
+        <input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
+        <div class='btn-group'>
+            <button type='submit' class='btn widget' name='submit' value='submit'>
 				<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-			</button>
-		</div>
-		<table id='device-list' class='center-table tablesaw tablesaw-stack'
-		       data-tablesaw-mode="stack" border='0' cellspacing='0'>
-			<thead>
-			
-			<tr>
-				<th class='link'>
-					<input class='select_all' type='checkbox' name='select_all' value='select_all'>
-					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
-				</th>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
-				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
+            </button>
+        </div>
+        <table id='device-list' class='center-table tablesaw tablesaw-stack'
+               data-tablesaw-mode="stack" border='0' cellspacing='0'>
+            <thead>
+
+            <tr>
+                <th class='link'>
+                    <input class='select_all' type='checkbox' name='select_all' value='select_all'>
+                    <label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
+                </th>
+                <th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+                <th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
+                <th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+            </tr>
+            </thead>
+            <tbody>
 			<?php
 				$odd = TRUE;
 				if ( isset( $devices ) && !empty( $devices ) ):
 					foreach ( $devices as $device_group ):
 						foreach ( $device_group->names as $key => $devicename ): ?>
-							<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-							    data-device_id='<?php echo $device_group->id; ?>'
-							    data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi"
+                            <tr class='<?php echo $odd ? "odd" : "even"; ?>'
+                                data-device_id='<?php echo $device_group->id; ?>'
+                                data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi"
 								    : "single"; ?>'
-							    data-device_ip='<?php echo $device_group->ip; ?>'
-							    data-device_relais='<?php echo $key + 1; ?>'
-							>
-								<td class='update_cb'>
+                                data-device_ip='<?php echo $device_group->ip; ?>'
+                                data-device_relais='<?php echo $key + 1; ?>'
+                            >
+                                <td class='update_cb'>
 									<?php if ( $key == 0 ): ?>
-										<label for='cb_<?php echo $device_group->id; ?>'>
+                                        <label for='cb_<?php echo $device_group->id; ?>'>
 											<?php echo __( "UPDATE", "DEVICE_UPDATE" ); ?>
-										</label>
-										<input type='checkbox'
-										       name='device_ids[]'
-										       value='<?php echo $device_group->id; ?>'
-										       class='device_checkbox'
-										       id='cb_<?php echo $device_group->id; ?>'
-										>
+                                        </label>
+                                        <input type='checkbox'
+                                               name='device_ids[]'
+                                               value='<?php echo $device_group->id; ?>'
+                                               class='device_checkbox'
+                                               id='cb_<?php echo $device_group->id; ?>'
+                                        >
 									
 									<?php endif; ?>
-								</td>
-								<td><?php echo $device_group->id; ?></td>
-								<td><?php echo $devicename; ?></td>
-								<td><?php echo $device_group->ip; ?></td>
-								<td class='status'>
-									<label class="form-switch">
-										<input type="checkbox">
-										<i></i>
-									</label>
-								</td>
-								<td class='rssi'>
+                                </td>
+                                <td><?php echo $device_group->id; ?></td>
+                                <td><?php echo $devicename; ?></td>
+                                <td><?php echo $device_group->ip; ?></td>
+                                <td class='status'>
+                                    <label class="form-switch">
+                                        <input type="checkbox">
+                                        <i></i>
+                                    </label>
+                                </td>
+                                <td class='rssi'>
 									<span>
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+                                                 alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                                 title='<?php echo __( "TEXT_LOADING" ); ?>'>
 										</div>
 									</span>
-								</td>
-								<td class='version'>
+                                </td>
+                                <td class='version'>
 									<span>
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+                                                 alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                                 title='<?php echo __( "TEXT_LOADING" ); ?>'>
 										</div>
 									</span>
-								</td>
-								<td class='runtime'>
+                                </td>
+                                <td class='runtime'>
 									<span>
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+                                                 alt='<?php echo __( "TEXT_LOADING" ); ?>'
+                                                 title='<?php echo __( "TEXT_LOADING" ); ?>'>
 										</div>
 									</span>
-								</td>
-							</tr>
+                                </td>
+                            </tr>
 							<?php
 							$odd = !$odd;
 						endforeach;
 					endforeach;
 				endif; ?>
-			</tbody>
-			<tfoot>
-			<tr class='bottom'>
-				<th class='link'>
-					<input class='select_all' type='checkbox' name='select_all' value='select_all'>
-					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
-				</th>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
-				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-			</tr>
-			
-			</tfoot>
-		</table>
-		<div class='btn-group'>
-			<button type='submit' class='btn widget' name='submit' value='submit'>
+            </tbody>
+            <tfoot>
+            <tr class='bottom'>
+                <th class='link'>
+                    <input class='select_all' type='checkbox' name='select_all' value='select_all'>
+                    <label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
+                </th>
+                <th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+                <th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
+                <th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+                <th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+            </tr>
+
+            </tfoot>
+        </table>
+        <div class='btn-group'>
+            <button type='submit' class='btn widget' name='submit' value='submit'>
 				<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-			</button>
-		</div>
-	</form>
-	
-	<script>
-		$( document ).on( "ready", function () {
-			//select all checkboxes
-			$( ".select_all" ).change( function () {  //"select all" change
-				var status = this.checked; // "select all" checked status
-				$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
-					this.checked = status; //change ".checkbox" checked status
-				} );
-				
-				$( '.select_all' ).each( function () { //iterate all listed checkbox items
-					this.checked = status; //change ".checkbox" checked status
-				} );
-				
-			} );
-			
-			$( '.device_checkbox' ).change( function () { //".checkbox" change
-				//uncheck "select all", if one of the listed checkbox item is unchecked
-				if ( this.checked == false ) { //if this item is unchecked
-					$( '.select_all' ).each( function () { //iterate all listed checkbox items
-						this.checked = false; //change ".checkbox" checked status
-					} );
-				}
-				
-				//check "select all" if all checkbox items are checked
-				if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
-					$( '.select_all' ).each( function () { //iterate all listed checkbox items
-						this.checked = true; //change ".checkbox" checked status
-					} );
-				}
-			} );
-			
-		} );
-	</script>
-	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
+            </button>
+        </div>
+    </form>
+
+    <script>
+        $( document ).on( "ready", function() {
+            //select all checkboxes
+            $( ".select_all" ).change( function() {  //"select all" change
+                var status = this.checked; // "select all" checked status
+                $( '.device_checkbox' ).each( function() { //iterate all listed checkbox items
+                    this.checked = status; //change ".checkbox" checked status
+                } );
+
+                $( '.select_all' ).each( function() { //iterate all listed checkbox items
+                    this.checked = status; //change ".checkbox" checked status
+                } );
+
+            } );
+
+            $( '.device_checkbox' ).change( function() { //".checkbox" change
+                //uncheck "select all", if one of the listed checkbox item is unchecked
+                if( this.checked == false ) { //if this item is unchecked
+                    $( '.select_all' ).each( function() { //iterate all listed checkbox items
+                        this.checked = false; //change ".checkbox" checked status
+                    } );
+                }
+
+                //check "select all" if all checkbox items are checked
+                if( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
+                    $( '.select_all' ).each( function() { //iterate all listed checkbox items
+                        this.checked = true; //change ".checkbox" checked status
+                    } );
+                }
+            } );
+
+        } );
+    </script>
+    <script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
 <?php endif; ?>
 

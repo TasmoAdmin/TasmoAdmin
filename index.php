@@ -3,7 +3,7 @@
 	
 	
 	if ( !isset ( $_SESSION[ "login" ] ) ) {
-		header( "Location: "._APPROOT_."login.php" );
+		header( "Location: "._BASEURL_."login" );
 	}
 	
 	$page = "start";
@@ -51,14 +51,14 @@
 
 <div id="navi" class='open desktop'>
     <ul>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=start' title='<?php echo __( "STARTPAGE_TOOLTIP", "NAVI" ); ?>'>
+        <a href='<?php echo _BASEURL_; ?>start' title='<?php echo __( "STARTPAGE_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "STARTPAGE", "NAVI" ); ?></li>
         </a>
         <hr/>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
+        <a href='<?php echo _BASEURL_; ?>devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "DEVICES", "NAVI" ); ?></li>
         </a>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class=''
+        <a href='<?php echo _BASEURL_; ?>upload_form' class=''
            title='<?php echo __( "UPDATE_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "UPDATE", "NAVI" ); ?></li>
         </a>
@@ -68,16 +68,16 @@
         <!--				<li class=''>Chat</li>-->
         <!--			</a>-->
         <hr/>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=site_config'
+        <a href='<?php echo _BASEURL_; ?>site_config'
            title='<?php echo __( "SETTINGS_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "SETTINGS", "NAVI" ); ?></li>
         </a>
-        <a href='<?php echo _APPROOT_; ?>index.php?page=selfupdate'
+        <a href='<?php echo _BASEURL_; ?>selfupdate'
            title='<?php echo __( "SELFUPDATE_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "SELFUPDATE", "NAVI" ); ?></li>
         </a>
         <hr/>
-        <a href='<?php echo _APPROOT_; ?>login.php?logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
+        <a href='<?php echo _BASEURL_; ?>logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
             <li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
         </a>
 

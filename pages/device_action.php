@@ -133,8 +133,8 @@
     <form class='form'
           name='save_device'
           method='post'
-          action='<?php echo _APPROOT_; ?>index.php?page=device_action&action=<?php echo $action ?><?php echo isset( $device->id )
-		      ? "&device_id=".$device->id : "" ?>'>
+          action='<?php echo _BASEURL_; ?>device_action/<?php echo $action ?><?php echo isset( $device->id )
+		      ? "/".$device->id : "" ?>'>
         <input type='hidden' name='device_id' value='<?php echo isset( $device->id ) ? $device->id : ""; ?>'>
         <table class='center-table' border='0' cellspacing='0'>
             <tr>
