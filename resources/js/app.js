@@ -3,6 +3,12 @@ var refreshtime = false;
 
 
 $( document ).on( "ready", function () {
+	var currentTime = new Date();
+	var hour        = currentTime.getHours();
+	
+	if ( hour >= 18 || hour <= 8 ) {
+		$( "body" ).addClass( "nightmode" );
+	}
 	
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';

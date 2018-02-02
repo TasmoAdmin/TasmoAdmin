@@ -11,273 +11,273 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline;
+	margin         : 0;
+	padding        : 0;
+	border         : 0;
+	font-size      : 100%;
+	font           : inherit;
+	vertical-align : baseline;
 }
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-    display: block;
+	display : block;
 }
 
 body {
-    line-height: 1;
+	line-height : 1;
 }
 
 ol, ul {
-    list-style: none;
+	list-style : none;
 }
 
 blockquote, q {
-    quotes: none;
+	quotes : none;
 }
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-    content: '';
-    content: none;
+	content : '';
+	content : none;
 }
 
 table {
-    /*border-collapse : collapse;*/
-    border-spacing: 0;
+	/*border-collapse : collapse;*/
+	border-spacing : 0;
 }
 
 input, select, .ui-selectmenu-button.ui-button {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    width: 100%;
+	-webkit-box-sizing : border-box;
+	-moz-box-sizing    : border-box;
+	box-sizing         : border-box;
+	width              : 100%;
 }
 
 .ui-selectmenu-button.ui-button {
-    white-space: normal;
+	white-space : normal;
 }
 
 .ui-state-active, .ui-widget-content .ui-state-active {
-    font-weight: inherit;
+	font-weight : inherit;
 }
 
 input[type=checkbox], input[type=radio] {
-    width: auto;
+	width : auto;
 }
 
 hr {
-
-    color: #0037CC;
+	
+	color : #0037CC;
 }
 
 p {
-    margin: 10px;
+	margin : 10px;
 }
 
 p.toastr {
-    width: 90%;
-    border: 1px solid #0037CC;
-    padding: 10px 20px;
-    margin: 10px auto;
-    text-align: center;
+	width      : 90%;
+	border     : 1px solid #0037CC;
+	padding    : 10px 20px;
+	margin     : 10px auto;
+	text-align : center;
 }
 
 p.toastr.error {
-    border: 1px solid #E4001C;
-    color: #E4001C;
+	border : 1px solid #E4001C;
+	color  : #E4001C;
 }
 
 p.toastr.success {
-    border: 1px solid #19D300;
-    color: #19D300;
+	border : 1px solid #19D300;
+	color  : #19D300;
 }
 
 p.label {
-    cursor: help;
-    font-weight: bold;
+	cursor      : help;
+	font-weight : bold;
 }
 
 .ui-button {
-    padding: 0.3em 1em;
-    margin-right: 0px;
+	padding      : 0.3em 1em;
+	margin-right : 0px;
 }
 
 input {
-    padding: 0.3em 1em;
+	padding : 0.3em 1em;
 }
 
 .fas {
-    color: #008FCC;
+	color : #008FCC;
 }
 
 a.fas:hover, a:hover .fas {
-    color: #0037CC;
+	color : #0037CC;
 }
 
 a.delete .fas, a .error .fas, a .fas.error {
-    color: #E4001C;
+	color : #E4001C;
 }
 
 a.delete .fas:hover, a .error .fas:hover, a .fas.error:hover {
-    color: #A10016;
+	color : #A10016;
 }
 
 a.add .fas, a .fas.add {
-    color: #19D300;
+	color : #19D300;
 }
 
 a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
-    color: #3CA100;
+	color : #3CA100;
 }
 
 html {
-    height: calc(100% - 20px);
-    width: 100%;
+	height : calc(100% - 20px);
+	width  : 100%;
 }
 
 body {
-    font-family: Verdana;
-    margin: 0px;
-    padding: 0px;
-    font-size: 14px;
-    height: 100%;
-    width: 100%;
+	font-family : Verdana;
+	margin      : 0px;
+	padding     : 0px;
+	font-size   : 14px;
+	height      : 100%;
+	width       : 100%;
 }
 
 h1 {
-    font-size: 20px;
-    font-weight: bold;
-    color: #008FCC;
+	font-size   : 20px;
+	font-weight : bold;
+	color       : #008FCC;
 }
 
 h2 {
-    font-size: 18px;
-    font-weight: bold;
-    color: #008FCC;
-    margin: 10px 0;
-    width: 100%
+	font-size   : 18px;
+	font-weight : bold;
+	color       : #008FCC;
+	margin      : 10px 0;
+	width       : 100%
 }
 
 h1.center, h2.center, h3.center, h4.center {
-    text-align: center;
-    width: 100%
+	text-align : center;
+	width      : 100%
 }
 
 h2 small {
-    font-size: 12px;
-    font-weight: normal;
+	font-size   : 12px;
+	font-weight : normal;
 }
 
 a {
-    text-decoration: none;
-    color: #008FCC; /* rgba = rot grün blau alpha(transparent) */
+	text-decoration : none;
+	color           : #008FCC; /* rgba = rot grün blau alpha(transparent) */
 }
 
 a:hover {
-    text-decoration: none;
-    color: #0037CC;
+	text-decoration : none;
+	color           : #0037CC;
 }
 
 #header {
-    text-align: center;
-    border-bottom: 1px solid #0037CC;
-    width: 100%;
-    display: inline-block;
+	text-align    : center;
+	border-bottom : 1px solid #0037CC;
+	width         : 100%;
+	display       : inline-block;
 }
 
 #header h1 {
-    margin: 10px 0;
-    width: calc(100% - 30px);
+	margin : 10px 0;
+	width  : calc(100% - 30px);
 }
 
 #language-switch, #language-switch-button {
-    position: absolute;
-    right: 16px;
-    top: 5px;
-    display: inline-block;
-    width: 40px;
+	position : absolute;
+	right    : 16px;
+	top      : 5px;
+	display  : inline-block;
+	width    : 40px;
 }
 
 .hamburger {
-    display: none;
+	display : none;
 }
 
 #footer {
-    text-align: center;
-    border-top: 1px solid #0037CC;
-    padding: 10px 0;
-    width: 100%;
-    position: fixed;
-    bottom: 0;
+	text-align : center;
+	border-top : 1px solid #0037CC;
+	padding    : 10px 0;
+	width      : 100%;
+	position   : fixed;
+	bottom     : 0;
 }
 
 #navi {
-    float: left;
-    display: inline;
-    margin: 0px;
-    padding: 0px;
-    height: calc(100% - 56px);
-    margin-top: 10px;
+	float      : left;
+	display    : inline;
+	margin     : 0px;
+	padding    : 0px;
+	height     : calc(100% - 56px);
+	margin-top : 10px;
 }
 
 #navi ul {
-    padding: 0px;
-    margin: 0px;
-    list-style: none;
+	padding    : 0px;
+	margin     : 0px;
+	list-style : none;
 }
 
 #navi ul li {
-    padding: 5px 10px 5px 10px;
-    text-shadow: white 0px 0px 10px;
+	padding     : 5px 10px 5px 10px;
+	text-shadow : white 0px 0px 10px;
 }
 
 #navi ul li.active {
-    background-color: #0037CC;
-    color: #008FCC;
+	background-color : #0037CC;
+	color            : #008FCC;
 }
 
 #navi ul li:hover {
-    background-color: rgba(0, 148, 204, 0.7);
-    color: #FFFFFF;
-    text-shadow: #FFFFFF 0px 0px 10px;
+	background-color : rgba(0, 148, 204, 0.7);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
 }
 
 #content-holder {
-    width: calc(100% - 335px);
-    float: left;
-    margin: 0px;
-    display: inline;
-    height: calc(100% - 56px - 40px);
-    border-left: 1px solid #0037CC;
-    position: relative;
-    padding: 20px;
-    overflow: auto;
+	width       : calc(100% - 335px);
+	float       : left;
+	margin      : 0px;
+	display     : inline;
+	height      : calc(100% - 56px - 40px);
+	border-left : 1px solid #0037CC;
+	position    : relative;
+	padding     : 20px;
+	overflow    : auto;
 }
 
 #content-holder.full-width {
-    width: calc(100% - 201px);
+	width : calc(100% - 201px);
 }
 
 #content-holder #content {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
+	width      : 100%;
+	height     : 100%;
+	overflow-y : auto;
 }
 
 #content-holder.loading #content {
-    position: absolute;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    height: calc(100% - 40px);
-    width: calc(100% - 40px);
-    background: rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
+	position   : absolute;
+	z-index    : 1000;
+	top        : 0;
+	left       : 0;
+	height     : calc(100% - 40px);
+	width      : calc(100% - 40px);
+	background : rgba(255, 255, 255, .8) url('http://i.stack.imgur.com/FhHRx.gif') 50% 50% no-repeat;
 }
 
 td.label, th.label {
-    text-align: left;
+	text-align : left;
 }
 
 /*input[type=text], input[type=number], textarea {*/
@@ -290,312 +290,389 @@ td.label, th.label {
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
+	-webkit-appearance : none;
 }
 
 .btnx {
-    text-align: center;
-    color: #008FCC;
-    box-shadow: none;
-    margin: 0px;
-    padding: 5px 10px;
-    border: 1px solid #0037CC;
-    font-size: 14px;
-    cursor: pointer;
-    background-color: #FFFFFF;
+	text-align       : center;
+	color            : #008FCC;
+	box-shadow       : none;
+	margin           : 0px;
+	padding          : 5px 10px;
+	border           : 1px solid #0037CC;
+	font-size        : 14px;
+	cursor           : pointer;
+	background-color : #FFFFFF;
 }
 
 .btnx:hover {
-    background-color: rgba(0, 148, 204, 0.7);
-    color: #FFFFFF;
-    text-shadow: #FFFFFF 0px 0px 10px;
+	background-color : rgba(0, 148, 204, 0.7);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
 }
 
 .btn.delete {
-    color: #E4001C;
-    border: 1px solid #A10016;
+	color  : #E4001C;
+	border : 1px solid #A10016;
 }
 
 .btn.delete:hover {
-    background-color: #A10016;
+	background-color : #A10016;
 }
 
 .left {
-    float: left;
-    margin-right: 150px;
+	float        : left;
+	margin-right : 150px;
 }
 
 .clear {
-    clear: both;
+	clear : both;
 }
 
 table {
-    border: 1px solid #0037CC;
-    border-radius: 5px;
-    padding: 20px;
+	border        : 1px solid #0037CC;
+	border-radius : 5px;
+	padding       : 20px;
 }
 
 #config_tabs table {
-    border: 0px none;
-    padding: 0px;
+	border  : 0px none;
+	padding : 0px;
 }
 
 .center-table {
-    margin: 0 auto;
+	margin : 0 auto;
 }
 
 .center {
-    text-align: center;
+	text-align : center;
 }
 
 .inline {
-    display: inline;
+	display : inline;
 }
 
 tr th {
-    border-bottom: 1px solid #0037CC;
+	border-bottom : 1px solid #0037CC;
 }
 
 th .ui-icon {
-    width: 20px;
-    height: 20px;
+	width  : 20px;
+	height : 20px;
 }
 
 tr.bottom th {
-    border-bottom: 0px none;
-    border-top: 1px solid #0037CC;
+	border-bottom : 0px none;
+	border-top    : 1px solid #0037CC;
 }
 
 tr th, tr td, .tablesaw th, .tablesaw td {
-    padding: 5px 10px 5px 0px;
-    vertical-align: middle;
+	padding        : 5px 10px 5px 0px;
+	vertical-align : middle;
 }
 
 tr.odd {
-    background-color: rgb(210, 243, 255);
+	background-color : rgb(210, 243, 255);
 }
 
 tr.even {
-    background-color: #FFFFFF;
+	background-color : #FFFFFF;
 }
 
 td.status {
-    cursor: pointer;
+	cursor : pointer;
 }
 
 .tablesaw-stack td.actions {
-    display: inline-block;
-    min-width: 150px;
+	display   : inline-block;
+	min-width : 150px;
 }
 
 td.actions span {
-    text-align: center;
+	text-align : center;
 }
 
 td.actions a {
-    text-align: center;
+	text-align : center;
 }
 
 td.actions a i {
-    padding: 10px;
+	padding : 10px;
 }
 
 .tablesaw-stack td.more, .tablesaw-stack th.more, .tablesaw-stack thead td.more, .tablesaw-stack thead th.more {
-    display: none;
+	display : none;
 }
 
 #progressbox {
-    border: 1px solid #0037CC;
-    height: 100%;
-    text-align: left;
+	border     : 1px solid #0037CC;
+	height     : 100%;
+	text-align : left;
 }
 
 #progressbox span {
-    display: inline-block;
-    width: 100%;
+	display : inline-block;
+	width   : 100%;
 }
 
 #progressbox span.error {
-    color: red;
+	color : red;
 }
 
 #progressbox span.success {
-    color: green;
+	color : green;
 }
 
 #progressbox span.warning {
-    color: darkorange;
+	color : darkorange;
 }
 
 .box_device {
-    display: inline-block;
-    width: 150px;
-    height: 170px;
-    margin: 10px;
-    border: 1px solid #0037CC;
-    position: relative;
-    cursor: pointer;
-    border-radius: 5px;
+	display       : inline-block;
+	width         : 150px;
+	height        : 170px;
+	margin        : 10px;
+	border        : 1px solid #0037CC;
+	position      : relative;
+	cursor        : pointer;
+	border-radius : 5px;
 }
 
 .box_device.error {
-    border: 1px solid red;
+	border : 1px solid red;
 }
 
 .box_device img {
-    max-width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-    height: auto;
+	max-width  : 100%;
+	padding    : 10px;
+	box-sizing : border-box;
+	height     : auto;
 }
 
 .box_device .box_device_name {
-    background-color: rgba(0, 148, 204, 0.8);
-    color: #FFFFFF;
-    text-shadow: #FFFFFF 0px 0px 10px;
-    text-align: center;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    padding: 5px;
-    box-sizing: border-box;
+	background-color : rgba(0, 148, 204, 0.8);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
+	text-align       : center;
+	position         : absolute;
+	bottom           : 0px;
+	width            : 100%;
+	padding          : 5px;
+	box-sizing       : border-box;
 }
 
 .box_device .temp {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    padding: 3px;
-    background-color: rgba(0, 148, 204, 0.8);
-    color: #FFFFFF;
-    text-shadow: #FFFFFF 0px 0px 10px;
+	position         : absolute;
+	top              : 0px;
+	left             : 0px;
+	padding          : 3px;
+	background-color : rgba(0, 148, 204, 0.8);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
 }
 
 .box_device .humidity {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 3px;
-    background-color: rgba(0, 148, 204, 0.8);
-    color: #FFFFFF;
-    text-shadow: #FFFFFF 0px 0px 10px;
+	position         : absolute;
+	top              : 0px;
+	right            : 0px;
+	padding          : 3px;
+	background-color : rgba(0, 148, 204, 0.8);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
 }
 
 #login {
-    display: block;
+	display : block;
 }
 
 #login label {
-    font-weight: bold;
-    font-size: 12px;
-    width: 100%;
-    display: inline-block;
-    text-align: left;
+	font-weight : bold;
+	font-size   : 12px;
+	width       : 100%;
+	display     : inline-block;
+	text-align  : left;
 }
 
 .form-switch {
-    display: inline-block;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
+	display                     : inline-block;
+	cursor                      : pointer;
+	-webkit-tap-highlight-color : transparent;
 }
 
 .form-switch i {
-    position: relative;
-    display: inline-block;
-    margin-right: .5rem;
-    width: 46px;
-    height: 26px;
-    background-color: #E6E6E6;
-    border-radius: 23px;
-    vertical-align: text-bottom;
-    transition: all 0.3s linear;
+	position         : relative;
+	display          : inline-block;
+	margin-right     : .5rem;
+	width            : 46px;
+	height           : 26px;
+	background-color : #E6E6E6;
+	border-radius    : 23px;
+	vertical-align   : text-bottom;
+	transition       : all 0.3s linear;
 }
 
 .form-switch i::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 42px;
-    height: 22px;
-    background-color: #FFFFFF;
-    border-radius: 11px;
-    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
-    transition: all 0.25s linear;
+	content          : "";
+	position         : absolute;
+	left             : 0;
+	width            : 42px;
+	height           : 22px;
+	background-color : #FFFFFF;
+	border-radius    : 11px;
+	transform        : translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+	transition       : all 0.25s linear;
 }
 
 .form-switch i::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    width: 22px;
-    height: 22px;
-    background-color: #FFFFFF;
-    border-radius: 11px;
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.24);
-    transform: translate3d(2px, 2px, 0);
-    transition: all 0.2s ease-in-out;
+	content          : "";
+	position         : absolute;
+	left             : 0;
+	width            : 22px;
+	height           : 22px;
+	background-color : #FFFFFF;
+	border-radius    : 11px;
+	box-shadow       : 0 2px 2px rgba(0, 0, 0, 0.24);
+	transform        : translate3d(2px, 2px, 0);
+	transition       : all 0.2s ease-in-out;
 }
 
 .form-switch:active i::after {
-    width: 28px;
-    transform: translate3d(2px, 2px, 0);
+	width     : 28px;
+	transform : translate3d(2px, 2px, 0);
 }
 
 .form-switch:active input:checked + i::after {
-    transform: translate3d(16px, 2px, 0);
+	transform : translate3d(16px, 2px, 0);
 }
 
 .form-switch input {
-    display: none;
+	display : none;
 }
 
 .form-switch input:checked + i {
-    background-color: #008FCC;
+	background-color : #008FCC;
 }
 
 .form-switch input:checked + i::before {
-    transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+	transform : translate3d(18px, 2px, 0) scale3d(0, 0, 0);
 }
 
 .form-switch input:checked + i::after {
-    transform: translate3d(22px, 2px, 0);
+	transform : translate3d(22px, 2px, 0);
 }
 
 .form-switch.error i::before, .form-switch.error input:checked + i {
-    background-color: red;
+	background-color : red;
 }
 
 p.warning {
-    padding: 5px;
-    color: red;
-    border: 3px solid red;
-    font-size: 12px;
-    width: 50%;
-    margin: 0 auto;
+	padding   : 5px;
+	color     : red;
+	border    : 3px solid red;
+	font-size : 12px;
+	width     : 50%;
+	margin    : 0 auto;
 }
 
 .pull-right {
-    float: right
+	float : right
 }
 
 .pull-right:after {
-    clear: both;
+	clear : both;
 }
 
 .btn-group {
-    margin: 20px 10px;
-    text-align: center;
+	margin     : 20px 10px;
+	text-align : center;
 }
 
 .dontselect {
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+	-webkit-user-select : none;
+	-khtml-user-select  : none;
+	-moz-user-select    : none;
+	-o-user-select      : none;
+	user-select         : none;
 }
 
 .hidden,
 .tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
-    display: none;
+	display : none;
+}
+
+.nightmode {
+	background-color : #19162F;
+	color            : #707070;
+}
+
+.nightmode tr.odd {
+	background-color : #031959;
+}
+
+.nightmode tr.even, .nightmode .box_device .box_device_name {
+	background-color : #122660;
+	color            : #707070;
+	text-shadow      : none;
+}
+
+.nightmode #navi ul li {
+	text-shadow : none;
+}
+
+.nightmode #footer, .nightmode #content-holder, .nightmode #header, .nightmode .box_device {
+	border-color : #284681;
+}
+
+.nightmode hr {
+	border     : 0px none;
+	border-top : 1px solid #284681;
+}
+
+.nightmode .ui-state-default,
+.nightmode .ui-widget-content .ui-state-default,
+.nightmode .ui-widget-header .ui-state-default,
+.nightmode .ui-button,
+html .nightmode .ui-button.ui-state-disabled:hover,
+html .nightmode .ui-button.ui-state-disabled:active {
+	background-color : #031959;
+	background-image : none;
+	border           : 1px solid #284681;
+}
+
+.nightmode a, .nightmode .fas {
+	color : #00628C;
+}
+
+.nightmode a:hover,
+.nightmode a.fas:hover, .nightmode a:hover .fas {
+	color : #007EB4;
+}
+
+.nightmode #navi ul li:hover {
+	background-color : #031959;
+	color            : #007EB4;
+}
+
+.nightmode a.delete .fas, .nightmode a .error .fas, .nightmode a .fas.error {
+	color : #77010F;
+}
+
+.nightmode a.delete .fas:hover, .nightmode a .error .fas:hover, .nightmode a .fas.error:hover {
+	color : #A10016;
+}
+
+.nightmode .form-switch i::before {
+	background-color : #284681;
+}
+
+.nightmode .form-switch i::after {
+	background-color : #031959;
+}
+
+.nightmode .form-switch i {
+	background-color : #284681;
+}
+
+.nightmode .form-switch input:checked + i {
+	background-color : #007EB4;
 }
