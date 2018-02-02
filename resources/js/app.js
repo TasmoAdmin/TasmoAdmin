@@ -4,7 +4,7 @@ var refreshtime = false;
 
 $( document ).on( "ready", function () {
 	$( "#content-holder" ).css( "width", "calc(100% - " + (
-	                                     $( "#navi" ).width() + 41
+	                                     $( "#navi" ).width() + 42
 	) + "px)" );
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = './tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
