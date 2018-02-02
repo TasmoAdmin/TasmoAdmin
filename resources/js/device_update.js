@@ -1,6 +1,6 @@
 var ajaxTimeout = 8;
 $( document ).on( "ready", function() {
-    console.log( device_ids );
+    // console.log( device_ids );
     device_ids = $.parseJSON( device_ids );
 
     var progressBox = $( "#progressbox" );
@@ -28,7 +28,7 @@ $( document ).on( "ready", function() {
         );
         $.ajax( {
                     dataType : "json",
-                    url      : "index.php?doAjax",
+                    url      : _BASEURL_ + "doAjax",
                     data     : {
                         id   : id,
                         cmnd : cmnd,
@@ -37,6 +37,7 @@ $( document ).on( "ready", function() {
                     custom   : {
                         callback : callback,
                     },
+                    type     : "post",
                     success  : function( data ) {
                         console.log( data );
                         if( data && !data.ERROR ) {
@@ -97,12 +98,13 @@ $( document ).on( "ready", function() {
         var cmnd = "OtaUrl " + fw;
         $.ajax( {
                     dataType : "json",
-                    url      : "index.php?doAjax",
+                    url      : _BASEURL_ + "doAjax",
                     data     : {
                         id   : id,
                         cmnd : cmnd,
                     },
                     timeout  : ajaxTimeout * 1000,
+                    type     : "post",
                     success  : function( data ) {
                         console.log( data );
                         if( data.WARNING ) {
@@ -140,11 +142,12 @@ $( document ).on( "ready", function() {
         var cmnd = "Upgrade 1";
         $.ajax( {
                     dataType : "json",
-                    url      : "index.php?doAjax",
+                    url      : _BASEURL_ + "doAjax",
                     data     : {
                         id   : id,
                         cmnd : cmnd,
                     },
+                    type     : "post",
                     timeout  : ajaxTimeout * 1000,
                     success  : function( data ) {
                         console.log( data );
@@ -206,14 +209,14 @@ $( document ).on( "ready", function() {
                 var cmnd = "Status 2";
                 $.ajax( {
                             dataType : "json",
-                            url      : "index.php?doAjax",
+                            url      : _BASEURL_ + "doAjax",
                             data     : {
                                 id   : id,
                                 cmnd : cmnd,
                             },
                             timeout  : ajaxTimeout * 1000,
-
-                            success : function( data ) {
+                            type     : "post",
+                            success  : function( data ) {
                                 console.log( data );
                                 if( data && !data.ERROR ) {
                                     if( step == 1 ) {
@@ -245,7 +248,7 @@ $( document ).on( "ready", function() {
                                     checkUpdateDone( id, step, i + 1 );
                                 }
                             },
-                            error   : function( badData ) {
+                            error    : function( badData ) {
                                 log(
                                     id,
                                     step,

@@ -6,9 +6,9 @@
 	 */
 	class Sonoff {
 		
-		public function getDeviceById( $id = NULL ) {
+		public function getDeviceById( $id = null ) {
 			if ( !isset( $id ) || empty( $id ) ) {
-				return NULL;
+				return null;
 			}
 			$file = fopen( _CSVFILE_, 'r' );
 			while ( ( $line = fgetcsv( $file ) ) !== FALSE ) {
@@ -36,7 +36,7 @@
 		
 		private function createDeviceObject( $deviceLine = [] ) {
 			if ( !isset( $deviceLine ) || empty( $deviceLine ) ) {
-				return NULL;
+				return null;
 			}
 			
 			$device           = new stdClass();
@@ -210,7 +210,7 @@
 		private function doRequest( $device, $cmnd, $try = 1 ) {
 			$url = $this->buildCmndUrl( $device, $cmnd );
 			
-			$result = NULL;
+			$result = null;
 			
 			
 			$ch = curl_init();
@@ -257,10 +257,10 @@
 		
 		
 		public function doAjax( $try = 1 ) {
-			$device = $this->getDeviceById( $_GET[ "id" ] );
+			$device = $this->getDeviceById( $_POST[ "id" ] );
 			$url    = $this->buildCmndUrl(
 				$device,
-				urldecode( $_GET[ "cmnd" ] )
+				urldecode( $_POST[ "cmnd" ] )
 			);
 			
 			
@@ -268,7 +268,7 @@
 			//				$url = "http://sonweb/dev/DHT11.json";
 			//			}
 			
-			$result = NULL;
+			$result = null;
 			$ch     = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
