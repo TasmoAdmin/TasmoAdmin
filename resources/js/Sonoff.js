@@ -33,29 +33,32 @@ var Sonoff = function ( options ) {
 	 * getStatus
 	 *
 	 * @param {string} ip
+	 * @param {int} id
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
-	this.getStatus = function ( ip, relais, callback, params ) {
+	this.getStatus = function ( ip, id, relais, callback, params ) {
 		relais   = relais || 1;
 		var cmnd = "Status 0";
-		doAjax( ip, cmnd, callback, params );
+		
+		doAjax( ip, id, cmnd, callback, params );
 	};
 	
 	/**
 	 * getStatus
 	 *
 	 * @param {string} ip
+	 * @param {int} id
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
-	this.toggle = function ( ip, relais, callback ) {
+	this.toggle = function ( ip, id, relais, callback ) {
 		relais   = relais || 1;
 		var cmnd = "Power" + relais + " toggle";
 		
 		console.log( "[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd );
 		
-		doAjax( ip, cmnd, callback );
+		doAjax( ip, id, cmnd, callback );
 		
 	}
 	
@@ -64,18 +67,20 @@ var Sonoff = function ( options ) {
 	 * Private method
 	 * Can only be called inside class
 	 */
-	var doAjax = function ( ip, cmnd, callback ) {
-		var url = root.buildCmndUrl( ip, cmnd );
-		
-		
+	var doAjax = function ( ip, id, cmnd, callback ) {
+		//var url = root.buildCmndUrl( ip, cmnd );
 		$.ajax( {
 			        dataType: "json",
-			        url     : "/?doAjax=" + url,
+			        url     : "index.php?doAjax",
 			        timeout : options.timeout * 1000,
 			        cache   : false,
-			
-			        success: function ( data ) {
-                        var data = data || { ERROR : "No Data" };
+			        data    : {
+				        id  : id,
+				        cmnd: encodeURIComponent( cmnd ),
+			        },
+			        success : function ( data ) {
+				        // var data = data || { ERROR : "NO DATA" };
+				
 				        console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
 					        data ) );
 				        if ( data.WARNING ) {
@@ -85,8 +90,8 @@ var Sonoff = function ( options ) {
 				        callback( data );
 				
 			        },
-			        error  : function ( xmlhttprequest, textstatus, message ) {
-				        callback();
+			        error   : function ( data, xmlhttprequest, textstatus, message ) {
+				        callback( data );
 			        },
 		        } );
 	};

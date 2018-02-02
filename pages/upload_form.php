@@ -38,7 +38,7 @@
         </tr>
         <tr>
             <td>
-				<?php echo __( "FORM_CHOOSE_MINIMAL_FIRMWARE", "DEVICE_UPDATE" ); ?>
+				<?php echo __( "UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE" ); ?>
             </td>
         </tr>
         <tr>
@@ -51,12 +51,14 @@
         </tr>
         <tr>
             <td>
-                <button type='submit' class='btn' name='auto' value='submit' style='margin-right: 20px;'><?php echo __(
-						"BTN_UPLOAD_AUTOMATIC", "DEVICE_UPDATE"
-					); ?>Automatik
+                <button type='submit' class='btn widget' name='auto' value='submit' style='margin-right: 20px;'><?php echo __(
+						"BTN_UPLOAD_AUTOMATIC",
+						"DEVICE_UPDATE"
+					); ?>
                 </button>
-                <button type='submit' class='btn' name='upload' value='submit'><?php echo __(
-						"BTN_UPLOAD_NEXT", "DEVICE_UPDATE"
+                <button type='submit' class='btn widget' name='upload' value='submit'><?php echo __(
+						"BTN_UPLOAD_NEXT",
+						"DEVICE_UPDATE"
 					); ?></button>
             </td>
         </tr>
