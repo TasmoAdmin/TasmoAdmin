@@ -270,8 +270,8 @@
 			
 			$result = NULL;
 			$ch     = curl_init();
-			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
-			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
+			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
+			curl_setopt( $ch, CURLOPT_TIMEOUT, 10 );
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			$result = curl_exec( $ch );
