@@ -112,7 +112,7 @@ input {
 	color : #008FCC;
 }
 
-a.fas:hover {
+a.fas:hover, a:hover .fas {
 	color : #0037CC;
 }
 
@@ -128,7 +128,7 @@ a.add .fas, a .fas.add {
 	color : #19D300;
 }
 
-a.add .fas:hover, a .fas.add:hover {
+a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 	color : #3CA100;
 }
 
@@ -149,6 +149,25 @@ body {
 h1 {
 	font-size   : 20px;
 	font-weight : bold;
+	color       : #008FCC;
+}
+
+h2 {
+	font-size   : 18px;
+	font-weight : bold;
+	color       : #008FCC;
+	margin      : 10px 0;
+	width       : 100%
+}
+
+h1.center, h2.center, h3.center, h4.center {
+	text-align : center;
+	width      : 100%
+}
+
+h2 small {
+	font-size   : 12px;
+	font-weight : normal;
 }
 
 a {
@@ -195,7 +214,6 @@ a:hover {
 }
 
 #navi {
-	width      : 150px;
 	float      : left;
 	display    : inline;
 	margin     : 0px;
@@ -211,7 +229,7 @@ a:hover {
 }
 
 #navi ul li {
-	padding     : 5px 0px 5px 10px;
+	padding     : 5px 10px 5px 10px;
 	text-shadow : white 0px 0px 10px;
 }
 
@@ -243,8 +261,9 @@ a:hover {
 }
 
 #content-holder #content {
-	width  : 100%;
-	height : 100%;
+	width      : 100%;
+	height     : 100%;
+	overflow-y : auto;
 }
 
 #content-holder.loading #content {
@@ -347,7 +366,7 @@ tr.bottom th {
 	border-top    : 1px solid #0037CC;
 }
 
-tr th, tr td {
+tr th, tr td, .tablesaw th, .tablesaw td {
 	padding        : 5px 10px 5px 0px;
 	vertical-align : middle;
 }
@@ -364,21 +383,29 @@ td.status {
 	cursor : pointer;
 }
 
-td.actions {
+.tablesaw-stack td.actions {
+	display   : inline-block;
+	min-width : 150px;
+}
+
+td.actions span {
 	text-align : center;
-	width      : 130px;
 }
 
 td.actions a {
 	text-align : center;
-	padding    : 0px 7px;
-	margin     : 0px 3px;
+}
+
+td.actions a i {
+	padding : 10px;
+}
+
+.tablesaw-stack td.more, .tablesaw-stack th.more, .tablesaw-stack thead td.more, .tablesaw-stack thead th.more {
+	display : none;
 }
 
 #progressbox {
 	border     : 1px solid #0037CC;
-	width      : 100%;
-	overflow   : auto;
 	height     : 100%;
 	text-align : left;
 }
@@ -423,7 +450,7 @@ td.actions a {
 }
 
 .box_device .box_device_name {
-	background-color : rgba(0, 148, 204, 0.7);
+	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
 	text-align       : center;
@@ -432,6 +459,26 @@ td.actions a {
 	width            : 100%;
 	padding          : 5px;
 	box-sizing       : border-box;
+}
+
+.box_device .temp {
+	position         : absolute;
+	top              : 0px;
+	left             : 0px;
+	padding          : 3px;
+	background-color : rgba(0, 148, 204, 0.8);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
+}
+
+.box_device .humidity {
+	position         : absolute;
+	top              : 0px;
+	right            : 0px;
+	padding          : 3px;
+	background-color : rgba(0, 148, 204, 0.8);
+	color            : #FFFFFF;
+	text-shadow      : #FFFFFF 0px 0px 10px;
 }
 
 #login {
@@ -533,4 +580,106 @@ p.warning {
 
 .pull-right:after {
 	clear : both;
+}
+
+.btn-group {
+	margin     : 20px 10px;
+	text-align : center;
+}
+
+.dontselect {
+	-webkit-user-select : none;
+	-khtml-user-select  : none;
+	-moz-user-select    : none;
+	-o-user-select      : none;
+	user-select         : none;
+}
+
+.hidden,
+.tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
+	display : none;
+}
+
+.nightmode, .nightmode .ui-widget-content {
+	background       : none;
+	background-color : #19162F;
+	color            : #707070;
+}
+
+.nightmode tr.odd {
+	background-color : #031959;
+}
+
+.nightmode tr.even, .nightmode .box_device .box_device_name {
+	background-color : #122660;
+	color            : #707070;
+	text-shadow      : none;
+}
+
+.nightmode #navi ul li {
+	text-shadow : none;
+}
+
+.nightmode #footer, .nightmode #content-holder, .nightmode #header, .nightmode .box_device,
+.nightmode .ui-widget.ui-widget-content {
+	border-color : #284681;
+}
+
+.nightmode hr {
+	border     : 0px none;
+	border-top : 1px solid #284681;
+}
+
+.nightmode .ui-state-default,
+.nightmode .ui-widget-content .ui-state-default,
+.nightmode .ui-widget-header .ui-state-default,
+.nightmode .ui-button,
+.nightmode .ui-widget-header,
+html .nightmode .ui-button.ui-state-disabled:hover,
+html .nightmode .ui-button.ui-state-disabled:active {
+	background-color : #031959;
+	background-image : none;
+	border           : 1px solid #284681;
+}
+
+.nightmode a, .nightmode .fas {
+	color : #00628C;
+}
+
+.nightmode a:hover,
+.nightmode a.fas:hover, .nightmode a:hover .fas {
+	color : #007EB4;
+}
+
+.nightmode .ui-state-active a {
+	color : #00B2F5;
+}
+
+.nightmode #navi ul li:hover {
+	background-color : #031959;
+	color            : #007EB4;
+}
+
+.nightmode a.delete .fas, .nightmode a .error .fas, .nightmode a .fas.error {
+	color : #77010F;
+}
+
+.nightmode a.delete .fas:hover, .nightmode a .error .fas:hover, .nightmode a .fas.error:hover {
+	color : #A10016;
+}
+
+.nightmode .form-switch i::before {
+	background-color : #284681;
+}
+
+.nightmode .form-switch i::after {
+	background-color : #031959;
+}
+
+.nightmode .form-switch i {
+	background-color : #284681;
+}
+
+.nightmode .form-switch input:checked + i {
+	background-color : #007EB4;
 }

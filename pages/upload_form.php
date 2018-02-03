@@ -4,7 +4,7 @@
 ?>
 
 <form class='center' name='update_form' method='post' enctype='multipart/form-data'
-      action='<?php echo _APPROOT_; ?>index.php?page=upload'>
+      action='<?php echo _BASEURL_; ?>upload'>
     <p>
 		<?php echo __( "UPLOAD_DESCRIPTION", "DEVICE_UPDATE" ); ?><br/>
         <a href='https://github.com/arendst/Sonoff-Tasmota/releases' target='_blank'>Tasmota Releases</a>
@@ -51,7 +51,8 @@
         </tr>
         <tr>
             <td>
-                <button type='submit' class='btn widget' name='auto' value='submit' style='margin-right: 20px;'><?php echo __(
+                <button type='submit' class='btn widget' name='auto' value='submit'
+                        style='margin-right: 20px;'><?php echo __(
 						"BTN_UPLOAD_AUTOMATIC",
 						"DEVICE_UPDATE"
 					); ?>

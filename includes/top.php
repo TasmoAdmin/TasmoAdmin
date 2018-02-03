@@ -1,7 +1,9 @@
 <?php
-	ini_set( 'session.gc_maxlifetime', 2678400 );
 	error_reporting( E_ALL );
 	ini_set( 'display_errors', '1' );
+	
+	ini_set( 'session.gc_maxlifetime', 30 * 24 * 60 * 60 );
+	session_set_cookie_params( 30 * 24 * 60 * 60 );
 	session_start();
 	
 	if ( !function_exists( "curl_init" ) ) {
@@ -19,9 +21,16 @@
 		echo "and restart webserver";
 		die();
 	}
+	$subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
+	$subdir
+	        = $subdir = str_replace( "\\", "/", $subdir );
+	$subdir = $subdir == "//" ? "/" : $subdir;
 	
-	define( "_APPROOT_", "./" );
-	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
+	
+	define( "_BASEURL_", $subdir );
+	define( "_RESOURCESDIR_", _BASEURL_."resources/" );
+	
+	define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
 	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
 	define( "_LIBSDIR_", _APPROOT_."libs/" );
 	define( "_PAGESDIR_", _APPROOT_."pages/" );
@@ -29,6 +38,8 @@
 	define( "_LANGDIR_", _APPROOT_."lang/" );
 	define( "_TMPDIR_", _APPROOT_."tmp/" );
 	define( "_CSVFILE_", _DATADIR_."devices.csv" );
+	
+	
 	$filename = _CSVFILE_; //csv file name
 	if ( !file_exists( $filename ) ) {
 		fopen( $filename, 'w' ) or die( "Can't create file" );
@@ -46,6 +57,7 @@
 	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
 	if ( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
+		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
 	}
 	
 	

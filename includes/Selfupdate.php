@@ -3,7 +3,7 @@
 	
 	class Selfupdate {
 		
-		private $repoUrl    = "https://api.github.com/repos/reloxx13/SonWEB/";
+		private $repoUrl    = "https://api.github.com/repos/reloxx13/SonWEB";
 		private $latestSha  = "";
 		private $currentSha = "";
 		private $zipfile    = "";
@@ -22,21 +22,34 @@
 		}
 		
 		public function checkForUpdate() {
-			$action = "commits";
+			$action = "/commits";
+			$result = [
+				"update" => FALSE,
+				"error"  => FALSE,
+				"msg"    => "",
+			];
 			
-			$commits         = json_decode( $this->doRequest( $action ) );
-			$this->latestSha = $commits[ 0 ]->sha;
-			
-			if ( $this->currentSha != $this->latestSha ) {
-				return TRUE;
+			$commits = $this->doRequest( $action );
+			if ( isset( $commits[ "ERROR" ] ) ) {
+				$result[ "error" ] = TRUE;
+				$result[ "msg" ]   = $commits[ "ERROR" ];
 			} else {
-				return FALSE;
+				if ( isset( $commits[ 0 ]->sha ) ) {
+					$this->latestSha = $commits[ 0 ]->sha;
+					
+					if ( $this->currentSha != $this->latestSha ) {
+						$result[ "update" ] = TRUE;
+					}
+				}
 			}
+			
+			return $result;
+			
 		}
 		
 		public function update() {
 			$this->checkForUpdate();
-			$action = "zipball/master";
+			$action = "/zipball/master";
 			if ( $this->saveZip( $action ) ) {
 				$this->log[] = __( "SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE" );
 				if ( $this->install() ) {
@@ -193,22 +206,22 @@
 		}
 		
 		
-		private function copyDirectoryContents( $source, $destination, $create = FALSE ) {
+		private function copyDirectoryContents( $source, $destination, $create = TRUE ) {
 			if ( !is_dir( $source ) ) {
 				return FALSE;
 			}
 			
 			if ( !is_dir( $destination ) && $create === TRUE ) {
-				@mkdir( $destination );
+				mkdir( $destination );
 			}
 			
 			if ( is_dir( $destination ) ) {
 				$files = array_diff( scandir( $source ), array( '.', '..' ) );
 				foreach ( $files as $file ) {
-					if ( is_dir( $file ) ) {
+					if ( is_dir( "$source/$file" ) ) {
 						$this->copyDirectoryContents( "$source/$file", "$destination/$file" );
 					} else {
-						@copy( "$source/$file", "$destination/$file" );
+						copy( "$source/$file", "$destination/$file" );
 					}
 				}
 				
@@ -240,25 +253,40 @@
 		
 		
 		private function doRequest( $action = "" ) {
+			ini_set( "max_execution_time", "240" );
+			set_time_limit( "240" );
+			
 			$url = $this->repoUrl.$action;
 			$ch  = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+			curl_setopt( $ch, CURLOPT_FAILONERROR, TRUE );
 			curl_setopt(
 				$ch,
 				CURLOPT_USERAGENT,
 				'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
 			);
-			$result = curl_exec( $ch );
+			$result = json_decode( curl_exec( $ch ) );
+			if ( curl_error( $ch ) ) {
+				$result = [
+					"ERROR" => __( "ERROR_CURL", "SELFUPDATE" )." - ".curl_errno( $ch ).": ".curl_error(
+							$ch
+						),
+				];
+			}
 			curl_close( $ch );
+			
+			ini_set( "max_execution_time", 30 );
 			
 			return $result;
 		}
 		
 		private function saveZip( $action = "" ) {
+			
+			
+			ini_set( "max_execution_time", "240" );
+			set_time_limit( "240" );
 			$url = $this->repoUrl.$action;
-			
-			
 			//https://codeload.github.com/reloxx13/SonWEB/legacy.zip/master
 			$file = fopen( $this->zipfile, 'w' );
 			$ch   = curl_init();
@@ -278,12 +306,19 @@
 			curl_exec( $ch );
 			// close cURL
 			// close file
-			if ( curl_errno( $ch ) ) {
-				echo 'error:'.curl_error( $ch );
+			if ( curl_error( $ch ) ) {
+				$result = [
+					"ERROR" => __( "ERROR_CURL", "SELFUPDATE" )." - ".curl_errno( $ch ).": ".curl_error(
+							$ch
+						),
+				];
+				
+				return FALSE;
 			}
 			curl_close( $ch );
 			
 			fclose( $file );
+			ini_set( "max_execution_time", 30 );
 			
 			return ( filesize( $this->zipfile ) > 0 ) ? TRUE : FALSE;
 			

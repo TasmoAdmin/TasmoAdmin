@@ -257,11 +257,17 @@
 		
 		
 		public function doAjax( $try = 1 ) {
-			$device = $this->getDeviceById( $_GET[ "id" ] );
+			$device = $this->getDeviceById( $_POST[ "id" ] );
 			$url    = $this->buildCmndUrl(
 				$device,
-				urldecode( $_GET[ "cmnd" ] )
+				urldecode( $_POST[ "cmnd" ] )
 			);
+			
+			
+			//			if ( $_GET[ "id" ] == 3 ) {
+			//				$url = "http://sonweb/dev/DHT11.json";
+			//			}
+			
 			$result = NULL;
 			$ch     = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );

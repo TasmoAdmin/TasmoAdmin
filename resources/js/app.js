@@ -1,6 +1,24 @@
 var Sonoff;
 var refreshtime = false;
+
+
 $( document ).on( "ready", function () {
+	
+	checkNightmode( nightmodeconfig );
+	
+	var $lang    = $( "html" ).attr( "lang" );
+	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
+	$.ajax( {
+		        dataType: "json",
+		        url     : i18nfile,
+		        async   : false,
+		        success : function ( data ) {
+			
+			        $.i18n().load( data );
+			
+			
+		        },
+	        } );
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}
@@ -19,7 +37,8 @@ $( document ).on( "ready", function () {
 	
 	var appendLoading = function ( elem, replace ) {
 		var replace = replace || false;
-		var loader  = $( '<div>', { class: "loader" } ).append( $( 'img', { src: "./resources/img/loading.gif" } ) );
+		var loader  = $( '<div>', { class: "loader" } ).append(
+			$( 'img', { src: _RESOURCESDIR_ + "img/loading.gif" } ) );
 		
 		if ( replace ) {
 			$( elem ).html( loader );
@@ -69,14 +88,22 @@ $( document ).on( "ready", function () {
 		var optionSelected = $( "option:selected", this );
 		var valueSelected  = this.value;
 		
-		var curUrl = window.location.toString();
-		curUrl     = curUrl.replace( /[\?\&]lang=[a-z]*/g, "" );
+		var curUrl           = window.location.toString() + "/" + valueSelected + "/";
+		window.location.href = curUrl;
 		
-		window.location.href = curUrl + (
-			curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
-		) + "lang=" + valueSelected;
+		// var curUrl = window.location.toString();
+		// curUrl     = curUrl.replace( /[\?\&][a-z]2/g, "" );
+		// console.log( curUrl );
+		//
+		// window.location.href = curUrl + (
+		//     curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
+		// ) + "lang=" + valueSelected;
 	} );
 	
+	setTimeout( function () {
+		console.log( "checknightmode" );
+		checkNightmode( nightmodeconfig );
+	}, 15 * 60 * 1000 );
 } );
 
 
@@ -116,4 +143,130 @@ function notifyMe( msg, title ) {
 	
 	// Finally, if the user has denied notifications and you
 	// want to be respectful there is no need to bother them any more.
+}
+
+
+$.fn.attachDragger = function () {
+	var attachment = false, lastPosition, position, difference;
+	$( $( this ).selector ).on( "mousedown mouseup mousemove", function ( e ) {
+		if ( e.type == "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
+			attachment = true, lastPosition = [ e.clientX, e.clientY ];
+			$( ".tablesaw-cell-content" ).addClass( "dontselect" );
+		}
+		if ( e.type == "mouseup" ) {
+			attachment = false;
+			$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
+		}
+		if ( e.type == "mousemove" && attachment == true ) {
+			position   = [ e.clientX, e.clientY ];
+			difference = [
+				(
+					position[ 0 ] - lastPosition[ 0 ]
+				),
+				(
+					position[ 1 ] - lastPosition[ 1 ]
+				),
+			];
+			$( this ).scrollLeft( $( this ).scrollLeft() - difference[ 0 ] );
+			$( this ).scrollTop( $( this ).scrollTop() - difference[ 1 ] );
+			lastPosition = [ e.clientX, e.clientY ];
+		}
+	} );
+	$( window ).on( "mouseup", function () {
+		attachment = false;
+		$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
+	} );
+};
+
+
+var parseVersion = function ( versionString ) {
+	versionString = versionString.replace( "-minimal", "" ).replace( /\./g, "" );
+	
+	var last = versionString.slice( -1 );
+	if ( isNaN( last ) ) {
+		versionString = versionString.replace(
+			last,
+			(
+				last.charCodeAt( 0 ) - 97 < 10
+					? "0" + (
+					last.charCodeAt( 0 ) - 97
+				)
+					: last.charCodeAt( 0 ) - 97
+			)
+		);
+	} else {
+		versionString = versionString + "00";
+	}
+	
+	return versionString;
+};
+
+
+function getTemp( data ) {
+	var temp = [];
+	
+	if ( data.StatusSNS.DS18B20 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.DS18B20.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	if ( data.StatusSNS.DHT11 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.DHT11.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	if ( data.StatusSNS.AM2301 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.AM2301.Temperature + (
+				           data.StatusSNS.TempUnit == "C" ? "°C" : data.StatusSNS.TempUnit
+			           )
+		           ) );
+	}
+	
+	//console.log( temp );
+	
+	return temp.join( "<br/>" );
+}
+
+function getHumidity( data ) {
+	var humi = [];
+	
+	if ( data.StatusSNS.AM2301 !== undefined ) {
+		if ( data.StatusSNS.AM2301.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.AM2301.Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS.DHT11 !== undefined ) {
+		if ( data.StatusSNS.DHT11.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.DHT11.Humidity + "%" );
+		}
+	}
+	
+	//console.log( humi );
+	
+	return humi.join( "<br/>" );
+}
+
+
+function checkNightmode( config ) {
+	console.log( config );
+	var config = config || "auto";
+	
+	var currentTime = new Date();
+	var hour        = currentTime.getHours();
+	
+	
+	if ( config === "disable" ) {
+		$( "body" ).removeClass( "nightmode" );
+	} else {
+		if ( "auto" ) {
+			if ( hour >= 18 || hour <= 8 || config === "enable" ) {
+				$( "body" ).addClass( "nightmode" );
+			}
+		}
+	}
 }

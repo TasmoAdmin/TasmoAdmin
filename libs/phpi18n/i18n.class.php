@@ -84,10 +84,11 @@
 		 */
 		protected $userLangs = array();
 		
-		protected $appliedLang   = NULL;
-		protected $langFilePath  = NULL;
-		protected $cacheFilePath = NULL;
-		protected $isInitialized = FALSE;
+		protected $appliedLang       = NULL;
+		protected $langFilePath      = NULL;
+		protected $cacheFilePath     = NULL;
+		protected $cacheJsonFilePath = NULL;
+		protected $isInitialized     = FALSE;
 		
 		
 		/**
@@ -154,6 +155,8 @@
 			                       .$this->appliedLang
 			                       .'.cache.php';
 			
+			$this->cacheJsonFilePath = $this->cachePath.'/json_i18n_'.$this->appliedLang.'.cache.json';
+			
 			// whether we need to create a new cache file
 			$outdated = !file_exists( $this->cacheFilePath )
 			            || filemtime( $this->cacheFilePath ) < filemtime(
@@ -173,6 +176,22 @@
 						$this->load( $this->getConfigFilename( $this->fallbackLang ) )
 					);
 				}
+				
+				$jsConfig = [];
+				// remove blocks
+				foreach ( $config as $key => $value ) {
+					
+					if ( is_array( $value ) ) {
+						foreach ( $value as $blockKey => $blockValue ) {
+							$jsConfig[ $blockKey ] = $blockValue;
+						}
+					} else {
+						$jsConfig[ $key ] = $value;
+					}
+				}
+				
+				$jsonCompiled = json_encode( [ $this->appliedLang => $jsConfig ] );
+				
 				
 				$compiled = "<?php class "
 				            .$this->prefix
@@ -199,6 +218,7 @@
 				if ( !is_dir( $this->cachePath ) ) {
 					mkdir( $this->cachePath, 0755, TRUE );
 				}
+				//todo: else delete old files
 				
 				if ( file_put_contents( $this->cacheFilePath, $compiled ) === FALSE ) {
 					throw new Exception(
@@ -206,6 +226,17 @@
 					);
 				}
 				chmod( $this->cacheFilePath, 0755 );
+				
+				/*
+				 * save json i18n
+				 */
+				if ( file_put_contents( $this->cacheJsonFilePath, $jsonCompiled ) === FALSE ) {
+					throw new Exception(
+						"Could not write json cache file to path '".$this->cacheJsonFilePath."'. Is it writable?"
+					);
+				}
+				chmod( $this->cacheJsonFilePath, 0755 );
+				
 				
 			}
 			

@@ -5,13 +5,20 @@
 			$settings = $_POST;
 			unset( $settings[ "save" ] );
 			
+			if ( !isset( $settings[ "login" ] ) ) {
+				$settings[ "login" ] = "0";
+			}
+			
 			if ( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
-			     || $settings[ "password" ] == "" ) {
+			     || $settings[ "password" ] == ""
+			     || $settings[ "login" ] == "0" ) {
 				unset( $settings[ "password" ] );
 				unset( $settings[ "username" ] );
 			} else {
 				$settings[ "password" ] = md5( $settings[ "password" ] );
 			}
+			
+			
 			foreach ( $settings as $settingKey => $settingVal ) {
 				$Config->write( $settingKey, $settingVal );
 			}
@@ -29,6 +36,17 @@
 		<?php echo $msg ? $msg : ""; ?>
 	</p>
 	<table border='0' cellspacing='0' class='center-table'>
+		<tr>
+			<td>
+				<?php echo __( "CONFIG_LOGIN", "USER_CONFIG" ); ?>:<br/><br/>
+			</td>
+			<td>
+				<input type='checkbox' name='login' id='cb_login' value='1'
+					<?php echo $config[ "login" ] == "1" ? "checked=\"checked\"" : ""; ?>>
+				<label for='cb_login'><?php echo __( "CONFIG_LOGIN_ENABLE", "USER_CONFIG" ); ?></label>
+				<br/><br/>
+			</td>
+		</tr>
 		<tr>
 			<td>
 				<?php echo __( "CONFIG_USERNAME", "USER_CONFIG" ); ?>:<br/><br/>
@@ -118,6 +136,27 @@
 					<option value='60' <?php echo $config[ "refreshtime" ] == "60" ? "selected=\selected\"" : ""; ?> >
 						60 <?php echo __( "CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG" ); ?>
 					</option>
+				</select><br/><br/>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>&nbsp;
+				<?php echo __( "CONFIG_NIGHTMODE", "USER_CONFIG" ); ?>:<br/><br/>
+			</td>
+			<td>
+				<select name='nightmode'>
+					<option value='disable' <?php echo $config[ "nightmode" ] == "disable" ? "selected=\selected\""
+						: ""; ?>><?php echo __( "CONFIG_NIGHTMODE_DISABLE", "USER_CONFIG" ); ?>
+					</option>
+					<option value='always' <?php echo $config[ "nightmode" ] == "always" ? "selected=\selected\""
+						: ""; ?> >
+						<?php echo __( "CONFIG_NIGHTMODE_ALWAYS", "USER_CONFIG" ); ?>
+					</option>
+					<option value='auto' <?php echo $config[ "nightmode" ] == "auto" ? "selected=\selected\"" : ""; ?> >
+						<?php echo __( "CONFIG_NIGHTMODE_AUTO", "USER_CONFIG" ); ?>
+					</option>
+				
 				</select><br/><br/>
 			</td>
 		</tr>

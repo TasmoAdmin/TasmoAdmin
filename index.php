@@ -2,8 +2,8 @@
 	include_once( "./includes/top.php" );
 	
 	
-	if ( !isset ( $_SESSION[ "login" ] ) ) {
-		header( "Location: "._APPROOT_."login.php" );
+	if ( !isset ( $_SESSION[ "login" ] ) && $Config->read( "login" ) == "1" ) {
+		header( "Location: "._BASEURL_."login" );
 	}
 	
 	$page = "start";
@@ -14,21 +14,21 @@
 	}
 	
 	switch ( $page ) {
-		case "upload_form":
-			$title = __( "UPLOAD_NEW_FIRMWARE", "PAGE_TITLES" );
-			break;
 		case "device_action":
 			$title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
 			if ( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "add" ) {
 				$title = __( "ADD_DEVICE", "PAGE_TITLES" );
 			} else if ( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "edit" ) {
 				$title = __( "EDIT_DEVICE", "PAGE_TITLES" );
-				break;
 			}
+			break;
 		case "devices":
 			$title = __( "DEVICES", "PAGE_TITLES" );
 			break;
 		case "device_update":
+		case "update_devices":
+		case "upload_form":
+		case "upload":
 			$title = __( "DEVICE_UPDATE", "PAGE_TITLES" );
 			break;
 		case "device_config":
@@ -41,11 +41,8 @@
 			$title = __( "SITE_SELFUPDATE", "PAGE_TITLES" );
 			break;
 		default:
-			$title = ucfirst( $page );
+			$title = __( strtoupper( str_replace( " ", "_", $page ) ), "PAGE_TITLES" );
 	}
-	
-	
-	
 
 
 ?>
@@ -54,14 +51,14 @@
 
 <div id="navi" class='open desktop'>
 	<ul>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=start' title='<?php echo __( "STARTPAGE_TOOLTIP", "NAVI" ); ?>'>
+		<a href='<?php echo _BASEURL_; ?>start' title='<?php echo __( "STARTPAGE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "STARTPAGE", "NAVI" ); ?></li>
 		</a>
 		<hr/>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
+		<a href='<?php echo _BASEURL_; ?>devices' title='<?php echo __( "DEVICES_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "DEVICES", "NAVI" ); ?></li>
 		</a>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=upload_form' class=''
+		<a href='<?php echo _BASEURL_; ?>upload_form' class=''
 		   title='<?php echo __( "UPDATE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "UPDATE", "NAVI" ); ?></li>
 		</a>
@@ -71,18 +68,20 @@
 		<!--				<li class=''>Chat</li>-->
 		<!--			</a>-->
 		<hr/>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=site_config'
+		<a href='<?php echo _BASEURL_; ?>site_config'
 		   title='<?php echo __( "SETTINGS_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "SETTINGS", "NAVI" ); ?></li>
 		</a>
-		<a href='<?php echo _APPROOT_; ?>index.php?page=selfupdate'
+		<a href='<?php echo _BASEURL_; ?>selfupdate'
 		   title='<?php echo __( "SELFUPDATE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "SELFUPDATE", "NAVI" ); ?></li>
 		</a>
-		<hr/>
-		<a href='<?php echo _APPROOT_; ?>login.php?logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
-			<li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
-		</a>
+		<?php if ( $Config->read( "login" ) == "1" ): ?>
+			<hr/>
+			<a href='<?php echo _BASEURL_; ?>logout' title='<?php echo __( "LOGOUT_TOOLTIP", "NAVI" ); ?>'>
+				<li class=''><?php echo __( "LOGOUT", "NAVI" ); ?></li>
+			</a>
+		<?php endif; ?>
 	
 	</ul>
 </div>

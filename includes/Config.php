@@ -11,6 +11,8 @@
 				"refreshtime"           => "2",
 				"current_git_sha"       => "",
 				"update_automatic_lang" => "",
+				"nightmode"             => "auto",
+				"login"                 => "1",
 			];
 		
 		function __construct() {
@@ -53,7 +55,8 @@
 		
 		public function read( $key ) {
 			$config = file_get_contents( $this->cfgFile );
-			$config = eval( "?>".$config."<?php" );
+			$config = str_replace( [ "<?php", "?>" ], "", $config );
+			$config = eval( $config );
 			if ( $config === 1 ) { //its empty
 				$config = [];
 			}
@@ -71,7 +74,6 @@
 			$config[ $key ] = $value;
 			$config         = var_export( $config, TRUE );
 			file_put_contents( $this->cfgFile, "<?php return $config ; ?>" );
-			
 			
 			return TRUE;
 		}

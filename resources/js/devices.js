@@ -2,6 +2,24 @@ $( document ).on( "ready", function () {
 	deviceTools();
 	updateStatus();
 	
+	
+	$( ".showmore" ).on( "change", function ( e ) {
+		if ( $( this ).prop( "checked" ) ) {
+			$( ".showmore" ).prop( "checked", true );
+			Cookies.set( 'devices_show_more', '1' );
+		} else {
+			$( ".showmore" ).prop( "checked", false );
+			Cookies.set( 'devices_show_more', '0' );
+		}
+		$( "#device-list .more:not(.hidden)" ).toggle();
+	} );
+	
+	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
+		$( ".showmore" ).prop( "checked", true );
+		$( "#device-list .more:not(.hidden)" ).toggle();
+	}
+	
+	$( '#content' ).attachDragger();
 	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
 	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
 	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
@@ -60,16 +78,16 @@ function updateStatus() {
 									.removeProp( "checked" )
 									.parent()
 									.addClass( "error" );
-								$( grouptr ).find( ".rssi" ).html( "Fehler" );
-								$( grouptr ).find( ".runtime" ).html( "Fehler" );
-								$( grouptr ).find( ".version" ).html( "Fehler" );
+								$( grouptr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+								$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
 						$( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
-						$( tr ).find( ".rssi" ).html( "Fehler" );
-						$( tr ).find( ".runtime" ).html( "Fehler" );
-						$( tr ).find( ".version" ).html( "Fehler" );
+						$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+						$( tr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 						$( tr ).removeClass( "updating" );
 					}
 				}
@@ -84,7 +102,7 @@ function updateStatus() {
 			updateStatus();
 		}, refreshtime );
 	} else {
-		console.log( "[Global][Refreshtime]Dont refresh" );
+		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
 	}
 	
 };
@@ -166,43 +184,80 @@ function updateRow( row, data, device_status ) {
 		var rssi   = data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Uptime;
-	} else {
-		var rssi   = data.StatusSTS.WLAN.RSSI;
-		var ssid   = data.StatusSTS.WLAN.SSID;
-		var uptime = data.StatusSTS.Laufzeit;
+	} else { //try german else use english
+		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
+		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
+		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
+		console.log( uptime );
 	}
-	$( row ).find( ".version" ).html( data.StatusFWR.Version );
+	
+	
+	var temp = getTemp( data );
+	
+	if ( temp != "" ) {
+		$( row ).find( ".temp span" ).html( temp );
+		$( "#device-list .temp" ).removeClass( "hidden" );
+	}
+	var humidity = getHumidity( data );
+	
+	if ( humidity != "" ) {
+		$( row ).find( ".humidity span" ).html( humidity );
+		$( "#device-list .humidity" ).removeClass( "hidden" );
+	}
+	
+	var idx = (
+		data.idx ? data.idx : ""
+	);
+	if ( idx != "" ) {
+		$( row ).find( ".idx span" ).html( idx );
+		$( "#device-list .idx" ).removeClass( "hidden" ).show();
+	}
+	
+	$( row ).find( ".version span" ).html( data.StatusFWR.Version );
 	
 	if ( device_status == "ON" ) {
 		$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
 	} else {
 		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 	}
-	$( row ).find( ".rssi" ).html( rssi + "%" ).attr( "title", ssid );
-	$( row ).find( ".runtime" ).html( "~" + uptime + "h" );
+	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
+	$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
+	
+	
+	//MORE
+	$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?" );
+	$( row ).find( ".mac span" ).html( data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?" );
+	$( row ).find( ".mqtt span" ).html( data.StatusMQT !== undefined ? "1" : "0" );
+	$( row ).find( ".poweronstate span" ).html( data.Status.PowerOnState
+	                                            !== undefined
+		                                            ? data.Status.PowerOnState
+		                                            : "?" );
+	$( row ).find( ".ledstate span" ).html( data.Status.LedState !== undefined ? data.Status.LedState : "?" );
+	$( row ).find( ".savedata span" ).html( data.Status.SaveData !== undefined ? data.Status.SaveData : "?" );
+	$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?" );
+	$( row ).find( ".bootcount span" ).html( data.StatusPRM.BootCount !== undefined ? data.StatusPRM.BootCount : "?" );
+	$( row ).find( ".savecount span" ).html( data.StatusPRM.SaveCount !== undefined ? data.StatusPRM.SaveCount : "?" );
+	$( row ).find( ".log span" ).html( (
+		                                   data.StatusLOG.SerialLog !== undefined ? data.StatusLOG.SerialLog : "?"
+	                                   )
+	                                   + "|"
+	                                   + (
+		                                   data.StatusLOG.WebLog !== undefined ? data.StatusLOG.WebLog : "?"
+	                                   )
+	                                   + "|"
+	                                   + (
+		                                   data.StatusLOG.SysLog !== undefined ? data.StatusLOG.SysLog : "?"
+	                                   ) );
+	$( row ).find( ".wificonfig span" ).html( data.StatusNET.WifiConfig
+	                                          !== undefined
+		                                          ? data.StatusNET.WifiConfig
+		                                          : "?" );
+	$( row ).find( ".vcc span" ).html( data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?" );
 	
 	
 	$( row ).removeClass( "updating" );
 }
 
-var parseVersion = function ( versionString ) {
-	versionString = versionString.replace( "-minimal", "" ).replace( /\./g, "" );
-	
-	var last = versionString.slice( -1 );
-	if ( isNaN( last ) ) {
-		versionString = versionString.replace(
-			last,
-			(
-				last.charCodeAt( 0 ) - 97 < 10
-					? "0" + (
-					last.charCodeAt( 0 ) - 97
-				)
-					: last.charCodeAt( 0 ) - 97
-			)
-		);
-	} else {
-		versionString = versionString + "00";
-	}
-	
-	return versionString;
-};
+
+
+
