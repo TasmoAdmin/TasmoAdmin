@@ -36,6 +36,7 @@ Now you can type in your browser http://YOURLOCALIP and SonWEB shows up.
 
 ### Unix
 For unix its a bit harder. You need to instal a web server with php-zip and php-curl modules installed.
+Also mod_rewrite must be enabled.
 I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/SonWEB/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
 
 
