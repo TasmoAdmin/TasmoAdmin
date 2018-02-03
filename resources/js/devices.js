@@ -173,6 +173,36 @@ function deviceTools() {
 		               } );
 		
 	} );
+	
+	$( document ).on( 'dblclick', '.dblcEdit span', function () {
+		oriVal = $( this ).text();
+		$( this ).text( "" ).addClass( "dont-update" );
+		input = $( "<input type='text'>" );
+		input.appendTo( $( this ) ).focus();
+		
+	} );
+	
+	
+	$( document ).on( 'focusout keypress', 'input', function ( e ) {
+		if ( e.type === "keypress" && e.which !== 13 ) {
+			return;
+		}
+		if ( input.val() != "" ) {
+			var newvalue  = input.val();
+			var device_id = $( this ).closest( "tr" ).data( "device_id" );
+			var cmnd      = $( this ).closest( "td" ).data( "cmnd" );
+			$( this ).hide();
+			$( this )
+				.parent()
+				.removeClass( "dont-update" )
+				.text( $.i18n( "TEXT_LOADING" ) )
+				.removeClass( "dont-update" );
+			Sonoff.updateConfig( device_id, cmnd, newvalue, updateStatus );
+		} else {
+			$( this ).parent().removeClass( "dont-update" ).text( oriVal ).removeClass( "dont-update" );
+		}
+		
+	} );
 }
 
 function updateRow( row, data, device_status ) {
@@ -257,7 +287,5 @@ function updateRow( row, data, device_status ) {
 	
 	$( row ).removeClass( "updating" );
 }
-
-
 
 

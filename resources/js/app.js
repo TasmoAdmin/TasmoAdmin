@@ -1,9 +1,7 @@
 var Sonoff;
 var refreshtime = false;
 
-
 $( document ).on( "ready", function () {
-	
 	checkNightmode( nightmodeconfig );
 	
 	var $lang    = $( "html" ).attr( "lang" );

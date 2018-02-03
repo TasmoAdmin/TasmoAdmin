@@ -44,6 +44,11 @@ var Sonoff = function ( options ) {
 		doAjax( ip, id, cmnd, callback, params );
 	};
 	
+	this.updateConfig = function ( device_id, cmnd, newvalue, callback ) {
+		var cmnd = cmnd + " " + newvalue;
+		
+		doAjax( null, device_id, cmnd, callback );
+	};
 	/**
 	 * getStatus
 	 *
@@ -69,6 +74,7 @@ var Sonoff = function ( options ) {
 	 */
 	var doAjax = function ( ip, id, cmnd, callback ) {
 		//var url = root.buildCmndUrl( ip, cmnd );
+		var ip = ip || id;
 		$.ajax( {
 			        dataType: "json",
 			        url     : "index.php?doAjax",
@@ -84,15 +90,18 @@ var Sonoff = function ( options ) {
 				
 				        console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
 					        data ) );
+				
 				        if ( data.WARNING ) {
 					        alert( ip + ": " + data.WARNING );
 				        }
-				
-				        callback( data );
-				
+				        if ( callback !== undefined ) {
+					        callback( data );
+				        }
 			        },
 			        error   : function ( data, xmlhttprequest, textstatus, message ) {
-				        callback( data );
+				        if ( callback !== undefined ) {
+					        callback( data );
+				        }
 			        },
 		        } );
 	};
