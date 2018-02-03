@@ -100,7 +100,7 @@ $( document ).on( "ready", function () {
 		// ) + "lang=" + valueSelected;
 	} );
 	
-	setTimeout( function () {
+	window.setInterval( function () {
 		console.log( "checknightmode" );
 		checkNightmode( nightmodeconfig );
 	}, 15 * 60 * 1000 );
@@ -253,8 +253,9 @@ function getHumidity( data ) {
 
 
 function checkNightmode( config ) {
-	console.log( config );
 	var config = config || "auto";
+	
+	console.log( "check Nightmode => " + config );
 	
 	var currentTime = new Date();
 	var hour        = currentTime.getHours();
@@ -264,9 +265,11 @@ function checkNightmode( config ) {
 		$( "body" ).removeClass( "nightmode" );
 	} else {
 		if ( "auto" ) {
-			if ( hour >= 18 || hour <= 8 || config === "enable" ) {
+			if ( hour >= 18 || hour <= 8 ) {
 				$( "body" ).addClass( "nightmode" );
 			}
+		} else if ( config === "enable" ) {
+			$( "body" ).addClass( "nightmode" );
 		}
 	}
 }
