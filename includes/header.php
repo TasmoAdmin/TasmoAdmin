@@ -96,8 +96,7 @@
 		<span></span>
 	</div>
 	
-	<h1><a href='<?php echo _APPROOT_; ?>index.php?page=start'>SonWEB <?php echo isset( $title ) ? " -&nbsp;".$title
-				: ""; ?> </a></h1>
+	<h1><a href='<?php echo _BASEURL_; ?>start'>SonWEB <?php echo isset( $title ) ? " -&nbsp;".$title : ""; ?> </a></h1>
 	
 	<div class='language-switch-holder'>
 		<select name='language-switch' id='language-switch'>

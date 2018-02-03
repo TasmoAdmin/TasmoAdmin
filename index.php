@@ -62,11 +62,6 @@
 		   title='<?php echo __( "UPDATE_TOOLTIP", "NAVI" ); ?>'>
 			<li class=''><?php echo __( "UPDATE", "NAVI" ); ?></li>
 		</a>
-		
-		<!--			<hr/>-->
-		<!--			<a href='<?php echo _APPROOT_; ?>index.php?page=chat' title='Chat'>-->
-		<!--				<li class=''>Chat</li>-->
-		<!--			</a>-->
 		<hr/>
 		<a href='<?php echo _BASEURL_; ?>site_config'
 		   title='<?php echo __( "SETTINGS_TOOLTIP", "NAVI" ); ?>'>
