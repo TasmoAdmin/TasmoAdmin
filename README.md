@@ -11,6 +11,7 @@ You can find it here: [SonWEB GitHub](https://github.com/reloxx13/SonWEB)
 * Mobile Responsive
 * Config devices
 * SelfUpdate function for SonWEB
+* NightMode (Enable/Disable/Auto) in settings
 
 ## Requirements
 
