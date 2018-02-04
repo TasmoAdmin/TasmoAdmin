@@ -600,7 +600,7 @@ p.warning {
 	display : none;
 }
 
-.nightmode, .nightmode .ui-widget-content {
+.nightmode, .nightmode .ui-widget-content, .nightmode #navi.show {
 	background       : none;
 	background-color : #19162F;
 	color            : #707070;
