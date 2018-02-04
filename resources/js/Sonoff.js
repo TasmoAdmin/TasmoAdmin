@@ -95,8 +95,9 @@ var Sonoff = function ( options ) {
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
 				
-				        console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
-					        data ) );
+				        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
+				        //   data ) );
+				        console.log( "[Sonoff][doAjax][" + ip + "] Got response from: " + cmnd );
 				
 				        if ( data.WARNING ) {
 					        alert( ip + ": " + data.WARNING );

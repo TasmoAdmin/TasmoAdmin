@@ -62,8 +62,17 @@ function updateStatus() {
 			}
 			
 			Sonoff.getStatus( device_ip, device_id, device_relais, function ( data ) {
-				if ( data && !data.ERROR && !data.WARNING ) {
-					if ( device_group == "multi" ) {
+				if ( data
+				     && !data.ERROR
+				     && !data.WARNING
+				     && data
+				        !== ""
+				     && data
+				        !== undefined
+				     && data.statusText
+				        === undefined ) {
+					console.log( "DATA => " + JSON.stringify( data ) );
+					if ( device_group === "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
 								var device_status = eval( "data.StatusSTS.POWER" + $( grouptr )
@@ -78,7 +87,8 @@ function updateStatus() {
 						updateRow( $( tr ), data, device_status );
 					}
 				} else {
-					if ( device_group == "multi" ) {
+					console.log( "ERROR => " + JSON.stringify( data ) );
+					if ( device_group === "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
 								
@@ -94,6 +104,7 @@ function updateStatus() {
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
+						
 						$( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
 						$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
 						$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
@@ -188,13 +199,13 @@ function deviceTools() {
 	$( document ).on( 'dblclick', '.dblcEdit span', function () {
 		oriVal = $( this ).text();
 		$( this ).text( "" ).addClass( "dont-update" );
-		input = $( "<input type='text'>" );
+		input = $( "<input class='dblEdit-Input' type='text'>" );
 		input.appendTo( $( this ) ).focus();
 		
 	} );
 	
 	
-	$( document ).on( 'focusout keypress', 'input', function ( e ) {
+	$( document ).on( 'focusout keypress', '.dblEdit-Input', function ( e ) {
 		if ( e.type === "keypress" && e.which !== 13 ) {
 			return;
 		}
@@ -219,7 +230,7 @@ function deviceTools() {
 function updateRow( row, data, device_status ) {
 	
 	var version = parseVersion( data.StatusFWR.Version );
-	console.log( "version => " + version );
+	//console.log( "version => " + version );
 	
 	if ( version >= 510009 ) {//no json translations since 5.10.0j
 		var rssi   = data.StatusSTS.Wifi.RSSI;
@@ -229,7 +240,7 @@ function updateRow( row, data, device_status ) {
 		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
 		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		console.log( uptime );
+		
 	}
 	
 	
