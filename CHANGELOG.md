@@ -8,7 +8,7 @@
 
 ## 2018-02-02
 - add nightmode   
-   - settings: auto (20h-8h), always on, disable   
+   - settings: auto (18h-8h), always on, disable   
    - add userfirendly urls   
    -  **mod_rewrite is a requirement now, check ubuntu guide in the wiki**   
 - add devicename/id on device edit page   
