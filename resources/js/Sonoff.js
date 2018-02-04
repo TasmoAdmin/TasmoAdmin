@@ -49,6 +49,13 @@ var Sonoff = function ( options ) {
 		
 		doAjax( null, device_id, cmnd, callback );
 	};
+	
+	this.generic = function ( device_id, cmnd, newvalue, callback ) {
+		var newvalue = newvalue !== undefined ? " " + newvalue : "";
+		var cmnd     = cmnd + " " + newvalue;
+		
+		doAjax( null, device_id, cmnd, callback );
+	};
 	/**
 	 * getStatus
 	 *

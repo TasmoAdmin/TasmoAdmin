@@ -261,6 +261,10 @@
 								<i class="fas fa-trash fa-lg"
 								   title='<?php echo __( "LINK_DEVICE_DELETE", "DEVICES" ); ?>'></i>
 							</a>
+							<a href='#' class='restart-device'>
+								<i class="fas fa-sync fa-lg"
+								   title='<?php echo __( "LINK_DEVICE_RESTART", "DEVICES" ); ?>'></i>
+							</a>
 						</td>
 					
 					</tr>

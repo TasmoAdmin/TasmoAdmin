@@ -174,6 +174,15 @@ function deviceTools() {
 		
 	} );
 	
+	
+	$( '#device-list tbody tr td a.restart-device' ).on( "click", function ( e ) {
+		e.preventDefault();
+		var device_id = $( this ).closest( "tr" ).data( "device_id" );
+		Sonoff.generic( device_id, "Restart", 1 );
+		
+	} );
+	
+	
 	$( document ).on( 'dblclick', '.dblcEdit span', function () {
 		oriVal = $( this ).text();
 		$( this ).text( "" ).addClass( "dont-update" );
@@ -255,18 +264,48 @@ function updateRow( row, data, device_status ) {
 	
 	
 	//MORE
-	$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?" );
-	$( row ).find( ".mac span" ).html( data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?" );
-	$( row ).find( ".mqtt span" ).html( data.StatusMQT !== undefined ? "1" : "0" );
-	$( row ).find( ".poweronstate span" ).html( data.Status.PowerOnState
-	                                            !== undefined
-		                                            ? data.Status.PowerOnState
-		                                            : "?" );
-	$( row ).find( ".ledstate span" ).html( data.Status.LedState !== undefined ? data.Status.LedState : "?" );
-	$( row ).find( ".savedata span" ).html( data.Status.SaveData !== undefined ? data.Status.SaveData : "?" );
-	$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?" );
-	$( row ).find( ".bootcount span" ).html( data.StatusPRM.BootCount !== undefined ? data.StatusPRM.BootCount : "?" );
-	$( row ).find( ".savecount span" ).html( data.StatusPRM.SaveCount !== undefined ? data.StatusPRM.SaveCount : "?" );
+	if ( !$( row ).find( ".hostname span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?" );
+	}
+	
+	if ( !$( row ).find( ".mac span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".mac span" ).html( data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?" );
+	}
+	
+	if ( !$( row ).find( ".mqtt span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".mqtt span" ).html( data.StatusMQT !== undefined ? "1" : "0" );
+	}
+	
+	if ( !$( row ).find( ".poweronstate span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".poweronstate span" ).html( data.Status.PowerOnState
+		                                            !== undefined
+			                                            ? data.Status.PowerOnState
+			                                            : "?" );
+	}
+	
+	if ( !$( row ).find( ".ledstate span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".ledstate span" ).html( data.Status.LedState !== undefined ? data.Status.LedState : "?" );
+	}
+	
+	
+	if ( !$( row ).find( ".savedata span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".savedata span" ).html( data.Status.SaveData !== undefined ? data.Status.SaveData : "?" );
+	}
+	
+	
+	if ( !$( row ).find( ".sleep span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?" );
+	}
+	
+	
+	$( row ).find( ".bootcount span" ).html( data.StatusPRM.BootCount
+	                                         !== undefined
+		                                         ? data.StatusPRM.BootCount
+		                                         : "?" );
+	$( row ).find( ".savecount span" ).html( data.StatusPRM.SaveCount
+	                                         !== undefined
+		                                         ? data.StatusPRM.SaveCount
+		                                         : "?" );
 	$( row ).find( ".log span" ).html( (
 		                                   data.StatusLOG.SerialLog !== undefined ? data.StatusLOG.SerialLog : "?"
 	                                   )
@@ -278,10 +317,15 @@ function updateRow( row, data, device_status ) {
 	                                   + (
 		                                   data.StatusLOG.SysLog !== undefined ? data.StatusLOG.SysLog : "?"
 	                                   ) );
-	$( row ).find( ".wificonfig span" ).html( data.StatusNET.WifiConfig
-	                                          !== undefined
-		                                          ? data.StatusNET.WifiConfig
-		                                          : "?" );
+	
+	
+	if ( !$( row ).find( ".wificonfig span" ).hasClass( "dont-update" ) ) {
+		$( row ).find( ".wificonfig span" ).html( data.StatusNET.WifiConfig
+		                                          !== undefined
+			                                          ? data.StatusNET.WifiConfig
+			                                          : "?" );
+	}
+	
 	$( row ).find( ".vcc span" ).html( data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?" );
 	
 	

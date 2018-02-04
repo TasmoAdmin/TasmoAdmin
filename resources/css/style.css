@@ -385,7 +385,7 @@ td.status {
 
 .tablesaw-stack td.actions {
 	display   : inline-block;
-	min-width : 150px;
+	min-width : 185px;
 }
 
 td.actions span {
