@@ -98,7 +98,7 @@ function updateStatus() {
 	
 	if ( refreshtime ) {
 		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
-		setTimeout( function () {
+		setInterval( function () {
 			updateStatus();
 		}, refreshtime );
 	} else {
