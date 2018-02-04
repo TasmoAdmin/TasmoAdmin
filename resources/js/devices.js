@@ -32,6 +32,16 @@ $( document ).on( "ready", function () {
 	//console.log( "5.11.1b => " + parseVersion( "5.11.1b" ) );
 	//console.log( "5.11.1d => " + parseVersion( "5.11.1d" ) );
 	//console.log( "5.11.1z => " + parseVersion( "5.11.1z" ) );
+	
+	if ( refreshtime ) {
+		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
+		setInterval( function () {
+			updateStatus();
+		}, refreshtime );
+	} else {
+		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
+	}
+	
 } );
 
 
@@ -96,14 +106,6 @@ function updateStatus() {
 		}
 	} );
 	
-	if ( refreshtime ) {
-		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
-		setInterval( function () {
-			updateStatus();
-		}, refreshtime );
-	} else {
-		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
-	}
 	
 };
 
