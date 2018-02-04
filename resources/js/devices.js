@@ -36,6 +36,7 @@ $( document ).on( "ready", function () {
 	if ( refreshtime ) {
 		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
 		setInterval( function () {
+			console.log( "refreshing" );
 			updateStatus();
 		}, refreshtime );
 	} else {
@@ -71,7 +72,7 @@ function updateStatus() {
 				        !== undefined
 				     && data.statusText
 				        === undefined ) {
-					console.log( "DATA => " + JSON.stringify( data ) );
+					//console.log( "DATA => " + JSON.stringify( data ) );
 					if ( device_group === "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
