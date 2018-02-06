@@ -9,79 +9,85 @@
 			unlink( $file );
 		} // delete file
 	}
-	
-	
+	$minimal_firmware_path = "";
 	if ( isset( $_POST[ "upload" ] ) ) {
-		try {
-			
-			// Undefined | Multiple Files | $_FILES Corruption Attack
-			// If this request falls under any of them, treat it invalid.
-			if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
-			     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
-				throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_INVALID_FILES", "DEVICE_UPDATE" ) );
-			}
-			
-			// Check $_FILES['minimal_firmware']['error'] value.
-			switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
-				case UPLOAD_ERR_OK:
-					break;
-				case UPLOAD_ERR_NO_FILE:
-					throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_ERR_NO_FILE", "DEVICE_UPDATE" ) );
-				case UPLOAD_ERR_INI_SIZE:
-				case UPLOAD_ERR_FORM_SIZE:
-					throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_ERR_FORM_SIZE", "DEVICE_UPDATE" ) );
-				default:
-					throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_UNKNOWN_ERROR", "DEVICE_UPDATE" ) );
-			}
-			
-			// You should also check filesize here.
-			if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
-				throw new RuntimeException(
-					__( "UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", [ "maxsize" => "502kb" ] )
-				);
-			}
-			
-			if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream"
-			     || $_FILES[ 'minimal_firmware' ][ "type" ] == "application/macbinary" ) {
-				$ext = "bin";
-			} else {
-				throw new RuntimeException(
-					__(
-						"UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT",
-						"DEVICE_UPDATE",
-						$_FILES[ 'minimal_firmware' ][ "type" ]
-					)
-				);
-			}
-			
-			
-			$minimal_firmware_path = $firmwarefolder."sonoff-minimal.bin";
-			
-			if ( !move_uploaded_file(
-				$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
-				$minimal_firmware_path
-			) ) {
-				throw new RuntimeException(
-					__(
-						"UPLOAD_FIRMWARE_MINIMAL_COULD_NOT_SAVE",
-						"DEVICE_UPDATE",
-						[ "FWPath" => $minimal_firmware_path ]
-					)
-				);
-			}
-			
+		if ( $_FILES[ 'minimal_firmware' ][ "name" ] == "" ) {
 			$msg .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".__(
-					"UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
+					"UPLOAD_FIRMWARE_MINIMAL_SKIP",
 					"DEVICE_UPDATE"
-				)."</br>";
+				)."<br/>";
+		} else {
+			try {
+				
+				// Undefined | Multiple Files | $_FILES Corruption Attack
+				// If this request falls under any of them, treat it invalid.
+				if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
+				     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
+					throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_INVALID_FILES", "DEVICE_UPDATE" ) );
+				}
+				
+				// Check $_FILES['minimal_firmware']['error'] value.
+				switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
+					case UPLOAD_ERR_OK:
+						break;
+					case UPLOAD_ERR_NO_FILE:
+						throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_ERR_NO_FILE", "DEVICE_UPDATE" ) );
+					case UPLOAD_ERR_INI_SIZE:
+					case UPLOAD_ERR_FORM_SIZE:
+						throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_ERR_FORM_SIZE", "DEVICE_UPDATE" ) );
+					default:
+						throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_UNKNOWN_ERROR", "DEVICE_UPDATE" ) );
+				}
+				
+				// You should also check filesize here.
+				if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
+					throw new RuntimeException(
+						__( "UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", [ "maxsize" => "502kb" ] )
+					);
+				}
+				
+				if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream"
+				     || $_FILES[ 'minimal_firmware' ][ "type" ] == "application/macbinary" ) {
+					$ext = "bin";
+				} else {
+					throw new RuntimeException(
+						__(
+							"UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT",
+							"DEVICE_UPDATE",
+							$_FILES[ 'minimal_firmware' ][ "type" ]
+						)
+					);
+				}
+				
+				
+				$minimal_firmware_path = $firmwarefolder."sonoff-minimal.bin";
+				
+				if ( !move_uploaded_file(
+					$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
+					$minimal_firmware_path
+				) ) {
+					throw new RuntimeException(
+						__(
+							"UPLOAD_FIRMWARE_MINIMAL_COULD_NOT_SAVE",
+							"DEVICE_UPDATE",
+							[ "FWPath" => $minimal_firmware_path ]
+						)
+					);
+				}
+				
+				$msg .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".__(
+						"UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
+						"DEVICE_UPDATE"
+					)."</br>";
+				
+			}
+			catch ( RuntimeException $e ) {
+				$error = TRUE;
+				$msg   .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".$e->getMessage()."!</br>";
+				
+			}
 			
 		}
-		catch ( RuntimeException $e ) {
-			$error = TRUE;
-			$msg   .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".$e->getMessage()."!</br>";
-			
-		}
-		
 		try {
 			
 			// Undefined | Multiple Files | $_FILES Corruption Attack

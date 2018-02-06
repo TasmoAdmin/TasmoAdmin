@@ -23,6 +23,12 @@ $( document ).on( "ready", function () {
 	 */
 	Sonoff = new Sonoff( { timeout: 8 } );
 	
+	$( document ).tooltip( {
+		                       show   : { delay: 1000, duration: 250 },
+		                       content: function () {
+			                       return $( this ).attr( 'title' );
+		                       },
+	                       } );
 	$( "select" ).selectmenu();
 	$( 'input' ).addClass( 'ui-widget ui-state-default ui-corner-all' );
 	$( "input[type=submit].widget , a.widget, button.widget" ).button();

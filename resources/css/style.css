@@ -630,6 +630,25 @@ p.warning {
 	border-top : 1px solid #284681;
 }
 
+.ui-widget-shadow {
+	box-shadow : -1px 3px 7px #000000;
+}
+
+.changelog {
+	margin     : 50px auto;
+	width      : 50%;
+	text-align : left;
+}
+
+.changelog ul {
+	list-style : disc;
+}
+
+.changelog li ul {
+	margin-left : 15px;
+	list-style  : circle;
+}
+
 .nightmode .ui-state-default,
 .nightmode .ui-widget-content .ui-state-default,
 .nightmode .ui-widget-header .ui-state-default,

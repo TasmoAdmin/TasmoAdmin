@@ -12,7 +12,7 @@ var Sonoff = function ( options ) {
 	 * in the class
 	 */
 	var vars = {
-		timeout: 3,
+		timeout: 10,
 	};
 	
 	/*

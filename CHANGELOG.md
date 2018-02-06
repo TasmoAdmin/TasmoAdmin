@@ -1,4 +1,13 @@
-# CHANGELOG
+# CHANGELOG   
+   
+   
+## 2018-02-06
+- minimal firmware is not a required field anymore
+- add jquery ui tooltips
+- show changelog on selfupdate page
+
+## 2018-02-04
+- some timing adjustments
 
 ## 2018-02-03
 - higher timeout for curl, fixes some timeout problem with much devices   
@@ -9,8 +18,8 @@
 ## 2018-02-02
 - add nightmode   
    - settings: auto (18h-8h), always on, disable   
-   - add userfirendly urls   
-   -  **mod_rewrite is a requirement now, check ubuntu guide in the wiki**   
+- add userfirendly urls   
+- **mod_rewrite is a requirement now, check ubuntu guide in the wiki**
 - add devicename/id on device edit page   
 - fix page title on device add/edit page   
 - remove selfupdate warning (works great now)
