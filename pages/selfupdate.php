@@ -16,7 +16,7 @@
 	
 	
 	$changelog = file_get_contents(
-		"https://raw.githubusercontent.com/reloxx13/SonWEB/master/CHANGELOG.md?r=".rand( 0, 9999 )
+		"https://raw.githubusercontent.com/reloxx13/SonWEB/master/CHANGELOG.md?r=".time()
 	);
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
 	if ( !$changelog ) {
