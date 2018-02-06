@@ -15,7 +15,9 @@
 	$newUpdate = $Selfupdate->checkForUpdate();
 	
 	
-	$changelog = @file_get_contents( "https://raw.githubusercontent.com/reloxx13/SonWEB/master/CHANGELOG.md" );
+	$changelog = file_get_contents(
+		"https://raw.githubusercontent.com/reloxx13/SonWEB/master/CHANGELOG.md?r=".rand( 0, 9999 )
+	);
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
 	if ( !$changelog ) {
 		$changelog = "";
