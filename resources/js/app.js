@@ -259,10 +259,10 @@ function getHumidity( data ) {
 function checkNightmode( config ) {
 	var config = config || "auto";
 	
-	console.log( "check Nightmode => " + config );
-	
 	var currentTime = new Date();
 	var hour        = currentTime.getHours();
+	
+	console.log( "check Nightmode => " + hour + "h - " + config );
 	
 	
 	if ( config === "disable" ) {
@@ -271,6 +271,8 @@ function checkNightmode( config ) {
 		if ( "auto" ) {
 			if ( hour >= 18 || hour <= 8 ) {
 				$( "body" ).addClass( "nightmode" );
+			} else {
+				$( "body" ).removeClass( "nightmode" );
 			}
 		} else if ( config === "enable" ) {
 			$( "body" ).addClass( "nightmode" );
