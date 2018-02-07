@@ -1,5 +1,8 @@
 # CHANGELOG   
    
+
+## 2018-02-07
+- use curl to get changelog
    
 ## 2018-02-06
 - minimal firmware is not a required field anymore
