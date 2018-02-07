@@ -4,7 +4,8 @@
    
 ## 2018-02-07
 - add bootstrap and relayout
-   - if something looks wrong, pls clear your browser cache (Ctrl+r)
+   - **if something looks wrong, pls clear your browser cache (Ctrl+r)**
+   - fine tuning in next days ;)
 - fix nightmode auto wont remove nightmode in the morning
    
 ## 2018-02-06
