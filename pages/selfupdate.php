@@ -81,11 +81,11 @@
 				</button>
 			</form>
 		<?php else: ?>
-			<p>
+			<div class="alert alert-info fade show mb-5" role="alert">
 				<?php echo __( "NO_UPDATE_FOUND", "SELFUPDATE" ); ?>
-			</p>
+			</div>
 			<form name='selfupdateform' method='post'>
-				<button type='submit' name='selfupdate' value='selfupdate' class='btn widget'>
+				<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
 					<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
 				</button>
 			</form>
