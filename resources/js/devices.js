@@ -19,7 +19,7 @@ $( document ).on( "ready", function () {
 		$( "#device-list .more:not(.hidden)" ).toggle();
 	}
 	
-	$( '#content' ).attachDragger();
+	$( '.table-responsive' ).attachDragger();
 	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
 	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
 	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
@@ -41,7 +41,9 @@ $( document ).on( "ready", function () {
 		}, refreshtime );
 	} else {
 		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
+		
 	}
+	console.log( $.i18n( 'TEXT_LOADING' ) );
 	
 } );
 
@@ -218,7 +220,7 @@ function deviceTools() {
 			$( this )
 				.parent()
 				.removeClass( "dont-update" )
-				.text( $.i18n( "TEXT_LOADING" ) )
+				.html( $.i18n( "TEXT_LOADING" ) )
 				.removeClass( "dont-update" );
 			Sonoff.updateConfig( device_id, cmnd, newvalue, updateStatus );
 		} else {

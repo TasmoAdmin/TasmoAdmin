@@ -31,81 +31,112 @@
 
 ?>
 
-<form class='center' name='web_config' method='post'>
-	<p>
-		<?php echo $msg ? $msg : ""; ?>
-	</p>
-	<table border='0' cellspacing='0' class='center-table'>
-		<tr>
-			<td>
-				<?php echo __( "CONFIG_LOGIN", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<input type='checkbox' name='login' id='cb_login' value='1'
-					<?php echo $config[ "login" ] == "1" ? "checked=\"checked\"" : ""; ?>>
-				<label for='cb_login'><?php echo __( "CONFIG_LOGIN_ENABLE", "USER_CONFIG" ); ?></label>
-				<br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __( "CONFIG_USERNAME", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<input type='text' name='username' value='<?php echo $config[ "username" ]; ?>'><br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __( "CONFIG_PASSWORD", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<input type='password' name='password' value='' autocomplete="off"><br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __( "CONFIG_SERVER_IP", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<input type='text' name='ota_server_ip' value='<?php echo $config[ "ota_server_ip" ]; ?>'><br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<?php echo __( "CONFIG_AUTOMATIC_LANG", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<select name='update_automatic_lang'>
+
+<div class='row justify-content-sm-center'>
+	<div class='col-12 col-md-6 '>
+		<h2 class='text-sm-center mb-5'>
+			<?php echo $title; ?>
+		</h2>
+		<?php if ( isset( $msg ) && $msg != "" ): ?>
+			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+				<?php echo $msg; ?>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		<?php endif; ?>
+		<form name='web_config' method='post'>
+			<div class="form-check custom-control custom-checkbox mb-3">
+				<input class="form-check-input custom-control-input"
+				       type="checkbox"
+				       value="1"
+				       id="cb_login"
+				       name='login' <?php echo $config[ "login" ] == "1" ? "checked=\"checked\"" : ""; ?>>
+				<label class="form-check-label custom-control-label" for="cb_login">
+					<?php echo __( "CONFIG_LOGIN_ENABLE", "USER_CONFIG" ); ?>
+				</label>
+			</div>
+			<div class="form-group">
+				<label for="username">
+					<?php echo __( "CONFIG_USERNAME", "USER_CONFIG" ); ?>
+				</label>
+				<input type="text"
+				       class="form-control"
+				       id="username"
+				       name='username'
+				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+				       value='<?php echo $config[ "username" ]; ?>'
+				>
+			
+			</div>
+			<div class="form-group">
+				<label for="password">
+					<?php echo __( "CONFIG_PASSWORD", "USER_CONFIG" ); ?>
+				</label>
+				<input type="password"
+				       class="form-control"
+				       id="password"
+				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+				       name='password'
+				       value=''
+				       autocomplete="off">
+			</div>
+			<div class="form-group mt-5">
+				<label for="ota_server_ip">
+					<?php echo __( "CONFIG_SERVER_IP", "USER_CONFIG" ); ?>
+				</label>
+				<input type="text"
+				       class="form-control"
+				       id="ota_server_ip"
+				       name='ota_server_ip'
+				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+				       value='<?php echo $config[ "ota_server_ip" ]; ?>'
+				>
+			
+			</div>
+			<div class="form-group">
+				<label for="update_automatic_lang">
+					<?php echo __( "CONFIG_AUTOMATIC_LANG", "USER_CONFIG" ); ?>
+				</label>
+				<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
 					<?php if ( $config[ "update_automatic_lang" ] == "" ): ?>
 						<option><?php echo __( "PLEASE_SELECT" ); ?></option>
 					<?php endif; ?>
-					
 					<option value='EN' <?php echo $config[ "update_automatic_lang" ] == "EN" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_AUTOMATIC_LANGAUGE_EN", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_EN",
+							"USER_CONFIG"
+						); ?>
 					</option>
 					<option value='DE' <?php echo $config[ "update_automatic_lang" ] == "DE" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_AUTOMATIC_LANGAUGE_DE", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_DE",
+							"USER_CONFIG"
+						); ?>
 					</option>
 					<option value='IT' <?php echo $config[ "update_automatic_lang" ] == "IT" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_AUTOMATIC_LANGAUGE_IT", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_IT",
+							"USER_CONFIG"
+						); ?>
 					</option>
 					<option value='NL' <?php echo $config[ "update_automatic_lang" ] == "NL" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_AUTOMATIC_LANGAUGE_NL", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_NL",
+							"USER_CONFIG"
+						); ?>
 					</option>
 					<option value='PL' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_AUTOMATIC_LANGAUGE_PL", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_PL",
+							"USER_CONFIG"
+						); ?>
 					</option>
-				
-				</select><br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td>&nbsp;
-				<?php echo __( "CONFIG_REFRESHTIME", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<select name='refreshtime'>
+				</select>
+			</div>
+			<div class="form-group mt-5">
+				<label for="refreshtime"><?php echo __( "CONFIG_REFRESHTIME", "USER_CONFIG" ); ?></label>
+				<select class="form-control custom-select" id="refreshtime" name='refreshtime'>
 					<option value='none' <?php echo $config[ "refreshtime" ] == "none" ? "selected=\selected\""
 						: ""; ?>><?php echo __( "CONFIG_REFRESHTIME_NONE", "USER_CONFIG" ); ?>
 					</option>
@@ -136,18 +167,18 @@
 					<option value='60' <?php echo $config[ "refreshtime" ] == "60" ? "selected=\selected\"" : ""; ?> >
 						60 <?php echo __( "CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG" ); ?>
 					</option>
-				</select><br/><br/>
-			</td>
-		</tr>
-		
-		<tr>
-			<td>&nbsp;
-				<?php echo __( "CONFIG_NIGHTMODE", "USER_CONFIG" ); ?>:<br/><br/>
-			</td>
-			<td>
-				<select name='nightmode'>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="nightmode">
+					<?php echo __( "CONFIG_NIGHTMODE", "USER_CONFIG" ); ?>
+				</label>
+				<select class="form-control custom-select" id="nightmode" name='nightmode'>
 					<option value='disable' <?php echo $config[ "nightmode" ] == "disable" ? "selected=\selected\""
-						: ""; ?>><?php echo __( "CONFIG_NIGHTMODE_DISABLE", "USER_CONFIG" ); ?>
+						: ""; ?>><?php echo __(
+							"CONFIG_NIGHTMODE_DISABLE",
+							"USER_CONFIG"
+						); ?>
 					</option>
 					<option value='always' <?php echo $config[ "nightmode" ] == "always" ? "selected=\selected\""
 						: ""; ?> >
@@ -156,20 +187,17 @@
 					<option value='auto' <?php echo $config[ "nightmode" ] == "auto" ? "selected=\selected\"" : ""; ?> >
 						<?php echo __( "CONFIG_NIGHTMODE_AUTO", "USER_CONFIG" ); ?>
 					</option>
-				
-				</select><br/><br/>
-			</td>
-		</tr>
-		<tr>
-			<td colspan='2'>&nbsp;</td>
-		</tr>
-		<tr>
-			<td colspan='2'>
-				<button type='submit' class='btn widget' name='save' value='submit'><?php echo __(
-						"BTN_SAVE_USER_CONFIG",
-						"USER_CONFIG"
-					); ?></button>
-			</td>
-		</tr>
-	</table>
-</form>
+				</select>
+			</div>
+			<div class="row mt-5">
+				<div class="col-12">
+					<div class="text-right">
+						<button type='submit' class='btn btn-primary ' name='save' value='submit'>
+							<?php echo __( "BTN_SAVE_USER_CONFIG", "USER_CONFIG" ); ?>
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

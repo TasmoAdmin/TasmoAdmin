@@ -302,6 +302,6 @@ $( document ).on( "ready", function () {
 		entry += " " + msg;
 		
 		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" );
-		$( "#content-holder" ).animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 500 );
+		progressBox.animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 500 );
 	}
 } );

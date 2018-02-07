@@ -1,7 +1,9 @@
 <?php
-	$msg            = "";
-	$error          = FALSE;
-	$firmwarefolder = _DATADIR_."firmwares/";
+	$msg                   = "";
+	$error                 = FALSE;
+	$firmwarefolder        = _DATADIR_."firmwares/";
+	$minimal_firmware_path = "";
+	$new_firmware_path     = "";
 	
 	$files = glob( $firmwarefolder.'*' ); // get all file names
 	foreach ( $files as $file ) { // iterate files
@@ -238,157 +240,460 @@
 
 ?>
 
-
-<?php if ( $error ): ?>
-	<div class='center'>
-		<p>
-			<?php echo $msg; ?>
-		</p>
-	
+<div class='row justify-content-sm-center'>
+	<div class='col-12 col-md-6 '>
+		<h2 class='text-sm-center mb-5'>
+			<?php echo $title; ?>
+		</h2>
 	</div>
-
+</div>
+<?php if ( isset( $error ) && $error && FALSE ): ?>
+	<div class='row justify-content-sm-center'>
+		<div class='col-12 col-md-6 '>
+			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+				<?php echo $msg; ?>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+		</div>
+	</div>
 <?php else: ?>
-	<?php
-	$devices = $Sonoff->getDevices();
-	
-	?>
-	<div class='center'>
-		<p>
-			<?php echo $msg; ?>
-		</p>
-		<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
-			<p class='warning'>
-				<?php echo __( "AUTO_WARNING_CFG_HOLDER", "DEVICE_UPDATE" ); ?>
-			</p>
-		<?php endif; ?>
-		<p>
-			<?php echo __( "CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE" ); ?>:
-		</p>
-	</div>
-	<form name='update_devices'
-	      class='center'
-	      id='update_devices'
-	      method='post'
-	      action='<?php echo _BASEURL_; ?>device_update'>
-		<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
-		<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-		<div class='btn-group'>
-			<button type='submit' class='btn widget' name='submit' value='submit'>
-				<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-			</button>
+	<?php if ( isset( $msg ) && $msg != "" ): ?>
+		<div class='row justify-content-sm-center'>
+			<div class='col-12 col-md-6 '>
+				<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+					<?php echo $msg; ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
 		</div>
-		<table id='device-list' class='center-table tablesaw tablesaw-stack'
-		       data-tablesaw-mode="stack" border='0' cellspacing='0'>
-			<thead>
-			
-			<tr>
-				<th class='link'>
-					<input class='select_all' type='checkbox' name='select_all' id='select_all' value='select_all'>
-					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
-				</th>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
-				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php
-				$odd = TRUE;
-				if ( isset( $devices ) && !empty( $devices ) ):
-					foreach ( $devices as $device_group ):
-						foreach ( $device_group->names as $key => $devicename ): ?>
-							<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-							    data-device_id='<?php echo $device_group->id; ?>'
-							    data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi"
-								    : "single"; ?>'
-							    data-device_ip='<?php echo $device_group->ip; ?>'
-							    data-device_relais='<?php echo $key + 1; ?>'
-							>
-								<td class='update_cb'>
-									<?php if ( $key == 0 ): ?>
-										<label for='cb_<?php echo $device_group->id; ?>'>
-											<?php echo __( "UPDATE", "DEVICE_UPDATE" ); ?>
+	<?php endif; ?>
+	
+	<?php $devices = $Sonoff->getDevices(); ?>
+	
+	
+	<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
+		<div class='row justify-content-sm-center'>
+			<div class='col-12 col-md-6 '>
+				<div class="alert alert-warning alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+					<?php echo __( "AUTO_WARNING_CFG_HOLDER", "DEVICE_UPDATE" ); ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+	<div class='row'>
+		<div class='col-12 '>
+			<div class='mb-3'>
+				<?php echo __( "CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE" ); ?>
+			</div>
+			<form name='update_devices'
+			      class=''
+			      id='update_devices'
+			      method='post'
+			      action='<?php echo _BASEURL_; ?>device_update'>
+				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
+				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
+				<div class='mb-3'>
+					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
+						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
+					</button>
+					<div class="form-check float-right mt-2">
+						<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
+						<label class="form-check-label" for="showmore"><?php echo __(
+								"SHOW_MORE",
+								"DEVICES"
+							); ?></label>
+					</div>
+					<span class='clearfix'></span>
+				</div>
+				
+				<div class='row justify-content-center'>
+					<div class=' table-responsive'>
+						<table id='device-list'
+						       class='table table-striped table-sm table-hover tablesaw tablesaw-stack'
+						       data-tablesaw-mode="stack"
+						       border='0'
+						       cellspacing='0'>
+							<thead>
+							<tr>
+								<th class='link'>
+									<div class="form-check custom-control custom-checkbox">
+										<input class="form-check-input custom-control-input select_all"
+										       type="checkbox"
+										       value='select_all'
+										       id="select_all"
+										       name='select_all'>
+										<label class="form-check-label custom-control-label" for="select_all">
+											<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
 										</label>
-										<input type='checkbox'
-										       name='device_ids[]'
-										       value='<?php echo $device_group->id; ?>'
-										       class='device_checkbox'
-										       id='cb_<?php echo $device_group->id; ?>'
-										>
-									
-									<?php endif; ?>
-								</td>
-								<td><?php echo $device_group->id; ?></td>
-								<td><?php echo $devicename; ?></td>
-								<td><?php echo $device_group->ip; ?></td>
-								<td class='status'>
-									<label class="form-switch">
-										<input type="checkbox">
-										<i></i>
-									</label>
-								</td>
-								<td class='rssi'>
-									<span>
-										<div class='loader'>
-											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-										</div>
-									</span>
-								</td>
-								<td class='version'>
-									<span>
-										<div class='loader'>
-											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-										</div>
-									</span>
-								</td>
-								<td class='runtime'>
-									<span>
-										<div class='loader'>
-											<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
-											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-										</div>
-									</span>
-								</td>
+									</div>
+								</th>
+								<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+								<th>
+									<i class="fas fa-signal"
+									   title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i>
+								</th>
+								<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+								<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
+								<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
+								<th class='more idx hidden'><?php echo __( "TABLE_HEAD_IDX", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SLEEP", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "BOOTCOUNT", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SAVECOUNT", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
+								
+								<th class='link'>
+									<a href='<?php echo _BASEURL_; ?>device_action/add'>
+										<i class="fas fa-plus add"
+										   title='<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>'></i>
+										<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+									</a>
+								</th>
 							</tr>
+							</thead>
+							<tbody>
 							<?php
-							$odd = !$odd;
-						endforeach;
-					endforeach;
-				endif; ?>
-			</tbody>
-			<tfoot>
-			<tr class='bottom'>
-				<th class='link'>
-					<input class='select_all' type='checkbox' name='select_all' id='select_all' value=' select_all'>
-					<label for='select_all'><?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?></label>
-				</th>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
-				<th><i class="fas fa-signal" title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i></th>
-				<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
-				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
-			</tr>
-			
-			</tfoot>
-		</table>
-		<div class='btn-group'>
-			<button type='submit' class='btn widget' name='submit' value='submit'>
-				<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-			</button>
+								$odd = TRUE;
+								if ( isset( $devices ) && !empty( $devices ) ):
+									foreach ( $devices as $device_group ):
+										foreach ( $device_group->names as $key => $devicename ): ?>
+											<tr class='<?php echo $odd ? "odd" : "even"; ?>'
+											    data-device_id='<?php echo $device_group->id; ?>'
+											    data-device_group='<?php echo count( $device_group->names ) > 1
+												    ? "multi" : "single"; ?>'
+											    data-device_ip='<?php echo $device_group->ip; ?>'
+											    data-device_relais='<?php echo $key + 1; ?>'
+											>
+												<td class='update_cb'>
+													<?php if ( $key == 0 ): ?>
+														<div class="form-check custom-control custom-checkbox mb-3">
+															<input class="form-check-input custom-control-input device_checkbox"
+															       type="checkbox"
+															       value='<?php echo $device_group->id; ?>'
+															       id="cb_<?php echo $device_group->id; ?>"
+															       name='device_ids[]'>
+															<label class="form-check-label custom-control-label"
+															       for="cb_<?php echo $device_group->id; ?>">
+																<?php echo __( "UPDATE", "DEVICE_UPDATE" ); ?>
+															</label>
+														</div>
+													
+													
+													<?php endif; ?>
+												</td>
+												<td><?php echo $device_group->id; ?></td>
+												<td><a href='http://<?php echo $device_group->ip; ?>/'
+												       target='_blank'
+												       title='<?php echo __(
+													       "LINK_OPEN_DEVICE_WEBUI",
+													       "DEVICES"
+												       ); ?>'><?php echo str_replace(
+															" ",
+															"&nbsp;",
+															$devicename
+														); ?></a>
+												</td>
+												<td><?php echo $device_group->ip; ?></td>
+												<td class='status'>
+													<label class="form-switch">
+														<input type="checkbox">
+														<i></i>
+													</label>
+												
+												</td>
+												<td class='rssi'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='version'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='runtime'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='temp hidden'>
+							<span>
+								-
+							</span>
+												</td>
+												<td class='humidity hidden'>
+							<span>
+								-
+							</span>
+												</td>
+												
+												
+												<td class='more hostname dblcEdit' data-cmnd='Hostname'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more mac'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more mqtt dblcEdit' data-cmnd='Mqtt'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more idx hidden'>
+							<span>
+								-
+							</span>
+												</td>
+												<td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more ledstate dblcEdit' data-cmnd='LedState'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more savedata dblcEdit' data-cmnd='SaveData'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more sleep dblcEdit' data-cmnd='Sleep'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more bootcount'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more savecount'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more log'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												<td class='more vcc'>
+							<span>
+								<div class='loader'>
+									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+								</div>
+							</span>
+												</td>
+												
+												
+												<td class='col actions'>
+													<a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
+														<i class="fas fa-cogs fa-lg"
+														   title='<?php echo __(
+															   "LINK_DEVICE_CONFIG",
+															   "DEVICES"
+														   ); ?>'></i></a>
+													<a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
+														<i class="fas fa-edit fa-lg"
+														   title='<?php echo __(
+															   "LINK_DEVICE_EDIT",
+															   "DEVICES"
+														   ); ?>'></i></a>
+													<a class="delete"
+													   data-dialog-btn-cancel-text='<?php echo __( "CANCEL" ); ?>'
+													   data-dialog-btn-ok-text='<?php echo __(
+														   "DELETE_DEVICE",
+														   "DEVICES"
+													   ); ?>'
+													   data-dialog-title='<?php echo __(
+														   "DELETE_DEVICE_CONFIRM_TITLE",
+														   "DEVICES"
+													   ); ?>'
+													   data-dialog-text='<?php echo __(
+														   "DELETE_DEVICE_CONFIRM_TEXT",
+														   "DEVICES",
+														   [
+															   $devicename,
+															   $device_group->ip,
+														   ]
+													   ); ?>'
+													   href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'>
+														<i class="fas fa-trash fa-lg"
+														   title='<?php echo __(
+															   "LINK_DEVICE_DELETE",
+															   "DEVICES"
+														   ); ?>'></i></a>
+													<a href='#' class='restart-device'>
+														<i class="fas fa-sync fa-lg"
+														   title='<?php echo __(
+															   "LINK_DEVICE_RESTART",
+															   "DEVICES"
+														   ); ?>'></i></a>
+												</td>
+											
+											</tr>
+											<?php
+											$odd = !$odd;
+										endforeach;
+									endforeach;
+								endif; ?>
+							</tbody>
+							<tfoot>
+							<tr class='bottom'>
+								<th class='link'>
+									<div class="form-check custom-control custom-checkbox">
+										<input class="form-check-input custom-control-input select_all"
+										       type="checkbox"
+										       value='select_all'
+										       id="select_all"
+										       name='select_all'>
+										<label class="form-check-label custom-control-label" for="select_all">
+											<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
+										</label>
+									</div>
+								</th>
+								<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
+								<th>
+									<i class="fas fa-signal"
+									   title='<?php echo __( "TABLE_HEAD_RSSI", "DEVICES" ); ?>'></i>
+								</th>
+								<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
+								<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+								<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
+								<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
+								<th class='more idx hidden'><?php echo __( "TABLE_HEAD_IDX", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "POWERONSTATE", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "LEDSTATE", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SAVEDATA", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SLEEP", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "BOOTCOUNT", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "SAVECOUNT", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
+								<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
+								<th class='link'>
+									<a href='<?php echo _BASEURL_; ?>device_action/add'>
+										<i class="fas fa-plus add"
+										   title='<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>'></i>
+										<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+									</a>
+								</th>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+				
+				<div class=''>
+					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
+						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
+					</button>
+					<div class="form-check float-right mt-2">
+						<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
+						<label class="form-check-label" for="showmore"><?php echo __(
+								"SHOW_MORE",
+								"DEVICES"
+							); ?></label>
+					</div>
+					<span class='clearfix'></span>
+				</div>
+			</form>
+		
 		</div>
-	</form>
-	
+	</div>
 	<script>
 		$( document ).on( "ready", function () {
 			//select all checkboxes
@@ -422,6 +727,7 @@
 			
 		} );
 	</script>
-	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
+	<script type='text/javascript'
+	        src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
 <?php endif; ?>
 

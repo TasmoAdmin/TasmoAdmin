@@ -11,7 +11,7 @@
 	$user     = $Config->read( "username" );
 	$password = $Config->read( "password" );
 	$title    = __( "LOGIN", "PAGE_TITLES" );
-	
+	$page     = "login";
 	if ( isset( $_GET[ "logout" ] ) ) {
 		ob_start();
 		
@@ -23,6 +23,7 @@
 	}
 	
 	if ( $Config->read( "login" ) == 0 ) {
+		die( "in" );
 		header( "Location: "._BASEURL_."" );
 	}
 	
@@ -51,38 +52,78 @@
 
 
 <?php include_once( _INCLUDESDIR_."header.php" ); //always load header?>
-<div id='login' class='center'>
-	<p><?php echo $msg ? $msg : ""; ?></p>
-	<form name='loginform' method='post'>
-		<table id='' class='center-table' border='0' cellspacing='0'>
+
+<div class="container-fluid" id='content'>
+	<div class="row">
+		<div class="col-md-12">
+			<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
+			<div class="row">
+				<div class="col-md-6 mx-auto">
+					<span class="anchor" id="formLogin"></span>
+					<?php if ( isset( $msg ) && $msg != "" ): ?>
+						<div class="alert alert-danger alert-dismissible fade show mb-5"
+						     data-dismiss="alert"
+						     role="alert">
+							<?php echo $msg; ?>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+					<?php endif; ?>
+					<!-- form card login -->
+					<div class="card rounded-0 bg-dark">
+						<div class="card-body">
+							<form class="form" name='loginform' method='POST'>
+								<div class="form-group">
+									<label for="username">Username</label>
+									<input type="text"
+									       class="form-control form-control-lg rounded-0"
+									       name="username"
+									       id="username"
+									       placeholder='<?php echo __( "LOGIN_USERNAME_PLACEHOLDER", "LOGIN" ); ?>'
+									       required="">
+								
+								
+								</div>
+								<div class="form-group">
+									<label>Password</label>
+									<input type="password"
+									       class="form-control form-control-lg rounded-0"
+									       id="password"
+									       name="password"
+									       required=""
+									       placeholder='<?php echo __( "LOGIN_PASSWORD_PLACEHOLDER", "LOGIN" ); ?>'
+									>
+								</div>
+								<button type='submit'
+								        name='<?php echo $register ? "register" : "login"; ?>'
+								        class='btn btn-success btn-lg float-right'>
+									<?php echo $register
+										? __( "BTN_REGISTER", "LOGIN" )
+										: __(
+											"BTN_LOGIN",
+											"LOGIN"
+										); ?>
+								</button>
+							</form>
+						</div>
+						<!--/card-block-->
+					</div>
+					<!-- /form card login -->
+				
+				</div>
 			
-			<tr>
-				<td>
-					<br/><input type='text'
-					            name='username'
-					            required
-					            placeholder='<?php echo __( "LOGIN_USERNAME_PLACEHOLDER", "LOGIN" ); ?>'><br/><br/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<br/><input type='password'
-					            name='password'
-					            required
-					            placeholder='<?php echo __( "LOGIN_PASSWORD_PLACEHOLDER", "LOGIN" ); ?>'><br/><br/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<br/>
-					<button type='submit' name='<?php echo $register ? "register" : "login"; ?>' class='btn widget'>
-						<?php echo $register ? __( "BTN_REGISTER", "LOGIN" ) : __( "BTN_LOGIN", "LOGIN" ); ?>
-					</button>
-				</td>
-			</tr>
-		</table>
-	</form>
+			
+			</div>
+			<!--/row-->
+		
+		</div>
+		<!--/col-->
+	</div>
+	<!--/row-->
 </div>
+<!--/container-->
+
 
 <?php include_once( _INCLUDESDIR_."footer.php" ); //always load header?>
 

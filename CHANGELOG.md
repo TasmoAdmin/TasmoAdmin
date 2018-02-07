@@ -1,6 +1,11 @@
 # CHANGELOG   
    
    
+   
+## 2018-02-07
+- add bootstrap and relayout
+   - if something looks wrong, pls clear your browser cache (Ctrl+r)
+   
 ## 2018-02-06
 - minimal firmware is not a required field anymore
 - add jquery ui tooltips

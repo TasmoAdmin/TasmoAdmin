@@ -1,11 +1,11 @@
 var Sonoff;
 var refreshtime = false;
-
 $( document ).on( "ready", function () {
 	checkNightmode( nightmodeconfig );
 	
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
+	console.log( i18nfile );
 	$.ajax( {
 		        dataType: "json",
 		        url     : i18nfile,
@@ -13,8 +13,6 @@ $( document ).on( "ready", function () {
 		        success : function ( data ) {
 			
 			        $.i18n().load( data );
-			
-			
 		        },
 	        } );
 	/**
@@ -23,21 +21,23 @@ $( document ).on( "ready", function () {
 	 */
 	Sonoff = new Sonoff( { timeout: 8 } );
 	
-	$( document ).tooltip( {
-		                       show   : { delay: 1000, duration: 250 },
-		                       content: function () {
-			                       return $( this ).attr( 'title' );
-		                       },
-	                       } );
-	$( "select" ).selectmenu();
-	$( 'input' ).addClass( 'ui-widget ui-state-default ui-corner-all' );
-	$( "input[type=submit].widget , a.widget, button.widget" ).button();
+	$( document ).tooltip();
+	//$( "select" ).selectmenu();
+	//$( 'input' ).addClass( 'ui-widget ui-state-default ui-corner-all' );
+	//$( "input[type=submit].widget , a.widget, button.widget" ).button();
+	
+	$( '.custom-file-input' ).on( 'change', function () {
+		var filename = $( this ).val();
+		filename     = filename.replace( /^.*\\/, "" );
+		filename     = filename.match( /[^\\/]*$/ )[ 0 ];
+		$( this ).next().html( filename );
+	} );
 	
 	$( "a.reload" ).on( "click", function ( e ) {
 		e.preventDefault();
 		window.location.href = window.location.href;
 	} );
-	$( "select#language-switch" ).selectmenu( "option", "width", "80px" );
+	//$( "select#language-switch" ).selectmenu( "option", "width", "80px" );
 	
 	var appendLoading = function ( elem, replace ) {
 		var replace = replace || false;
@@ -51,10 +51,10 @@ $( document ).on( "ready", function () {
 		}
 	};
 	
-	$( '.hamburger' ).click( function () {
-		$( "#navi" ).toggleClass( "show" );
-		$( '.hamburger' ).toggleClass( "open" );
-	} );
+	//$( '.hamburger' ).click( function () {
+	//	$( "#navi" ).toggleClass( "show" );
+	//	$( '.hamburger' ).toggleClass( "open" );
+	//} );
 	
 	if ( $( "#content" ).data( "refreshtime" ) !== "none" ) {
 		refreshtime = $( "#content" ).data( "refreshtime" ) * 1000;
@@ -88,7 +88,7 @@ $( document ).on( "ready", function () {
 		}
 	} );
 	
-	$( "select#language-switch" ).on( "selectmenuchange", function ( event, ui ) {
+	$( "select#language-switch" ).on( "change", function ( event, ui ) {
 		var optionSelected = $( "option:selected", this );
 		var valueSelected  = this.value;
 		

@@ -1,8 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta http-equiv="Cache-control" content="no-cache, must-revalidate"/>
 	<meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT"/>
 	<meta http-equiv="Pragma" content="no-cache"/>
@@ -44,6 +44,7 @@
 		var _RESOURCESDIR_ = "<?php echo _RESOURCESDIR_; ?>";
 	</script>
 	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+	<script src="<?php echo _RESOURCESDIR_; ?>js/bootstrap/bootstrap.bundle.js"></script>
 	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	
 	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.js"></script>
@@ -75,8 +76,10 @@
 	
 	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/app.js?<?php echo time(); ?>'></script>
 	
-	<link href='<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css?<?php echo time(); ?>'
+	<link href="<?php echo _RESOURCESDIR_; ?>css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href='<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css'
 	      rel='stylesheet'>
+	
 	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
 	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
 	<link href="<?php echo _RESOURCESDIR_; ?>css/fontawesome/css/fontawesome-all.css?<?php echo time(); ?>"
@@ -87,27 +90,86 @@
 
 </head>
 <body>
-
-<div id='header'>
-	
-	<div class="hamburger">
-		<span></span>
-		<span></span>
-		<span></span>
-	</div>
-	
-	<h1><a href='<?php echo _BASEURL_; ?>start'>SonWEB <?php echo isset( $title ) ? " -&nbsp;".$title : ""; ?> </a></h1>
-	
-	<div class='language-switch-holder'>
-		<select name='language-switch' id='language-switch'>
-			<option value='de' <?php echo $lang == "de" ? "selected=\"selected\"" : ""; ?>>DE</option>
-			<option value='en' <?php echo $lang == "en" ? "selected=\"selected\"" : ""; ?>>EN</option>
-			<option value='es' <?php echo $lang == "es" ? "selected=\"selected\"" : ""; ?>>ES</option>
-			<option value='fr' <?php echo $lang == "fr" ? "selected=\"selected\"" : ""; ?>>FR</option>
-			<option value='it' <?php echo $lang == "it" ? "selected=\"selected\"" : ""; ?>>IT</option>
-			<option value='nl' <?php echo $lang == "nl" ? "selected=\"selected\"" : ""; ?>>NL</option>
-			<option value='pl' <?php echo $lang == "pl" ? "selected=\"selected\"" : ""; ?>>PL</option>
-			<option value='ru' <?php echo $lang == "ru" ? "selected=\"selected\"" : ""; ?>>RU</option>
-		</select>
-	</div>
-</div>
+<header>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+		
+		<a class="navbar-brand" href='<?php echo _BASEURL_; ?>start'>SonWEB</a>
+		<button class="navbar-toggler"
+		        type="button"
+		        data-toggle="collapse"
+		        data-target="#navbarSupportedContent"
+		        aria-controls="navbarSupportedContent"
+		        aria-expanded="false"
+		        aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item <?php echo $page == "start" ? "active" : ""; ?>">
+					<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
+							"STARTPAGE",
+							"NAVI"
+						); ?></a>
+				</li>
+				
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle"
+					   href="#"
+					   id="devicesDropdown"
+					   data-toggle="dropdown"
+					   aria-haspopup="false"
+					   aria-expanded="false">
+						<?php echo __( "DEVICES", "NAVI" ); ?>
+					</a>
+					<div class="dropdown-menu" aria-labelledby="devicesDropdown">
+						<a class="dropdown-item" href="<?php echo _BASEURL_; ?>devices">
+							<?php echo __( "DEVICE_LIST", "NAVI" ); ?>
+						</a>
+						<a href='<?php echo _BASEURL_; ?>upload_form' class='dropdown-item'>
+							<?php echo __( "UPDATE", "NAVI" ); ?>
+						</a>
+					
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href='<?php echo _BASEURL_; ?>site_config'>
+						<?php echo __( "SETTINGS", "NAVI" ); ?>
+					</a>
+				</li>
+				
+				<li class="nav-item">
+					<a class="nav-link" href='<?php echo _BASEURL_; ?>selfupdate'>
+						<?php echo __( "SELFUPDATE", "NAVI" ); ?>
+					</a>
+				</li>
+			
+			</ul>
+			
+			
+			<div class='my-2 my-lg-0 language-switch-holder'>
+				<select name='language-switch' id='language-switch'>
+					<option value='de' <?php echo $lang == "de" ? "selected=\"selected\"" : ""; ?>>DE</option>
+					<option value='en' <?php echo $lang == "en" ? "selected=\"selected\"" : ""; ?>>EN</option>
+					<option value='es' <?php echo $lang == "es" ? "selected=\"selected\"" : ""; ?>>ES</option>
+					<option value='fr' <?php echo $lang == "fr" ? "selected=\"selected\"" : ""; ?>>FR</option>
+					<option value='it' <?php echo $lang == "it" ? "selected=\"selected\"" : ""; ?>>IT</option>
+					<option value='nl' <?php echo $lang == "nl" ? "selected=\"selected\"" : ""; ?>>NL</option>
+					<option value='pl' <?php echo $lang == "pl" ? "selected=\"selected\"" : ""; ?>>PL</option>
+					<option value='ru' <?php echo $lang == "ru" ? "selected=\"selected\"" : ""; ?>>RU</option>
+				</select>
+			</div>
+			<?php if ( $Config->read( "login" ) == "1" ): ?>
+				<div class="my-2 my-lg-0 ml-0 ml-sm-3 ">
+					<a class=""
+					   href='<?php echo _BASEURL_; ?>logout'
+					   title='<?php echo __( "LOGOUT", "NAVI" ); ?>'>
+						<i class='fas fa-sign-out-alt fa-lg'></i><span class='d-inline d-sm-none'>
+							<?php echo __( "LOGOUT", "NAVI" ); ?>
+						</span>
+					</a>
+				</div>
+			<?php endif; ?>
+		</div>
+	</nav>
+</header>
