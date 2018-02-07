@@ -3,6 +3,7 @@
 
 ## 2018-02-07
 - use curl to get changelog
+- force selfupdate by calling http://sonweb/selfupdate/force
    
 ## 2018-02-06
 - minimal firmware is not a required field anymore
