@@ -63,8 +63,10 @@
 		<?php endif; ?>
 		
 		<?php if ( $newUpdate[ "update" ] ): ?>
-			<div>
-				<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!<br/><br/>
+			<div class="alert alert-success fade show mb-5" role="alert">
+				<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!
+			</div>
+			<div class='mt-3'>
 				<?php echo __(
 					"OLD_SHA_VERSION",
 					"SELFUPDATE",
