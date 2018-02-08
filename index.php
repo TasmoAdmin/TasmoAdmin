@@ -1,8 +1,7 @@
 <?php
 	include_once( "./includes/top.php" );
 	
-	
-	if ( !isset ( $_SESSION[ "login" ] ) && $Config->read( "login" ) == "1" ) {
+	if ( !$loggedin ) {
 		header( "Location: "._BASEURL_."login" );
 	}
 	

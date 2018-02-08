@@ -6,6 +6,8 @@
 	session_set_cookie_params( 30 * 24 * 60 * 60 );
 	session_start();
 	
+	global $loggedin;
+	$loggedin = FALSE;
 	if ( !function_exists( "curl_init" ) ) {
 		echo "ERROR: PHP Curl is missing.";
 		echo "Please install PHP Curl";
@@ -54,7 +56,7 @@
 	
 	$i18n = new i18n();
 	
-	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : null;
 	if ( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
 		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
@@ -76,7 +78,11 @@
 	$Sonoff = new Sonoff();
 	
 	
-	function __( $string, $category = NULL, $args = NULL ) {
+	if ( ( isset ( $_SESSION[ "login" ] ) && $_SESSION[ "login" ] == "1" ) || $Config->read( "login" ) == "0" ) {
+		$loggedin = TRUE;
+	}
+	
+	function __( $string, $category = null, $args = null ) {
 		$cat = "";
 		if ( isset( $category ) && !empty( $category ) ) {
 			$cat = $category."_";
