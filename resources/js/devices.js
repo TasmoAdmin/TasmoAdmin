@@ -7,16 +7,17 @@ $( document ).on( "ready", function () {
 		if ( $( this ).prop( "checked" ) ) {
 			$( ".showmore" ).prop( "checked", true );
 			Cookies.set( 'devices_show_more', '1' );
+			$( "#device-list .more" ).removeClass( "hidden" );
 		} else {
 			$( ".showmore" ).prop( "checked", false );
 			Cookies.set( 'devices_show_more', '0' );
+			$( "#device-list .more" ).addClass( "hidden" );
 		}
-		$( "#device-list .more:not(.hidden)" ).toggle();
 	} );
 	
 	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
 		$( ".showmore" ).prop( "checked", true );
-		$( "#device-list .more:not(.hidden)" ).toggle();
+		$( "#device-list .more" ).removeClass( "hidden" );
 	}
 	
 	$( '.table-responsive' ).attachDragger();
