@@ -40,7 +40,7 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 	padding-bottom : 140px;
 }
 
-.tablesaw-stack td.more.hidden, .tablesaw-stack th.more.hidden, .tablesaw-stack thead td.more.hidden, .tablesaw-stack thead th.more.hidden {
+.tablesaw-stack td.more, .tablesaw-stack th.more, .tablesaw-stack thead td.more, .tablesaw-stack thead th.more {
 	display : none;
 }
 
