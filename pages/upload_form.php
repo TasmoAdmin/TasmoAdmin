@@ -1,5 +1,23 @@
 <?php
-
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/sonoff/_releasenotes.ino?r="
+	                .time();
+	$ch           = curl_init();
+	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
+	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
+	curl_setopt( $ch, CURLOPT_URL, $changelogUrl );
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	$changelog = curl_exec( $ch );
+	
+	
+	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
+	if ( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
+		$changelog = "";
+	} else {
+		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 5000 )."...";
+		require_once _LIBSDIR_."parsedown/Parsedown.php";
+		$mdParser  = new Parsedown();
+		$changelog = $mdParser->parse( $changelog );
+	}
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -71,5 +89,10 @@
 		
 		
 		</form>
+		<hr class='my-5'>
+		<div class='changelog'>
+			<h2>Tasmota Changelog</h2>
+			<?php echo $changelog; ?>
+		</div>
 	</div>
 </div>
