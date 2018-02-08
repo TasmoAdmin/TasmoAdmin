@@ -202,7 +202,9 @@ function deviceTools() {
 	$( document ).on( 'dblclick', '.dblcEdit span', function () {
 		oriVal = $( this ).text();
 		$( this ).text( "" ).addClass( "dont-update" );
-		input = $( "<input class='dblEdit-Input' type='text'>" );
+		var w = oriVal.length * 10 + 20;
+		console.log();
+		input = $( "<input class='dblEdit-Input' type='text' style='width: " + w + "px;'>" );
 		input.appendTo( $( this ) ).focus();
 		
 	} );
