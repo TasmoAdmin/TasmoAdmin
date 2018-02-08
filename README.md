@@ -50,7 +50,7 @@ I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/relo
 ![Device Config_Network](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/4_1.png)
 ![Device Update 1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/5.png)
 ![Device Update 2](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/5_1.png)
-![Device Update 3](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/5_3.png)
+![Device Update 3](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/5_2.png)
 ![Settings](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/6.png)
 ![Settings](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/7.png)
    
