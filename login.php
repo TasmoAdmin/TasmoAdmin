@@ -18,7 +18,7 @@
 		session_unset();
 		session_destroy();
 		
-		header( "Location: "._BASEURL_."login.php" );
+		header( "Location: "._BASEURL_."login" );
 		ob_end_flush();
 	}
 	
@@ -32,12 +32,12 @@
 			$Config->write( "username", $_POST[ "username" ] );
 			$Config->write( "password", md5( $_POST[ "password" ] ) );
 			$_SESSION[ 'login' ] = "1";
-			header( "Location: "._BASEURL_."index.php" );
+			header( "Location: "._BASEURL_."start" );
 			
 		} else if ( isset( $_POST[ "login" ] ) ) {
 			if ( $user == $_POST[ "username" ] && $password == md5( $_POST[ "password" ] ) ) {
 				$_SESSION[ 'login' ] = "1";
-				header( "Location: "._BASEURL_."index.php" );
+				header( "Location: "._BASEURL_."start" );
 			} else {
 				$msg = __( "LOGIN_INCORRECT", "LOGIN" );
 			}
