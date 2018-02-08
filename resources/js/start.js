@@ -99,6 +99,10 @@ function updateStatus() {
 function deviceTools() {
 	$( '#content .box_device' ).on( "click", function ( e ) {
 		e.preventDefault();
+		if ( $( this ).hasClass( "toggled" ) ) {
+			return;
+		}
+		$( '#content .box_device' ).addClass( "toggled" );
 		var device_box = $( this );
 		device_box.find( "img" ).effect( "shake", { distance: 3 } );
 		var device_ip     = device_box.data( "device_ip" );
@@ -120,6 +124,8 @@ function deviceTools() {
 				             + data.ERROR
 				             || "Unknown Error" );
 			}
+			$( '#content .box_device' ).removeClass( "toggled" );
+			
 		} );
 		
 		
