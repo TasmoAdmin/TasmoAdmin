@@ -200,6 +200,10 @@ td.runtime {
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
+	font-size        : 0.8rem;
+	line-height      : 0.8;
+	max-height       : 2.3rem;
+	overflow         : hidden;
 }
 
 .box_device .humidity {
@@ -210,6 +214,10 @@ td.runtime {
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
+	font-size        : 0.8rem;
+	line-height      : 0.8;
+	max-height       : 2.3rem;
+	overflow         : hidden;
 }
 
 #progressbox span {
