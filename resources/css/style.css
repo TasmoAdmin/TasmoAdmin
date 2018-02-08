@@ -179,13 +179,17 @@ td.runtime {
 .box_device .box_device_name {
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
-	text-shadow      : #FFFFFF 0px 0px 10px;
+	text-shadow      : #FFFFFF 0px 0px 5px;
 	text-align       : center;
 	position         : absolute;
 	bottom           : 0px;
 	width            : 100%;
-	padding          : 5px;
+	padding          : 5px 3px;
 	box-sizing       : border-box;
+	font-size        : 0.8rem;
+	line-height      : 0.8;
+	max-height       : 2.3rem;
+	overflow         : hidden;
 }
 
 .box_device .temp {
