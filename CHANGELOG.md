@@ -2,6 +2,11 @@
    
    
    
+## 2018-02-08
+- fix device update process
+- some styling fixes
+- add sensor SHT3X
+   
 ## 2018-02-07
 - add bootstrap and relayout
    - **if something looks wrong, pls clear your browser cache (Ctrl+r)**
