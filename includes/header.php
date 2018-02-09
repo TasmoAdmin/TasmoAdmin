@@ -96,7 +96,7 @@
 <body>
 <header>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
-		
+		<?php //var_dump( $page ); ?>
 		<a class="navbar-brand" href='<?php echo _BASEURL_; ?>start'>SonWEB</a>
 		<button class="navbar-toggler"
 		        type="button"
@@ -121,7 +121,17 @@
 				
 				<?php if ( $loggedin ): ?>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle"
+						<a class="nav-link dropdown-toggle <?php echo in_array(
+							$page,
+							[
+								"upload_form",
+								"upload",
+								"device_update",
+								"devices",
+								"device_config",
+								"device_action",
+							]
+						) ? "active" : ""; ?>"
 						   href="#"
 						   id="devicesDropdown"
 						   data-toggle="dropdown"
@@ -129,11 +139,20 @@
 						   aria-expanded="false">
 							<?php echo __( "DEVICES", "NAVI" ); ?>
 						</a>
-						<div class="dropdown-menu" aria-labelledby="devicesDropdown">
-							<a class="dropdown-item" href="<?php echo _BASEURL_; ?>devices">
+						<div class="dropdown-menu bg-dark" aria-labelledby="devicesDropdown">
+							<a class="dropdown-item nav-link <?php echo $page == "devices" ? "active" : ""; ?>"
+							   href="<?php echo _BASEURL_; ?>devices">
 								<?php echo __( "DEVICE_LIST", "NAVI" ); ?>
 							</a>
-							<a href='<?php echo _BASEURL_; ?>upload_form' class='dropdown-item'>
+							<a href='<?php echo _BASEURL_; ?>upload_form'
+							   class='dropdown-item nav-link <?php echo in_array(
+								   $page,
+								   [
+									   "upload_form",
+									   "upload",
+									   "device_update",
+								   ]
+							   ) ? "active" : ""; ?>'>
 								<?php echo __( "UPDATE", "NAVI" ); ?>
 							</a>
 						
@@ -142,7 +161,8 @@
 				<?php endif; ?>
 				<?php if ( $loggedin ): ?>
 					<li class="nav-item">
-						<a class="nav-link" href='<?php echo _BASEURL_; ?>site_config'>
+						<a class="nav-link <?php echo $page == "site_config" ? "active" : ""; ?>"
+						   href='<?php echo _BASEURL_; ?>site_config'>
 							<?php echo __( "SETTINGS", "NAVI" ); ?>
 						</a>
 					</li>
@@ -150,7 +170,8 @@
 				
 				<?php if ( $loggedin ): ?>
 					<li class="nav-item">
-						<a class="nav-link" href='<?php echo _BASEURL_; ?>selfupdate'>
+						<a class="nav-link <?php echo $page == "selfupdate" ? "active" : ""; ?>"
+						   href='<?php echo _BASEURL_; ?>selfupdate'>
 							<?php echo __( "SELFUPDATE", "NAVI" ); ?>
 						</a>
 					</li>

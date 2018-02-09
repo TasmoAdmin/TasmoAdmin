@@ -35,6 +35,20 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 	color : #3CA100;
 }
 
+.navbar-dark .navbar-nav .show .nav-link:hover, .navbar-dark .navbar-nav .show .nav-link:focus {
+	color            : rgba(255, 255, 255, 0.75);
+	background-color : transparent;
+}
+
+.navbar-dark .navbar-nav .show .nav-link {
+	color : rgba(255, 255, 255, 0.5);
+}
+
+.dropdown-item.active, .dropdown-item:active, .navbar-dark .navbar-nav .show .nav-link.active {
+	color            : #FFFFFF;
+	background-color : transparent;
+}
+
 #content {
 	padding-top    : 70px;
 	padding-bottom : 140px;
@@ -306,4 +320,47 @@ td.runtime {
 
 .nightmode a.add .fas:hover, .nightmode a .fas.add:hover, .nightmode a:hover .fas.add {
 	color : #19D300;
+}
+
+.nightmode .nav-tabs {
+	border-color : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .nav-tabs .nav-link.active, .nightmode .nav-tabs .nav-item.show .nav-link {
+	background-color : transparent;
+	color            : #FFFFFF;
+}
+
+.nightmode .nav-tabs .nav-link {
+	border                  : 1px solid rgba(255, 255, 255, 0.5);
+	border-top-left-radius  : 0.25rem;
+	border-top-right-radius : 0.25rem;
+	color                   : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .nav-tabs .nav-link:hover {
+	border                  : 1px solid rgba(255, 255, 255, 0.75);
+	border-top-left-radius  : 0.25rem;
+	border-top-right-radius : 0.25rem;
+	color                   : rgba(255, 255, 255, 0.75);
+}
+
+.nightmode input, .nightmode select, .nightmode .custom-control-label::before {
+	
+	background-color : #343A40 !important;
+	color            : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode select {
+	background-image : url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.5\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+}
+
+.nightmode select:focus {
+	background-image : url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.75\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+}
+
+.nightmode .form-control:focus, .nightmode .custom-select:focus, .nightmode .custom-control-label::before {
+	border-color : rgba(255, 255, 255, 0.75);
+	color        : rgba(255, 255, 255, 0.75);
+	box-shadow   : 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
 }
