@@ -205,7 +205,7 @@ function deviceTools() {
 		$( this ).text( "" ).addClass( "dont-update" );
 		var w = oriVal.length * 10 + 20;
 		console.log();
-		input = $( "<input class='dblEdit-Input' type='text' style='width: " + w + "px;'>" );
+		input = $( "<input class='dblEdit-Input form-control' type='text' style='width: " + w + "px; padding: 3px;'>" );
 		input.appendTo( $( this ) ).focus();
 		
 	} );
