@@ -2,6 +2,11 @@
    
    
    
+   
+## 2018-02-09
+- add support auto mode for new binaries CN, ES, FR, DS18X20(EN),
+- remove brs from language file. tooltip will break by himself if text is too long
+   
 ## 2018-02-08
 - fix device update process
 - some styling fixes
