@@ -5,11 +5,18 @@
 	
 	//var_dump( $devices );
 ?>
-<div class='row justify-content-end mb-3'>
-	<div class='col-12 text-right'>
-		<div class="form-check">
-			<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
-			<label class="form-check-label" for="showmore"><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
+<div class='row mb-3'>
+	<div class='col-12'>
+		<div class="form-group form-row justify-content-end">
+			<div class="form-check custom-control custom-checkbox">
+				<input type="checkbox"
+				       class="form-check-input custom-control-input showmore"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label custom custom-control-label" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
+			</div>
 		</div>
 	</div>
 </div>
@@ -317,11 +324,18 @@
 		</table>
 	</div>
 </div>
-<div class='row justify-content-end mt-3'>
-	<div class='col-12 text-right'>
-		<div class="form-check">
-			<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
-			<label class="form-check-label" for="showmore"><?php echo __( "SHOW_MORE", "DEVICES" ); ?></label>
+<div class='row mt-3'>
+	<div class='col-12'>
+		<div class="form-group form-row justify-content-end">
+			<div class="form-check custom-control custom-checkbox">
+				<input type="checkbox"
+				       class="form-check-input custom-control-input showmore"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label custom custom-control-label" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
+			</div>
 		</div>
 	</div>
 </div>

@@ -250,11 +250,8 @@
 <?php if ( isset( $error ) && $error && FALSE ): ?>
 	<div class='row justify-content-sm-center'>
 		<div class='col-12 col-md-6 '>
-			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+			<div class="alert alert-danger fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
 			</div>
 		</div>
 	</div>
@@ -262,11 +259,8 @@
 	<?php if ( isset( $msg ) && $msg != "" ): ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col-12 col-md-6 '>
-				<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+				<div class="alert alert-success fade show mb-5" data-dismiss="alert" role="alert">
 					<?php echo $msg; ?>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
 			</div>
 		</div>
@@ -278,11 +272,8 @@
 	<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col-12 col-md-6 '>
-				<div class="alert alert-warning alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+				<div class="alert alert-warning fade show mb-5" data-dismiss="alert" role="alert">
 					<?php echo __( "AUTO_WARNING_CFG_HOLDER", "DEVICE_UPDATE" ); ?>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
 				</div>
 			</div>
 		</div>
@@ -303,12 +294,14 @@
 					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
 						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
 					</button>
-					<div class="form-check float-right mt-2">
-						<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
-						<label class="form-check-label" for="showmore"><?php echo __(
-								"SHOW_MORE",
-								"DEVICES"
-							); ?></label>
+					<div class="form-check custom-control custom-checkbox float-right mt-2">
+						<input type="checkbox"
+						       class="form-check-input custom-control-input showmore"
+						       id="showmore"
+						       name='showmore'>
+						<label class="form-check-label custom custom-control-label" for="showmore">
+							<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+						</label>
 					</div>
 					<span class='clearfix'></span>
 				</div>
@@ -681,12 +674,14 @@
 					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
 						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
 					</button>
-					<div class="form-check float-right mt-2">
-						<input type="checkbox" class="form-check-input showmore" id="showmore" name='showmore'>
-						<label class="form-check-label" for="showmore"><?php echo __(
-								"SHOW_MORE",
-								"DEVICES"
-							); ?></label>
+					<div class="form-check custom-control custom-checkbox float-right mt-2">
+						<input type="checkbox"
+						       class="form-check-input custom-control-input showmore"
+						       id="showmore"
+						       name='showmore'>
+						<label class="form-check-label custom custom-control-label" for="showmore">
+							<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+						</label>
 					</div>
 					<span class='clearfix'></span>
 				</div>
