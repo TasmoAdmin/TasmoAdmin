@@ -56,7 +56,7 @@
 	
 	$i18n = new i18n();
 	
-	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : null;
+	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
 	if ( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
 		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
@@ -82,7 +82,7 @@
 		$loggedin = TRUE;
 	}
 	
-	function __( $string, $category = null, $args = null ) {
+	function __( $string, $category = NULL, $args = NULL ) {
 		$cat = "";
 		if ( isset( $category ) && !empty( $category ) ) {
 			$cat = $category."_";
@@ -109,7 +109,11 @@
 	
 	if ( isset( $_GET ) ) {
 		if ( isset( $_GET[ "doAjax" ] ) ) {
-			$data = $Sonoff->doAjax();
+			if ( isset( $_POST[ "target" ] ) ) {
+				$data = $Sonoff->setDeviceValue( $_POST[ "id" ], $_POST[ "field" ], $_POST[ "newvalue" ] );
+			} else {
+				$data = $Sonoff->doAjax();
+			}
 			echo json_encode( $data );
 			die();
 		}

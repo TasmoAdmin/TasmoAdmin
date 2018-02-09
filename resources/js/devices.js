@@ -201,10 +201,9 @@ function deviceTools() {
 	
 	
 	$( document ).on( 'dblclick', '.dblcEdit span', function () {
-		oriVal = $( this ).text();
+		oriVal = $( this ).text().toString().trim();
 		$( this ).text( "" ).addClass( "dont-update" );
-		var w = oriVal.length * 10 + 20;
-		console.log();
+		var w = oriVal.toString().length * 10 + 20;
 		input = $( "<input class='dblEdit-Input form-control' type='text' style='width: " + w + "px; padding: 3px;'>" );
 		input.appendTo( $( this ) ).focus();
 		
@@ -218,16 +217,23 @@ function deviceTools() {
 		if ( input.val() != "" ) {
 			var newvalue  = input.val();
 			var device_id = $( this ).closest( "tr" ).data( "device_id" );
-			var cmnd      = $( this ).closest( "td" ).data( "cmnd" );
+			var target    = $( this ).closest( "td" ).data( "target" ) || "device";
+			var cmnd      = $( this ).closest( "td" ).data( "cmnd" ) || "";
+			var field     = $( this ).closest( "td" ).data( "field" ) || "";
 			$( this ).hide();
+			var td = $( this ).parent();
 			$( this )
 				.parent()
 				.removeClass( "dont-update" )
 				.html( $.i18n( "TEXT_LOADING" ) )
 				.removeClass( "dont-update" );
-			Sonoff.updateConfig( device_id, cmnd, newvalue, updateStatus );
+			if ( target == "device" ) {
+				Sonoff.updateConfig( device_id, cmnd, newvalue, updateStatus );
+			} else if ( target == "csv" ) {
+				Sonoff.setDeviceValue( device_id, field, newvalue, td );
+			}
 		} else {
-			$( this ).parent().removeClass( "dont-update" ).text( oriVal ).removeClass( "dont-update" );
+			$( this ).parent().removeClass( "dont-update" ).text( oriVal );
 		}
 		
 	} );

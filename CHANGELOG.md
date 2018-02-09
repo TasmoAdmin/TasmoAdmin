@@ -2,6 +2,10 @@
    
    
    
+## 2018-02-09
+- add device position
+   - you can edit this value by double click in the list or on the edit device page   
+   - this is used to order the devices
    
 ## 2018-02-09
 - add support auto mode for new binaries CN, ES, FR, DS18X20(EN),

@@ -29,7 +29,8 @@
 		       cellspacing='0'>
 			<thead>
 			<tr>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+				<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
+				<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>
@@ -76,7 +77,12 @@
 							    data-device_ip='<?php echo $device_group->ip; ?>'
 							    data-device_relais='<?php echo $key + 1; ?>'
 							>
-								<td><?php echo $device_group->id; ?></td>
+								<td class='dblcEdit'
+								    data-target='csv'
+								    data-field='position'>
+									<?php echo $device_group->position; ?>
+								</td>
+								<td class='more'><?php echo $device_group->id; ?></td>
 								<td><a href='http://<?php echo $device_group->ip; ?>/'
 								       target='_blank'
 								       title='<?php echo __(
@@ -288,7 +294,8 @@
 			</tbody>
 			<tfoot>
 			<tr class='bottom'>
-				<th><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
+				<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
+				<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_IP", "DEVICES" ); ?></th>
 				<th><?php echo __( "TABLE_HEAD_STATE", "DEVICES" ); ?></th>

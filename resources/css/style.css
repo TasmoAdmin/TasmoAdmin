@@ -193,15 +193,15 @@ td.runtime {
 .box_device .box_device_name {
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
-	text-shadow      : #FFFFFF 0px 0px 5px;
+	text-shadow      : none;
 	text-align       : center;
 	position         : absolute;
 	bottom           : 0px;
 	width            : 100%;
-	padding          : 5px 3px;
+	padding          : 3px 2px;
 	box-sizing       : border-box;
 	font-size        : 0.8rem;
-	line-height      : 0.8;
+	line-height      : 1;
 	max-height       : 2.3rem;
 	overflow         : hidden;
 }
@@ -345,7 +345,7 @@ td.runtime {
 	color                   : rgba(255, 255, 255, 0.75);
 }
 
-.nightmode input, .nightmode select, .nightmode .custom-control-label::before {
+.nightmode input, .nightmode select, .nightmode .custom-control-label::before, .nightmode .custom-file-label, .nightmode .custom-file-label::after {
 	
 	background-color : #343A40 !important;
 	color            : rgba(255, 255, 255, 0.5);

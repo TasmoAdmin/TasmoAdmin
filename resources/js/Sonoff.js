@@ -37,6 +37,8 @@ var Sonoff = function ( options ) {
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
+	
+	
 	this.getStatus = function ( ip, id, relais, callback, params ) {
 		relais   = relais || 1;
 		var cmnd = "Status 0";
@@ -110,6 +112,36 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
+			        },
+		        } );
+	};
+	
+	this.setDeviceValue = function ( id, field, newvalue, td ) {
+		$.ajax( {
+			        dataType: "json",
+			        url     : "index.php?doAjax",
+			        timeout : options.timeout * 1000,
+			        cache   : false,
+			        type    : "post",
+			        data    : {
+				        id      : id,
+				        field   : encodeURIComponent( field ),
+				        newvalue: encodeURIComponent( newvalue ),
+				        target  : "csv",
+			        },
+			        success : function ( data ) {
+				        // var data = data || { ERROR : "NO DATA" };
+				
+				        console.log( "[Sonoff][doAjax][" + id + "] Response from: " + field + " => " + JSON.stringify(
+					        data ) );
+				        console.log( "[Sonoff][doAjax][" + id + "] Got response from: " + field + " => " + newvalue );
+				
+				        td.html( data.position );
+				
+				
+			        },
+			        error   : function ( data, xmlhttprequest, textstatus, message ) {
+				        console.log( "ERROR setDeviceValue" );
 			        },
 		        } );
 	};
