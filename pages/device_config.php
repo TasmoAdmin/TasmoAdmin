@@ -125,4 +125,4 @@
 	</div>
 </div>
 
-<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/device_config.js?<?php echo time(); ?>'></script>
+<script type='text/javascript' src='<?php echo  _RESOURCESURL_; ?>js/device_config.js?<?php echo time(); ?>'></script>

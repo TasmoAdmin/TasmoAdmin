@@ -13,84 +13,87 @@
 	-->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
 	
-	<link rel="apple-touch-icon" sizes="57x57" href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="57x57" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-76x76.png">
 	<link rel="apple-touch-icon" sizes="114x114"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-114x114.png">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-114x114.png">
 	<link rel="apple-touch-icon" sizes="120x120"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-120x120.png">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-120x120.png">
 	<link rel="apple-touch-icon" sizes="144x144"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-144x144.png">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-144x144.png">
 	<link rel="apple-touch-icon" sizes="152x152"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-152x152.png">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-152x152.png">
 	<link rel="apple-touch-icon" sizes="180x180"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/apple-icon-180x180.png">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-icon-180x180.png">
 	<link rel="icon" type="image/png" sizes="192x192"
-	      href="<?php echo _RESOURCESDIR_; ?>img/favicons/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo _RESOURCESDIR_; ?>img/favicons/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo _RESOURCESDIR_; ?>img/favicons/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo _RESOURCESDIR_; ?>img/favicons/favicon-16x16.png">
-	<link rel="manifest" href="<?php echo _RESOURCESDIR_; ?>img/favicons/manifest.json">
+	      href="<?php echo _RESOURCESURL_; ?>img/favicons/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-16x16.png">
+	<link rel="manifest" href="<?php echo _RESOURCESURL_; ?>img/favicons/manifest.json">
 	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="<?php echo _RESOURCESDIR_; ?>img/favicons/ms-icon-144x144.png">
+	<meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
 	<meta name="theme-color" content="#ffffff">
 	
 	
 	<title><?php echo isset( $title ) ? $title." - " : ""; ?>SonWEB</title>
 	<script type="application/javascript">
 		var _BASEURL_      = "<?php echo _BASEURL_; ?>";
-		var _RESOURCESDIR_ = "<?php echo _RESOURCESDIR_; ?>";
+		var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
 	</script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
 	<script>
 		/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
 		$.widget.bridge( 'uibutton', $.ui.button );
 		$.widget.bridge( 'uitooltip', $.ui.tooltip );
 	</script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/bootstrap/bootstrap.bundle.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.messagestore.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.fallbacks.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.parser.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.emitter.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/jquery.i18n.language.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/bs.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/dsb.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/fi.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ga.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/he.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hsb.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hu.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/hy.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/la.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ml.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/os.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/ru.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/sl.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/i18n/languages/uk.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap/bootstrap.bundle.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.messagestore.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.fallbacks.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.parser.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.emitter.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.language.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/bs.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/dsb.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/fi.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ga.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/he.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hsb.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hu.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hy.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/la.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ml.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/os.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ru.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/sl.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/uk.js"></script>
 	
-	<script src="<?php echo _RESOURCESDIR_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/tablesaw/tablesaw-init.js"></script>
-	<script src="<?php echo _RESOURCESDIR_; ?>js/js-cookie/js.cookie.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js.cookie.js"></script>
 	
-	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
+	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
 	
-	<script type='text/javascript' src='<?php echo _RESOURCESDIR_; ?>js/app.js?<?php echo time(); ?>'></script>
+	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/app.js?<?php echo time(); ?>'></script>
 	
-	<link href="<?php echo _RESOURCESDIR_; ?>css/bootstrap/bootstrap.css" rel="stylesheet">
-	<link href='<?php echo _RESOURCESDIR_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css'
+	<link href="<?php echo _RESOURCESURL_; ?>css/bootstrap/bootstrap.css" rel="stylesheet">
+	<link href='<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css'
 	      rel='stylesheet'>
 	
-	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
-	<link href="<?php echo _RESOURCESDIR_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
-	<link href="<?php echo _RESOURCESDIR_; ?>css/fontawesome/css/fontawesome-all.css?<?php echo time(); ?>"
+	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
+	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
+	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/fontawesome-all.css?<?php echo time(); ?>"
 	      rel="stylesheet">
-	<link href='<?php echo _RESOURCESDIR_; ?>css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESDIR_; ?>css/style.css?<?php echo time(); ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESDIR_; ?>css/mobile.css?<?php echo time(); ?>' rel='stylesheet'>
+	<link href='<?php echo _RESOURCESURL_; ?>css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
+	<link href='<?php echo _RESOURCESURL_; ?>css/style.css?<?php echo time(); ?>' rel='stylesheet'>
+	<link href='<?php echo _RESOURCESURL_; ?>css/mobile.css?<?php echo time(); ?>' rel='stylesheet'>
+	<?php if ( @file_exists( _RESOURCESDIR_."css/custom.css" ) ): ?>
+		<link href='<?php echo _RESOURCESURL_; ?>css/custom.css?<?php echo time(); ?>' rel='stylesheet'>
+	<?php endif; ?>
 
 </head>
 <body>

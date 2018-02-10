@@ -30,10 +30,11 @@
 	
 	
 	define( "_BASEURL_", $subdir );
-	define( "_RESOURCESDIR_", _BASEURL_."resources/" );
+	define( "_RESOURCESURL_", _BASEURL_."resources/" );
 	
 	define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
 	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
+	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
 	define( "_LIBSDIR_", _APPROOT_."libs/" );
 	define( "_PAGESDIR_", _APPROOT_."pages/" );
 	define( "_DATADIR_", _APPROOT_."data/" );

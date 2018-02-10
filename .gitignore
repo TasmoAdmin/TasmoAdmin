@@ -8,7 +8,10 @@
 
 /data/firmwares/*
 /data/devices.csv
+/data/devices_bk.csv
 /data/MyConfig.php
+/resources/css/custom.css
+
 /data/updates/*.zip
 
 
@@ -19,3 +22,4 @@
 
 !.empty
 !.htaccess
+/resources/css/custom.css

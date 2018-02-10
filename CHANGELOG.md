@@ -7,6 +7,11 @@
    - you can edit this value by double click in the list or on the edit device page   
    - this is used to order the devices
 - changed some backend csv handling
+- load custom css file
+   - you can now customize some css yourself if needed
+   - create /resources/css/custom.css, the file gets loaded if exists
+   - added a custom.default.css with the mobile breakpoints
+   - **custom.default.css will be overwritten with a selfupdate. be sure to name your new file custom.css**
    
 ## 2018-02-09
 - add support auto mode for new binaries CN, ES, FR, DS18X20(EN),

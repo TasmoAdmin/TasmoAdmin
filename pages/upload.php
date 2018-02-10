@@ -415,7 +415,7 @@
 												<td class='rssi'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -424,7 +424,7 @@
 												<td class='version'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -433,7 +433,7 @@
 												<td class='runtime'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -454,7 +454,7 @@
 												<td class='more hostname dblcEdit' data-cmnd='Hostname'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -463,7 +463,7 @@
 												<td class='more mac'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -472,7 +472,7 @@
 												<td class='more mqtt dblcEdit' data-cmnd='Mqtt'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -486,7 +486,7 @@
 												<td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -495,7 +495,7 @@
 												<td class='more ledstate dblcEdit' data-cmnd='LedState'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -504,7 +504,7 @@
 												<td class='more savedata dblcEdit' data-cmnd='SaveData'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -513,7 +513,7 @@
 												<td class='more sleep dblcEdit' data-cmnd='Sleep'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -522,7 +522,7 @@
 												<td class='more bootcount'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -531,7 +531,7 @@
 												<td class='more savecount'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -540,7 +540,7 @@
 												<td class='more log'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -549,7 +549,7 @@
 												<td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -558,7 +558,7 @@
 												<td class='more vcc'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo _RESOURCESDIR_; ?>img/loading.gif'
+									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -723,6 +723,6 @@
 		} );
 	</script>
 	<script type='text/javascript'
-	        src='<?php echo _RESOURCESDIR_; ?>js/devices.js?<?php echo time(); ?>'></script>
+	        src='<?php echo  _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
 <?php endif; ?>
 

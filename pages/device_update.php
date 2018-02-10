@@ -44,7 +44,7 @@
 			
 			
 			<script type='text/javascript'
-			        src='<?php echo _RESOURCESDIR_; ?>js/device_update.js?<?php echo time(); ?>'></script>
+			        src='<?php echo  _RESOURCESURL_; ?>js/device_update.js?<?php echo time(); ?>'></script>
 		<?php endif; ?>
 	</div>
 </div>
