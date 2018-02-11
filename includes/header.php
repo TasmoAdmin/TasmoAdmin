@@ -184,7 +184,7 @@
 			</ul>
 			
 			
-			<div class='my-2 my-lg-0 language-switch-holder'>
+			<div class='my-2 my-sm-0 language-switch-holder'>
 				<select name='language-switch' id='language-switch' class='custom-select'>
 					<option value='de' <?php echo $lang == "de" ? "selected=\"selected\"" : ""; ?>>DE</option>
 					<option value='en' <?php echo $lang == "en" ? "selected=\"selected\"" : ""; ?>>EN</option>
