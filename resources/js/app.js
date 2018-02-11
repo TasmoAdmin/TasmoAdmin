@@ -21,11 +21,11 @@ $( document ).on( "ready", function () {
 	 */
 	Sonoff = new Sonoff( { timeout: 8 } );
 	
-	$( document ).on( "mouseover", '[title][title!=""]', function ( e ) {
-		$( this ).tooltip( {
-			                   delay: 700,
-		                   }, 'show' );
-	} );
+	$( '[title][title!=""]' ).tooltip( {
+		                                   html : true,
+		                                   delay: 700,
+	                                   } );
+	
 	
 	$( '.custom-file-input' ).on( 'change', function () {
 		var filename = $( this ).val();

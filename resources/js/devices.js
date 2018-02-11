@@ -347,7 +347,24 @@ function updateRow( row, data, device_status ) {
 		
 		days   = days > 0 ? days + ", " : "";
 		uptime = days + hours + ':' + minutes + ':' + seconds;
-		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" ).attr( "title", data.StatusPRM.StartupDateTimeUtc );
+		
+		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" ).attr(
+			"data-original-title",
+			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
+				.attr( "lang" )
+				.toUpperCase(), { hour12: false }
+			)
+		).attr(
+			"data-original-title",
+			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
+				.attr( "lang" )
+				.toUpperCase(), { hour12: false }
+			)
+		).attr( "data-toggle", "tooltip" ).tooltip( {
+			                                            html : true,
+			                                            delay: 700,
+		                                            } );
+		
 	} else {
 		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
 	}

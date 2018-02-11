@@ -118,7 +118,7 @@
 									</span>
 								</td>
 								<td class='runtime'>
-									<span>
+									<span >
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
