@@ -235,8 +235,10 @@ td.runtime {
 }
 
 #progressbox span {
-	display : inline-block;
-	width   : 100%;
+	width       : 100%;
+	display     : block;
+	font-size   : 0.8rem;
+	line-height : 1;
 }
 
 #progressbox span.error {
@@ -264,8 +266,6 @@ td.runtime {
 .tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
 	display : none;
 }
-
-
 
 .nightmode {
 	background-color : #44494F;
