@@ -43,7 +43,7 @@ $( document ).on( "ready", function () {
 	var appendLoading = function ( elem, replace ) {
 		var replace = replace || false;
 		var loader  = $( '<div>', { class: "loader" } ).append(
-			$( 'img', { src:  _RESOURCESURL_ + "img/loading.gif" } ) );
+			$( 'img', { src: _RESOURCESURL_ + "img/loading.gif" } ) );
 		
 		if ( replace ) {
 			$( elem ).html( loader );
@@ -285,3 +285,7 @@ function checkNightmode( config ) {
 	}
 }
 
+Date.prototype.addHours = function ( h ) {
+	this.setHours( this.getHours() + h );
+	return this;
+};

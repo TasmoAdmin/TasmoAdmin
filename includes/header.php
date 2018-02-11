@@ -75,6 +75,7 @@
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js.cookie.js"></script>
+	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 	
 	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
 	

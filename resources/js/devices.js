@@ -285,7 +285,63 @@ function updateRow( row, data, device_status ) {
 		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 	}
 	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
-	$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
+	
+	if ( data.StatusPRM.StartupDateTimeUtc ) {
+		
+		
+		var startupdatetime = new Date( data.StatusPRM.StartupDateTimeUtc );
+		startupdatetime.setTime( startupdatetime.getTime() + (
+			startupdatetime.getTimezoneOffset()
+		) * -1 * 60 * 1000 );
+		var now     = new Date();
+		var sec_num = (
+			              now - startupdatetime
+		              ) / 1000;
+		var days    = Math.floor( sec_num / (
+			3600 * 24
+		) );
+		var hours   = Math.floor( (
+			                          sec_num - (
+				                          days * (
+				                          3600 * 24
+				                          )
+			                          )
+		                          ) / 3600 );
+		var minutes = Math.floor( (
+			                          sec_num - (
+				                          days * (
+				                          3600 * 24
+				                          )
+			                          ) - (
+				                          hours * 3600
+			                          )
+		                          ) / 60 );
+		var seconds = Math.floor( sec_num - (
+			days * (
+			3600 * 24
+			)
+		) - (
+			                          hours * 3600
+		                          ) - (
+			                          minutes * 60
+		                          ) );
+		
+		if ( hours < 10 ) {
+			hours = "0" + hours;
+		}
+		if ( minutes < 10 ) {
+			minutes = "0" + minutes;
+		}
+		if ( seconds < 10 ) {
+			seconds = "0" + seconds;
+		}
+		
+		days   = days > 0 ? days + ", " : "";
+		uptime = days + hours + ':' + minutes + ':' + seconds;
+		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" ).attr( "title", data.StatusPRM.StartupDateTimeUtc );
+	} else {
+		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
+	}
 	
 	
 	//MORE

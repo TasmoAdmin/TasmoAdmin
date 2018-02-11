@@ -2,6 +2,10 @@
    
    
    
+## 2018-02-11
+- support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep
+   - Fix for [#1842](https://github.com/arendst/Sonoff-Tasmota/issues/1842)
+   
 ## 2018-02-09
 - add device position
    - you can edit this value by double click in the list or on the edit device page   
