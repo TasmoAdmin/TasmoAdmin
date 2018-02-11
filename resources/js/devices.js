@@ -262,11 +262,20 @@ function updateRow( row, data, device_status ) {
 		$( row ).find( ".temp span" ).html( temp );
 		$( "#device-list .temp" ).removeClass( "hidden" );
 	}
+	
+	
 	var humidity = getHumidity( data );
 	
 	if ( humidity != "" ) {
 		$( row ).find( ".humidity span" ).html( humidity );
 		$( "#device-list .humidity" ).removeClass( "hidden" );
+	}
+	
+	var pressure = getPressure( data );
+	
+	if ( pressure != "" ) {
+		$( row ).find( ".pressure span" ).html( pressure );
+		$( "#device-list .pressure" ).removeClass( "hidden" );
 	}
 	
 	var idx = (

@@ -210,6 +210,10 @@ var parseVersion = function ( versionString ) {
 function getTemp( data ) {
 	var temp = [];
 	
+	if ( data.StatusSNS.TempUnit == undefined ) {
+		data.StatusSNS.TempUnit = "F";
+	}
+	
 	if ( data.StatusSNS.DS18B20 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.DS18B20.Temperature + "°" + data.StatusSNS.TempUnit
@@ -228,6 +232,11 @@ function getTemp( data ) {
 	if ( data.StatusSNS.SHT3X !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.SHT3X.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS.BMP280 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
 	
@@ -260,6 +269,20 @@ function getHumidity( data ) {
 	return humi.join( "<br/>" );
 }
 
+function getPressure( data ) {
+	var press = [];
+	
+	if ( data.StatusSNS.BMP280 !== undefined ) {
+		if ( data.StatusSNS.BMP280.Pressure !== undefined ) {
+			press.push( data.StatusSNS.BMP280.Pressure + "&nbsp;hPa" );
+		}
+	}
+	
+	//console.log( press );
+	
+	return press.join( "<br/>" );
+}
+
 
 function checkNightmode( config ) {
 	var config = config || "auto";
@@ -267,7 +290,7 @@ function checkNightmode( config ) {
 	var currentTime = new Date();
 	var hour        = currentTime.getHours();
 	
-	console.log( "check Nightmode => " + hour + "h - " + config );
+	//console.log( "check Nightmode => " + hour + "h - " + config );
 	
 	
 	if ( config === "disable" ) {

@@ -41,6 +41,7 @@
 				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 				<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 				<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
+				<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
@@ -99,156 +100,159 @@
 								
 								</td>
 								<td class='rssi'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='version'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='runtime'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='temp hidden'>
-							<span>
-								-
-							</span>
+									<span>
+										-
+									</span>
 								</td>
 								<td class='humidity hidden'>
-							<span>
-								-
-							</span>
+									<span>
+										-
+									</span>
 								</td>
-								
-								
+								<td class='pressure hidden'>
+									<span>
+										-
+									</span>
+								</td>
 								<td class='more hostname dblcEdit' data-cmnd='Hostname'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more mac'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more mqtt dblcEdit' data-cmnd='Mqtt'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more idx hidden'>
-							<span>
-								-
-							</span>
+									<span>
+										-
+									</span>
 								</td>
 								<td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more ledstate dblcEdit' data-cmnd='LedState'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more savedata dblcEdit' data-cmnd='SaveData'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more sleep dblcEdit' data-cmnd='Sleep'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more bootcount'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more savecount'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more log'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								<td class='more vcc'>
-							<span>
-								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
-									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
-									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
-								</div>
-							</span>
+									<span>
+										<div class='loader'>
+											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
+											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
+										</div>
+									</span>
 								</td>
 								
 								
@@ -306,6 +310,7 @@
 				<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
 				<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 				<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
+				<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 				<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
@@ -346,4 +351,4 @@
 		</div>
 	</div>
 </div>
-<script type='text/javascript' src='<?php echo  _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
+<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>

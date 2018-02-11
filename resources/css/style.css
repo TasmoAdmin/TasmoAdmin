@@ -208,10 +208,8 @@ td.runtime {
 	overflow         : hidden;
 }
 
-.box_device .temp {
+.box_device .info {
 	position         : absolute;
-	top              : 0px;
-	left             : 0px;
 	padding          : 3px;
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
@@ -222,18 +220,24 @@ td.runtime {
 	overflow         : hidden;
 }
 
-.box_device .humidity {
-	position         : absolute;
-	top              : 0px;
-	right            : 0px;
-	padding          : 3px;
-	background-color : rgba(0, 148, 204, 0.8);
-	color            : #FFFFFF;
-	text-shadow      : #FFFFFF 0px 0px 10px;
-	font-size        : 0.8rem;
-	line-height      : 0.8;
-	max-height       : 2.3rem;
-	overflow         : hidden;
+.box_device .info-1 {
+	top  : 0px;
+	left : 0px;
+}
+
+.box_device .info-2 {
+	top   : 0px;
+	right : 0px;
+}
+
+.box_device .info-3 {
+	top  : 20px;
+	left : 0px;
+}
+
+.box_device .info-4 {
+	top   : 20px;
+	right : 0px;
 }
 
 #progressbox span {
