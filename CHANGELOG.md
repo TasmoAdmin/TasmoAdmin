@@ -6,6 +6,7 @@
 - support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep
    - Fix for [#1842](https://github.com/arendst/Sonoff-Tasmota/issues/1842)
 - add BMP280 sensor
+- add SI7021 sensor
    
 ## 2018-02-09
 - add device position
