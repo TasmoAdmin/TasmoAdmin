@@ -79,6 +79,7 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 .tablesaw-stack td.actions {
 	display   : table-cell;
 	min-width : 210px;
+	width: auto;
 }
 
 td.actions span {
