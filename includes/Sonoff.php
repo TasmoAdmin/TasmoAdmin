@@ -422,6 +422,110 @@
 			
 			return $data;
 		}
+		
+		public function doAjaxAll( $try = 1 ) {
+			$result = NULL;
+			
+			$devices   = $this->getDevices();
+			$cmnd      = "status 0";//urldecode( $_POST[ "cmnd" ] );
+			$urlsClone = [];
+			
+			foreach ( $devices as $device ) {
+				$url          = $this->buildCmndUrl(
+					$device,
+					$cmnd
+				);
+				$urls[ $url ] = $device;
+				$urlsClone[]  = $url;
+			}
+			
+			$results = array();
+			// make sure the rolling window isn't greater than the # of urls
+			$rolling_window = 5;
+			$rolling_window = ( sizeof( $urls ) < $rolling_window ) ? sizeof( $urls ) : $rolling_window;
+			$master         = curl_multi_init();
+			// $curl_arr = array();
+			// add additional curl options here
+			$options = array(
+				CURLOPT_FOLLOWLOCATION => FALSE,
+				CURLOPT_RETURNTRANSFER => TRUE,
+				CURLOPT_CONNECTTIMEOUT => 3,
+				CURLOPT_TIMEOUT        => 5,
+			);
+			// start the first batch of requests
+			
+			for ( $i = 0; $i < $rolling_window; $i++ ) {
+				$ch                     = curl_init();
+				$options[ CURLOPT_URL ] = $urlsClone[ $i ];
+				curl_setopt_array( $ch, $options );
+				curl_multi_add_handle( $master, $ch );
+			}
+			$i--;
+			
+			do {
+				while ( ( $execrun = curl_multi_exec( $master, $running ) ) == CURLM_CALL_MULTI_PERFORM ) {
+					;
+				}
+				if ( $execrun != CURLM_OK ) {
+					break;
+				}
+				// a request was just completed -- find out which one
+				while ( $done = curl_multi_info_read( $master ) ) {
+					$info   = curl_getinfo( $done[ 'handle' ] );
+					$output = curl_multi_getcontent( $done[ 'handle' ] );
+					$device = $urls[ $info[ 'url' ] ];
+					
+					if ( !$output ) {
+						$data        = new stdClass();
+						$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $done[ 'handle' ] ).": ".curl_error(
+								$done[ 'handle' ]
+							);
+					} else {
+						$data = json_decode( $output );
+						if ( json_last_error() !== JSON_ERROR_NONE ) {
+							$outputTmp = $this->fixJsonFormatv5100( $output );
+							$data      = json_decode( $outputTmp );
+							unset( $outputTmp );
+							
+							if ( json_last_error() !== JSON_ERROR_NONE ) {
+								$data        = new stdClass();
+								$data->ERROR = __( "JSON_ERROR", "API" )
+								               ." => "
+								               .json_last_error()
+								               .": "
+								               .json_last_error_msg();
+								$data->ERROR .= "<br/><strong>"
+								                .__( "JSON_ERROR_CONTACT_DEV", "API", [ $output ] )
+								                ."</strong>";
+								$data->ERROR .= "<br/>".__( "JSON_ANSWER", "API" )." => ".print_r( $output, TRUE );
+								
+							}
+						}
+					}
+					$result[ $device->id ] = $data;
+					
+					// start a new request (it's important to do this before removing the old one)
+					if ( sizeof( $urls ) >= $i + 1 ) {
+						$ch                     = curl_init();
+						$options[ CURLOPT_URL ] = $urlsClone[ $i++ ];  // increment i
+						
+						
+						curl_setopt_array( $ch, $options );
+						curl_multi_add_handle( $master, $ch );
+					}
+					// remove the curl handle that just completed
+					curl_multi_remove_handle( $master, $done[ 'handle' ] );
+					curl_close( $done[ "handle" ] );
+				}
+			} while ( $running );
+			curl_multi_close( $master );
+			
+			unset( $urlsClone );
+			unset( $urls );
+			
+			
+			return $result;
+		}
 	}
 	
 	

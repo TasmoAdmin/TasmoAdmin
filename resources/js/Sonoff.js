@@ -46,6 +46,12 @@ var Sonoff = function ( options ) {
 		doAjax( ip, id, cmnd, callback, params );
 	};
 	
+	this.getAllStatus = function ( timeout, callback ) {
+		var cmnd = "Status 0";
+		
+		doAjaxAll( timeout, cmnd, callback );
+	};
+	
 	this.updateConfig = function ( device_id, cmnd, newvalue, callback ) {
 		var cmnd = cmnd + " " + newvalue;
 		
@@ -87,7 +93,7 @@ var Sonoff = function ( options ) {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "index.php?doAjax",
-			        timeout : options.timeout * 1000,
+			        timeout : 500, //options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
 			        data    : {
@@ -100,6 +106,44 @@ var Sonoff = function ( options ) {
 				        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
 				        //   data ) );
 				        console.log( "[Sonoff][doAjax][" + ip + "] Got response from: " + cmnd );
+				
+				        if ( data.WARNING ) {
+					        alert( ip + ": " + data.WARNING );
+				        }
+				        if ( callback !== undefined ) {
+					        callback( data );
+				        }
+			        },
+			        error   : function ( data, xmlhttprequest, textstatus, message ) {
+				        if ( callback !== undefined ) {
+					        callback( data );
+				        }
+			        },
+		        } );
+	};
+	/*
+	 * Private method
+	 * Can only be called inside class
+	 */
+	var doAjaxAll = function ( timeout, cmnd, callback ) {
+		//var url = root.buildCmndUrl( ip, cmnd );
+		var timeout = timeout || options.timeout;
+		$.ajax( {
+			        dataType: "json",
+			        url     : "index.php?doAjaxAll",
+			        timeout : timeout * 1000,
+			        cache   : false,
+			        type    : "post",
+			        data    : {
+				        cmnd: encodeURIComponent( cmnd ),
+			        },
+			        success : function ( data ) {
+				        // var data = data || { ERROR : "NO DATA" };
+				
+				        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
+				        //   data ) );
+				        console.log( "[Sonoff][doAjaxAll] Got response from: " + cmnd );
+				
 				
 				        if ( data.WARNING ) {
 					        alert( ip + ": " + data.WARNING );

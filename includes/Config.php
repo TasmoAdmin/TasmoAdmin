@@ -8,7 +8,7 @@
 				"ota_server_ip"         => "",
 				"username"              => "",
 				"password"              => "",
-				"refreshtime"           => "2",
+				"refreshtime"           => "5",
 				"current_git_sha"       => "",
 				"update_automatic_lang" => "",
 				"nightmode"             => "auto",

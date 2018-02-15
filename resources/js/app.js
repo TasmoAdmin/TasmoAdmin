@@ -19,7 +19,7 @@ $( document ).on( "ready", function () {
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
-	Sonoff = new Sonoff( { timeout: 8 } );
+	Sonoff = new Sonoff( { timeout: 15 } );
 	
 	$( '[title][title!=""]' ).tooltip( {
 		                                   html : true,

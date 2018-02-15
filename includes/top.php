@@ -110,11 +110,21 @@
 	
 	if ( isset( $_GET ) ) {
 		if ( isset( $_GET[ "doAjax" ] ) ) {
+			session_write_close(); //stop blocking other ajax biatch
 			if ( isset( $_POST[ "target" ] ) ) {
 				$data = $Sonoff->setDeviceValue( $_POST[ "id" ], $_POST[ "field" ], $_POST[ "newvalue" ] );
 			} else {
 				$data = $Sonoff->doAjax();
 			}
+			header( 'Content-Type: application/json' );
+			echo json_encode( $data );
+			die();
+		}
+		if ( isset( $_GET[ "doAjaxAll" ] ) ) {
+			session_write_close(); //stop blocking other ajax biatch
+			$data = $Sonoff->doAjaxAll();
+			
+			header( 'Content-Type: application/json' );
 			echo json_encode( $data );
 			die();
 		}

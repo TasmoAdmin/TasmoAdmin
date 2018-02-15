@@ -33,6 +33,7 @@ AddDefaultCharset UTF-8
     RewriteRule ^login$ login.php [L]
     RewriteRule ^logout$ login.php?logout=logout [L]
 
+    RewriteRule ^doAjaxAll$ index.php?doAjaxAll=doAjaxAll [L]
     RewriteRule ^doAjax$ index.php?doAjax=doAjax [L]
 
 

@@ -1,6 +1,6 @@
 $( document ).on( "ready", function () {
 	deviceTools();
-	updateStatus();
+	updateAllStatus();
 	
 	
 	$( ".showmore" ).on( "change", function ( e ) {
@@ -37,14 +37,14 @@ $( document ).on( "ready", function () {
 	if ( refreshtime ) {
 		console.log( "[Global][Refreshtime]" + refreshtime + "ms" );
 		setInterval( function () {
-			console.log( "refreshing" );
-			updateStatus();
+			console.log( "[Global][Refreshtime] updateStatus now" );
+			//updateStatus();
+			updateAllStatus();
 		}, refreshtime );
 	} else {
 		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
 		
 	}
-	console.log( $.i18n( 'TEXT_LOADING' ) );
 	
 } );
 
@@ -52,16 +52,16 @@ $( document ).on( "ready", function () {
 function updateStatus() {
 	$( '#device-list tbody tr' ).each( function ( key, tr ) {
 		
-		console.log( "[Devices][updateStatus]get status from " + $( tr ).data( "device_ip" ) );
 		var device_ip     = $( tr ).data( "device_ip" );
 		var device_id     = $( tr ).data( "device_id" );
 		var device_relais = $( tr ).data( "device_relais" );
 		var device_group  = $( tr ).data( "device_group" );
 		if ( !$( tr ).hasClass( "updating" ) ) {
+			console.log( "[Devices][updateStatus]get status from " + $( tr ).data( "device_ip" ) );
 			$( tr ).addClass( "updating" );
 			
 			if ( device_group == "multi" && device_relais > 1 ) {
-				console.log( "[Devices][updateStatus]skip multi " + $( tr ).data( "device_ip" ) );
+				console.log( "[Devices][updateStatus]SKIP multi " + $( tr ).data( "device_ip" ) );
 				return; //relais 1 will update all others
 			}
 			
@@ -118,11 +118,97 @@ function updateStatus() {
 				}
 				
 			} );
+		} else {
+			console.log( "[Devices][updateStatus]SKIP get status from " + $( tr ).data( "device_ip" ) );
 		}
+		
 	} );
 	
 	
 };
+
+
+function updateAllStatus() {
+	
+	var device_holder = $( "#device-list" );
+	
+	
+	if ( !device_holder.hasClass( "updating" ) ) {
+		device_holder.addClass( "updating" );
+		
+		console.log( "[Devices][updateAllStatus]START" );
+		
+		var timeout = device_holder.find( 'tbody tr' ).length * 10; //max 10 sec per device
+		
+		Sonoff.getAllStatus( timeout, function ( result ) {
+			                     device_holder.find( 'tbody tr' ).each( function ( key, tr ) {
+				                     var device_id     = $( tr ).data( "device_id" );
+				                     var device_relais = $( tr ).data( "device_relais" );
+				                     var device_group  = $( tr ).data( "device_group" );
+				                     var data          = result[ device_id ];
+				
+				                     if ( data
+				                          && !data.ERROR
+				                          && !data.WARNING
+				                          && data
+				                             !== ""
+				                          && data
+				                             !== undefined
+				                          && data.statusText
+				                             === undefined ) {
+					                     //console.log( "DATA => " + JSON.stringify( data ) );
+					
+					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
+					
+					                     updateRow( $( tr ), data, device_status );
+				                     } else {
+					                     console.log( "ERROR => " + JSON.stringify( data ) );
+					
+					
+					                     if ( $( tr ).hasClass( "toggled" ) ) {
+						                     $( tr ).removeClass( "toggled" );
+					                     } else {
+						                     $( tr ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
+					                     }
+					
+					                     var msg = $.i18n( 'ERROR' );
+					                     if ( data.ERROR !== undefined ) {
+						                     msg = data.ERROR;
+					                     } else if ( data.WARNING !== undefined ) {
+						                     msg = data.WARNING;
+					                     }
+					                     else if ( data.statusText !== undefined ) {
+						                     msg = data.statusText;
+					                     }
+					
+					                     $( tr ).attr(
+						                     "data-original-title",
+						                     msg
+					                     ).attr( "data-toggle", "tooltip" ).tooltip( {
+						                                                                 html : true,
+						                                                                 delay: 700,
+					                                                                 } );
+					
+					                     $( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+					                     $( tr ).find( ".runtime span" ).html( "-" );
+					                     $( tr ).find( ".version span" ).html( $.i18n( "-" ) );
+					                     $( tr ).find( ".more span" ).html( $.i18n( "-" ) );
+				                     }
+				
+				
+			                     } );
+			
+			                     device_holder.removeClass( "updating" );
+			
+		                     }
+		);
+	} else {
+		console.log( "[Devices][updateAllStatus]SKIP" );
+	}
+	
+}
+;
+
 
 function deviceTools() {
 	$( '#device-list tbody tr td.status' ).on( "click", function ( e ) {
@@ -138,14 +224,16 @@ function deviceTools() {
 			statusField.find( "input" ).prop( "checked", "checked" );
 		}
 		
+		$( this ).closest( "tr" ).addClass( "toggled" );
+		
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
-				if ( device_status == "ON" ) {
-					statusField.find( "input" ).prop( "checked", "checked" );
-				} else {
-					statusField.find( "input" ).removeProp( "checked" );
-				}
+				//if ( device_status == "ON" ) {
+				//	statusField.find( "input" ).prop( "checked", "checked" );
+				//} else {
+				//	statusField.find( "input" ).removeProp( "checked" );
+				//}
 			} else {
 				statusField.find( "input" ).removeProp( "checked" ).parent().addClass( "error" );
 			}
@@ -204,7 +292,9 @@ function deviceTools() {
 		oriVal = $( this ).text().toString().trim();
 		$( this ).text( "" ).addClass( "dont-update" );
 		var w = oriVal.toString().length * 10 + 20;
-		input = $( "<input class='dblEdit-Input form-control' type='text' style='width: " + w + "px; padding: 3px;'>" );
+		input = $( "<input class='dblEdit-Input form-control' type='text' style='width: "
+		           + w
+		           + "px; padding: 3px;'>" );
 		input.appendTo( $( this ) ).focus();
 		
 	} );
@@ -288,10 +378,15 @@ function updateRow( row, data, device_status ) {
 	
 	$( row ).find( ".version span" ).html( data.StatusFWR.Version );
 	
-	if ( device_status == "ON" ) {
-		$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
+	
+	if ( $( row ).hasClass( "toggled" ) ) {
+		$( row ).removeClass( "toggled" );
 	} else {
-		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
+		if ( device_status == "ON" ) {
+			$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
+		} else {
+			$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
+		}
 	}
 	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
 	
@@ -372,7 +467,10 @@ function updateRow( row, data, device_status ) {
 	
 	//MORE
 	if ( !$( row ).find( ".hostname span" ).hasClass( "dont-update" ) ) {
-		$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?" );
+		$( row ).find( ".hostname span" ).html( data.StatusNET.Hostname
+		                                        !== undefined
+			                                        ? data.StatusNET.Hostname
+			                                        : "?" );
 	}
 	
 	if ( !$( row ).find( ".mac span" ).hasClass( "dont-update" ) ) {
@@ -401,7 +499,11 @@ function updateRow( row, data, device_status ) {
 	
 	
 	if ( !$( row ).find( ".sleep span" ).hasClass( "dont-update" ) ) {
-		$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?" );
+		$( row ).find( ".sleep span" ).html( data.StatusPRM.Sleep
+		                                     !== undefined
+			                                     ? data.StatusPRM.Sleep
+			                                       + "ms"
+			                                     : "?" );
 	}
 	
 	
