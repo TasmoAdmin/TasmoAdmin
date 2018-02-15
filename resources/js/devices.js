@@ -162,7 +162,7 @@ function updateAllStatus() {
 					
 					                     $( tr ).removeAttr(
 						                     "data-original-title"
-					                     ).removeAttr( "data-toggle" ).tooltip( 'destroy' );
+					                     ).removeAttr( "data-toggle" );
 					
 					                     updateRow( $( tr ), data, device_status );
 				                     } else {
