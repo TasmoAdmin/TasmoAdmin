@@ -4,6 +4,7 @@
    
 ## 2018-02-15
 - Optimize Status requests #49
+- minor fixes
    
 ## 2018-02-11
 - support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep

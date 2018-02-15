@@ -138,7 +138,7 @@ function updateAllStatus() {
 		
 		console.log( "[Devices][updateAllStatus]START" );
 		
-		var timeout = device_holder.find( 'tbody tr' ).length * 10; //max 10 sec per device
+		var timeout = device_holder.find( 'tbody tr' ).length * 8 + 2; //max 10 sec per device
 		
 		Sonoff.getAllStatus( timeout, function ( result ) {
 			                     device_holder.find( 'tbody tr' ).each( function ( key, tr ) {
@@ -159,6 +159,10 @@ function updateAllStatus() {
 					                     //console.log( "DATA => " + JSON.stringify( data ) );
 					
 					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
+					
+					                     $( tr ).removeAttr(
+						                     "data-original-title"
+					                     ).removeAttr( "data-toggle" ).tooltip( 'destroy' );
 					
 					                     updateRow( $( tr ), data, device_status );
 				                     } else {
@@ -191,8 +195,8 @@ function updateAllStatus() {
 					
 					                     $( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
 					                     $( tr ).find( ".runtime span" ).html( "-" );
-					                     $( tr ).find( ".version span" ).html( $.i18n( "-" ) );
-					                     $( tr ).find( ".more span" ).html( $.i18n( "-" ) );
+					                     $( tr ).find( ".version span" ).html( "-" );
+					                     $( tr ).find( "td.more:not(.static) span" ).html( "-" );
 				                     }
 				
 				

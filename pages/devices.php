@@ -83,7 +83,7 @@
 								    data-field='position'>
 									<?php echo $device_group->position; ?>
 								</td>
-								<td class='more'><?php echo $device_group->id; ?></td>
+								<td class='more static'><?php echo $device_group->id; ?></td>
 								<td><a href='http://<?php echo $device_group->ip; ?>/'
 								       target='_blank'
 								       title='<?php echo __(
@@ -118,7 +118,7 @@
 									</span>
 								</td>
 								<td class='runtime'>
-									<span >
+									<span>
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
