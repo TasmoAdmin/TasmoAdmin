@@ -9,6 +9,7 @@
    - **you need to edit the device form the device list and set a name, the name input was missing before**
 - you can set one position for a multi channel device now (all channels get the same position)
    - todo: add position per channel #48
+- add HTU21 sensor
    
 ## 2018-02-15
 - Optimize Status requests #49

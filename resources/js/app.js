@@ -244,6 +244,11 @@ function getTemp( data ) {
 			           data.StatusSNS.SI7021.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.HTU21 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.HTU21.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
 	
 	//console.log( temp );
 	
@@ -271,6 +276,11 @@ function getHumidity( data ) {
 	if ( data.StatusSNS.SI7021 !== undefined ) {
 		if ( data.StatusSNS.SI7021.Humidity !== undefined ) {
 			humi.push( data.StatusSNS.SI7021.Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS.HTU21 !== undefined ) {
+		if ( data.StatusSNS.HTU21.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.HTU21.Humidity + "%" );
 		}
 	}
 	
