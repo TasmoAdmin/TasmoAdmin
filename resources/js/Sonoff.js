@@ -93,7 +93,7 @@ var Sonoff = function ( options ) {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "index.php?doAjax",
-			        timeout : 500, //options.timeout * 1000,
+			        timeout : options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
 			        data    : {
