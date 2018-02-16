@@ -35,7 +35,15 @@ function updateStatus() {
 			
 			Sonoff.getStatus( device_ip, device_id, device_relais, function ( data ) {
 				
-				                  if ( data && !data.ERROR && !data.WARNING ) {
+				                  if ( data
+				                       && !data.ERROR
+				                       && !data.WARNING
+				                       && data
+				                          !== ""
+				                       && data
+				                          !== undefined
+				                       && data.statusText
+				                          === undefined ) {
 					
 					                  if ( device_group == "multi" ) {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
@@ -70,11 +78,7 @@ function updateStatus() {
 					
 					
 				                  } else {
-					                  console.log( "[Start][updateStatus]ERROR "
-					                               + device_ip
-					                               + " => "
-					                               + data.ERROR
-					                               || "Unknown Error" );
+					                  console.log( "ERROR => " + JSON.stringify( data ) );
 					                  if ( device_group == "multi" ) {
 						                  $( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
