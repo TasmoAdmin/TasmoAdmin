@@ -4,7 +4,7 @@
    
 ## 2018-02-16
 - HOTFIX for startpage
-- fix missing name for devices without switches
+- fix missing name for devices without switches #55
    - sonoff bridge, sonoff sc, wemos8 etc
    - **you need to edit the device form the device list and set a name, the name input was missing before**
 - you can set one position for a multi channel device now (all channels get the same position)
