@@ -327,6 +327,11 @@
 			$result = NULL;
 			
 			
+			//			if ( $device->id == 6 ) {
+			//				$url = "http://sonweb/dev/wemos8.json";
+			//			}
+			
+			
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 			curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -378,8 +383,8 @@
 			);
 			
 			
-			//			if ( $_GET[ "id" ] == 3 ) {
-			//				$url = "http://sonweb/dev/DHT11.json";
+			//			if ( $_GET[ "id" ] == 6 ) {
+			//				$url = "http://sonweb/dev/wemos8.json";
 			//			}
 			
 			$result = NULL;
@@ -431,10 +436,15 @@
 			$urlsClone = [];
 			
 			foreach ( $devices as $device ) {
-				$url          = $this->buildCmndUrl(
+				$url = $this->buildCmndUrl(
 					$device,
 					$cmnd
 				);
+				
+				//				if ( $device->id == 6 ) {
+				//					$url = "http://sonweb/dev/wemos8.json";
+				//				}
+				
 				$urls[ $url ] = $device;
 				$urlsClone[]  = $url;
 			}
