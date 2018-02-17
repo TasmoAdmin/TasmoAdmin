@@ -9,15 +9,15 @@ You can find it here: [SonWEB GitHub](https://github.com/reloxx13/SonWEB)
 * Login protected
 * Multi Update Process
   * Select devices to update
-  * Automatic Modus downoads latest firmware bin from teh Tasmota GIT
+  * Automatic Modus downoads latest firmware bin from the Tasmota GIT
 * Show device informations
-* Mobile Responsive
+* Mobile Responsive (Bootstrap4)
 * Config devices
 * SelfUpdate function for SonWEB
 * NightMode (Enable/Disable/Auto) in settings
-
+   
 ## Requirements
-
+   
 ### Windows
 I provide a ready2use ZIP on the releases page with XAMPP
 
@@ -28,7 +28,7 @@ I provide a ready2use ZIP on the releases page with XAMPP
   * php-curl php-zip Modules installed
 
 ### Docker on Raspberry PI
-There are 2 docker SonWEB images available for Raspberry PI.
+There are 2 docker SonWEB images available for Raspberry PI (thanks @RaymondMouthaan !).
 
 * rpi-sonoff-alpine - An Alpine (3.7) based image with Apache2 and Php7 installed.
 
@@ -46,13 +46,14 @@ There are 2 docker SonWEB images available for Raspberry PI.
 Now you can type in your browser http://YOURLOCALIP and SonWEB shows up.
 
 ### Unix
-For unix its a bit harder. You need to instal a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/SonWEB/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
+For unix its a bit harder. You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/SonWEB/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
 
 ### Docker on Raspberry PI
 You can either use rpi-sonweb-alpine or rpi-sonweb-ubuntu, which you prefer the most. The main difference is that rpi-sonweb-alpine (70MB extracted) is about 4 times smaller than rpi-sonweb-ubuntu (271MB extracted), which is recommended for running on a Raspberry.
 
 Check out [Guide for running SonWEB in a Docker Container on RPI](https://github.com/reloxx13/SonWEB/wiki/Guide-for-running-SonWEB-in-a-Docker-Container-on-RPI) for install instructions.
-
+   
+    
 ## Example Images
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/1.png)
 ![Startpage](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/2.png)
