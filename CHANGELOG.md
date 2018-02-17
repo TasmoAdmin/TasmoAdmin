@@ -1,6 +1,8 @@
 # CHANGELOG   
    
    
+## 2018-02-17
+- change uptime format   
    
 ## 2018-02-16
 - HOTFIX for startpage
