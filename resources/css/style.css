@@ -79,7 +79,7 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 .tablesaw-stack td.actions {
 	display   : table-cell;
 	min-width : 210px;
-	width: auto;
+	width     : auto;
 }
 
 td.actions span {
@@ -297,6 +297,10 @@ td.runtime {
 
 .nightmode .form-switch input:checked + i {
 	background-color : #007EB4;
+}
+
+.nightmode .form-switch.error i::before, .nightmode .form-switch.error input:checked + i {
+	background-color : #77010F;
 }
 
 .nightmode a {
