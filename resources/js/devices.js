@@ -395,7 +395,12 @@ function updateRow( row, data, device_status ) {
 			$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 		}
 	}
-	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
+	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr(
+		"data-original-title", ssid ).attr( "data-toggle", "tooltip" ).tooltip( {
+			                                                                        html : true,
+			                                                                        delay: 700,
+		                                                                        } );
+	
 	
 	var startup = (
 		(
@@ -471,12 +476,6 @@ function updateRow( row, data, device_status ) {
 		uptime = $.trim( uptime );
 		
 		$( row ).find( ".runtime span" ).html( uptime ).attr(
-			"data-original-title",
-			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
-				.attr( "lang" )
-				.toUpperCase(), { hour12: false }
-			)
-		).attr(
 			"data-original-title",
 			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
 				.attr( "lang" )

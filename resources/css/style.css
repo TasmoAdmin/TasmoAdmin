@@ -311,11 +311,11 @@ hr {
 	background-color : #77010F;
 }
 
-.nightmode a, .nightmode .navbar-dark .navbar-text a {
+.nightmode a {
 	color : #00A0E4;
 }
 
-.nightmode a:hover, .nightmode .navbar-dark .navbar-text a:hover {
+.nightmode a:hover {
 	color : #00B8FF;
 }
 
@@ -390,11 +390,11 @@ hr {
 	border-color : rgba(255, 255, 255, 0.5);
 }
 
-.nightmode .btn-primary {
+.nightmode .btn-primary, .nightmode .navbar-dark .navbar-text a {
 	color : rgba(255, 255, 255, 0.8);
 }
 
-.nightmode .btn-primary:hover {
+.nightmode .btn-primary:hover, .nightmode .navbar-dark .navbar-text a:hover {
 	color : #FFFFFF;
 }
 
