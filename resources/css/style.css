@@ -311,11 +311,11 @@ hr {
 	background-color : #77010F;
 }
 
-.nightmode a {
+.nightmode a, .nightmode .navbar-dark .navbar-text a {
 	color : #00A0E4;
 }
 
-.nightmode a:hover {
+.nightmode a:hover, .nightmode .navbar-dark .navbar-text a:hover {
 	color : #00B8FF;
 }
 
@@ -391,7 +391,7 @@ hr {
 }
 
 .nightmode .btn-primary {
-	color : rgba(255, 255, 255, 0.5);
+	color : rgba(255, 255, 255, 0.8);
 }
 
 .nightmode .btn-primary:hover {
@@ -399,7 +399,7 @@ hr {
 }
 
 .nightmode .btn-secondary {
-	color : rgba(255, 255, 255, 0.5);
+	color : rgba(255, 255, 255, 0.8);
 }
 
 .nightmode .btn-secondary:hover {
