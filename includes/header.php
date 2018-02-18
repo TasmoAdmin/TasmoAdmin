@@ -135,6 +135,7 @@
 								"devices",
 								"device_config",
 								"device_action",
+								"devices_autoscan",
 							]
 						) ? "active" : ""; ?>"
 						   href="#"
@@ -161,14 +162,7 @@
 								<?php echo __( "UPDATE", "NAVI" ); ?>
 							</a>
 							
-							<a class="dropdown-item nav-link <?php echo in_array(
-								$page,
-								[
-									"upload_form",
-									"upload",
-									"device_update",
-								]
-							) ? "active" : ""; ?>"
+							<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active" : ""; ?>"
 							   href="<?php echo _BASEURL_; ?>devices_autoscan">
 								<?php echo __( "DEVICES_AUTOSCAN", "NAVI" ); ?>
 							</a>

@@ -450,24 +450,22 @@ function updateRow( row, data, device_status ) {
 			                          minutes * 60
 		                          ) );
 		
-		if ( hours < 10 ) {
-			hours = "0" + hours;
-		}
-		if ( minutes < 10 ) {
-			minutes = "0" + minutes;
-		}
-		if ( seconds < 10 ) {
-			seconds = "0" + seconds;
-		}
-		
 		uptime = (
-			         days != 0 ? days + $.i18n( 'UPTIME_SHORT_DAY' ) : ""
+			         days !== 0 ? days + $.i18n( 'UPTIME_SHORT_DAY' ) : ""
 		         ) + " " + (
-			         hours != "00" ? hours + $.i18n( 'UPTIME_SHORT_HOUR' ) : ""
+			         hours !== 0 || days !== 0 ? hours + $.i18n( 'UPTIME_SHORT_HOUR' ) : ""
 		         ) + " " + (
-			         minutes != "00" ? minutes + $.i18n( 'UPTIME_SHORT_MIN' ) : ""
+			         minutes !== 0 || hours !== 0 || days !== 0 ? minutes + $.i18n( 'UPTIME_SHORT_MIN' ) : ""
 		         ) + " " + (
-			         seconds !== "00" ? seconds + $.i18n( 'UPTIME_SHORT_SEC' ) : "-"
+			         seconds
+			         !== 0
+			         || minutes
+			            !== 0
+			         || hours
+			            !== 0
+				         ? seconds
+				 + $.i18n( 'UPTIME_SHORT_SEC' )
+				         : "-"
 		         );
 		
 		uptime = $.trim( uptime );

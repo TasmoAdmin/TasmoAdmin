@@ -554,7 +554,7 @@
 				CURLOPT_FOLLOWLOCATION => FALSE,
 				CURLOPT_RETURNTRANSFER => TRUE,
 				CURLOPT_CONNECTTIMEOUT => 5,
-				CURLOPT_TIMEOUT        => 5,
+				CURLOPT_TIMEOUT        => 8,
 			);
 			// start the first batch of requests
 			
