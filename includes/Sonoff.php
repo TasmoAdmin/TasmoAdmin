@@ -430,6 +430,7 @@
 		
 		public function doAjaxAll( $try = 1 ) {
 			$result = NULL;
+			ini_set( "max_execution_time", "99999999999" );
 			
 			$devices   = $this->getDevices();
 			$cmnd      = "status 0";//urldecode( $_POST[ "cmnd" ] );
@@ -533,6 +534,7 @@
 			unset( $urlsClone );
 			unset( $urls );
 			
+			ini_set( "max_execution_time", "60" );
 			
 			return $result;
 		}
@@ -540,7 +542,7 @@
 		
 		public function search( $urls = [] ) {
 			$result = [];
-			
+			ini_set( "max_execution_time", "99999999999" );
 			
 			$urlsClone = $urls;
 			
@@ -616,6 +618,8 @@
 			unset( $urlsClone );
 			unset( $urls );
 			
+			
+			ini_set( "max_execution_time", "60" );
 			
 			return $result;
 		}
