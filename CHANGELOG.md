@@ -3,6 +3,9 @@
    
 ## 2018-02-17
 - change uptime format   
+- add AutoScan
+   - You can search for new Tasmota Devices between an IP Range now
+   - Top Navi > Devices > AutoScan
    
 ## 2018-02-16
 - HOTFIX for startpage

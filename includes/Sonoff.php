@@ -302,7 +302,7 @@
 		 *
 		 * @return mixed|string
 		 */
-		private function buildCmndUrl( $device, $cmnd ) {
+		public function buildCmndUrl( $device, $cmnd ) {
 			$start = "?";
 			if ( isset( $device->password ) && $device->password != "" ) {
 				$start = "?user=".urlencode( $device->username )."&password=".urlencode( $device->password )."&";
@@ -459,7 +459,7 @@
 			$options = array(
 				CURLOPT_FOLLOWLOCATION => FALSE,
 				CURLOPT_RETURNTRANSFER => TRUE,
-				CURLOPT_CONNECTTIMEOUT => 3,
+				CURLOPT_CONNECTTIMEOUT => 2,
 				CURLOPT_TIMEOUT        => 5,
 			);
 			// start the first batch of requests
@@ -513,6 +513,89 @@
 						}
 					}
 					$result[ $device->id ] = $data;
+					
+					// start a new request (it's important to do this before removing the old one)
+					if ( sizeof( $urls ) >= $i + 1 ) {
+						$ch                     = curl_init();
+						$options[ CURLOPT_URL ] = $urlsClone[ $i++ ];  // increment i
+						
+						
+						curl_setopt_array( $ch, $options );
+						curl_multi_add_handle( $master, $ch );
+					}
+					// remove the curl handle that just completed
+					curl_multi_remove_handle( $master, $done[ 'handle' ] );
+					curl_close( $done[ "handle" ] );
+				}
+			} while ( $running );
+			curl_multi_close( $master );
+			
+			unset( $urlsClone );
+			unset( $urls );
+			
+			
+			return $result;
+		}
+		
+		
+		public function search( $urls = [] ) {
+			$result = [];
+			
+			
+			$urlsClone = $urls;
+			
+			// make sure the rolling window isn't greater than the # of urls
+			$rolling_window = 10;
+			$rolling_window = ( sizeof( $urls ) < $rolling_window ) ? sizeof( $urls ) : $rolling_window;
+			$master         = curl_multi_init();
+			// $curl_arr = array();
+			// add additional curl options here
+			$options = array(
+				CURLOPT_FOLLOWLOCATION => FALSE,
+				CURLOPT_RETURNTRANSFER => TRUE,
+				CURLOPT_CONNECTTIMEOUT => 5,
+				CURLOPT_TIMEOUT        => 5,
+			);
+			// start the first batch of requests
+			
+			for ( $i = 0; $i < $rolling_window; $i++ ) {
+				$ch                     = curl_init();
+				$options[ CURLOPT_URL ] = $urlsClone[ $i ];
+				curl_setopt_array( $ch, $options );
+				curl_multi_add_handle( $master, $ch );
+			}
+			$i--;
+			
+			do {
+				while ( ( $execrun = curl_multi_exec( $master, $running ) ) == CURLM_CALL_MULTI_PERFORM ) {
+					;
+				}
+				if ( $execrun != CURLM_OK ) {
+					break;
+				}
+				// a request was just completed -- find out which one
+				while ( $done = curl_multi_info_read( $master ) ) {
+					$info   = curl_getinfo( $done[ 'handle' ] );
+					$output = curl_multi_getcontent( $done[ 'handle' ] );
+					
+					if ( !$output ) {
+					
+					} else {
+						$data = json_decode( $output );
+						if ( json_last_error() !== JSON_ERROR_NONE ) {
+							$outputTmp = $this->fixJsonFormatv5100( $output );
+							$data      = json_decode( $outputTmp );
+							unset( $outputTmp );
+							
+							if ( json_last_error() !== JSON_ERROR_NONE ) {
+							
+							} else {
+								$result[] = $data;
+							}
+						} else {
+							$result[] = $data;
+						}
+					}
 					
 					// start a new request (it's important to do this before removing the old one)
 					if ( sizeof( $urls ) >= $i + 1 ) {

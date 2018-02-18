@@ -160,6 +160,22 @@ var Sonoff = function ( options ) {
 		        } );
 	};
 	
+	
+	this.directAjax = function ( url ) {
+		//var url = root.buildCmndUrl( ip, cmnd );
+		$.ajax( {
+			        url    : url,
+			        timeout: options.timeout * 1000,
+			        cache  : false,
+			        success: function ( data ) {
+				
+			        },
+			        error  : function ( data, xmlhttprequest, textstatus, message ) {
+				
+			        },
+		        } );
+	};
+	
 	this.setDeviceValue = function ( id, field, newvalue, td ) {
 		$.ajax( {
 			        dataType: "json",

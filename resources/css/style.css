@@ -274,6 +274,14 @@ td.runtime {
 	display : none;
 }
 
+hr {
+	border-color : #343A40;
+}
+
+.modal-header > h3:nth-child(1) {
+	color : #4B4B4B;
+}
+
 .nightmode {
 	background-color : #44494F;
 	color            : rgba(255, 255, 255, 0.5);
@@ -376,4 +384,24 @@ td.runtime {
 	border-color : rgba(255, 255, 255, 0.75);
 	color        : rgba(255, 255, 255, 0.75);
 	box-shadow   : 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
+}
+
+.nightmode hr {
+	border-color : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .btn-primary {
+	color : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .btn-primary:hover {
+	color : #FFFFFF;
+}
+
+.nightmode .btn-secondary {
+	color : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .btn-secondary:hover {
+	color : #FFFFFF;
 }
