@@ -302,7 +302,7 @@
 		 *
 		 * @return mixed|string
 		 */
-		private function buildCmndUrl( $device, $cmnd ) {
+		public function buildCmndUrl( $device, $cmnd ) {
 			$start = "?";
 			if ( isset( $device->password ) && $device->password != "" ) {
 				$start = "?user=".urlencode( $device->username )."&password=".urlencode( $device->password )."&";
@@ -325,6 +325,11 @@
 			$url = $this->buildCmndUrl( $device, $cmnd );
 			
 			$result = NULL;
+			
+			
+			//			if ( $device->id == 6 ) {
+			//				$url = "http://sonweb/dev/wemos8.json";
+			//			}
 			
 			
 			$ch = curl_init();
@@ -378,8 +383,8 @@
 			);
 			
 			
-			//			if ( $_GET[ "id" ] == 3 ) {
-			//				$url = "http://sonweb/dev/DHT11.json";
+			//			if ( $_GET[ "id" ] == 6 ) {
+			//				$url = "http://sonweb/dev/wemos8.json";
 			//			}
 			
 			$result = NULL;
@@ -425,16 +430,22 @@
 		
 		public function doAjaxAll( $try = 1 ) {
 			$result = NULL;
+			ini_set( "max_execution_time", "99999999999" );
 			
 			$devices   = $this->getDevices();
 			$cmnd      = "status 0";//urldecode( $_POST[ "cmnd" ] );
 			$urlsClone = [];
 			
 			foreach ( $devices as $device ) {
-				$url          = $this->buildCmndUrl(
+				$url = $this->buildCmndUrl(
 					$device,
 					$cmnd
 				);
+				
+				//				if ( $device->id == 6 ) {
+				//					$url = "http://sonweb/dev/wemos8.json";
+				//				}
+				
 				$urls[ $url ] = $device;
 				$urlsClone[]  = $url;
 			}
@@ -449,7 +460,7 @@
 			$options = array(
 				CURLOPT_FOLLOWLOCATION => FALSE,
 				CURLOPT_RETURNTRANSFER => TRUE,
-				CURLOPT_CONNECTTIMEOUT => 3,
+				CURLOPT_CONNECTTIMEOUT => 2,
 				CURLOPT_TIMEOUT        => 5,
 			);
 			// start the first batch of requests
@@ -523,6 +534,92 @@
 			unset( $urlsClone );
 			unset( $urls );
 			
+			ini_set( "max_execution_time", "60" );
+			
+			return $result;
+		}
+		
+		
+		public function search( $urls = [] ) {
+			$result = [];
+			ini_set( "max_execution_time", "99999999999" );
+			
+			$urlsClone = $urls;
+			
+			// make sure the rolling window isn't greater than the # of urls
+			$rolling_window = 10;
+			$rolling_window = ( sizeof( $urls ) < $rolling_window ) ? sizeof( $urls ) : $rolling_window;
+			$master         = curl_multi_init();
+			// $curl_arr = array();
+			// add additional curl options here
+			$options = array(
+				CURLOPT_FOLLOWLOCATION => FALSE,
+				CURLOPT_RETURNTRANSFER => TRUE,
+				CURLOPT_CONNECTTIMEOUT => 5,
+				CURLOPT_TIMEOUT        => 8,
+			);
+			// start the first batch of requests
+			
+			for ( $i = 0; $i < $rolling_window; $i++ ) {
+				$ch                     = curl_init();
+				$options[ CURLOPT_URL ] = $urlsClone[ $i ];
+				curl_setopt_array( $ch, $options );
+				curl_multi_add_handle( $master, $ch );
+			}
+			$i--;
+			
+			do {
+				while ( ( $execrun = curl_multi_exec( $master, $running ) ) == CURLM_CALL_MULTI_PERFORM ) {
+					;
+				}
+				if ( $execrun != CURLM_OK ) {
+					break;
+				}
+				// a request was just completed -- find out which one
+				while ( $done = curl_multi_info_read( $master ) ) {
+					$info   = curl_getinfo( $done[ 'handle' ] );
+					$output = curl_multi_getcontent( $done[ 'handle' ] );
+					
+					if ( !$output ) {
+					
+					} else {
+						$data = json_decode( $output );
+						if ( json_last_error() !== JSON_ERROR_NONE ) {
+							$outputTmp = $this->fixJsonFormatv5100( $output );
+							$data      = json_decode( $outputTmp );
+							unset( $outputTmp );
+							
+							if ( json_last_error() !== JSON_ERROR_NONE ) {
+							
+							} else {
+								$result[] = $data;
+							}
+						} else {
+							$result[] = $data;
+						}
+					}
+					
+					// start a new request (it's important to do this before removing the old one)
+					if ( sizeof( $urls ) >= $i + 1 ) {
+						$ch                     = curl_init();
+						$options[ CURLOPT_URL ] = $urlsClone[ $i++ ];  // increment i
+						
+						
+						curl_setopt_array( $ch, $options );
+						curl_multi_add_handle( $master, $ch );
+					}
+					// remove the curl handle that just completed
+					curl_multi_remove_handle( $master, $done[ 'handle' ] );
+					curl_close( $done[ "handle" ] );
+				}
+			} while ( $running );
+			curl_multi_close( $master );
+			
+			unset( $urlsClone );
+			unset( $urls );
+			
+			
+			ini_set( "max_execution_time", "60" );
 			
 			return $result;
 		}

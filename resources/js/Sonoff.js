@@ -93,7 +93,7 @@ var Sonoff = function ( options ) {
 		$.ajax( {
 			        dataType: "json",
 			        url     : "index.php?doAjax",
-			        timeout : 500, //options.timeout * 1000,
+			        timeout : options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
 			        data    : {
@@ -156,6 +156,22 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
+			        },
+		        } );
+	};
+	
+	
+	this.directAjax = function ( url ) {
+		//var url = root.buildCmndUrl( ip, cmnd );
+		$.ajax( {
+			        url    : url,
+			        timeout: options.timeout * 1000,
+			        cache  : false,
+			        success: function ( data ) {
+				
+			        },
+			        error  : function ( data, xmlhttprequest, textstatus, message ) {
+				
 			        },
 		        } );
 	};

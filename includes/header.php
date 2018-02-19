@@ -75,6 +75,7 @@
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js.cookie.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?<?php echo time(); ?>"></script>
 	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 	
 	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
@@ -134,6 +135,7 @@
 								"devices",
 								"device_config",
 								"device_action",
+								"devices_autoscan",
 							]
 						) ? "active" : ""; ?>"
 						   href="#"
@@ -159,7 +161,11 @@
 							   ) ? "active" : ""; ?>'>
 								<?php echo __( "UPDATE", "NAVI" ); ?>
 							</a>
-						
+							
+							<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active" : ""; ?>"
+							   href="<?php echo _BASEURL_; ?>devices_autoscan">
+								<?php echo __( "DEVICES_AUTOSCAN", "NAVI" ); ?>
+							</a>
 						</div>
 					</li>
 				<?php endif; ?>

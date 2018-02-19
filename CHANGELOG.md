@@ -1,9 +1,24 @@
 # CHANGELOG   
    
    
+## 2018-02-17
+- change uptime format   
+- add AutoScan
+   - You can search for new Tasmota Devices between an IP Range now
+   - Top Navi > Devices > AutoScan
+   
+## 2018-02-16
+- HOTFIX for startpage
+- fix missing name for devices without switches #55
+   - sonoff bridge, sonoff sc, wemos8 etc
+   - **you need to edit the device form the device list and set a name, the name input was missing before**
+- you can set one position for a multi channel device now (all channels get the same position)
+   - todo: add position per channel #48
+- add HTU21 sensor
    
 ## 2018-02-15
 - Optimize Status requests #49
+- minor fixes
    
 ## 2018-02-11
 - support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep

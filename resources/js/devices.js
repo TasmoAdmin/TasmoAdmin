@@ -138,16 +138,16 @@ function updateAllStatus() {
 		
 		console.log( "[Devices][updateAllStatus]START" );
 		
-		var timeout = device_holder.find( 'tbody tr' ).length * 10; //max 10 sec per device
+		var timeout = device_holder.find( 'tbody tr' ).length * 8 + 2; //max 10 sec per device
 		
 		Sonoff.getAllStatus( timeout, function ( result ) {
 			                     device_holder.find( 'tbody tr' ).each( function ( key, tr ) {
 				                     var device_id     = $( tr ).data( "device_id" );
 				                     var device_relais = $( tr ).data( "device_relais" );
 				                     var device_group  = $( tr ).data( "device_group" );
-				                     var data          = result[ device_id ];
+				                     var data          = result[ device_id ] || {};
 				
-				                     if ( data
+				                     if ( data !== undefined
 				                          && !data.ERROR
 				                          && !data.WARNING
 				                          && data
@@ -156,13 +156,20 @@ function updateAllStatus() {
 				                             !== undefined
 				                          && data.statusText
 				                             === undefined ) {
-					                     //console.log( "DATA => " + JSON.stringify( data ) );
+					                     console.log( "[LIST][updateAllStatus][" + device_id + "]MSG => " + JSON.stringify( data ) );
 					
 					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
 					
+					                     $( tr ).removeAttr(
+						                     "data-original-title"
+					                     ).removeAttr( "data-toggle" );
+					
 					                     updateRow( $( tr ), data, device_status );
 				                     } else {
-					                     console.log( "ERROR => " + JSON.stringify( data ) );
+					                     console.log( "[LIST][updateAllStatus]["
+					                                  + device_id
+					                                  + "][ERROR] DATA => "
+					                                  + JSON.stringify( data ) );
 					
 					
 					                     if ( $( tr ).hasClass( "toggled" ) ) {
@@ -191,8 +198,8 @@ function updateAllStatus() {
 					
 					                     $( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
 					                     $( tr ).find( ".runtime span" ).html( "-" );
-					                     $( tr ).find( ".version span" ).html( $.i18n( "-" ) );
-					                     $( tr ).find( ".more span" ).html( $.i18n( "-" ) );
+					                     $( tr ).find( ".version span" ).html( "-" );
+					                     $( tr ).find( "td.more:not(.static) span" ).html( "-" );
 				                     }
 				
 				
@@ -341,7 +348,7 @@ function updateRow( row, data, device_status ) {
 	} else { //try german else use english
 		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
+		var uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 		
 	}
 	
@@ -388,12 +395,30 @@ function updateRow( row, data, device_status ) {
 			$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 		}
 	}
-	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr( "title", ssid );
+	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr(
+		"data-original-title", ssid ).attr( "data-toggle", "tooltip" ).tooltip( {
+			                                                                        html : true,
+			                                                                        delay: 700,
+		                                                                        } );
 	
-	if ( data.StatusPRM.StartupDateTimeUtc ) {
+	
+	var startup = (
+		(
+			data.StatusPRM.StartupDateTimeUtc != undefined
+				? data.StatusPRM.StartupDateTimeUtc
+				: (
+				data.StatusPRM.StartupUTC != undefined
+					? data.StatusPRM.StartupUTC
+					: ""
+			)
+		)
+	);
+	console.log( startup );
+	if ( startup !== "" ) {
 		
-		
-		var startupdatetime = new Date( data.StatusPRM.StartupDateTimeUtc );
+		var startupdatetime = startup.replace( 'T', ' ' );
+		console.log( startupdatetime );
+		startupdatetime = new Date( startupdatetime );
 		startupdatetime.setTime( startupdatetime.getTime() + (
 			startupdatetime.getTimezoneOffset()
 		) * -1 * 60 * 1000 );
@@ -430,26 +455,27 @@ function updateRow( row, data, device_status ) {
 			                          minutes * 60
 		                          ) );
 		
-		if ( hours < 10 ) {
-			hours = "0" + hours;
-		}
-		if ( minutes < 10 ) {
-			minutes = "0" + minutes;
-		}
-		if ( seconds < 10 ) {
-			seconds = "0" + seconds;
-		}
+		uptime = (
+			         days !== 0 ? days + $.i18n( 'UPTIME_SHORT_DAY' ) : ""
+		         ) + " " + (
+			         hours !== 0 || days !== 0 ? hours + $.i18n( 'UPTIME_SHORT_HOUR' ) : ""
+		         ) + " " + (
+			         minutes !== 0 || hours !== 0 || days !== 0 ? minutes + $.i18n( 'UPTIME_SHORT_MIN' ) : ""
+		         ) + " " + (
+			         seconds
+			         !== 0
+			         || minutes
+			            !== 0
+			         || hours
+			            !== 0
+				         ? seconds
+				 + $.i18n( 'UPTIME_SHORT_SEC' )
+				         : "-"
+		         );
 		
-		days   = days > 0 ? days + ", " : "";
-		uptime = days + hours + ':' + minutes + ':' + seconds;
+		uptime = $.trim( uptime );
 		
-		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" ).attr(
-			"data-original-title",
-			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
-				.attr( "lang" )
-				.toUpperCase(), { hour12: false }
-			)
-		).attr(
+		$( row ).find( ".runtime span" ).html( uptime ).attr(
 			"data-original-title",
 			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
 				.attr( "lang" )
@@ -461,7 +487,8 @@ function updateRow( row, data, device_status ) {
 		                                            } );
 		
 	} else {
-		$( row ).find( ".runtime span" ).html( "~" + uptime + "h" );
+		console.log( uptime );
+		$( row ).find( ".runtime span" ).html( uptime + "h" );
 	}
 	
 	

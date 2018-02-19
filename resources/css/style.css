@@ -79,7 +79,7 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 .tablesaw-stack td.actions {
 	display   : table-cell;
 	min-width : 210px;
-	width: auto;
+	width     : auto;
 }
 
 td.actions span {
@@ -274,6 +274,14 @@ td.runtime {
 	display : none;
 }
 
+hr {
+	border-color : #343A40;
+}
+
+.modal-header > h3:nth-child(1) {
+	color : #4B4B4B;
+}
+
 .nightmode {
 	background-color : #44494F;
 	color            : rgba(255, 255, 255, 0.5);
@@ -297,6 +305,10 @@ td.runtime {
 
 .nightmode .form-switch input:checked + i {
 	background-color : #007EB4;
+}
+
+.nightmode .form-switch.error i::before, .nightmode .form-switch.error input:checked + i {
+	background-color : #77010F;
 }
 
 .nightmode a {
@@ -372,4 +384,24 @@ td.runtime {
 	border-color : rgba(255, 255, 255, 0.75);
 	color        : rgba(255, 255, 255, 0.75);
 	box-shadow   : 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
+}
+
+.nightmode hr {
+	border-color : rgba(255, 255, 255, 0.5);
+}
+
+.nightmode .btn-primary, .nightmode .navbar-dark .navbar-text a {
+	color : rgba(255, 255, 255, 0.8);
+}
+
+.nightmode .btn-primary:hover, .nightmode .navbar-dark .navbar-text a:hover {
+	color : #FFFFFF;
+}
+
+.nightmode .btn-secondary {
+	color : rgba(255, 255, 255, 0.8);
+}
+
+.nightmode .btn-secondary:hover {
+	color : #FFFFFF;
 }

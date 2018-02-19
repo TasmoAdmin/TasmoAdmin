@@ -156,6 +156,12 @@
 							"USER_CONFIG"
 						); ?>
 					</option>
+					<option value='RU' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_RU",
+							"USER_CONFIG"
+						); ?> (next release version!)
+					</option>
 				</select>
 			</div>
 			<div class="form-group mt-5">
