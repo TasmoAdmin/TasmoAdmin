@@ -2,9 +2,6 @@
 SonWEB is a administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
 You can find it here: [SonWEB GitHub](https://github.com/reloxx13/SonWEB)
 
-Managing Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
-You can find it here: [SonWEB GitHub](https://github.com/reloxx13/SonWEB)
-
 ## Features
 * Login protected
 * Multi Update Process
