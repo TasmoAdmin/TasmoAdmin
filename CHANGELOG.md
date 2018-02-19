@@ -1,6 +1,10 @@
 # CHANGELOG   
    
    
+   
+## 2018-02-18
+- add NL translation
+   
 ## 2018-02-17
 - change uptime format   
 - add AutoScan
