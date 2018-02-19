@@ -2,8 +2,9 @@
    
    
    
-## 2018-02-18
+## 2018-02-19
 - add NL translation
+- updated spanish translation
    
 ## 2018-02-17
 - change uptime format   
