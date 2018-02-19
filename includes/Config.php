@@ -26,8 +26,7 @@
 				);
 				$config = $this->defaultConfigs;
 				
-				$config[ "ota_server_ip" ] = __( "DEFAULT_HOST_IP_PLACEHOLDER", "USER_CONFIG" );
-				$config                    = var_export( $config, TRUE );
+				$config = var_export( $config, TRUE );
 				if ( !fwrite( $fh, "<?php return $config ; ?>" ) ) {
 					die( "COULD NOT CREATE OR WRITE IN CONFIG FILE" );
 				}

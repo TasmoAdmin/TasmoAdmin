@@ -33,7 +33,7 @@
 
 
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-6 col-xl-4'>
+	<div class='col-12 col-md-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
@@ -67,7 +67,6 @@
 				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 				       value='<?php echo $config[ "username" ]; ?>'
 				>
-			
 			</div>
 			<div class="form-group">
 				<label for="password">
@@ -92,7 +91,9 @@
 				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 				       value='<?php echo $config[ "ota_server_ip" ]; ?>'
 				>
-			
+				<small id="from_ipHelp" class="form-text text-muted">
+					<?php echo __( "CONFIG_SERVER_IP_HELP", "USER_CONFIG" ); ?>
+				</small>
 			</div>
 			<div class="form-group">
 				<label for="update_automatic_lang">

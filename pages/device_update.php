@@ -13,7 +13,7 @@
 	$device_ids = isset( $_POST[ "device_ids" ] ) ? $_POST[ "device_ids" ] : FALSE;
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-6 '>
+	<div class='col-12 col-md-8 '>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
@@ -44,7 +44,7 @@
 			
 			
 			<script type='text/javascript'
-			        src='<?php echo  _RESOURCESURL_; ?>js/device_update.js?<?php echo time(); ?>'></script>
+			        src='<?php echo _RESOURCESURL_; ?>js/device_update.js?<?php echo time(); ?>'></script>
 		<?php endif; ?>
 	</div>
 </div>

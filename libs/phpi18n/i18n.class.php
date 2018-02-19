@@ -169,6 +169,14 @@
 				            ) ); // the fallback language config was updated
 			
 			if ( $outdated ) {
+				
+				$files = glob( _TMPDIR_.'/cache/i18n/*' ); // get all file names present in folder
+				foreach ( $files as $file ) { // iterate files
+					if ( is_file( $file ) ) {
+						unlink( $file );
+					}
+				}
+				
 				$config = $this->load( $this->langFilePath );
 				if ( $this->mergeFallback ) {
 					$config = self::array_extend(

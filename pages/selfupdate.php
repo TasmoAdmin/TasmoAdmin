@@ -75,20 +75,28 @@
 				<?php echo __( "NEW_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestSha() ] ); ?><br/>
 				<br/>
 			</div>
-			<form name='selfupdateform' method='post'>
-				<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
-					<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-				</button>
-			</form>
+			<div class='row justify-content-sm-center mt-5'>
+				<div class="col-12 col-sm-6 text-center">
+					<form name='selfupdateform' method='post'>
+						<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
+							<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
+						</button>
+					</form>
+				</div>
+			</div>
 		<?php else: ?>
 			<div class="alert alert-info fade show mb-5" role="alert">
 				<?php echo __( "NO_UPDATE_FOUND", "SELFUPDATE" ); ?>
 			</div>
-			<form name='selfupdateform' method='post'>
-				<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
-					<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-				</button>
-			</form>
+			<div class='row justify-content-sm-center mt-5'>
+				<div class="col-12 col-sm-6 text-center">
+					<form name='selfupdateform' method='post'>
+						<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
+							<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
+						</button>
+					</form>
+				</div>
+			</div>
 		<?php endif; ?>
 		<hr class='my-5'>
 		<div class='changelog'>

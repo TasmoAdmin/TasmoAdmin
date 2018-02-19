@@ -96,12 +96,12 @@
 			//			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
 			//			fwrite( $myfile, $txt."\n" );
 			//			fclose( $myfile );
-			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
-			foreach ( $files as $file ) { // iterate files
-				if ( is_file( $file ) ) {
-					//unlink( $file );
-				}
-			}
+			//			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
+			//			foreach ( $files as $file ) { // iterate files
+			//				if ( is_file( $file ) ) {
+			//					//unlink( $file );
+			//				}
+			//			}
 			
 		}
 		
@@ -129,4 +129,3 @@
 			die();
 		}
 	}
-	

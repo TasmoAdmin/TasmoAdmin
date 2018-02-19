@@ -88,7 +88,7 @@
 
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-6 col-xl-4'>
+	<div class='col-12 col-md-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
@@ -183,12 +183,12 @@
 					<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>
 				</small>
 			</div>
-			<div class='row justify-content-sm-center'>
-				<div class="col-12 col-sm-12">
+			<div class='row justify-content-sm-center mt-5'>
+				<div class="col-12 col-sm-6 text-center">
 					<button type='submit'
 					        name='search'
 					        value='search'
-					        class='btn btn-primary col-12 '
+					        class='btn btn-primary col-12 col-sm-auto'
 					        onclick='waitingDialog.show("", { headerText:
 							        "<?php echo __( "MSG_SCANNING", "DEVICES_AUTOSCAN" ); ?>"
 							        }
