@@ -3,6 +3,10 @@
    
    
 ## 2018-02-19
+- fix uptime for safari   
+- set timeout from 2 to 3 secs   
+   
+## 2018-02-19
 - add NL translation
 - updated spanish translation
    
