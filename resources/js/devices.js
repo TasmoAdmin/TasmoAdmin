@@ -404,24 +404,27 @@ function updateRow( row, data, device_status ) {
 	
 	var startup = (
 		(
-			data.StatusPRM.StartupDateTimeUtc != undefined
+			data.StatusPRM.StartupDateTimeUtc !== undefined
 				? data.StatusPRM.StartupDateTimeUtc
 				: (
-				data.StatusPRM.StartupUTC != undefined
+				data.StatusPRM.StartupUTC !== undefined
 					? data.StatusPRM.StartupUTC
 					: ""
 			)
 		)
 	);
-	console.log( startup );
+	//console.log( startup );
 	if ( startup !== "" ) {
 		
-		var startupdatetime = startup.replace( 'T', ' ' );
-		console.log( startupdatetime );
-		startupdatetime = new Date( startupdatetime );
-		startupdatetime.setTime( startupdatetime.getTime() + (
-			startupdatetime.getTimezoneOffset()
-		) * -1 * 60 * 1000 );
+		//var startupdatetime = startup.replace( 'T', ' ' );
+		var startupdatetime = startup + "Z".replace( /-/g, "/" );
+		//console.log( startupdatetime );
+		startupdatetime     = new Date( startupdatetime );
+		//console.log( startupdatetime );
+		//startupdatetime.setTime( startupdatetime.getTime() + (
+		//	startupdatetime.getTimezoneOffset()
+		//) * -1 * 60 * 1000 );
+		//console.log( startupdatetime );
 		var now     = new Date();
 		var sec_num = (
 			              now - startupdatetime

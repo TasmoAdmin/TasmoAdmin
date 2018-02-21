@@ -460,7 +460,7 @@
 			$options = array(
 				CURLOPT_FOLLOWLOCATION => FALSE,
 				CURLOPT_RETURNTRANSFER => TRUE,
-				CURLOPT_CONNECTTIMEOUT => 2,
+				CURLOPT_CONNECTTIMEOUT => 3,
 				CURLOPT_TIMEOUT        => 5,
 			);
 			// start the first batch of requests
@@ -624,6 +624,5 @@
 			return $result;
 		}
 	}
-	
 	
 	
