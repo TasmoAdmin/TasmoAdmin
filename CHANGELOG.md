@@ -2,7 +2,7 @@
    
    
    
-## 2018-02-19
+## 2018-02-21
 - fix uptime for safari   
 - set timeout from 2 to 3 secs   
    
