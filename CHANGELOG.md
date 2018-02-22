@@ -2,6 +2,9 @@
    
    
    
+## 2018-02-22
+- minor fix for startpage
+   
 ## 2018-02-19
 - fix uptime for safari   
 - set timeout from 2 to 3 secs   
