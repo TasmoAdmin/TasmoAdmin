@@ -486,7 +486,7 @@
 					$output = curl_multi_getcontent( $done[ 'handle' ] );
 					$device = $urls[ $info[ 'url' ] ];
 					
-					if ( !$output ) {
+					if ( !$output || $output == "" ) {
 						$data        = new stdClass();
 						$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $done[ 'handle' ] ).": ".curl_error(
 								$done[ 'handle' ]
