@@ -180,13 +180,17 @@ function updateAllStatus() {
 					                     }
 					
 					                     var msg = $.i18n( 'ERROR' );
-					                     if ( data.ERROR !== undefined ) {
-						                     msg = data.ERROR;
-					                     } else if ( data.WARNING !== undefined ) {
-						                     msg = data.WARNING;
-					                     }
-					                     else if ( data.statusText !== undefined ) {
-						                     msg = data.statusText;
+					                     if ( data !== undefined ) {
+						                     if ( data.ERROR !== undefined ) {
+							                     msg = data.ERROR;
+						                     } else if ( data.WARNING !== undefined ) {
+							                     msg = data.WARNING;
+						                     }
+						                     else if ( data.statusText !== undefined ) {
+							                     msg = data.statusText;
+						                     }
+					                     } else {
+						                     msg = "data is empty";
 					                     }
 					
 					                     $( tr ).attr(
