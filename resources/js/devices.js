@@ -145,9 +145,9 @@ function updateAllStatus() {
 				                     var device_id     = $( tr ).data( "device_id" );
 				                     var device_relais = $( tr ).data( "device_relais" );
 				                     var device_group  = $( tr ).data( "device_group" );
-				                     var data          = result[ device_id ] || {};
-				
+				                     var data          = result[ device_id ] || undefined;
 				                     if ( data !== undefined
+				                          && !$.isEmptyObject( data )
 				                          && !data.ERROR
 				                          && !data.WARNING
 				                          && data
