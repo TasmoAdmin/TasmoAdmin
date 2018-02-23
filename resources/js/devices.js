@@ -138,7 +138,7 @@ function updateAllStatus() {
 		
 		console.log( "[Devices][updateAllStatus]START" );
 		
-		var timeout = device_holder.find( 'tbody tr' ).length * 8 + 2; //max 10 sec per device
+		var timeout = device_holder.find( 'tbody tr' ).length * 15; //max 12 sec per device
 		
 		Sonoff.getAllStatus( timeout, function ( result ) {
 			                     device_holder.find( 'tbody tr' ).each( function ( key, tr ) {
@@ -165,6 +165,7 @@ function updateAllStatus() {
 					                     ).removeAttr( "data-toggle" );
 					
 					                     updateRow( $( tr ), data, device_status );
+					                     $( tr ).find( ".status" ).find( "input" ).parent().removeClass( "error" );
 				                     } else {
 					                     console.log( "[LIST][updateAllStatus]["
 					                                  + device_id
