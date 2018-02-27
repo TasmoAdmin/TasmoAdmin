@@ -2,6 +2,11 @@
    
    
    
+   
+## 2018-02-27
+- add coming HU firmware support for automode
+- FR translation   
+   
 ## 2018-02-22
 - minor fix for startpage
    
