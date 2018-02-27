@@ -160,7 +160,7 @@
 										</div>
 									</span>
 									</td>
-									<td class='more mqtt dblcEdit' data-cmnd='Mqtt'>
+									<td class='more mqtt dblcEdit' data-cmnd='SetOption3'>
 									<span>
 										<div class='loader'>
 											<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
