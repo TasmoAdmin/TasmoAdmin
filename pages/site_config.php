@@ -139,6 +139,12 @@
 							"USER_CONFIG"
 						); ?>
 					</option>
+					<option value='HU' <?php echo $config[ "update_automatic_lang" ] == "HU" ? "selected=\selected\""
+						: ""; ?>><?php echo __(
+							"CONFIG_AUTOMATIC_LANGAUGE_HU",
+							"USER_CONFIG"
+						); ?> (next release version!)
+					</option>
 					<option value='IT' <?php echo $config[ "update_automatic_lang" ] == "IT" ? "selected=\selected\""
 						: ""; ?>><?php echo __(
 							"CONFIG_AUTOMATIC_LANGAUGE_IT",
