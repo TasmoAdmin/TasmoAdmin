@@ -2,6 +2,10 @@
    
    
    
+## 2018-03-03
+- fix nightmode always
+- startpage red border on error not shown when nightmode active fix
+- some timeout adjustment
    
 ## 2018-02-27
 - add coming HU firmware support for automode

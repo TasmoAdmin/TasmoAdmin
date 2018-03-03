@@ -211,17 +211,18 @@
 					<?php echo __( "CONFIG_NIGHTMODE", "USER_CONFIG" ); ?>
 				</label>
 				<select class="form-control custom-select" id="nightmode" name='nightmode'>
-					<option value='disable' <?php echo $config[ "nightmode" ] == "disable" ? "selected=\selected\""
+					<option value='disable' <?php echo $config[ "nightmode" ] == "disable" ? "selected=\"selected\""
 						: ""; ?>><?php echo __(
 							"CONFIG_NIGHTMODE_DISABLE",
 							"USER_CONFIG"
 						); ?>
 					</option>
-					<option value='always' <?php echo $config[ "nightmode" ] == "always" ? "selected=\selected\""
+					<option value='always' <?php echo $config[ "nightmode" ] == "always" ? "selected=\"selected\""
 						: ""; ?> >
 						<?php echo __( "CONFIG_NIGHTMODE_ALWAYS", "USER_CONFIG" ); ?>
 					</option>
-					<option value='auto' <?php echo $config[ "nightmode" ] == "auto" ? "selected=\selected\"" : ""; ?> >
+					<option value='auto' <?php echo $config[ "nightmode" ] == "auto" ? "selected=\"selected\""
+						: ""; ?> >
 						<?php echo __( "CONFIG_NIGHTMODE_AUTO", "USER_CONFIG" ); ?>
 					</option>
 				</select>

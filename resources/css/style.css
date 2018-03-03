@@ -291,6 +291,10 @@ hr {
 	border-color : #284681;
 }
 
+.nightmode .box_device.error {
+	border-color : #77010F;
+}
+
 .nightmode .form-switch i::before {
 	background-color : #284681;
 }

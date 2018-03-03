@@ -316,13 +316,13 @@ function checkNightmode( config ) {
 	if ( config === "disable" ) {
 		$( "body" ).removeClass( "nightmode" );
 	} else {
-		if ( "auto" ) {
+		if ( config === "auto" ) {
 			if ( hour >= 18 || hour <= 8 ) {
 				$( "body" ).addClass( "nightmode" );
 			} else {
 				$( "body" ).removeClass( "nightmode" );
 			}
-		} else if ( config === "enable" ) {
+		} else if ( config === "always" ) {
 			$( "body" ).addClass( "nightmode" );
 		}
 	}
