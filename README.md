@@ -25,12 +25,9 @@ I provide a ready2use ZIP on the releases page with XAMPP
   * recommend php7 (works with php5, too)
   * php-curl php-zip Modules installed
 
-### Docker on Raspberry PI
-There are 2 docker SonWEB images available for Raspberry PI (thanks @RaymondMouthaan !).
+### Docker
+SonWEB is available in a docker image: [raymondmm/sonoff-docker](https://hub.docker.com/r/raymondmm/sonweb/), which is a Linux Alpine (3.7) based image with Apache2 and Php7 installed and supports **arm** (i.e. Raspberry PI3) and **amd64** (i.e. Synology DSM). Check out the [Wiki for running SonWEB in a Docker Container](https://github.com/RaymondMouthaan/sonweb-docker/wiki) for install instructions.
 
-* rpi-sonoff-alpine - An Alpine (3.7) based image with Apache2 and Php7 installed.
-
-* rpi-sonoff-ubuntu - An Ubuntu (16.04) based image with Apache2 and Php7 installed.
 
 ## Installation
 ### Windows
@@ -45,12 +42,6 @@ Now you can type in your browser http://YOURLOCALIP and SonWEB shows up.
 
 ### Unix
 For unix its a bit harder. You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/SonWEB/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
-
-### Docker on Raspberry PI
-You can either use rpi-sonweb-alpine or rpi-sonweb-ubuntu, which you prefer the most. The main difference is that rpi-sonweb-alpine (70MB extracted) is about 4 times smaller than rpi-sonweb-ubuntu (271MB extracted), which is recommended for running on a Raspberry.
-
-Check out [Guide for running SonWEB in a Docker Container on RPI](https://github.com/reloxx13/SonWEB/wiki/Guide-for-running-SonWEB-in-a-Docker-Container-on-RPI) for install instructions.
-   
     
 ## Example Images
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/readme/1.png)
