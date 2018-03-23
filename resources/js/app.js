@@ -234,6 +234,11 @@ function getTemp( data ) {
 			           data.StatusSNS.SHT3X.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS[ "SHT3X-0x45" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "SHT3X-0x45" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
 	if ( data.StatusSNS.BMP280 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
@@ -271,6 +276,11 @@ function getHumidity( data ) {
 	if ( data.StatusSNS.SHT3X !== undefined ) {
 		if ( data.StatusSNS.SHT3X.Humidity !== undefined ) {
 			humi.push( data.StatusSNS.SHT3X.Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS[ "SHT3X-0x45" ] !== undefined ) {
+		if ( data.StatusSNS[ "SHT3X-0x45" ].Humidity !== undefined ) {
+			humi.push( data.StatusSNS[ "SHT3X-0x45" ].Humidity + "%" );
 		}
 	}
 	if ( data.StatusSNS.SI7021 !== undefined ) {
