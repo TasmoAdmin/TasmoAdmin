@@ -1,6 +1,9 @@
 # CHANGELOG   
    
    
+## 2018-03-23
+- fix #83 (json changed for sensors)
+- add BME280 sensor
    
 ## 2018-03-03
 - fix nightmode always
