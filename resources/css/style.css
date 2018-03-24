@@ -1,4 +1,3 @@
-
 body {
 	min-height  : 100vh;
 	position    : relative;
@@ -188,7 +187,7 @@ td.runtime {
 
 .box_device img {
 	max-width  : 100%;
-	padding    : 10px 10px 40px;
+	padding    : 10px 10px 35px;
 	box-sizing : border-box;
 	height     : auto;
 }
@@ -212,13 +211,32 @@ td.runtime {
 .box_device .info {
 	position         : absolute;
 	padding          : 3px;
-	background-color : rgba(0, 148, 204, 0.8);
+	background-color : rgba(0, 148, 204, 0.4);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
 	font-size        : 0.8rem;
 	line-height      : 0.8;
 	max-height       : 2.3rem;
 	overflow         : hidden;
+	
+}
+
+@media all and (min-width : 1200px) {
+	.box_device .info {
+		font-size : 0.5rem;
+	}
+}
+
+@media all and (min-width : 1351px) {
+	.box_device .info {
+		font-size : 0.6rem;
+	}
+}
+
+@media all and (min-width : 1471px) {
+	.box_device .info {
+		font-size : 0.8rem;
+	}
 }
 
 .box_device .info-1 {

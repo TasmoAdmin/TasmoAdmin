@@ -1,9 +1,13 @@
 # CHANGELOG   
    
    
+   
+   
 ## 2018-03-23
 - fix #83 (json changed for sensors)
 - add BME280 sensor
+- fix  #82, json friendlyname is now an array since 5.12.0h
+- some startpage responsive css fixes for sensor data
    
 ## 2018-03-03
 - fix nightmode always
