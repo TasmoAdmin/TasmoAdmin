@@ -219,6 +219,18 @@ function getTemp( data ) {
 			           data.StatusSNS.DS18B20.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.DS18x20 !== undefined ) {
+		if ( data.StatusSNS.DS18x20.DS1 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS1.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+		if ( data.StatusSNS.DS18x20.DS2 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS1.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+	}
 	if ( data.StatusSNS.DHT11 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.DHT11.Temperature + "°" + data.StatusSNS.TempUnit
