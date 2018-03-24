@@ -247,7 +247,10 @@
 						</small>
 					</div>
 					<?php if ( isset( $device->StatusSTS->POWER ) ): ?>
-						
+						<?php
+						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
+							? $device->Status->FriendlyName[ 0 ] : $device->Status->FriendlyName;
+						?>
 						<div class="form-row">
 							<div class="form-group col-12 col-sm-6">
 								<label for="device_name">
@@ -258,7 +261,7 @@
 								       id="device_name"
 								       name='devices[<?php echo $idx; ?>][device_name][]'
 								       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-								       value='<?php echo $device->Status->FriendlyName; ?>'
+								       value='<?php echo $friendlyName; ?>'
 								       required>
 								<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
 									&nbsp;
@@ -267,7 +270,7 @@
 							<div class="form-group col-12 col-sm-3">
 								<label class="d-none d-sm-block mb-3">&nbsp;</label>
 								( <a href='#'
-								     class='default-name'><?php echo $device->Status->FriendlyName; ?></a>
+								     class='default-name'><?php echo $friendlyName; ?></a>
 								)
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
@@ -295,6 +298,10 @@
 					
 					while ( isset( $device->StatusSTS->$power ) )  : ?>
 						<?php $channelFound = TRUE; ?>
+						<?php
+						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
+							? $device->Status->FriendlyName[ $i - 1 ] : $device->Status->FriendlyName." ".$i;
+						?>
 						<div class="form-row">
 							<div class="form-group col-12 col-sm-6">
 								<label for="device_name_<?php echo $i; ?>">
@@ -308,7 +315,7 @@
 								       value='<?php echo isset( $device->names[ $i - 1 ] )
 								                         && !empty(
 								       $device->names[ $i - 1 ]
-								       ) ? $device->names[ $i - 1 ] : $device->Status->FriendlyName." ".$i; ?>'
+								       ) ? $device->names[ $i - 1 ] : $friendlyName; ?>'
 								       required>
 								<small id="device_name_<?php echo $i; ?>Help"
 								       class="form-text text-muted d-none d-sm-block">
@@ -320,7 +327,7 @@
 								(
 								<a href='#' title='<?php echo __( "OVERTAKE", "DEVICE_ACTIONS" ); ?>'
 								   class='default-name'>
-									<?php echo $device->Status->FriendlyName." ".$i; ?>
+									<?php echo $friendlyName; ?>
 								</a>
 								)
 								<small id="default_nameHelp" class="form-text text-muted">
@@ -351,7 +358,10 @@
 					
 					<?php if ( !isset( $device->StatusSTS->POWER ) && !$channelFound ) :
 						//no channel found?>
-						
+						<?php
+						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
+							? $device->Status->FriendlyName[ 0 ] : $device->Status->FriendlyName;
+						?>
 						<div class="form-row">
 							<div class="form-group col-12 col-sm-9">
 								<label for="device_name">
@@ -362,7 +372,7 @@
 								       id="device_name"
 								       name='devices[<?php echo $idx; ?>][device_name][]'
 								       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-								       value='<?php echo $device->Status->FriendlyName; ?>'
+								       value='<?php echo $friendlyName; ?>'
 								       required>
 								<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
 									&nbsp;
@@ -371,7 +381,7 @@
 							<div class="form-group col-12 col-sm-3">
 								<label class="d-none d-sm-block mb-3">&nbsp;</label>
 								( <a href='#'
-								     class='default-name'><?php echo $device->Status->FriendlyName; ?></a>
+								     class='default-name'><?php echo $friendlyName; ?></a>
 								)
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
