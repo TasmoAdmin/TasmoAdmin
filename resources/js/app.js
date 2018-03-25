@@ -227,7 +227,7 @@ function getTemp( data ) {
 		}
 		if ( data.StatusSNS.DS18x20.DS2 !== undefined ) {
 			temp.push( (
-				           data.StatusSNS.DS18x20.DS1.Temperature + "°" + data.StatusSNS.TempUnit
+				           data.StatusSNS.DS18x20.DS2.Temperature + "°" + data.StatusSNS.TempUnit
 			           ) );
 		}
 	}
