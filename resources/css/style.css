@@ -3,7 +3,7 @@ body {
 	position    : relative;
 	margin      : 0;
 	font-size   : 1rem;
-	line-height : 1.2;
+	line-height : 1.2rem;
 }
 
 footer {
@@ -203,7 +203,7 @@ td.runtime {
 	padding          : 3px 2px;
 	box-sizing       : border-box;
 	font-size        : 0.8rem;
-	line-height      : 1;
+	line-height      : 1rem;
 	max-height       : 2.3rem;
 	overflow         : hidden;
 }
@@ -215,7 +215,7 @@ td.runtime {
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
 	font-size        : 0.8rem;
-	line-height      : 0.8;
+	line-height      : 0.9rem;
 	max-height       : 2.3rem;
 	overflow         : hidden;
 	
@@ -263,7 +263,7 @@ td.runtime {
 	width       : 100%;
 	display     : block;
 	font-size   : 0.8rem;
-	line-height : 1;
+	line-height : 1rem;
 }
 
 #progressbox span.error {

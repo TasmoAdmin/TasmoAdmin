@@ -2,6 +2,8 @@
    
    
    
+## 2018-03-25
+- fix for some line-height
    
 ## 2018-03-23
 - fix #83 (json changed for sensors)
