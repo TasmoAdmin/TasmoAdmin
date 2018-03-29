@@ -2,6 +2,11 @@
    
    
    
+   
+## 2018-03-30
+- rollback to ajax status requests on device list
+  - multicurl was timeouting alot :/
+   
 ## 2018-03-25
 - fix for some line-height
    

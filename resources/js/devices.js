@@ -39,7 +39,7 @@ $( document ).on( "ready", function () {
 		setInterval( function () {
 			console.log( "[Global][Refreshtime] updateStatus now" );
 			//updateStatus();
-			updateAllStatus();
+			updateStatus();
 		}, refreshtime );
 	} else {
 		console.log( "[Global][Refreshtime] " + $.i18n( 'NO_REFRESH' ) + "" );
