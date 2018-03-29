@@ -13,7 +13,15 @@ $( document ).on( "ready", function () {
 	
 	function step1( index, id ) {
 		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_1" ), "info" );
-		device_responses( id, setOTAURL, id, "MINIMAL", 1 );
+		
+		if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
+			device_responses( id, setOTAURL, id, "MINIMAL", 1 );
+		} else {
+			
+			//TODO: add to i18n :X
+			log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
+			step2( id );
+		}
 	}
 	
 	

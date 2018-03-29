@@ -7,8 +7,10 @@
 	
 	$otaServer = "http://".$localIP.":".$_SERVER[ "SERVER_PORT" ]._BASEURL_."";
 	
-	$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
-	$ota_new_firmware_url     = $otaServer."data/firmwares/sonoff-full.bin";
+	if ( isset( $_POST[ 'minimal_firmware_path' ] ) && !empty( $_POST[ 'minimal_firmware_path' ] ) ) {
+		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
+	}
+	$ota_new_firmware_url = $otaServer."data/firmwares/sonoff-full.bin";
 	
 	$device_ids = isset( $_POST[ "device_ids" ] ) ? $_POST[ "device_ids" ] : FALSE;
 ?>
@@ -33,8 +35,11 @@
 			
 			</div>
 		
-		<input type='hidden' id='ota_minimal_firmware_url' value='<?php echo $ota_minimal_firmware_url; ?>'>
-		<input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url; ?>'>
+		<input type='hidden' id='ota_minimal_firmware_url'
+		       value='<?php echo isset( $ota_minimal_firmware_url ) ? $ota_minimal_firmware_url : ""; ?>'>
+		<input type='hidden'
+		       id='ota_new_firmware_url'
+		       value='<?php echo isset( $ota_new_firmware_url ) ? $ota_new_firmware_url : ""; ?>'>
 			
 			
 			<script>

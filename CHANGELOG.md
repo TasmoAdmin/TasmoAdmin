@@ -6,6 +6,7 @@
 ## 2018-03-30
 - rollback to ajax status requests on device list
   - multicurl was timeouting alot :/
+- fix skip minimal if no minimal firmware was uploaded
    
 ## 2018-03-25
 - fix for some line-height
