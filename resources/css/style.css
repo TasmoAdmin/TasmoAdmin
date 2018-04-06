@@ -211,7 +211,7 @@ td.runtime {
 .box_device .info {
 	position         : absolute;
 	padding          : 3px;
-	background-color : rgba(0, 148, 204, 0.4);
+	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
 	font-size        : 0.8rem;
@@ -311,6 +311,10 @@ hr {
 
 .nightmode .box_device.error {
 	border-color : #77010F;
+}
+
+.nightmode .box_device .info {
+	background-color : rgba(0, 148, 204, 0.4);
 }
 
 .nightmode .form-switch i::before {

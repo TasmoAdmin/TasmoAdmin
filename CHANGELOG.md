@@ -2,6 +2,8 @@
    
    
    
+## 2018-04-06
+- adjust background of sensor data in daymode
    
 ## 2018-03-30
 - rollback to ajax status requests on device list
