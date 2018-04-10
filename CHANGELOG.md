@@ -2,6 +2,11 @@
    
    
    
+## 2018-04-10
+- dont hide device infos on error/timout in list
+  - the switch will be displayed in red on error (but stay on last known state)
+- add 8 sec refreshtime option to settings   
+   
 ## 2018-04-06
 - adjust background of sensor data in daymode
    
