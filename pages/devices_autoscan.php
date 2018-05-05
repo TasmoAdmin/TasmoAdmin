@@ -1,47 +1,56 @@
 <?php
-	
+
 	$status       = FALSE;
 	$devices      = NULL;
 	$devicesFound = NULL;
 	$msg          = NULL;
 	$action       = "";
 	$error        = FALSE;
-	
+
+
 	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		
+
 		if ( isset( $_POST[ "search" ] ) ) {
-			
+
 			$fromip = explode( ".", $_POST[ "from_ip" ] );
 			$toip   = explode( ".", $_POST[ "to_ip" ] );
 			$urls   = [];
-			
+
+			if ( isset( $fromip ) && count( $fromip ) == 4
+			     && filter_var( implode( ".", $fromip ), FILTER_VALIDATE_IP ) ) {
+				$Config->write( "scan_from_ip", implode( ".", $fromip ) );
+			}
+			if ( isset( $toip ) && count( $toip ) == 4
+			     && filter_var( implode( ".", $toip ), FILTER_VALIDATE_IP ) ) {
+				$Config->write( "scan_to_ip", implode( ".", $toip ) );
+			}
 			$devices = $Sonoff->getDevices();
 			$skipIps = [];
-			
+
 			foreach ( $devices as $device ) {
 				$skipIps[] = $device->ip;
 			}
-			
+
 			while ( $fromip[ 3 ] <= $toip[ 3 ] ) {
 				if ( !in_array( implode( ".", $fromip ), $skipIps ) ) {
-					
-					
+
+
 					$fakeDevice           = new stdClass();
 					$fakeDevice->ip       = implode( ".", $fromip );
 					$fakeDevice->username = isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ] : "";
 					$fakeDevice->password = isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : "";
 					$cmnd                 = "status 0";
-					
-					
+
+
 					$urls[] = $Sonoff->buildCmndUrl( $fakeDevice, $cmnd );
-					
-					
+
+
 					unset( $fakeDevice );
 				}
 				$fromip[ 3 ]++;
 			}
 			$devicesFound = $Sonoff->search( $urls );
-			
+
 			if ( empty( $devicesFound ) ) {
 				$msg   = __( "MSG_NO_DEVICES_FOUND", "DEVICES_AUTOSCAN" );
 				$error = TRUE;
@@ -57,14 +66,14 @@
 				unset( $devicesFoundTmp );
 				$msg = __( "MSG_DEVICES_FOUND_COUNT", "DEVICES_AUTOSCAN" ).": ".count( $devicesFound );
 			}
-			
-			
-		} else if ( isset( $_POST[ "save_all" ] ) ) { //add
-			
-			
+
+
+		} elseif ( isset( $_POST[ "save_all" ] ) ) { //add
+
+
 			$handle = fopen( $filename, "a" );
 			foreach ( $_POST[ "devices" ] as $device ) {
-				
+
 				$fp                = file( $filename );
 				$deviceHolder      = [];
 				$deviceHolder[ 0 ] = count( $fp ) + 1;
@@ -74,18 +83,19 @@
 				$deviceHolder[ 4 ] = isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : "";
 				$deviceHolder[ 5 ] = isset( $device[ "device_img" ] ) ? $device[ "device_img" ] : "bulb_1";
 				$deviceHolder[ 6 ] = isset( $device[ "device_position" ] ) ? $device[ "device_position" ] : "";
-				
-				
+
+
 				fputcsv( $handle, $deviceHolder );
-				
+
 			}
 			fclose( $handle );
 			$msg    = __( "MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN" );
 			$action = "done";
-			
+
 		}
 	}
 
+	$config = $Config->readAll();
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col-12 col-md-8 col-xl-6'>
@@ -116,12 +126,12 @@
 				</div>
 			</div>
 		<?php endif; ?>
-		
-		
+
+
 		<form class='form'
 		      name='autoscan_form'
 		      method='post'>
-			
+
 			<div class="form-row">
 				<div class="form-group col-12 col-sm-6">
 					<label for="from_ip">
@@ -132,7 +142,7 @@
 					       id="from_ip"
 					       name='from_ip'
 					       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-					       value='<?php echo isset( $_POST[ "from_ip" ] ) ? $_POST[ "from_ip" ] : "192.168.178.1"; ?>'
+					       value='<?php echo $config[ "scan_from_ip" ]; ?>'
 					       required>
 					<small id="from_ipHelp" class="form-text text-muted">
 						<?php echo __( "FROM_IP_HELP", "DEVICES_AUTOSCAN" ); ?>
@@ -147,7 +157,7 @@
 					       id="to_ip"
 					       name='to_ip'
 					       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-					       value='<?php echo isset( $_POST[ "to_ip" ] ) ? $_POST[ "to_ip" ] : "192.168.178.254"; ?>'
+					       value='<?php echo $config[ "scan_to_ip" ]; ?>'
 					       required>
 					<small id="from_ipHelp" class="form-text text-muted">
 						<?php echo __( "TO_IP_HELP", "DEVICES_AUTOSCAN" ); ?>
@@ -198,12 +208,12 @@
 					</button>
 				</div>
 			</div>
-			
-			
+
+
 			<?php if ( !empty( $devicesFound ) ): ?>
 				<?php foreach (
 					$devicesFound
-					
+
 					as $idx => $device
 				): ?>
 					<hr class='my-5'/>
@@ -230,8 +240,8 @@
 							</small>
 						</div>
 					</div>
-					
-					
+
+
 					<div class="form-group">
 						<label for="device_position">
 							<?php echo __( "DEVICE_POSITION", "DEVICE_ACTIONS" ); ?>
@@ -275,8 +285,8 @@
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
 								</small>
-							
-							
+
+
 							</div>
 							<div class="form-group col-12 col-sm-3">
 								<a id='test_device' class='btn btn-secondary col-12 test_device'
@@ -289,13 +299,13 @@
 							</div>
 						</div>
 					<?php endif; ?>
-					
-					
+
+
 					<?php
 					$i            = 1;
 					$power        = "POWER".$i;
 					$channelFound = FALSE;
-					
+
 					while ( isset( $device->StatusSTS->$power ) )  : ?>
 						<?php $channelFound = TRUE; ?>
 						<?php
@@ -333,8 +343,8 @@
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
 								</small>
-							
-							
+
+
 							</div>
 							<div class="form-group col-12 col-sm-3">
 								<a id='' class='btn btn-secondary col-12 test_device'
@@ -346,16 +356,16 @@
 								</a>
 							</div>
 						</div>
-						
-						
+
+
 						<?php
-						
+
 						$i++;
 						$power = "POWER".$i;
 						?>
-					
+
 					<?php endwhile; ?>
-					
+
 					<?php if ( !isset( $device->StatusSTS->POWER ) && !$channelFound ) :
 						//no channel found?>
 						<?php
@@ -389,8 +399,8 @@
 							</div>
 						</div>
 					<?php endif; ?>
-				
-				
+
+
 				<?php endforeach; ?>
 				<div class="row">
 					<div class="col-12 col-sm-6 text-left">
@@ -403,20 +413,20 @@
 						        name='save_all'
 						        value='save_all'
 						        class='btn btn-primary col-12 col-sm-auto'
-						
+
 						>
 							<?php echo __( "BTN_SAVE_ALL", "DEVICES_AUTOSCAN" ); ?>
 						</button>
 					</div>
 				</div>
-				
+
 				</table>
-			
-			
+
+
 			<?php endif; ?>
 		</form>
-	
-	
+
+
 	</div>
 </div>
 <script>
@@ -426,14 +436,14 @@
 			// console.log( $( this ).parent().parent().find( "input" ) );
 			$( this ).parent().parent().find( "input" ).val( $( this ).html() );
 		} );
-		
-		
+
+
 		$( ".test_device" ).on( "click", function ( e ) {
 			e.preventDefault();
 			var device_ip     = $( this ).data( "device_ip" );
 			var device_relais = $( this ).data( "device_relais" );
 			var cmnd          = "Power" + device_relais + "%20toggle";
-			
+
 			var url = decodeURIComponent( Sonoff.buildCmndUrl( device_ip, cmnd ) );
 			Sonoff.directAjax( url );
 		} );

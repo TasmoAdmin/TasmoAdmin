@@ -27,7 +27,6 @@
 	}
 	
 	$config = $Config->readAll();
-	unset( $config[ "password" ] )
 
 ?>
 

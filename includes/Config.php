@@ -13,6 +13,8 @@
 				"update_automatic_lang" => "",
 				"nightmode"             => "auto",
 				"login"                 => "1",
+				"scan_from_ip"          => "192.168.178.2",
+				"scan_to_ip"            => "192.168.178.254",
 			];
 		
 		function __construct() {
@@ -43,10 +45,13 @@
 			
 		}
 		
-		public function readAll() {
+		public function readAll( $inclPassword = FALSE ) {
 			$config = include $this->cfgFile;
 			if ( $config === 1 ) { //its empty
 				return [];
+			}
+			if ( !$inclPassword ) {
+				unset( $config[ "password" ] );
 			}
 			
 			return $config;

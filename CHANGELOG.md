@@ -5,6 +5,7 @@
 - add distance sensor data (#89)
 - fix overlapping sensor data on startpage (#90)
 - fix device list some values did not get updated after timeout
+- autoscan: remember fromIP and toIP (saved in MyConfig.php now) (#67)
    
 ## 2018-04-10
 - dont hide device infos on error/timout in list
