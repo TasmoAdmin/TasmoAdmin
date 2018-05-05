@@ -384,7 +384,7 @@
 			
 			
 			//			if ( $device->id == 6 ) {
-			//				$url = "http://sonweb/dev/DS18x20.json";
+			//				$url = "http://sonweb/dev/SR04.json";
 			//			}
 			
 			$result = NULL;
@@ -450,14 +450,14 @@
 				$urlsClone[]  = $url;
 			}
 			
-			$results = array();
+			$results = [];
 			// make sure the rolling window isn't greater than the # of urls
 			$rolling_window = 2;
 			$rolling_window = ( sizeof( $urls ) < $rolling_window ) ? sizeof( $urls ) : $rolling_window;
 			$master         = curl_multi_init();
 			// $curl_arr = array();
 			// add additional curl options here
-			$options = array(
+			$options = [
 				CURLOPT_FOLLOWLOCATION => 0,
 				CURLOPT_RETURNTRANSFER => 1,
 				//				CURLOPT_NOSIGNAL       => 1,
@@ -469,7 +469,7 @@
 				//				CURLOPT_CONNECTTIMEOUT => 5,
 				CURLOPT_TIMEOUT        => 8,
 				CURLOPT_ENCODING       => '',
-			);
+			];
 			// start the first batch of requests
 			
 			for ( $i = 0; $i < $rolling_window; $i++ ) {
@@ -570,12 +570,12 @@
 			$master         = curl_multi_init();
 			// $curl_arr = array();
 			// add additional curl options here
-			$options = array(
+			$options = [
 				CURLOPT_FOLLOWLOCATION => FALSE,
 				CURLOPT_RETURNTRANSFER => TRUE,
 				CURLOPT_CONNECTTIMEOUT => 5,
 				CURLOPT_TIMEOUT        => 8,
-			);
+			];
 			// start the first batch of requests
 			
 			for ( $i = 0; $i < $rolling_window; $i++ ) {
@@ -642,5 +642,5 @@
 			return $result;
 		}
 	}
-	
-	
+
+

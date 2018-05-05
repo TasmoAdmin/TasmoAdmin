@@ -122,8 +122,8 @@ function notifyMe( msg, title ) {
 	
 	// Let's check if the browser supports notifications
 	if ( !(
-			"Notification" in window
-		) ) {
+		"Notification" in window
+	) ) {
 		return;
 	}
 	
@@ -193,10 +193,10 @@ var parseVersion = function ( versionString ) {
 			last,
 			(
 				last.charCodeAt( 0 ) - 97 < 10
-					? "0" + (
+				? "0" + (
 					last.charCodeAt( 0 ) - 97
 				)
-					: last.charCodeAt( 0 ) - 97
+				: last.charCodeAt( 0 ) - 97
 			)
 		);
 	} else {
@@ -338,6 +338,20 @@ function getPressure( data ) {
 	//console.log( press );
 	
 	return press.join( "<br/>" );
+}
+
+function getDistance( data ) {
+	var dist = [];
+	
+	if ( data.StatusSNS.SR04 !== undefined ) {
+		if ( data.StatusSNS.SR04.Distance !== undefined ) {
+			dist.push( data.StatusSNS.SR04.Distance + "cm" ); //TODO: edit unit #89
+		}
+	}
+	
+	//console.log( press );
+	
+	return dist.join( "<br/>" );
 }
 
 

@@ -107,9 +107,9 @@ function updateStatus() {
 								//$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 								
 								$( grouptr ).find( "td" ).each( function ( key, td ) {
-									console.log( td );
+									//console.log( td );
 									if ( td.find( ".loader" ) ) {
-										td.html( "-" );
+										td.find( "span" ).html( "-" );
 									}
 								} );
 								
@@ -219,7 +219,7 @@ function updateAllStatus() {
 					                     //$( tr ).find( "td.more:not(.static) span" ).html( "-" );
 					                     $( tr ).find( "td" ).each( function ( key, td ) {
 						                     if ( $( td ).find( ".loader" ).length > 0 ) {
-							                     $( td ).html( "-" );
+							                     $( td ).find( "span" ).html( "-" );
 						                     }
 					                     } );
 				                     }
@@ -397,6 +397,13 @@ function updateRow( row, data, device_status ) {
 	if ( pressure != "" ) {
 		$( row ).find( ".pressure span" ).html( pressure );
 		$( "#device-list .pressure" ).removeClass( "hidden" );
+	}
+	
+	var distance = getDistance( data );
+	
+	if ( distance != "" ) {
+		$( row ).find( ".distance span" ).html( distance );
+		$( "#device-list .distance" ).removeClass( "hidden" );
 	}
 	
 	var idx = (

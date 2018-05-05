@@ -208,17 +208,21 @@ td.runtime {
 	overflow         : hidden;
 }
 
+.box_device .info-holder {
+	position : absolute;
+	width    : 100%;
+	height   : 100%;
+}
+
 .box_device .info {
-	position         : absolute;
+	position         : relative;
 	padding          : 3px;
 	background-color : rgba(0, 148, 204, 0.8);
 	color            : #FFFFFF;
 	text-shadow      : #FFFFFF 0px 0px 10px;
 	font-size        : 0.8rem;
 	line-height      : 0.9rem;
-	max-height       : 2.3rem;
 	overflow         : hidden;
-	
 }
 
 @media all and (min-width : 1200px) {
@@ -240,23 +244,41 @@ td.runtime {
 }
 
 .box_device .info-1 {
-	top  : 0px;
-	left : 0px;
+	top   : 0px;
+	left  : 0px;
+	float : left;
 }
 
 .box_device .info-2 {
 	top   : 0px;
 	right : 0px;
+	float : right;
 }
 
 .box_device .info-3 {
-	top  : 20px;
-	left : 0px;
+	top   : 10px;
+	left  : 0px;
+	float : left;
+	clear : both;
 }
 
 .box_device .info-4 {
+	top   : 10px;
+	right : 0px;
+	float : right;
+}
+
+.box_device .info-5 {
+	top   : 20px;
+	left  : 0px;
+	float : left;
+	clear : both;
+}
+
+.box_device .info-6 {
 	top   : 20px;
 	right : 0px;
+	float : right;
 }
 
 #progressbox span {

@@ -43,6 +43,7 @@
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
+					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_DISTANCE", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
@@ -138,6 +139,11 @@
 									</span>
 									</td>
 									<td class='pressure hidden'>
+									<span>
+										-
+									</span>
+									</td>
+									<td class='distance hidden'>
 									<span>
 										-
 									</span>
