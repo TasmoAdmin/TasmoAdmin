@@ -1,7 +1,6 @@
 
 AddDefaultCharset UTF-8
 
-php_flag opcache.enable Off
 
 
 <IfModule mod_rewrite.c>
