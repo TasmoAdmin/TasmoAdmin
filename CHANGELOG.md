@@ -1,6 +1,9 @@
 # CHANGELOG   
    
    
+## 2018-05-15
+- fix autoscan for devices with more that 4 outputs #96
+   
 ## 2018-05-06
 - add distance sensor data (#89)
 - fix overlapping sensor data on startpage (#90)

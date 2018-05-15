@@ -8,31 +8,31 @@
 	$error        = FALSE;
 
 
-	if ( isset( $_POST ) && !empty( $_POST ) ) {
+	if( isset( $_POST ) && !empty( $_POST ) ) {
 
-		if ( isset( $_POST[ "search" ] ) ) {
+		if( isset( $_POST[ "search" ] ) ) {
 
 			$fromip = explode( ".", $_POST[ "from_ip" ] );
 			$toip   = explode( ".", $_POST[ "to_ip" ] );
 			$urls   = [];
 
-			if ( isset( $fromip ) && count( $fromip ) == 4
-			     && filter_var( implode( ".", $fromip ), FILTER_VALIDATE_IP ) ) {
+			if( isset( $fromip ) && count( $fromip ) == 4
+			    && filter_var( implode( ".", $fromip ), FILTER_VALIDATE_IP ) ) {
 				$Config->write( "scan_from_ip", implode( ".", $fromip ) );
 			}
-			if ( isset( $toip ) && count( $toip ) == 4
-			     && filter_var( implode( ".", $toip ), FILTER_VALIDATE_IP ) ) {
+			if( isset( $toip ) && count( $toip ) == 4
+			    && filter_var( implode( ".", $toip ), FILTER_VALIDATE_IP ) ) {
 				$Config->write( "scan_to_ip", implode( ".", $toip ) );
 			}
 			$devices = $Sonoff->getDevices();
 			$skipIps = [];
 
-			foreach ( $devices as $device ) {
+			foreach( $devices as $device ) {
 				$skipIps[] = $device->ip;
 			}
 
-			while ( $fromip[ 3 ] <= $toip[ 3 ] ) {
-				if ( !in_array( implode( ".", $fromip ), $skipIps ) ) {
+			while( $fromip[ 3 ] <= $toip[ 3 ] ) {
+				if( !in_array( implode( ".", $fromip ), $skipIps ) ) {
 
 
 					$fakeDevice           = new stdClass();
@@ -51,13 +51,13 @@
 			}
 			$devicesFound = $Sonoff->search( $urls );
 
-			if ( empty( $devicesFound ) ) {
+			if( empty( $devicesFound ) ) {
 				$msg   = __( "MSG_NO_DEVICES_FOUND", "DEVICES_AUTOSCAN" );
 				$error = TRUE;
 			} else {
 				$devicesFoundTmp = $devicesFound;
 				$devicesFound    = [];
-				foreach ( $devicesFoundTmp as $device ) {
+				foreach( $devicesFoundTmp as $device ) {
 					$ip                       = explode( ".", $device->StatusNET->IPAddress );
 					$devicesFound[ $ip[ 3 ] ] = $device;
 				}
@@ -68,15 +68,15 @@
 			}
 
 
-		} elseif ( isset( $_POST[ "save_all" ] ) ) { //add
+		} elseif( isset( $_POST[ "save_all" ] ) ) { //add
 
 
 			$handle = fopen( $filename, "a" );
-			foreach ( $_POST[ "devices" ] as $device ) {
+			foreach( $_POST[ "devices" ] as $device ) {
 
 				$fp                = file( $filename );
 				$deviceHolder      = [];
-				$deviceHolder[ 0 ] = count( $fp ) + 1;
+				$deviceHolder[ 0 ] = count( $fp )+1;
 				$deviceHolder[ 1 ] = implode( "|", isset( $device[ "device_name" ] ) ? $device[ "device_name" ] : [] );
 				$deviceHolder[ 2 ] = isset( $device[ "device_ip" ] ) ? $device[ "device_ip" ] : "";
 				$deviceHolder[ 3 ] = isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ] : "";
@@ -102,7 +102,7 @@
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
-		<?php if ( isset( $error ) && $error ): ?>
+		<?php if( isset( $error ) && $error ): ?>
 			<div class='row justify-content-sm-center'>
 				<div class='col-12'>
 					<div class="alert alert-danger fade show mb-5" data-dismiss="alert" role="alert">
@@ -110,12 +110,12 @@
 					</div>
 				</div>
 			</div>
-		<?php elseif ( isset( $msg ) && $msg != "" ): ?>
+		<?php elseif( isset( $msg ) && $msg != "" ): ?>
 			<div class='row justify-content-sm-center'>
 				<div class='col-12'>
 					<div class="alert alert-success fade show mb-5" role="alert">
 						<?php echo $msg; ?>
-						<?php if ( $action == "done" ): ?>
+						<?php if( $action == "done" ): ?>
 							<div class="text-left mt-3">
 								<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 									<?php echo __( "BTN_BACK", "DEVICE_ACTIONS" ); ?>
@@ -210,15 +210,15 @@
 			</div>
 
 
-			<?php if ( !empty( $devicesFound ) ): ?>
-				<?php foreach (
+			<?php if( !empty( $devicesFound ) ): ?>
+				<?php foreach(
 					$devicesFound
 
 					as $idx => $device
 				): ?>
 					<hr class='my-5'/>
 					<h3 class='text-sm-center mb-5'>
-						<?php echo __( "DEVICE", "DEVICES_AUTOSCAN" )." ".( $idx + 1 ); ?>
+						<?php echo __( "DEVICE", "DEVICES_AUTOSCAN" )." ".( $idx+1 ); ?>
 					</h3>
 					<div class="form-row">
 						<div class="form-group col-12 col-sm-12">
@@ -250,13 +250,13 @@
 						       class="form-control"
 						       id="device_position"
 						       name='devices[<?php echo $idx; ?>][device_position]'
-						       value='<?php echo $idx + 1; ?>'
+						       value='<?php echo $idx+1; ?>'
 						>
 						<small id="device_positionHelp" class="form-text text-muted">
 							<?php echo __( "DEVICE_POSITION_HELP", "DEVICE_ACTIONS" ); ?>
 						</small>
 					</div>
-					<?php if ( isset( $device->StatusSTS->POWER ) ): ?>
+					<?php if( isset( $device->StatusSTS->POWER ) ): ?>
 						<?php
 						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
 							? $device->Status->FriendlyName[ 0 ] : $device->Status->FriendlyName;
@@ -306,11 +306,12 @@
 					$power        = "POWER".$i;
 					$channelFound = FALSE;
 
-					while ( isset( $device->StatusSTS->$power ) )  : ?>
+					while( isset( $device->StatusSTS->$power ) )  : ?>
 						<?php $channelFound = TRUE; ?>
 						<?php
 						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
-							? $device->Status->FriendlyName[ $i - 1 ] : $device->Status->FriendlyName." ".$i;
+							? ( isset( $device->Status->FriendlyName[ $i-1 ] ) ? $device->Status->FriendlyName[ $i-1 ]
+								: "" ) : $device->Status->FriendlyName." ".$i;
 						?>
 						<div class="form-row">
 							<div class="form-group col-12 col-sm-6">
@@ -322,10 +323,10 @@
 								       id="device_name_<?php echo $i; ?>"
 								       name='devices[<?php echo $idx; ?>][device_name][<?php echo $i; ?>]'
 								       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-								       value='<?php echo isset( $device->names[ $i - 1 ] )
+								       value='<?php echo isset( $device->names[ $i-1 ] )
 								                         && !empty(
-								       $device->names[ $i - 1 ]
-								       ) ? $device->names[ $i - 1 ] : $friendlyName; ?>'
+								       $device->names[ $i-1 ]
+								       ) ? $device->names[ $i-1 ] : $friendlyName; ?>'
 								       required>
 								<small id="device_name_<?php echo $i; ?>Help"
 								       class="form-text text-muted d-none d-sm-block">
@@ -366,7 +367,7 @@
 
 					<?php endwhile; ?>
 
-					<?php if ( !isset( $device->StatusSTS->POWER ) && !$channelFound ) :
+					<?php if( !isset( $device->StatusSTS->POWER ) && !$channelFound ) :
 						//no channel found?>
 						<?php
 						$friendlyName = is_array( $device->Status->FriendlyName ) //array since 5.12.0h
