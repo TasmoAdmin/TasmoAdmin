@@ -3,6 +3,7 @@
    
 ## 2018-05-15
 - fix autoscan for devices with more that 4 outputs #96
+- support up to 5x DS18x20 #94
    
 ## 2018-05-06
 - add distance sensor data (#89)
