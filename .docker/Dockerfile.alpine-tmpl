@@ -1,13 +1,14 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
-LABEL maintainer="Reloxx"
-LABEL maintainer="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
-LABEL Description="This image is used to start SonWEB, which is a administrative Website for Devices flashed with Sonoff-Tasmota."
-
 ARG QEMU_ARCH
 ARG SONWEB_VERSION
-ENV SONWEB_VERSION=$SONWEB_VERSION
+
+LABEL Maintainer1="Reloxx"
+LABEL Maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
+LABEL Description="SonWEB an administrative Website for Devices flashed with Tasmota firmware."
+LABEL Github="https://github.com/RaymondMouthaan/SonWEB"
+LABEL SonWEB_version="$SONWEB_VERSION"
 
 COPY tmp_qemu/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
 COPY _release/sonweb_$SONWEB_VERSION.tar.gz /tmp
