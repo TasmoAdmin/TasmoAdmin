@@ -1,0 +1,58 @@
+sudo: 'required'
+
+services:
+  - 'docker'
+
+language:
+  - 'bash'
+
+env:
+  global:
+    - SONWEB_VERSION=$TRAVIS_TAG
+    - IMAGE=raymondmm/sonweb
+    - QEMU_VERSION=v2.11.1
+
+script:
+    - tar -zcvf sonweb_$SONWEB_VERSION.tar.gz dummy/
+
+before_deploy:
+    - export FILE_TO_UPLOAD=$(ls sonweb_*.tar.gz.tar.gz)
+
+deploy:
+    provider: releases
+    api_key:
+      - secure: "CqhKF/GMNRRKE95624eAqpTMQlP8/Ff85oO6LGaEuTzYqsSJOmezTI/GNJ8vd3ELesSnvlF5o8HkawJcWYItdbbj1EaqFLoFwY3c46XaO5zRbqPh43y5OdAl2nyYPe1WFwTVOou1JyecAfhtoa3rRAY+6PGJNrJ2f5xdQ7ewFTVi3sTelrSwOvrHhZbeE3dJAOJye9AKPmSfgMjYsCPOayx2XgHQkdnPP4s0CPe/IkUTQ5NrTxv4MbD4MKh7cP7Rh/eWfeWrH0KdO+ir+ZLThEdlsVIdRGn/1W39VP5aqymL+87SJiYkzLtBYrIBJXdeXJNi9Pe22KthgUu+puoTY9Gb2tu5okdwfwTZeVFWP9L1jks8YiflDEGE8w6SPQcBqdAK2Od5VgOUFM1GVqka6tTHn73j6ZxvGV7lLCDOA6yrVMTYNwTqp1k2GVKKB32N7dEpCAymX2mBT9BsLpbOaywLxGZ6jeYj5CBzZH7jFu+vLy8MJ2hhskf2CkKdPD4y96r7lf6vxFevwS7iYjzOkzWYT22HGcrSrCKlZXG0JEDKQ2yZa/WwqLC5nDqlGfX+PY4zsb7K0ZTFkIIh9uBGmcaz9IknICdi9DpU1HoE9C3oDHrgpvCQl15e7HjJEvaULJxF4RolhMDNr8NQqgdDYjnxxPJgkvCphRiI9/oisIs="
+    file: "${FILE_TO_UPLOAD}"
+    skip_cleanup: true
+    on:
+        tags: true
+
+# before_install:
+#   - ./.docker/docker.sh prepare
+#
+# script:
+#   - ./.docker/docker.sh build
+#   - ./.docker/docker.sh test
+#
+# after_success:
+#   - >
+#     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
+#       # Docker Login
+#       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#
+#       # Tag all images
+#       ./.docker/docker.sh tag
+#
+#       # Push all images
+#       ./.docker/docker.sh push
+#
+#       # Create and push manifest list
+#       ./.docker/docker.sh manifest-list
+#
+#       # Docker Logout
+#       docker logout
+#     fi
+
+# notify me when things fail
+notifications:
+    email: true
