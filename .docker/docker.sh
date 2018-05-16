@@ -39,9 +39,9 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-    docker build --build-arg BASE_IMAGE=amd64/alpine   --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-amd64 .
-    docker build --build-arg BASE_IMAGE=arm32v6/alpine --build-arg QEMU_ARCH=arm    --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-arm32v6 .
-    docker build --build-arg BASE_IMAGE=arm64v8/alpine --build-arg QEMU_ARCH=aarch64    --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-arm64v8 .
+    docker build --build-arg BASE_IMAGE=amd64/alpine   --build-arg SONWEB_VERSION=$SONWEB_VERSION --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-amd64 .
+    docker build --build-arg BASE_IMAGE=arm32v6/alpine --build-arg SONWEB_VERSION=$SONWEB_VERSION --build-arg QEMU_ARCH=arm    --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-arm32v6 .
+    docker build --build-arg BASE_IMAGE=arm64v8/alpine --build-arg SONWEB_VERSION=$SONWEB_VERSION --build-arg QEMU_ARCH=aarch64    --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$SONWEB_VERSION-alpine-arm64v8 .
 }
 
 docker_test() {
