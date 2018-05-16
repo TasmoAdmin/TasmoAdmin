@@ -13,15 +13,39 @@ env:
     - QEMU_VERSION=v2.11.1
 
 before_install:
-    #- ./.docker/docker.sh prepare
+    - ./.docker/docker.sh prepare
+
+install:
+
+before_script:
+    - mkdir _release &&
 
 script:
     # Pack SonWeb files to tar.gz
-    - mkdir _release && tar --exclude='_release' --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf ./_release/sonweb_$SONWEB_VERSION.tar.gz .
+    - tar --exclude='_release' --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf ./_release/sonweb_$SONWEB_VERSION.tar.gz .
     # Build Docker images
-    #- ./.docker/docker.sh build
+    - ./.docker/docker.sh build
     # Test Docker images
-    #- ./.docker/docker.sh test
+    - ./.docker/docker.sh test
+
+after_success:
+  - >
+    if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ -n "$TRAVIS_TAG"]; then
+      # Docker Login
+      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+      # Tag all images
+      ./.docker/docker.sh tag
+
+      # Push all images
+      ./.docker/docker.sh push
+
+      # Create and push manifest list
+      ./.docker/docker.sh manifest-list
+
+      # Docker Logout
+      docker logout
+    fi
 
 before_deploy:
     # Set file to upload
@@ -35,25 +59,6 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
-
-# after_success:
-#   - >
-#     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
-#       # Docker Login
-#       echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-#
-#       # Tag all images
-#       ./.docker/docker.sh tag
-#
-#       # Push all images
-#       ./.docker/docker.sh push
-#
-#       # Create and push manifest list
-#       ./.docker/docker.sh manifest-list
-#
-#       # Docker Logout
-#       docker logout
-#     fi
 
 # notify me when things fail
 notifications:
