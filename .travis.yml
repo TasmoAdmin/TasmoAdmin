@@ -18,37 +18,19 @@ before_install:
 install:
 
 before_script:
+    # Create _release directory to save tar.gz
     - mkdir _release
 
 script:
-    # Pack SonWeb files to tar.gz
+    # Pack SonWeb Application files to tar.gz
     - tar --exclude='_release' --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf ./_release/sonweb_$SONWEB_VERSION.tar.gz .
     # Build Docker images
     - ./.docker/docker.sh build
     # Test Docker images
     - ./.docker/docker.sh test
 
-after_success:
-  - >
-    if [ "$TRAVIS_TAG" != "" ]; then
-      # Docker Login
-      echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-
-      # Tag all images
-      ./.docker/docker.sh tag
-
-      # Push all images
-      ./.docker/docker.sh push
-
-      # Create and push manifest list
-      ./.docker/docker.sh manifest-list
-
-      # Docker Logout
-      docker logout
-    fi
-
 before_deploy:
-    # Set file to upload
+    # Set file to upload to github: sonweb_$SONWEB_VERSION.tar.gz
     - export FILE_TO_UPLOAD=$(ls ./_release/sonweb_*.tar.gz)
 
 deploy:
@@ -60,6 +42,26 @@ deploy:
     on:
       tags: true
 
-# notify me when things fail
+after_deploy:
+    # Push Docker images to Docker Hub, only if TRAVIS_TAG is set.
+    - >
+      if [ "$TRAVIS_TAG" != "" ]; then
+        # Docker Login
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+        # Tag all images
+        ./.docker/docker.sh tag
+
+        # Push all images
+        ./.docker/docker.sh push
+
+        # Create and push manifest list
+        ./.docker/docker.sh manifest-list
+
+        # Docker Logout
+        docker logout
+      fi
+
+# notify when things fail
 notifications:
     email: true

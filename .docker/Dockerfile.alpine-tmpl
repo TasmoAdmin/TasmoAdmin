@@ -1,16 +1,19 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
+LABEL maintainer="Reloxx"
 LABEL maintainer="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
-LABEL Description="This image is used to start SonWEB which is a administrative Website for Devices flashed with Sonoff-Tasmota."
+LABEL Description="This image is used to start SonWEB, which is a administrative Website for Devices flashed with Sonoff-Tasmota."
 
 ARG QEMU_ARCH
 ARG SONWEB_VERSION
 ENV SONWEB_VERSION=$SONWEB_VERSION
 
 COPY tmp_qemu/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
+COPY _release/sonweb_$SONWEB_VERSION.tar.gz /tmp
+COPY start.sh /tmp
 
-# Add basics
+# Add Apache2 and PHP7
 RUN apk update && apk upgrade && \
     apk add --no-cache \
         apache2 \
@@ -23,11 +26,10 @@ RUN apk update && apk upgrade && \
         php7-session \
         php7-zip \
         php7-curl && \
-    rm -f /var/cache/apk/*
+    rm -f /var/cache/apk/* && \
+    cp /usr/bin/php7 /usr/bin/php
 
-RUN cp /usr/bin/php7 /usr/bin/php
-
-# Add apache to run and configure
+# Configure Apache
 RUN mkdir /run/apache2 \
     && sed -i "s/#LoadModule\ rewrite_module/LoadModule\ rewrite_module/" /etc/apache2/httpd.conf \
     && sed -i "s/#LoadModule\ session_module/LoadModule\ session_module/" /etc/apache2/httpd.conf \
@@ -38,24 +40,19 @@ RUN mkdir /run/apache2 \
     && sed -i "s#/var/www/localhost/htdocs#/app/sonweb#" /etc/apache2/httpd.conf \
     && printf "\n<Directory \"/app/sonweb\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
 
-# Clone Sonweb from github
-#RUN git clone https://github.com/reloxx13/SonWEB.git /app/sonweb
-COPY _release/sonweb_$SONWEB_VERSION.tar.gz /tmp
-RUN mkdir -p /app/sonweb
-RUN tar -zxvf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb
-RUN rm -rf /tmp/*
-RUN chown -R apache:apache /app && chmod -R 755 /app && mkdir bootstrap
-
-
-# Copy start.sh and make executable
-ADD start.sh /bootstrap/
-RUN chmod +x /bootstrap/start.sh
+# Setup SonWeb Application
+RUN mkdir -p /app/sonweb && \
+    tar -zxvf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb && \
+    chown -R apache:apache /app && chmod -R 755 /app && \
+    mkdir /bootstrap && \
+    mv tmp/start.sh /bootstrap && \
+    chmod +x /bootstrap/start.sh && \
+    rm -rf /tmp/* && \
 
 # Create a symlink to Sonweb data directory
 RUN ln -s /app/sonweb/data /data
 
 VOLUME /data
-
 EXPOSE 80
 
 CMD ["/bootstrap/start.sh"]
