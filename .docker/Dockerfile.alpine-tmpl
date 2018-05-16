@@ -48,9 +48,7 @@ RUN mkdir -p /app/sonweb && \
     mv tmp/start.sh /bootstrap && \
     chmod +x /bootstrap/start.sh && \
     rm -rf /tmp/* && \
-
-# Create a symlink to Sonweb data directory
-RUN ln -s /app/sonweb/data /data
+    ln -s /app/sonweb/data /data
 
 VOLUME /data
 EXPOSE 80
