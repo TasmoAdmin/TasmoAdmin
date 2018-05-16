@@ -41,7 +41,7 @@ RUN mkdir /run/apache2 \
 # Clone Sonweb from github
 #RUN git clone https://github.com/reloxx13/SonWEB.git /app/sonweb
 COPY _release/sonweb_$SONWEB_VERSION.tar.gz /tmp
-RUN mkdir /app/sonweb
+RUN mkdir -p /app/sonweb
 RUN tar -zxvf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb
 RUN rm -rf /tmp/*
 RUN chown -R apache:apache /app && chmod -R 755 /app && mkdir bootstrap
