@@ -16,7 +16,7 @@ script:
     - tar -zcvf sonweb_$SONWEB_VERSION.tar.gz dummy/
 
 before_deploy:
-    - export FILE_TO_UPLOAD=$(ls sonweb_*.tar.gz.tar.gz)
+    - export FILE_TO_UPLOAD=$(ls sonweb_*.tar.gz)
 
 deploy:
     provider: releases
