@@ -25,7 +25,7 @@ script:
 
 before_deploy:
     # Set file to upload
-    - export FILE_TO_UPLOAD=$(ls sonweb_*.tar.gz)
+    - export FILE_TO_UPLOAD=$(ls ./_release/sonweb_*.tar.gz)
 
 deploy:
     provider: releases
