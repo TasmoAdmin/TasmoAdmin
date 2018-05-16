@@ -24,7 +24,7 @@ before_script:
 
 script:
     # Pack SonWeb Application files to tar.gz
-    - tar --exclude='_release' --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf ./_release/sonweb_$SONWEB_VERSION.tar.gz .
+    - tar --exclude='_release' --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcf ./_release/sonweb_$SONWEB_VERSION.tar.gz .
     # Build Docker images
     - ./.docker/docker.sh build
     # Test Docker images
@@ -38,7 +38,7 @@ deploy:
     # Deploy SonWeb release to github
     provider: releases
     api_key:
-      - secure: "CqhKF/GMNRRKE95624eAqpTMQlP8/Ff85oO6LGaEuTzYqsSJOmezTI/GNJ8vd3ELesSnvlF5o8HkawJcWYItdbbj1EaqFLoFwY3c46XaO5zRbqPh43y5OdAl2nyYPe1WFwTVOou1JyecAfhtoa3rRAY+6PGJNrJ2f5xdQ7ewFTVi3sTelrSwOvrHhZbeE3dJAOJye9AKPmSfgMjYsCPOayx2XgHQkdnPP4s0CPe/IkUTQ5NrTxv4MbD4MKh7cP7Rh/eWfeWrH0KdO+ir+ZLThEdlsVIdRGn/1W39VP5aqymL+87SJiYkzLtBYrIBJXdeXJNi9Pe22KthgUu+puoTY9Gb2tu5okdwfwTZeVFWP9L1jks8YiflDEGE8w6SPQcBqdAK2Od5VgOUFM1GVqka6tTHn73j6ZxvGV7lLCDOA6yrVMTYNwTqp1k2GVKKB32N7dEpCAymX2mBT9BsLpbOaywLxGZ6jeYj5CBzZH7jFu+vLy8MJ2hhskf2CkKdPD4y96r7lf6vxFevwS7iYjzOkzWYT22HGcrSrCKlZXG0JEDKQ2yZa/WwqLC5nDqlGfX+PY4zsb7K0ZTFkIIh9uBGmcaz9IknICdi9DpU1HoE9C3oDHrgpvCQl15e7HjJEvaULJxF4RolhMDNr8NQqgdDYjnxxPJgkvCphRiI9/oisIs="
+      - secure: "$ENCRYPTED_GITHUB_TOKEN" #"CqhKF/GMNRRKE95624eAqpTMQlP8/Ff85oO6LGaEuTzYqsSJOmezTI/GNJ8vd3ELesSnvlF5o8HkawJcWYItdbbj1EaqFLoFwY3c46XaO5zRbqPh43y5OdAl2nyYPe1WFwTVOou1JyecAfhtoa3rRAY+6PGJNrJ2f5xdQ7ewFTVi3sTelrSwOvrHhZbeE3dJAOJye9AKPmSfgMjYsCPOayx2XgHQkdnPP4s0CPe/IkUTQ5NrTxv4MbD4MKh7cP7Rh/eWfeWrH0KdO+ir+ZLThEdlsVIdRGn/1W39VP5aqymL+87SJiYkzLtBYrIBJXdeXJNi9Pe22KthgUu+puoTY9Gb2tu5okdwfwTZeVFWP9L1jks8YiflDEGE8w6SPQcBqdAK2Od5VgOUFM1GVqka6tTHn73j6ZxvGV7lLCDOA6yrVMTYNwTqp1k2GVKKB32N7dEpCAymX2mBT9BsLpbOaywLxGZ6jeYj5CBzZH7jFu+vLy8MJ2hhskf2CkKdPD4y96r7lf6vxFevwS7iYjzOkzWYT22HGcrSrCKlZXG0JEDKQ2yZa/WwqLC5nDqlGfX+PY4zsb7K0ZTFkIIh9uBGmcaz9IknICdi9DpU1HoE9C3oDHrgpvCQl15e7HjJEvaULJxF4RolhMDNr8NQqgdDYjnxxPJgkvCphRiI9/oisIs="
     file: "${FILE_TO_UPLOAD}"
     skip_cleanup: true
     on:

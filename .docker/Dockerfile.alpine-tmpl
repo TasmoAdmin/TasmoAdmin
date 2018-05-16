@@ -42,7 +42,7 @@ RUN mkdir /run/apache2 \
 
 # Setup SonWeb Application
 RUN mkdir -p /app/sonweb && \
-    tar -zxvf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb && \
+    tar -zxf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb && \
     chown -R apache:apache /app && chmod -R 755 /app && \
     mkdir /bootstrap && \
     mv tmp/start.sh /bootstrap && \
