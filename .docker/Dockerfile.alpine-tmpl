@@ -8,7 +8,7 @@ ARG QEMU_ARCH
 
 ENV SONWEB_VERSION=2018-05-06
 
-COPY tmp/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
+COPY tmp_qemu/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
 
 # Add basics
 RUN apk update && apk upgrade && \
