@@ -17,7 +17,7 @@ before_install:
 
 script:
     # Pack SonWeb files to tar.gz
-    - touch sonweb_$SONWEB_VERSION.tar.gz' && tar --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf sonweb_$SONWEB_VERSION.tar.gz .
+    - touch sonweb_$SONWEB_VERSION.tar.gz && tar --exclude='./.docker' --exclude='./.travis.yml' --exclude='./tmp_qemu' --exclude='./sonweb_$SONWEB_VERSION.tar.gz' -zcvf sonweb_$SONWEB_VERSION.tar.gz .
     # Build Docker images
     #- ./.docker/docker.sh build
     # Test Docker images
