@@ -13,7 +13,7 @@ env:
     - QEMU_VERSION=v2.11.1
 
 before_install:
-    - ./.docker/docker.sh prepare
+    #- ./.docker/docker.sh prepare
 
 script:
     # Pack SonWeb files to tar.gz
