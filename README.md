@@ -94,7 +94,7 @@ docker run                  - run this container... and build locally if necessa
 ```
 
 ### Persistent (highly recommended)
-It's __highly recommended__ to use the volume option to persist/store your Sonweb config outside the container.
+It's __highly recommended__ to use the volume option to persist/store your SonWEB config outside the container.
 
 ```
 docker run -it -v <directory_host>:<directory_container> -p <host_port:container_port> -e APACHE_SERVER_NAME=<server_name> --name <container_name> raymondmm/sonweb
