@@ -406,6 +406,13 @@ function updateRow( row, data, device_status ) {
 		$( "#device-list .distance" ).removeClass( "hidden" );
 	}
 	
+	var gas = getGas( data );
+	
+	if ( gas != "" ) {
+		$( row ).find( ".gas span" ).html( gas );
+		$( "#device-list .gas" ).removeClass( "hidden" );
+	}
+	
 	var idx = (
 		data.idx ? data.idx : ""
 	);

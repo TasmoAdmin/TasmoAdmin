@@ -185,6 +185,14 @@ function updateBox( row, data, device_status ) {
 	}
 	
 	
+	var gas = getGas( data );
+	
+	if ( gas != "" ) {
+		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( gas ).parent().removeClass( "hidden" );
+		infoBoxCounter++;
+	}
+	
+	
 	var idx = (
 		data.idx ? data.idx : ""
 	);

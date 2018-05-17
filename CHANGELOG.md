@@ -1,6 +1,12 @@
 # CHANGELOG   
    
    
+   
+##2018-05-17
+- add polish translation (thx Pawel)
+- fix device list table header distance
+- add BME680 Gas Sensor #98
+   
 ## 2018-05-15
 - fix autoscan for devices with more that 4 outputs #96
 - support up to 5x DS18x20 #94

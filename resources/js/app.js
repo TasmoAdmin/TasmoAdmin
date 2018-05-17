@@ -271,6 +271,11 @@ function getTemp( data ) {
 			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.BME680 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.BME680.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.BME280.Temperature + "°" + data.StatusSNS.TempUnit
@@ -303,6 +308,11 @@ function getHumidity( data ) {
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Humidity !== undefined ) {
 			humi.push( data.StatusSNS.BME280.Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS.BME680 !== undefined ) {
+		if ( data.StatusSNS.BME680.Humidity !== undefined ) {
+			humi.push( data.StatusSNS.BME680.Humidity + "%" );
 		}
 	}
 	if ( data.StatusSNS.DHT11 !== undefined ) {
@@ -349,6 +359,11 @@ function getPressure( data ) {
 			press.push( data.StatusSNS.BMP280.Pressure + "&nbsp;hPa" );
 		}
 	}
+	if ( data.StatusSNS.BME680 !== undefined ) {
+		if ( data.StatusSNS.BME680.Pressure !== undefined ) {
+			press.push( data.StatusSNS.BME680.Pressure + "&nbsp;hPa" );
+		}
+	}
 	
 	//console.log( press );
 	
@@ -367,6 +382,20 @@ function getDistance( data ) {
 	//console.log( press );
 	
 	return dist.join( "<br/>" );
+}
+
+function getGas( data ) {
+	var gas = [];
+	
+	if ( data.StatusSNS.BME680 !== undefined ) {
+		if ( data.StatusSNS.BME680.Gas !== undefined ) {
+			gas.push( data.StatusSNS.BME680.Gas + "kOhm" );
+		}
+	}
+	
+	//console.log( press );
+	
+	return gas.join( "<br/>" );
 }
 
 

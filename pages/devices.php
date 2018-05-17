@@ -1,11 +1,11 @@
 <?php
-	
+
 	$devices = $Sonoff->getDevices();
-	
-	
+
+
 	//var_dump( $devices );
 ?>
-<?php if ( isset( $devices ) && !empty( $devices ) ): ?>
+<?php if( isset( $devices ) && !empty( $devices ) ): ?>
 	<div class='row mb-3'>
 		<div class='col-12'>
 			<div class="form-group form-row justify-content-end">
@@ -43,7 +43,8 @@
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
-					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_DISTANCE", "DEVICES" ); ?></th>
+					<th class='distance hidden'><?php echo __( "TABLE_HEAD_DISTANCE", "DEVICES" ); ?></th>
+					<th class='gas hidden'><?php echo __( "TABLE_HEAD_GAS", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>
@@ -57,7 +58,7 @@
 					<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
-					
+
 					<th class='link'>
 						<a href='<?php echo _BASEURL_; ?>device_action/add'>
 							<i class="fas fa-plus add"
@@ -70,15 +71,15 @@
 				<tbody>
 				<?php
 					$odd = TRUE;
-					if ( isset( $devices ) && !empty( $devices ) ):
-						foreach ( $devices as $device_group ):
-							foreach ( $device_group->names as $key => $devicename ): ?>
+					if( isset( $devices ) && !empty( $devices ) ):
+						foreach( $devices as $device_group ):
+							foreach( $device_group->names as $key => $devicename ): ?>
 								<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 								    data-device_id='<?php echo $device_group->id; ?>'
 								    data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi"
 									    : "single"; ?>'
 								    data-device_ip='<?php echo $device_group->ip; ?>'
-								    data-device_relais='<?php echo $key + 1; ?>'
+								    data-device_relais='<?php echo $key+1; ?>'
 								>
 									<td class='dblcEdit'
 									    data-target='csv'
@@ -99,7 +100,7 @@
 											<input type="checkbox">
 											<i></i>
 										</label>
-									
+
 									</td>
 									<td class='rssi'>
 									<span>
@@ -144,6 +145,11 @@
 									</span>
 									</td>
 									<td class='distance hidden'>
+									<span>
+										-
+									</span>
+									</td>
+									<td class='gas hidden'>
 									<span>
 										-
 									</span>
@@ -261,8 +267,8 @@
 										</div>
 									</span>
 									</td>
-									
-									
+
+
 									<td class='col actions'>
 										<a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
 											<i class="fas fa-cogs fa-lg"
@@ -295,7 +301,7 @@
 											<i class="fas fa-sync fa-lg"
 											   title='<?php echo __( "LINK_DEVICE_RESTART", "DEVICES" ); ?>'></i></a>
 									</td>
-								
+
 								</tr>
 								<?php
 								$odd = !$odd;
