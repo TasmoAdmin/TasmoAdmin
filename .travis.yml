@@ -12,6 +12,7 @@ env:
     - QEMU_VERSION=v2.11.1
 
 before_install:
+    - mkdir tmp
     - ./.docker/docker.sh prepare
 
 install: true
