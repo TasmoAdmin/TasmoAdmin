@@ -10,9 +10,9 @@ LABEL Description="SonWEB an administrative Website for Devices flashed with Tas
 LABEL Github="https://github.com/RaymondMouthaan/SonWEB"
 LABEL SonWEB_version="$SONWEB_VERSION"
 
-COPY tmp_qemu/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
+COPY tmp/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
 COPY _release/sonweb_$SONWEB_VERSION.tar.gz /tmp
-COPY start.sh /tmp
+COPY .docker/start.sh /tmp
 
 # Add Apache2 and PHP7
 RUN apk update && apk upgrade && \
@@ -42,8 +42,8 @@ RUN mkdir /run/apache2 \
     && printf "\n<Directory \"/app/sonweb\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
 
 # Setup SonWeb Application
-RUN mkdir -p /app/sonweb && \
-    tar -zxf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app/sonweb && \
+RUN mkdir /app && \
+    tar -zxf /tmp/sonweb_$SONWEB_VERSION.tar.gz --directory /app && \
     chown -R apache:apache /app && chmod -R 755 /app && \
     mkdir /bootstrap && \
     mv tmp/start.sh /bootstrap && \
