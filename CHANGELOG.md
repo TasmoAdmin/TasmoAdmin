@@ -2,7 +2,7 @@
    
    
    
-##2018-05-17
+## 2018-05-17
 - add polish translation (thx Pawel)
 - fix device list table header distance
 - add BME680 Gas Sensor #98
