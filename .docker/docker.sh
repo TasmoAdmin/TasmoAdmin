@@ -83,13 +83,8 @@ docker_tag() {
 docker_push() {
     echo "DOCKER PUSH: Push all docker images."
     docker push $IMAGE:$SONWEB_VERSION-alpine-amd64
-    #docker push $IMAGE:latest-alpine-amd64
-
     docker push $IMAGE:$SONWEB_VERSION-alpine-arm32v6
-    #docker push $IMAGE:latest-alpine-arm32v6
-
     docker push $IMAGE:$SONWEB_VERSION-alpine-arm64v8
-    #docker push $IMAGE:latest-alpine-arm64v8
 }
 
 docker_manifest_list() {
@@ -97,6 +92,7 @@ docker_manifest_list() {
     echo "DOCKER MANIFEST: Create and Push docker manifest list."
     docker_manifest_list_version
     docker_manifest_list_latest
+    docker_manifest_list_version_os_arch
 }
 
 docker_manifest_list_version() {
@@ -127,6 +123,30 @@ docker_manifest_list_latest() {
 
     # Manifest Push LATEST
     docker manifest push $IMAGE:latest
+}
+
+docker_manifest_list_version_os_arch(){
+    # Manifest Create alpine-amd64
+    docker manifest create $IMAGE:$SONWEB_VERSION-alpine-amd64 \
+        $IMAGE:$SONWEB_VERSION-alpine-amd64
+
+    docker manifest push $IMAGE:$SONWEB_VERSION-alpine-amd64
+
+    # Manifest Create alpine-arm32v6
+    docker manifest create $IMAGE:$SONWEB_VERSION-alpine-arm32v6 \
+        $IMAGE:$SONWEB_VERSION-alpine-arm32v6
+
+    docker manifest annotate $IMAGE:$SONWEB_VERSION-alpine-arm32v6 $IMAGE:$SONWEB_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+
+    docker manifest push $IMAGE:$SONWEB_VERSION-alpine-arm32v6
+
+    # Manifest Create alpine-arm64v8
+    docker manifest create $IMAGE:$SONWEB_VERSION-alpine-arm64v8 \
+        $IMAGE:$SONWEB_VERSION-alpine-arm64v8
+
+    docker manifest annotate $IMAGE:$SONWEB_VERSION-alpine-arm64v8 $IMAGE:$SONWEB_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
+
+    docker manifest push $IMAGE:$SONWEB_VERSION-alpine-arm64v8
 }
 
 setup_dependencies() {
