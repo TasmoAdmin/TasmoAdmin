@@ -49,7 +49,7 @@ RUN mkdir /app && \
     mv tmp/start.sh /bootstrap && \
     chmod +x /bootstrap/start.sh && \
     rm -rf /tmp/* && \
-    ln -s /app/tasmoadmin/data /data && \
+    ln -s /app/tasmoadmin/data /data
 
 VOLUME /data
 EXPOSE 80
