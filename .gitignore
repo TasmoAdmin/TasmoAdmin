@@ -7,11 +7,11 @@
 /sonweb/tmp/reloxx13-SonWEB-*
 /sonweb/lang/lang_new.ini
 
-/data/firmwares/*
-/data/devices.csv
-/data/devices_bk.csv
-/data/MyConfig.php
-/sonweb/resources/css/custom.css
+/sonweb/data/firmwares/*
+/sonweb/data/devices.csv
+/sonweb/data/devices_bk.csv
+/sonweb/data/MyConfig.php
+/sonweb/sonweb/resources/css/custom.css
 
 /sonweb/data/updates/*.zip
 
