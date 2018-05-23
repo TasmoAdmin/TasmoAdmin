@@ -92,8 +92,11 @@ if [ ! -d /data/updates ]; then
     echo "/data/updates created."
 fi
 
+# this file is just needed to check if we run on docker
+touch .docker
+
 # Set apache owner
-chown -R apache:apache /app/sonweb/data
+chown -R apache:apache /app/sonweb
 
 echo "Starting apache..."
 httpd -D FOREGROUND
