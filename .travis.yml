@@ -9,7 +9,7 @@ language:
 env:
   global:
     - IMAGE=raymondmm/tasmoadmin
-    - QEMU_VERSION=v2.11.1
+    - QEMU_VERSION=v2.9.1-1
 
 before_install:
     - mkdir tmp
