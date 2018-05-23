@@ -1,4 +1,4 @@
-tasmoadminsudo: 'required'
+sudo: 'required'
 
 services:
   - 'docker'
