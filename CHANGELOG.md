@@ -1,6 +1,6 @@
 # !!!!DO NOT UPDATE FOR NOW!!!!
 
-##We are preparing a merge to publish an docker handling and needs to adjust the selfupdate
+## We are preparing a merge to publish an travis handling and need to adjust the selfupdate
 
 
 
