@@ -25,15 +25,15 @@ before_script:
 
 script:
     # Pack TasmoAdmin src to tar.gz
-    #- tar -zcf ./_release/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
-    - zip -q -r ./_release/tasmoadmin_${TASMOADMIN_VERSION}.zip tasmoadmin/
+    - tar -zcf ./_release/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
+    - zip -q -r ./_release/tasmoadmin_${TASMOADMIN_VERSION}.zip tasmoadmin
     # Pack TasmoAdmin XAMPP portable
     - cat portable/xampp.zip.part-* > portable/xampp.zip
     - unzip -q portable/xampp.zip -d ./tmp/
     - cp -R tasmoadmin ./tmp/xampp/htdocs/
     - >
         pushd tmp &&
-        zip -q -r ../_release/tasmoadmin_${TASMOADMIN_VERSION}_xampp_portable.zip xampp/ &&
+        zip -q -r ../_release/tasmoadmin_${TASMOADMIN_VERSION}_xampp_portable.zip xampp &&
         popd
 
     # Build Docker images
@@ -43,17 +43,19 @@ script:
 
 before_deploy:
     # Set files to upload to github
-    - export RELEASE_TO_UPLOAD=$(ls ./_release/tasmoadmin_*.tar.gz)
-    - export RELEASE_PORTABLE_TO_UPLOAD=$(ls ./_release/tasmoadmin_*_xampp_portable.zip)
+    - export RELEASE_TAR_GZ=$(ls ./_release/tasmoadmin_*.tar.gz)
+    - export RELEASE_ZIP=$(ls ./_release/tasmoadmin_*.zip)
+    - export RELEASE_PORTABLE=$(ls ./_release/tasmoadmin_*_xampp_portable.zip)
 
 deploy:
-    # Deploy SonWeb release to github
+    # Deploy TasmoAdmin release to github
     provider: releases
     api_key:
       - secure: BWGbGGe1/OY5JA+NopazqM9pL+lAExG5U2s99bdEIvBewladc2OSW4VRhLcx7OxRAifh0IdMtdDV6pV8SH3StI3hBxqQa/9TpbjORDovAt3khD/eW3uEw5qLB+JcnlmFV7yFkSq1HuVOBct9gDCNPisRsIvmqUuYPW50wOILj5usXOtt7wx6hDPfvwuDyOTFsEq1XTLK1UUgFdoghs5KAU7i7U76MFV+7YwEU65z7WDRNU5/0bJDK4oMADQcXJkFnhoIm3Ctuv7LsgUGPU3HYSW65hKpjLZgPuh3ON6Qz9ZTDD3Nxd322TMsMRThxMtpmpXWOi0C+18zB0P/mGfsP7wxPyozOeRoOIlri4qjPXwL+P80jCRoXASsVL4LXfnGxaXC2P99CYw3MvGsgq/ZZoEZVtqssXQ2y4+pNfFfAk+/7nEhjDGT4uxfY9PGQyaTX7SjP1qkzqHu7bBxBlhbovhBES7fsc+qvXB98l5dF0QukZYjC4fBUQ7iDU0/HO/dJuyjpBEv1kWkWr/ytmEB9Yr9V80WW0mv0A1SBMfm/7u5kAzF8MEpSH95wFxbHSyqpyUeBmlri4VJ4UqqBEtwnk0SEsCSfWq/YXmWVCScBf1+MfLKE2TsY7/lVrw/Q9L9GNzWfkQU+fAvxTnS2swUMzfjXBXJaQl3SttmjNe62PI=
     file:
-      - "${RELEASE_TO_UPLOAD}"
-      - "${RELEASE_PORTABLE_TO_UPLOAD}"
+      - "${RELEASE_TAR_GZ}"
+      - "${RELEASE_ZIP}"
+      - "${RELEASE_PORTABLE}"
     skip_cleanup: true
     on:
       tags: true
