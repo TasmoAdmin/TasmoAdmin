@@ -50,7 +50,6 @@ RUN mkdir /app && \
     chmod +x /bootstrap/start.sh && \
     rm -rf /tmp/* && \
     ln -s /app/sonweb/data /data && \
-    touch /app/sonweb/.docker
 
 VOLUME /data
 EXPOSE 80
