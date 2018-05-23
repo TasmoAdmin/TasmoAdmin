@@ -25,8 +25,8 @@ before_script:
 
 script:
     # Pack TasmoAdmin src to tar.gz
-    - tar -zcf ./_release/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
-
+    #- tar -zcf ./_release/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
+    - zip -q -r ./_release/tasmoadmin_${TASMOADMIN_VERSION}.zip tasmoadmin/
     # Pack TasmoAdmin XAMPP portable
     - cat portable/xampp.zip.part-* > portable/xampp.zip
     - unzip -q portable/xampp.zip -d ./tmp/
