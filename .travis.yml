@@ -1,0 +1,76 @@
+sudo: 'required'
+
+services:
+  - 'docker'
+
+language:
+  - 'bash'
+
+env:
+  global:
+    - IMAGE=raymondmm/sonweb
+    - QEMU_VERSION=v2.11.1
+
+before_install:
+    - mkdir tmp
+    - ./.docker/docker.sh prepare
+
+install: true
+
+before_script:
+    # Create _release and directory
+    - mkdir _release
+    # Set SONWEB_VERSION
+    - if [ ! -z "$TRAVIS_TAG" ]; then export SONWEB_VERSION=$TRAVIS_TAG; else export SONWEB_VERSION=$TRAVIS_BRANCH; fi
+
+script:
+    # Pack SonWEB src to tar.gz
+    - tar -zcf ./_release/sonweb_${SONWEB_VERSION}.tar.gz sonweb
+
+    # Pack SonWEB XAMPP portable
+    - cat portable/xampp.zip.part-* > portable/xampp.zip
+    - unzip -q portable/xampp.zip -d ./tmp/
+    - cp -R sonweb ./tmp/xampp/htdocs/
+    - >
+        pushd tmp &&
+        zip -q -r ../_release/sonweb_${SONWEB_VERSION}_xampp_portable.zip xampp/ &&
+        popd
+
+    # Build Docker images
+    - ./.docker/docker.sh build
+    # Test Docker images
+    - ./.docker/docker.sh test
+
+before_deploy:
+    # Set files to upload to github
+    - export RELEASE_TO_UPLOAD=$(ls ./_release/sonweb_*.tar.gz)
+    - export RELEASE_PORTABLE_TO_UPLOAD=$(ls ./_release/sonweb_*_xampp_portable.zip)
+
+deploy:
+    # Deploy SonWeb release to github
+    provider: releases
+    api_key:
+      - secure: "CqhKF/GMNRRKE95624eAqpTMQlP8/Ff85oO6LGaEuTzYqsSJOmezTI/GNJ8vd3ELesSnvlF5o8HkawJcWYItdbbj1EaqFLoFwY3c46XaO5zRbqPh43y5OdAl2nyYPe1WFwTVOou1JyecAfhtoa3rRAY+6PGJNrJ2f5xdQ7ewFTVi3sTelrSwOvrHhZbeE3dJAOJye9AKPmSfgMjYsCPOayx2XgHQkdnPP4s0CPe/IkUTQ5NrTxv4MbD4MKh7cP7Rh/eWfeWrH0KdO+ir+ZLThEdlsVIdRGn/1W39VP5aqymL+87SJiYkzLtBYrIBJXdeXJNi9Pe22KthgUu+puoTY9Gb2tu5okdwfwTZeVFWP9L1jks8YiflDEGE8w6SPQcBqdAK2Od5VgOUFM1GVqka6tTHn73j6ZxvGV7lLCDOA6yrVMTYNwTqp1k2GVKKB32N7dEpCAymX2mBT9BsLpbOaywLxGZ6jeYj5CBzZH7jFu+vLy8MJ2hhskf2CkKdPD4y96r7lf6vxFevwS7iYjzOkzWYT22HGcrSrCKlZXG0JEDKQ2yZa/WwqLC5nDqlGfX+PY4zsb7K0ZTFkIIh9uBGmcaz9IknICdi9DpU1HoE9C3oDHrgpvCQl15e7HjJEvaULJxF4RolhMDNr8NQqgdDYjnxxPJgkvCphRiI9/oisIs="
+    file:
+      - "${RELEASE_TO_UPLOAD}"
+      - "${RELEASE_PORTABLE_TO_UPLOAD}"
+    skip_cleanup: true
+    on:
+      tags: true
+
+after_deploy:
+    # Push Docker images to Docker Hub
+    # Docker Login
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    # Tag all images
+    - ./.docker/docker.sh tag
+    # Push all images
+    - ./.docker/docker.sh push
+    # Create and push manifest list
+    - ./.docker/docker.sh manifest-list
+    # Docker Logout
+    - docker logout
+
+# notify when things fail
+notifications:
+    email: true

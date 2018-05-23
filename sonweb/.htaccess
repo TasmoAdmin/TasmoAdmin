@@ -1,0 +1,53 @@
+
+AddDefaultCharset UTF-8
+
+
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # -----------------------------------------------------------------------------
+    # Dynamically detect Rewritebase and URI part past Rewritebase
+    # -----------------------------------------------------------------------------
+
+	RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+	RewriteRule ^(.*)$ - [E=SUFFIX:%2]
+
+	RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+	RewriteRule ^(.*)$ - [E=BASE:%1]
+
+    ## if request destination is any of these filetypes or located in any of these folders stop processing rewrite
+    RewriteCond %{REQUEST_FILENAME} ^(.*)\.(php|css|js|gif||jpe?g|png|json|cache\.json)$ [NC] [or]
+    RewriteCond %{REQUEST_URI} .*?\/(?:admin|images|templates|tmp|i18n)\/.
+    RewriteRule ^(.+) - [L]
+
+    #if request destination is a php file in root dir and language code in url is present lets go there
+    RewriteRule ^[a-z]{2}/([A-Za-z0-9_/-]+)\.php.* %{ENV:BASE}$1.php?%{QUERY_STRING} [PT,L]
+
+    ## if request destination is an existing directory, file or link stop processing rewrite
+    RewriteCond %{REQUEST_FILENAME} -d [or]
+    RewriteCond %{REQUEST_FILENAME} -f [or]
+    RewriteCond %{REQUEST_FILENAME} -l
+    RewriteRule ^(.+) - [L]
+
+
+    ##Logout/Login Redirect
+    RewriteRule ^login$ login.php [L]
+    RewriteRule ^logout$ login.php?logout=logout [L]
+
+    RewriteRule ^doAjaxAll$ index.php?doAjaxAll=doAjaxAll [L]
+    RewriteRule ^doAjax$ index.php?doAjax=doAjax [L]
+
+
+    ##Lang Switch detection
+    RewriteRule /([a-z]{2})/ index.php?lang=$1 [L]
+
+
+    ##Pages routing
+    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([0-9_]+)/?$ index.php?page=$1&action=$2&device_id=$3
+    RewriteRule ^([a-zA-Z_]+)/(force)/?$ index.php?page=$1&force=1
+    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/?$ index.php?page=$1&action=$2
+    RewriteRule ^([a-zA-Z_]+)/([0-9]+)/?$ index.php?page=$1&device_id=$2
+    RewriteRule ^([a-zA-Z_]+)/?$ index.php?page=$1
+
+</IfModule>

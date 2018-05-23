@@ -1,25 +1,25 @@
 .idea
 /RELEASE/
+/_release/
 
 
-/tmp/cache/i18n/*
-/tmp/reloxx13-SonWEB-*
-/lang/lang_new.ini
+/sonweb/tmp/cache/i18n/*
+/sonweb/tmp/reloxx13-SonWEB-*
+/sonweb/lang/lang_new.ini
 
 /data/firmwares/*
 /data/devices.csv
 /data/devices_bk.csv
 /data/MyConfig.php
-/resources/css/custom.css
+/sonweb/resources/css/custom.css
 
-/data/updates/*.zip
+/sonweb/data/updates/*.zip
 
 
-/dev/*
+/sonweb/dev/*
 
 
 
 
 !.empty
 !.htaccess
-/resources/css/custom.css

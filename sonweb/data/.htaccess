@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "No access"
+AuthUserFile .htnopasswd
+Require valid-user
