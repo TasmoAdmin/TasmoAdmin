@@ -96,7 +96,7 @@ fi
 touch .docker
 
 # Set apache owner
-chown -R apache:apache /app/sonweb
+chown -R apache:apache /app/tasmoadmin
 
 echo "Starting apache..."
 httpd -D FOREGROUND

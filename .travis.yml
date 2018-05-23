@@ -1,4 +1,4 @@
-sudo: 'required'
+tasmoadminsudo: 'required'
 
 services:
   - 'docker'
@@ -8,7 +8,7 @@ language:
 
 env:
   global:
-    - IMAGE=raymondmm/sonweb
+    - IMAGE=raymondmm/tasmoadmin
     - QEMU_VERSION=v2.11.1
 
 before_install:
@@ -20,20 +20,20 @@ install: true
 before_script:
     # Create _release and directory
     - mkdir _release
-    # Set SONWEB_VERSION
-    - if [ ! -z "$TRAVIS_TAG" ]; then export SONWEB_VERSION=$TRAVIS_TAG; else export SONWEB_VERSION=$TRAVIS_BRANCH; fi
+    # Set TASMOADMIN_VERSION
+    - if [ ! -z "$TRAVIS_TAG" ]; then export TASMOADMIN_VERSION=$TRAVIS_TAG; else export TASMOADMIN_VERSION=$TRAVIS_BRANCH; fi
 
 script:
-    # Pack SonWEB src to tar.gz
-    - tar -zcf ./_release/sonweb_${SONWEB_VERSION}.tar.gz sonweb
+    # Pack TasmoAdmin src to tar.gz
+    - tar -zcf ./_release/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
 
-    # Pack SonWEB XAMPP portable
+    # Pack TasmoAdmin XAMPP portable
     - cat portable/xampp.zip.part-* > portable/xampp.zip
     - unzip -q portable/xampp.zip -d ./tmp/
-    - cp -R sonweb ./tmp/xampp/htdocs/
+    - cp -R tasmoadmin ./tmp/xampp/htdocs/
     - >
         pushd tmp &&
-        zip -q -r ../_release/sonweb_${SONWEB_VERSION}_xampp_portable.zip xampp/ &&
+        zip -q -r ../_release/tasmoadmin_${TASMOADMIN_VERSION}_xampp_portable.zip xampp/ &&
         popd
 
     # Build Docker images
@@ -43,8 +43,8 @@ script:
 
 before_deploy:
     # Set files to upload to github
-    - export RELEASE_TO_UPLOAD=$(ls ./_release/sonweb_*.tar.gz)
-    - export RELEASE_PORTABLE_TO_UPLOAD=$(ls ./_release/sonweb_*_xampp_portable.zip)
+    - export RELEASE_TO_UPLOAD=$(ls ./_release/tasmoadmin_*.tar.gz)
+    - export RELEASE_PORTABLE_TO_UPLOAD=$(ls ./_release/tasmoadmin_*_xampp_portable.zip)
 
 deploy:
     # Deploy SonWeb release to github
