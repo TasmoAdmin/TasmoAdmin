@@ -3,20 +3,20 @@
 /_release/
 
 
-/sonweb/tmp/cache/i18n/*
-/sonweb/tmp/reloxx13-SonWEB-*
-/sonweb/lang/lang_new.ini
+/tasmoadmin/tmp/cache/i18n/*
+/tasmoadmin/tmp/reloxx13-SonWEB-*
+/tasmoadmin/lang/lang_new.ini
 
-/sonweb/data/firmwares/*
-/sonweb/data/devices.csv
-/sonweb/data/devices_bk.csv
-/sonweb/data/MyConfig.php
-/sonweb/sonweb/resources/css/custom.css
+/tasmoadmin/data/firmwares/*
+/tasmoadmin/data/devices.csv
+/tasmoadmin/data/devices_bk.csv
+/tasmoadmin/data/MyConfig.php
+/tasmoadmin/tasmoadmin/resources/css/custom.css
 
-/sonweb/data/updates/*.zip
+/tasmoadmin/data/updates/*.zip
 
 
-/sonweb/dev/*
+/tasmoadmin/dev/*
 
 
 
