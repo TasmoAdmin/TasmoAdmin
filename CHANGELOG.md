@@ -1,3 +1,10 @@
+# !!!!DO NOT UPDATE FOR NOT!!!!
+
+##We are preparing a merge to publish an docker handling and needs to adjust the selfupdate
+
+
+
+
 # CHANGELOG   
    
    
