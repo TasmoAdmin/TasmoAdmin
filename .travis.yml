@@ -9,7 +9,7 @@ language:
 env:
   global:
     - IMAGE=raymondmm/tasmoadmin
-    - QEMU_VERSION=v2.9.1-1
+    - QEMU_VERSION=v2.12.0
 
 before_install:
     - mkdir tmp
@@ -40,12 +40,6 @@ script:
     - ./.docker/docker.sh build
     # Test Docker images
     - ./.docker/docker.sh test
-
-before_deploy:
-    # Set files to upload to github
-    #- export RELEASE_TAR_GZ=$(ls ./_release/tasmoadmin_*.tar.gz)
-    #- export RELEASE_ZIP=$(ls ./_release/tasmoadmin_*.zip)
-    #- export RELEASE_PORTABLE=$(ls ./_release/tasmoadmin_*_xampp_portable.zip)
 
 deploy:
     # Deploy TasmoAdmin release to github
