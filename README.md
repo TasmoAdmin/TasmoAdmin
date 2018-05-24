@@ -1,7 +1,11 @@
 # TasmoAdmin
+
+[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
+[![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+
 TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
-It supports running on Windows, Linux and as Docker container.
+It supports running on Windows, Linux, Docker container and as Home Assistant addon.
 
 ## Features
 * Login protected
@@ -17,6 +21,13 @@ It supports running on Windows, Linux and as Docker container.
 * Support for multiple sensors
 
 ## Installation
+
+### Docker
+TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Apache2 and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
+
+### Home Assistant Addon
+TasmoAdmin is available as Home Assistant addon, please refer to
+[Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-sonweb) for more information.
 
 ### Windows
 A ready to use TasmoAdmin-XAMP-Portable-\*.zip is available on the [release page](https://github.com/reloxx13/TasmoAdmin/releases) and is based on XAMPP.
@@ -40,7 +51,7 @@ Running TasmoAdmin on a Linux/Unix hosts requires the following:
 You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
 
 ### Docker
-TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Apache2 and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Wiki for running TasmoAdmin in a Docker Container](https://github.com/RaymondMouthaan/tasmoadmin-docker/wiki) for install instructions.
+TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Apache2 and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
 
 ## Example Images
 #### Login Page
