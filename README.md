@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
 [![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg?maxAge=2592000)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
 
 TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
