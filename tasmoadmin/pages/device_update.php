@@ -5,7 +5,7 @@
 	$subdir  = str_replace( "\\", "/", $subdir );
 	$subdir  = $subdir == "/" ? "" : $subdir;
 	
-	$otaServer = "http://".$localIP.":".$_SERVER[ "SERVER_PORT" ]._BASEURL_."";
+	$otaServer = $_SERVER['REQUEST_SCHEME']."://".$localIP.":".$_SERVER[ "SERVER_PORT" ]._BASEURL_."";
 	
 	if ( isset( $_POST[ 'minimal_firmware_path' ] ) && !empty( $_POST[ 'minimal_firmware_path' ] ) ) {
 		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
