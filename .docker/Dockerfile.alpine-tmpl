@@ -11,7 +11,7 @@ LABEL Github="https://github.com/reloxx13/TasmoAdmin"
 LABEL TasmoAdmin_version="$TASMOADMIN_VERSION"
 
 COPY tmp/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
-COPY _release/tasmoadmin_$TASMOADMIN_VERSION.tar.gz /tmp
+COPY _releases/tasmoadmin_$TASMOADMIN_VERSION.tar.gz /tmp
 COPY .docker/start.sh /tmp
 
 # Add Apache2 and PHP7
