@@ -93,7 +93,7 @@ if [ ! -d /data/updates ]; then
 fi
 
 # this file is just needed to check if we run on docker
-touch .docker
+touch /app/tasmoadmin/.docker
 
 # Set apache owner
 chown -R apache:apache /app/tasmoadmin
