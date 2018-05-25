@@ -16,10 +16,11 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * Show device information
 * Mobile Responsive (Bootstrap4)
 * Config devices
-* SelfUpdate function for TasmoAdmin
+* SelfUpdate function for TasmoAdmin (disabled for Docker)
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
+* chat (beta)
 
 ## Installation
 
@@ -50,9 +51,6 @@ Running TasmoAdmin on a Linux/Unix hosts requires the following:
   * php-curl php-zip Modules installed
 
 You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
-
-### Docker
-TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Apache2 and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
 
 ## Example Images
 #### Login Page
