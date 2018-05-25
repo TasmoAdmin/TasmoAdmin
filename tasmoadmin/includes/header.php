@@ -186,7 +186,49 @@
 						</a>
 					</li>
 				<?php endif; ?>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle <?php echo in_array(
+						$page,
+						[
+							"chat",
+						]
+					) ? "active" : ""; ?>"
+					   href="#"
+					   id="devicesDropdown"
+					   data-toggle="dropdown"
+					   aria-haspopup="false"
+					   aria-expanded="false">
+						<i class='fa fa-question-circle'></i>
+					</a>
+					<div class="dropdown-menu bg-dark" aria-labelledby="devicesDropdown">
+						<a class="dropdown-item nav-link <?php echo $page == "Discord" ? "active" : ""; ?>"
+						   href="<?php echo _BASEURL_; ?>chat">
+							<?php echo __( "HELP_CHAT", "NAVI" ); ?>
+						</a>
+						<a href='https://github.com/arendst/Sonoff-Tasmota/wiki' target='_blank'
+						   class='dropdown-item nav-link <?php echo in_array(
+							   $page,
+							   []
+						   ) ? "active" : ""; ?>'>
+							<?php echo __( "HELP_TASWIKI", "NAVI" ); ?>
+						</a>
+						<a href='https://github.com/arendst/Sonoff-Tasmota/wiki/Commands' target='_blank'
+						   class='dropdown-item nav-link <?php echo in_array(
+							   $page,
+							   []
+						   ) ? "active" : ""; ?>'>
+							<?php echo __( "HELP_TASCOMMANDS", "NAVI" ); ?>
+						</a>
+						<a href='https://github.com/arendst/Sonoff-Tasmota/wiki/Troubleshooting' target='_blank'
+						   class='dropdown-item nav-link <?php echo in_array(
+							   $page,
+							   []
+						   ) ? "active" : ""; ?>'>
+							<?php echo __( "HELP_TASTROUBLESHOOTING", "NAVI" ); ?>
+						</a>
 
+					</div>
+				</li>
 			</ul>
 
 
