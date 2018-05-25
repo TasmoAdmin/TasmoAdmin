@@ -3,13 +3,13 @@
 		<div class="container  d-flex justify-content-center">
 			<span class="navbar-text ">
 		        &copy; <?php echo date( "Y" ); ?> <?php echo __( "BY" ); ?> reloxx13
-				
-				<?php if ( $Config->read( "current_git_sha" ) != "" ): ?>
-					
-					- rev <?php echo substr( $Config->read( "current_git_sha" ), 0, 7 ); ?>
-				
+
+				<?php if ( $Config->read( "current_git_tag" ) != "" ): ?>
+
+					- rev <?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
+
 				<?php endif; ?>
-				
+
 				<span class=''> - </span><a class=''
 				                            href='https://github.com/reloxx13/SonWEB'
 				                            target='_blank'>

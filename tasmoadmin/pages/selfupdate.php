@@ -1,28 +1,28 @@
 <?php
-	
+
 	require_once _INCLUDESDIR_."Selfupdate.php";
-	
+
 	$msg        = "";
 	$Selfupdate = new Selfupdate( $Config );
-	
-	if ( isset( $_POST[ "selfupdate" ] ) || isset( $_GET[ "selfupdate" ] ) ) {
+
+	if( isset( $_POST[ "selfupdate" ] ) || isset( $_GET[ "selfupdate" ] ) ) {
 		$updateResult = $Selfupdate->update();
 		$msg          = implode( "<br/>", $updateResult );
 	}
-	
+
 	$newUpdate = $Selfupdate->checkForUpdate();
-	
-	$changelogUrl = "https://raw.githubusercontent.com/reloxx13/SonWEB/master/CHANGELOG.md?r=".time();
+
+	$changelogUrl = "https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/CHANGELOG.md?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_URL, $changelogUrl );
 	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 	$changelog = curl_exec( $ch );
-	
-	
+
+
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
-	if ( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
+	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
 		$changelog = "";
 	} else {
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
@@ -37,13 +37,13 @@
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
-		
+
 		<!--	<p class='warning'>-->
 		<!--		--><?php //echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
 		<!--	</p>-->
 		<!--	<br/>-->
 		<!--	<br/>-->
-		<?php if ( isset( $msg ) && $msg != "" ): ?>
+		<?php if( isset( $msg ) && $msg != "" ): ?>
 			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -51,7 +51,7 @@
 				</button>
 			</div>
 		<?php endif; ?>
-		<?php if ( isset( $newUpdate[ "error" ] ) && $newUpdate[ "error" ] != "" ): ?>
+		<?php if( isset( $newUpdate[ "error" ] ) && $newUpdate[ "error" ] != "" ): ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $newUpdate[ "msg" ]; ?>
 				<br/>
@@ -61,18 +61,18 @@
 				</button>
 			</div>
 		<?php endif; ?>
-		
-		<?php if ( $newUpdate[ "update" ] ): ?>
+
+		<?php if( $newUpdate[ "update" ] ): ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
 				<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!
 			</div>
 			<div class='mt-3'>
 				<?php echo __(
-					"OLD_SHA_VERSION",
+					"OLD_TAG_VERSION",
 					"SELFUPDATE",
-					[ $Selfupdate->getCurrentSha() ? $Selfupdate->getCurrentSha() : __( "UNKNOWN", "SELFUPDATE" ) ]
+					[ $Selfupdate->getCurrentTag() ? $Selfupdate->getCurrentTag() : __( "UNKNOWN", "SELFUPDATE" ) ]
 				); ?><br/>
-				<?php echo __( "NEW_SHA_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestSha() ] ); ?><br/>
+				<?php echo __( "NEW_TAG_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestTag() ] ); ?><br/>
 				<br/>
 			</div>
 			<div class='row justify-content-sm-center mt-5'>
