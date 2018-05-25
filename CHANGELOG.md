@@ -8,6 +8,7 @@
 - hide selfupdate if on docker #105
 - fix update on https #103
 - provide TasmoAdmin Docker within repo #92
+- add help menu (#100)
 
 Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
