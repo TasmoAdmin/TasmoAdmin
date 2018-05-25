@@ -16,10 +16,11 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * Show device information
 * Mobile Responsive (Bootstrap4)
 * Config devices
-* SelfUpdate function for TasmoAdmin
+* SelfUpdate function for TasmoAdmin (disabled for Docker)
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
+* chat (beta)
 
 ## Installation
 
