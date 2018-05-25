@@ -6,8 +6,9 @@
 	session_set_cookie_params( 30*24*60*60 );
 	session_start();
 
-	global $loggedin;
+	global $loggedin, $docker;
 	$loggedin = FALSE;
+	$docker   = FALSE;
 	if( !function_exists( "curl_init" ) ) {
 		echo "ERROR: PHP Curl is missing.";
 		echo "Please install PHP Curl";
@@ -49,6 +50,11 @@
 	if( !file_exists( $filename ) ) {
 		fopen( $filename, 'w' ) or die( "Can't create file" );
 	}
+
+	if( file_exists( _APPROOT_.".docker" ) ) {
+		$docker = TRUE;
+	}
+
 	/**
 	 * @property Sonoff Sonoff
 	 */

@@ -185,8 +185,12 @@ td.runtime {
 	border : 1px solid red;
 }
 
+.box_device .rubberBand {
+	text-align : center;
+}
+
 .box_device img {
-	max-width  : 100%;
+	max-width  : 70%;
 	padding    : 10px 10px 35px;
 	box-sizing : border-box;
 	height     : auto;
