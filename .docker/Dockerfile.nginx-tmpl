@@ -1,6 +1,6 @@
 ARG BASE_IMAGE
-#arm32v7/nginx:1.14.0
-FROM $BASE_IMAGE
+#
+FROM amd64/nginx:1.14.0-alpine
 
 # Build arguments
 # --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION
@@ -53,16 +53,18 @@ RUN \
 #    && find /var/www/sonweb -type f -name ".empty" -depth -exec rm -f {} \;
 
 # Copy TasmoAdmin source to /var/www/
-COPY tasmoadmin /var/www/
+COPY tasmoadmin /var/www/tasmoadmin
 
-# Copy Entrypoint
-COPY ./.docker/entrypoint.sh /
+RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \;
+
+# Copy root filesystem
+COPY ./.docker/rootfs /
 
 # Set Volume
 VOLUME /data
-EXPOSE 80
+EXPOSE 9541
 
 # Set Entrypoint
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY .docker/entrypoint.sh /
+#RUN chmod +x /entrypoint.sh
+#ENTRYPOINT ["/entrypoint.sh"]
