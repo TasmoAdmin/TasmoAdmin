@@ -4,9 +4,9 @@
 			<span class="navbar-text ">
 		        &copy; <?php echo date( "Y" ); ?> <?php echo __( "BY" ); ?> reloxx13
 
-				<?php if ( $Config->read( "current_git_tag" ) != "" ): ?>
+				<?php if( $Config->read( "current_git_tag" ) != "" ): ?>
 
-					- rev <?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
+					- <?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
 
 				<?php endif; ?>
 
@@ -28,7 +28,7 @@
 	$( "#content-holder" ).css(
 		"width", "calc(100% - " + (
 		         $( "#navi" ).innerWidth() + 42
-	) + "px)"
+	) + "px)",
 	);
 	var nightmodeconfig = "<?php echo $Config->read( "nightmode" ); ?>";
 </script>
