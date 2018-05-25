@@ -328,7 +328,7 @@
 
 
 			//			if( $device->id == 6 ) {
-			//				$url = "http://sonweb/dev/BME680.json";
+			//				$url = "http://tasmoAdmin/dev/BME680.json";
 			//			}
 
 
@@ -384,7 +384,7 @@
 
 
 			//			if( $device->id == 6 ) {
-			//				$url = "http://sonweb/dev/BME680.json";
+			//				$url = "http://tasmoAdmin/dev/BME680.json";
 			//			}
 
 			$result = NULL;
@@ -443,7 +443,7 @@
 				);
 
 				//				if( $device->id == 6 ) {
-				//					$url = "http://sonweb/dev/BME680.json";
+				//					$url = "http://tasmoAdmin/dev/BME680.json";
 				//				}
 
 				$urls[ $url ] = $device;

@@ -11,9 +11,9 @@
 				<?php endif; ?>
 
 				<span class=''> - </span><a class=''
-				                            href='https://github.com/reloxx13/SonWEB'
+				                            href='https://github.com/reloxx13/TasmoAdmin'
 				                            target='_blank'>
-					SonWEB GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
+					TasmoAdmin GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
 				</a>
 				- <a class='' href='https://github.com/arendst/Sonoff-Tasmota'
 				     target='_blank'>

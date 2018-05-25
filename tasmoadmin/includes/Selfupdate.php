@@ -290,7 +290,7 @@
 			ini_set( "max_execution_time", "240" );
 			set_time_limit( "240" );
 			//$url = $url;
-			//https://codeload.github.com/reloxx13/SonWEB/legacy.zip/master
+			//https://codeload.github.com/reloxx13/TasmoAdmin/legacy.zip/master
 			$file = fopen( $this->zipfile, 'w' );
 			$ch   = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );

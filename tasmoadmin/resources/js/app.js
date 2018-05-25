@@ -131,7 +131,7 @@ function notifyMe( msg, title ) {
 	// Let's check whether notification permissions have already been granted
 	else if ( Notification.permission === "granted" ) {
 		// If it's okay let's create a notification
-		var notification = new Notification( "SonWEB" + title, { body: msg, icon: icon } );
+		var notification = new Notification( "TasmoAdmin" + title, { body: msg, icon: icon } );
 		setTimeout( notification.close.bind( notification ), 3000 );
 	}
 	
@@ -140,7 +140,7 @@ function notifyMe( msg, title ) {
 		Notification.requestPermission( function ( permission ) {
 			// If the user accepts, let's create a notification
 			if ( permission === "granted" ) {
-				var notification = new Notification( "SonWEB" + title, { body: msg } );
+				var notification = new Notification( "TasmoAdmin" + title, { body: msg } );
 				setTimeout( notification.close.bind( notification ), 3000 );
 			}
 		} );
