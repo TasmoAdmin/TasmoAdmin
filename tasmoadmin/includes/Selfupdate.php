@@ -32,7 +32,6 @@
 
 			$release = $this->doRequest( $action );
 
-
 			if( isset( $release[ "ERROR" ] ) ) {
 				$result[ "error" ] = TRUE;
 				$result[ "msg" ]   = $release[ "ERROR" ];
@@ -43,10 +42,11 @@
 
 					if( $this->currentTag != $this->latestTag ) {
 						$result[ "update" ] = TRUE;
-						$this->releaseUrl   = $release->assets[ 1 ]->browser_download_url;
 					}
 				}
 			}
+
+			$this->releaseUrl = $release->assets[ 1 ]->browser_download_url;
 
 			return $result;
 		}
