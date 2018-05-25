@@ -347,12 +347,34 @@
 						</a>
 					</th>
 				</tr>
+
+
 				</tfoot>
 			</table>
 		</div>
 	</div>
 	<div class='row mt-3'>
-		<div class='col-12'>
+		<div class='col-md-8 col-sm-12 offset-md-2'>
+			<div class=" form-row">
+				<div class="form-group col-md-2 col-sm-12">
+					<button class='btn btn-secondary showCommandInput '>
+						<?php echo __( "COMMAND", "DEVICES" ); ?>
+					</button>
+				</div>
+				<span class='cmdContainer form-row col-md-10 col-sm-12'>
+								<div class="form-group col-md-10 col-sm-12">
+									<input type='text' name='command' class='form-control commandInput'>
+								</div>
+								<div class="form-group col-md-2 col-sm-12">
+									<button type='submit' class='btn btn-primary sendCommand' name='sendCommand'>
+										<?php echo __( "SEND", "DEVICES" ); ?>
+									</button>
+								</div>
+							</span>
+
+			</div>
+		</div>
+		<div class='col-md-2'>
 			<div class="form-group form-row justify-content-end">
 				<div class="form-check custom-control custom-checkbox">
 					<input type="checkbox"
