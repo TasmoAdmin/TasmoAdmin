@@ -1,13 +1,19 @@
-# !!!!DO NOT UPDATE FOR NOW!!!!
-
-## We are preparing a merge to publish an travis handling and need to adjust the selfupdate
-
 
 
 
 # CHANGELOG   
    
+##2018-05-23
+- more rename
+- hide selfupdate if on docker #105
+- fix update on https #103
+- provide TasmoAdmin Docker within repo #92
+- add help menu (#100)
+
+Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
+## 2018-05-23
+### SonWEB got renamed to TasmoAdmin!
    
 ## 2018-05-17
 - add polish translation (thx Pawel)
