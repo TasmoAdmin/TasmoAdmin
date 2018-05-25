@@ -2,6 +2,8 @@
 
 ## Upcoming
 - add logo
+- update font-awesome 5.0.6 -> 5.0.13
+- update bootstrap 4.0.0 -> 4.1.1
   
 ## v0.0.7
 - fixed /app/tasmoadmin/.docker to disable SelfUpdate
