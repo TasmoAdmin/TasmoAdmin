@@ -175,7 +175,6 @@
 				$this->log[] = __( "ERROR_FILE_EXTRACTED_TO", "SELFUPDATE", [ $file, $temp ] );
 			}
 
-			die( "end" );
 
 			if( empty( $firstDir ) ) {
 				$this->log[] = __( "ERROR_EMPTY_FIRST_DIR", "SELFUPDATE" );
