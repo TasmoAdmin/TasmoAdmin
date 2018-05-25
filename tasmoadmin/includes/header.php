@@ -178,7 +178,7 @@
 					</li>
 				<?php endif; ?>
 
-				<?php if( $loggedin ): ?>
+				<?php if( $loggedin && !$docker ): ?>
 					<li class="nav-item">
 						<a class="nav-link <?php echo $page == "selfupdate" ? "active" : ""; ?>"
 						   href='<?php echo _BASEURL_; ?>selfupdate'>
