@@ -1,4 +1,8 @@
 # CHANGELOG   
+
+## Upcoming
+- add logo
+  
 ## v0.0.7
 - fixed /app/tasmoadmin/.docker to disable SelfUpdate
 
