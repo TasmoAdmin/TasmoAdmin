@@ -2,8 +2,12 @@
 
 
 # CHANGELOG   
+
    
-##2018-05-23
+   
+-- 
+## v0.0.6   
+### 2018-05-23
 - more rename
 - hide selfupdate if on docker #105
 - fix update on https #103
@@ -15,71 +19,71 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 ## 2018-05-23
 ### SonWEB got renamed to TasmoAdmin!
    
-## 2018-05-17
+### 2018-05-17
 - add polish translation (thx Pawel)
 - fix device list table header distance
 - add BME680 Gas Sensor #98
    
-## 2018-05-15
+### 2018-05-15
 - fix autoscan for devices with more that 4 outputs #96
 - support up to 5x DS18x20 #94
    
-## 2018-05-06
+### 2018-05-06
 - add distance sensor data (#89)
 - fix overlapping sensor data on startpage (#90)
 - fix device list some values did not get updated after timeout
 - autoscan: remember fromIP and toIP (saved in MyConfig.php now) (#67)
    
-## 2018-04-10
+### 2018-04-10
 - dont hide device infos on error/timout in list
   - the switch will be displayed in red on error (but stay on last known state)
 - add 8 sec refreshtime option to settings   
    
-## 2018-04-06
+### 2018-04-06
 - adjust background of sensor data in daymode
    
-## 2018-03-30
+### 2018-03-30
 - rollback to ajax status requests on device list
   - multicurl was timeouting alot :/
 - fix skip minimal if no minimal firmware was uploaded
    
-## 2018-03-25
+### 2018-03-25
 - fix for some line-height
    
-## 2018-03-23
+### 2018-03-23
 - fix #83 (json changed for sensors)
 - add BME280 sensor
 - fix  #82, json friendlyname is now an array since 5.12.0h
 - some startpage responsive css fixes for sensor data
 - add 2x DS18x20 sensor
    
-## 2018-03-03
+### 2018-03-03
 - fix nightmode always
 - startpage red border on error not shown when nightmode active fix
 - some timeout adjustment
    
-## 2018-02-27
+### 2018-02-27
 - add coming HU firmware support for automode
 - FR translation   
    
-## 2018-02-22
+### 2018-02-22
 - minor fix for startpage
    
-## 2018-02-21
+### 2018-02-21
 - fix uptime for safari   
 - set timeout from 2 to 3 secs   
    
-## 2018-02-19
+### 2018-02-19
 - add NL translation
 - updated spanish translation
    
-## 2018-02-17
+### 2018-02-17
 - change uptime format   
 - add AutoScan
    - You can search for new Tasmota Devices between an IP Range now
    - Top Navi > Devices > AutoScan
    
-## 2018-02-16
+### 2018-02-16
 - HOTFIX for startpage
 - fix missing name for devices without switches #55
    - sonoff bridge, sonoff sc, wemos8 etc
@@ -88,17 +92,17 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    - todo: add position per channel #48
 - add HTU21 sensor
    
-## 2018-02-15
+### 2018-02-15
 - Optimize Status requests #49
 - minor fixes
    
-## 2018-02-11
+### 2018-02-11
 - support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep
    - Fix for [#1842](https://github.com/arendst/Sonoff-Tasmota/issues/1842)
 - add BMP280 sensor
 - add SI7021 sensor
    
-## 2018-02-09
+### 2018-02-09
 - add device position
    - you can edit this value by double click in the list or on the edit device page   
    - this is used to order the devices
@@ -109,38 +113,38 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    - added a custom.default.css with the mobile breakpoints
    - **custom.default.css will be overwritten with a selfupdate. be sure to name your new file custom.css**
    
-## 2018-02-09
+### 2018-02-09
 - add support auto mode for new binaries CN, ES, FR, DS18X20(EN),
 - remove brs from language file. tooltip will break by himself if text is too long
 - use bootstrap tooltip
 - some styling fixes
    
-## 2018-02-08
+### 2018-02-08
 - fix device update process
 - some styling fixes
 - add sensor SHT3X
    
-## 2018-02-07
+### 2018-02-07
 - add bootstrap and relayout
    - **if something looks wrong, pls clear your browser cache (Ctrl+r)**
    - fine tuning in next days ;)
 - fix nightmode auto wont remove nightmode in the morning
    
-## 2018-02-06
+### 2018-02-06
 - minimal firmware is not a required field anymore
 - add jquery ui tooltips
 - show changelog on selfupdate page
 
-## 2018-02-04
+### 2018-02-04
 - some timing adjustments
 
-## 2018-02-03
+### 2018-02-03
 - higher timeout for curl, fixes some timeout problem with much devices   
 - minor fix i18n  
 - added double click edit of config in device list   
 ![2018-02-03_1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/changelog/2018-02-03_1.PNG)   
 
-## 2018-02-02
+### 2018-02-02
 - add nightmode   
    - settings: auto (18h-8h), always on, disable   
 - add userfirendly urls   
@@ -151,7 +155,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - css fix for chrome
 - mobile: fix action buttons linebreak
 
-## 2018-02-01
+### 2018-02-01
 - fix bug in selfupate
 	- **PLEASE RUN SELFUPDATE TWICE**
 - temp and humadity sensor are detected now
