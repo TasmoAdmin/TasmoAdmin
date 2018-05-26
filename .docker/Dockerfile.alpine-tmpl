@@ -21,8 +21,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     maintainer1="Reloxx" \
     maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
 
-# Remove qemu-*-static from base image if exists
-RUN if [ -f /usr/bin/qemu-*-static ]; then rm -rf /usr/bin/qemu-*-static; fi
+# Remove qemu-*-static from base image
+RUN rm -rf /usr/bin/qemu-*-static
 
 # Copy qemu-*-static
 COPY tmp/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
