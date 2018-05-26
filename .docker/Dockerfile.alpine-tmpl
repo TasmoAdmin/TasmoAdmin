@@ -18,7 +18,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-ref=$BUILD_REF \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin" \
-    maintainer1="Reloxx"
+    maintainer1="Reloxx" \
     maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
 
 # Remove qemu-*-static from base image if exists
