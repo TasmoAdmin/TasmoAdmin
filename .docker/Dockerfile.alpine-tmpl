@@ -1,18 +1,31 @@
 ARG BASE_IMAGE
 FROM $BASE_IMAGE
 
+# Build arguments
+ARG BUILD_DATE
+ARG BUILD_VERSION
+ARG BUILD_REF
 ARG QEMU_ARCH
-ARG TASMOADMIN_VERSION
 
-LABEL Maintainer1="Reloxx"
-LABEL Maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
-LABEL Description="TasmoAdmin an administrative Website for Devices flashed with Tasmota firmware."
-LABEL Github="https://github.com/reloxx13/TasmoAdmin"
-LABEL TasmoAdmin_version="$TASMOADMIN_VERSION"
+# Basic build-time metadata as defined at http://label-schema.org
+LABEL org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.docker.dockerfile=".docker/Dockerfile.alpine-tmpl" \
+    org.label-schema.license="GNU" \
+    org.label-schema.name="TasmoAdmin" \
+    org.label-schema.version=$BUILD_VERSION \
+    org.label-schema.description="TasmoAdmin an administrative Website for Devices flashed with Tasmota firmware." \
+    org.label-schema.url="https://github.com/reloxx13/TasmoAdmin" \
+    org.label-schema.vcs-ref=$BUILD_REF \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin" \
+    maintainer1="Reloxx"
+    maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>"
 
+# Remove qemu-*-static from base image if exists
+RUN if [ -f /usr/bin/qemu-*-static ]; then rm -rf /usr/bin/qemu-*-static; fi
+
+# Copy qemu-*-static
 COPY tmp/qemu-$QEMU_ARCH-static /usr/bin/qemu-$QEMU_ARCH-static
-COPY _releases/tasmoadmin_$TASMOADMIN_VERSION.tar.gz /tmp
-COPY .docker/start.sh /tmp
 
 # Add Apache2 and PHP7
 RUN apk update && apk upgrade && \
@@ -42,14 +55,12 @@ RUN mkdir /run/apache2 \
     && printf "\n<Directory \"/app/tasmoadmin\">\n\tAllowOverride All\n</Directory>\n" >> /etc/apache2/httpd.conf
 
 # Setup TasmoAdmin Application
-RUN mkdir /app && \
-    tar -zxf /tmp/tasmoadmin_$TASMOADMIN_VERSION.tar.gz --directory /app && \
-    chown -R apache:apache /app && chmod -R 755 /app && \
-    mkdir /bootstrap && \
-    mv tmp/start.sh /bootstrap && \
-    chmod +x /bootstrap/start.sh && \
-    rm -rf /tmp/* && \
-    ln -s /app/tasmoadmin/data /data
+COPY tasmoadmin /app/tasmoadmin
+COPY .docker/start.sh /bootstrap
+RUN chown -R apache:apache /app \
+    && chmod -R 755 /app \
+    && chmod +x /bootstrap/start.sh \
+    && ln -s /app/tasmoadmin/data /data
 
 VOLUME /data
 EXPOSE 80
