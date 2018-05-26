@@ -56,7 +56,7 @@ RUN mkdir /run/apache2 \
 
 # Setup TasmoAdmin Application
 COPY tasmoadmin /app/tasmoadmin
-COPY .docker/start.sh /bootstrap
+COPY .docker/start.sh /bootstrap/start.sh
 RUN chown -R apache:apache /app \
     && chmod -R 755 /app \
     && chmod +x /bootstrap/start.sh \
