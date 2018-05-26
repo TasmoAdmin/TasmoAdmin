@@ -324,6 +324,8 @@
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
+					<th class='distance hidden'><?php echo __( "TABLE_HEAD_DISTANCE", "DEVICES" ); ?></th>
+					<th class='gas hidden'><?php echo __( "TABLE_HEAD_GAS", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "HOSTNAME", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MAC", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "MQTT", "DEVICES" ); ?></th>

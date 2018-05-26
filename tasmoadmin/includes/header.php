@@ -102,7 +102,9 @@
 <header>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
 		<?php //var_dump( $page ); ?>
-		<a class="navbar-brand" href='<?php echo _BASEURL_; ?>start'>TasmoAdmin</a>
+		<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_; ?>start'>
+			<img src='<?php echo _RESOURCESURL_; ?>img/logo_small.PNG' height='50px'/>
+		</a>
 		<button class="navbar-toggler"
 		        type="button"
 		        data-toggle="collapse"
