@@ -20,20 +20,20 @@ install: true
 before_script:
     # Create _releases directory
     - mkdir _releases
-    # Set TASMOADMIN_VERSION
-    - if [ ! -z "$TRAVIS_TAG" ]; then export TASMOADMIN_VERSION=$TRAVIS_TAG; else export TASMOADMIN_VERSION=$TRAVIS_BRANCH; fi
+    # Set BUILD_VERSION
+    - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
 
 script:
     # Pack TasmoAdmin src to tar.gz
-    - tar -zcf ./_releases/tasmoadmin_${TASMOADMIN_VERSION}.tar.gz tasmoadmin
-    - zip -q -r ./_releases/tasmoadmin_${TASMOADMIN_VERSION}.zip tasmoadmin
+    - tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
+    - zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
     # Pack TasmoAdmin XAMPP portable
     - cat portable/xampp.zip.part-* > portable/xampp.zip
     - unzip -q portable/xampp.zip -d ./tmp/
     - cp -R tasmoadmin ./tmp/xampp/htdocs/
     - >
         pushd tmp &&
-        zip -q -r ../_releases/tasmoadmin_${TASMOADMIN_VERSION}_xampp_portable.zip xampp &&
+        zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
         popd
 
     # Build Docker images

@@ -39,114 +39,122 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-    docker build --build-arg BASE_IMAGE=amd64/alpine --build-arg TASMOADMIN_VERSION=$TASMOADMIN_VERSION --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-amd64 .
-    docker build --build-arg BASE_IMAGE=arm32v6/alpine --build-arg TASMOADMIN_VERSION=$TASMOADMIN_VERSION --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm32v6 .
-    docker build --build-arg BASE_IMAGE=arm64v8/alpine --build-arg TASMOADMIN_VERSION=$TASMOADMIN_VERSION --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm64v8 .
+    docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=amd64/alpine --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-amd64 .
+    docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=arm32v6/alpine --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-arm32v6 .
+    docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=arm64v8/alpine --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-arm64v8 .
 }
 
 docker_test() {
     echo "DOCKER TEST: Test all docker images."
-    docker run -d --name=test-$TASMOADMIN_VERSION-alpine-amd64 $IMAGE:build-$TASMOADMIN_VERSION-alpine-amd64
+    docker run -d --rm --name=test-alpine-amd64 $TARGET:build-alpine-amd64
     if [ $? -ne 0 ]; then
-        echo "ERROR: Docker container failed to start for build-$TASMOADMIN_VERSION-alpine-amd64 ."
-        exit 1
+       echo "DOCKER TEST: FAILED - Docker container failed to start for build-alpine-amd64."
+       exit 1
+    else
+       echo "DOCKER TEST: PASSED - Docker container succeeded to start for build-alpine-amd64."
     fi
-    docker stop test-$TASMOADMIN_VERSION-alpine-amd64 && docker rm test-$TASMOADMIN_VERSION-alpine-amd64
 
-    docker run -d --name=test-$TASMOADMIN_VERSION-alpine-arm32v6 $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm32v6
+    docker run -d --rm --name=test-alpine-arm32v6 $TARGET:build-alpine-arm32v6
     if [ $? -ne 0 ]; then
-        echo "ERROR: Docker container failed to start for build-$TASMOADMIN_VERSION-alpine-arm32v6 ."
-        exit 1
+       echo "DOCKER TEST: FAILED - Docker container failed to start for build-alpine-arm32v6."
+       exit 1
+    else
+       echo "DOCKER TEST: PASSED - Docker container succeeded to start for build-alpine-arm32v6."
     fi
-    docker stop test-$TASMOADMIN_VERSION-alpine-arm32v6 && docker rm test-$TASMOADMIN_VERSION-alpine-arm32v6
 
-    docker run -d --name=test-$TASMOADMIN_VERSION-alpine-arm64v8 $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm64v8
+    docker run -d --rm --name=test-alpine-arm64v8 $TARGET:build-alpine-arm64v8
     if [ $? -ne 0 ]; then
-        echo "ERROR: Docker container failed to start for build-$TASMOADMIN_VERSION-alpine-arm64v8 ."
-        exit 1
+       echo "DOCKER TEST: FAILED - Docker container failed to start for build-alpine-arm64v8."
+       exit 1
+    else
+       echo "DOCKER TEST: PASSED - Docker container succeeded to start for build-alpine-arm64v8."
     fi
-    docker stop test-$TASMOADMIN_VERSION-alpine-arm64v8 && docker rm test-$TASMOADMIN_VERSION-alpine-arm64v8
 }
 
 docker_tag() {
     echo "DOCKER TAG: Tag all docker images."
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-amd64 $IMAGE:$TASMOADMIN_VERSION-alpine-amd64
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-amd64 $IMAGE:latest-alpine-amd64
-
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm32v6 $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm32v6 $IMAGE:latest-alpine-arm32v6
-
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm64v8 $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
-    docker tag $IMAGE:build-$TASMOADMIN_VERSION-alpine-arm64v8 $IMAGE:latest-alpine-arm64v8
+    docker tag $TARGET:build-alpine-amd64 $TARGET:$BUILD_VERSION-alpine-amd64
+    docker tag $TARGET:build-alpine-arm32v6 $TARGET:$BUILD_VERSION-alpine-arm32v6
+    docker tag $TARGET:build-alpine-arm64v8 $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
 docker_push() {
     echo "DOCKER PUSH: Push all docker images."
-    docker push $IMAGE:$TASMOADMIN_VERSION-alpine-amd64
-    docker push $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6
-    docker push $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
+    docker push $TARGET:$BUILD_VERSION-alpine-amd64
+    docker push $TARGET:$BUILD_VERSION-alpine-arm32v6
+    docker push $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
 docker_manifest_list() {
     # Create and push manifest lists, displayed as FIFO
-    echo "DOCKER MANIFEST: Create and Push docker manifest list."
+    echo "DOCKER MANIFEST: Create and Push docker manifest lists."
     docker_manifest_list_version
     docker_manifest_list_latest
     docker_manifest_list_version_os_arch
 }
 
 docker_manifest_list_version() {
-    # Manifest Create $TASMOADMIN_VERSION default
-    docker manifest create $IMAGE:$TASMOADMIN_VERSION \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-amd64 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
+  # Manifest Create BUILD_VERSION
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION."
+  docker manifest create $TARGET:$BUILD_VERSION \
+      $TARGET:$BUILD_VERSION-alpine-amd64 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm64v8
 
-    # Manifest Annotate TASMOADMIN_VERSION
-    docker manifest annotate $IMAGE:$TASMOADMIN_VERSION $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
-    docker manifest annotate $IMAGE:$TASMOADMIN_VERSION $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
+  # Manifest Annotate BUILD_VERSION
+  docker manifest annotate $TARGET:$BUILD_VERSION $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  docker manifest annotate $TARGET:$BUILD_VERSION $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
-    # Manifest Push TASMOADMIN_VERSION
-    docker manifest push $IMAGE:$TASMOADMIN_VERSION
+  # Manifest Push BUILD_VERSION
+  docker manifest push $TARGET:$BUILD_VERSION
 }
 
 docker_manifest_list_latest() {
-    # Manifest Create LATEST
-    docker manifest create $IMAGE:latest \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-amd64 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
+  # Manifest Create latest
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:latest."
+  docker manifest create $TARGET:latest \
+      $TARGET:$BUILD_VERSION-alpine-amd64 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm64v8
 
-    # Manifest Annotate LATEST
-    docker manifest annotate $IMAGE:latest $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
-    docker manifest annotate $IMAGE:latest $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
+  # Manifest Annotate BUILD_VERSION
+  docker manifest annotate $TARGET:latest $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  docker manifest annotate $TARGET:latest $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
-    # Manifest Push LATEST
-    docker manifest push $IMAGE:latest
+  # Manifest Push BUILD_VERSION
+  docker manifest push $TARGET:latest
 }
 
-docker_manifest_list_version_os_arch(){
-    # Manifest Create alpine-amd64
-    docker manifest create $IMAGE:$TASMOADMIN_VERSION-alpine-amd64 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-amd64
+docker_manifest_list_version_os_arch() {
+  # Manifest Create alpine-amd64
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-amd64."
+  docker manifest create $TARGET:$BUILD_VERSION-alpine-amd64 \
+      $TARGET:$BUILD_VERSION-alpine-amd64
 
-    docker manifest push $IMAGE:$TASMOADMIN_VERSION-alpine-amd64
+  # Manifest Push alpine-amd64
+  docker manifest push $TARGET:$BUILD_VERSION-alpine-amd64
 
-    # Manifest Create alpine-arm32v6
-    docker manifest create $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6
+  # Manifest Create alpine-arm32v6
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-arm32v6."
+  docker manifest create $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v6
 
-    docker manifest annotate $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  # Manifest Annotate alpine-arm32v6
+  docker manifest annotate $TARGET:$BUILD_VERSION-alpine-arm32v6 $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
 
-    docker manifest push $IMAGE:$TASMOADMIN_VERSION-alpine-arm32v6
+  # Manifest Push alpine-arm32v6
+  docker manifest push $TARGET:$BUILD_VERSION-alpine-arm32v6
 
-    # Manifest Create alpine-arm64v8
-    docker manifest create $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8 \
-        $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
+  # Manifest Create alpine-arm64v8
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-arm64v8."
+  docker manifest create $TARGET:$BUILD_VERSION-alpine-arm64v8 \
+      $TARGET:$BUILD_VERSION-alpine-arm64v8
 
-    docker manifest annotate $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8 $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
+  # Manifest Annotate alpine-arm64v8
+  docker manifest annotate $TARGET:$BUILD_VERSION-alpine-arm64v8 $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
-    docker manifest push $IMAGE:$TASMOADMIN_VERSION-alpine-arm64v8
+  # Manifest Push alpine-amd64
+  docker manifest push $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
 setup_dependencies() {
