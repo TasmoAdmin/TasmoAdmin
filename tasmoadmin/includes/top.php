@@ -51,7 +51,7 @@
 		fopen( $filename, 'w' ) or die( "Can't create file" );
 	}
 
-	if( file_exists( _APPROOT_.".docker" ) ) {
+	if( file_exists( _APPROOT_.".dockerenv" ) ) {
 		$docker = TRUE;
 	}
 
