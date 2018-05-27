@@ -1,2 +1,2 @@
-/data/sonweb/*
-/var/www/sonweb/data/*
+/data/tasmoadmin/*
+/var/www/tasmoadmin/data/*

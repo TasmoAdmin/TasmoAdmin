@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv bash
+# ==============================================================================
+# Community Hass.io Add-ons: SonWEB
+# Runs the PHP-FPM daemon
+# ==============================================================================
+# shellcheck disable=SC1091
+#source /usr/lib/hassio-addons/base.sh
+
+exec php-fpm7 --nodaemonize
