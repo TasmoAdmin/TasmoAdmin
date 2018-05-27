@@ -64,7 +64,7 @@ RUN \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
     \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v1.21.4.0/s6-overlay-${S6_ARCH}.tar.gz" \
-        | tar zxvf - -C / \
+        | tar zxf - -C / \
     \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
