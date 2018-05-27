@@ -20,25 +20,13 @@ LABEL \
     org.label-schema.vcs-ref=${BUILD_REF} \
     org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
 
-# Environment variables
-
 # Setup Qemu
 ARG QEMU_ARCH
 COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 
-# Copy root filesystem
-COPY .docker/rootfs /
-
 # Install base system
 ARG BUILD_ARCH=arm32v6
-RUN \
-    echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories \
-    && echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories \
-    && echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories \
-    \
-    && apk update \
-    \
-    && apk add --no-cache --virtual .build-dependencies \
+RUN apk add --no-cache --virtual .build-dependencies \
         tar=1.29-r1 \
     \
     && apk add --no-cache \
@@ -47,12 +35,10 @@ RUN \
         busybox=1.27.2-r8 \
         ca-certificates=20171114-r0 \
         curl=7.60.0-r1 \
-        jq=1.5-r5 \
         musl-utils=1.1.18-r3 \
         musl=1.1.18-r3 \
         tzdata=2017c-r0 \
         nginx=1.12.2-r3 \
-        patch=2.7.5-r2 \
         php7-curl=7.1.17-r0 \
         php7-fpm=7.1.17-r0 \
         php7-json=7.1.17-r0 \
@@ -66,22 +52,11 @@ RUN \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v1.21.4.0/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxf - -C / \
     \
-    && mkdir -p /etc/fix-attrs.d \
-    && mkdir -p /etc/services.d \
-    \
     && apk del --purge .build-dependencies \
-    #\
-    #&& \
-    #    if [[ "${BUILD_ARCH}" != "armhf" ]]; then \
-    #        rm -f /usr/bin/qemu-arm-static; \
-    #    fi \
-    #\
-    #&& \
-    #    if [[ "${BUILD_ARCH}" != "aarch64" ]]; then \
-    #        rm -f /usr/bin/qemu-aarch64-static; \
-    #    fi \
-    #\
     && rm -f -r /tmp/*
+
+# Copy root filesystem
+COPY .docker/rootfs /
 
 # Setup application
 COPY tasmoadmin /var/www/tasmoadmin
