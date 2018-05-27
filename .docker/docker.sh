@@ -42,6 +42,8 @@ docker_build() {
     docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=amd64/alpine --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-amd64 .
     docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=arm32v6/alpine --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-arm32v6 .
     docker build --build-arg BUILD_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=$BUILD_VERSION --build-arg BASE_IMAGE=arm64v8/alpine --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag $TARGET:build-alpine-arm64v8 .
+
+    docker build --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.nginx-tmpl --tag ${TARGET}:build-nginx-arm32v6 .
 }
 
 docker_test() {
@@ -69,6 +71,14 @@ docker_test() {
     else
        echo "DOCKER TEST: PASSED - Docker container succeeded to start for build-alpine-arm64v8."
     fi
+
+    docker run -d --rm --name=test-nginx-arm32v6 ${TARGET}:build-nginx-arm32v6
+    if [ $? -ne 0 ]; then
+       echo "DOCKER TEST: FAILED - Docker container failed to start for build-nginx-arm32v6."
+       exit 1
+    else
+       echo "DOCKER TEST: PASSED - Docker container succeeded to start for build-nginx-arm32v6."
+    fi
 }
 
 docker_tag() {
@@ -76,6 +86,8 @@ docker_tag() {
     docker tag $TARGET:build-alpine-amd64 $TARGET:$BUILD_VERSION-alpine-amd64
     docker tag $TARGET:build-alpine-arm32v6 $TARGET:$BUILD_VERSION-alpine-arm32v6
     docker tag $TARGET:build-alpine-arm64v8 $TARGET:$BUILD_VERSION-alpine-arm64v8
+
+    docker tag $TARGET:build-nginx-arm32v6 ${TARGET}:${BUILD_VERSION}-nginx-arm32v6
 }
 
 docker_push() {
@@ -83,6 +95,8 @@ docker_push() {
     docker push $TARGET:$BUILD_VERSION-alpine-amd64
     docker push $TARGET:$BUILD_VERSION-alpine-arm32v6
     docker push $TARGET:$BUILD_VERSION-alpine-arm64v8
+
+    docker push ${TARGET}:${BUILD_VERSION}-nginx-arm32v6
 }
 
 docker_manifest_list() {
