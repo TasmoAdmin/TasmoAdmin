@@ -19,12 +19,12 @@ LABEL \
     org.label-schema.url="https://github.com/reloxx13/TasmoAdmin" \
     org.label-schema.usage="https://github.com/reloxx13/TasmoAdmin/blob/master/README.md" \
     org.label-schema.vcs-ref=$BUILD_REF \
-    org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin" \
+    org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
 
 # Environment variables
 
 # Copy root filesystem
-COPY ./.docker/rootfs /
+COPY .docker/rootfs /
 
 # Install base system
 ARG BUILD_ARCH=arm32v6
@@ -80,7 +80,7 @@ RUN \
     #\
     && rm -f -r /tmp/*
 
-#
+# Setup application
 COPY tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
