@@ -1,15 +1,19 @@
 sudo: 'required'
 
 services:
-  - 'docker'
+    - 'docker'
 
 language:
-  - 'bash'
+    - 'bash'
 
 env:
-  global:
-    - TARGET=raymondmm/tasmoadmin
-    - QEMU_VERSION=v2.12.0
+    global:
+        - TARGET=raymondmm/tasmoadmin
+        - QEMU_VERSION=v2.12.0
+    matrix:
+        - BUILD_FROM=amd64/alpine:3.7 QEMU_ARCH=x86_64 OS_ARCH=alpine-amd64
+        - BUILD_FROM=arm32v6/alpine:3.7 QEMU_ARCH=arm OS_ARCH=alpine-arm32v6
+        - BUILD_FROM=arm64v8/alpine:3.7 QEMU_ARCH=aarch64 OS_ARCH=alpine-arm64v8
 
 before_install:
     - mkdir tmp
@@ -24,47 +28,62 @@ before_script:
     - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
 
 script:
-    # Pack TasmoAdmin src to tar.gz
-    - tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
-    - zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
-    # Pack TasmoAdmin XAMPP portable
-    - cat portable/xampp.zip.part-* > portable/xampp.zip
-    - unzip -q portable/xampp.zip -d ./tmp/
-    - cp -R tasmoadmin ./tmp/xampp/htdocs/
-    - >
-        pushd tmp &&
-        zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
-        popd
+    # Build Docker image
+    - echo Build Docker image":" ${OS_ARCH}
+    - docker build --build-arg BUILD_FROM=${BUILD_FROM} --build-arg QEMU_ARCH=${QEMU_ARCH} --file ./.docker/Dockerfile --tag ${TARGET}:build-${OS_ARCH} .
+    # Test Docker image
+    - docker run -d --rm --name=test-${OS_ARCH} ${TARGET}:build-${OS_ARCH}
+    # Tag Docker image
+    - docker tag ${TARGET}:build-${OS_ARCH} $TARGET:${BUILD_VERSION}-${OS_ARCH}
 
-    # Build Docker images
-    - ./.docker/docker.sh build
-    # Test Docker images
-    - ./.docker/docker.sh test
-
-deploy:
-    # Deploy TasmoAdmin release to github
-    provider: releases
-    api_key:
-      - secure: BWGbGGe1/OY5JA+NopazqM9pL+lAExG5U2s99bdEIvBewladc2OSW4VRhLcx7OxRAifh0IdMtdDV6pV8SH3StI3hBxqQa/9TpbjORDovAt3khD/eW3uEw5qLB+JcnlmFV7yFkSq1HuVOBct9gDCNPisRsIvmqUuYPW50wOILj5usXOtt7wx6hDPfvwuDyOTFsEq1XTLK1UUgFdoghs5KAU7i7U76MFV+7YwEU65z7WDRNU5/0bJDK4oMADQcXJkFnhoIm3Ctuv7LsgUGPU3HYSW65hKpjLZgPuh3ON6Qz9ZTDD3Nxd322TMsMRThxMtpmpXWOi0C+18zB0P/mGfsP7wxPyozOeRoOIlri4qjPXwL+P80jCRoXASsVL4LXfnGxaXC2P99CYw3MvGsgq/ZZoEZVtqssXQ2y4+pNfFfAk+/7nEhjDGT4uxfY9PGQyaTX7SjP1qkzqHu7bBxBlhbovhBES7fsc+qvXB98l5dF0QukZYjC4fBUQ7iDU0/HO/dJuyjpBEv1kWkWr/ytmEB9Yr9V80WW0mv0A1SBMfm/7u5kAzF8MEpSH95wFxbHSyqpyUeBmlri4VJ4UqqBEtwnk0SEsCSfWq/YXmWVCScBf1+MfLKE2TsY7/lVrw/Q9L9GNzWfkQU+fAvxTnS2swUMzfjXBXJaQl3SttmjNe62PI=
-    file: "./_releases/*"
-    file_glob: true
-    skip_cleanup: true
-    on:
-      tags: true
-
-after_deploy:
     # Push Docker images to Docker Hub
     # Docker Login
     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    # Tag all images
-    - ./.docker/docker.sh tag
     # Push all images
-    - ./.docker/docker.sh push
-    # Create and push manifest list
-    - ./.docker/docker.sh manifest-list
+    - docker push ${TARGET}:${BUILD_VERSION}-${OS_ARCH}
     # Docker Logout
     - docker logout
 
-# notify when things fail
+jobs:
+    include:
+        # Create and push manifest list
+        - stage:    manifest
+            script:
+            # Docker Login
+            - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            # Create and Push Docker Manifest Lists to Docker Hub
+            - echo "Create manifest list for all docker images."
+            - ./.docker/docker.sh manifest-list
+            # Docker Logout
+            - docker logout
+
+        # Create TasmoAdmin release
+        - stage:    release
+            script:
+            - echo "Release ${BUILD_VERSION}"
+            # Pack TasmoAdmin src to tar.gz
+            - tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
+            - zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
+            # Pack TasmoAdmin XAMPP portable
+            - cat portable/xampp.zip.part-* > portable/xampp.zip
+            - unzip -q portable/xampp.zip -d ./tmp/
+            - cp -R tasmoadmin ./tmp/xampp/htdocs/
+            - >
+                pushd tmp &&
+                zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
+                popd
+
+            # Deploy TasmoAdmin release to github
+            deploy:
+                provider:     releases
+                api_key:
+                  - secure:    BWGbGGe1/OY5JA+NopazqM9pL+lAExG5U2s99bdEIvBewladc2OSW4VRhLcx7OxRAifh0IdMtdDV6pV8SH3StI3hBxqQa/9TpbjORDovAt3khD/eW3uEw5qLB+JcnlmFV7yFkSq1HuVOBct9gDCNPisRsIvmqUuYPW50wOILj5usXOtt7wx6hDPfvwuDyOTFsEq1XTLK1UUgFdoghs5KAU7i7U76MFV+7YwEU65z7WDRNU5/0bJDK4oMADQcXJkFnhoIm3Ctuv7LsgUGPU3HYSW65hKpjLZgPuh3ON6Qz9ZTDD3Nxd322TMsMRThxMtpmpXWOi0C+18zB0P/mGfsP7wxPyozOeRoOIlri4qjPXwL+P80jCRoXASsVL4LXfnGxaXC2P99CYw3MvGsgq/ZZoEZVtqssXQ2y4+pNfFfAk+/7nEhjDGT4uxfY9PGQyaTX7SjP1qkzqHu7bBxBlhbovhBES7fsc+qvXB98  5dF0QukZYjC4fBUQ7iDU0/HO/dJuyjpBEv1kWkWr/ytmEB9Yr9V80WW0mv0A1SBMfm/7u5kAzF8MEpSH95wFxbHSyqpyUeBmlri4VJ4UqqBEtwnk0SEsCSfWq/YXmWVCScBf1+MfLKE2TsY7/lVrw/Q9L9GNzWfkQU+fAvxTnS2swUMzfjXBXJaQl3SttmjNe62PI=
+                file:   "./_releases/*"
+                file_glob:  true
+                skip_cleanup:   true
+                on:
+                tags:   true
+
+# Notify when things fail
 notifications:
     email: true
