@@ -11,9 +11,9 @@ env:
     - TARGET=raymondmm/tasmoadmin
     - QEMU_VERSION=v2.12.0
   matrix:
-    - BUILD_FROM=amd64/alpine:3.7 QEMU_ARCH=x86_64 OS_ARCH=alpine-amd64
-    - BUILD_FROM=arm32v6/alpine:3.7 QEMU_ARCH=arm OS_ARCH=alpine-arm32v6
-    - BUILD_FROM=arm64v8/alpine:3.7 QEMU_ARCH=aarch64 OS_ARCH=alpine-arm64v8
+    - BUILD_FROM=amd64/alpine:3.7 QEMU_ARCH=x86_64 BUILD_ARCH=amd64 OS_ARCH=alpine-amd64
+    - BUILD_FROM=arm32v6/alpine:3.7 QEMU_ARCH=arm BUILD_ARCH=arm32v6 OS_ARCH=alpine-arm32v6
+    - BUILD_FROM=arm64v8/alpine:3.7 QEMU_ARCH=aarch64 BUILD_ARCH=arm64v8 OS_ARCH=alpine-arm64v8
 
 before_install:
   - mkdir tmp
@@ -29,8 +29,8 @@ before_script:
 
 script:
   # Build Docker image
-  - echo Build Docker image":" ${OS_ARCH}
-  - docker build --build-arg BUILD_FROM=${BUILD_FROM} --build-arg QEMU_ARCH=${QEMU_ARCH} --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-${OS_ARCH} .
+  - echo Build Docker image":" ${BUILD_FROM} - QEMU_ARCH=${QEMU_ARCH} - BUILD_REF=${TRAVIS_COMMIT} - BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ")
+  - docker build --build-arg BUILD_FROM=${BUILD_FROM} --build-arg QEMU_ARCH=${QEMU_ARCH} --build-arg BUILD_REF=${TRAVIS_COMMIT} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-${OS_ARCH} .
   # Test Docker image
   - docker run -d --rm --name=test-${OS_ARCH} ${TARGET}:build-${OS_ARCH}
   # Tag Docker image
