@@ -70,7 +70,7 @@ jobs:
         - >
             pushd tmp &&
             zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
-            pop
+            popd
 
       # Deploy TasmoAdmin release to github
       deploy:
