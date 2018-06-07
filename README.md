@@ -22,6 +22,9 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * Support for multiple sensors
 * chat (beta)
 
+## YouTube
+[YouTube Video by DrZzs](https://www.youtube.com/watch?v=vJUhRyi3-BQ&feature=push-fr&attr_tag=3vmgYDcs_Jb9eQZs-6)
+
 ## Installation
 
 ### Docker
