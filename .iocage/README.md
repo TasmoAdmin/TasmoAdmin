@@ -34,4 +34,10 @@ You should now be able to use TasmoAdmin by entering `http://*ip.tasmoadmin.jail
 To see a list of jails as well as their ip address
 
     sudo iocage list -l
+    
+    +-----+------------+------+-------+------+------------------+---------------------+-----+----------+
+    | JID |    NAME    | BOOT | STATE | TYPE |     RELEASE      |         IP4         | IP6 | TEMPLATE |
+    +=====+============+======+=======+======+==================+=====================+=====+==========+
+    | 1   | tasmoadmin | on   | up    | jail | 11.1-RELEASE-p10 | epair0b|192.0.1.126 | -   | -        |
+    +-----+------------+------+-------+------+------------------+---------------------+-----+----------+
  
