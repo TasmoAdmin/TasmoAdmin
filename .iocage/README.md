@@ -18,16 +18,16 @@ More information about setting up and using iocage can be found [HERE](https://i
 
 Create a jail using a pkg-list to install requirements
 
-	wget https://raw.githubusercontent.com/tprelog/TasmoAdmin/iocage-plugin/.iocage/pkg-list.json
-	sudo iocage create -r 11.1-RELEASE -n tasmoadmin boot=on dhcp=on bpf=yes vnet=on -p pkg-list.json
+	wget https://raw.githubusercontent.com/tprelog/TasmoAdmin/iocage-plugin/.iocage/tasmoadmin-pkgs.json
+	sudo iocage create -r 11.1-RELEASE -n tasmoadmin boot=on dhcp=on bpf=yes vnet=on -p tasmoadmin-pkgs.json
 
 
 Download TasmoAdmin and get it running with nginx
 
 	sudo iocage exec tasmoadmin git clone https://github.com/tprelog/TasmoAdmin.git /root/TasmoAdmin
-	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/jail_install.sh
+	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/install_tasmoadmin.sh
 
-You should now be able to use TasmoAdmin by entering `http://*ip.tasmoadmin.jail*` in your browser
+You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
 
 ---
 
