@@ -1,5 +1,6 @@
 {
     "pkgs": [
+    "shells/bash",
     "devel/git",
     "www/nginx",
     "lang/php72",
