@@ -25,7 +25,7 @@ Create a jail using a pkg-list to install requirements
 Download TasmoAdmin and get it running with nginx
 
 	sudo iocage exec tasmoadmin git clone https://github.com/tprelog/TasmoAdmin.git /root/TasmoAdmin
-	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/install_tasmoadmin.sh
+	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/tasmoadmin-install.sh
 
 You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
 
