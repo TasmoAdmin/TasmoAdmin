@@ -1,20 +1,10 @@
 # iocage-tasmoadmin
 
-This should help create an iocage based jail for TasmoAdmin using ngnix and php72 (tested on FreeNAS-11.1-U5)
+This should help create an iocage based jail for TasmoAdmin using ngnix and php72 (Tested on FreeNAS-11.1-U5)
 
-**One time only:**
-
-iocage should be activated. `iocage activate` is basically just telling iocage which zpool to use. You'll also want to fetch a base release.
-    
-  For example to use zpool named " tank "
-
-    sudo iocage activate tank
-    sudo iocage fetch
-
-More information about setting up and using iocage can be found [HERE](https://iocage.readthedocs.io/en/latest/basic-use.html)
+More information about using iocage on FreeNAS can be found [HERE](http://doc.freenas.org/11/jails.html#using-iocage)
 
 ---
-
 
 Create a jail using a pkg-list to install requirements
 
