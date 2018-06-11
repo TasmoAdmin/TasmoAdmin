@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# pkg install git nginx php72 php72-zip php72-curl php72-json php72-session php72-filter
+# pkg install bash git nginx php72 php72-zip php72-curl php72-json php72-session php72-filter
 # git clone https://github.com/tprelog/TasmoAdmin.git /root/TasmoAdmin
 # bash /root/TasmoAdmin/.iocage/tasmoadmin-install.sh
 
