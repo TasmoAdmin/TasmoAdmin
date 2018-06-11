@@ -2,7 +2,9 @@
 
 This should help create an iocage based jail for TasmoAdmin using ngnix and php72 (Tested on FreeNAS-11.1-U5)
 
-These steps are were tested on FreeNAS and assume you have already [activated](https://iocage.readthedocs.io/en/latest/basic-use.html#activate-iocage) and [fetched](https://iocage.readthedocs.io/en/latest/basic-use.html#fetch-a-release) the 11.1-RELEASE. More information about iocage on FreeNAS can be found [HERE](http://doc.freenas.org/11/jails.html#using-iocage)
+These steps are were tested on FreeNAS and assume you have already [activated iocage](https://iocage.readthedocs.io/en/latest/basic-use.html#activate-iocage) and [fetched](https://iocage.readthedocs.io/en/latest/basic-use.html#fetch-a-release) the 11.1-RELEASE.
+
+More information about iocage on FreeNAS can be found in the [FreeNAS guide](http://doc.freenas.org/11/jails.html#using-iocage)
 
 ---
 
