@@ -1,6 +1,6 @@
 # iocage-tasmoadmin
 
-This should help create an iocage based jail for TasmoAdmin using ngnix and php72 (Tested on FreeNAS-11.1-U5)
+This should help create an iocage based jail for TasmoAdmin using nginx and php72 (Tested on FreeNAS-11.1-U5)
 
 These steps were tested on FreeNAS and assume you have already [activated iocage and fetched the 11.1-RELEASE](https://iocage.readthedocs.io/en/latest/basic-use.html#basic-usage.)
 
