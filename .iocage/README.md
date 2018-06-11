@@ -10,7 +10,7 @@ More information about iocage on FreeNAS can be found in the [FreeNAS guide](htt
 
 Create a jail using a pkg-list to install requirements
 
-	wget https://raw.githubusercontent.com/tprelog/TasmoAdmin/iocage-plugin/.iocage/tasmoadmin-pkgs.json
+	wget https://raw.githubusercontent.com/tprelog/TasmoAdmin/iocage/.iocage/tasmoadmin-pkgs.json
 	sudo iocage create -r 11.1-RELEASE -n tasmoadmin boot=on dhcp=on bpf=yes vnet=on -p tasmoadmin-pkgs.json
 
 
