@@ -197,7 +197,7 @@ var parseVersion = function ( versionString ) {
 					last.charCodeAt( 0 ) - 97
 				)
 				: last.charCodeAt( 0 ) - 97
-			)
+			),
 		);
 	} else {
 		versionString = versionString + "00";
@@ -375,7 +375,7 @@ function getDistance( data ) {
 	
 	if ( data.StatusSNS.SR04 !== undefined ) {
 		if ( data.StatusSNS.SR04.Distance !== undefined ) {
-			dist.push( data.StatusSNS.SR04.Distance + "cm" ); //TODO: edit unit #89
+			dist.push( data.StatusSNS.SR04.Distance + "cm" );
 		}
 	}
 	
@@ -383,6 +383,50 @@ function getDistance( data ) {
 	
 	return dist.join( "<br/>" );
 }
+
+
+function getEnergyPower( data ) {
+	var enerygPower = [];
+	
+	if ( data.StatusSNS.ENERGY !== undefined ) {
+		if ( data.StatusSNS.ENERGY.Power !== undefined ) {
+			enerygPower.push( data.StatusSNS.ENERGY.Power + "W" );
+		}
+		
+		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
+			let tmpString = data.StatusSNS.ENERGY.Today;
+			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
+				tmpString += "/" + data.StatusSNS.ENERGY.Yesterday;
+			}
+			enerygPower.push( tmpString + "kWh" );
+		}
+		
+		if ( data.StatusSNS.ENERGY.Current !== undefined ) {
+			enerygPower.push( data.StatusSNS.ENERGY.Current + "A" );
+		}
+	}
+	//console.log( press );
+	
+	return enerygPower.join( "<br/>" );
+}
+
+//function getEnergyTodayYesterday( data ) {
+//	var energyTodayYesterday = [];
+//
+//	if ( data.StatusSNS.ENERGY !== undefined ) {
+//		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
+//			let tmpString = data.StatusSNS.ENERGY.Today;
+//			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
+//				tmpString += "/" + data.StatusSNS.ENERGY.Today;
+//			}
+//			energyTodayYesterday.push( tmpString + "kWh" );
+//		}
+//	}
+//
+//	//console.log( press );
+//
+//	return energyTodayYesterday.join( "<br/>" );
+//}
 
 function getGas( data ) {
 	var gas = [];
@@ -445,7 +489,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						intDuration / intShakes
 						) / 4
 					)
-				)
+				),
 			)
 			         .animate(
 				         { left: intDistance },
@@ -453,7 +497,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 					         (
 					         intDuration / intShakes
 					         ) / 2
-				         )
+				         ),
 			         )
 			         .animate(
 				         { left: 0 },
@@ -463,7 +507,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						         intDuration / intShakes
 						         ) / 4
 					         )
-				         )
+				         ),
 			         );
 		}
 	} );

@@ -40,6 +40,7 @@
 					</th>
 					<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+					<th class='energyPower hidden'><?php echo __( "TABLE_HEAD_ENERGY", "DEVICES" ); ?></th>
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
@@ -127,6 +128,11 @@
 											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 										</div>
+									</span>
+									</td>
+									<td class='energyPower hidden'>
+									<span>
+										-
 									</span>
 									</td>
 									<td class='temp hidden'>
@@ -321,6 +327,7 @@
 					</th>
 					<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+					<th class='energyPower hidden'><?php echo __( "TABLE_HEAD_ENERGY", "DEVICES" ); ?></th>
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>

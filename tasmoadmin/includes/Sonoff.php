@@ -383,9 +383,9 @@
 			);
 
 
-			//			if( $device->id == 6 ) {
-			//				$url = "http://tasmoAdmin/dev/BME680.json";
-			//			}
+			if( $device->id == 6 ) {
+				$url = "http://tasmoAdmin/dev/pow.json";
+			}
 
 			$result = NULL;
 			$ch     = curl_init();

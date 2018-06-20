@@ -171,7 +171,7 @@ function updateAllStatus() {
 					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
 					
 					                     $( tr ).removeAttr(
-						                     "data-original-title"
+						                     "data-original-title",
 					                     ).removeAttr( "data-toggle" );
 					
 					                     updateRow( $( tr ), data, device_status );
@@ -207,7 +207,7 @@ function updateAllStatus() {
 					
 					                     $( tr ).attr(
 						                     "data-original-title",
-						                     msg
+						                     msg,
 					                     ).attr( "data-toggle", "tooltip" ).tooltip( {
 						                                                                 html : true,
 						                                                                 delay: 700,
@@ -229,7 +229,7 @@ function updateAllStatus() {
 			
 			                     device_holder.removeClass( "updating" );
 			
-		                     }
+		                     },
 		);
 	} else {
 		console.log( "[Devices][updateAllStatus]SKIP" );
@@ -376,6 +376,12 @@ function updateRow( row, data, device_status ) {
 		
 	}
 	
+	var energyPower = getEnergyPower( data );
+	
+	if ( energyPower != "" ) {
+		$( row ).find( ".energyPower span" ).html( energyPower );
+		$( "#device-list .energyPower" ).removeClass( "hidden" );
+	}
 	
 	var temp = getTemp( data );
 	
@@ -520,8 +526,8 @@ function updateRow( row, data, device_status ) {
 			"data-original-title",
 			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
 				.attr( "lang" )
-				.toUpperCase(), { hour12: false }
-			)
+				.toUpperCase(), { hour12: false },
+			),
 		).attr( "data-toggle", "tooltip" ).tooltip( {
 			                                            html : true,
 			                                            delay: 700,
