@@ -7,6 +7,7 @@
   - fixes the show more checkbox 
 - add configurable server port #122 #131
 - show some energy data
+- add iocage support by @tprelog :)
 
 ## v0.0.8
 - add logo
