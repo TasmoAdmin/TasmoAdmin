@@ -2,6 +2,8 @@
 
 
 ## Upcoming
+
+## v1.0.4
 - fix date in update #124
 - change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
@@ -9,10 +11,14 @@
 - show some energy data
 - add iocage support by @tprelog :)
 
-## v0.0.8
+## v0.0.8 - v 1.0.3
 - add logo
 - update font-awesome 5.0.6 -> 5.0.13
 - update bootstrap 4.0.0 -> 4.1.1
+- docker: clean-up unnecessary lines to reduce image size
+- docker: cleanup and readme
+- docker: Moved from Apache to Nginx #106
+- docker: Remove rm
   
 ## v0.0.7
 - fixed /app/tasmoadmin/.docker to disable SelfUpdate
