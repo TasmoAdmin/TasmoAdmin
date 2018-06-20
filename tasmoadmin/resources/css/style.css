@@ -190,8 +190,8 @@ td.runtime {
 }
 
 .box_device img {
-	max-width  : 70%;
-	padding    : 10px 10px 35px;
+	max-width  : 60%;
+	padding    : 30px 10px 50px;
 	box-sizing : border-box;
 	height     : auto;
 }
