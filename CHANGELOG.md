@@ -3,7 +3,7 @@
 
 ## Upcoming
 
-## v1.0.4
+## v1.0.4 - 1.0.5
 - fix date in update #124
 - change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
