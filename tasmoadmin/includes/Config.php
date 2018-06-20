@@ -6,6 +6,7 @@
 		private $defaultConfigs
 			= [
 				"ota_server_ip"         => "",
+				"ota_server_port"       => "",
 				"username"              => "",
 				"password"              => "",
 				"refreshtime"           => "5",

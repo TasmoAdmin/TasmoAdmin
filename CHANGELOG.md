@@ -5,6 +5,7 @@
 - fix date in update #124
 - change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
+- add configurable server port #122 #131
 
 ## v0.0.8
 - add logo
