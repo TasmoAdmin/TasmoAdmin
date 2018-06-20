@@ -1,6 +1,12 @@
 # CHANGELOG   
 
+
 ## Upcoming
+- fix date in update #124
+- change filename to load js file correctly (only firefox issue?)
+  - fixes the show more checkbox 
+
+## v0.0.8
 - add logo
 - update font-awesome 5.0.6 -> 5.0.13
 - update bootstrap 4.0.0 -> 4.1.1

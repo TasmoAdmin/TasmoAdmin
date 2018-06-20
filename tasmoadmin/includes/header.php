@@ -72,9 +72,9 @@
 	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/sl.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/uk.js"></script>
 
+	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js-cookie.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js.cookie.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?<?php echo time(); ?>"></script>
 	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 
