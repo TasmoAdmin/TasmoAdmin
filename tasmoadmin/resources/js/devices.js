@@ -393,43 +393,18 @@ function deviceTools() {
 		
 	} );
 	
-	$( '#device-list tbody tr td a.delete' ).on( "click", function ( e ) {
-		e.preventDefault();
-		var actionUrl = $( this ).attr( "href" );
-		var dialog    = $( '<div id="msg_dialog">' + $( this ).data( "dialog-text" ) + '</div>' )
-			.appendTo( "body" );
-		dialog.dialog( {
-			               resizable: false,
-			               dragable : false,
-			               height   : "auto",
-			               width    : "70%",
-			               modal    : true,
-			               title    : $( this ).data( "dialog-title" ),
-			               buttons  :
-				               [
-					               {
-						               text : $( this ).data( "dialog-btn-cancel-text" ),
-						               icon : "ui-icon-closethick",
-						               click: function () {
-							               $( this ).dialog( "close" );
-							               dialog.remove();
-						               },
-					               },
-					               {
-						               text : $( this ).data( "dialog-btn-ok-text" ),
-						               icon : "ui-icon-check",
-						               click: function () {
-							               $( this ).dialog( "close" );
-							               dialog.remove();
-							               location.href = actionUrl;
-						               },
-						
-					               },
-				               ],
-		               } );
+	$( '#deleteDeviceModal' ).on( 'show.bs.modal', function ( event ) {
 		
+		var modal = $( this );
+		
+		var button = $( event.relatedTarget ); // Button that triggered the modal
+		
+		console.log( modal.find( '.btn-ok' ) );
+		modal.find( '.btn-ok' ).attr( 'href', button.attr( 'href' ) );
+		
+		var body = button.data( 'dialog-text' );
+		modal.find( '.modal-body' ).html( body );
 	} );
-	
 	
 	$( '#device-list tbody tr td a.restart-device' ).on( "click", function ( e ) {
 		e.preventDefault();

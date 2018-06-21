@@ -314,13 +314,7 @@
 										<a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
 											<i class="fas fa-edit fa-lg"
 											   title='<?php echo __( "LINK_DEVICE_EDIT", "DEVICES" ); ?>'></i></a>
-										<a class="delete"
-										   data-dialog-btn-cancel-text='<?php echo __( "CANCEL" ); ?>'
-										   data-dialog-btn-ok-text='<?php echo __( "DELETE_DEVICE", "DEVICES" ); ?>'
-										   data-dialog-title='<?php echo __(
-											   "DELETE_DEVICE_CONFIRM_TITLE",
-											   "DEVICES"
-										   ); ?>'
+										<a class="delete" data-toggle="modal" data-target="#deleteDeviceModal"
 										   data-dialog-text='<?php echo __(
 											   "DELETE_DEVICE_CONFIRM_TEXT",
 											   "DEVICES",
@@ -450,4 +444,6 @@
 	</div>
 
 <?php endif; ?>
+<?php include "elements/modal_delete_device.php"; ?>
+
 <script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
