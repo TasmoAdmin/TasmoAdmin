@@ -1,4 +1,23 @@
 <!doctype html>
+<?php
+	//init nightmode css class
+	$nightmode = "";
+	$h         = date( 'H' );
+
+	if( $Config->read( "nightmode" ) === "disable" ) {
+		$nightmode = "";
+	} else {
+		if( $Config->read( "nightmode" ) === "auto" ) {
+			if( $h >= 18 || $h <= 8 ) {
+				$nightmode = "nightmode ";
+			}
+		} elseif( $Config->read( "nightmode" ) === "always" ) {
+			$nightmode = "nightmode ";
+		}
+	}
+
+
+?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 <head>
 	<meta charset="utf-8"/>
@@ -98,7 +117,7 @@
 	<?php endif; ?>
 
 </head>
-<body>
+<body class='<?php echo $nightmode; ?>'>
 <header>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
 		<?php //var_dump( $page ); ?>

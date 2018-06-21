@@ -5,8 +5,8 @@
  
 ## v1.1.0                              
 - **NEW**: you can now set a default startpage #115
-- MINOR: bootstrap4 delete device modal styling 
-- **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121
+- **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121          
+- MINOR: dont be blind on page reload: set nightmode class initial if nightmode is enabled
 
 
 ## v1.0.7               
