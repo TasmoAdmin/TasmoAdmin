@@ -1,7 +1,10 @@
 # CHANGELOG   
 
 
-## Upcoming 1.0.7
+## Upcoming 
+
+
+## 1.0.7
 - error handling for selfupdate if travis build failed #142       
 - restyle show more
 - add send command within device list #100
