@@ -47,8 +47,9 @@
 			}
 
 			if( empty( $release->assets[ 1 ] ) ) {
-				$result[ "error" ] = TRUE;
-				$result[ "msg" ]   = __("DOWNLOAD_MISSING","SELFUPDATE");
+				$result[ "error" ]  = TRUE;
+				$result[ "msg" ]    = __( "DOWNLOAD_MISSING", "SELFUPDATE" );
+				$result[ "update" ] = FALSE;
 			} else {
 				$this->releaseUrl = $release->assets[ 1 ]->browser_download_url;
 			}
