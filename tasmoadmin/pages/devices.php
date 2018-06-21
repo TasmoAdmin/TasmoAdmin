@@ -7,17 +7,15 @@
 ?>
 <?php if( isset( $devices ) && !empty( $devices ) ): ?>
 	<div class='row mb-1 mt-3'>
-		<div class='col-11 offset-1'>
-			<div class="form-group form-row justify-content-lg-start">
-				<div class="form-check ">
-					<input type="checkbox"
-					       class="form-check-input showmore d-none"
-					       id="showmore"
-					       name='showmore'>
-					<label class="form-check-label  btn btn-secondary" for="showmore">
-						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-					</label>
-				</div>
+		<div class='col-12 col-sm-1 offset-0 offset-sm-1'>
+			<div class="form-group">
+				<input type="checkbox"
+				       class="form-check-input showmore d-none"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label  btn btn-secondary" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
 			</div>
 		</div>
 	</div>
@@ -30,6 +28,18 @@
 			       cellspacing='0'>
 				<thead>
 				<tr>
+					<th class='link cmd_cb d-none'>
+						<div class="form-check custom-control custom-checkbox">
+							<input class="form-check-input custom-control-input select_all"
+							       type="checkbox"
+							       value='select_all'
+							       id="select_all"
+							       name='select_all'>
+							<label class="form-check-label custom-control-label" for="select_all">
+								<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
+							</label>
+						</div>
+					</th>
 					<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
@@ -82,18 +92,37 @@
 								    data-device_ip='<?php echo $device_group->ip; ?>'
 								    data-device_relais='<?php echo $key+1; ?>'
 								>
+									<td class='cmd_cb d-none'>
+										<?php if( $key == 0 ): ?>
+											<div class="form-check custom-control custom-checkbox">
+												<input class="form-check-input custom-control-input device_checkbox"
+												       type="checkbox"
+												       value='<?php echo $device_group->id; ?>'
+												       id="cb_<?php echo $device_group->id; ?>"
+												       name='device_ids[]'>
+												<label class="form-check-label custom-control-label"
+												       for="cb_<?php echo $device_group->id; ?>">
+													<?php echo __( "CB_COMMAND", "DEVICES" ); ?>
+												</label>
+											</div>
+										<?php endif; ?>
+									</td>
 									<td class='dblcEdit'
 									    data-target='csv'
 									    data-field='position'>
 										<?php echo $device_group->position; ?>
 									</td>
 									<td class='more static'><?php echo $device_group->id; ?></td>
-									<td><a href='http://<?php echo $device_group->ip; ?>/'
-									       target='_blank'
-									       title='<?php echo __(
-										       "LINK_OPEN_DEVICE_WEBUI",
-										       "DEVICES"
-									       ); ?>'><?php echo str_replace( " ", "&nbsp;", $devicename ); ?></a>
+									<td class='device_name'><a href='http://<?php echo $device_group->ip; ?>/'
+									                           target='_blank'
+									                           title='<?php echo __(
+										                           "LINK_OPEN_DEVICE_WEBUI",
+										                           "DEVICES"
+									                           ); ?>'><?php echo str_replace(
+												" ",
+												"&nbsp;",
+												$devicename
+											); ?></a>
 									</td>
 									<td><?php echo $device_group->ip; ?></td>
 									<td class='status'>
@@ -317,6 +346,18 @@
 				</tbody>
 				<tfoot>
 				<tr class='bottom'>
+					<th class='link cmd_cb d-none'>
+						<div class="form-check custom-control custom-checkbox">
+							<input class="form-check-input custom-control-input select_all"
+							       type="checkbox"
+							       value='select_all'
+							       id="select_all"
+							       name='select_all'>
+							<label class="form-check-label custom-control-label" for="select_all">
+								<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
+							</label>
+						</div>
+					</th>
 					<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
@@ -359,19 +400,34 @@
 		</div>
 	</div>
 	<div class='row mt-3'>
-		<div class='col-11 offset-1'>
-			<div class="form-group form-row justify-content-lg-start">
-				<div class="form-check ">
-					<input type="checkbox"
-					       class="form-check-input showmore d-none"
-					       id="showmore"
-					       name='showmore'>
-					<label class="form-check-label  btn btn-secondary" for="showmore">
-						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-					</label>
-				</div>
+		<div class='col-auto offset-0 offset-sm-1'>
+			<div class="form-group">
+				<input type="checkbox"
+				       class="form-check-input showmore d-none"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label  btn btn-secondary" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
 			</div>
 		</div>
+		<div class="col-auto">
+			<button class='btn btn-secondary showCommandInput'>
+				<?php echo __( "BTN_COMMAND", "DEVICES" ); ?>
+			</button>
+		</div>
+	</div>
+	<div class='cmdContainer row command-hidden d-none'>
+		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0">
+			<input type='text' name='command' class='form-control commandInput'>
+		</div>
+		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0">
+			<button type='submit' class='btn btn-primary sendCommand w-100' name='sendCommand'>
+				<?php echo __( "SEND_COMMAND", "DEVICES" ); ?>
+			</button>
+		</div>
+		<small id="commandInputError" class="form-text col-12 col-sm-11 offset-0 offset-sm-1 d-none">
+		</small>
 	</div>
 <?php else: ?>
 	<div class='row'>

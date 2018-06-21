@@ -2,6 +2,8 @@ $( document ).on( "ready", function () {
 	deviceTools();
 	updateAllStatus();
 	
+	initCommandHelper();
+	
 	
 	$( ".showmore" ).on( "change", function ( e ) {
 		if ( $( this ).prop( "checked" ) ) {
@@ -53,6 +55,111 @@ $( document ).on( "ready", function () {
 	}
 	
 } );
+
+function initCommandHelper() {
+	$( ".showCommandInput" ).on( "click", function ( e ) {
+		$( this ).toggleClass( "btn-secondary" ).toggleClass( "btn-primary" );
+		$( ".command-hidden" ).toggleClass( "d-none" );
+		$( ".cmd_cb" ).toggleClass( "d-none" ).find( "input" ).prop( "checked", false );
+		$( ".cmdContainer " ).removeClass( "has-error" );
+		$( ".cmdContainer " ).find( "input" ).val( "" );
+		$( ".cmdContainer " ).find( "#commandInputError" ).html( "" );
+	} );
+	
+	$( ".select_all" ).change( function () {  //"select all" change
+		var status = this.checked; // "select all" checked status
+		$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
+			this.checked = status; //change ".checkbox" checked status
+		} );
+		
+		$( '.select_all' ).each( function () { //iterate all listed checkbox items
+			this.checked = status; //change ".checkbox" checked status
+		} );
+		
+	} );
+	
+	$( '.device_checkbox' ).change( function () { //".checkbox" change
+		//uncheck "select all", if one of the listed checkbox item is unchecked
+		if ( this.checked == false ) { //if this item is unchecked
+			$( '.select_all' ).each( function () { //iterate all listed checkbox items
+				this.checked = false; //change ".checkbox" checked status
+			} );
+		}
+		
+		//check "select all" if all checkbox items are checked
+		if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
+			$( '.select_all' ).each( function () { //iterate all listed checkbox items
+				this.checked = true; //change ".checkbox" checked status
+			} );
+		}
+	} );
+	
+	
+	$( ".sendCommand" ).on( "click", function ( e ) {
+		$( this )
+			.parent()
+			.parent().removeClass( "has-error" )
+			.find( "#commandInputError" )
+			.addClass( "d-none" );
+		
+		var selectedDevices = $.map( $( ".cmd_cb:not(.link ) input:not(.select_all):checked" ), function ( elem, idx ) {
+			let d = new Array( $( elem ).val() );
+			return d;
+		} );
+		//console.log( selectedDevices );
+		if ( selectedDevices.length == 0 ) {
+			$( this )
+				.parent()
+				.parent().addClass( "has-error" )
+				.find( "#commandInputError" )
+				.removeClass( "d-none" )
+				.html(
+					$.i18n( "ERROR_COMMAND_NO_DEVICE_SELECTED" ),
+				);
+			return false;
+		}
+		
+		var cmnd = $( this )
+			.parent()
+			.parent().find( ".commandInput" ).val();
+		
+		//console.log( cmnd );
+		if ( cmnd == "" ) {
+			$( this )
+				.parent()
+				.parent().addClass( "has-error" )
+				.find( "#commandInputError" )
+				.removeClass( "d-none" )
+				.html(
+					$.i18n( "ERROR_PLS_ENTER_COMMAND" ),
+				);
+			return false;
+		}
+		
+		$.each( selectedDevices, function ( idx, device_id ) {
+			console.log( device_id );
+			Sonoff.generic( device_id, cmnd, undefined, function ( result ) {
+				console.log( result );
+				var device_name = $( "[data-device_id=" + device_id + "]:first" )
+					.find( ".device_name a" )
+					.text()
+					.trim();
+				$( "#commandInputError" ).append( "ID " + device_id + " (" + device_name + ") => " + JSON.stringify(
+					result ) + "<br/>" );
+			} );
+		} );
+		
+		$( this )
+			.parent()
+			.parent()
+			.find( "#commandInputError" )
+			.removeClass( "d-none" )
+			.append(
+				$.i18n( "SUCCESS_COMMAND_SEND" ) + "</br>",
+			);
+		
+	} );
+}
 
 
 function updateStatus() {

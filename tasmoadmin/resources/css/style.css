@@ -313,6 +313,10 @@ td.runtime {
 	width : auto;
 }
 
+.table tfoot th {
+	border-top : 2px solid #DEE2E6;
+}
+
 .hidden,
 .tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
 	display : none;
@@ -324,6 +328,14 @@ hr {
 
 .modal-header > h3:nth-child(1) {
 	color : #4B4B4B;
+}
+
+#commandInputError {
+	color : green;
+}
+
+.has-error #commandInputError {
+	color : red;
 }
 
 .nightmode {
@@ -456,4 +468,13 @@ hr {
 
 .nightmode .btn-secondary:hover {
 	color : #FFFFFF;
+}
+
+.btn {
+	-webkit-touch-callout : none;
+	-webkit-user-select   : none;
+	-khtml-user-select    : none;
+	-moz-user-select      : none;
+	-ms-user-select       : none;
+	user-select           : none;
 }
