@@ -2,6 +2,10 @@
 
 
 ## Upcoming
+- error handling for selfupdate if travis build failed #142
+
+## 1.0.6
+- update busybox to fix travis build
 
 ## v1.0.4 - 1.0.5
 - fix date in update #124
