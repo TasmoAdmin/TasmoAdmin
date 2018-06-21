@@ -227,9 +227,10 @@ function updateStatus() {
 								//$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 								
 								$( grouptr ).find( "td" ).each( function ( key, td ) {
+									//console.log( key );
 									//console.log( td );
-									if ( td.find( ".loader" ) ) {
-										td.find( "span" ).html( "-" );
+									if ( $( td ).find( ".loader" ).length > 0 ) {
+										$( td ).find( "span" ).html( "-" );
 									}
 								} );
 								
