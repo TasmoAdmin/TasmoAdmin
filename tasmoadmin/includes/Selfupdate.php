@@ -46,7 +46,12 @@
 				}
 			}
 
-			$this->releaseUrl = $release->assets[ 1 ]->browser_download_url;
+			if( empty( $release->assets[ 1 ] ) ) {
+				$result[ "error" ] = TRUE;
+				$result[ "msg" ]   = __("DOWNLOAD_MISSING","SELFUPDATE");
+			} else {
+				$this->releaseUrl = $release->assets[ 1 ]->browser_download_url;
+			}
 
 			return $result;
 		}
