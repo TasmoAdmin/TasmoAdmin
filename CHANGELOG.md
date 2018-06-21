@@ -26,6 +26,8 @@
   
 ## v0.0.7
 - fixed /app/tasmoadmin/.docker to disable SelfUpdate
+- restyle show more
+
 
 ## v0.0.6   
 ### 2018-05-23
