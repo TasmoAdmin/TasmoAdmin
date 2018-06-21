@@ -1,8 +1,10 @@
 # CHANGELOG   
 
 
-## Upcoming
-- error handling for selfupdate if travis build failed #142
+## Upcoming 1.0.7
+- error handling for selfupdate if travis build failed #142       
+- restyle show more
+- add send command within device list #100
 
 ## 1.0.6
 - update busybox to fix travis build
@@ -26,8 +28,6 @@
   
 ## v0.0.7
 - fixed /app/tasmoadmin/.docker to disable SelfUpdate
-- restyle show more
-- add send command within device list #100
 
 ## v0.0.6   
 ### 2018-05-23
