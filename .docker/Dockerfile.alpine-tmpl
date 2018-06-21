@@ -65,8 +65,7 @@ COPY .docker/rootfs /
 # Setup application
 COPY tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
-    && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \; \
-    && rm -rf /var/www/tasmoadmin/.iocage
+    && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
 # Volume
 VOLUME /data
