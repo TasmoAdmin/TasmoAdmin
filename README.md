@@ -1,5 +1,7 @@
 # TasmoAdmin
 
+
+
 [![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
 [![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
 [![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg?maxAge=2592000)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
@@ -62,6 +64,8 @@ You need to install a web server with php-zip and php-curl modules installed. Al
 ![Startpage](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/2.png)
 #### Devices Page
 ![Devices](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/3.png)
+Edit in Table   
+![LiveChange](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/livechange.gif)
 #### Devices Add/Edit Page
 ![Device Add/Edit](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/3_1.png)
 #### Config General Page
