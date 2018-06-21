@@ -66,6 +66,13 @@ function initCommandHelper() {
 		$( ".cmdContainer " ).find( "#commandInputError" ).html( "" );
 	} );
 	
+	$( ".cmdContainer " ).find( "input" ).keypress( function ( e ) {
+		if ( e.which == 13 ) {//Enter key pressed
+			$( ".sendCommand" ).click();//Trigger search button click event
+		}
+	} );
+	
+	
 	$( ".select_all" ).change( function () {  //"select all" change
 		var status = this.checked; // "select all" checked status
 		$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
@@ -100,7 +107,7 @@ function initCommandHelper() {
 			.parent()
 			.parent().removeClass( "has-error" )
 			.find( "#commandInputError" )
-			.addClass( "d-none" );
+			.addClass( "d-none" ).html( "" );
 		
 		var selectedDevices = $.map( $( ".cmd_cb:not(.link ) input:not(.select_all):checked" ), function ( elem, idx ) {
 			let d = new Array( $( elem ).val() );
