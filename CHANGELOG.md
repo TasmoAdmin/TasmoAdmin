@@ -1,7 +1,8 @@
 # CHANGELOG   
 
 
-## Upcoming 
+## Upcoming 1.0.8
+- bootstrap4 delete device modal styling 
 
 
 ## 1.0.7
