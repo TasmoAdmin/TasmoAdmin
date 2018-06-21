@@ -20,8 +20,8 @@
 	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 	$changelog = curl_exec( $ch );
 
-
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
+
 	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
 		$changelog = "";
 	} else {

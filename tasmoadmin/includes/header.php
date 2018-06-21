@@ -102,7 +102,7 @@
 <header>
 	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
 		<?php //var_dump( $page ); ?>
-		<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_; ?>start'>
+		<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read( "homepage" ); ?>'>
 			<img src='<?php echo _RESOURCESURL_; ?>img/logo_small.PNG' height='50px'/>
 		</a>
 		<button class="navbar-toggler"
