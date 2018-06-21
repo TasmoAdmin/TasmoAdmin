@@ -3,6 +3,7 @@
 
 ## Upcoming 1.0.8
 - bootstrap4 delete device modal styling 
+- fix Multichannel devices don't restore correctly if backend fails temporarily #121
 
 
 ## 1.0.7
