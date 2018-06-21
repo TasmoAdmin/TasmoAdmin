@@ -16,6 +16,7 @@
 				"login"                 => "1",
 				"scan_from_ip"          => "192.168.178.2",
 				"scan_to_ip"            => "192.168.178.254",
+				"homepage"              => "start",
 			];
 
 		function __construct() {

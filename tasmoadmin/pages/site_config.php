@@ -79,6 +79,24 @@
 				       value=''
 				       autocomplete="off">
 			</div>
+			<div class="form-group">
+				<label for="homepage">
+					<?php echo __( "CONFIG_HOMEPAGE", "USER_CONFIG" ); ?>
+				</label>
+				<select class="form-control custom-select" id="homepage" name='homepage'>
+					<option value='start'
+						<?php echo $config[ "homepage" ] == "start" ? "selected=\selected\"" : ""; ?>
+					>
+						<?php echo __( "CONFIG_HOMEPAGE_START", "USER_CONFIG" ); ?>
+					</option>
+					<option value='devices'
+						<?php echo $config[ "homepage" ] == "devices" ? "selected=\selected\"" : ""; ?>
+					>
+						<?php echo __( "CONFIG_HOMEPAGE_DEVICES", "USER_CONFIG" ); ?>
+					</option>
+
+				</select>
+			</div>
 
 
 			<div class="form-row  mt-5">

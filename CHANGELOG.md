@@ -1,44 +1,47 @@
 # CHANGELOG   
 
 
-## Upcoming 1.0.8
-- bootstrap4 delete device modal styling 
-- fix Multichannel devices don't restore correctly if backend fails temporarily #121
+## Upcoming
+ 
+## v1.1.0                              
+- **NEW**: you can now set a default startpage #115
+- MINOR: bootstrap4 delete device modal styling 
+- **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121
 
 
-## 1.0.7
-- error handling for selfupdate if travis build failed #142       
-- restyle show more
-- add send command within device list #100
+## v1.0.7               
+- **NEW**: add send command within device list #100
+- MINOR: error handling for selfupdate if travis build failed #142       
+- MINOR: restyle show more
 
-## 1.0.6
-- update busybox to fix travis build
+## v1.0.6
+- **DOCKER**: update busybox to fix travis build
 
 ## v1.0.4 - 1.0.5
-- fix date in update #124
-- change filename to load js file correctly (only firefox issue?)
+- **FIX**: date in update #124
+- MINOR: change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
-- add configurable server port #122 #131
-- show some energy data
-- add iocage support by @tprelog :)
+- **NEW**: add configurable server port #122 #131
+- MINOR: show some energy data
+- **NEW**: add iocage support by @tprelog :)
 
 ## v0.0.8 - v 1.0.3
-- add logo
-- update font-awesome 5.0.6 -> 5.0.13
-- update bootstrap 4.0.0 -> 4.1.1
-- docker: clean-up unnecessary lines to reduce image size
-- docker: cleanup and readme
-- docker: Moved from Apache to Nginx #106
-- docker: Remove rm
+- MINOR: add logo
+- **UPDATE**: font-awesome 5.0.6 -> 5.0.13
+- **UPDATE**: bootstrap 4.0.0 -> 4.1.1
+- **DOCKER**: clean-up unnecessary lines to reduce image size
+- **DOCKER**: cleanup and readme
+- **DOCKER**: Moved from Apache to Nginx #106
+- **DOCKER**: Remove rm
   
 ## v0.0.7
-- fixed /app/tasmoadmin/.docker to disable SelfUpdate
+- **FIX**: /app/tasmoadmin/.docker to disable SelfUpdate
 
 ## v0.0.6   
 ### 2018-05-23
 - more rename
 - hide selfupdate if on docker #105
-- fix update on https #103
+- **FIX**: update on https #103
 - provide TasmoAdmin Docker within repo #92
 - add help menu (#100)
 
@@ -49,17 +52,17 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
 ### 2018-05-17
 - add polish translation (thx Pawel)
-- fix device list table header distance
+- **FIX**: device list table header distance
 - add BME680 Gas Sensor #98
    
 ### 2018-05-15
-- fix autoscan for devices with more that 4 outputs #96
+- **FIX**: autoscan for devices with more that 4 outputs #96
 - support up to 5x DS18x20 #94
    
 ### 2018-05-06
 - add distance sensor data (#89)
-- fix overlapping sensor data on startpage (#90)
-- fix device list some values did not get updated after timeout
+- **FIX**: overlapping sensor data on startpage (#90)
+- **FIX**: device list some values did not get updated after timeout
 - autoscan: remember fromIP and toIP (saved in MyConfig.php now) (#67)
    
 ### 2018-04-10
@@ -73,21 +76,21 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 ### 2018-03-30
 - rollback to ajax status requests on device list
   - multicurl was timeouting alot :/
-- fix skip minimal if no minimal firmware was uploaded
+- **FIX**: skip minimal if no minimal firmware was uploaded
    
 ### 2018-03-25
-- fix for some line-height
+- **FIX**: for some line-height
    
 ### 2018-03-23
-- fix #83 (json changed for sensors)
+- **FIX**: #83 (json changed for sensors)
 - add BME280 sensor
-- fix  #82, json friendlyname is now an array since 5.12.0h
+- **FIX**:  #82, json friendlyname is now an array since 5.12.0h
 - some startpage responsive css fixes for sensor data
 - add 2x DS18x20 sensor
    
 ### 2018-03-03
-- fix nightmode always
-- startpage red border on error not shown when nightmode active fix
+- **FIX**: nightmode always
+- startpage red border on error not shown when nightmode active **FIX**:
 - some timeout adjustment
    
 ### 2018-02-27
@@ -95,10 +98,10 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - FR translation   
    
 ### 2018-02-22
-- minor fix for startpage
+- minor **FIX**: for startpage
    
 ### 2018-02-21
-- fix uptime for safari   
+- **FIX**: uptime for safari   
 - set timeout from 2 to 3 secs   
    
 ### 2018-02-19
@@ -113,7 +116,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
 ### 2018-02-16
 - HOTFIX for startpage
-- fix missing name for devices without switches #55
+- **FIX**: missing name for devices without switches #55
    - sonoff bridge, sonoff sc, wemos8 etc
    - **you need to edit the device form the device list and set a name, the name input was missing before**
 - you can set one position for a multi channel device now (all channels get the same position)
@@ -148,7 +151,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - some styling fixes
    
 ### 2018-02-08
-- fix device update process
+- **FIX**: device update process
 - some styling fixes
 - add sensor SHT3X
    
@@ -156,7 +159,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - add bootstrap and relayout
    - **if something looks wrong, pls clear your browser cache (Ctrl+r)**
    - fine tuning in next days ;)
-- fix nightmode auto wont remove nightmode in the morning
+- **FIX**: nightmode auto wont remove nightmode in the morning
    
 ### 2018-02-06
 - minimal firmware is not a required field anymore
@@ -168,7 +171,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 
 ### 2018-02-03
 - higher timeout for curl, fixes some timeout problem with much devices   
-- minor fix i18n  
+- minor **FIX**: i18n  
 - added double click edit of config in device list   
 ![2018-02-03_1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/changelog/2018-02-03_1.PNG)   
 
@@ -178,13 +181,13 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - add userfirendly urls   
 - **mod_rewrite is a requirement now, check ubuntu guide in the wiki**
 - add devicename/id on device edit page   
-- fix page title on device add/edit page   
+- **FIX**: page title on device add/edit page   
 - remove selfupdate warning (works great now)
-- css fix for chrome
-- mobile: fix action buttons linebreak
+- css **FIX**: for chrome
+- mobile: **FIX**: action buttons linebreak
 
 ### 2018-02-01
-- fix bug in selfupate
+- **FIX**: bug in selfupate
 	- **PLEASE RUN SELFUPDATE TWICE**
 - temp and humadity sensor are detected now
 	- AM2301
