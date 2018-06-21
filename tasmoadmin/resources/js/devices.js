@@ -8,16 +8,22 @@ $( document ).on( "ready", function () {
 			$( ".showmore" ).prop( "checked", true );
 			Cookies.set( 'devices_show_more', '1' );
 			$( "#device-list .more:not(.hidden)" ).show();
+			$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
+				"btn-primary" );
 		} else {
 			$( ".showmore" ).prop( "checked", false );
 			Cookies.set( 'devices_show_more', '0' );
 			$( "#device-list .more" ).hide();
+			$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-primary" ).addClass(
+				"btn-secondary" );
 		}
 	} );
 	
 	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
 		$( ".showmore" ).prop( "checked", true );
 		$( "#device-list .more:not(.hidden)" ).show();
+		$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
+			"btn-primary" );
 	}
 	
 	$( '.table-responsive' ).attachDragger();

@@ -6,15 +6,15 @@
 	//var_dump( $devices );
 ?>
 <?php if( isset( $devices ) && !empty( $devices ) ): ?>
-	<div class='row mb-3'>
-		<div class='col-12'>
-			<div class="form-group form-row justify-content-end">
-				<div class="form-check custom-control custom-checkbox">
+	<div class='row mb-1 mt-3'>
+		<div class='col-11 offset-1'>
+			<div class="form-group form-row justify-content-lg-start">
+				<div class="form-check ">
 					<input type="checkbox"
-					       class="form-check-input custom-control-input showmore"
+					       class="form-check-input showmore d-none"
 					       id="showmore"
 					       name='showmore'>
-					<label class="form-check-label custom custom-control-label" for="showmore">
+					<label class="form-check-label  btn btn-secondary" for="showmore">
 						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
 					</label>
 				</div>
@@ -359,14 +359,14 @@
 		</div>
 	</div>
 	<div class='row mt-3'>
-		<div class='col-12'>
-			<div class="form-group form-row justify-content-end">
-				<div class="form-check custom-control custom-checkbox">
+		<div class='col-11 offset-1'>
+			<div class="form-group form-row justify-content-lg-start">
+				<div class="form-check ">
 					<input type="checkbox"
-					       class="form-check-input custom-control-input showmore"
+					       class="form-check-input showmore d-none"
 					       id="showmore"
 					       name='showmore'>
-					<label class="form-check-label custom custom-control-label" for="showmore">
+					<label class="form-check-label  btn btn-secondary" for="showmore">
 						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
 					</label>
 				</div>
