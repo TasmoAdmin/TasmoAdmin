@@ -2,17 +2,17 @@
 	$msg            = FALSE;
 	$device         = NULL;
 	$activeTabIndex = 0;
-	
+
 	if ( isset( $_GET[ "device_id" ] ) ) {
 		$device = $Sonoff->getDeviceById( $_GET[ "device_id" ] );
 	} else {
 		$msg = __( "ERROR_NO_DEVICE_SELECTED", "DEVICE_CONFIG" );
 	}
-	
-	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		$activeTabIndex = $_POST[ "tab-index" ];
-		if ( isset( $_POST[ "save" ] ) ) {
-			$settings = $_POST;
+
+	if ( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+		$activeTabIndex = $_REQUEST[ "tab-index" ];
+		if ( isset( $_REQUEST[ "save" ] ) ) {
+			$settings = $_REQUEST;
 			unset( $settings[ "save" ] );
 			unset( $settings[ "tab-index" ] );
 			if ( !isset( $settings[ "Password1" ] ) || empty( $settings[ "Password1" ] )
@@ -31,7 +31,7 @@
 					}
 				}
 			}
-			
+
 			$backlog = "Backlog ";
 			foreach ( $settings as $settingKey => $settingVal ) {
 				$settingVal = trim( $settingVal );
@@ -46,10 +46,10 @@
 			$msg     .= "<br/> ".$backlog;
 			sleep( count( $settings ) );
 		}
-		
-		
+
+
 	}
-	
+
 	$status            = $Sonoff->getAllStatus( $device );
 	$status->statusNTP = $Sonoff->getNTPStatus( $device );
 
@@ -70,7 +70,7 @@
 				</button>
 			</div>
 		<?php endif; ?>
-		
+
 		<?php if ( isset( $status->ERROR ) && !empty( $status->ERROR ) ): ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
 				<?php echo __( "ERROR_COULD_NOT_GET_DATA", "DEVICE_CONFIG" ); ?><br/>
@@ -80,7 +80,7 @@
 					<span aria-hidden="true">&times;</span>
 				</a>
 			</div>
-		
+
 		<?php else: ?>
 			<ul class="nav nav-tabs" id="device_config" role="tablist">
 				<li class="nav-item">
@@ -105,7 +105,7 @@
 						<?php echo __( "TAB_HL_NETWORK", "DEVICE_CONFIG" ); ?>
 					</a>
 				</li>
-			
+
 			</ul>
 			<div class="tab-content mt-3" id="device_configContent">
 				<div class="tab-pane fade <?php echo $activeTabIndex == 0 ? "show active" : ""; ?>"

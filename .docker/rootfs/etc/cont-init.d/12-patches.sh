@@ -45,7 +45,7 @@
 #-	$otaServer = $_SERVER['REQUEST_SCHEME'] . "://".$localIP.":".$_SERVER[ "SERVER_PORT" ]._BASEURL_."";
 #+	$otaServer = "http://".$localIP.":".$_SERVER[ "SERVER_PORT" ]._BASEURL_."";
 #
-# 	if ( isset( $_POST[ 'minimal_firmware_path' ] ) && !empty( $_POST[ 'minimal_firmware_path' ] ) ) {
+# 	if ( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
 # 		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
 #PATCH
 #

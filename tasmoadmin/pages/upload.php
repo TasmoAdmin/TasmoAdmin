@@ -12,7 +12,7 @@
 		} // delete file
 	}
 	$minimal_firmware_path = "";
-	if( isset( $_POST[ "upload" ] ) ) {
+	if( isset( $_REQUEST[ "upload" ] ) ) {
 		if( $_FILES[ 'minimal_firmware' ][ "name" ] == "" ) {
 			$msg .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".__(
 					"UPLOAD_FIRMWARE_MINIMAL_SKIP",
@@ -146,7 +146,7 @@
 			$msg   .= __( "UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE" ).": ".$e->getMessage()."!</br>";
 
 		}
-	} elseif( isset( $_POST[ "auto" ] ) ) {
+	} elseif( isset( $_REQUEST[ "auto" ] ) ) {
 		//File to save the contents to
 		$lCode = $Config->read( "update_automatic_lang" );
 		if( $lCode != "" ) {
@@ -234,7 +234,7 @@
 	}
 
 
-	$ota_server_ip = isset( $_POST[ "ota_server_ip" ] ) ? $_POST[ "ota_server_ip" ] : "";
+	$ota_server_ip = isset( $_REQUEST[ "ota_server_ip" ] ) ? $_REQUEST[ "ota_server_ip" ] : "";
 
 	$Config->write( "ota_server_ip", $ota_server_ip );
 
@@ -269,7 +269,7 @@
 	<?php $devices = $Sonoff->getDevices(); ?>
 
 
-	<?php if( isset( $_POST[ "auto" ] ) ) : ?>
+	<?php if( isset( $_REQUEST[ "auto" ] ) ) : ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col-12 col-md-6 '>
 				<div class="alert alert-warning fade show mb-5" data-dismiss="alert" role="alert">

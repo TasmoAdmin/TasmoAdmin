@@ -1,8 +1,10 @@
 # CHANGELOG   
 
 
-## Upcoming
+## Upcoming v1.1.1
+- *FIX* some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
  
+
 ## v1.1.0                              
 - **NEW**: you can now set a default startpage #115
 - **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121          

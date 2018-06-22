@@ -119,8 +119,8 @@
 	if( isset( $_GET ) ) {
 		if( isset( $_GET[ "doAjax" ] ) ) {
 			session_write_close(); //stop blocking other ajax biatch
-			if( isset( $_POST[ "target" ] ) ) {
-				$data = $Sonoff->setDeviceValue( $_POST[ "id" ], $_POST[ "field" ], $_POST[ "newvalue" ] );
+			if( isset( $_REQUEST[ "target" ] ) ) {
+				$data = $Sonoff->setDeviceValue( $_REQUEST[ "id" ], $_REQUEST[ "field" ], $_REQUEST[ "newvalue" ] );
 			} else {
 				$data = $Sonoff->doAjax();
 			}

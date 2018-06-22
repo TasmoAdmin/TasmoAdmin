@@ -1,5 +1,5 @@
 <?php
-	
+
 	ini_set( "display_errors", 0 );
 	//	var_dump( $_GET );
 	$action = $_GET[ "action" ];
@@ -8,7 +8,7 @@
 	$msg    = NULL;
 	if ( $action == "edit" ) {
 		$device = $Sonoff->getDeviceById( $_GET[ "device_id" ] );
-		
+
 		$status = $Sonoff->getAllStatus( $device );
 		if ( isset( $status->ERROR ) ) {
 			$msg = __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" )."<br/>";
@@ -17,14 +17,14 @@
 	} else if ( $action == "delete" ) {
 		$device[ 0 ] = $_GET[ "device_id" ];
 		$tempfile    = @tempnam( _TMPDIR_, "tmp" ); // produce a temporary file name, in the current directory
-		
+
 		if ( !$input = fopen( $filename, 'r' ) ) {
 			die( __( "ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", [ "csvFilePath" => $filename ] ) );
 		}
 		if ( !$output = fopen( $tempfile, 'w' ) ) {
 			die( __( "ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", [ "tmpFilePath" => $tempfile ] ) );
 		}
-		
+
 		$idCounter = 1;
 		while ( ( $data = fgetcsv( $input ) ) !== FALSE ) {
 			if ( $data[ 0 ] == $device[ 0 ] ) {
@@ -34,27 +34,27 @@
 			$idCounter++;
 			fputcsv( $output, $data );
 		}
-		
+
 		fclose( $input );
 		fclose( $output );
-		
+
 		unlink( $filename );
 		rename( $tempfile, $filename );
-		
+
 		$msg    = __( "MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS" );
 		$action = "done";
 	}
-	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		
-		if ( isset( $_POST[ "search" ] ) ) {
-			if ( isset( $_POST[ 'device_ip' ] ) ) {
+	if ( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+
+		if ( isset( $_REQUEST[ "search" ] ) ) {
+			if ( isset( $_REQUEST[ 'device_ip' ] ) ) {
 				if ( !isset( $device ) ) {
 					$device = new stdClass();
 				}
-				$device->ip       = $_POST[ 'device_ip' ];
-				$device->username = $_POST[ 'device_username' ];
-				$device->password = $_POST[ 'device_password' ];
-				
+				$device->ip       = $_REQUEST[ 'device_ip' ];
+				$device->username = $_REQUEST[ 'device_username' ];
+				$device->password = $_REQUEST[ 'device_password' ];
+
 				$status = $Sonoff->getAllStatus( $device );
 				if ( isset( $status->ERROR ) ) {
 					$msg = __( "MSG_DEVICE_NOT_FOUND", "DEVICE_ACTIONS" )."<br/>";
@@ -63,62 +63,62 @@
 			} else {
 				$msg = __( "ERROR_PLEASE_ENTER_DEVICE_IP", "DEVICE_ACTIONS" );
 			}
-		} else if ( !empty( $_POST[ 'device_id' ] ) ) {//update
+		} else if ( !empty( $_REQUEST[ 'device_id' ] ) ) {//update
 			$device      = [];
-			$device[ 0 ] = $_POST[ "device_id" ];
-			$device[ 1 ] = implode( "|", $_POST[ "device_name" ] );
-			$device[ 2 ] = $_POST[ "device_ip" ];
-			$device[ 3 ] = $_POST[ "device_username" ];
-			$device[ 4 ] = $_POST[ "device_password" ];
-			$device[ 5 ] = isset( $_POST[ "device_img" ] ) ? $_POST[ "device_img" ] : "bulb_1";
-			$device[ 6 ] = $_POST[ "device_position" ];
-			
+			$device[ 0 ] = $_REQUEST[ "device_id" ];
+			$device[ 1 ] = implode( "|", $_REQUEST[ "device_name" ] );
+			$device[ 2 ] = $_REQUEST[ "device_ip" ];
+			$device[ 3 ] = $_REQUEST[ "device_username" ];
+			$device[ 4 ] = $_REQUEST[ "device_password" ];
+			$device[ 5 ] = isset( $_REQUEST[ "device_img" ] ) ? $_REQUEST[ "device_img" ] : "bulb_1";
+			$device[ 6 ] = $_REQUEST[ "device_position" ];
+
 			$tempfile = @tempnam( _TMPDIR_, "tmp" ); // produce a temporary file name, in the current directory
-			
-			
+
+
 			if ( !$input = fopen( $filename, 'r' ) ) {
 				die( __( "ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", [ "csvFilePath" => $filename ] ) );
 			}
 			if ( !$output = fopen( $tempfile, 'w' ) ) {
 				die( __( "ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", [ "tmpFilePath" => $tempfile ] ) );
 			}
-			
+
 			while ( ( $data = fgetcsv( $input ) ) !== FALSE ) {
 				if ( $data[ 0 ] == $device[ 0 ] ) {
 					$data = $device;
 				}
 				fputcsv( $output, $data );
 			}
-			
+
 			fclose( $input );
 			fclose( $output );
-			
+
 			unlink( $filename );
 			rename( $tempfile, $filename );
-			
+
 			$msg    = __( "MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS" );
 			$action = "done";
-			
+
 		} else { //add
-			
+
 			$device      = [];
 			$fp          = file( $filename );
 			$device[ 0 ] = count( $fp ) + 1;
-			$device[ 1 ] = implode( "|", isset( $_POST[ "device_name" ] ) ? $_POST[ "device_name" ] : [] );
-			$device[ 2 ] = isset( $_POST[ "device_ip" ] ) ? $_POST[ "device_ip" ] : "";
-			$device[ 3 ] = isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ] : "";
-			$device[ 4 ] = isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : "";
-			$device[ 5 ] = isset( $_POST[ "device_img" ] ) ? $_POST[ "device_img" ] : "bulb_1";
-			$device[ 6 ] = isset( $_POST[ "device_position" ] ) ? $_POST[ "device_position" ] : "";
-			
-			
+			$device[ 1 ] = implode( "|", isset( $_REQUEST[ "device_name" ] ) ? $_REQUEST[ "device_name" ] : [] );
+			$device[ 2 ] = isset( $_REQUEST[ "device_ip" ] ) ? $_REQUEST[ "device_ip" ] : "";
+			$device[ 3 ] = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ] : "";
+			$device[ 4 ] = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : "";
+			$device[ 5 ] = isset( $_REQUEST[ "device_img" ] ) ? $_REQUEST[ "device_img" ] : "bulb_1";
+			$device[ 6 ] = isset( $_REQUEST[ "device_position" ] ) ? $_REQUEST[ "device_position" ] : "";
+
+
 			$handle = fopen( $filename, "a" );
 			fputcsv( $handle, $device );
 			fclose( $handle );
-			
+
 			$msg    = __( "MSG_DEVICE_ADD_DONE", "DEVICE_ACTIONS" );
 			$action = "done";
-			
+
 		}
 	}
 
@@ -136,7 +136,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-		
+
 		<?php endif; ?>
 		<?php if ( $action == "done" ): ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
@@ -158,16 +158,16 @@
 					<small>( ID: <?php echo $device->id; ?> )</small>
 				</h3>
 			<?php endif; ?>
-			
-			
+
+
 			<form class='form'
 			      name='save_device'
 			      method='post'
 			      action='<?php echo _BASEURL_; ?>device_action/<?php echo $action ?><?php echo isset( $device->id )
 				      ? "/".$device->id : "" ?>'>
 				<input type='hidden' name='device_id' value='<?php echo isset( $device->id ) ? $device->id : ""; ?>'>
-				
-				
+
+
 				<div class="form-row">
 					<div class="form-group col-12 col-sm-9">
 						<label for="device_ip">
@@ -178,8 +178,8 @@
 						       id="device_ip"
 						       name='device_ip'
 						       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-						       value='<?php echo( isset( $device->id ) && !isset( $_POST[ 'device_ip' ] ) ? $device->ip
-							       : ( isset( $_POST[ 'device_ip' ] ) ? $_POST[ 'device_ip' ] : "" ) ); ?>'
+						       value='<?php echo( isset( $device->id ) && !isset( $_REQUEST[ 'device_ip' ] ) ? $device->ip
+							       : ( isset( $_REQUEST[ 'device_ip' ] ) ? $_REQUEST[ 'device_ip' ] : "" ) ); ?>'
 						       required>
 						<small id="device_ipHelp" class="form-text text-muted">
 							<?php echo __( "DEVICE_IP_HELP", "DEVICE_ACTIONS" ); ?>
@@ -204,9 +204,9 @@
 					       class="form-control"
 					       id="device_username"
 					       name='device_username'
-					       value='<?php echo( isset( $device->id ) && !isset( $_POST[ 'device_username' ] )
-						       ? $device->username : ( isset( $_POST[ 'device_username' ] )
-							       ? $_POST[ 'device_username' ] : "admin" ) ); ?>'
+					       value='<?php echo( isset( $device->id ) && !isset( $_REQUEST[ 'device_username' ] )
+						       ? $device->username : ( isset( $_REQUEST[ 'device_username' ] )
+							       ? $_REQUEST[ 'device_username' ] : "admin" ) ); ?>'
 					>
 					<small id="device_usernameHelp" class="form-text text-muted">
 						<?php echo __( "DEVICE_USERNAME_HELP", "DEVICE_ACTIONS" ); ?>
@@ -220,16 +220,16 @@
 					       class="form-control"
 					       id="device_password"
 					       name='device_password'
-					       value='<?php echo( isset( $device->id ) && !isset( $_POST[ 'device_password' ] )
-						       ? $device->password : ( isset( $_POST[ 'device_password' ] )
-							       ? $_POST[ 'device_password' ] : "" ) ); ?>'
+					       value='<?php echo( isset( $device->id ) && !isset( $_REQUEST[ 'device_password' ] )
+						       ? $device->password : ( isset( $_REQUEST[ 'device_password' ] )
+							       ? $_REQUEST[ 'device_password' ] : "" ) ); ?>'
 					>
 					<small id="device_passwordHelp" class="form-text text-muted">
 						<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>
 					</small>
 				</div>
-				
-				
+
+
 				<?php if ( isset( $status ) && !empty( $status ) && !isset( $status->ERROR ) ): ?>
 					<?php if ( isset( $status->WARNING ) && !empty( $status->WARNING ) ): ?>
 						<div class="alert alert-warning alert-dismissible fade show mb-5" data-dismiss="alert"
@@ -244,7 +244,7 @@
 						<div class="alert alert-success alert-dismissible fade show my-5" data-dismiss="alert"
 						     role="alert">
 							<?php echo __( "MSG_DEVICE_FOUND", "DEVICE_ACTIONS" ); ?>
-							
+
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -258,9 +258,9 @@
 							       id="device_position"
 							       name='device_position'
 							       value='<?php echo( isset( $device->position )
-							                          && !isset( $_POST[ 'device_position' ] )
-								       ? $device->position : ( isset( $_POST[ 'device_position' ] )
-									       ? $_POST[ 'device_position' ]
+							                          && !isset( $_REQUEST[ 'device_position' ] )
+								       ? $device->position : ( isset( $_REQUEST[ 'device_position' ] )
+									       ? $_REQUEST[ 'device_position' ]
 									       : "" ) ); ?>'
 							>
 							<small id="device_positionHelp" class="form-text text-muted">
@@ -284,7 +284,7 @@
 									       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 									       value='<?php echo isset( $device->id )
 										       ? $device->names[ 0 ]
-										       : ( isset( $_POST[ 'device_name' ][ 1 ] ) ? $_POST[ 'device_name' ][ 1 ]
+										       : ( isset( $_REQUEST[ 'device_name' ][ 1 ] ) ? $_REQUEST[ 'device_name' ][ 1 ]
 											       : $friendlyName ); ?>'
 									       required>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
@@ -299,18 +299,18 @@
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
 						<?php endif; ?>
-						
-						
+
+
 						<?php
 						$i            = 1;
 						$power        = "POWER".$i;
 						$channelFound = FALSE;
-						
+
 						while ( isset( $status->StatusSTS->$power ) )  : ?>
 							<?php $channelFound = TRUE;
 							$friendlyName       = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
@@ -330,8 +330,8 @@
 									                         && !empty(
 									       $device->names[ $i - 1 ]
 									       )
-										       ? $device->names[ $i - 1 ] : ( isset( $_POST[ 'device_name' ][ $i ] )
-											       ? $_POST[ 'device_name' ][ $i ] : $friendlyName ); ?>'
+										       ? $device->names[ $i - 1 ] : ( isset( $_REQUEST[ 'device_name' ][ $i ] )
+											       ? $_REQUEST[ 'device_name' ][ $i ] : $friendlyName ); ?>'
 									       required>
 									<small id="device_name_<?php echo $i; ?>Help"
 									       class="form-text text-muted d-none d-sm-block">
@@ -348,20 +348,20 @@
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
-							
-							
+
+
 							<?php
-							
+
 							$i++;
 							$power = "POWER".$i;
 							?>
-						
+
 						<?php endwhile; ?>
-						
+
 						<?php if ( !isset( $status->StatusSTS->POWER ) && !$channelFound ) :
 							//no channel found?>
 							<?php
@@ -380,7 +380,7 @@
 									       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 									       value='<?php echo isset( $device->id )
 										       ? $device->names[ 0 ]
-										       : ( isset( $_POST[ 'device_name' ][ 1 ] ) ? $_POST[ 'device_name' ][ 1 ]
+										       : ( isset( $_REQUEST[ 'device_name' ][ 1 ] ) ? $_REQUEST[ 'device_name' ][ 1 ]
 											       : $friendlyName ); ?>'
 									       required>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
@@ -395,14 +395,14 @@
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
 						<?php endif; ?>
-					
+
 					<?php endif; ?>
-				
+
 				<?php endif; ?>
 				<div class="row">
 					<div class="col-12 col-sm-6 text-left">
@@ -423,13 +423,13 @@
 						</button>
 					</div>
 				</div>
-				
+
 				</table>
 			</form>
-		
-		
+
+
 		<?php endif; ?>
-	
+
 	</div>
 </div>
 <script>
