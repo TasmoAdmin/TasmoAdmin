@@ -9,7 +9,7 @@
 - **DOCKER**: Show Changelog Link in helpmenu #108
 - MINOR: make footer smaller and sticky, darker link color in nightmode
   - top navi made a lil bit smaller, too
--MINOR: catch and remove control chars in json response #78
+- MINOR: catch and remove control chars in json response #78
 - **NEW**: Show new update available icon in footer
 - MINOR: Possible performence fixes for checkNightmode
 - MINOR: cache resources by release tag version
