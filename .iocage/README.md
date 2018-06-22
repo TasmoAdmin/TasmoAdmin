@@ -10,13 +10,13 @@ More information about iocage on FreeNAS can be found in the [FreeNAS guide](htt
 
 Create a jail using a pkg-list to install requirements
 
-	wget https://raw.githubusercontent.com/tprelog/TasmoAdmin/iocage/.iocage/tasmoadmin-pkgs.json
+	wget https://raw.githubusercontent.com/reloxx13/TasmoAdmin/iocage/.iocage/tasmoadmin-pkgs.json
 	sudo iocage create -r 11.1-RELEASE -n tasmoadmin boot=on dhcp=on bpf=yes vnet=on -p tasmoadmin-pkgs.json
 
 
 Download TasmoAdmin and get it running with nginx
 
-	sudo iocage exec tasmoadmin git clone https://github.com/tprelog/TasmoAdmin.git /root/TasmoAdmin
+	sudo iocage exec tasmoadmin git clone https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
 	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/tasmoadmin-install.sh
 
 You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
