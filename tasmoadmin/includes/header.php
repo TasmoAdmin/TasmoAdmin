@@ -17,6 +17,13 @@
 	}
 
 
+	$cacheTag = $Config->read( "current_git_tag" );
+	if( empty( $cacheTag ) ) {
+		$cacheTag = time();
+	}
+	$cacheTag = str_replace( ".", "_", $cacheTag );
+
+	$min = ".min";
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -63,13 +70,13 @@
 		var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
 	</script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui<?php echo $min; ?>.js"></script>
 	<script>
 		/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
 		$.widget.bridge( 'uibutton', $.ui.button );
 		$.widget.bridge( 'uitooltip', $.ui.tooltip );
 	</script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap/bootstrap.bundle.js"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap/bootstrap.bundle<?php echo $min; ?>.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.messagestore.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.fallbacks.js"></script>
@@ -94,26 +101,26 @@
 	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js-cookie.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?<?php echo time(); ?>"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?v=<?php echo $cacheTag; ?>"></script>
 	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 
-	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo time(); ?>'></script>
+	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo $cacheTag; ?>'></script>
 
-	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/app.js?<?php echo time(); ?>'></script>
+	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/app.js?<?php echo $cacheTag; ?>'></script>
 
-	<link href="<?php echo _RESOURCESURL_; ?>css/bootstrap/bootstrap.css" rel="stylesheet">
-	<link href='<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui.css'
+	<link href="<?php echo _RESOURCESURL_; ?>css/bootstrap/bootstrap<?php echo $min; ?>.css" rel="stylesheet">
+	<link href='<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui<?php echo $min; ?>.css'
 	      rel='stylesheet'>
 
+	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/all.css?<?php echo $cacheTag; ?>"
 	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
 	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
-	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/fontawesome-all.css?<?php echo time(); ?>"
-	      rel="stylesheet">
-	<link href='<?php echo _RESOURCESURL_; ?>css/animate.css?<?php echo time(); ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESURL_; ?>css/style.css?<?php echo time(); ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESURL_; ?>css/mobile.css?<?php echo time(); ?>' rel='stylesheet'>
+	rel="stylesheet">
+	<link href='<?php echo _RESOURCESURL_; ?>css/animate.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
+	<link href='<?php echo _RESOURCESURL_; ?>css/style.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
+	<link href='<?php echo _RESOURCESURL_; ?>css/mobile.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
 	<?php if( @file_exists( _RESOURCESDIR_."css/custom.css" ) ): ?>
-		<link href='<?php echo _RESOURCESURL_; ?>css/custom.css?<?php echo time(); ?>' rel='stylesheet'>
+		<link href='<?php echo _RESOURCESURL_; ?>css/custom.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
 	<?php endif; ?>
 
 </head>

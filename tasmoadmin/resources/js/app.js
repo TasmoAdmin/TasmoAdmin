@@ -1,12 +1,11 @@
 var Sonoff;
 var refreshtime = false;
 $( document ).on( "ready", function () {
-	checkNightmode( nightmodeconfig );
-	checkForUpdate( true );
 	
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
-	console.log( i18nfile );
+	//console.log( i18nfile );
+	
 	$.ajax( {
 		        dataType: "json",
 		        url     : i18nfile,
@@ -16,6 +15,12 @@ $( document ).on( "ready", function () {
 			        $.i18n().load( data );
 		        },
 	        } );
+	
+	
+	checkNightmode( nightmodeconfig );
+	checkForUpdate( true );
+	
+	
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}
@@ -510,7 +515,11 @@ function checkForUpdate( timer ) {
 		return false;
 	}
 	
-	icon.removeClass( "fa-check" ).removeClass( "fa-question" ).addClass( "fa-sync" ).addClass( "fa-spin" );
+	icon.removeClass( "fa-check" )
+	    .removeClass( "fa-question" )
+	    .removeClass( "fa-times" )
+	    .addClass( "fa-sync" )
+	    .addClass( "fa-spin" );
 	
 	let githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
 	
@@ -536,8 +545,9 @@ function checkForUpdate( timer ) {
 				}
 			} else {
 				if ( result.message !== undefined ) {
-					icon.removeClass( "fa-sync" ).addClass( "fa-check" );
+					icon.removeClass( "fa-sync" ).removeClass( "fa-spin" ).addClass( "fa-times" );
 					console.log( "[APP][checkForUpdate] Github Error => " + result.message );
+					setTimeout( checkForUpdate, 30 * 60 * 1000 );
 				}
 			}
 		}
@@ -545,7 +555,12 @@ function checkForUpdate( timer ) {
 		
 		icon.removeClass( "fa-spin" );
 		
-	}, "json" );
+	}, "json" ).fail( function ( result ) {
+		icon.removeClass( "fa-sync" ).removeClass( "fa-spin" ).addClass( "fa-times" );
+		//console.log( result );
+		console.log( "[APP][checkForUpdate] Github Error => " + result.status + ": " + result.responseJSON.message );
+		setTimeout( checkForUpdate, 30 * 60 * 1000 );
+	} );
 	
 }
 
