@@ -408,6 +408,11 @@
 
 				$data = json_decode( $result );
 
+				if( json_last_error() == JSON_ERROR_CTRL_CHAR ) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+					$result = preg_replace( '/[[:cntrl:]]/', '', $result );
+					$data   = json_decode( $result );
+				}
+
 				if( json_last_error() !== JSON_ERROR_NONE ) {
 					$result = $this->fixJsonFormatv5100( $result );
 					$data   = json_decode( $result );
