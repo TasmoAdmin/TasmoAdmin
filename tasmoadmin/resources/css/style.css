@@ -379,6 +379,21 @@ hr {
 	color : red;
 }
 
+#update-icon {
+	font-size : 0.7rem;
+	position  : relative;
+	top       : -1px;
+	cursor    : pointer;
+}
+
+#versionHolder {
+	cursor : pointer;
+}
+
+.update-now #update-icon {
+	color : #CA8500 !important;
+}
+
 .nightmode {
 	background-color : #44494F;
 	color            : rgba(255, 255, 255, 0.5);

@@ -8,6 +8,9 @@
 - MINOR: make footer smaller and sticky, darker link color in nightmode
   - top navi made a lil bit smaller, too
 -MINOR: catch and remove control chars in json response #78
+- **NEW**: Show new update available icon in footer
+- MINOR: Possible performence fixes for checkNightmode
+- MINOR: cache resources by release tag version
 
 ## v1.1.0                              
 - **NEW**: you can now set a default startpage #115

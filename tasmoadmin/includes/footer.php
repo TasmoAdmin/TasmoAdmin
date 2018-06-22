@@ -6,8 +6,18 @@
 
 				<?php if( $Config->read( "current_git_tag" ) != "" ): ?>
 
-					- <?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
-
+					-
+					<div id="versionHolder" class='d-inline-block'>
+						<?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
+						&nbsp;<i id='update-icon'
+						         class='fa fa-question'
+						         data-current_git_tag='<?php echo substr(
+							         $Config->read( "current_git_tag" ),
+							         0,
+							         7
+						         ); ?>'
+						         style=''></i>
+					</div>
 				<?php endif; ?>
 
 				<span class=''> - </span><a class=''

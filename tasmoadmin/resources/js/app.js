@@ -2,6 +2,7 @@ var Sonoff;
 var refreshtime = false;
 $( document ).on( "ready", function () {
 	checkNightmode( nightmodeconfig );
+	checkForUpdate( true );
 	
 	var $lang    = $( "html" ).attr( "lang" );
 	var i18nfile = _BASEURL_ + 'tmp/cache/i18n/json_i18n_' + $lang + '.cache.json';
@@ -38,6 +39,18 @@ $( document ).on( "ready", function () {
 		e.preventDefault();
 		window.location.href = window.location.href;
 	} );
+	
+	
+	$( "#versionHolder" ).on( "click", function ( e ) {
+		e.preventDefault();
+		if ( $( this ).hasClass( "update-now" ) ) {
+			window.location.href = _BASEURL_ + "selfupdate";
+		} else {
+			checkForUpdate( false );
+		}
+	} );
+	
+	
 	//$( "select#language-switch" ).selectmenu( "option", "width", "80px" );
 	
 	var appendLoading = function ( elem, replace ) {
@@ -105,10 +118,6 @@ $( document ).on( "ready", function () {
 		// ) + "lang=" + valueSelected;
 	} );
 	
-	window.setInterval( function () {
-		console.log( "checknightmode" );
-		checkNightmode( nightmodeconfig );
-	}, 15 * 60 * 1000 );
 } );
 
 
@@ -444,6 +453,7 @@ function getGas( data ) {
 
 
 function checkNightmode( config ) {
+	console.log( "[APP][checkNightmode] Start" );
 	var config = config || "auto";
 	
 	var currentTime = new Date();
@@ -454,14 +464,25 @@ function checkNightmode( config ) {
 	
 	if ( config === "disable" ) {
 		$( "body" ).removeClass( "nightmode" );
+		console.log( "[APP][checkNightmode] disabled" );
 	} else {
 		if ( config === "auto" ) {
-			if ( hour >= 18 || hour <= 8 ) {
+			console.log( "[APP][checkNightmode] check time" );
+			if ( hour >= 18 || hour <= 8 ) {   //@TODO: get sunrise by geo
 				$( "body" ).addClass( "nightmode" );
+				console.log( "[APP][checkNightmode] its night" );
 			} else {
 				$( "body" ).removeClass( "nightmode" );
+				console.log( "[APP][checkNightmode] its day" );
 			}
+			
+			
+			setTimeout( function () {
+				checkNightmode( config );
+			}, 15 * 60 * 1000 );
+			
 		} else if ( config === "always" ) {
+			console.log( "[APP][checkNightmode] always" );
 			$( "body" ).addClass( "nightmode" );
 		}
 	}
@@ -471,6 +492,62 @@ Date.prototype.addHours = function ( h ) {
 	this.setHours( this.getHours() + h );
 	return this;
 };
+
+
+function checkForUpdate( timer ) {
+	console.log( "[APP][checkForUpdate] Start" );
+	var timer         = timer || true;
+	var icon          = $( "#update-icon" );
+	var currentGitTag = icon.data( "current_git_tag" );
+	
+	if ( icon.parent().hasClass( "update-now" ) ) {
+		console.log( "[APP][checkForUpdate] NEW VERSION FOUND ALREADY" );
+		return true;
+	}
+	
+	if ( icon.hasClass( "fa-spin" ) ) {
+		console.log( "[APP][checkForUpdate] Still searching" );
+		return false;
+	}
+	
+	icon.removeClass( "fa-check" ).removeClass( "fa-question" ).addClass( "fa-sync" ).addClass( "fa-spin" );
+	
+	let githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
+	
+	$.get( githubApiRelease, {}, function ( result ) {
+		if ( result !== undefined ) {
+			if ( result.tag_name !== undefined ) {
+				let latestTag = result.tag_name;
+				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
+				if ( latestTag != currentGitTag ) {
+					console.log( "[APP][checkForUpdate] NEW VERSION FOUND" );
+					icon.removeClass( "fa-sync" )
+					    .removeClass( "fa-spin" )
+					    .addClass( "fa-cloud-download-alt" )
+					    .parent()
+					    .addClass(
+						    "update-now" );
+				} else {
+					console.log( "[APP][checkForUpdate] No update found" );
+					icon.removeClass( "fa-sync" ).addClass( "fa-check" );
+					if ( timer ) {
+						setTimeout( checkForUpdate, 15 * 60 * 1000 );
+					}
+				}
+			} else {
+				if ( result.message !== undefined ) {
+					icon.removeClass( "fa-sync" ).addClass( "fa-check" );
+					console.log( "[APP][checkForUpdate] Github Error => " + result.message );
+				}
+			}
+		}
+		
+		
+		icon.removeClass( "fa-spin" );
+		
+	}, "json" );
+	
+}
 
 
 jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
