@@ -14,8 +14,7 @@ footer, .footer {
 }
 
 #content {
-	padding-top    : 70px;
-	padding-bottom : 70px;
+	padding : 70px 50px;
 }
 
 .btn {
