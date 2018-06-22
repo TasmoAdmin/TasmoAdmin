@@ -23,7 +23,7 @@
 		}
 
 		public function checkForUpdate() {
-			$action = "/releases";
+			$action = "/releases/latest";
 			$result = [
 				"update" => FALSE,
 				"error"  => FALSE,
@@ -32,11 +32,10 @@
 
 			$release = $this->doRequest( $action );
 
-			if( isset( $release[ "ERROR" ] ) ) {
+			if( is_array( $release ) && isset( $release[ "ERROR" ] ) ) {
 				$result[ "error" ] = TRUE;
 				$result[ "msg" ]   = $release[ "ERROR" ];
 			} else {
-				$release = array_shift( $release );
 				if( isset( $release->tag_name ) ) {
 					$this->latestTag = $release->tag_name;
 
