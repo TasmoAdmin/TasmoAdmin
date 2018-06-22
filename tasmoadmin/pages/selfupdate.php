@@ -33,9 +33,13 @@
 ?>
 
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-6 '>
+	<div class='col-12 col-md-10 col-lg-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
-			<?php echo $title; ?>
+			<?php if( !$docker ): ?>
+				<?php echo $title; ?>
+			<?php else: ?>
+				<?php echo __( "HELP_CHANGELOG", "NAVI" ); ?>
+			<?php endif; ?>
 		</h2>
 
 		<!--	<p class='warning'>-->
@@ -66,37 +70,59 @@
 			<div class="alert alert-success fade show mb-5" role="alert">
 				<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!
 			</div>
-			<div class='mt-3'>
-				<?php echo __(
-					"OLD_TAG_VERSION",
-					"SELFUPDATE",
-					[ $Selfupdate->getCurrentTag() ? $Selfupdate->getCurrentTag() : __( "UNKNOWN", "SELFUPDATE" ) ]
-				); ?><br/>
-				<?php echo __( "NEW_TAG_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestTag() ] ); ?><br/>
-				<br/>
-			</div>
-			<div class='row justify-content-sm-center mt-5'>
-				<div class="col-12 col-sm-6 text-center">
-					<form name='selfupdateform' method='post'>
-						<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
-							<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-						</button>
-					</form>
+			<div class='mt-3 row'>
+				<div class='col-12 col-sm-5'>
+					<button class='btn btn-secondary w-100 no-hover'>
+						<?php echo __(
+							"OLD_TAG_VERSION",
+							"SELFUPDATE",
+							[
+								$Selfupdate->getCurrentTag()
+									? $Selfupdate->getCurrentTag()
+									: __(
+									"UNKNOWN",
+									"SELFUPDATE"
+								),
+							]
+						); ?></button>
+				</div>
+				<div class='col-12 col-sm-2 text-center align-text-top'>
+					<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i>
+					<i class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x my-3"
+					   style='font-size:2.5rem;'></i>
+				</div>
+				<div class='col-12 col-sm-5'>
+					<button class='btn btn-primary w-100 no-hover btn-green'>
+						<?php echo __( "NEW_TAG_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestTag() ] ); ?></button>
+
 				</div>
 			</div>
+			<?php if( !$docker ): ?>
+				<div class='row justify-content-sm-center mt-5'>
+					<div class="col-12 col-sm-6 col-md-3 col-lg-4 text-center">
+						<form name='selfupdateform' method='post'>
+							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
+								<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
+							</button>
+						</form>
+					</div>
+				</div>
+			<?php endif; ?>
 		<?php else: ?>
 			<div class="alert alert-info fade show mb-5" role="alert">
 				<?php echo __( "NO_UPDATE_FOUND", "SELFUPDATE" ); ?>
 			</div>
-			<div class='row justify-content-sm-center mt-5'>
-				<div class="col-12 col-sm-6 text-center">
-					<form name='selfupdateform' method='post'>
-						<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
-							<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
-						</button>
-					</form>
+			<?php if( !$docker ): ?>
+				<div class='row justify-content-sm-center mt-5'>
+					<div class="col-12 col-sm-6 text-center">
+						<form name='selfupdateform' method='post'>
+							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
+								<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
+							</button>
+						</form>
+					</div>
 				</div>
-			</div>
+			<?php endif; ?>
 		<?php endif; ?>
 		<hr class='my-5'>
 		<div class='changelog'>
