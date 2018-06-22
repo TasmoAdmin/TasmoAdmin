@@ -1,5 +1,5 @@
 # TasmoAdmin
-
+![Logo](https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
 
 [![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
@@ -22,10 +22,20 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
+* Send Command to selected Devices
 * chat (beta)
 
+### Supported Platforms
+* Apache2 and nginx
+* XAMPP on Windows
+* Docker by @RaymondMouthaan
+  * unRaid by @digiblur
+* IOCage (FreeNAS) by @tprelog
+
+
 ## YouTube
-[YouTube Video by DrZzs](https://www.youtube.com/watch?v=vJUhRyi3-BQ&feature=push-fr&attr_tag=3vmgYDcs_Jb9eQZs-6)
+[![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
+by DrZzs
 
 ## Installation
 
