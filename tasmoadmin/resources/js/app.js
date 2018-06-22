@@ -530,12 +530,20 @@ function checkForUpdate( timer ) {
 				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
 				if ( latestTag != currentGitTag ) {
 					console.log( "[APP][checkForUpdate] NEW VERSION FOUND" );
-					icon.removeClass( "fa-sync" )
-					    .removeClass( "fa-spin" )
-					    .addClass( "fa-cloud-download-alt" )
-					    .parent()
-					    .addClass(
-						    "update-now" );
+					if ( result.assets.length !== 3 ) {
+						console.log( "[APP][checkForUpdate] Seems like Travis is not done yet" );
+						icon.removeClass( "fa-sync" ).addClass( "fa-check" );
+						if ( timer ) {
+							setTimeout( checkForUpdate, 5 * 60 * 1000 );
+						}
+					} else {
+						icon.removeClass( "fa-sync" )
+						    .removeClass( "fa-spin" )
+						    .addClass( "fa-cloud-download-alt" )
+						    .parent()
+						    .addClass(
+							    "update-now" );
+					}
 				} else {
 					console.log( "[APP][checkForUpdate] No update found" );
 					icon.removeClass( "fa-sync" ).addClass( "fa-check" );
