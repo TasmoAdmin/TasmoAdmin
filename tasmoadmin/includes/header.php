@@ -212,7 +212,7 @@
 						$page,
 						[
 							"chat",
-							"changelog",
+							( $docker ? "selfupdate" : NULL ),
 						]
 					) ? "active" : ""; ?>"
 					   href="#"
@@ -224,7 +224,7 @@
 					</a>
 					<div class="dropdown-menu bg-dark" aria-labelledby="devicesDropdown">
 						<?php if( $docker ): ?>
-							<a class="dropdown-item nav-link <?php echo $page == "changelog" ? "active" : ""; ?>"
+							<a class="dropdown-item nav-link <?php echo $page == "selfupdate" ? "active" : ""; ?>"
 							   href="<?php echo _BASEURL_; ?>selfupdate">
 								<?php echo __( "HELP_CHANGELOG", "NAVI" ); ?>
 							</a>
