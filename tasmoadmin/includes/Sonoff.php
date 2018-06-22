@@ -353,6 +353,12 @@
 			} else {
 
 				$data = json_decode( $result );
+
+				if( json_last_error() == JSON_ERROR_CTRL_CHAR ) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+					$result = preg_replace( '/[[:cntrl:]]/', '', $result );
+					$data   = json_decode( $result );
+				}
+
 				if( json_last_error() !== JSON_ERROR_NONE ) {
 					$result = $this->fixJsonFormatv5100( $result );
 					$data   = json_decode( $result );
@@ -525,6 +531,14 @@
 							);
 					} else {
 						$data = json_decode( $output );
+
+
+						if( json_last_error()
+						    == JSON_ERROR_CTRL_CHAR ) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+							$result = preg_replace( '/[[:cntrl:]]/', '', $result );
+							$data   = json_decode( $result );
+						}
+
 						if( json_last_error() !== JSON_ERROR_NONE ) {
 							$outputTmp = $this->fixJsonFormatv5100( $output );
 							$data      = json_decode( $outputTmp );
@@ -616,6 +630,14 @@
 
 					} else {
 						$data = json_decode( $output );
+
+
+						if( json_last_error()
+						    == JSON_ERROR_CTRL_CHAR ) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+							$result = preg_replace( '/[[:cntrl:]]/', '', $result );
+							$data   = json_decode( $result );
+						}
+
 						if( json_last_error() !== JSON_ERROR_NONE ) {
 							$outputTmp = $this->fixJsonFormatv5100( $output );
 							$data      = json_decode( $outputTmp );
