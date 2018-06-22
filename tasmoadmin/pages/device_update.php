@@ -1,5 +1,5 @@
 <?php
-	//	var_dump( $_POST );
+	//	var_dump( $_REQUEST );
 	$localIP   = $Config->read( "ota_server_ip" );
 	$localPort = $Config->read( "ota_server_port" );
 	if( empty( $localPort ) ) {
@@ -11,12 +11,12 @@
 
 	$otaServer = $_SERVER[ 'REQUEST_SCHEME' ]."://".$localIP.":".$localPort._BASEURL_."";
 
-	if( isset( $_POST[ 'minimal_firmware_path' ] ) && !empty( $_POST[ 'minimal_firmware_path' ] ) ) {
+	if( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
 		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
 	}
 	$ota_new_firmware_url = $otaServer."data/firmwares/sonoff-full.bin";
 
-	$device_ids = isset( $_POST[ "device_ids" ] ) ? $_POST[ "device_ids" ] : FALSE;
+	$device_ids = isset( $_REQUEST[ "device_ids" ] ) ? $_REQUEST[ "device_ids" ] : FALSE;
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col-12 col-md-8 '>

@@ -291,6 +291,13 @@
 
 			$string = str_replace( $remove, $replace, $string );
 
+			//remove everything befor ethe first {
+			$string = strstr( $string, '{' );
+
+			//			var_dump( $string );
+			//			var_dump( json_decode( $string ) );
+			//			var_dump( json_last_error_msg() );
+			//			die();
 
 			return $string;
 		}
@@ -376,15 +383,14 @@
 
 
 		public function doAjax( $try = 1 ) {
-			$device = $this->getDeviceById( $_POST[ "id" ] );
+			$device = $this->getDeviceById( $_REQUEST[ "id" ] );
 			$url    = $this->buildCmndUrl(
 				$device,
-				urldecode( $_POST[ "cmnd" ] )
+				urldecode( $_REQUEST[ "cmnd" ] )
 			);
 
-
 			//			if( $device->id == 6 ) {
-			//				$url = "http://tasmoAdmin/dev/pow.json";
+			//				$url = "http://tasmoAdmin/dev/test.json";
 			//			}
 
 			$result = NULL;
@@ -394,15 +400,18 @@
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
 			$result = curl_exec( $ch );
+
 			if( !$result ) {
 				$data        = new stdClass();
 				$data->ERROR = __( "CURL_ERROR" )." => ".curl_errno( $ch ).": ".curl_error( $ch );
 			} else {
 
 				$data = json_decode( $result );
+
 				if( json_last_error() !== JSON_ERROR_NONE ) {
 					$result = $this->fixJsonFormatv5100( $result );
 					$data   = json_decode( $result );
+
 					if( json_last_error() !== JSON_ERROR_NONE ) {
 						$data        = new stdClass();
 						$data->ERROR = __( "JSON_ERROR", "API" )." => ".json_last_error().": ".json_last_error_msg();
@@ -433,7 +442,7 @@
 			ini_set( "max_execution_time", "99999999999" );
 
 			$devices   = $this->getDevices();
-			$cmnd      = "status 0";//urldecode( $_POST[ "cmnd" ] );
+			$cmnd      = "status 0";//urldecode( $_REQUEST[ "cmnd" ] );
 			$urlsClone = [];
 
 			foreach( $devices as $device ) {

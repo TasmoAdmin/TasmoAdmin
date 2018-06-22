@@ -5,7 +5,7 @@
 	$msg        = "";
 	$Selfupdate = new Selfupdate( $Config );
 
-	if( isset( $_POST[ "selfupdate" ] ) || isset( $_GET[ "selfupdate" ] ) ) {
+	if( isset( $_REQUEST[ "selfupdate" ] ) || isset( $_GET[ "selfupdate" ] ) ) {
 		$updateResult = $Selfupdate->update();
 		$msg          = implode( "<br/>", $updateResult );
 	}

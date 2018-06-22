@@ -1,8 +1,8 @@
 <?php
 	$msg = FALSE;
-	if( isset( $_POST ) && !empty( $_POST ) ) {
-		if( isset( $_POST[ "save" ] ) ) {
-			$settings = $_POST;
+	if( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+		if( isset( $_REQUEST[ "save" ] ) ) {
+			$settings = $_REQUEST;
 			unset( $settings[ "save" ] );
 
 			if( !isset( $settings[ "login" ] ) ) {
