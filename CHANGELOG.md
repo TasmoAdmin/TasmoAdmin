@@ -2,8 +2,8 @@
 
 
 ## Upcoming v1.1.1
-- *FIX* some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
- 
+- **FIX** some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
+- **UPDATE** Font Awesome 5.0.6 -> 5.1.0
 
 ## v1.1.0                              
 - **NEW**: you can now set a default startpage #115
@@ -29,7 +29,7 @@
 
 ## v0.0.8 - v 1.0.3
 - MINOR: add logo
-- **UPDATE**: font-awesome 5.0.6 -> 5.0.13
+- **UPDATE**: Font Awesome 5.0.6 -> 5.0.13
 - **UPDATE**: bootstrap 4.0.0 -> 4.1.1
 - **DOCKER**: clean-up unnecessary lines to reduce image size
 - **DOCKER**: cleanup and readme
