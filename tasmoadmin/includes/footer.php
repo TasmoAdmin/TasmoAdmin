@@ -1,7 +1,7 @@
 <footer class="footer">
-	<div class='navbar navbar-expand-lg navbar-dark bg-dark '>
+	<div class='navbar navbar-expand-lg navbar-dark bg-dark py-0 '>
 		<div class="container  d-flex justify-content-center">
-			<span class="navbar-text ">
+			<span class="navbar-text py-1">
 		        &copy; <?php echo date( "Y" ); ?> <?php echo __( "BY" ); ?> reloxx13
 
 				<?php if( $Config->read( "current_git_tag" ) != "" ): ?>

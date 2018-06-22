@@ -119,7 +119,7 @@
 </head>
 <body class='<?php echo $nightmode; ?>'>
 <header>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
 		<?php //var_dump( $page ); ?>
 		<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read( "homepage" ); ?>'>
 			<img src='<?php echo _RESOURCESURL_; ?>img/logo_small.PNG' height='50px'/>
