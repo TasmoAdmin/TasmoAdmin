@@ -22,7 +22,11 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
+* Send Command to selected Devices
 * chat (beta)
+* Docker by @RaymondMouthaan
+* IOCage by @tprelog
+
 
 ## YouTube
 [YouTube Video by DrZzs](https://www.youtube.com/watch?v=vJUhRyi3-BQ&feature=push-fr&attr_tag=3vmgYDcs_Jb9eQZs-6)
