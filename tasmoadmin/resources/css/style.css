@@ -6,14 +6,26 @@ body {
 	line-height : 1.2rem;
 }
 
-footer {
-	position : absolute;
+footer, .footer {
+	position : fixed;
 	bottom   : 0;
 	width    : 100%;
+	
+}
+
+#content {
+	padding-top    : 70px;
+	padding-bottom : 70px;
 }
 
 .btn {
-	width : 100%;
+	width                 : 100%;
+	-webkit-touch-callout : none;
+	-webkit-user-select   : none;
+	-khtml-user-select    : none;
+	-moz-user-select      : none;
+	-ms-user-select       : none;
+	user-select           : none;
 }
 
 .btn-green {
@@ -82,11 +94,6 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 .dropdown-item.active, .dropdown-item:active, .navbar-dark .navbar-nav .show .nav-link.active {
 	color            : #FFFFFF;
 	background-color : transparent;
-}
-
-#content {
-	padding-top    : 70px;
-	padding-bottom : 140px;
 }
 
 .tablesaw-stack td.more, .tablesaw-stack th.more, .tablesaw-stack thead td.more, .tablesaw-stack thead th.more {
@@ -504,11 +511,10 @@ hr {
 	color : #FFFFFF;
 }
 
-.btn {
-	-webkit-touch-callout : none;
-	-webkit-user-select   : none;
-	-khtml-user-select    : none;
-	-moz-user-select      : none;
-	-ms-user-select       : none;
-	user-select           : none;
+.nightmode .footer .navbar-dark .navbar-text a {
+	color : #00628C;
+}
+
+.nightmode .footer .navbar-dark .navbar-text a:hover {
+	color : #007EB4;
 }

@@ -1,10 +1,12 @@
 # CHANGELOG   
 
 
-## Upcoming v1.1.1
-- **FIX** some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
-- **UPDATE** Font Awesome 5.0.6 -> 5.1.0
-- **DOCKER** Show Changelog Link in helpmenu #108
+## Upcoming v1.2.0
+- **FIX**: some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
+- **UPDATE**: Font Awesome 5.0.6 -> 5.1.0
+- **DOCKER**: Show Changelog Link in helpmenu #108
+- MINOR: make footer smaller and sticky, darker link color in nightmode
+  - top navi made a lil bit smaller, too
 
 ## v1.1.0                              
 - **NEW**: you can now set a default startpage #115
