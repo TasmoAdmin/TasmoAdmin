@@ -24,12 +24,17 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * Support for multiple sensors
 * Send Command to selected Devices
 * chat (beta)
+
+### Supported Platforms
+* Apache2 and nginx
+* XAMPP on Windows
 * Docker by @RaymondMouthaan
-* IOCage by @tprelog
+  * unRaid by @digiblur
+* IOCage (FreeNAS) by @tprelog
 
 
 ## YouTube
-[YouTube Video by DrZzs](https://www.youtube.com/watch?v=vJUhRyi3-BQ&feature=push-fr&attr_tag=3vmgYDcs_Jb9eQZs-6)
+[YouTube Video by DrZzs](https://youtu.be/vJUhRyi3-BQ)
 
 ## Installation
 
