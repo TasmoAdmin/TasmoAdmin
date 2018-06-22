@@ -212,6 +212,7 @@
 						$page,
 						[
 							"chat",
+							"changelog",
 						]
 					) ? "active" : ""; ?>"
 					   href="#"
@@ -222,7 +223,13 @@
 						<i class='fa fa-question-circle'></i>
 					</a>
 					<div class="dropdown-menu bg-dark" aria-labelledby="devicesDropdown">
-						<a class="dropdown-item nav-link <?php echo $page == "Discord" ? "active" : ""; ?>"
+						<?php if( $docker ): ?>
+							<a class="dropdown-item nav-link <?php echo $page == "changelog" ? "active" : ""; ?>"
+							   href="<?php echo _BASEURL_; ?>selfupdate">
+								<?php echo __( "HELP_CHANGELOG", "NAVI" ); ?>
+							</a>
+						<?php endif; ?>
+						<a class="dropdown-item nav-link <?php echo $page == "chat" ? "active" : ""; ?>"
 						   href="<?php echo _BASEURL_; ?>chat">
 							<?php echo __( "HELP_CHAT", "NAVI" ); ?>
 						</a>

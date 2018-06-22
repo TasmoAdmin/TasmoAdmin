@@ -12,6 +12,40 @@ footer {
 	width    : 100%;
 }
 
+.btn {
+	width : 100%;
+}
+
+.btn-green {
+	background-color : #02A030;
+	border-color     : #02A030;
+}
+
+.no-hover {
+	cursor : default !important;
+	
+}
+
+.no-hover:hover, .no-hover:focus, .no-hover:active {
+	cursor     : default !important;
+	box-shadow : none !important;
+}
+
+.btn-primary.no-hover:hover, .btn-primary.no-hover:focus, .btn-primary.no-hover:active {
+	background-color : #007BFF !important;
+	border-color     : #007BFF !important;
+}
+
+.btn-secondary.no-hover:hover, .btn-secondary.no-hover:focus, .btn-secondary.no-hover:active {
+	background-color : #6C757D !important;
+	border-color     : #6C757D !important;
+}
+
+.btn-green.no-hover:hover, .btn-green.no-hover:focus, .btn-green.no-hover:active {
+	background-color : #02922C !important;
+	border-color     : #02922C !important;
+}
+
 .fas {
 	color : #008FCC;
 }
