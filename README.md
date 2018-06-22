@@ -34,7 +34,8 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 
 
 ## YouTube
-[YouTube Video by DrZzs](https://youtu.be/vJUhRyi3-BQ)
+[![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
+by DrZzs
 
 ## Installation
 
