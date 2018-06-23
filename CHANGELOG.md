@@ -3,6 +3,9 @@
 
 ## Upcoming 
 
+## v1.2.1
+**HOTFIX**: Fix edit device #147
+
 ## v1.2.0
 - **FIX**: some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
 - **UPDATE**: Font Awesome 5.0.6 -> 5.1.0

@@ -9,7 +9,7 @@
 		$msg = __( "ERROR_NO_DEVICE_SELECTED", "DEVICE_CONFIG" );
 	}
 
-	if ( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+	if ( isset( $_POST ) && !empty( $_POST ) ) {
 		$activeTabIndex = $_REQUEST[ "tab-index" ];
 		if ( isset( $_REQUEST[ "save" ] ) ) {
 			$settings = $_REQUEST;
