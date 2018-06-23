@@ -28,7 +28,7 @@
 			       cellspacing='0'>
 				<thead>
 				<tr>
-					<th class='link cmd_cb d-none'>
+					<th class='link cmd_cb d-none py-0'>
 						<div class="form-check custom-control custom-checkbox">
 							<input class="form-check-input custom-control-input select_all"
 							       type="checkbox"
