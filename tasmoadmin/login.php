@@ -27,7 +27,7 @@
 		header( "Location: "._BASEURL_."" );
 	}
 
-	if ( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+	if ( isset( $_POST ) && !empty( $_POST ) ) {
 		if ( isset( $_REQUEST[ "register" ] ) && ( $user == "" || $password == "" ) ) {
 			$Config->write( "username", $_REQUEST[ "username" ] );
 			$Config->write( "password", md5( $_REQUEST[ "password" ] ) );
