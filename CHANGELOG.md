@@ -1,7 +1,8 @@
 # CHANGELOG   
 
 
-## Upcoming 
+## Upcoming   
+MINOR: style show more btn responsive #145
 
 ## v1.2.1
 **HOTFIX**: Fix edit device #147
