@@ -7,7 +7,7 @@
 ?>
 <?php if( isset( $devices ) && !empty( $devices ) ): ?>
 	<div class='row mb-1 mt-3'>
-		<div class='col-12 col-sm-1 offset-0 offset-sm-1'>
+		<div class='col-auto pl-0 pl-xl-3 offset-0 offset-xl-1'>
 			<div class="form-group">
 				<input type="checkbox"
 				       class="form-check-input showmore d-none"
@@ -394,7 +394,8 @@
 		</div>
 	</div>
 	<div class='row mt-3'>
-		<div class='col-auto offset-0 offset-sm-1'>
+		<div class='col-auto pl-0 pl-xl-3 offset-0 offset-xl-1'>
+			<!--			<div class='col-12 col-sm-3 col-md-3 col-lg-2 px-0 px-xl-1 offset-0 offset-xl-1'>-->
 			<div class="form-group">
 				<input type="checkbox"
 				       class="form-check-input showmore d-none"
@@ -411,16 +412,16 @@
 			</button>
 		</div>
 	</div>
-	<div class='cmdContainer row command-hidden d-none'>
-		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0">
+	<div class='cmdContainer row command-hidden d-none my-3'>
+		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0  px-0">
 			<input type='text' name='command' class='form-control commandInput'>
 		</div>
-		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0">
+		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0  px-0">
 			<button type='submit' class='btn btn-primary sendCommand w-100' name='sendCommand'>
 				<?php echo __( "SEND_COMMAND", "DEVICES" ); ?>
 			</button>
 		</div>
-		<small id="commandInputError" class="form-text col-12 col-sm-11 offset-0 offset-sm-1 d-none">
+		<small id="commandInputError" class="form-text col-12 col-sm-11 offset-0 offset-sm-1 d-none  px-0">
 		</small>
 	</div>
 <?php else: ?>
