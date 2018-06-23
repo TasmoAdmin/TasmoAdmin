@@ -44,7 +44,7 @@ TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com
 
 ### Home Assistant Addon
 TasmoAdmin is available as Home Assistant addon, please refer to
-[Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-sonweb) for more information.
+[Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-tasmoadmin) for more information.
 
 ### Windows
 A ready to use TasmoAdmin-XAMP-Portable-\*.zip is available on the [release page](https://github.com/reloxx13/TasmoAdmin/releases) and is based on XAMPP.
