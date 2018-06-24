@@ -78,7 +78,6 @@
 
 	$activeTabIndex = 2; //TODO: REMOVE BEFORE COMMIT!!!!!!!!!!
 
-	debug( $status );
 
 ?>
 <div class='row justify-content-sm-center'>
