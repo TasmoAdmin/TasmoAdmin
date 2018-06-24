@@ -112,10 +112,9 @@
 	<link href='<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui<?php echo $min; ?>.css'
 	      rel='stylesheet'>
 
-	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/all.css?<?php echo $cacheTag; ?>"
+	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/all.css?<?php echo $cacheTag; ?>" rel="stylesheet">
 	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
 	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
-	rel="stylesheet">
 	<link href='<?php echo _RESOURCESURL_; ?>css/animate.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
 	<link href='<?php echo _RESOURCESURL_; ?>css/style.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
 	<link href='<?php echo _RESOURCESURL_; ?>css/mobile.css?<?php echo $cacheTag; ?>' rel='stylesheet'>

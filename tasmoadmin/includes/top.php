@@ -100,7 +100,7 @@
 		$translated = @__L::$txt( $args );
 
 		if( $translated == "" ) {
-			$translated = $txt;
+			$translated = $category."::".$string;
 			//			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
 			//			fwrite( $myfile, $txt."\n" );
 			//			fclose( $myfile );
@@ -136,4 +136,10 @@
 			echo json_encode( $data );
 			die();
 		}
+	}
+
+	function debug( $data ) {
+		echo "<pre style='background-color: black; color:green; max-height: 300px; margin:0px; padding: 0px; font-size: 12px;'>";
+		print_r( $data ); // or var_dump($data);
+		echo "</pre>";
 	}
