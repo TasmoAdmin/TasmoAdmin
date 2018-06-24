@@ -76,9 +76,6 @@
 	}
 
 
-	$activeTabIndex = 2; //TODO: REMOVE BEFORE COMMIT!!!!!!!!!!
-
-
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col-12 col-md-10 col-lg-10 col-xl-6'>
@@ -174,7 +171,7 @@
 							<?php include_once _PAGESDIR_."device_config_tabs/config_network_tab.php"; ?>
 						</div>
 						<div class="tab-pane fade <?php echo $activeTabIndex == 2 ? "show active" : ""; ?>"
-						     id="config_network_tab"
+						     id="config_mqtt_tab"
 						     role="tabpanel"
 						     aria-labelledby="config_mqtt_tab-tab">
 							<?php include_once _PAGESDIR_."device_config_tabs/config_mqtt_tab.php"; ?>

@@ -190,6 +190,9 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
 
 			return $status;
 		}
@@ -204,6 +207,13 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
 
 			return $status->FullTopic;
 		}
@@ -219,6 +229,14 @@
 
 			$status = $this->doRequest( $device, $cmnd );
 
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
+
 			return $status->SwitchTopic;
 		}
 
@@ -232,6 +250,13 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
 
 			return $status->MqttRetry;
 		}
@@ -246,6 +271,13 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
 
 			return $status->TelePeriod;
 		}
@@ -260,6 +292,13 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
 
 			return $status->SensorRetain;
 		}
@@ -274,6 +313,12 @@
 
 
 			$status = $this->doRequest( $device, $cmnd );
+			if( !empty( $status->Command ) && $status->Command == "Unknown" ) {
+				return "";
+			}
+			if( !empty( $status->ERROR ) ) {
+				return "";
+			}
 
 			if( empty( $status->MqttFingerprint ) ) {
 				return "";
@@ -292,8 +337,19 @@
 
 			$status = new stdClass();
 			foreach( $cmnds as $cmnd ) {
-				$tmp           = $this->doRequest( $device, $cmnd );
-				$status->$cmnd = $tmp->$cmnd;
+				$tmp = $this->doRequest( $device, $cmnd );
+
+				if( !empty( $tmp->Command ) && $tmp->Command == "Unknown" ) {
+					$status->$cmnd = "";
+				} else {
+
+					if( !empty( $status->ERROR ) || empty( $status ) ) {
+						$status->$cmnd = "";
+					} else {
+						$status->$cmnd = $tmp->$cmnd;
+					}
+				}
+
 			}
 
 			unset( $tmp );
@@ -311,8 +367,16 @@
 
 			$status = new stdClass();
 			foreach( $cmnds as $cmnd ) {
-				$tmp           = $this->doRequest( $device, $cmnd );
-				$status->$cmnd = $tmp->$cmnd;
+				$tmp = $this->doRequest( $device, $cmnd );
+				if( !empty( $tmp->Command ) && $tmp->Command == "Unknown" ) {
+					$status->$cmnd = "";
+				} else {
+					if( !empty( $status->ERROR ) || empty( $status ) ) {
+						$status->$cmnd = "";
+					} else {
+						$status->$cmnd = $tmp->$cmnd;
+					}
+				}
 			}
 
 			unset( $tmp );

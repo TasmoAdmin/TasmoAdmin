@@ -4,7 +4,7 @@
 ## Upcoming
  
 
-## v1.3.0   
+## v1.3.1   
 - **NEW**: MQTT Config Tab on device config page [#101](https://github.com/reloxx13/TasmoAdmin/issues/101)
   - ENHANCEMENT: Only changed config values will be send to the device
 - MINOR: style show more btn responsive [#145](https://github.com/reloxx13/TasmoAdmin/issues/145)

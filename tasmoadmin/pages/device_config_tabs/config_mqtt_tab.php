@@ -11,6 +11,7 @@
 	<!-- SetOption3 MQTT enabled -->
 	<div class="form-group">
 		<div class="form-check custom-control custom-checkbox">
+			<input id='SetOption3h' type='hidden' value='0' name='SetOption3'>
 			<input class="form-check-input custom-control-input"
 			       type="checkbox"
 			       value='1'
@@ -408,6 +409,7 @@
 	<div class="form-row">
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='ButtonRetainh' type='hidden' value='0' name='ButtonRetain'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
@@ -426,6 +428,7 @@
 		</div>
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='PowerRetainh' type='hidden' value='0' name='PowerRetain'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
@@ -444,6 +447,7 @@
 		</div>
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='SensorRetainh' type='hidden' value='0' name='SensorRetain'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
@@ -466,6 +470,7 @@
 	<div class="form-row">
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='SetOption2h' type='hidden' value='0' name='SetOption2'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
@@ -484,6 +489,7 @@
 		</div>
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='SetOption4h' type='hidden' value='0' name='SetOption4'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
@@ -502,6 +508,7 @@
 		</div>
 		<div class="form-group col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
+				<input id='SetOption10h' type='hidden' value='0' name='SetOption10'>
 				<input class="form-check-input custom-control-input"
 				       type="checkbox"
 				       value='1'
