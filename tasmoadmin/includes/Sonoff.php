@@ -194,6 +194,132 @@
 			return $status;
 		}
 
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getFullTopic( $device ) {
+			$cmnd = "FullTopic";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			return $status->FullTopic;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getSwitchTopic( $device ) {
+			$cmnd = "SwitchTopic";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			return $status->SwitchTopic;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getMqttRetry( $device ) {
+			$cmnd = "MqttRetry";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			return $status->MqttRetry;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getTelePeriod( $device ) {
+			$cmnd = "TelePeriod";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			return $status->TelePeriod;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getSensorRetain( $device ) {
+			$cmnd = "SensorRetain";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			return $status->SensorRetain;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getMqttFingerprint( $device ) {
+			$cmnd = "MqttFingerprint";
+
+
+			$status = $this->doRequest( $device, $cmnd );
+
+			if( empty( $status->MqttFingerprint ) ) {
+				return "";
+			}
+
+			return $status->MqttFingerprint;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getPrefixe( $device ) {
+			$cmnds = [ "Prefix1", "Prefix2", "Prefix3" ];
+
+			$status = new stdClass();
+			foreach( $cmnds as $cmnd ) {
+				$tmp           = $this->doRequest( $device, $cmnd );
+				$status->$cmnd = $tmp->$cmnd;
+			}
+
+			unset( $tmp );
+
+			return $status;
+		}
+
+		/**
+		 * @param $ip
+		 *
+		 * @return mixed
+		 */
+		public function getStateTexts( $device ) {
+			$cmnds = [ "StateText1", "StateText2", "StateText3", "StateText4" ];
+
+			$status = new stdClass();
+			foreach( $cmnds as $cmnd ) {
+				$tmp           = $this->doRequest( $device, $cmnd );
+				$status->$cmnd = $tmp->$cmnd;
+			}
+
+			unset( $tmp );
+
+			return $status;
+		}
+
 		public function toggle( $device ) {
 			$cmnd = "Status 0";
 
@@ -676,6 +802,70 @@
 			ini_set( "max_execution_time", "60" );
 
 			return $result;
+		}
+
+		public function decodeOptions( $options ) {
+			if( empty( $options ) ) {
+				return FALSE;
+			}
+			$a_setoption = [
+				//Sonoff-Tasmota\tools\decode-status.py
+				"Save power state and use after restart",
+				"Restrict button actions to single, double and hold",
+				"Show value units in JSON messages",
+				"MQTT enabled",
+				"Respond as Command topic instead of RESULT",
+				"MQTT retain on Power",
+				"MQTT retain on Button",
+				"MQTT retain on Switch",
+				"Convert temperature to Fahrenheit",
+				"MQTT retain on Sensor",
+				"MQTT retained LWT to OFFLINE when topic changes",
+				"Swap Single and Double press Button",
+				"Do not use flash page rotate",
+				"Button single press only",
+				"Power interlock mode",
+				"Do not allow PWM control",
+				"Reverse clock",
+				"Allow entry of decimal color values",
+				"CO2 color to light signal",
+				"HASS discovery",
+				"Do not control Power with Dimmer",
+				"Energy monitoring while powered off",
+				"MQTT serial",
+				"Rules",
+				"Rules once mode",
+				"KNX",
+				"Use Power device index on single relay devices",
+				"KNX enhancement",
+				"",
+				"",
+				"",
+				"",
+			];
+
+			if( is_array( $options ) ) {
+				$options = $options[ 0 ];
+			}
+
+			$decodedOptopns = new stdClass();
+
+			$options = intval( $options, 16 );
+			for( $i = 0; $i < count( $a_setoption ); $i++ ) {
+				$optionV                           = ( $options >> $i ) & 1;
+				$SetOPtion                         = "SetOption".$i;
+				$decodedOptopns->$SetOPtion        = new stdClass();
+				$decodedOptopns->$SetOPtion->desc  = $a_setoption[ $i ];
+				$decodedOptopns->$SetOPtion->value = $optionV;
+				//				$decodedOptopns[ $i ] = [
+				//					"desc"  => $a_setoption[ $i ],
+				//					"value" => $optionV,
+				//				];
+				//				debug( $a_setoption[ $i ]." => ".$optionV );
+			}
+
+
+			return $decodedOptopns;
 		}
 	}
 

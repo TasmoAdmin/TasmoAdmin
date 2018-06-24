@@ -406,17 +406,17 @@
 				</label>
 			</div>
 		</div>
-		<div class="col-auto">
+		<div class="col-auto ">
 			<button class='btn btn-secondary showCommandInput'>
 				<?php echo __( "BTN_COMMAND", "DEVICES" ); ?>
 			</button>
 		</div>
 	</div>
 	<div class='cmdContainer row command-hidden d-none my-3'>
-		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0  px-0">
+		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0  px-0 pl-0 pl-xl-3">
 			<input type='text' name='command' class='form-control commandInput'>
 		</div>
-		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0  px-0">
+		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0 px-0 pl-3">
 			<button type='submit' class='btn btn-primary sendCommand w-100' name='sendCommand'>
 				<?php echo __( "SEND_COMMAND", "DEVICES" ); ?>
 			</button>
