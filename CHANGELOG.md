@@ -5,9 +5,9 @@
  
 
 ## v1.3.0   
-- **NEW**: MQTT Config Tab on device config page #101
+- **NEW**: MQTT Config Tab on device config page [#101](https://github.com/reloxx13/TasmoAdmin/issues/101)
   - ENHANCEMENT: Only changed config values will be send to the device
-- MINOR: style show more btn responsive #145
+- MINOR: style show more btn responsive [#145](https://github.com/reloxx13/TasmoAdmin/issues/145)
 
 
 ## v1.2.1
@@ -16,33 +16,33 @@
 ## v1.2.0
 - **FIX**: some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
 - **UPDATE**: Font Awesome 5.0.6 -> 5.1.0
-- **DOCKER**: Show Changelog Link in helpmenu #108
+- **DOCKER**: Show Changelog Link in helpmenu [#108](https://github.com/reloxx13/TasmoAdmin/issues/108)
 - MINOR: make footer smaller and sticky, darker link color in nightmode
   - top navi made a lil bit smaller, too
-- MINOR: catch and remove control chars in json response #78
+- MINOR: catch and remove control chars in json response [#78](https://github.com/reloxx13/TasmoAdmin/issues/78)
 - **NEW**: Show new update available icon in footer
 - MINOR: Possible performence fixes for checkNightmode
 - MINOR: cache resources by release tag version
 
 ## v1.1.0                              
-- **NEW**: you can now set a default startpage #115
+- **NEW**: you can now set a default startpage [#115](https://github.com/reloxx13/TasmoAdmin/issues/115)
 - **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121          
 - MINOR: dont be blind on page reload: set nightmode class initial if nightmode is enabled
 
 
 ## v1.0.7               
-- **NEW**: add send command within device list #100
-- MINOR: error handling for selfupdate if travis build failed #142       
+- **NEW**: add send command within device list [#100](https://github.com/reloxx13/TasmoAdmin/issues/100)
+- MINOR: error handling for selfupdate if travis build failed [#142](https://github.com/reloxx13/TasmoAdmin/issues/142)       
 - MINOR: restyle show more
 
 ## v1.0.6
 - **DOCKER**: update busybox to fix travis build
 
 ## v1.0.4 - 1.0.5
-- **FIX**: date in update #124
+- **FIX**: date in update [#124](https://github.com/reloxx13/TasmoAdmin/issues/124)
 - MINOR: change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
-- **NEW**: add configurable server port #122 #131
+- **NEW**: add configurable server port [#122](https://github.com/reloxx13/TasmoAdmin/issues/122),[#131](https://github.com/reloxx13/TasmoAdmin/issues/131)
 - MINOR: show some energy data
 - **NEW**: add iocage support by @tprelog :)
 
@@ -52,7 +52,7 @@
 - **UPDATE**: bootstrap 4.0.0 -> 4.1.1
 - **DOCKER**: clean-up unnecessary lines to reduce image size
 - **DOCKER**: cleanup and readme
-- **DOCKER**: Moved from Apache to Nginx #106
+- **DOCKER**: Moved from Apache to Nginx [#106](https://github.com/reloxx13/TasmoAdmin/issues/106)
 - **DOCKER**: Remove rm
   
 ## v0.0.7
@@ -61,10 +61,10 @@
 ## v0.0.6   
 ### 2018-05-23
 - more rename
-- hide selfupdate if on docker #105
-- **FIX**: update on https #103
-- provide TasmoAdmin Docker within repo #92
-- add help menu (#100)
+- hide selfupdate if on docker [#105](https://github.com/reloxx13/TasmoAdmin/issues/105)
+- **FIX**: update on https [#103](https://github.com/reloxx13/TasmoAdmin/issues/103)
+- provide TasmoAdmin Docker within repo [#92](https://github.com/reloxx13/TasmoAdmin/issues/92)
+- add help menu [#100](https://github.com/reloxx13/TasmoAdmin/issues/100)
 
 Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
