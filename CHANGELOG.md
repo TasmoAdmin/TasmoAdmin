@@ -1,7 +1,10 @@
 # CHANGELOG   
 
 
-## Upcoming 1.3.0   
+## Upcoming
+ 
+
+## v1.3.0   
 - **NEW**: MQTT Config Tab on device config page #101
   - ENHANCEMENT: Only changed config values will be send to the device
 - MINOR: style show more btn responsive #145
