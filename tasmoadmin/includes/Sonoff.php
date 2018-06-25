@@ -511,6 +511,23 @@
 		}
 
 
+		public function compatibility( $status ) {
+			/**
+			 * < 5.12.0
+			 * $status->StatusNET->IP
+			 * >= 5.12.0
+			 * $status->StatusNET->IPAddress
+			 * https://github.com/reloxx13/TasmoAdmin/issues/107
+			 **/
+			if( !empty( $status->StatusNET->IP ) ) {
+				$status->StatusNET->IPAddress = $status->StatusNET->IP;
+			}
+
+
+			return $status;
+		}
+
+
 		/**
 		 * @param     $ip
 		 * @param     $cmnd
@@ -567,6 +584,10 @@
 					$webLog = $this->setWebLog( $device, 2, $try );
 					if( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
 						$data = $this->doRequest( $device, $cmnd, $try );
+					}
+				} else {
+					if( empty( $data->ERROR ) ) {
+						$data = $this->compatibility( $data );
 					}
 				}
 
@@ -629,6 +650,10 @@
 					if( !isset( $webLog->WARNING ) && empty( $webLog->WARNING ) ) {
 						curl_close( $ch );
 						$data = $this->doAjax( $url, $try );
+					}
+				} else {
+					if( empty( $data->ERROR ) ) {
+						$data = $this->compatibility( $data );
 					}
 				}
 			}
@@ -749,6 +774,10 @@
 							}
 						}
 					}
+					if( empty( $data->ERROR ) ) {
+						$data = $this->compatibility( $data );
+					}
+
 					$result[ $device->id ] = $data;
 
 					// start a new request (it's important to do this before removing the old one)
@@ -836,9 +865,17 @@
 							if( json_last_error() !== JSON_ERROR_NONE ) {
 
 							} else {
+
+								if( empty( $data->ERROR ) ) {
+									$data = $this->compatibility( $data );
+								}
 								$result[] = $data;
 							}
 						} else {
+
+							if( empty( $data->ERROR ) ) {
+								$data = $this->compatibility( $data );
+							}
 							$result[] = $data;
 						}
 					}
