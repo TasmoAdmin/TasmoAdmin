@@ -1,7 +1,9 @@
 # CHANGELOG   
 
 
-## Upcoming
+## Upcoming   
+
+## v1.3.2   
 - fix device update, use ota magic #165 #166 
 
 ## v1.3.1   
