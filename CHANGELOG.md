@@ -2,7 +2,7 @@
 
 
 ## Upcoming
- 
+- fix device update, use ota magic #165 #166 
 
 ## v1.3.1   
 - **NEW**: MQTT Config Tab on device config page [#101](https://github.com/reloxx13/TasmoAdmin/issues/101)
