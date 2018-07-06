@@ -125,7 +125,7 @@
 				);
 			}
 
-			$new_firmware_path = $firmwarefolder."sonoff-full.bin";
+			$new_firmware_path = $firmwarefolder."sonoff.bin";
 
 			if( !move_uploaded_file(
 				$_FILES[ 'new_firmware' ][ 'tmp_name' ],
@@ -182,7 +182,7 @@
 			}
 			if( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
 				$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
-				$new_firmware_path     = $firmwarefolder.'sonoff-full.bin';
+				$new_firmware_path     = $firmwarefolder.'sonoff.bin';
 				$file                  = fopen( $minimal_firmware_path, 'w' );
 				// cURL
 				$ch = curl_init();

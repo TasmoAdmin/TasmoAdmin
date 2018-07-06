@@ -8,23 +8,20 @@ $( document ).on( "ready", function () {
 	
 	log( "", "", $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START" ), "success" );
 	
-	$.each( device_ids, step2 );
+	$.each( device_ids, step1 );
 	
 	
 	function step1( index, id ) {
 		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_1" ), "info" );
 		
-		
-		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
-		step2( id );
-		
-		//if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
-		//	device_responses( id, setOTAURL, id, "MINIMAL", 1 );
-		//} else {
-		//
-		//	log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
-		//	step2( id );
-		//}
+		if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
+			device_responses( id, setOTAURL, id, "MINIMAL", 1 );
+		} else {
+			
+			//TODO: add to i18n :X
+			log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
+			step2( id );
+		}
 	}
 	
 	
@@ -199,14 +196,14 @@ $( document ).on( "ready", function () {
 		
 	}
 	
-	function step2( index, id ) {
+	function step2( id ) {
 		log( id, 2, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_2" ), "info" );
 		
 		device_responses( id, setOTAURL, id, "NEW FW", 2 );
 	}
 	
 	function checkUpdateDone( id, step, i ) {
-		if ( i > 5 ) {
+		if ( i > 48 ) {
 			log( id, step, $.i18n( "BLOCK_CHECK_UPDATE" ), $.i18n( "BLOCK_CHECK_UPDATE_ERROR_X_MIN" ), "error" );
 			return;
 		}
@@ -240,25 +237,13 @@ $( document ).on( "ready", function () {
 								        );
 								        step2( id );
 							        } else {
-								        if ( data.StatusFWR.Version.indexOf( "minimal" ) >= 0 ) {
-									        log(
-										        id,
-										        step,
-										        $.i18n( "BLOCK_CHECK_UPDATE" ),
-										        $.i18n( "MINIMAL IS INSTALLED NOW, WAIT FOR MAIN FW!" ),
-										        "info",
-									        );
-									        checkUpdateDone( id, step, 1 );
-								        } else {
-									        log(
-										        id,
-										        step,
-										        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
-										        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
-										        "success",
-									        );
-									
-								        }
+								        log(
+									        id,
+									        step,
+									        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
+									        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
+									        "success",
+								        );
 							        }
 						        } else {
 							        log(
