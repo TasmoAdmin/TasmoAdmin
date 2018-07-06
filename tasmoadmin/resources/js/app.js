@@ -112,6 +112,7 @@ $( document ).on( "ready", function () {
 		var valueSelected  = this.value;
 		
 		var curUrl           = window.location.toString() + "/" + valueSelected + "/";
+		curUrl               = curUrl.replace( /([^:]\/)\/+/g, "$1" );
 		window.location.href = curUrl;
 		
 		// var curUrl = window.location.toString();
