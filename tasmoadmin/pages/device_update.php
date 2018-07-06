@@ -14,7 +14,7 @@
 	if( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
 		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
 	}
-	$ota_new_firmware_url = $otaServer."data/firmwares/sonoff-full.bin";
+	$ota_new_firmware_url = $otaServer."data/firmwares/sonoff.bin";
 
 	$device_ids = isset( $_REQUEST[ "device_ids" ] ) ? $_REQUEST[ "device_ids" ] : FALSE;
 ?>
