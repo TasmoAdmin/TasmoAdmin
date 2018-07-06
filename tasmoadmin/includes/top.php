@@ -68,7 +68,10 @@
 	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
 	if( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
-		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
+		header(
+			"Location: ".( empty( $_SERVER[ "HTTP_REFERER" ] ) ? $_SERVER[ "REDIRECT_BASE" ]
+				: $_SERVER[ "HTTP_REFERER" ] )
+		);
 	}
 
 
