@@ -3,6 +3,9 @@
 
 ## Upcoming   
 
+## v1.3.3 
+- fix for travis building   
+   
 ## v1.3.2   
 - fix device update, use ota magic #165 #166 
 
