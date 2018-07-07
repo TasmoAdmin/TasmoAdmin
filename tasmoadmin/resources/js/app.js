@@ -48,7 +48,7 @@ $( document ).on( "ready", function () {
 	
 	$( "#versionHolder" ).on( "click", function ( e ) {
 		e.preventDefault();
-		if ( $( this ).hasClass( "update-now" ) ) {
+		if ( $( this ).hasClass( "update-now" ) || $( "#versionHolder" ).data( "update-check" ) == "0" ) {
 			window.location.href = _BASEURL_ + "selfupdate";
 		} else {
 			checkForUpdate( false );
@@ -501,6 +501,11 @@ Date.prototype.addHours = function ( h ) {
 
 
 function checkForUpdate( timer ) {
+	if ( $( "#versionHolder" ).data( "update-check" ) == "0" ) {
+		console.log( "[APP][checkForUpdate] Update check is disabed" );
+		$( "#update-icon" ).remove();
+		return;
+	}
 	console.log( "[APP][checkForUpdate] Start" );
 	var timer         = timer || true;
 	var icon          = $( "#update-icon" );

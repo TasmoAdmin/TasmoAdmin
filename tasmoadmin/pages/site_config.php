@@ -9,6 +9,10 @@
 				$settings[ "login" ] = "0";
 			}
 
+			if( !isset( $settings[ "check_for_updates" ] ) ) {
+				$settings[ "check_for_updates" ] = "0";
+			}
+
 			if( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
 			    || $settings[ "password" ] == ""
 			    || $settings[ "login" ] == "0" ) {
@@ -45,15 +49,32 @@
 			</div>
 		<?php endif; ?>
 		<form name='web_config' method='post'>
-			<div class="form-check custom-control custom-checkbox mb-3">
-				<input class="form-check-input custom-control-input"
-				       type="checkbox"
-				       value="1"
-				       id="cb_login"
-				       name='login' <?php echo $config[ "login" ] == "1" ? "checked=\"checked\"" : ""; ?>>
-				<label class="form-check-label custom-control-label" for="cb_login">
-					<?php echo __( "CONFIG_LOGIN_ENABLE", "USER_CONFIG" ); ?>
-				</label>
+			<div class="form-row  mt-5">
+				<div class="form-group col-12 col-sm-3">
+					<div class="form-check custom-control custom-checkbox mb-3">
+						<input class="form-check-input custom-control-input"
+						       type="checkbox"
+						       value="1"
+						       id="cb_login"
+						       name='login' <?php echo $config[ "login" ] == "1" ? "checked=\"checked\"" : ""; ?>>
+						<label class="form-check-label custom-control-label" for="cb_login">
+							<?php echo __( "CONFIG_LOGIN_ENABLE", "USER_CONFIG" ); ?>
+						</label>
+					</div>
+				</div>
+				<div class="form-group col-12 col-sm-3">
+					<div class="form-check custom-control custom-checkbox mb-3">
+						<input class="form-check-input custom-control-input"
+						       type="checkbox"
+						       value="1"
+						       id="cb_check_for_updates"
+						       name='check_for_updates' <?php echo $config[ "check_for_updates" ] == "1"
+							? "checked=\"checked\"" : ""; ?>>
+						<label class="form-check-label custom-control-label" for="cb_check_for_updates">
+							<?php echo __( "CONFIG_UPDATE_CHECK_ENABLE", "USER_CONFIG" ); ?>
+						</label>
+					</div>
+				</div>
 			</div>
 			<div class="form-group">
 				<label for="username">

@@ -17,6 +17,7 @@
 				"scan_from_ip"          => "192.168.178.2",
 				"scan_to_ip"            => "192.168.178.254",
 				"homepage"              => "start",
+				"check_for_updates"     => "1",
 			];
 
 		function __construct() {
