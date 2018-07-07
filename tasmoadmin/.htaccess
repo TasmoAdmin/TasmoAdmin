@@ -40,14 +40,15 @@ AddDefaultCharset UTF-8
 
 
     ##Lang Switch detection
-    RewriteRule /([a-z]{2})/ index.php?lang=$1 [L]
+#    RewriteRule /([a-z]{2})/ index.php?lang=$1 [L]
 
+    RewriteRule (^|/)([a-z]{2,2})/ index.php?lang=$2
 
     ##Pages routing
-    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/([0-9_]+)/?$ index.php?page=$1&action=$2&device_id=$3
-    RewriteRule ^([a-zA-Z_]+)/(force)/?$ index.php?page=$1&force=1
-    RewriteRule ^([a-zA-Z_]+)/([a-zA-Z_]+)/?$ index.php?page=$1&action=$2
-    RewriteRule ^([a-zA-Z_]+)/([0-9]+)/?$ index.php?page=$1&device_id=$2
-    RewriteRule ^([a-zA-Z_]+)/?$ index.php?page=$1
+    RewriteRule ^([a-zA-Z_]{3,})/([a-zA-Z_]+)/([0-9_]+)/?$ index.php?page=$1&action=$2&device_id=$3
+    RewriteRule ^([a-zA-Z_]{3,})/(force)/?$ index.php?page=$1&force=1
+    RewriteRule ^([a-zA-Z_]{3,})/([a-zA-Z_]+)/?$ index.php?page=$1&action=$2
+    RewriteRule ^([a-zA-Z_]{3,})/([0-9]+)/?$ index.php?page=$1&device_id=$2
+    RewriteRule ^([a-zA-Z_]{3,})/?$ index.php?page=$1
 
 </IfModule>

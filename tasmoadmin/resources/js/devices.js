@@ -2,22 +2,30 @@ $( document ).on( "ready", function () {
 	deviceTools();
 	updateAllStatus();
 	
+	initCommandHelper();
+	
 	
 	$( ".showmore" ).on( "change", function ( e ) {
 		if ( $( this ).prop( "checked" ) ) {
 			$( ".showmore" ).prop( "checked", true );
 			Cookies.set( 'devices_show_more', '1' );
 			$( "#device-list .more:not(.hidden)" ).show();
+			$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
+				"btn-primary" );
 		} else {
 			$( ".showmore" ).prop( "checked", false );
 			Cookies.set( 'devices_show_more', '0' );
 			$( "#device-list .more" ).hide();
+			$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-primary" ).addClass(
+				"btn-secondary" );
 		}
 	} );
 	
 	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
 		$( ".showmore" ).prop( "checked", true );
 		$( "#device-list .more:not(.hidden)" ).show();
+		$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
+			"btn-primary" );
 	}
 	
 	$( '.table-responsive' ).attachDragger();
@@ -47,6 +55,118 @@ $( document ).on( "ready", function () {
 	}
 	
 } );
+
+function initCommandHelper() {
+	$( ".showCommandInput" ).on( "click", function ( e ) {
+		$( this ).toggleClass( "btn-secondary" ).toggleClass( "btn-primary" );
+		$( ".command-hidden" ).toggleClass( "d-none" );
+		$( ".cmd_cb" ).toggleClass( "d-none" ).find( "input" ).prop( "checked", false );
+		$( ".cmdContainer " ).removeClass( "has-error" );
+		$( ".cmdContainer " ).find( "input" ).val( "" );
+		$( ".cmdContainer " ).find( "#commandInputError" ).html( "" );
+	} );
+	
+	$( ".cmdContainer " ).find( "input" ).keypress( function ( e ) {
+		if ( e.which == 13 ) {//Enter key pressed
+			$( ".sendCommand" ).click();//Trigger search button click event
+		}
+	} );
+	
+	
+	$( ".select_all" ).change( function () {  //"select all" change
+		var status = this.checked; // "select all" checked status
+		$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
+			this.checked = status; //change ".checkbox" checked status
+		} );
+		
+		$( '.select_all' ).each( function () { //iterate all listed checkbox items
+			this.checked = status; //change ".checkbox" checked status
+		} );
+		
+	} );
+	
+	$( '.device_checkbox' ).change( function () { //".checkbox" change
+		//uncheck "select all", if one of the listed checkbox item is unchecked
+		if ( this.checked == false ) { //if this item is unchecked
+			$( '.select_all' ).each( function () { //iterate all listed checkbox items
+				this.checked = false; //change ".checkbox" checked status
+			} );
+		}
+		
+		//check "select all" if all checkbox items are checked
+		if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
+			$( '.select_all' ).each( function () { //iterate all listed checkbox items
+				this.checked = true; //change ".checkbox" checked status
+			} );
+		}
+	} );
+	
+	
+	$( ".sendCommand" ).on( "click", function ( e ) {
+		$( this )
+			.parent()
+			.parent().removeClass( "has-error" )
+			.find( "#commandInputError" )
+			.addClass( "d-none" ).html( "" );
+		
+		var selectedDevices = $.map( $( ".cmd_cb:not(.link ) input:not(.select_all):checked" ), function ( elem, idx ) {
+			let d = new Array( $( elem ).val() );
+			return d;
+		} );
+		//console.log( selectedDevices );
+		if ( selectedDevices.length == 0 ) {
+			$( this )
+				.parent()
+				.parent().addClass( "has-error" )
+				.find( "#commandInputError" )
+				.removeClass( "d-none" )
+				.html(
+					$.i18n( "ERROR_COMMAND_NO_DEVICE_SELECTED" ),
+				);
+			return false;
+		}
+		
+		var cmnd = $( this )
+			.parent()
+			.parent().find( ".commandInput" ).val();
+		
+		//console.log( cmnd );
+		if ( cmnd == "" ) {
+			$( this )
+				.parent()
+				.parent().addClass( "has-error" )
+				.find( "#commandInputError" )
+				.removeClass( "d-none" )
+				.html(
+					$.i18n( "ERROR_PLS_ENTER_COMMAND" ),
+				);
+			return false;
+		}
+		
+		$.each( selectedDevices, function ( idx, device_id ) {
+			console.log( device_id );
+			Sonoff.generic( device_id, cmnd, undefined, function ( result ) {
+				console.log( result );
+				var device_name = $( "[data-device_id=" + device_id + "]:first" )
+					.find( ".device_name a" )
+					.text()
+					.trim();
+				$( "#commandInputError" ).append( "ID " + device_id + " (" + device_name + ") => " + JSON.stringify(
+					result ) + "<br/>" );
+			} );
+		} );
+		
+		$( this )
+			.parent()
+			.parent()
+			.find( "#commandInputError" )
+			.removeClass( "d-none" )
+			.append(
+				$.i18n( "SUCCESS_COMMAND_SEND" ) + "</br>",
+			);
+		
+	} );
+}
 
 
 function updateStatus() {
@@ -107,9 +227,10 @@ function updateStatus() {
 								//$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 								
 								$( grouptr ).find( "td" ).each( function ( key, td ) {
+									//console.log( key );
 									//console.log( td );
-									if ( td.find( ".loader" ) ) {
-										td.find( "span" ).html( "-" );
+									if ( $( td ).find( ".loader" ).length > 0 ) {
+										$( td ).find( "span" ).html( "-" );
 									}
 								} );
 								
@@ -171,7 +292,7 @@ function updateAllStatus() {
 					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
 					
 					                     $( tr ).removeAttr(
-						                     "data-original-title"
+						                     "data-original-title",
 					                     ).removeAttr( "data-toggle" );
 					
 					                     updateRow( $( tr ), data, device_status );
@@ -207,7 +328,7 @@ function updateAllStatus() {
 					
 					                     $( tr ).attr(
 						                     "data-original-title",
-						                     msg
+						                     msg,
 					                     ).attr( "data-toggle", "tooltip" ).tooltip( {
 						                                                                 html : true,
 						                                                                 delay: 700,
@@ -229,7 +350,7 @@ function updateAllStatus() {
 			
 			                     device_holder.removeClass( "updating" );
 			
-		                     }
+		                     },
 		);
 	} else {
 		console.log( "[Devices][updateAllStatus]SKIP" );
@@ -273,43 +394,18 @@ function deviceTools() {
 		
 	} );
 	
-	$( '#device-list tbody tr td a.delete' ).on( "click", function ( e ) {
-		e.preventDefault();
-		var actionUrl = $( this ).attr( "href" );
-		var dialog    = $( '<div id="msg_dialog">' + $( this ).data( "dialog-text" ) + '</div>' )
-			.appendTo( "body" );
-		dialog.dialog( {
-			               resizable: false,
-			               dragable : false,
-			               height   : "auto",
-			               width    : "70%",
-			               modal    : true,
-			               title    : $( this ).data( "dialog-title" ),
-			               buttons  :
-				               [
-					               {
-						               text : $( this ).data( "dialog-btn-cancel-text" ),
-						               icon : "ui-icon-closethick",
-						               click: function () {
-							               $( this ).dialog( "close" );
-							               dialog.remove();
-						               },
-					               },
-					               {
-						               text : $( this ).data( "dialog-btn-ok-text" ),
-						               icon : "ui-icon-check",
-						               click: function () {
-							               $( this ).dialog( "close" );
-							               dialog.remove();
-							               location.href = actionUrl;
-						               },
-						
-					               },
-				               ],
-		               } );
+	$( '#deleteDeviceModal' ).on( 'show.bs.modal', function ( event ) {
 		
+		var modal = $( this );
+		
+		var button = $( event.relatedTarget ); // Button that triggered the modal
+		
+		console.log( modal.find( '.btn-ok' ) );
+		modal.find( '.btn-ok' ).attr( 'href', button.attr( 'href' ) );
+		
+		var body = button.data( 'dialog-text' );
+		modal.find( '.modal-body' ).html( body );
 	} );
-	
 	
 	$( '#device-list tbody tr td a.restart-device' ).on( "click", function ( e ) {
 		e.preventDefault();
@@ -376,6 +472,12 @@ function updateRow( row, data, device_status ) {
 		
 	}
 	
+	var energyPower = getEnergyPower( data );
+	
+	if ( energyPower != "" ) {
+		$( row ).find( ".energyPower span" ).html( energyPower );
+		$( "#device-list .energyPower" ).removeClass( "hidden" );
+	}
 	
 	var temp = getTemp( data );
 	
@@ -520,8 +622,8 @@ function updateRow( row, data, device_status ) {
 			"data-original-title",
 			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
 				.attr( "lang" )
-				.toUpperCase(), { hour12: false }
-			)
+				.toUpperCase(), { hour12: false },
+			),
 		).attr( "data-toggle", "tooltip" ).tooltip( {
 			                                            html : true,
 			                                            delay: 700,

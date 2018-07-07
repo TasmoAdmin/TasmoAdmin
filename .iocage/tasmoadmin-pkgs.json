@@ -1,0 +1,13 @@
+{
+    "pkgs": [
+    "shells/bash",
+    "devel/git",
+    "www/nginx",
+    "lang/php72",
+    "ftp/php72-curl",
+    "security/php72-filter",
+    "devel/php72-json",
+    "www/php72-session",
+    "archivers/php72-zip"
+    ]
+} 
