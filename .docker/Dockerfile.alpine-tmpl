@@ -33,15 +33,15 @@ RUN \
         tar=1.29-r1 \
     \
     && apk add --no-cache \
-        apk-tools=2.10.0-r0 \
+        apk-tools=2.9.1-r2 \
         bash=4.4.19-r1 \
-        busybox=1.28.4-r0  \
-        ca-certificates=20171114-r3 \
+        busybox=1.27.2-r10 \
+        ca-certificates=20171114-r0 \
         curl=7.60.0-r1 \
-        musl-utils=1.1.19-r10 \
-        musl=1.1.19-r10 \
-        tzdata=2018d-r1 \
-        nginx=1.14.0-r0 \
+        musl-utils=1.1.18-r3 \
+        musl=1.1.18-r3 \
+        tzdata=2017c-r0 \
+        nginx=1.12.2-r3 \
         php7-curl=7.1.17-r0 \
         php7-fpm=7.1.17-r0 \
         php7-json=7.1.17-r0 \
