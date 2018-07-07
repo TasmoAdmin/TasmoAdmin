@@ -30,25 +30,25 @@ COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 ARG BUILD_ARCH=arm32v6
 RUN \
     apk add --no-cache --virtual .build-dependencies \
-        tar=1.29-r1 \
+        tar \
     \
     && apk add --no-cache \
-        apk-tools=2.9.1-r2 \
-        bash=4.4.19-r1 \
-        busybox=1.27.2-r11 \
-        ca-certificates=20171114-r0 \
-        curl=7.60.0-r1 \
-        musl-utils=1.1.18-r3 \
-        musl=1.1.18-r3 \
-        tzdata=2017c-r0 \
-        nginx=1.12.2-r3 \
-        php7-curl=7.1.17-r0 \
-        php7-fpm=7.1.17-r0 \
-        php7-json=7.1.17-r0 \
-        php7-opcache=7.1.17-r0 \
-        php7-session=7.1.17-r0 \
-        php7-zip=7.1.17-r0 \
-        php7=7.1.17-r0 \
+        apk-tools \
+        bash \
+        busybox \
+        ca-certificates \
+        curl \
+        musl-utils \
+        musl \
+        tzdata \
+        nginx \
+        php7-curl \
+        php7-fpm \
+        php7-json \
+        php7-opcache0 \
+        php7-session \
+        php7-zip \
+        php7 \
     \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
     \
