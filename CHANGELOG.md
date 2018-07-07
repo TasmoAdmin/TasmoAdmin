@@ -2,13 +2,14 @@
 
 
 ## Upcoming   
-- set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
+- **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
+- **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
 
 ## v1.3.3 
-- fix for travis building   
+- MINOR: fix for travis building   
    
 ## v1.3.2   
-- fix device update, use ota magic [#165](https://github.com/reloxx13/TasmoAdmin/issues/165) [#166](https://github.com/reloxx13/TasmoAdmin/issues/166) 
+- **FIX**: fix device update, use ota magic [#165](https://github.com/reloxx13/TasmoAdmin/issues/165) [#166](https://github.com/reloxx13/TasmoAdmin/issues/166) 
 
 ## v1.3.1   
 - **NEW**: MQTT Config Tab on device config page [#101](https://github.com/reloxx13/TasmoAdmin/issues/101)
