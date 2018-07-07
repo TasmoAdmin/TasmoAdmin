@@ -2,6 +2,19 @@
 	error_reporting( E_ALL );
 	ini_set( 'display_errors', '1' );
 
+
+	$subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
+
+	$subdir
+		    = $subdir = str_replace( "\\", "/", $subdir );
+	$subdir = $subdir == "//" ? "/" : $subdir;
+
+
+	define( "_BASEURL_", $subdir );
+	define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
+
+	session_save_path( _APPROOT_."tmp/sessions/" );
+
 	ini_set( 'session.gc_maxlifetime', 30*24*60*60 );
 	session_set_cookie_params( 30*24*60*60 );
 	session_start();
@@ -24,18 +37,8 @@
 		echo "and restart webserver";
 		die();
 	}
-	$subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
 
-	$subdir
-		    = $subdir = str_replace( "\\", "/", $subdir );
-	$subdir = $subdir == "//" ? "/" : $subdir;
-
-
-	define( "_BASEURL_", $subdir );
 	define( "_RESOURCESURL_", _BASEURL_."resources/" );
-
-
-	define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
 	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
 	define( "_LIBSDIR_", _APPROOT_."libs/" );
