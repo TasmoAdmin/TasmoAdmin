@@ -1,11 +1,11 @@
 <?php
-	
+
 	include_once( "./includes/top.php" );
-	
-	
+
+
 	$Config = new Config();
-	
-	
+
+
 	$register = FALSE;
 	$msg      = FALSE;
 	$user     = $Config->read( "username" );
@@ -14,28 +14,28 @@
 	$page     = "login";
 	if ( isset( $_GET[ "logout" ] ) ) {
 		ob_start();
-		
+
 		session_unset();
 		session_destroy();
-		
+
 		header( "Location: "._BASEURL_."login" );
 		ob_end_flush();
 	}
-	
+
 	if ( $Config->read( "login" ) == 0 ) {
 		die( "in" );
 		header( "Location: "._BASEURL_."" );
 	}
-	
+
 	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		if ( isset( $_POST[ "register" ] ) && ( $user == "" || $password == "" ) ) {
-			$Config->write( "username", $_POST[ "username" ] );
-			$Config->write( "password", md5( $_POST[ "password" ] ) );
+		if ( isset( $_REQUEST[ "register" ] ) && ( $user == "" || $password == "" ) ) {
+			$Config->write( "username", $_REQUEST[ "username" ] );
+			$Config->write( "password", md5( $_REQUEST[ "password" ] ) );
 			$_SESSION[ 'login' ] = "1";
 			header( "Location: "._BASEURL_."start" );
-			
-		} else if ( isset( $_POST[ "login" ] ) ) {
-			if ( $user == $_POST[ "username" ] && $password == md5( $_POST[ "password" ] ) ) {
+
+		} else if ( isset( $_REQUEST[ "login" ] ) ) {
+			if ( $user == $_REQUEST[ "username" ] && $password == md5( $_REQUEST[ "password" ] ) ) {
 				$_SESSION[ 'login' ] = "1";
 				header( "Location: "._BASEURL_."start" );
 			} else {
@@ -43,7 +43,7 @@
 			}
 		}
 	}
-	
+
 	if ( empty( $user ) || $user == "" || empty( $password ) || $password == "" ) {
 		$register = TRUE;
 	}

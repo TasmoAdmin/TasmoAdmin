@@ -92,7 +92,7 @@ function updateStatus() {
 				                  }
 				                  //console.log( result );
 				
-			                  }
+			                  },
 			);
 		}
 	} );
@@ -184,6 +184,24 @@ function updateBox( row, data, device_status ) {
 		infoBoxCounter++;
 	}
 	
+	
+	var energyPower = getEnergyPower( data );
+	
+	if ( energyPower != "" ) {
+		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( energyPower ).parent().removeClass( "hidden" );
+		infoBoxCounter++;
+	}
+	
+	//var energyTodayYesterday = getEnergyTodayYesterday( data );
+	//
+	//if ( energyTodayYesterday != "" ) {
+	//	$( row )
+	//		.find( ".info-" + infoBoxCounter + " span" )
+	//		.html( energyTodayYesterday )
+	//		.parent()
+	//		.removeClass( "hidden" );
+	//	infoBoxCounter++;
+	//}
 	
 	var gas = getGas( data );
 	

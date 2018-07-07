@@ -8,12 +8,12 @@
 	$error        = FALSE;
 
 
-	if( isset( $_POST ) && !empty( $_POST ) ) {
+	if( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
 
-		if( isset( $_POST[ "search" ] ) ) {
+		if( isset( $_REQUEST[ "search" ] ) ) {
 
-			$fromip = explode( ".", $_POST[ "from_ip" ] );
-			$toip   = explode( ".", $_POST[ "to_ip" ] );
+			$fromip = explode( ".", $_REQUEST[ "from_ip" ] );
+			$toip   = explode( ".", $_REQUEST[ "to_ip" ] );
 			$urls   = [];
 
 			if( isset( $fromip ) && count( $fromip ) == 4
@@ -37,8 +37,8 @@
 
 					$fakeDevice           = new stdClass();
 					$fakeDevice->ip       = implode( ".", $fromip );
-					$fakeDevice->username = isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ] : "";
-					$fakeDevice->password = isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : "";
+					$fakeDevice->username = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ] : "";
+					$fakeDevice->password = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : "";
 					$cmnd                 = "status 0";
 
 
@@ -68,19 +68,19 @@
 			}
 
 
-		} elseif( isset( $_POST[ "save_all" ] ) ) { //add
+		} elseif( isset( $_REQUEST[ "save_all" ] ) ) { //add
 
 
 			$handle = fopen( $filename, "a" );
-			foreach( $_POST[ "devices" ] as $device ) {
+			foreach( $_REQUEST[ "devices" ] as $device ) {
 
 				$fp                = file( $filename );
 				$deviceHolder      = [];
 				$deviceHolder[ 0 ] = count( $fp )+1;
 				$deviceHolder[ 1 ] = implode( "|", isset( $device[ "device_name" ] ) ? $device[ "device_name" ] : [] );
 				$deviceHolder[ 2 ] = isset( $device[ "device_ip" ] ) ? $device[ "device_ip" ] : "";
-				$deviceHolder[ 3 ] = isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ] : "";
-				$deviceHolder[ 4 ] = isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : "";
+				$deviceHolder[ 3 ] = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ] : "";
+				$deviceHolder[ 4 ] = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : "";
 				$deviceHolder[ 5 ] = isset( $device[ "device_img" ] ) ? $device[ "device_img" ] : "bulb_1";
 				$deviceHolder[ 6 ] = isset( $device[ "device_position" ] ) ? $device[ "device_position" ] : "";
 
@@ -172,7 +172,7 @@
 				       class="form-control"
 				       id="device_username"
 				       name='device_username'
-				       value='<?php echo isset( $_POST[ "device_username" ] ) ? $_POST[ "device_username" ]
+				       value='<?php echo isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
 					       : "admin"; ?>'
 				>
 				<small id="device_usernameHelp" class="form-text text-muted">
@@ -187,7 +187,7 @@
 				       class="form-control"
 				       id="device_password"
 				       name='device_password'
-				       value='<?php echo isset( $_POST[ "device_password" ] ) ? $_POST[ "device_password" ] : ""; ?>'
+				       value='<?php echo isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : ""; ?>'
 				>
 				<small id="device_passwordHelp" class="form-text text-muted">
 					<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>

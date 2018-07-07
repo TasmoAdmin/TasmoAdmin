@@ -4,32 +4,32 @@
 	$firmwarefolder        = _DATADIR_."firmwares/";
 	$minimal_firmware_path = "";
 	$new_firmware_path     = "";
-	
+
 	$files = glob( $firmwarefolder.'*' ); // get all file names
-	foreach ( $files as $file ) { // iterate files
-		if ( is_file( $file ) && strpos( $file, ".empty" ) === FALSE ) {
+	foreach( $files as $file ) { // iterate files
+		if( is_file( $file ) && strpos( $file, ".empty" ) === FALSE ) {
 			unlink( $file );
 		} // delete file
 	}
 	$minimal_firmware_path = "";
-	if ( isset( $_POST[ "upload" ] ) ) {
-		if ( $_FILES[ 'minimal_firmware' ][ "name" ] == "" ) {
+	if( isset( $_REQUEST[ "upload" ] ) ) {
+		if( $_FILES[ 'minimal_firmware' ][ "name" ] == "" ) {
 			$msg .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".__(
 					"UPLOAD_FIRMWARE_MINIMAL_SKIP",
 					"DEVICE_UPDATE"
 				)."<br/>";
 		} else {
 			try {
-				
+
 				// Undefined | Multiple Files | $_FILES Corruption Attack
 				// If this request falls under any of them, treat it invalid.
-				if ( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
-				     || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
+				if( !isset( $_FILES[ 'minimal_firmware' ][ 'error' ] )
+				    || is_array( $_FILES[ 'minimal_firmware' ][ 'error' ] ) ) {
 					throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_INVALID_FILES", "DEVICE_UPDATE" ) );
 				}
-				
+
 				// Check $_FILES['minimal_firmware']['error'] value.
-				switch ( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
+				switch( $_FILES[ 'minimal_firmware' ][ 'error' ] ) {
 					case UPLOAD_ERR_OK:
 						break;
 					case UPLOAD_ERR_NO_FILE:
@@ -40,16 +40,16 @@
 					default:
 						throw new RuntimeException( __( "UPLOAD_FIRMWARE_MINIMAL_UNKNOWN_ERROR", "DEVICE_UPDATE" ) );
 				}
-				
+
 				// You should also check filesize here.
-				if ( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
+				if( $_FILES[ 'minimal_firmware' ][ 'size' ] > 502000 ) {
 					throw new RuntimeException(
 						__( "UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", [ "maxsize" => "502kb" ] )
 					);
 				}
-				
-				if ( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream"
-				     || $_FILES[ 'minimal_firmware' ][ "type" ] == "application/macbinary" ) {
+
+				if( $_FILES[ 'minimal_firmware' ][ "type" ] == "application/octet-stream"
+				    || $_FILES[ 'minimal_firmware' ][ "type" ] == "application/macbinary" ) {
 					$ext = "bin";
 				} else {
 					throw new RuntimeException(
@@ -60,11 +60,11 @@
 						)
 					);
 				}
-				
-				
+
+
 				$minimal_firmware_path = $firmwarefolder."sonoff-minimal.bin";
-				
-				if ( !move_uploaded_file(
+
+				if( !move_uploaded_file(
 					$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
 					$minimal_firmware_path
 				) ) {
@@ -76,31 +76,31 @@
 						)
 					);
 				}
-				
+
 				$msg .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".__(
 						"UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
 						"DEVICE_UPDATE"
 					)."</br>";
-				
+
 			}
-			catch ( RuntimeException $e ) {
+			catch( RuntimeException $e ) {
 				$error = TRUE;
 				$msg   .= __( "UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE" ).": ".$e->getMessage()."!</br>";
-				
+
 			}
-			
+
 		}
 		try {
-			
+
 			// Undefined | Multiple Files | $_FILES Corruption Attack
 			// If this request falls under any of them, treat it invalid.
-			if ( !isset( $_FILES[ 'new_firmware' ][ 'error' ] )
-			     || is_array( $_FILES[ 'new_firmware' ][ 'error' ] ) ) {
+			if( !isset( $_FILES[ 'new_firmware' ][ 'error' ] )
+			    || is_array( $_FILES[ 'new_firmware' ][ 'error' ] ) ) {
 				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_INVALID_FILES", "DEVICE_UPDATE" ) );
 			}
-			
+
 			// Check $_FILES['new_firmware']['error'] value.
-			switch ( $_FILES[ 'new_firmware' ][ 'error' ] ) {
+			switch( $_FILES[ 'new_firmware' ][ 'error' ] ) {
 				case UPLOAD_ERR_OK:
 					break;
 				case UPLOAD_ERR_NO_FILE:
@@ -111,53 +111,53 @@
 				default:
 					throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_UNKNOWN_ERROR", "DEVICE_UPDATE" ) );
 			}
-			
+
 			// You should also check filesize here.
-			if ( $_FILES[ 'new_firmware' ][ 'size' ] > 1000000 ) {
+			if( $_FILES[ 'new_firmware' ][ 'size' ] > 1000000 ) {
 				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE" ) );
 			}
-			if ( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream"
-			     || $_FILES[ 'new_firmware' ][ "type" ] == "application/macbinary" ) {
+			if( $_FILES[ 'new_firmware' ][ "type" ] == "application/octet-stream"
+			    || $_FILES[ 'new_firmware' ][ "type" ] == "application/macbinary" ) {
 				$ext = "bin";
 			} else {
 				throw new RuntimeException(
 					__( "UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES[ 'new_firmware' ][ "type" ] )
 				);
 			}
-			
-			$new_firmware_path = $firmwarefolder."sonoff-full.bin";
-			
-			if ( !move_uploaded_file(
+
+			$new_firmware_path = $firmwarefolder."sonoff.bin";
+
+			if( !move_uploaded_file(
 				$_FILES[ 'new_firmware' ][ 'tmp_name' ],
-				
+
 				$new_firmware_path
 			) ) {
 				throw new RuntimeException( __( "UPLOAD_FIRMWARE_FULL_COULD_NOT_SAVE", "DEVICE_UPDATE" ) );
 			}
-			
+
 			$msg .= __( "UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE" ).": ".__(
 					"UPLOAD_FIRMWARE_FULL_SUCCESSFULLY",
 					"DEVICE_UPDATE"
 				)."</br>";
-			
+
 		}
-		catch ( RuntimeException $e ) {
+		catch( RuntimeException $e ) {
 			$error = TRUE;
 			$msg   .= __( "UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE" ).": ".$e->getMessage()."!</br>";
-			
+
 		}
-	} else if ( isset( $_POST[ "auto" ] ) ) {
+	} elseif( isset( $_REQUEST[ "auto" ] ) ) {
 		//File to save the contents to
 		$lCode = $Config->read( "update_automatic_lang" );
-		if ( $lCode != "" ) {
-			if ( $lCode != "EN" ) {
+		if( $lCode != "" ) {
+			if( $lCode != "EN" ) {
 				$lCodeTasmota = "-".$lCode;
 			} else {
 				$lCodeTasmota = "";
 			}
-			
+
 			$url = "https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest";
-			
+
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );
 			curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
@@ -168,21 +168,21 @@
 			);
 			$result = curl_exec( $ch );
 			curl_close( $ch );
-			
+
 			$data = json_decode( $result );
-			
-			foreach ( $data->assets as $binfileData ) {
-				if ( $binfileData->name == "sonoff-minimal.bin" ) {
+
+			foreach( $data->assets as $binfileData ) {
+				if( $binfileData->name == "sonoff-minimal.bin" ) {
 					$fwMinimalUrl = $binfileData->browser_download_url;
 				}
-				if ( $binfileData->name == sprintf( "sonoff%s.bin", $lCodeTasmota ) ) {
+				if( $binfileData->name == sprintf( "sonoff%s.bin", $lCodeTasmota ) ) {
 					$fwUrl = $binfileData->browser_download_url;
 				}
-				
+
 			}
-			if ( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
+			if( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
 				$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
-				$new_firmware_path     = $firmwarefolder.'sonoff-full.bin';
+				$new_firmware_path     = $firmwarefolder.'sonoff.bin';
 				$file                  = fopen( $minimal_firmware_path, 'w' );
 				// cURL
 				$ch = curl_init();
@@ -199,7 +199,7 @@
 				curl_close( $ch );
 				// close file
 				fclose( $file );
-				
+
 				$file = fopen( $new_firmware_path, 'w' );
 				$ch   = curl_init();
 				curl_setopt( $ch, CURLOPT_URL, $fwUrl );
@@ -232,10 +232,10 @@
 		$error = TRUE;
 		$msg   .= __( "UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE" )."<br/>";
 	}
-	
-	
-	$ota_server_ip = isset( $_POST[ "ota_server_ip" ] ) ? $_POST[ "ota_server_ip" ] : "";
-	
+
+
+	$ota_server_ip = isset( $_REQUEST[ "ota_server_ip" ] ) ? $_REQUEST[ "ota_server_ip" ] : "";
+
 	$Config->write( "ota_server_ip", $ota_server_ip );
 
 ?>
@@ -247,7 +247,7 @@
 		</h2>
 	</div>
 </div>
-<?php if ( isset( $error ) && $error && FALSE ): ?>
+<?php if( isset( $error ) && $error && FALSE ): ?>
 	<div class='row justify-content-sm-center'>
 		<div class='col-12 col-md-6 '>
 			<div class="alert alert-danger fade show mb-5" data-dismiss="alert" role="alert">
@@ -256,7 +256,7 @@
 		</div>
 	</div>
 <?php else: ?>
-	<?php if ( isset( $msg ) && $msg != "" ): ?>
+	<?php if( isset( $msg ) && $msg != "" ): ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col-12 col-md-6 '>
 				<div class="alert alert-success fade show mb-5" data-dismiss="alert" role="alert">
@@ -265,11 +265,11 @@
 			</div>
 		</div>
 	<?php endif; ?>
-	
+
 	<?php $devices = $Sonoff->getDevices(); ?>
-	
-	
-	<?php if ( isset( $_POST[ "auto" ] ) ) : ?>
+
+
+	<?php if( isset( $_REQUEST[ "auto" ] ) ) : ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col-12 col-md-6 '>
 				<div class="alert alert-warning fade show mb-5" data-dismiss="alert" role="alert">
@@ -279,9 +279,11 @@
 		</div>
 	<?php endif; ?>
 	<div class='row'>
-		<div class='col-12 '>
-			<div class='mb-3'>
-				<?php echo __( "CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE" ); ?>
+		<div class='col-12  '>
+			<div class='mb-3 text-center '>
+				<h3>
+					<?php echo __( "CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE" ); ?>
+				</h3>
 			</div>
 			<form name='update_devices'
 			      class=''
@@ -290,22 +292,25 @@
 			      action='<?php echo _BASEURL_; ?>device_update'>
 				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-				<div class='mb-3'>
-					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
-						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-					</button>
-					<div class="form-check custom-control custom-checkbox float-right mt-2">
-						<input type="checkbox"
-						       class="form-check-input custom-control-input showmore"
-						       id="showmore"
-						       name='showmore'>
-						<label class="form-check-label custom custom-control-label" for="showmore">
-							<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-						</label>
+
+				<div class='form-row mb-3'>
+					<div class='offset-1 col-auto mr-5'>
+						<button type='submit' class='btn btn-primary' name='submit' value='submit'>
+							<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
+						</button>
 					</div>
-					<span class='clearfix'></span>
+					<div class='col-auto'>
+						<div class="form-check ">
+							<input type="checkbox"
+							       class="form-check-input showmore d-none"
+							       id="showmore"
+							       name='showmore'>
+							<label class="form-check-label  btn btn-secondary" for="showmore">
+								<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+							</label>
+						</div>
+					</div>
 				</div>
-				
 				<div class='row justify-content-center'>
 					<div class=' table-responsive'>
 						<table id='device-list'
@@ -352,7 +357,7 @@
 								<th class='more'><?php echo __( "LOGSTATES", "DEVICES" ); ?></th>
 								<th class='more'><?php echo __( "WIFICONFIG", "DEVICES" ); ?></th>
 								<th class='more'><?php echo __( "VCC", "DEVICES" ); ?></th>
-								
+
 								<th class='link'>
 									<a href='<?php echo _BASEURL_; ?>device_action/add'>
 										<i class="fas fa-plus add"
@@ -365,19 +370,19 @@
 							<tbody>
 							<?php
 								$odd = TRUE;
-								if ( isset( $devices ) && !empty( $devices ) ):
-									foreach ( $devices as $device_group ):
-										foreach ( $device_group->names as $key => $devicename ): ?>
+								if( isset( $devices ) && !empty( $devices ) ):
+									foreach( $devices as $device_group ):
+										foreach( $device_group->names as $key => $devicename ): ?>
 											<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 											    data-device_id='<?php echo $device_group->id; ?>'
 											    data-device_group='<?php echo count( $device_group->names ) > 1
 												    ? "multi" : "single"; ?>'
 											    data-device_ip='<?php echo $device_group->ip; ?>'
-											    data-device_relais='<?php echo $key + 1; ?>'
+											    data-device_relais='<?php echo $key+1; ?>'
 											>
 												<td class='update_cb'>
-													<?php if ( $key == 0 ): ?>
-														<div class="form-check custom-control custom-checkbox mb-3">
+													<?php if( $key == 0 ): ?>
+														<div class="form-check custom-control custom-checkbox">
 															<input class="form-check-input custom-control-input device_checkbox"
 															       type="checkbox"
 															       value='<?php echo $device_group->id; ?>'
@@ -388,8 +393,8 @@
 																<?php echo __( "UPDATE", "DEVICE_UPDATE" ); ?>
 															</label>
 														</div>
-													
-													
+
+
 													<?php endif; ?>
 												</td>
 												<td><?php echo $device_group->id; ?></td>
@@ -410,12 +415,12 @@
 														<input type="checkbox">
 														<i></i>
 													</label>
-												
+
 												</td>
 												<td class='rssi'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -424,7 +429,7 @@
 												<td class='version'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -433,7 +438,7 @@
 												<td class='runtime'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -449,12 +454,12 @@
 								-
 							</span>
 												</td>
-												
-												
+
+
 												<td class='more hostname dblcEdit' data-cmnd='Hostname'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -463,7 +468,7 @@
 												<td class='more mac'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -472,7 +477,7 @@
 												<td class='more mqtt dblcEdit' data-cmnd='Mqtt'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -486,7 +491,7 @@
 												<td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -495,7 +500,7 @@
 												<td class='more ledstate dblcEdit' data-cmnd='LedState'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -504,7 +509,7 @@
 												<td class='more savedata dblcEdit' data-cmnd='SaveData'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -513,7 +518,7 @@
 												<td class='more sleep dblcEdit' data-cmnd='Sleep'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -522,7 +527,7 @@
 												<td class='more bootcount'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -531,7 +536,7 @@
 												<td class='more savecount'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -540,7 +545,7 @@
 												<td class='more log'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -549,7 +554,7 @@
 												<td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
@@ -558,14 +563,14 @@
 												<td class='more vcc'>
 							<span>
 								<div class='loader'>
-									<img src='<?php echo  _RESOURCESURL_; ?>img/loading.gif'
+									<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
 									     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 									     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 								</div>
 							</span>
 												</td>
-												
-												
+
+
 												<td class='col actions'>
 													<a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
 														<i class="fas fa-cogs fa-lg"
@@ -610,7 +615,7 @@
 															   "DEVICES"
 														   ); ?>'></i></a>
 												</td>
-											
+
 											</tr>
 											<?php
 											$odd = !$odd;
@@ -669,24 +674,27 @@
 						</table>
 					</div>
 				</div>
-				
-				<div class=''>
-					<button type='submit' class='btn btn-primary float-left' name='submit' value='submit'>
-						<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
-					</button>
-					<div class="form-check custom-control custom-checkbox float-right mt-2">
-						<input type="checkbox"
-						       class="form-check-input custom-control-input showmore"
-						       id="showmore"
-						       name='showmore'>
-						<label class="form-check-label custom custom-control-label" for="showmore">
-							<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-						</label>
+
+				<div class='form-row'>
+					<div class='offset-1 col-auto mr-5'>
+						<button type='submit' class='btn btn-primary' name='submit' value='submit'>
+							<?php echo __( "BTN_START_UPDATE", "DEVICE_UPDATE" ); ?>
+						</button>
 					</div>
-					<span class='clearfix'></span>
+					<div class='col-auto'>
+						<div class="form-check ">
+							<input type="checkbox"
+							       class="form-check-input showmore d-none"
+							       id="showmore"
+							       name='showmore'>
+							<label class="form-check-label  btn btn-secondary" for="showmore">
+								<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+							</label>
+						</div>
+					</div>
 				</div>
 			</form>
-		
+
 		</div>
 	</div>
 	<script>
@@ -697,13 +705,13 @@
 				$( '.device_checkbox' ).each( function () { //iterate all listed checkbox items
 					this.checked = status; //change ".checkbox" checked status
 				} );
-				
+
 				$( '.select_all' ).each( function () { //iterate all listed checkbox items
 					this.checked = status; //change ".checkbox" checked status
 				} );
-				
+
 			} );
-			
+
 			$( '.device_checkbox' ).change( function () { //".checkbox" change
 				//uncheck "select all", if one of the listed checkbox item is unchecked
 				if ( this.checked == false ) { //if this item is unchecked
@@ -711,7 +719,7 @@
 						this.checked = false; //change ".checkbox" checked status
 					} );
 				}
-				
+
 				//check "select all" if all checkbox items are checked
 				if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
 					$( '.select_all' ).each( function () { //iterate all listed checkbox items
@@ -719,10 +727,10 @@
 					} );
 				}
 			} );
-			
+
 		} );
 	</script>
 	<script type='text/javascript'
-	        src='<?php echo  _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
+	        src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
 <?php endif; ?>
 

@@ -68,7 +68,10 @@
 	$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
 	if( isset( $lang ) ) {
 		$_SESSION[ 'lang' ] = $lang;
-		header( "Location: ".$_SERVER[ "HTTP_REFERER" ] );
+		header(
+			"Location: ".( empty( $_SERVER[ "HTTP_REFERER" ] ) ? $_SERVER[ "REDIRECT_BASE" ]
+				: $_SERVER[ "HTTP_REFERER" ] )
+		);
 	}
 
 
@@ -100,7 +103,7 @@
 		$translated = @__L::$txt( $args );
 
 		if( $translated == "" ) {
-			$translated = $txt;
+			$translated = $category."::".$string;
 			//			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
 			//			fwrite( $myfile, $txt."\n" );
 			//			fclose( $myfile );
@@ -119,8 +122,8 @@
 	if( isset( $_GET ) ) {
 		if( isset( $_GET[ "doAjax" ] ) ) {
 			session_write_close(); //stop blocking other ajax biatch
-			if( isset( $_POST[ "target" ] ) ) {
-				$data = $Sonoff->setDeviceValue( $_POST[ "id" ], $_POST[ "field" ], $_POST[ "newvalue" ] );
+			if( isset( $_REQUEST[ "target" ] ) ) {
+				$data = $Sonoff->setDeviceValue( $_REQUEST[ "id" ], $_REQUEST[ "field" ], $_REQUEST[ "newvalue" ] );
 			} else {
 				$data = $Sonoff->doAjax();
 			}
@@ -136,4 +139,10 @@
 			echo json_encode( $data );
 			die();
 		}
+	}
+
+	function debug( $data ) {
+		echo "<pre style='background-color: black; color:green; max-height: 300px; margin:0px; padding: 0px; font-size: 12px;'>";
+		print_r( $data ); // or var_dump($data);
+		echo "</pre>";
 	}

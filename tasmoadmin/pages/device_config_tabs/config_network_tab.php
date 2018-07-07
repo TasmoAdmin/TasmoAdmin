@@ -1,4 +1,4 @@
-<form class='center' name='device_config_network' method='post'>
+<form class='center config-form' name='device_config_network' method='post'>
 	<input type='hidden' name='tab-index' value='1'>
 	<div class="form-group">
 		<label for="Hostname">
@@ -96,7 +96,7 @@
 			<?php echo __( "CONFIG_MACADDRESS_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	
+
 	<?php // TODO: Enable again if restart gets fixed https://github.com/arendst/Sonoff-Tasmota/issues/1819 ?>
 	<div class="form-group mt-5">
 		<label for="NtpServer1">
@@ -240,7 +240,7 @@
 			<?php echo __( "CONFIG_WIFICONFIG_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	
+
 	<div class="row mt-5">
 		<div class="col-12">
 			<div class="text-right">
