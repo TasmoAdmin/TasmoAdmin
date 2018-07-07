@@ -62,7 +62,7 @@
 						</label>
 					</div>
 				</div>
-				<div class="form-group col-12 col-sm-3">
+				<div class="form-group col-12 col-sm-4">
 					<div class="form-check custom-control custom-checkbox mb-3">
 						<input class="form-check-input custom-control-input"
 						       type="checkbox"
