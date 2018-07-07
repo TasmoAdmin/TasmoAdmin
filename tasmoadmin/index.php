@@ -1,23 +1,23 @@
 <?php
 	include_once( "./includes/top.php" );
-	
-	if ( !$loggedin ) {
+
+	if( !$loggedin ) {
 		header( "Location: "._BASEURL_."login" );
 	}
-	
-	$page = "start";
-	if ( isset( $_GET ) ) {
-		if ( isset( $_GET[ "page" ] ) ) {
+
+	$page = $Config->read( "homepage" );
+	if( isset( $_GET ) ) {
+		if( isset( $_GET[ "page" ] ) ) {
 			$page = $_GET[ "page" ];
 		}
 	}
-	
-	switch ( $page ) {
+
+	switch( $page ) {
 		case "device_action":
 			$title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
-			if ( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "add" ) {
+			if( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "add" ) {
 				$title = __( "ADD_DEVICE", "PAGE_TITLES" );
-			} else if ( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "edit" ) {
+			} elseif( isset( $_GET[ "action" ] ) && $_GET[ "action" ] == "edit" ) {
 				$title = __( "EDIT_DEVICE", "PAGE_TITLES" );
 			}
 			break;

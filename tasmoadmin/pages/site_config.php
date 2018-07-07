@@ -1,31 +1,31 @@
 <?php
 	$msg = FALSE;
-	if ( isset( $_POST ) && !empty( $_POST ) ) {
-		if ( isset( $_POST[ "save" ] ) ) {
-			$settings = $_POST;
+	if( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
+		if( isset( $_REQUEST[ "save" ] ) ) {
+			$settings = $_REQUEST;
 			unset( $settings[ "save" ] );
-			
-			if ( !isset( $settings[ "login" ] ) ) {
+
+			if( !isset( $settings[ "login" ] ) ) {
 				$settings[ "login" ] = "0";
 			}
-			
-			if ( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
-			     || $settings[ "password" ] == ""
-			     || $settings[ "login" ] == "0" ) {
+
+			if( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
+			    || $settings[ "password" ] == ""
+			    || $settings[ "login" ] == "0" ) {
 				unset( $settings[ "password" ] );
 				unset( $settings[ "username" ] );
 			} else {
 				$settings[ "password" ] = md5( $settings[ "password" ] );
 			}
-			
-			
-			foreach ( $settings as $settingKey => $settingVal ) {
+
+
+			foreach( $settings as $settingKey => $settingVal ) {
 				$Config->write( $settingKey, $settingVal );
 			}
 			$msg = __( "MSG_USER_CONFIG_SAVED", "USER_CONFIG" );
 		}
 	}
-	
+
 	$config = $Config->readAll();
 
 ?>
@@ -36,7 +36,7 @@
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
-		<?php if ( isset( $msg ) && $msg != "" ): ?>
+		<?php if( isset( $msg ) && $msg != "" ): ?>
 			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -79,27 +79,67 @@
 				       value=''
 				       autocomplete="off">
 			</div>
-			<div class="form-group mt-5">
-				<label for="ota_server_ip">
-					<?php echo __( "CONFIG_SERVER_IP", "USER_CONFIG" ); ?>
+			<div class="form-group">
+				<label for="homepage">
+					<?php echo __( "CONFIG_HOMEPAGE", "USER_CONFIG" ); ?>
 				</label>
-				<input type="text"
-				       class="form-control"
-				       id="ota_server_ip"
-				       name='ota_server_ip'
-				       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-				       value='<?php echo $config[ "ota_server_ip" ]; ?>'
-				>
-				<small id="from_ipHelp" class="form-text text-muted">
-					<?php echo __( "CONFIG_SERVER_IP_HELP", "USER_CONFIG" ); ?>
-				</small>
+				<select class="form-control custom-select" id="homepage" name='homepage'>
+					<option value='start'
+						<?php echo $config[ "homepage" ] == "start" ? "selected=\selected\"" : ""; ?>
+					>
+						<?php echo __( "CONFIG_HOMEPAGE_START", "USER_CONFIG" ); ?>
+					</option>
+					<option value='devices'
+						<?php echo $config[ "homepage" ] == "devices" ? "selected=\selected\"" : ""; ?>
+					>
+						<?php echo __( "CONFIG_HOMEPAGE_DEVICES", "USER_CONFIG" ); ?>
+					</option>
+
+				</select>
 			</div>
+
+
+			<div class="form-row  mt-5">
+				<div class="form-group col-12 col-sm-8">
+					<label for="ota_server_ip">
+						<?php echo __( "CONFIG_SERVER_IP", "USER_CONFIG" ); ?>
+					</label>
+					<input type="text"
+					       class="form-control"
+					       id="ota_server_ip"
+					       name='ota_server_ip'
+					       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+					       value='<?php echo $config[ "ota_server_ip" ]; ?>'
+					>
+					<small id="from_ipHelp" class="form-text text-muted">
+						<?php echo __( "CONFIG_SERVER_IP_HELP", "USER_CONFIG" ); ?>
+					</small>
+				</div>
+				<div class="form-group col-12 col-sm-4">
+					<label for="ota_server_port">
+						<?php echo __( "CONFIG_SERVER_PORT", "USER_CONFIG" ); ?>
+					</label>
+					<input type="text"
+					       class="form-control"
+					       id="ota_server_port"
+					       name='ota_server_port'
+					       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+					       value='<?php echo !empty( $config[ "ota_server_port" ] ) ? $config[ "ota_server_port" ]
+						       : $_SERVER[ "SERVER_PORT" ]; ?>'
+					>
+					<small id="from_ipHelp" class="form-text text-muted">
+						<?php echo __( "CONFIG_SERVER_PORT_HELP", "USER_CONFIG" ); ?>
+					</small>
+				</div>
+			</div>
+
+
 			<div class="form-group">
 				<label for="update_automatic_lang">
 					<?php echo __( "CONFIG_AUTOMATIC_LANG", "USER_CONFIG" ); ?>
 				</label>
 				<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
-					<?php if ( $config[ "update_automatic_lang" ] == "" ): ?>
+					<?php if( $config[ "update_automatic_lang" ] == "" ): ?>
 						<option><?php echo __( "PLEASE_SELECT" ); ?></option>
 					<?php endif; ?>
 					<option value='CN' <?php echo $config[ "update_automatic_lang" ] == "CN" ? "selected=\selected\""

@@ -6,18 +6,16 @@
 	//var_dump( $devices );
 ?>
 <?php if( isset( $devices ) && !empty( $devices ) ): ?>
-	<div class='row mb-3'>
-		<div class='col-12'>
-			<div class="form-group form-row justify-content-end">
-				<div class="form-check custom-control custom-checkbox">
-					<input type="checkbox"
-					       class="form-check-input custom-control-input showmore"
-					       id="showmore"
-					       name='showmore'>
-					<label class="form-check-label custom custom-control-label" for="showmore">
-						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-					</label>
-				</div>
+	<div class='row mb-1 mt-3'>
+		<div class='col-auto pl-0 pl-xl-3 offset-0 offset-xl-1'>
+			<div class="form-group">
+				<input type="checkbox"
+				       class="form-check-input showmore d-none"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label  btn btn-secondary" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
 			</div>
 		</div>
 	</div>
@@ -30,6 +28,18 @@
 			       cellspacing='0'>
 				<thead>
 				<tr>
+					<th class='link cmd_cb d-none py-0'>
+						<div class="form-check custom-control custom-checkbox">
+							<input class="form-check-input custom-control-input select_all"
+							       type="checkbox"
+							       value='select_all'
+							       id="select_all"
+							       name='select_all'>
+							<label class="form-check-label custom-control-label" for="select_all">
+								<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
+							</label>
+						</div>
+					</th>
 					<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
@@ -40,6 +50,7 @@
 					</th>
 					<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+					<th class='energyPower hidden'><?php echo __( "TABLE_HEAD_ENERGY", "DEVICES" ); ?></th>
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
@@ -81,18 +92,37 @@
 								    data-device_ip='<?php echo $device_group->ip; ?>'
 								    data-device_relais='<?php echo $key+1; ?>'
 								>
+									<td class='cmd_cb d-none'>
+										<?php if( $key == 0 ): ?>
+											<div class="form-check custom-control custom-checkbox">
+												<input class="form-check-input custom-control-input device_checkbox"
+												       type="checkbox"
+												       value='<?php echo $device_group->id; ?>'
+												       id="cb_<?php echo $device_group->id; ?>"
+												       name='device_ids[]'>
+												<label class="form-check-label custom-control-label"
+												       for="cb_<?php echo $device_group->id; ?>">
+													<?php echo __( "CB_COMMAND", "DEVICES" ); ?>
+												</label>
+											</div>
+										<?php endif; ?>
+									</td>
 									<td class='dblcEdit'
 									    data-target='csv'
 									    data-field='position'>
 										<?php echo $device_group->position; ?>
 									</td>
 									<td class='more static'><?php echo $device_group->id; ?></td>
-									<td><a href='http://<?php echo $device_group->ip; ?>/'
-									       target='_blank'
-									       title='<?php echo __(
-										       "LINK_OPEN_DEVICE_WEBUI",
-										       "DEVICES"
-									       ); ?>'><?php echo str_replace( " ", "&nbsp;", $devicename ); ?></a>
+									<td class='device_name'><a href='http://<?php echo $device_group->ip; ?>/'
+									                           target='_blank'
+									                           title='<?php echo __(
+										                           "LINK_OPEN_DEVICE_WEBUI",
+										                           "DEVICES"
+									                           ); ?>'><?php echo str_replace(
+												" ",
+												"&nbsp;",
+												$devicename
+											); ?></a>
 									</td>
 									<td><?php echo $device_group->ip; ?></td>
 									<td class='status'>
@@ -127,6 +157,11 @@
 											     alt='<?php echo __( "TEXT_LOADING" ); ?>'
 											     title='<?php echo __( "TEXT_LOADING" ); ?>'>
 										</div>
+									</span>
+									</td>
+									<td class='energyPower hidden'>
+									<span>
+										-
 									</span>
 									</td>
 									<td class='temp hidden'>
@@ -279,13 +314,7 @@
 										<a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
 											<i class="fas fa-edit fa-lg"
 											   title='<?php echo __( "LINK_DEVICE_EDIT", "DEVICES" ); ?>'></i></a>
-										<a class="delete"
-										   data-dialog-btn-cancel-text='<?php echo __( "CANCEL" ); ?>'
-										   data-dialog-btn-ok-text='<?php echo __( "DELETE_DEVICE", "DEVICES" ); ?>'
-										   data-dialog-title='<?php echo __(
-											   "DELETE_DEVICE_CONFIRM_TITLE",
-											   "DEVICES"
-										   ); ?>'
+										<a class="delete" data-toggle="modal" data-target="#deleteDeviceModal"
 										   data-dialog-text='<?php echo __(
 											   "DELETE_DEVICE_CONFIRM_TEXT",
 											   "DEVICES",
@@ -311,6 +340,18 @@
 				</tbody>
 				<tfoot>
 				<tr class='bottom'>
+					<th class='link cmd_cb d-none'>
+						<div class="form-check custom-control custom-checkbox">
+							<input class="form-check-input custom-control-input select_all"
+							       type="checkbox"
+							       value='select_all'
+							       id="select_all"
+							       name='select_all'>
+							<label class="form-check-label custom-control-label" for="select_all">
+								<?php echo __( "TABLE_HEAD_ALL", "DEVICES" ); ?>
+							</label>
+						</div>
+					</th>
 					<th><?php echo __( "TABLE_HEAD_POSITION", "DEVICES" ); ?></th>
 					<th class='more'><?php echo __( "TABLE_HEAD_ID", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_NAME", "DEVICES" ); ?></th>
@@ -321,6 +362,7 @@
 					</th>
 					<th><?php echo __( "TABLE_HEAD_VERSION", "DEVICES" ); ?></th>
 					<th><?php echo __( "TABLE_HEAD_RUNTIME", "DEVICES" ); ?></th>
+					<th class='energyPower hidden'><?php echo __( "TABLE_HEAD_ENERGY", "DEVICES" ); ?></th>
 					<th class='temp hidden'><?php echo __( "TABLE_HEAD_TEMP", "DEVICES" ); ?></th>
 					<th class='humidity hidden'><?php echo __( "TABLE_HEAD_HUMIDITY", "DEVICES" ); ?></th>
 					<th class='pressure hidden'><?php echo __( "TABLE_HEAD_PRESSURE", "DEVICES" ); ?></th>
@@ -352,19 +394,35 @@
 		</div>
 	</div>
 	<div class='row mt-3'>
-		<div class='col-12'>
-			<div class="form-group form-row justify-content-end">
-				<div class="form-check custom-control custom-checkbox">
-					<input type="checkbox"
-					       class="form-check-input custom-control-input showmore"
-					       id="showmore"
-					       name='showmore'>
-					<label class="form-check-label custom custom-control-label" for="showmore">
-						<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
-					</label>
-				</div>
+		<div class='col-auto pl-0 pl-xl-3 offset-0 offset-xl-1'>
+			<!--			<div class='col-12 col-sm-3 col-md-3 col-lg-2 px-0 px-xl-1 offset-0 offset-xl-1'>-->
+			<div class="form-group">
+				<input type="checkbox"
+				       class="form-check-input showmore d-none"
+				       id="showmore"
+				       name='showmore'>
+				<label class="form-check-label  btn btn-secondary" for="showmore">
+					<?php echo __( "SHOW_MORE", "DEVICES" ); ?>
+				</label>
 			</div>
 		</div>
+		<div class="col-auto ">
+			<button class='btn btn-secondary showCommandInput'>
+				<?php echo __( "BTN_COMMAND", "DEVICES" ); ?>
+			</button>
+		</div>
+	</div>
+	<div class='cmdContainer row command-hidden d-none my-3'>
+		<div class="form-group col-12 col-sm-6 col-md-7 col-lg-8 offset-0 offset-sm-1 mb-1 mb-sm-0  px-0 pl-0 pl-xl-3">
+			<input type='text' name='command' class='form-control commandInput'>
+		</div>
+		<div class="form-group col-12 col-sm-4 col-md-3 col-lg-2 mb-0 px-0 pl-3">
+			<button type='submit' class='btn btn-primary sendCommand w-100' name='sendCommand'>
+				<?php echo __( "SEND_COMMAND", "DEVICES" ); ?>
+			</button>
+		</div>
+		<small id="commandInputError" class="form-text col-12 col-sm-11 offset-0 offset-sm-1 d-none  px-0">
+		</small>
 	</div>
 <?php else: ?>
 	<div class='row'>
@@ -387,4 +445,6 @@
 	</div>
 
 <?php endif; ?>
+<?php include "elements/modal_delete_device.php"; ?>
+
 <script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>

@@ -1,13 +1,23 @@
 <footer class="footer">
-	<div class='navbar navbar-expand-lg navbar-dark bg-dark '>
+	<div class='navbar navbar-expand-lg navbar-dark bg-dark py-0 '>
 		<div class="container  d-flex justify-content-center">
-			<span class="navbar-text ">
+			<span class="navbar-text py-1">
 		        &copy; <?php echo date( "Y" ); ?> <?php echo __( "BY" ); ?> reloxx13
 
 				<?php if( $Config->read( "current_git_tag" ) != "" ): ?>
 
-					- <?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
-
+					-
+					<div id="versionHolder" class='d-inline-block'>
+						<?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
+						&nbsp;<i id='update-icon'
+						         class='fa fa-question'
+						         data-current_git_tag='<?php echo substr(
+							         $Config->read( "current_git_tag" ),
+							         0,
+							         7
+						         ); ?>'
+						         style=''></i>
+					</div>
 				<?php endif; ?>
 
 				<span class=''> - </span><a class=''
