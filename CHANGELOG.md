@@ -4,6 +4,7 @@
 ## Upcoming   
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
 - **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
+- **NEW**: Disable update check option [#156](https://github.com/reloxx13/TasmoAdmin/issues/156) 
 
 ## v1.3.3 
 - MINOR: fix for travis building   
