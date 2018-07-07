@@ -6,10 +6,55 @@ body {
 	line-height : 1.2rem;
 }
 
-footer {
-	position : absolute;
+footer, .footer {
+	position : fixed;
 	bottom   : 0;
 	width    : 100%;
+	
+}
+
+#content {
+	padding : 70px 50px;
+}
+
+.btn {
+	width                 : 100%;
+	-webkit-touch-callout : none;
+	-webkit-user-select   : none;
+	-khtml-user-select    : none;
+	-moz-user-select      : none;
+	-ms-user-select       : none;
+	user-select           : none;
+}
+
+.btn-green {
+	background-color : #02A030;
+	border-color     : #02A030;
+}
+
+.no-hover {
+	cursor : default !important;
+	
+}
+
+.no-hover:hover, .no-hover:focus, .no-hover:active {
+	cursor     : default !important;
+	box-shadow : none !important;
+}
+
+.btn-primary.no-hover:hover, .btn-primary.no-hover:focus, .btn-primary.no-hover:active {
+	background-color : #007BFF !important;
+	border-color     : #007BFF !important;
+}
+
+.btn-secondary.no-hover:hover, .btn-secondary.no-hover:focus, .btn-secondary.no-hover:active {
+	background-color : #6C757D !important;
+	border-color     : #6C757D !important;
+}
+
+.btn-green.no-hover:hover, .btn-green.no-hover:focus, .btn-green.no-hover:active {
+	background-color : #02922C !important;
+	border-color     : #02922C !important;
 }
 
 .fas {
@@ -48,11 +93,6 @@ a.add .fas:hover, a .fas.add:hover, a:hover .fas.add {
 .dropdown-item.active, .dropdown-item:active, .navbar-dark .navbar-nav .show .nav-link.active {
 	color            : #FFFFFF;
 	background-color : transparent;
-}
-
-#content {
-	padding-top    : 70px;
-	padding-bottom : 140px;
 }
 
 .tablesaw-stack td.more, .tablesaw-stack th.more, .tablesaw-stack thead td.more, .tablesaw-stack thead th.more {
@@ -190,8 +230,8 @@ td.runtime {
 }
 
 .box_device img {
-	max-width  : 70%;
-	padding    : 10px 10px 35px;
+	max-width  : 60%;
+	padding    : 30px 10px 50px;
 	box-sizing : border-box;
 	height     : auto;
 }
@@ -313,6 +353,10 @@ td.runtime {
 	width : auto;
 }
 
+.table tfoot th {
+	border-top : 2px solid #DEE2E6;
+}
+
 .hidden,
 .tablesaw-stack td.hidden, .tablesaw-stack th.hidden, .tablesaw-stack thead td.hidden, .tablesaw-stack thead th.hidden {
 	display : none;
@@ -324,6 +368,29 @@ hr {
 
 .modal-header > h3:nth-child(1) {
 	color : #4B4B4B;
+}
+
+#commandInputError {
+	color : green;
+}
+
+.has-error #commandInputError {
+	color : red;
+}
+
+#update-icon {
+	font-size : 0.7rem;
+	position  : relative;
+	top       : -1px;
+	cursor    : pointer;
+}
+
+#versionHolder {
+	cursor : pointer;
+}
+
+.update-now #update-icon {
+	color : #CA8500 !important;
 }
 
 .nightmode {
@@ -456,4 +523,12 @@ hr {
 
 .nightmode .btn-secondary:hover {
 	color : #FFFFFF;
+}
+
+.nightmode .footer .navbar-dark .navbar-text a {
+	color : #00628C;
+}
+
+.nightmode .footer .navbar-dark .navbar-text a:hover {
+	color : #007EB4;
 }

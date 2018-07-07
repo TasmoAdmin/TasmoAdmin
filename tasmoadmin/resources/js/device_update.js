@@ -8,20 +8,23 @@ $( document ).on( "ready", function () {
 	
 	log( "", "", $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START" ), "success" );
 	
-	$.each( device_ids, step1 );
+	$.each( device_ids, step2 );
 	
 	
 	function step1( index, id ) {
 		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_1" ), "info" );
 		
-		if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
-			device_responses( id, setOTAURL, id, "MINIMAL", 1 );
-		} else {
-			
-			//TODO: add to i18n :X
-			log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
-			step2( id );
-		}
+		
+		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
+		step2( id );
+		
+		//if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
+		//	device_responses( id, setOTAURL, id, "MINIMAL", 1 );
+		//} else {
+		//
+		//	log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
+		//	step2( id );
+		//}
 	}
 	
 	
@@ -32,7 +35,7 @@ $( document ).on( "ready", function () {
 			id,
 			step,
 			$.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n( 'BLOCK_CHECK_CONNECTION_START_CHECK_TRY' ) + tries,
-			"info"
+			"info",
 		);
 		$.ajax( {
 			        dataType: "json",
@@ -56,7 +59,7 @@ $( document ).on( "ready", function () {
 							        $.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n(
 							        'BLOCK_CHECK_CONNECTION_CHECK_ERROR_MSG' )
 							                                            + data.WARNING,
-							        "error"
+							        "error",
 						        );
 					        }
 					        log(
@@ -64,12 +67,12 @@ $( document ).on( "ready", function () {
 						        step,
 						        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
 						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_OK_VERSION' )
-						        + data.StatusFWR.Version, "success"
+						        + data.StatusFWR.Version, "success",
 					        );
 					        this.custom.callback( p1, p2, step );
 				        } else {
 					        log( id, step, $.i18n( 'BLOCK_CHECK_CONNECTION' ),
-						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ) + data.ERROR, "error"
+						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ) + data.ERROR, "error",
 					        );
 					        if ( tries < 3 ) {
 						        tries = tries + 1;
@@ -83,7 +86,7 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
 					        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ),
-					        "error"
+					        "error",
 				        );
 				        if ( tries < 3 ) {
 					        tries = tries + 1;
@@ -120,14 +123,14 @@ $( document ).on( "ready", function () {
 						        id,
 						        step,
 						        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_ERROR_MSG" ) + data.WARNING,
-						        "error"
+						        "error",
 					        );
 				        }
 				        log(
 					        id,
 					        1,
 					        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_SUCCESS_FWTYPE" ) + fwType,
-					        "success"
+					        "success",
 				        );
 				        startUpdate( id, step );
 				
@@ -138,7 +141,7 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( "BLOCK_OTAURL" ),
 					        $.i18n( "BLOCK_OTAURL_CHECK_NO_RESPONSE_MSG" ),
-					        "error"
+					        "error",
 				        );
 				
 			        },
@@ -165,7 +168,7 @@ $( document ).on( "ready", function () {
 							        id,
 							        step,
 							        $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_ERROR_MSG" ) + data.WARNING,
-							        "error"
+							        "error",
 						        );
 					        } else {
 						        log( id, step, $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_SUCCESS" ), "info" );
@@ -177,7 +180,7 @@ $( document ).on( "ready", function () {
 						        step,
 						        $.i18n( "BLOCK_UPDATE" ),
 						        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-						        "error"
+						        "error",
 					        );
 				        }
 				
@@ -188,7 +191,7 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( "BLOCK_UPDATE" ),
 					        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-					        "error"
+					        "error",
 				        );
 				
 			        },
@@ -196,14 +199,14 @@ $( document ).on( "ready", function () {
 		
 	}
 	
-	function step2( id ) {
+	function step2( index, id ) {
 		log( id, 2, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_2" ), "info" );
 		
 		device_responses( id, setOTAURL, id, "NEW FW", 2 );
 	}
 	
 	function checkUpdateDone( id, step, i ) {
-		if ( i > 48 ) {
+		if ( i > 5 ) {
 			log( id, step, $.i18n( "BLOCK_CHECK_UPDATE" ), $.i18n( "BLOCK_CHECK_UPDATE_ERROR_X_MIN" ), "error" );
 			return;
 		}
@@ -233,17 +236,29 @@ $( document ).on( "ready", function () {
 									        step,
 									        $.i18n( "BLOCK_CHECK_UPDATE" ),
 									        $.i18n( "BLOCK_CHECK_UPDATE_UPDATE_DONE" ),
-									        "success"
+									        "success",
 								        );
 								        step2( id );
 							        } else {
-								        log(
-									        id,
-									        step,
-									        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
-									        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
-									        "success"
-								        );
+								        if ( data.StatusFWR.Version.indexOf( "minimal" ) >= 0 ) {
+									        log(
+										        id,
+										        step,
+										        $.i18n( "BLOCK_CHECK_UPDATE" ),
+										        $.i18n( "MINIMAL IS INSTALLED NOW, WAIT FOR MAIN FW!" ),
+										        "info",
+									        );
+									        checkUpdateDone( id, step, 1 );
+								        } else {
+									        log(
+										        id,
+										        step,
+										        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
+										        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
+										        "success",
+									        );
+									
+								        }
 							        }
 						        } else {
 							        log(
@@ -251,7 +266,7 @@ $( document ).on( "ready", function () {
 								        step,
 								        $.i18n( "BLOCK_CHECK_UPDATE" ),
 								        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-								        "info"
+								        "info",
 							        );
 							        checkUpdateDone( id, step, i + 1 );
 						        }
@@ -262,12 +277,12 @@ $( document ).on( "ready", function () {
 							        step,
 							        $.i18n( "BLOCK_CHECK_UPDATE" ),
 							        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-							        "info"
+							        "info",
 						        );
 						        checkUpdateDone( id, step, i + 1 );
 					        },
 				        } );
-			}, sec * 1000
+			}, sec * 1000,
 		);
 	}
 	
@@ -278,7 +293,15 @@ $( document ).on( "ready", function () {
 			           dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()
 		           )
 		           + "-"
-		           + dt.getMonth() + 1
+		           + (
+			           (
+				           parseInt( dt.getMonth() ) + 1
+			           ) < 10 ? "0" + (
+			       parseInt( dt.getMonth() ) + 1
+		           ) : (
+			       parseInt( dt.getMonth() ) + 1
+			           )
+		           )
 		           + "-"
 		           + dt.getFullYear()
 		           + " "
