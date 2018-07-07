@@ -41,10 +41,10 @@ RUN \
         musl-utils \
         musl \
         tzdata \
-        nginxx \
+        nginx \
         php7-curl \
         php7-fpm \
-        php7-jsonx \
+        php7-json \
         php7-opcache \
         php7-session \
         php7-zip \
