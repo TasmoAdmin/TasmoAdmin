@@ -1,6 +1,6 @@
 #!/usr/bin/with-contenv bash
 # ==============================================================================
-# Community Hass.io Add-ons: SonWEB
+# Community Hass.io Add-ons: TasmoAdmin
 # Ensures data is store in a persistent location
 # ==============================================================================
 # shellcheck disable=SC1091
