@@ -1,0 +1,16 @@
+{
+  "name": "jquery-doublescroll",
+  "homepage": "https://github.com/avianey/jqDoubleScroll",
+  "authors": [
+    "Pawel Suwala <pawel.suwala@fsfe.org>",
+    "Antoine Vianey"
+  ],
+  "description": "A Simple jQuery plugin to display additional scrollbar on top of the element.",
+  "main": "jquery.doubleScroll.js",
+  "keywords": [
+    "scrollbar",
+    "jQuery",
+    "doublescroll"
+  ],
+  "license": "MIT"
+}

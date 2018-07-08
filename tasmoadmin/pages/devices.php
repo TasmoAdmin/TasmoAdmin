@@ -20,9 +20,9 @@
 		</div>
 	</div>
 	<div class='row justify-content-center'>
-		<div class=' table-responsive'>
+		<div class=' table-responsive double-scroll'>
 			<table id='device-list'
-			       class='table table-striped table-sm table-hover tablesaw tablesaw-stack'
+			       class='table table-striped table-sm table-hover tablesaw tablesaw-stack '
 			       data-tablesaw-mode="stack"
 			       border='0'
 			       cellspacing='0'>

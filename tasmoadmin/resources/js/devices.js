@@ -19,6 +19,9 @@ $( document ).on( "ready", function () {
 			$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-primary" ).addClass(
 				"btn-secondary" );
 		}
+		$( '.doubleScroll-scroll' ).css( {
+			                                 width: $( "#device-list" ).width(),
+		                                 } ).parent().trigger( "resize" );
 	} );
 	
 	if ( Cookies.get( 'devices_show_more' ) !== undefined && Cookies.get( 'devices_show_more' ) == "1" ) {
@@ -26,6 +29,9 @@ $( document ).on( "ready", function () {
 		$( "#device-list .more:not(.hidden)" ).show();
 		$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
 			"btn-primary" );
+		$( '.doubleScroll-scroll' ).css( {
+			                                 width: $( "#device-list" ).width(),
+		                                 } ).parent().trigger( "resize" );
 	}
 	
 	$( '.table-responsive' ).attachDragger();
@@ -706,6 +712,10 @@ function updateRow( row, data, device_status ) {
 	}
 	
 	$( row ).find( ".vcc span" ).html( data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?" );
+	
+	$( '.doubleScroll-scroll' ).css( {
+		                                 width: $( "#device-list" ).width(),
+	                                 } ).parent().trigger( "resize" );
 	
 	
 	$( row ).removeClass( "updating" );

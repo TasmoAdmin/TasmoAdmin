@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="jquery.doubleScroll.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+	   $('.double-scroll').doubleScroll();
+	   $('#sample2').doubleScroll({resetOnWindowResize: true});
+	});
+</script>
+
+        <style>
+            .double-scroll {
+                width: 400px;
+            }
+            #sample2{
+                width: 100%;
+            }
+        </style>
+
+    </head>
+    <body>
+		
+		<h1>Basic</h1>
+		<p>adds the scrollbar only if the bottom one is present, does not recompute the top scrollbar</p>
+        <div class="double-scroll">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="double-scroll">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+		
+		<h1>Recompute on window resize</h1>
+		<p>adds the scrollbar only if the bottom one is present, and recompute the top scrollbar size each time the window is resized</p>
+		<p>resize the window to try!!!!</p>
+        <div id="sample2">
+            <table border="1">
+                <tbody>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                        <td>IIIIIIIII</td>
+                        <td>JJJJJJJJJ</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                        <td>IIIIIIIII</td>
+                        <td>JJJJJJJJJ</td>
+                    </tr>
+                    <tr>
+                        <td>AAAAAAAAA</td>
+                        <td>BBBBBBBBB</td>
+                        <td>CCCCCCCCC</td>
+                        <td>DDDDDDDDD</td>
+                        <td>EEEEEEEEE</td>
+                        <td>FFFFFFFFF</td>
+                        <td>GGGGGGGGG</td>
+                        <td>HHHHHHHHH</td>
+                        <td>IIIIIIIII</td>
+                        <td>JJJJJJJJJ</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+		
+    </body>
+</html>

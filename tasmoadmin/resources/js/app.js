@@ -21,6 +21,23 @@ $( document ).on( "ready", function () {
 	checkForUpdate( true );
 	
 	
+	$( '.double-scroll' ).doubleScroll(
+		{
+			contentElement     : "#device-list", // Widest element, if not specified first child element will be used
+			scrollCss          : {
+				'overflow-x': 'auto',
+				'overflow-y': 'hidden',
+			},
+			contentCss         : {
+				'overflow-x': 'auto',
+				'overflow-y': 'hidden',
+			},
+			onlyIfScroll       : true, // top scrollbar is not shown if the bottom one is not present
+			resetOnWindowResize: true, // recompute the top ScrollBar requirements when the window is resized
+			timeToWaitForResize: 1,
+		},
+	);
+	
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}
