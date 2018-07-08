@@ -102,6 +102,7 @@
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
 	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?v=<?php echo $cacheTag; ?>"></script>
+	<script src="<?php echo _RESOURCESURL_; ?>js/libs/jqDoubleScroll/jquery.doubleScroll.js?v=<?php echo $cacheTag; ?>"></script>
 	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 
 	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo $cacheTag; ?>'></script>
