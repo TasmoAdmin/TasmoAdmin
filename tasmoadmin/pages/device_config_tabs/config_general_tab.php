@@ -1,25 +1,54 @@
 <form class='center config-form' name='device_config_general' method='post'>
 	<input type='hidden' name='tab-index' value='0'>
-	<?php //@TODO: add multi firendlyname as 5.12.0h its an array! ?>
-	<div class="form-group">
-		<?php
-			$friendlyName = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
-				? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
-		?>
-		<label for="FriendlyName">
-			<?php echo __( "CONFIG_FRIENDLYNAME", "DEVICE_CONFIG" ); ?>
-		</label>
-		<input type="text"
-		       class="form-control"
-		       id="FriendlyName"
-		       name='FriendlyName'
-		       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-		       value='<?php echo $friendlyName; ?>'
-		>
-		<small id="FriendlyNameHelp" class="form-text text-muted">
-			<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>
-		</small>
-	</div>
+
+	<?php if( is_array( $status->Status->FriendlyName ) ): //array since >= 5.12.0h   ?>
+		<div class="form-row  mt-5">
+			<?php foreach( $status->Status->FriendlyName as $key => $friendlyName ): ?>
+				<div class="form-group col-12 col-sm-6">
+					<div class="form-group">
+						<?php
+
+						?>
+						<label for="FriendlyName">
+							<?php echo __( "CONFIG_FRIENDLYNAME", "DEVICE_CONFIG" )." (".( $key+1 ).")"; ?>
+						</label>
+						<input type="text"
+						       class="form-control"
+						       id="FriendlyName"
+						       name='FriendlyName<?php echo( $key+1 ); ?>'
+						       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+						       value='<?php echo $friendlyName; ?>'
+						>
+						<small id="FriendlyNameHelp" class="form-text text-muted">
+							<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>
+						</small>
+					</div>
+				</div>
+			<?php endforeach; ?>
+		</div>
+
+	<?php else : //only one friendlyname was editable v < 5.12.0h ?>
+		<div class="form-group">
+			<?php
+				$friendlyName = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
+					? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
+			?>
+			<label for="FriendlyName">
+				<?php echo __( "CONFIG_FRIENDLYNAME", "DEVICE_CONFIG" ); ?>
+			</label>
+			<input type="text"
+			       class="form-control"
+			       id="FriendlyName"
+			       name='FriendlyName'
+			       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
+			       value='<?php echo $friendlyName; ?>'
+			>
+			<small id="FriendlyNameHelp" class="form-text text-muted">
+				<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>
+			</small>
+		</div>
+	<?php endif; //END only one friendlyname was editable v < 5.12.0h ?>
+
 	<div class="form-group">
 		<label for="PowerOnState">
 			<?php echo __( "CONFIG_POWERONSTATE", "DEVICE_CONFIG" ); ?>
