@@ -17,6 +17,13 @@
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
 		$mdParser  = new Parsedown();
 		$changelog = $mdParser->parse( $changelog );
+
+		$tasmotaIssueUrl = "https://github.com/arendst/Sonoff-Tasmota/issues/";
+		$changelog       = preg_replace(
+			"/\B#([\d]+)/",
+			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
+			$changelog
+		);
 	}
 
 ?>

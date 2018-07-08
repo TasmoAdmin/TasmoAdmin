@@ -2,7 +2,7 @@
 
 
 ## Upcoming   
-
+- **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
 
 ## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
