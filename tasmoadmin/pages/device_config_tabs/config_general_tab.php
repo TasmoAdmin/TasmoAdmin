@@ -21,25 +21,6 @@
 		</small>
 	</div>
 	<div class="form-group">
-		<?php
-			$SetOption3 = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
-				? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
-		?>
-		<label for="FriendlyName">
-			<?php echo __( "CONFIG_FRIENDLYNAME", "DEVICE_CONFIG" ); ?>
-		</label>
-		<input type="text"
-		       class="form-control"
-		       id="FriendlyName"
-		       name='FriendlyName'
-		       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
-		       value='<?php echo $friendlyName; ?>'
-		>
-		<small id="FriendlyNameHelp" class="form-text text-muted">
-			<?php echo __( "CONFIG_FRIENDLYNAME_HELP", "DEVICE_CONFIG" ); ?>
-		</small>
-	</div>
-	<div class="form-group">
 		<label for="PowerOnState">
 			<?php echo __( "CONFIG_POWERONSTATE", "DEVICE_CONFIG" ); ?>
 		</label>
