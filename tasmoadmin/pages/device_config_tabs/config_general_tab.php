@@ -4,7 +4,8 @@
 	<?php if( is_array( $status->Status->FriendlyName ) ): //array since >= 5.12.0h   ?>
 		<div class="form-row  mt-5">
 			<?php foreach( $status->Status->FriendlyName as $key => $friendlyName ): ?>
-				<div class="form-group col-12 col-sm-6">
+				<div class="form-group col-12 <?php echo ( count( $status->Status->FriendlyName ) == 1 ) ? "col-sm-12"
+					: "col-sm-6"; ?>">
 					<div class="form-group">
 						<?php
 
@@ -129,7 +130,7 @@
 		       class="form-control"
 		       id="Sleep"
 		       name='Sleep'
-		       step='25' max='250' min='0' pattern="\d{1,3}"
+		       step='1' max='250' min='0' pattern="\d{1,3}"
 		       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 		       value='<?php echo isset( $status->StatusPRM->Sleep )
 		                         && !empty( $status->StatusPRM->Sleep ) ? $status->StatusPRM->Sleep : ""; ?>'

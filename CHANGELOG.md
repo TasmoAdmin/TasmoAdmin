@@ -20,6 +20,8 @@
 - **NEW**: Add top scrollbar on device list [#170](https://github.com/reloxx13/TasmoAdmin/issues/170) 
 - MINOR: Rename "Show More" => "Detail View" in i18n.EN [#168](https://github.com/reloxx13/TasmoAdmin/issues/168) 
 - **NEW**: Support Multi Friendlyname on Device General Config Page (fw >= 5.12.0h) [Sonoff-Tasmota#3161](https://github.com/arendst/Sonoff-Tasmota/issues/3161)
+- **FIX**: device config allow more steps for Sleep [#172](https://github.com/reloxx13/TasmoAdmin/issues/172)      
+
 
 ## v1.3.3 
 - MINOR: fix for travis building   
