@@ -3,6 +3,14 @@
 
 ## Upcoming   
 - **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
+- **NEW**: Use json file for for config data
+- **NEW**: Config is now saved in a cookie
+  - Cookies are stored in the Clients Browser, reduces Reads on Servers Drive. 
+  - Some uneccessery writes removed, boom.
+  - Note: Encrypted User PW will not be saved in the Cookie.   
+  Old Config File will be migrated to json and removed in a later release. Stays as Backup.   
+  If you delete the MyConfig.json, it will generated new based on the MyConfig.php
+
 
 ## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
