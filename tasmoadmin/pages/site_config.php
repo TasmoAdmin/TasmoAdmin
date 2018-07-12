@@ -1,8 +1,10 @@
 <?php
-	$msg = FALSE;
-	if( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
-		if( isset( $_REQUEST[ "save" ] ) ) {
-			$settings = $_REQUEST;
+	$msg      = FALSE;
+	$settings = [];
+
+	if( isset( $_POST ) && !empty( $_POST ) ) {
+		if( isset( $_POST[ "save" ] ) ) {
+			$settings = $_POST;
 			unset( $settings[ "save" ] );
 
 			if( !isset( $settings[ "login" ] ) ) {
@@ -26,11 +28,12 @@
 			foreach( $settings as $settingKey => $settingVal ) {
 				$Config->write( $settingKey, $settingVal );
 			}
+			//header( "Refresh:0" ); //fix for not updated config cuz of buffer
 			$msg = __( "MSG_USER_CONFIG_SAVED", "USER_CONFIG" );
 		}
 	}
 
-	$config = $Config->readAll();
+	$config = array_merge( $Config->readAll(), $settings );
 
 ?>
 
@@ -106,12 +109,12 @@
 				</label>
 				<select class="form-control custom-select" id="homepage" name='homepage'>
 					<option value='start'
-						<?php echo $config[ "homepage" ] == "start" ? "selected=\selected\"" : ""; ?>
+						<?php echo $config[ "homepage" ] == "start" ? "selected=\"selected\"" : ""; ?>
 					>
 						<?php echo __( "CONFIG_HOMEPAGE_START", "USER_CONFIG" ); ?>
 					</option>
 					<option value='devices'
-						<?php echo $config[ "homepage" ] == "devices" ? "selected=\selected\"" : ""; ?>
+						<?php echo $config[ "homepage" ] == "devices" ? "selected=\"selected\"" : ""; ?>
 					>
 						<?php echo __( "CONFIG_HOMEPAGE_DEVICES", "USER_CONFIG" ); ?>
 					</option>
