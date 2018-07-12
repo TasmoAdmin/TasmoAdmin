@@ -9,7 +9,16 @@
 	$subdir = str_replace( "\\", "/", $subdir );
 	$subdir = $subdir == "/" ? "" : $subdir;
 
-	$otaServer = $_SERVER[ 'REQUEST_SCHEME' ]."://".$localIP.":".$localPort._BASEURL_."";
+	if( !empty( $_SERVER[ 'REQUEST_SCHEME' ] ) ) {
+		$schema = $_SERVER[ 'REQUEST_SCHEME' ];
+	} else {
+		if( !empty( $_SERVER[ "SERVER_PORT" ] ) && $_SERVER[ "SERVER_PORT" ] == "443" ) {
+			$schema = "https";
+		} else {
+			$schema = "http";
+		}
+	}
+	$otaServer = $schema."://".$localIP.":".$localPort._BASEURL_."";
 
 	if( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
 		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
