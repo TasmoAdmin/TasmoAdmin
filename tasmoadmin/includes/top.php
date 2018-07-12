@@ -41,6 +41,7 @@
 
 	define( "_RESOURCESURL_", _BASEURL_."resources/" );
 	define( "_INCLUDESDIR_", _APPROOT_."includes/" );
+	define( "_HELPERSDIR_", _APPROOT_."helpers/" );
 	define( "_RESOURCESDIR_", _APPROOT_."resources/" );
 	define( "_LIBSDIR_", _APPROOT_."libs/" );
 	define( "_PAGESDIR_", _APPROOT_."pages/" );
@@ -48,6 +49,17 @@
 	define( "_LANGDIR_", _APPROOT_."lang/" );
 	define( "_TMPDIR_", _APPROOT_."tmp/" );
 	define( "_CSVFILE_", _DATADIR_."devices.csv" );
+
+
+	function autoloadsystem( $class ) {
+
+		$filename = _HELPERSDIR_.strtolower( $class ).".php";
+		if( file_exists( $filename ) ) {
+			require $filename;
+		}
+	}
+
+	spl_autoload_register( "autoloadsystem" );
 
 
 	$filename = _CSVFILE_; //csv file name

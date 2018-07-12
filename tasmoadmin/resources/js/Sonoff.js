@@ -12,7 +12,7 @@ var Sonoff = function ( options ) {
 	 * in the class
 	 */
 	var vars = {
-		timeout: 10,
+		timeout: 10
 	};
 	
 	/*
@@ -98,7 +98,7 @@ var Sonoff = function ( options ) {
 			        type    : "post",
 			        data    : {
 				        id  : id,
-				        cmnd: encodeURIComponent( cmnd ),
+				        cmnd: encodeURIComponent( cmnd )
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -118,7 +118,7 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
-			        },
+			        }
 		        } );
 	};
 	/*
@@ -135,7 +135,7 @@ var Sonoff = function ( options ) {
 			        cache   : false,
 			        type    : "post",
 			        data    : {
-				        cmnd: encodeURIComponent( cmnd ),
+				        cmnd: encodeURIComponent( cmnd )
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -156,7 +156,7 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
-			        },
+			        }
 		        } );
 	};
 	
@@ -172,7 +172,7 @@ var Sonoff = function ( options ) {
 			        },
 			        error  : function ( data, xmlhttprequest, textstatus, message ) {
 				
-			        },
+			        }
 		        } );
 	};
 	
@@ -187,7 +187,7 @@ var Sonoff = function ( options ) {
 				        id      : id,
 				        field   : encodeURIComponent( field ),
 				        newvalue: encodeURIComponent( newvalue ),
-				        target  : "csv",
+				        target  : "csv"
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -202,7 +202,7 @@ var Sonoff = function ( options ) {
 			        },
 			        error   : function ( data, xmlhttprequest, textstatus, message ) {
 				        console.log( "ERROR setDeviceValue" );
-			        },
+			        }
 		        } );
 	};
 	

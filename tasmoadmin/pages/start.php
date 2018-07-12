@@ -2,8 +2,8 @@
 	$devices = $Sonoff->getDevices();
 ?>
 <div class='container-fluid'>
-	
-	
+
+
 	<?php if ( isset( $devices ) && !empty( $devices ) ): ?>
 		<div class='row justify-content-center startpage'>
 			<?php foreach ( $devices as $device_group ): ?>
@@ -59,8 +59,8 @@
 				</a>
 			</div>
 		</div>
-	
+
 	<?php endif; ?>
 </div>
 
-<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/start.js?<?php echo time(); ?>'></script>
+<script src="<?php echo URL::JS( "start" ); ?>"></script>

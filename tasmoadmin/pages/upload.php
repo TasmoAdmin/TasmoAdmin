@@ -730,7 +730,7 @@
 
 		} );
 	</script>
-	<script type='text/javascript'
-	        src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
+
+	<script src="<?php echo URL::JS( "devices" ); ?>"></script>
 <?php endif; ?>
 

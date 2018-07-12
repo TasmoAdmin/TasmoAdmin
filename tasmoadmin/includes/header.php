@@ -17,13 +17,6 @@
 	}
 
 
-	$cacheTag = $Config->read( "current_git_tag" );
-	if( empty( $cacheTag ) ) {
-		$cacheTag = time();
-	}
-	$cacheTag = str_replace( ".", "_", $cacheTag );
-
-	$min = ".min";
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 <head>
@@ -69,58 +62,57 @@
 		var _BASEURL_      = "<?php echo _BASEURL_; ?>";
 		var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
 	</script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui<?php echo $min; ?>.js"></script>
+	<script src="<?php echo URL::JS( "jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery" ); ?>"></script>
+	<script src="<?php echo URL::JS( "jquery-ui/jquery-ui-1.12.1.custom/jquery-ui" ); ?>"></script>
 	<script>
 		/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
 		$.widget.bridge( 'uibutton', $.ui.button );
 		$.widget.bridge( 'uitooltip', $.ui.tooltip );
 	</script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap/bootstrap.bundle<?php echo $min; ?>.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.messagestore.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.fallbacks.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.parser.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.emitter.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/jquery.i18n.language.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/bs.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/dsb.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/fi.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ga.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/he.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hsb.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hu.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/hy.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/la.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ml.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/os.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/ru.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/sl.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/i18n/languages/uk.js"></script>
+	<script src="<?php echo URL::JS( "bootstrap/bootstrap.bundle" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n.messagestore" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n.fallbacks" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n.parser" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n.emitter" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/jquery.i18n.language" ); ?>"></script>
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/bs" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/dsb" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/fi" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/ga" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/he" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hsb" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hu" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hy" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/la" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/ml" ); ?><!--"></script>-->
+	<!--	<script src="--><?php //echo URL::JS( "i18n/languages/os" ); ?><!--"></script>-->
+	<script src="<?php echo URL::JS( "i18n/languages/ru" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/languages/sl" ); ?>"></script>
+	<script src="<?php echo URL::JS( "i18n/languages/uk" ); ?>"></script>
 
-	<script src="<?php echo _RESOURCESURL_; ?>js/js-cookie/js-cookie.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw.stackonly.jquery.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/tablesaw/tablesaw-init.js"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/bootstrap-waitingfor/waitingfor.js?v=<?php echo $cacheTag; ?>"></script>
-	<script src="<?php echo _RESOURCESURL_; ?>js/libs/jqDoubleScroll/jquery.doubleScroll.js?v=<?php echo $cacheTag; ?>"></script>
+	<script src="<?php echo URL::JS( "js-cookie/js-cookie" ); ?>"></script>
+	<script src="<?php echo URL::JS( "tablesaw/tablesaw.stackonly.jquery" ); ?>"></script>
+	<script src="<?php echo URL::JS( "tablesaw/tablesaw-init" ); ?>"></script>
+	<script src="<?php echo URL::JS( "bootstrap-waitingfor/waitingfor" ); ?>"></script>
+	<script src="<?php echo URL::JS( "libs/jqDoubleScroll/jquery.doubleScroll" ); ?>"></script>
 	<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 
-	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/Sonoff.js?<?php echo $cacheTag; ?>'></script>
+	<script src="<?php echo URL::JS( "Sonoff" ); ?>"></script>
 
-	<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/app.js?<?php echo $cacheTag; ?>'></script>
+	<script src="<?php echo URL::JS( "app" ); ?>"></script>
 
-	<link href="<?php echo _RESOURCESURL_; ?>css/bootstrap/bootstrap<?php echo $min; ?>.css" rel="stylesheet">
-	<link href='<?php echo _RESOURCESURL_; ?>js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui<?php echo $min; ?>.css'
-	      rel='stylesheet'>
+	<link href="<?php echo URL::STYLES( "bootstrap/bootstrap" ); ?>" rel="stylesheet">
+	<link href="<?php echo URL::STYLES( "../js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui" ); ?>" rel="stylesheet">
 
-	<link href="<?php echo _RESOURCESURL_; ?>css/fontawesome/css/all.css?<?php echo $cacheTag; ?>" rel="stylesheet">
-	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.css" rel="stylesheet">
-	<link href="<?php echo _RESOURCESURL_; ?>css/tablesaw/tablesaw.stackonly.css" rel="stylesheet">
-	<link href='<?php echo _RESOURCESURL_; ?>css/animate.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESURL_; ?>css/style.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
-	<link href='<?php echo _RESOURCESURL_; ?>css/mobile.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
+	<link href="<?php echo URL::STYLES( "fontawesome/css/all" ); ?>" rel="stylesheet">
+	<link href="<?php echo URL::STYLES( "tablesaw/tablesaw" ); ?>" rel="stylesheet">
+	<link href="<?php echo URL::STYLES( "tablesaw/tablesaw.stackonly" ); ?>" rel="stylesheet">
+
+	<link href="<?php echo URL::STYLES( "all" ); ?>" rel="stylesheet">
+
 	<?php if( @file_exists( _RESOURCESDIR_."css/custom.css" ) ): ?>
-		<link href='<?php echo _RESOURCESURL_; ?>css/custom.css?<?php echo $cacheTag; ?>' rel='stylesheet'>
+		<link href="<?php echo URL::STYLES( "custom" ); ?>" rel="stylesheet">
 	<?php endif; ?>
 
 </head>

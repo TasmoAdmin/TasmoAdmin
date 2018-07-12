@@ -37,8 +37,10 @@
 
 					$fakeDevice           = new stdClass();
 					$fakeDevice->ip       = implode( ".", $fromip );
-					$fakeDevice->username = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ] : "";
-					$fakeDevice->password = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : "";
+					$fakeDevice->username = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
+						: "";
+					$fakeDevice->password = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
+						: "";
 					$cmnd                 = "status 0";
 
 
@@ -187,7 +189,8 @@
 				       class="form-control"
 				       id="device_password"
 				       name='device_password'
-				       value='<?php echo isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ] : ""; ?>'
+				       value='<?php echo isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
+					       : ""; ?>'
 				>
 				<small id="device_passwordHelp" class="form-text text-muted">
 					<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>

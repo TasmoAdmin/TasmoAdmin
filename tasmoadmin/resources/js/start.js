@@ -92,7 +92,7 @@ function updateStatus() {
 				                  }
 				                  //console.log( result );
 				
-			                  },
+			                  }
 			);
 		}
 	} );
