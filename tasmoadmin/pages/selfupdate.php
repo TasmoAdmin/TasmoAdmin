@@ -72,7 +72,11 @@
 			</div>
 			<div class='mt-3 row'>
 				<div class='col-12 col-sm-5'>
-					<button class='btn btn-secondary w-100 no-hover'>
+					<a class='btn btn-secondary w-100'
+					   <?php if( !empty(
+					   $Selfupdate->getCurrentTag()
+					   ) ): ?>href='https://github.com/reloxx13/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getCurrentTag(
+					   ); ?>' target='_blank' <?php endif; ?>>
 						<?php echo __(
 							"OLD_TAG_VERSION",
 							"SELFUPDATE",
@@ -84,7 +88,8 @@
 									"SELFUPDATE"
 								),
 							]
-						); ?></button>
+						); ?>
+					</a>
 				</div>
 				<div class='col-12 col-sm-2 text-center align-text-top'>
 					<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i>
@@ -92,8 +97,13 @@
 					   style='font-size:2.5rem;'></i>
 				</div>
 				<div class='col-12 col-sm-5'>
-					<button class='btn btn-primary w-100 no-hover btn-green'>
-						<?php echo __( "NEW_TAG_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestTag() ] ); ?></button>
+					<a class='btn btn-primary w-100 btn-green'
+					   <?php if( !empty(
+					   $Selfupdate->getLatestTag()
+					   ) ): ?>href='https://github.com/reloxx13/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getLatestTag(
+					   ); ?>' target='_blank' <?php endif; ?>>
+						<?php echo __( "NEW_TAG_VERSION", "SELFUPDATE", [ $Selfupdate->getLatestTag() ] ); ?>
+					</a>
 
 				</div>
 			</div>

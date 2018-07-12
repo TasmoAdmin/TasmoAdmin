@@ -36,6 +36,19 @@ footer {
 .btn-green {
   background-color : $color_forest_green_approx;
   border-color     : $color_forest_green_approx;
+  &:hover {
+    background-color : darken($color_forest_green_approx, 5%) !important;
+    border-color     : darken($color_forest_green_approx, 5%) !important;
+  }
+  &:focus {
+    background-color : darken($color_forest_green_approx, 5%) !important;
+    border-color     : darken($color_forest_green_approx, 5%) !important;
+  }
+  &:active {
+    background-color : darken($color_forest_green_approx, 5%) !important;
+    border-color     : darken($color_forest_green_approx, 5%) !important;
+  }
+
   &.no-hover {
     &:hover {
       background-color : $color_forest_green_approx !important;

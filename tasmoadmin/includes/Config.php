@@ -155,6 +155,13 @@
 				$this->setCacheConfig( $config );
 			}
 
+
+			if( empty( $config[ "current_git_tag" ] ) ) {
+				if( !empty( getenv( "BUILD_VERSION" ) ) ) {
+					$this->write( "current_git_tag", getenv( "BUILD_VERSION" ) );
+				}
+			}
+
 		}
 
 		public function readAll( $inclPassword = FALSE ) {
