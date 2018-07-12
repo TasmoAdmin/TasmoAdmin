@@ -172,7 +172,7 @@
 						return $dialog.find( '.modal-header>h' + settings.headerSize ).html();
 					}
 				}
-			},
+			}
 		};
 		
 	} )

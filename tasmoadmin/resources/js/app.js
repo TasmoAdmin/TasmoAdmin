@@ -13,7 +13,7 @@ $( document ).on( "ready", function () {
 		        success : function ( data ) {
 			
 			        $.i18n().load( data );
-		        },
+		        }
 	        } );
 	
 	
@@ -26,29 +26,30 @@ $( document ).on( "ready", function () {
 			contentElement     : "#device-list", // Widest element, if not specified first child element will be used
 			scrollCss          : {
 				'overflow-x': 'auto',
-				'overflow-y': 'hidden',
+				'overflow-y': 'hidden'
 			},
 			contentCss         : {
 				'overflow-x': 'auto',
-				'overflow-y': 'hidden',
+				'overflow-y': 'hidden'
 			},
 			onlyIfScroll       : true, // top scrollbar is not shown if the bottom one is not present
 			resetOnWindowResize: true, // recompute the top ScrollBar requirements when the window is resized
-			timeToWaitForResize: 1,
-		},
+			timeToWaitForResize: 1
+		}
 	);
-	
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
+	
+	
+	
 	Sonoff = new Sonoff( { timeout: 15 } );
 	
 	$( '[title][title!=""]' ).tooltip( {
 		                                   html : true,
-		                                   delay: 700,
+		                                   delay: 700
 	                                   } );
-	
 	
 	$( '.custom-file-input' ).on( 'change', function () {
 		var filename = $( this ).val();
@@ -109,7 +110,7 @@ $( document ).on( "ready", function () {
 		     (
 			     e.keyCode >= 35 && e.keyCode <= 40
 		     ) ) {
-			// let it happen, don't do anything
+			// var it happen, don't do anything
 			return;
 		}
 		// Ensure that it is a number and stop the keypress
@@ -202,7 +203,7 @@ $.fn.attachDragger = function () {
 				),
 				(
 					position[ 1 ] - lastPosition[ 1 ]
-				),
+				)
 			];
 			$( this ).scrollLeft( $( this ).scrollLeft() - difference[ 0 ] );
 			$( this ).scrollTop( $( this ).scrollTop() - difference[ 1 ] );
@@ -229,7 +230,7 @@ var parseVersion = function ( versionString ) {
 					last.charCodeAt( 0 ) - 97
 				)
 				: last.charCodeAt( 0 ) - 97
-			),
+			)
 		);
 	} else {
 		versionString = versionString + "00";
@@ -426,7 +427,7 @@ function getEnergyPower( data ) {
 		}
 		
 		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
-			let tmpString = data.StatusSNS.ENERGY.Today;
+			var tmpString = data.StatusSNS.ENERGY.Today;
 			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
 				tmpString += "/" + data.StatusSNS.ENERGY.Yesterday;
 			}
@@ -447,7 +448,7 @@ function getEnergyPower( data ) {
 //
 //	if ( data.StatusSNS.ENERGY !== undefined ) {
 //		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
-//			let tmpString = data.StatusSNS.ENERGY.Today;
+//			var tmpString = data.StatusSNS.ENERGY.Today;
 //			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
 //				tmpString += "/" + data.StatusSNS.ENERGY.Today;
 //			}
@@ -544,12 +545,12 @@ function checkForUpdate( timer ) {
 	    .addClass( "fa-sync" )
 	    .addClass( "fa-spin" );
 	
-	let githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
+	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
 	
 	$.get( githubApiRelease, {}, function ( result ) {
 		if ( result !== undefined ) {
 			if ( result.tag_name !== undefined ) {
-				let latestTag = result.tag_name;
+				var latestTag = result.tag_name;
 				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
 				if ( latestTag != currentGitTag ) {
 					console.log( "[APP][checkForUpdate] NEW VERSION FOUND" );
@@ -604,7 +605,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 				{
 					left: (
 						intDistance * -1
-					),
+					)
 				},
 				(
 					(
@@ -612,7 +613,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						intDuration / intShakes
 						) / 4
 					)
-				),
+				)
 			)
 			         .animate(
 				         { left: intDistance },
@@ -620,7 +621,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 					         (
 					         intDuration / intShakes
 					         ) / 2
-				         ),
+				         )
 			         )
 			         .animate(
 				         { left: 0 },
@@ -630,7 +631,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						         intDuration / intShakes
 						         ) / 4
 					         )
-				         ),
+				         )
 			         );
 		}
 	} );

@@ -183,4 +183,4 @@
 	</div>
 </div>
 
-<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/device_config.js?<?php echo time(); ?>'></script>
+<script src="<?php echo URL::JS( "device_config" ); ?>"></script>

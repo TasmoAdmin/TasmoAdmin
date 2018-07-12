@@ -1,7 +1,8 @@
 <?php
 
 	class Config {
-		private $debug   = FALSE;
+		private $debug = FALSE;
+
 		private $cfgFile = _DATADIR_."MyConfig.json";
 
 		private $cfgFile140 = _DATADIR_."MyConfig.php";       //for tag 1.4.0 migration
@@ -21,9 +22,15 @@
 				"scan_to_ip"            => "192.168.178.254",
 				"homepage"              => "start",
 				"check_for_updates"     => "1",
+				"minimize_resources"    => "1",
 			];
 
 		private function setCacheConfig( $config ) {
+			if( ( empty( $_SESSION[ "login" ] ) || $_SESSION[ "login" ] !== "1" ) && $config[ "login" ] == "1" ) {
+
+				return FALSE;
+			}
+
 			if( $this->debug ) {
 				debug( "COOKIE WRITE" );
 				debug( debug_backtrace() );
@@ -32,7 +39,7 @@
 
 			$configJSON = json_encode( $config );
 
-			setcookie( "MyConfig", $configJSON, intval( time()+( 8640000000*30 ) ) );
+			setcookie( "MyConfig", $configJSON, intval( time()+( 8640000000*30 ) ), "/" );
 
 			return $configJSON;
 		}
@@ -41,10 +48,11 @@
 			if( $this->debug ) {
 				debug( "COOKIE READ".( !empty( $key ) ? " ( ".$key." )" : "" ) );
 			}
-			$configJSON = $_COOKIE[ "MyConfig" ];
-			if( empty( $configJSON ) ) {
+			if( empty( $_COOKIE[ "MyConfig" ] ) ) {
 				return FALSE;
 			}
+			$configJSON = $_COOKIE[ "MyConfig" ];
+
 			$config = json_decode( $configJSON, TRUE );
 			if( json_last_error() != 0 ) {
 				return FALSE;
@@ -93,8 +101,7 @@
 					}
 				}
 
-				$config = array_merge( $this->defaultConfigs, $config );
-
+				$config     = array_merge( $this->defaultConfigs, $config );
 				$configJSON = json_encode( $config, JSON_PRETTY_PRINT );
 				if( !fwrite( $fh, $configJSON ) ) {
 					die( "COULD NOT CREATE OR WRITE IN CONFIG FILE" );
@@ -112,6 +119,7 @@
 				$config     = $configJSON = NULL;    //reset
 				$configJSON = file_get_contents( $this->cfgFile );
 				if( !$configJSON ) {
+					var_dump( debug_backtrace() );
 					die( "could not read MyConfig.json" );
 				} else {
 					$config = json_decode( $configJSON, TRUE );
@@ -133,7 +141,8 @@
 
 
 			//remove trash from config
-			$config = $this->readAll();
+			$config = $this->readAll( TRUE );
+
 			if( !empty( $config[ "page" ] ) ) {
 				unset( $config[ "page" ] );
 				$configJSON = json_encode( $config, JSON_PRETTY_PRINT );
@@ -158,8 +167,9 @@
 					debug( "PERFORM READALL" );
 				}
 				$configJSON = file_get_contents( $this->cfgFile );
-				if( !$config ) {
-					die( "could not read MyConfig.json" );
+				if( !$configJSON ) {
+					var_dump( debug_backtrace() );
+					die( "could not read MyConfig.json in readAll" );
 				} else {
 					$config = json_decode( $configJSON, TRUE );
 				}
@@ -177,14 +187,18 @@
 		}
 
 		public function read( $key ) {
-			$config = $this->getCacheConfig( $key );
+			$config = FALSE;
+			if( $key !== "password" ) { //if pw requested, get from file
+				$config = $this->getCacheConfig( $key );
+			}
 			if( !$config ) {
 				if( $this->debug ) {
 					debug( "PERFORM READ (".$key.")" );
 				}
 				$configJSON = file_get_contents( $this->cfgFile );
 				if( !$configJSON ) {
-					die( "could not read MyConfig.json" );
+					var_dump( debug_backtrace() );
+					die( "could not read MyConfig.json in read" );
 				} else {
 					$config = json_decode( $configJSON, TRUE );
 				}
@@ -203,11 +217,12 @@
 			if( $this->debug ) {
 				debug( "PERFORM READ FOR WRITE" );
 			}
-			$config = file_get_contents( $this->cfgFile );
-			if( !$config ) {
-				die( "could not read MyConfig.json" );
+			$configJSON = file_get_contents( $this->cfgFile );
+			if( !$configJSON ) {
+				var_dump( debug_backtrace() );
+				die( "could not read MyConfig.json in write" );
 			} else {
-				$config = json_decode( $config, TRUE );
+				$config = json_decode( $configJSON, TRUE );
 			}
 
 			$config[ $key ] = $value;
