@@ -12,7 +12,7 @@
   If you delete the MyConfig.json, it will generated new based on the MyConfig.php
 - **DEV**: Use SCSS and Minified CSS/JS Resources, gives some performence boost and save network traffic.
 - **NEW**: Get Current Tag from Docker [#176](https://github.com/reloxx13/TasmoAdmin/issues/176)  
-  
+- **FIX**: $_SERVER REQUEST_SCHEME is not reliable [#174](https://github.com/reloxx13/TasmoAdmin/issues/174)    
 ## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
 - **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
