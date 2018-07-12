@@ -234,6 +234,15 @@ body {
 .btn-green {
   background-color: #02A030;
   border-color: #02A030; }
+  .btn-green:hover {
+    background-color: #028728 !important;
+    border-color: #028728 !important; }
+  .btn-green:focus {
+    background-color: #028728 !important;
+    border-color: #028728 !important; }
+  .btn-green:active {
+    background-color: #028728 !important;
+    border-color: #028728 !important; }
   .btn-green.no-hover:hover {
     background-color: #02A030 !important;
     border-color: #02A030 !important; }

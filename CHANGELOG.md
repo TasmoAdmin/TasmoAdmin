@@ -11,7 +11,7 @@
   Old Config File will be migrated to json and removed in a later release. Stays as Backup.   
   If you delete the MyConfig.json, it will generated new based on the MyConfig.php
 - **DEV**: Use SCSS and Minified CSS/JS Resources, gives some performence boost and save network traffic.
-  
+- **NEW**: Get Current Tag from Docker [#176](https://github.com/reloxx13/TasmoAdmin/issues/176)  
   
 ## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
