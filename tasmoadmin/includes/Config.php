@@ -39,7 +39,7 @@
 
 			$configJSON = json_encode( $config );
 
-			setcookie( "MyConfig", $configJSON, intval( time()+( 8640000000*30 ) ), "/" );
+			setcookie( "MyConfig", $configJSON, time()+(30*24*60*60), "/" );
 
 			return $configJSON;
 		}
