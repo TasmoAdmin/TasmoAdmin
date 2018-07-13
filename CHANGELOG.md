@@ -2,6 +2,8 @@
 
 
 ## Upcoming   
+
+## v1.5.0
 - **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
 - **NEW**: Use json file for for config data
 - **NEW**: Config is now saved in a cookie
@@ -13,6 +15,7 @@
 - **DEV**: Use SCSS and Minified CSS/JS Resources, gives some performence boost and save network traffic.
 - **NEW**: Get Current Tag from Docker [#176](https://github.com/reloxx13/TasmoAdmin/issues/176)  
 - **FIX**: $_SERVER REQUEST_SCHEME is not reliable [#174](https://github.com/reloxx13/TasmoAdmin/issues/174)    
+   
 ## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
 - **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
