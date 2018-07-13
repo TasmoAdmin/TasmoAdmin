@@ -20,9 +20,6 @@ LABEL \
     org.label-schema.vcs-ref=${BUILD_REF} \
     org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
 
-# Environment variables
-ENV BUILD_VERSION ${BUILD_VERSION}
-ENV BUILD_REF ${BUILD_REF}
 
 # Setup Qemu
 ARG QEMU_ARCH
@@ -60,6 +57,14 @@ RUN \
     && apk del --purge .build-dependencies \
     \
     && rm -f -r /tmp/*
+
+# Environment variables
+ENV BUILD_VERSION ${BUILD_VERSION}
+ENV BUILD_REF ${BUILD_REF}
+
+RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_params
+RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
+
 
 # Copy root filesystem
 COPY .docker/rootfs /
