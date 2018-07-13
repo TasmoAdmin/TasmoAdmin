@@ -80,16 +80,20 @@ docker_tag() {
 
 docker_push() {
     echo "DOCKER PUSH: Push all docker images."
-    docker push $TARGET:$BUILD_VERSION-alpine-amd64
-    docker push $TARGET:$BUILD_VERSION-alpine-arm32v6
-    docker push $TARGET:$BUILD_VERSION-alpine-arm64v8
+    docker push $TARGET:${BUILD_VERSION}-alpine-amd64
+    docker push $TARGET:${BUILD_VERSION}-alpine-arm32v6
+    docker push $TARGET:${BUILD_VERSION}-alpine-arm64v8
 }
 
 docker_manifest_list() {
     # Create and push manifest lists, displayed as FIFO
     echo "DOCKER MANIFEST: Create and Push docker manifest lists."
     docker_manifest_list_version
-    docker_manifest_list_latest
+    # if build is not a beta then create and push manifest lastest
+    if [[ ${BUILD_VERSION} != *"beta"* ]]; then
+        echo "DOCKER MANIFEST: Create and Push docker manifest lists latest."
+        docker_manifest_list_latest
+    fi
     docker_manifest_list_version_os_arch
 }
 
