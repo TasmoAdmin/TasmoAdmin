@@ -39,7 +39,10 @@
 
 			$configJSON = json_encode( $config );
 
-			setcookie( "MyConfig", $configJSON, time()+( 30*24*60*60 ), "/" );
+
+			setcookie( "MyConfig", $configJSON, time()+3600*24*365, "/" );
+			//			debug( debug_backtrace() );
+			//			debug( "set cookie" );
 
 			return $configJSON;
 		}
@@ -132,15 +135,15 @@
 
 			//write default config if does not exists in file
 			foreach( $this->defaultConfigs as $configName => $configValue ) {
-				$config = $this->read( $configName );
+				$config = $this->read( $configName, TRUE );
 				if( !isset( $config ) || $config == "" ) {
-					$this->write( $configName, $configValue );
+					$this->write( $configName, $configValue, TRUE );
 				}
 			}
 
 
 			//remove trash from config
-			$config = $this->readAll( TRUE );
+			$config = $this->readAll( TRUE, TRUE );
 
 			if( !empty( $config[ "page" ] ) ) {
 				unset( $config[ "page" ] );
@@ -158,7 +161,7 @@
 			    && ( $config[ "current_git_tag" ] != getenv(
 						"BUILD_VERSION"
 					) ) ) {
-				$this->write( "current_git_tag", getenv( "BUILD_VERSION" ) );
+				$this->write( "current_git_tag", getenv( "BUILD_VERSION" ), TRUE );
 			}
 
 			$this->setCacheConfig( $config );
@@ -166,7 +169,7 @@
 
 		}
 
-		public function readAll( $inclPassword = FALSE ) {
+		public function readAll( $inclPassword = FALSE, $skipCookie = FALSE ) {
 			$config = FALSE;
 			if( !$inclPassword ) { //if pw requested, get from file
 				$config = $this->getCacheConfig();
@@ -185,7 +188,9 @@
 				if( json_last_error() != 0 ) {
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
-				$this->setCacheConfig( $config );
+				if( !$skipCookie ) {
+					$this->setCacheConfig( $config, $skipCookie );
+				}
 			}
 			if( !$inclPassword ) {
 				unset( $config[ "password" ] );
@@ -195,7 +200,7 @@
 			return $config;
 		}
 
-		public function read( $key ) {
+		public function read( $key, $skipCookie = FALSE ) {
 			$config = FALSE;
 			if( $key !== "password" ) { //if pw requested, get from file
 				$config = $this->getCacheConfig( $key );
@@ -214,7 +219,9 @@
 				if( json_last_error() != 0 ) {
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
-				$this->setCacheConfig( $config );
+				if( !$skipCookie ) {
+					$this->setCacheConfig( $config );
+				}
 
 				$config = isset( $config[ $key ] ) ? $config[ $key ] : NULL;
 			}
@@ -222,7 +229,7 @@
 			return $config;
 		}
 
-		public function write( $key, $value ) {
+		public function write( $key, $value, $skipCookie = FALSE ) {
 			if( $this->debug ) {
 				debug( "PERFORM READ FOR WRITE" );
 			}
@@ -243,7 +250,9 @@
 			file_put_contents( $this->cfgFile, $configJSON );
 
 
-			$this->setCacheConfig( $config );
+			if( !$skipCookie ) {
+				$this->setCacheConfig( $config );
+			}
 
 			return TRUE;
 		}

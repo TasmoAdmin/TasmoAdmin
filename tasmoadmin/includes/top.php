@@ -158,7 +158,7 @@
 	}
 
 	function debug( $data ) {
-		echo "<pre style='background-color: black; color:green; max-height: 300px; margin:0px; padding: 0px; font-size: 12px;'>";
+		echo "<pre style='background-color: black; color:green; max-height: 300px; margin:0px; padding: 0px; font-size: 12px; overflow: auto;'>";
 		print_r( $data ); // or var_dump($data);
 		echo "</pre>";
 	}
