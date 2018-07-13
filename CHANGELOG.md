@@ -3,6 +3,10 @@
 
 ## Upcoming   
 
+## v1.5.1
+- **FIX** Update Tag info [#180](https://github.com/reloxx13/TasmoAdmin/issues/180)
+
+
 ## v1.5.0
 - **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
 - **NEW**: Use json file for for config data

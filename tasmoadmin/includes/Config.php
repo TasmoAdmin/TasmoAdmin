@@ -39,7 +39,7 @@
 
 			$configJSON = json_encode( $config );
 
-			setcookie( "MyConfig", $configJSON, time()+(30*24*60*60), "/" );
+			setcookie( "MyConfig", $configJSON, time()+( 30*24*60*60 ), "/" );
 
 			return $configJSON;
 		}
@@ -119,7 +119,7 @@
 				$config     = $configJSON = NULL;    //reset
 				$configJSON = file_get_contents( $this->cfgFile );
 				if( !$configJSON ) {
-					var_dump( debug_backtrace() );
+					//					var_dump( debug_backtrace() );
 					die( "could not read MyConfig.json" );
 				} else {
 					$config = json_decode( $configJSON, TRUE );
@@ -128,7 +128,6 @@
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
 
-				$this->setCacheConfig( $config );
 			}
 
 			//write default config if does not exists in file
@@ -152,15 +151,18 @@
 				}
 				file_put_contents( $this->cfgFile, $configJSON );
 
-				$this->setCacheConfig( $config );
 			}
 
 
-			if( empty( $config[ "current_git_tag" ] ) ) {
-				if( !empty( getenv( "BUILD_VERSION" ) ) ) {
-					$this->write( "current_git_tag", getenv( "BUILD_VERSION" ) );
-				}
+			if( !empty( getenv( "BUILD_VERSION" ) )
+			    && ( $config[ "current_git_tag" ] != getenv(
+						"BUILD_VERSION"
+					) ) ) {
+				$this->write( "current_git_tag", getenv( "BUILD_VERSION" ) );
 			}
+
+			$this->setCacheConfig( $config );
+
 
 		}
 
