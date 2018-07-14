@@ -1,9 +1,10 @@
 # CHANGELOG   
 
 
-## Upcoming   
+## Upcoming
+- ...
 
-## 1.5.3
+## v1.5.3
 - **FIX** another fix for chrome ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
    
    
