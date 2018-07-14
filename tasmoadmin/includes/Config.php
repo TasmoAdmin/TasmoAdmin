@@ -39,8 +39,8 @@
 
 			$configJSON = json_encode( $config );
 
+			$_SESSION[ "MyConfig" ] = $configJSON;
 
-			setcookie( "MyConfig", $configJSON, time()+3600*24*365, "/" );
 			//			debug( debug_backtrace() );
 			//			debug( "set cookie" );
 
@@ -51,10 +51,10 @@
 			if( $this->debug ) {
 				debug( "COOKIE READ".( !empty( $key ) ? " ( ".$key." )" : "" ) );
 			}
-			if( empty( $_COOKIE[ "MyConfig" ] ) ) {
+			if( empty( $_SESSION[ "MyConfig" ] ) ) {
 				return FALSE;
 			}
-			$configJSON = $_COOKIE[ "MyConfig" ];
+			$configJSON = $_SESSION[ "MyConfig" ];
 
 			$config = json_decode( $configJSON, TRUE );
 			if( json_last_error() != 0 ) {
