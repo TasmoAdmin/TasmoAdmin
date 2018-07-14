@@ -61,12 +61,22 @@
 		$filename = _HELPERSDIR_.strtolower( $class ).".php";
 		if( file_exists( $filename ) ) {
 			require $filename;
+		} else {
+			$filename = _HELPERSDIR_.$class.".php";
+			if( file_exists( $filename ) ) {
+				require $filename;
+			}
 		}
 
 
-		$filename = _INCLUDESDIR_.strtolower( $class ).".php";
+		$filename = _INCLUDESDIR_.$class.".php";
 		if( file_exists( $filename ) ) {
 			require $filename;
+		} else {
+			$filename = _INCLUDESDIR_.strtolower( $class ).".php";
+			if( file_exists( $filename ) ) {
+				require $filename;
+			}
 		}
 	}
 
