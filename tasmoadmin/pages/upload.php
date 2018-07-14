@@ -7,7 +7,7 @@
 
 	$files = glob( $firmwarefolder.'*' ); // get all file names
 	foreach( $files as $file ) { // iterate files
-		if( is_file( $file ) && strpos( $file, ".empty" ) === FALSE ) {
+		if( is_file( $file ) && strpos( $file, ".empty" ) === FALSE && strpos( $file, ".htaccess" ) === FALSE ) {
 			unlink( $file );
 		} // delete file
 	}
