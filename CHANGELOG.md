@@ -4,6 +4,10 @@
 ## Upcoming
 - ...
 
+
+## v1.5.4
+- fix autoload case-sensitive [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)  
+   
 ## v1.5.3
 - **FIX** another fix for chrome ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
    
