@@ -9,6 +9,41 @@
 	$changelog = curl_exec( $ch );
 
 
+	$fchangelog = "";
+	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
+	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
+		$changelog = "";
+	} else {
+		$changelog = str_replace( [ "*/", "/*", " *\n" ], [ "", "", "" ], $changelog );
+		if( strlen( $changelog ) > 5000 ) {
+			$changelog = substr( $changelog, 0, 5000 )."...";
+		}
+		require_once _LIBSDIR_."parsedown/Parsedown.php";
+		$mdParser  = new Parsedown();
+		$changelog = $mdParser->parse( $changelog );
+
+		$tasmotaIssueUrl = "https://github.com/arendst/Sonoff-Tasmota/issues/";
+		$changelog       = preg_replace(
+			"/\B#([\d]+)/",
+			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
+			$changelog
+		);
+		$changelog       = str_replace( "\n", "<br/>", $changelog );
+	}
+	$fchangelog .= $changelog;
+	$fchangelog .= "<br/><br/>";
+
+
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/sonoff/_changelog.ino?r="
+	                .time();
+	$ch           = curl_init();
+	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
+	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
+	curl_setopt( $ch, CURLOPT_URL, $changelogUrl );
+	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+	$changelog = curl_exec( $ch );
+
+
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
 	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
 		$changelog = "";
@@ -25,6 +60,7 @@
 			$changelog
 		);
 	}
+	$fchangelog .= $changelog;
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -115,7 +151,7 @@
 		<hr class='my-5'>
 		<div class='changelog'>
 			<h2>Tasmota Changelog</h2>
-			<?php echo $changelog; ?>
+			<?php echo $fchangelog; ?>
 		</div>
 	</div>
 </div>
