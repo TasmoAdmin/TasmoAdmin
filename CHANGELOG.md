@@ -2,7 +2,7 @@
 
 
 ## Upcoming
-- ...
+- **FIX** for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)
 
 
 ## v1.5.4
