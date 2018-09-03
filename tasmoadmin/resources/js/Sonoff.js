@@ -80,9 +80,27 @@ var Sonoff = function ( options ) {
 		
 		doAjax( ip, id, cmnd, callback );
 		
-	}
+	};
 	
-	;
+	
+	/**
+	 * getStatus
+	 *
+	 * @param {string} ip
+	 * @param {int} id
+	 * @param {int} relais
+	 * @param {function} callback
+	 */
+	this.off = function ( ip, id, relais, callback ) {
+		relais   = relais || 1;
+		var cmnd = "Power" + relais + " 0";
+		
+		console.log( "[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd );
+		
+		doAjax( ip, id, cmnd, callback );
+		
+	};
+	
 	/*
 	 * Private method
 	 * Can only be called inside class
@@ -96,6 +114,7 @@ var Sonoff = function ( options ) {
 			        timeout : options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
+			        async   : true,
 			        data    : {
 				        id  : id,
 				        cmnd: encodeURIComponent( cmnd )
