@@ -162,76 +162,46 @@
 				<label for="update_automatic_lang">
 					<?php echo __( "CONFIG_AUTOMATIC_LANG", "USER_CONFIG" ); ?>
 				</label>
+				<?php $tasmotaReleases = [
+					"BG",
+					"BR",
+					"CN",
+					"CZ",
+					"DE",
+					"EN",
+					"ES",
+					"FR",
+					"GR",
+					"HU",
+					"IT",
+					"NL",
+					"PL",
+					"PT",
+					"RU",
+					"TR",
+					"TW",
+					"UK",
+					"classic",
+					"knx",
+					"sensors",
+				]; ?>
 				<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
 					<?php if( $config[ "update_automatic_lang" ] == "" ): ?>
 						<option><?php echo __( "PLEASE_SELECT" ); ?></option>
 					<?php endif; ?>
-					<option value='CN' <?php echo $config[ "update_automatic_lang" ] == "CN" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_CN",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='DE' <?php echo $config[ "update_automatic_lang" ] == "DE" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_DE",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='ds18x20' <?php echo $config[ "update_automatic_lang" ] == "ds18x20"
-						? "selected=\selected\"" : ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_DS18X20",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='EN' <?php echo $config[ "update_automatic_lang" ] == "EN" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_EN",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='ES' <?php echo $config[ "update_automatic_lang" ] == "ES" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_ES",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='FR' <?php echo $config[ "update_automatic_lang" ] == "FR" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_FR",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='HU' <?php echo $config[ "update_automatic_lang" ] == "HU" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_HU",
-							"USER_CONFIG"
-						); ?> (next release version!)
-					</option>
-					<option value='IT' <?php echo $config[ "update_automatic_lang" ] == "IT" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_IT",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='NL' <?php echo $config[ "update_automatic_lang" ] == "NL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_NL",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='PL' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_PL",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='RU' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_RU",
-							"USER_CONFIG"
-						); ?> (next release version!)
-					</option>
+
+					<?php foreach( $tasmotaReleases as $tr ): ?>
+						<option value='<?php echo $tr; ?>'
+							<?php echo $config[ "update_automatic_lang" ] == $tr ? "selected=\selected\"" : ""; ?>
+						>
+							<?php echo __(
+								"CONFIG_AUTOMATIC_LANGAUGE_".$tr,
+								"USER_CONFIG"
+							); ?>
+						</option>
+					<?php endforeach; ?>
+
+
 				</select>
 			</div>
 			<div class="form-group mt-5">

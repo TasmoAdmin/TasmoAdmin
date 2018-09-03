@@ -260,15 +260,26 @@
 
 
 			<div class='my-2 my-sm-0 language-switch-holder'>
+				<?php $tasmoAdminLanguages = [
+					"CZ",
+					"DE",
+					"EN",
+					"ES",
+					"FR",
+					"IT",
+					"NL",
+					"PL",
+					"IT",
+					"RU",
+				]; ?>
 				<select name='language-switch' id='language-switch' class='custom-select'>
-					<option value='de' <?php echo $lang == "de" ? "selected=\"selected\"" : ""; ?>>DE</option>
-					<option value='en' <?php echo $lang == "en" ? "selected=\"selected\"" : ""; ?>>EN</option>
-					<option value='es' <?php echo $lang == "es" ? "selected=\"selected\"" : ""; ?>>ES</option>
-					<option value='fr' <?php echo $lang == "fr" ? "selected=\"selected\"" : ""; ?>>FR</option>
-					<option value='it' <?php echo $lang == "it" ? "selected=\"selected\"" : ""; ?>>IT</option>
-					<option value='nl' <?php echo $lang == "nl" ? "selected=\"selected\"" : ""; ?>>NL</option>
-					<option value='pl' <?php echo $lang == "pl" ? "selected=\"selected\"" : ""; ?>>PL</option>
-					<option value='ru' <?php echo $lang == "ru" ? "selected=\"selected\"" : ""; ?>>RU</option>
+					<?php foreach( $tasmoAdminLanguages as $l ): ?>
+						<option value='<?php echo strtolower( $l ); ?>'
+							<?php echo $lang == strtolower( $l ) ? "selected=\"selected\"" : ""; ?>
+						>
+							<?php echo( $l ); ?>
+						</option>
+					<?php endforeach; ?>
 				</select>
 			</div>
 			<?php if( $loggedin ): ?>
