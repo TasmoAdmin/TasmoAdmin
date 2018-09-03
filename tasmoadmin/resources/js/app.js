@@ -1,5 +1,6 @@
 var Sonoff;
 var refreshtime = false;
+var nightmode   = false;
 $( document ).on( "ready", function () {
 	
 	var $lang    = $( "html" ).attr( "lang" );
@@ -240,8 +241,9 @@ var parseVersion = function ( versionString ) {
 };
 
 
-function getTemp( data ) {
-	var temp = [];
+function getTemp( data, joinString ) {
+	var temp       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.TempUnit == undefined ) {
 		data.StatusSNS.TempUnit = "F";
@@ -303,6 +305,7 @@ function getTemp( data ) {
 		temp.push( (
 			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
+		
 	}
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		temp.push( (
@@ -327,11 +330,12 @@ function getTemp( data ) {
 	
 	//console.log( temp );
 	
-	return temp.join( "<br/>" );
+	return temp.join( joinString );
 }
 
-function getHumidity( data ) {
-	var humi = [];
+function getHumidity( data, joinString ) {
+	var humi       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.AM2301 !== undefined ) {
 		if ( data.StatusSNS.AM2301.Humidity !== undefined ) {
@@ -376,11 +380,12 @@ function getHumidity( data ) {
 	
 	//console.log( humi );
 	
-	return humi.join( "<br/>" );
+	return humi.join( joinString );
 }
 
-function getPressure( data ) {
-	var press = [];
+function getPressure( data, joinString ) {
+	var press      = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Pressure !== undefined ) {
@@ -400,11 +405,12 @@ function getPressure( data ) {
 	
 	//console.log( press );
 	
-	return press.join( "<br/>" );
+	return press.join( joinString );
 }
 
-function getDistance( data ) {
-	var dist = [];
+function getDistance( data, joinString ) {
+	var dist       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.SR04 !== undefined ) {
 		if ( data.StatusSNS.SR04.Distance !== undefined ) {
@@ -414,12 +420,13 @@ function getDistance( data ) {
 	
 	//console.log( press );
 	
-	return dist.join( "<br/>" );
+	return dist.join( joinString );
 }
 
 
-function getEnergyPower( data ) {
+function getEnergyPower( data, joinString ) {
 	var enerygPower = [];
+	var joinString  = joinString || "<br/>";
 	
 	if ( data.StatusSNS.ENERGY !== undefined ) {
 		if ( data.StatusSNS.ENERGY.Power !== undefined ) {
@@ -440,7 +447,7 @@ function getEnergyPower( data ) {
 	}
 	//console.log( press );
 	
-	return enerygPower.join( "<br/>" );
+	return enerygPower.join( joinString );
 }
 
 //function getEnergyTodayYesterday( data ) {
@@ -458,11 +465,18 @@ function getEnergyPower( data ) {
 //
 //	//console.log( press );
 //
-//	return energyTodayYesterday.join( "<br/>" );
+//	return energyTodayYesterday.join( joinString );
 //}
 
-function getGas( data ) {
-	var gas = [];
+
+Date.prototype.addHours = function ( h ) {
+	this.setHours( this.getHours() + h );
+	return this;
+};
+
+function getGas( data, joinString ) {
+	var gas        = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		if ( data.StatusSNS.BME680.Gas !== undefined ) {
@@ -472,9 +486,8 @@ function getGas( data ) {
 	
 	//console.log( press );
 	
-	return gas.join( "<br/>" );
+	return gas.join( joinString );
 }
-
 
 function checkNightmode( config ) {
 	console.log( "[APP][checkNightmode] Start" );
@@ -510,13 +523,10 @@ function checkNightmode( config ) {
 			$( "body" ).addClass( "nightmode" );
 		}
 	}
+	if ( $( "body" ).hasClass( "nightmode" ) ) {
+		nightmode = true;
+	}
 }
-
-Date.prototype.addHours = function ( h ) {
-	this.setHours( this.getHours() + h );
-	return this;
-};
-
 
 function checkForUpdate( timer ) {
 	if ( $( "#versionHolder" ).data( "update-check" ) == "0" ) {

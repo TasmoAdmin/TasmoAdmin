@@ -1,0 +1,145 @@
+.startpage {
+  padding-top : 15px;
+  .card-holder {
+    padding-left  : 5px;
+    padding-right : 5px;
+
+    -ms-flex      : 0 0 100%;
+    flex          : 0 0 100%;
+    max-width     : 100%;
+
+    @media (min-width : 250px) {
+      -ms-flex  : 0 0 50%;
+      flex      : 0 0 50%;
+      max-width : 50%;
+    }
+
+    @media (min-width : 300px) {
+      -ms-flex  : 0 0 33.33333333333333%;
+      flex      : 0 0 33.33333333333333%;
+      max-width : 33.33333333333333%;
+    }
+
+    @media (min-width : 350px) {
+      -ms-flex  : 0 0 25%;
+      flex      : 0 0 25%;
+      max-width : 25%;
+    }
+    @media (min-width : 650px) {
+      -ms-flex  : 0 0 16.66666666666667%;
+      flex      : 0 0 16.66666666666667%;
+      max-width : 16.66666666666667%;
+    }
+
+    @media (min-width : 1024px) {
+      -ms-flex  : 0 0 12%;
+      flex      : 0 0 12%;
+      max-width : 12%;
+    }
+    @media (min-width : 1200px) {
+      -ms-flex  : 0 0 12%;
+      flex      : 0 0 12%;
+      max-width : 12%;
+    }
+
+    @media (min-width : 1400px) {
+      -ms-flex  : 0 0 9%;
+      flex      : 0 0 9%;
+      max-width : 9%;
+    }
+    @media (min-width : 1800px) {
+      -ms-flex  : 0 0 8%;
+      flex      : 0 0 8%;
+      max-width : 8%;
+    }
+    @media (min-width : 2000px) {
+      -ms-flex  : 0 0 5%;
+      flex      : 0 0 5%;
+      max-width : 5%;
+    }
+    min-width     : 15px !important;
+
+    .card.box_device {
+      border           : 0px none;
+      cursor           : pointer;
+      background-color : transparent;
+      &.error {
+      }
+      .rubberBand {
+        text-align : center;
+      }
+      img {
+        padding    : 0px 10px 0px;
+        box-sizing : border-box;
+        height     : auto;
+      }
+
+      .card-body {
+        padding    : 0px;
+        text-align : center;
+      }
+      .box_device_name {
+        color         : $black;
+        text-align    : center;
+        width         : 100%;
+        font-size     : 0.8rem;
+        line-height   : 1rem;
+        overflow      : hidden;
+        margin-bottom : 3px;
+        margin-top    : 8px;
+        font-weight   : bold;
+      }
+      .info-holder {
+        //position : absolute;
+        width  : 100%;
+        height : 100%;
+        color  : $black;
+        .info {
+          //position         : relative;
+          padding     : 3px;
+          font-size   : 0.8rem;
+          line-height : 0.9rem;
+          overflow    : hidden;
+        }
+      }
+
+    }
+
+    @media all and(min-width : 1200px) {
+      .box_device .info {
+        font-size : 0.5rem;
+      }
+    }
+
+    @media all and(min-width : 1351px) {
+      .box_device .info {
+        font-size : 0.6rem;
+      }
+    }
+
+    @media all and(min-width : 1471px) {
+      .box_device .info {
+        font-size : 0.8rem;
+      }
+    }
+  }
+}
+
+.nightmode {
+  .startpage {
+    .card-holder {
+      .card.box_device {
+        .box_device_name {
+          color : $whiteNightMode;
+        }
+        .info-holder {
+          color : $whiteNightMode;
+        }
+        &.error {
+        }
+        .info {
+        }
+      }
+    }
+  }
+}

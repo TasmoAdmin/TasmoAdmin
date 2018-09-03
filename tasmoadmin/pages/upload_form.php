@@ -1,6 +1,5 @@
 <?php
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/sonoff/_releasenotes.ino?r="
-	                .time();
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/RELEASENOTES.md?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -15,9 +14,16 @@
 		$changelog = "";
 	} else {
 		$changelog = str_replace( [ "*/", "/*", " *\n" ], [ "", "", "" ], $changelog );
-		if( strlen( $changelog ) > 5000 ) {
+		if( strlen( $changelog ) > 99999 ) {
 			$changelog = substr( $changelog, 0, 5000 )."...";
 		}
+
+		$changelog = substr(
+			$changelog,
+			0,
+			strpos( $changelog, "Available Features and Sensors" )-5
+		);        //.substr($changelog,strpos( $changelog, "Changelog" )-4)
+
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
 		$mdParser  = new Parsedown();
 		$changelog = $mdParser->parse( $changelog );
@@ -28,7 +34,7 @@
 			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
 			$changelog
 		);
-		$changelog       = str_replace( "\n", "<br/>", $changelog );
+		//$changelog       = str_replace( "\n", "<br/>", $changelog );
 	}
 	$fchangelog .= $changelog;
 	$fchangelog .= "<br/><br/>";
@@ -48,7 +54,10 @@
 	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
 		$changelog = "";
 	} else {
-		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 5000 )."...";
+		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 99999 )."...";
+
+		$changelog = substr( $changelog, 0, strpos( $changelog, " 2018", 1000 )-10 );
+
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
 		$mdParser  = new Parsedown();
 		$changelog = $mdParser->parse( $changelog );
@@ -59,8 +68,9 @@
 			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
 			$changelog
 		);
+		//		$changelog       = "<h2>Developer Changelog</h2>".$changelog;
 	}
-	$fchangelog .= $changelog;
+	$fchangelog = $changelog.$fchangelog;
 
 ?>
 <div class='row justify-content-sm-center'>

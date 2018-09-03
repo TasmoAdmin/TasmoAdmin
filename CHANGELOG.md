@@ -5,8 +5,8 @@
 - **FIX** for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)        
 - **UPDATE**: Font Awesome 5.0.13 -> 5.3.1   
 - **UPDATE**: Bootstrap 4.1.1 -> 4.1.2
-
-
+- **CHANGE**: Startpage rework
+![startpage_v1.2.PNG](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/changelog/startpage_v1.2.PNG)
 
 ## v1.5.4
 - fix autoload case-sensitive [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)  
