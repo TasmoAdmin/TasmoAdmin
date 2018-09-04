@@ -82,7 +82,7 @@ VOLUME /data
 
 
 # Volume
-VOLUME /etc/nginx/nginx.conf
+# VOLUME /etc/nginx/nginx.conf
 
 # Expose
 EXPOSE 80
