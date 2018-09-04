@@ -65,6 +65,12 @@ RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_p
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
 
 
+# Volume
+VOLUME /data
+
+VOLUME /etc/nginx/nginx.conf
+
+
 # Copy root filesystem
 COPY .docker/rootfs /
 
@@ -73,10 +79,6 @@ COPY tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
-# Volume
-VOLUME /data
-
-VOLUME /etc/nginx/nginx.conf
 
 # Expose
 EXPOSE 80
