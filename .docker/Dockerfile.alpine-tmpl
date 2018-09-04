@@ -26,8 +26,6 @@ ARG QEMU_ARCH
 COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 
 
-# Volume
-VOLUME /etc/nginx/nginx.conf
 
 # Install base system
 ARG BUILD_ARCH=arm32v6
@@ -81,6 +79,10 @@ RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; 
 
 # Volume
 VOLUME /data
+
+
+# Volume
+VOLUME /etc/nginx/nginx.conf
 
 # Expose
 EXPOSE 80
