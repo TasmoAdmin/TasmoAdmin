@@ -25,6 +25,10 @@ LABEL \
 ARG QEMU_ARCH
 COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 
+
+# Volume
+VOLUME /etc/nginx/nginx.conf
+
 # Install base system
 ARG BUILD_ARCH=arm32v6
 RUN \
@@ -65,9 +69,8 @@ RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_p
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
 
 
-# Volume
-VOLUME /data
 
+# Volume
 VOLUME /etc/nginx/nginx.conf
 
 
@@ -79,6 +82,8 @@ COPY tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
+# Volume
+VOLUME /data
 
 # Expose
 EXPOSE 80
