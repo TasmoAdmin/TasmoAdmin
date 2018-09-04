@@ -556,7 +556,7 @@
 				)
 			);
 			$onArray  = explode(
-				",",
+				", ",
 
 				strtolower(
 					""
@@ -682,13 +682,14 @@
 				} else {
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
-						$data = $this->stateTextsDetection( $data );
 					}
 				}
 
 			}
 
 			curl_close( $ch );
+
+			$data = $this->stateTextsDetection( $data );
 
 			return $data;
 		}
@@ -749,12 +750,15 @@
 				} else {
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
-						$data = $this->stateTextsDetection( $data );
 					}
 				}
 			}
 
 			curl_close( $ch );
+
+
+			$data = $this->stateTextsDetection( $data );
+
 
 			return $data;
 		}
@@ -872,9 +876,9 @@
 					}
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
-						$data = $this->stateTextsDetection( $data );
 					}
 
+					$data                  = $this->stateTextsDetection( $data );
 					$result[ $device->id ] = $data;
 
 					// start a new request (it's important to do this before removing the old one)
