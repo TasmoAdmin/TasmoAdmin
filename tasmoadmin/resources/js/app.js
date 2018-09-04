@@ -1,5 +1,6 @@
 var Sonoff;
 var refreshtime = false;
+var nightmode   = false;
 $( document ).on( "ready", function () {
 	
 	var $lang    = $( "html" ).attr( "lang" );
@@ -13,7 +14,7 @@ $( document ).on( "ready", function () {
 		        success : function ( data ) {
 			
 			        $.i18n().load( data );
-		        },
+		        }
 	        } );
 	
 	
@@ -26,29 +27,30 @@ $( document ).on( "ready", function () {
 			contentElement     : "#device-list", // Widest element, if not specified first child element will be used
 			scrollCss          : {
 				'overflow-x': 'auto',
-				'overflow-y': 'hidden',
+				'overflow-y': 'hidden'
 			},
 			contentCss         : {
 				'overflow-x': 'auto',
-				'overflow-y': 'hidden',
+				'overflow-y': 'hidden'
 			},
 			onlyIfScroll       : true, // top scrollbar is not shown if the bottom one is not present
 			resetOnWindowResize: true, // recompute the top ScrollBar requirements when the window is resized
-			timeToWaitForResize: 1,
-		},
+			timeToWaitForResize: 1
+		}
 	);
-	
 	/**
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
+	
+	
+	
 	Sonoff = new Sonoff( { timeout: 15 } );
 	
 	$( '[title][title!=""]' ).tooltip( {
 		                                   html : true,
-		                                   delay: 700,
+		                                   delay: 700
 	                                   } );
-	
 	
 	$( '.custom-file-input' ).on( 'change', function () {
 		var filename = $( this ).val();
@@ -109,7 +111,7 @@ $( document ).on( "ready", function () {
 		     (
 			     e.keyCode >= 35 && e.keyCode <= 40
 		     ) ) {
-			// let it happen, don't do anything
+			// var it happen, don't do anything
 			return;
 		}
 		// Ensure that it is a number and stop the keypress
@@ -202,7 +204,7 @@ $.fn.attachDragger = function () {
 				),
 				(
 					position[ 1 ] - lastPosition[ 1 ]
-				),
+				)
 			];
 			$( this ).scrollLeft( $( this ).scrollLeft() - difference[ 0 ] );
 			$( this ).scrollTop( $( this ).scrollTop() - difference[ 1 ] );
@@ -229,7 +231,7 @@ var parseVersion = function ( versionString ) {
 					last.charCodeAt( 0 ) - 97
 				)
 				: last.charCodeAt( 0 ) - 97
-			),
+			)
 		);
 	} else {
 		versionString = versionString + "00";
@@ -239,8 +241,9 @@ var parseVersion = function ( versionString ) {
 };
 
 
-function getTemp( data ) {
-	var temp = [];
+function getTemp( data, joinString ) {
+	var temp       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.TempUnit == undefined ) {
 		data.StatusSNS.TempUnit = "F";
@@ -278,6 +281,35 @@ function getTemp( data ) {
 			           ) );
 		}
 	}
+	
+	//6.1.1c 20180904
+	if ( data.StatusSNS[ "DS18B20-1" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-1" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-2" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-2" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-3" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-3" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-4" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-4" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-5" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-5" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	
+	
 	if ( data.StatusSNS.DHT11 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.DHT11.Temperature + "°" + data.StatusSNS.TempUnit
@@ -302,6 +334,7 @@ function getTemp( data ) {
 		temp.push( (
 			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
+		
 	}
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		temp.push( (
@@ -326,11 +359,12 @@ function getTemp( data ) {
 	
 	//console.log( temp );
 	
-	return temp.join( "<br/>" );
+	return temp.join( joinString );
 }
 
-function getHumidity( data ) {
-	var humi = [];
+function getHumidity( data, joinString ) {
+	var humi       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.AM2301 !== undefined ) {
 		if ( data.StatusSNS.AM2301.Humidity !== undefined ) {
@@ -375,11 +409,12 @@ function getHumidity( data ) {
 	
 	//console.log( humi );
 	
-	return humi.join( "<br/>" );
+	return humi.join( joinString );
 }
 
-function getPressure( data ) {
-	var press = [];
+function getPressure( data, joinString ) {
+	var press      = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Pressure !== undefined ) {
@@ -399,11 +434,12 @@ function getPressure( data ) {
 	
 	//console.log( press );
 	
-	return press.join( "<br/>" );
+	return press.join( joinString );
 }
 
-function getDistance( data ) {
-	var dist = [];
+function getDistance( data, joinString ) {
+	var dist       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.SR04 !== undefined ) {
 		if ( data.StatusSNS.SR04.Distance !== undefined ) {
@@ -413,12 +449,13 @@ function getDistance( data ) {
 	
 	//console.log( press );
 	
-	return dist.join( "<br/>" );
+	return dist.join( joinString );
 }
 
 
-function getEnergyPower( data ) {
+function getEnergyPower( data, joinString ) {
 	var enerygPower = [];
+	var joinString  = joinString || "<br/>";
 	
 	if ( data.StatusSNS.ENERGY !== undefined ) {
 		if ( data.StatusSNS.ENERGY.Power !== undefined ) {
@@ -426,7 +463,7 @@ function getEnergyPower( data ) {
 		}
 		
 		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
-			let tmpString = data.StatusSNS.ENERGY.Today;
+			var tmpString = data.StatusSNS.ENERGY.Today;
 			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
 				tmpString += "/" + data.StatusSNS.ENERGY.Yesterday;
 			}
@@ -439,7 +476,7 @@ function getEnergyPower( data ) {
 	}
 	//console.log( press );
 	
-	return enerygPower.join( "<br/>" );
+	return enerygPower.join( joinString );
 }
 
 //function getEnergyTodayYesterday( data ) {
@@ -447,7 +484,7 @@ function getEnergyPower( data ) {
 //
 //	if ( data.StatusSNS.ENERGY !== undefined ) {
 //		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
-//			let tmpString = data.StatusSNS.ENERGY.Today;
+//			var tmpString = data.StatusSNS.ENERGY.Today;
 //			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
 //				tmpString += "/" + data.StatusSNS.ENERGY.Today;
 //			}
@@ -457,11 +494,18 @@ function getEnergyPower( data ) {
 //
 //	//console.log( press );
 //
-//	return energyTodayYesterday.join( "<br/>" );
+//	return energyTodayYesterday.join( joinString );
 //}
 
-function getGas( data ) {
-	var gas = [];
+
+Date.prototype.addHours = function ( h ) {
+	this.setHours( this.getHours() + h );
+	return this;
+};
+
+function getGas( data, joinString ) {
+	var gas        = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		if ( data.StatusSNS.BME680.Gas !== undefined ) {
@@ -471,9 +515,8 @@ function getGas( data ) {
 	
 	//console.log( press );
 	
-	return gas.join( "<br/>" );
+	return gas.join( joinString );
 }
-
 
 function checkNightmode( config ) {
 	console.log( "[APP][checkNightmode] Start" );
@@ -509,13 +552,10 @@ function checkNightmode( config ) {
 			$( "body" ).addClass( "nightmode" );
 		}
 	}
+	if ( $( "body" ).hasClass( "nightmode" ) ) {
+		nightmode = true;
+	}
 }
-
-Date.prototype.addHours = function ( h ) {
-	this.setHours( this.getHours() + h );
-	return this;
-};
-
 
 function checkForUpdate( timer ) {
 	if ( $( "#versionHolder" ).data( "update-check" ) == "0" ) {
@@ -544,12 +584,12 @@ function checkForUpdate( timer ) {
 	    .addClass( "fa-sync" )
 	    .addClass( "fa-spin" );
 	
-	let githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
+	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
 	
 	$.get( githubApiRelease, {}, function ( result ) {
 		if ( result !== undefined ) {
 			if ( result.tag_name !== undefined ) {
-				let latestTag = result.tag_name;
+				var latestTag = result.tag_name;
 				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
 				if ( latestTag != currentGitTag ) {
 					console.log( "[APP][checkForUpdate] NEW VERSION FOUND" );
@@ -604,7 +644,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 				{
 					left: (
 						intDistance * -1
-					),
+					)
 				},
 				(
 					(
@@ -612,7 +652,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						intDuration / intShakes
 						) / 4
 					)
-				),
+				)
 			)
 			         .animate(
 				         { left: intDistance },
@@ -620,7 +660,7 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 					         (
 					         intDuration / intShakes
 					         ) / 2
-				         ),
+				         )
 			         )
 			         .animate(
 				         { left: 0 },
@@ -630,9 +670,11 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 						         intDuration / intShakes
 						         ) / 4
 					         )
-				         ),
+				         )
 			         );
 		}
 	} );
 	return this;
 };
+
+

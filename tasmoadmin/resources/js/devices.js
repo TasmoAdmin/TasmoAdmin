@@ -20,7 +20,7 @@ $( document ).on( "ready", function () {
 				"btn-secondary" );
 		}
 		$( '.doubleScroll-scroll' ).css( {
-			                                 width: $( "#device-list" ).width(),
+			                                 width: $( "#device-list" ).width()
 		                                 } ).parent().trigger( "resize" );
 	} );
 	
@@ -30,7 +30,7 @@ $( document ).on( "ready", function () {
 		$( "label[for=" + $( ".showmore" ).attr( "id" ) + "]" ).removeClass( "btn-secondary" ).addClass(
 			"btn-primary" );
 		$( '.doubleScroll-scroll' ).css( {
-			                                 width: $( "#device-list" ).width(),
+			                                 width: $( "#device-list" ).width()
 		                                 } ).parent().trigger( "resize" );
 	}
 	
@@ -116,7 +116,7 @@ function initCommandHelper() {
 			.addClass( "d-none" ).html( "" );
 		
 		var selectedDevices = $.map( $( ".cmd_cb:not(.link ) input:not(.select_all):checked" ), function ( elem, idx ) {
-			let d = new Array( $( elem ).val() );
+			var d = new Array( $( elem ).val() );
 			return d;
 		} );
 		//console.log( selectedDevices );
@@ -127,7 +127,7 @@ function initCommandHelper() {
 				.find( "#commandInputError" )
 				.removeClass( "d-none" )
 				.html(
-					$.i18n( "ERROR_COMMAND_NO_DEVICE_SELECTED" ),
+					$.i18n( "ERROR_COMMAND_NO_DEVICE_SELECTED" )
 				);
 			return false;
 		}
@@ -144,7 +144,7 @@ function initCommandHelper() {
 				.find( "#commandInputError" )
 				.removeClass( "d-none" )
 				.html(
-					$.i18n( "ERROR_PLS_ENTER_COMMAND" ),
+					$.i18n( "ERROR_PLS_ENTER_COMMAND" )
 				);
 			return false;
 		}
@@ -168,7 +168,7 @@ function initCommandHelper() {
 			.find( "#commandInputError" )
 			.removeClass( "d-none" )
 			.append(
-				$.i18n( "SUCCESS_COMMAND_SEND" ) + "</br>",
+				$.i18n( "SUCCESS_COMMAND_SEND" ) + "</br>"
 			);
 		
 	} );
@@ -298,7 +298,7 @@ function updateAllStatus() {
 					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
 					
 					                     $( tr ).removeAttr(
-						                     "data-original-title",
+						                     "data-original-title"
 					                     ).removeAttr( "data-toggle" );
 					
 					                     updateRow( $( tr ), data, device_status );
@@ -334,10 +334,10 @@ function updateAllStatus() {
 					
 					                     $( tr ).attr(
 						                     "data-original-title",
-						                     msg,
+						                     msg
 					                     ).attr( "data-toggle", "tooltip" ).tooltip( {
 						                                                                 html : true,
-						                                                                 delay: 700,
+						                                                                 delay: 700
 					                                                                 } );
 					
 					                     //$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
@@ -356,7 +356,7 @@ function updateAllStatus() {
 			
 			                     device_holder.removeClass( "updating" );
 			
-		                     },
+		                     }
 		);
 	} else {
 		console.log( "[Devices][updateAllStatus]SKIP" );
@@ -544,7 +544,7 @@ function updateRow( row, data, device_status ) {
 	$( row ).find( ".rssi span" ).html( rssi + "%" ).attr(
 		"data-original-title", ssid ).attr( "data-toggle", "tooltip" ).tooltip( {
 			                                                                        html : true,
-			                                                                        delay: 700,
+			                                                                        delay: 700
 		                                                                        } );
 	
 	
@@ -628,11 +628,11 @@ function updateRow( row, data, device_status ) {
 			"data-original-title",
 			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
 				.attr( "lang" )
-				.toUpperCase(), { hour12: false },
-			),
+				.toUpperCase(), { hour12: false }
+			)
 		).attr( "data-toggle", "tooltip" ).tooltip( {
 			                                            html : true,
-			                                            delay: 700,
+			                                            delay: 700
 		                                            } );
 		
 	} else {
@@ -714,7 +714,7 @@ function updateRow( row, data, device_status ) {
 	$( row ).find( ".vcc span" ).html( data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?" );
 	
 	$( '.doubleScroll-scroll' ).css( {
-		                                 width: $( "#device-list" ).width(),
+		                                 width: $( "#device-list" ).width()
 	                                 } ).parent().trigger( "resize" );
 	
 	

@@ -12,7 +12,7 @@ $( document ).on( "ready", function ( e ) {
 
 function saveDefaultFormValues() {
 	$.each( $( ".config-form" ), function ( idx, form ) {
-		let formName        = $( form ).attr( "name" );
+		var formName        = $( form ).attr( "name" );
 		$_forms[ formName ] = convertSerializedArrayToHash( $( form ).serializeArray() );
 	} );
 }
@@ -40,7 +40,7 @@ function submitForm( e ) {
 				        //console.log( "[DEVICE_CONFIG] Disable => " + felem.attr( "name" ) + " => " + felem.val() );
 				        felem.attr( "disabled", "disabled" );
 			        }
-		        },
+		        }
 		);
 		return true;
 	} else {

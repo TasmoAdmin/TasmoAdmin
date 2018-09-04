@@ -2,21 +2,59 @@
 	$devices = $Sonoff->getDevices();
 ?>
 <div class='container-fluid'>
-	
-	
-	<?php if ( isset( $devices ) && !empty( $devices ) ): ?>
+
+
+	<?php if( isset( $devices ) && !empty( $devices ) ):
+		$nightmode = "";   //todo: make function
+		$h = date( 'H' );
+
+		if( $Config->read( "nightmode" ) === "disable" ) {
+			$nightmode = "";
+		} else {
+			if( $Config->read( "nightmode" ) === "auto" ) {
+				if( $h >= 18 || $h <= 8 ) {
+					$nightmode = "nightmode ";
+				}
+			} elseif( $Config->read( "nightmode" ) === "always" ) {
+				$nightmode = "nightmode ";
+			}
+		}
+
+		$imgNight = "";
+		if( $nightmode == "nightmode" ) {
+			$imgNight = "night/";
+		}
+		?>
 		<div class='row justify-content-center startpage'>
-			<?php foreach ( $devices as $device_group ): ?>
-				<?php foreach ( $device_group->names as $key => $devicename ): ?>
+			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
+				<div class='card box_device position-relative' id='all_off' style=''>
+					<div class=" rubberBand">
+						<?php
+							$img = _RESOURCESURL_."img/device_icons/".$imgNight."bulb_1_off.png";
+						?>
+						<img class='card-img-top'
+						     src='<?php echo $img; ?>'
+						     alt=''>
+					</div>
+					<div class='card-body'>
+						<h5 class="card-title box_device_name">
+							<?php echo __( "ALL_OFF", "DEVICES" ); ?>
+						</h5>
+					</div>
+				</div>
+			</div>
+
+			<?php foreach( $devices as $device_group ): ?>
+				<?php foreach( $device_group->names as $key => $devicename ): ?>
 					<?php
-					$img = _RESOURCESURL_."img/device_icons/".$device_group->img."_off.png";
+					$img = _RESOURCESURL_."img/device_icons/".$imgNight.$device_group->img."_off.png";
 					?>
-					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 mb-4'>
+					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
 						<div class='card box_device position-relative' style=''
 						     data-device_id='<?php echo $device_group->id; ?>'
 						     data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi" : "single"; ?>'
 						     data-device_ip='<?php echo $device_group->ip; ?>'
-						     data-device_relais='<?php echo $key + 1; ?>'
+						     data-device_relais='<?php echo $key+1; ?>'
 						>
 							<div class="animated rubberBand">
 								<img class='card-img-top'
@@ -24,16 +62,18 @@
 								     src='<?php echo $img; ?>'
 								     alt=''>
 							</div>
-							<div class='info-holder'>
-								<div class='info info-1 hidden'><span>-</span></div>
-								<div class='info info-2 hidden'><span>-</span></div>
-								<div class='info info-3 hidden'><span>-</span></div>
-								<div class='info info-4 hidden'><span>-</span></div>
-								<div class='info info-5 hidden'><span>-</span></div>
-								<div class='info info-6 hidden'><span>-</span></div>
-							</div>
-							<div class='card-text box_device_name'>
-								<?php echo $devicename; ?>
+							<div class='card-body'>
+								<h5 class="card-title box_device_name">
+									<?php echo $devicename; ?>
+								</h5>
+								<div class='card-text info-holder'>
+									<div class='info info-1 hidden'><span>-</span></div>
+									<div class='info info-2 hidden'><span>-</span></div>
+									<div class='info info-3 hidden'><span>-</span></div>
+									<div class='info info-4 hidden'><span>-</span></div>
+									<div class='info info-5 hidden'><span>-</span></div>
+									<div class='info info-6 hidden'><span>-</span></div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -59,8 +99,8 @@
 				</a>
 			</div>
 		</div>
-	
+
 	<?php endif; ?>
 </div>
 
-<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/start.js?<?php echo time(); ?>'></script>
+<script src="<?php echo URL::JS( "start" ); ?>"></script>

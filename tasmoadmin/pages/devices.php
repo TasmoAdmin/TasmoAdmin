@@ -447,4 +447,4 @@
 <?php endif; ?>
 <?php include "elements/modal_delete_device.php"; ?>
 
-<script type='text/javascript' src='<?php echo _RESOURCESURL_; ?>js/devices.js?<?php echo time(); ?>'></script>
+<script src="<?php echo URL::JS( "devices" ); ?>"></script>

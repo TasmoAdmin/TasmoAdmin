@@ -1,12 +1,63 @@
 # CHANGELOG   
 
 
-## Upcoming   
+## Upcoming
+
+### v1.6.0-beta2
+- **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
+   - New Checkbox to choose http/https, default is http.   
+![grafik](https://user-images.githubusercontent.com/14855001/45046243-e2f26a00-b075-11e8-9304-8621cc6e0ba5.png)
+- **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
+- DEV: Add robots/search crawler protection
+- **FIX**: Add device password field as password not text input [#184](https://github.com/reloxx13/TasmoAdmin/issues/184)
+
+### v1.6.0-beta1
+- **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
+- **NEW**: CZ language ( Big thanks @Vladimir S. by Mail) 
+- **FIX**: Update Tasmota language Releases for auto updates.    
+- **UPDATE**: Font Awesome 5.0.13 -> 5.3.1   
+- **UPDATE**: Bootstrap 4.1.1 -> 4.1.2
+- **CHANGE**: Startpage rework:
+![startpage_v1.2.PNG](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/changelog/startpage_v1.2.PNG)   
+- **DEV**: Some more Error Catchings and debugs on error for lost configs [#207](https://github.com/reloxx13/TasmoAdmin/issues/207)
+- **NEW**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154) 
+
+## v1.5.4
+- **FIX** autoload case-sensitive [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)  
+   
+## v1.5.3
+- **FIX** another fix for chrome ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
+   
+   
+## v1.5.2
+- **FIX** Chrome crying ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
+
+## v1.5.1
+- **FIX** Update Tag info [#180](https://github.com/reloxx13/TasmoAdmin/issues/180)
+
+
+## v1.5.0
+- **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
+- **NEW**: Use json file for for config data
+- **NEW**: Config is now saved in a cookie
+  - Cookies are stored in the Clients Browser, reduces Reads on Servers Drive. 
+  - Some uneccessery writes removed, boom.
+  - Note: Encrypted User PW will not be saved in the Cookie.   
+  Old Config File will be migrated to json and removed in a later release. Stays as Backup.   
+  If you delete the MyConfig.json, it will generated new based on the MyConfig.php
+- **DEV**: Use SCSS and Minified CSS/JS Resources, gives some performence boost and save network traffic.
+- **NEW**: Get Current Tag from Docker [#176](https://github.com/reloxx13/TasmoAdmin/issues/176)  
+- **FIX**: $_SERVER REQUEST_SCHEME is not reliable [#174](https://github.com/reloxx13/TasmoAdmin/issues/174)    
+   
+## v1.4.0
 - **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
 - **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
 - **NEW**: Disable update check option [#156](https://github.com/reloxx13/TasmoAdmin/issues/156) 
 - **NEW**: Add top scrollbar on device list [#170](https://github.com/reloxx13/TasmoAdmin/issues/170) 
 - MINOR: Rename "Show More" => "Detail View" in i18n.EN [#168](https://github.com/reloxx13/TasmoAdmin/issues/168) 
+- **NEW**: Support Multi Friendlyname on Device General Config Page (fw >= 5.12.0h) [Sonoff-Tasmota#3161](https://github.com/arendst/Sonoff-Tasmota/issues/3161)
+- **FIX**: device config allow more steps for Sleep [#172](https://github.com/reloxx13/TasmoAdmin/issues/172)      
+
 
 ## v1.3.3 
 - MINOR: fix for travis building   

@@ -179,8 +179,7 @@
 						       name='device_ip'
 						       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 						       value='<?php echo( isset( $device->id ) && !isset( $_REQUEST[ 'device_ip' ] )
-							       ? $device->ip
-							       : ( isset( $_REQUEST[ 'device_ip' ] ) ? $_REQUEST[ 'device_ip' ]
+							       ? $device->ip : ( isset( $_REQUEST[ 'device_ip' ] ) ? $_REQUEST[ 'device_ip' ]
 								       : "" ) ); ?>'
 						       required>
 						<small id="device_ipHelp" class="form-text text-muted">
@@ -202,7 +201,16 @@
 					<label for="device_username">
 						<?php echo __( "DEVICE_USERNAME", "DEVICE_ACTIONS" ); ?>
 					</label>
+					<!--
+					FAKE to AVOID shitty AUTOFILL
+					fake first pw and nearest input will be detected as username
+					-->
+					<input id="username" style="display: none;" type="text" name="username"/>
+					<input id="password" style="display: none;" type="password" name="password"/>
+
 					<input type="text"
+					       autocomplete='off'
+					       autofill='off'
 					       class="form-control"
 					       id="device_username"
 					       name='device_username'
@@ -219,7 +227,9 @@
 					<label for="device_password">
 						<?php echo __( "DEVICE_PASSWORD", "DEVICE_ACTIONS" ); ?>
 					</label>
-					<input type="text"
+					<input type="password"
+					       autocomplete='off'
+					       autofill='off'
 					       class="form-control"
 					       id="device_password"
 					       name='device_password'
@@ -287,8 +297,7 @@
 									       name='device_name[]'
 									       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 									       value='<?php echo isset( $device->id )
-										       ? $device->names[ 0 ]
-										       : ( isset( $_REQUEST[ 'device_name' ][ 1 ] )
+										       ? $device->names[ 0 ] : ( isset( $_REQUEST[ 'device_name' ][ 1 ] )
 											       ? $_REQUEST[ 'device_name' ][ 1 ] : $friendlyName ); ?>'
 									       required>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
@@ -383,8 +392,7 @@
 									       name='device_name[]'
 									       placeholder="<?php echo __( "PLEASE_ENTER" ); ?>"
 									       value='<?php echo isset( $device->id )
-										       ? $device->names[ 0 ]
-										       : ( isset( $_REQUEST[ 'device_name' ][ 1 ] )
+										       ? $device->names[ 0 ] : ( isset( $_REQUEST[ 'device_name' ][ 1 ] )
 											       ? $_REQUEST[ 'device_name' ][ 1 ] : $friendlyName ); ?>'
 									       required>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
