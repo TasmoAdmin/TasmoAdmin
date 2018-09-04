@@ -676,3 +676,5 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 	} );
 	return this;
 };
+
+
