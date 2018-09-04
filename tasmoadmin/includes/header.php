@@ -26,6 +26,7 @@
 	<meta http-equiv="Expires" content="Sat, 26 Jul 1997 05:00:00 GMT"/>
 	<meta http-equiv="Pragma" content="no-cache"/>
 	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="robots" content="noindex">
 	<!--
 	Always force latest IE rendering engine (even in intranet) & Chrome Frame
 	Remove this if you use the .htaccess

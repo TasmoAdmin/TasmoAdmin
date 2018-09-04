@@ -7,7 +7,8 @@
 - **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
    - New Checkbox to choose http/https, default is http.   
 ![grafik](https://user-images.githubusercontent.com/14855001/45046243-e2f26a00-b075-11e8-9304-8621cc6e0ba5.png)
-**UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
+- **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
+- DEV: Add robots/search crawler protection
 
 ### v1.6.0-beta1
 - **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
