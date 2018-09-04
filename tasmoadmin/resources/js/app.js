@@ -281,6 +281,35 @@ function getTemp( data, joinString ) {
 			           ) );
 		}
 	}
+	
+	//6.1.1c 20180904
+	if ( data.StatusSNS[ "DS18B20-1" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-1" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-2" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-2" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-3" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-3" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-4" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-4" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-5" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-5" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	
+	
 	if ( data.StatusSNS.DHT11 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.DHT11.Temperature + "°" + data.StatusSNS.TempUnit
