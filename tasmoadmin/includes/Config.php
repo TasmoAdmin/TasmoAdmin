@@ -83,6 +83,17 @@
 		}
 
 		function __construct() {
+
+			if( !is_dir( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NO DIR! | __construct()" );
+			}
+			if( !is_writable( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NOT WRITEABLE! | __construct()" );
+			}
+
+
 			if( !file_exists( $this->cfgFile ) ) { //create file if not exists
 				$fh = fopen( $this->cfgFile, 'w+' ) or die(
 				__(
