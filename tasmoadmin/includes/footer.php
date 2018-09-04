@@ -11,7 +11,7 @@
 
 					-
 				<div id="versionHolder" class='d-inline-block' data-update-check='<?php echo $updateCheck; ?>'>
-					<?php echo substr( $Config->read( "current_git_tag" ), 0, 7 ); ?>
+					<?php echo substr( $Config->read( "current_git_tag" ), 0, 15 ); ?>
 					<i id='update-icon'
 					   class='fa fa-question <?php echo( $updateCheck == "0" ? "d-none" : "" ); ?> '
 					   data-current_git_tag='<?php echo substr(
