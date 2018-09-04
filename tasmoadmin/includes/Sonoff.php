@@ -528,6 +528,100 @@
 		}
 
 
+		public function stateTextsDetection( $status ) {
+			/**
+			 * v6.2.0.2 2018-09-04
+			 *  MQTT Changed Statetext is send in JSON, this is fail cuz it can be translated and not detected by other softwares.
+			 *
+			 * This function tries to detect the state by hardcoded keywords.
+			 */
+
+			$offArray = explode(
+				",",
+
+				strtolower(
+					""
+
+					/**
+					 * EN
+					 */."off, down, offline, out,"
+
+					/**
+					 * DE
+					 */."aus, unten, runter, schließen, schliessen, zu,"
+
+					/**
+					 * PL
+					 */."z, poniżej, ponizej, blisko, do, zamknięte, zamkniete"
+				)
+			);
+			$onArray  = explode(
+				",",
+
+				strtolower(
+					""
+
+					/**
+					 * EN
+					 */."on, up, online, in,"
+
+					/**
+					 * DE
+					 */."an, oben, hoch, öffnen, oeffnen, offen, "
+
+					/**
+					 * PL
+					 */."do, powyżej, powyzej, wysoki, otwarte, "
+				)
+			);
+
+
+			$state = NULL;
+
+			//1 relay
+			if( isset( $status->StatusSTS->POWER ) ) {
+				$state = $status->StatusSTS->POWER;
+				//try to detect OFF
+				if( in_array( strtolower( $state ), $offArray ) ) {
+					$state = "OFF";
+				} elseif( in_array( $state, $onArray ) ) {
+					$state = "ON";
+				}
+
+				if( !empty( $state ) ) {
+					$status->StatusSTS->POWER = $state;
+				}
+			}
+
+			$i     = 1;
+			$power = "POWER".$i;
+
+			while( isset( $status->StatusSTS->$power ) ) {
+				$state = NULL;
+
+
+				$state = $status->StatusSTS->$power;
+				//try to detect OFF
+				if( in_array( $state, $offArray ) ) {
+					$state = "OFF";
+				} elseif( in_array( $state, $onArray ) ) {
+					$state = "ON";
+				}
+
+				if( !empty( $state ) ) {
+					$status->StatusSTS->$power = $state;
+				}
+
+
+				$i++;
+				$power = "POWER".$i;
+			}
+
+
+			return $status;
+		}
+
+
 		/**
 		 * @param     $ip
 		 * @param     $cmnd
@@ -541,9 +635,9 @@
 			$result = NULL;
 
 
-			//			if( $device->id == 6 ) {
-			//				$url = "http://tasmoAdmin/dev/BME680.json";
-			//			}
+			//            if( $device->id == 6 ) {
+			//                $url = "http://tasmoAdmin/dev/BME680.json";
+			//            }
 
 
 			$ch = curl_init();
@@ -588,6 +682,7 @@
 				} else {
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
+						$data = $this->stateTextsDetection( $data );
 					}
 				}
 
@@ -606,9 +701,9 @@
 				urldecode( $_REQUEST[ "cmnd" ] )
 			);
 
-			//			if( $device->id == 6 ) {
-			//				$url = "http://tasmoAdmin/dev/test.json";
-			//			}
+			//            if( $device->id == 6 ) {
+			//                $url = "http://tasmoAdmin/dev/test.json";
+			//            }
 
 			$result = NULL;
 			$ch     = curl_init();
@@ -654,6 +749,7 @@
 				} else {
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
+						$data = $this->stateTextsDetection( $data );
 					}
 				}
 			}
@@ -677,9 +773,9 @@
 					$cmnd
 				);
 
-				//				if( $device->id == 6 ) {
-				//					$url = "http://tasmoAdmin/dev/BME680.json";
-				//				}
+				//                if( $device->id == 6 ) {
+				//                    $url = "http://tasmoAdmin/dev/BME680.json";
+				//                }
 
 				$urls[ $url ] = $device;
 				$urlsClone[]  = $url;
@@ -695,13 +791,13 @@
 			$options = [
 				CURLOPT_FOLLOWLOCATION => 0,
 				CURLOPT_RETURNTRANSFER => 1,
-				//				CURLOPT_NOSIGNAL       => 1,
-				//				CURLOPT_HEADER         => 0,
-				//				CURLOPT_HTTPHEADER     => [
-				//					'Content-Type: application/json',
-				//					'Accept: application/json',
-				//				],
-				//				CURLOPT_CONNECTTIMEOUT => 5,
+				//                CURLOPT_NOSIGNAL       => 1,
+				//                CURLOPT_HEADER         => 0,
+				//                CURLOPT_HTTPHEADER     => [
+				//                    'Content-Type: application/json',
+				//                    'Accept: application/json',
+				//                ],
+				//                CURLOPT_CONNECTTIMEOUT => 5,
 				CURLOPT_TIMEOUT        => 8,
 				CURLOPT_ENCODING       => '',
 			];
@@ -729,15 +825,15 @@
 					$output = curl_multi_getcontent( $done[ 'handle' ] );
 					$device = $urls[ $info[ 'url' ] ];
 
-					//					if ( curl_errno( $done[ 'handle' ] ) !== 0
-					//					     || intval( $info[ 'http_code' ] ) !== 200 ) { //if server responded with http error
-					//						var_dump( $info );
-					//						var_dump( curl_errno( $done[ 'handle' ] ) );
-					//						var_dump( curl_error( $done[ 'handle' ] ) );
-					//						var_dump( $done[ 'handle' ] );
+					//                    if ( curl_errno( $done[ 'handle' ] ) !== 0
+					//                         || intval( $info[ 'http_code' ] ) !== 200 ) { //if server responded with http error
+					//                        var_dump( $info );
+					//                        var_dump( curl_errno( $done[ 'handle' ] ) );
+					//                        var_dump( curl_error( $done[ 'handle' ] ) );
+					//                        var_dump( $done[ 'handle' ] );
 					//
-					//						die();
-					//					}
+					//                        die();
+					//                    }
 
 					if( !$output || $output == "" ) {
 						$data        = new stdClass();
@@ -776,6 +872,7 @@
 					}
 					if( empty( $data->ERROR ) ) {
 						$data = $this->compatibility( $data );
+						$data = $this->stateTextsDetection( $data );
 					}
 
 					$result[ $device->id ] = $data;
@@ -868,6 +965,7 @@
 
 								if( empty( $data->ERROR ) ) {
 									$data = $this->compatibility( $data );
+									$data = $this->stateTextsDetection( $data );
 								}
 								$result[] = $data;
 							}
@@ -875,6 +973,7 @@
 
 							if( empty( $data->ERROR ) ) {
 								$data = $this->compatibility( $data );
+								$data = $this->stateTextsDetection( $data );
 							}
 							$result[] = $data;
 						}
@@ -958,11 +1057,11 @@
 				$decodedOptopns->$SetOPtion        = new stdClass();
 				$decodedOptopns->$SetOPtion->desc  = $a_setoption[ $i ];
 				$decodedOptopns->$SetOPtion->value = $optionV;
-				//				$decodedOptopns[ $i ] = [
-				//					"desc"  => $a_setoption[ $i ],
-				//					"value" => $optionV,
-				//				];
-				//				debug( $a_setoption[ $i ]." => ".$optionV );
+				//                $decodedOptopns[ $i ] = [
+				//                    "desc"  => $a_setoption[ $i ],
+				//                    "value" => $optionV,
+				//                ];
+				//                debug( $a_setoption[ $i ]." => ".$optionV );
 			}
 
 
