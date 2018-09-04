@@ -44,7 +44,6 @@ RUN \
         php7-curl \
         php7-fpm \
         php7-json \
-        php7-opcache \
         php7-session \
         php7-zip \
         php7 \
