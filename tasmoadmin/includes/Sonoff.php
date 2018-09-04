@@ -578,7 +578,7 @@
 
 			$state = NULL;
 
-			//1 relay
+			//status 0 request for 1 relais
 			if( isset( $status->StatusSTS->POWER ) ) {
 				$state = $status->StatusSTS->POWER;
 				//try to detect OFF
@@ -593,9 +593,25 @@
 				}
 			}
 
+			//toggle request for 1 relais
+			if( isset( $status->POWER ) ) {
+				$state = $status->POWER;
+				//try to detect OFF
+				if( in_array( strtolower( $state ), $offArray ) ) {
+					$state = "OFF";
+				} elseif( in_array( $state, $onArray ) ) {
+					$state = "ON";
+				}
+
+				if( !empty( $state ) ) {
+					$status->POWER = $state;
+				}
+			}
+
 			$i     = 1;
 			$power = "POWER".$i;
 
+			//status 0 request for multi relais
 			while( isset( $status->StatusSTS->$power ) ) {
 				$state = NULL;
 
@@ -610,6 +626,28 @@
 
 				if( !empty( $state ) ) {
 					$status->StatusSTS->$power = $state;
+				}
+
+
+				$i++;
+				$power = "POWER".$i;
+			}
+
+			//toggle request for multi relais
+			while( isset( $status->$power ) ) {
+				$state = NULL;
+
+
+				$state = $status->$power;
+				//try to detect OFF
+				if( in_array( $state, $offArray ) ) {
+					$state = "OFF";
+				} elseif( in_array( $state, $onArray ) ) {
+					$state = "ON";
+				}
+
+				if( !empty( $state ) ) {
+					$status->$power = $state;
 				}
 
 
