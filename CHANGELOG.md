@@ -3,6 +3,9 @@
 
 ## Upcoming
 
+### v1.6.0-beta3
+-FIX: nginx config
+
 ### v1.6.0-beta2
 - **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
    - New Checkbox to choose http/https, default is http.   
