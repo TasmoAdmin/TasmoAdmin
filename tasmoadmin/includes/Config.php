@@ -152,6 +152,27 @@
 				if( $this->debug ) {
 					debug( "PERFORM WRITE (unset => page)" );
 				}
+
+				if( !is_dir( _DATADIR_ ) ) {
+					var_dump( debug_backtrace() );
+					die( _DATADIR_." is NO DIR! | write()" );
+				}
+				if( !is_writable( _DATADIR_ ) ) {
+					var_dump( debug_backtrace() );
+					die( _DATADIR_." is NOT WRITEABLE! | write()" );
+				}
+				if( !is_writable( $this->cfgFile ) ) {
+					var_dump( debug_backtrace() );
+					die( $this->cfgFile." is NOT WRITEABLE! | write()" );
+				}
+
+				if( empty( $configJSON ) ) {
+					var_dump( $configJSON );
+					var_dump( debug_backtrace() );
+					die( "configJSON IS EMPTY! | write()" );
+				}
+
+
 				file_put_contents( $this->cfgFile, $configJSON );
 
 			}
@@ -247,7 +268,31 @@
 			if( $this->debug ) {
 				debug( "PERFORM WRITE (".$key." => ".$value.")" );
 			}
-			file_put_contents( $this->cfgFile, $configJSON );
+
+			if( !is_dir( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NO DIR! | write()" );
+			}
+			if( !is_writable( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NOT WRITEABLE! | write()" );
+			}
+			if( !is_writable( $this->cfgFile ) ) {
+				var_dump( debug_backtrace() );
+				die( $this->cfgFile." is NOT WRITEABLE! | write()" );
+			}
+
+			if( empty( $configJSON ) ) {
+				var_dump( $configJSON );
+				var_dump( debug_backtrace() );
+				die( "configJSON IS EMPTY! | write()" );
+			}
+
+			if( file_put_contents( $this->cfgFile, $configJSON ) ) {
+
+			} else {
+				die( "file_put_contents FAILED! | write()" );
+			}
 
 
 			if( !$skipCookie ) {
