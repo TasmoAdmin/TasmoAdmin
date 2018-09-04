@@ -17,7 +17,7 @@
 					   data-current_git_tag='<?php echo substr(
 						   $Config->read( "current_git_tag" ),
 						   0,
-						   7
+						   15
 					   ); ?>'
 					   style=''></i>
 					</div><?php } ?><span class=''> - </span><a class=''
@@ -38,7 +38,7 @@
 	$( "#content-holder" ).css(
 		"width", "calc(100% - " + (
 		         $( "#navi" ).innerWidth() + 42
-	) + "px)",
+	) + "px)"
 	);
 	var nightmodeconfig = "<?php echo $Config->read( "nightmode" ); ?>";
 </script>
