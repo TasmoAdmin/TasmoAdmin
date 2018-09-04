@@ -1,11 +1,34 @@
 
 AddDefaultCharset UTF-8
 
+#block bad bots with a 403
+SetEnvIfNoCase User-Agent "facebookexternalhit" bad_bot
+SetEnvIfNoCase User-Agent "Twitterbot" bad_bot
+SetEnvIfNoCase User-Agent "Baiduspider" bad_bot
+SetEnvIfNoCase User-Agent "MetaURI" bad_bot
+SetEnvIfNoCase User-Agent "mediawords" bad_bot
+SetEnvIfNoCase User-Agent "FlipboardProxy" bad_bot
 
+<Limit GET POST HEAD>
+	Order Allow,Deny
+	Allow from all
+	Deny from env=bad_bot
+</Limit>
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+
+
+  #redirect bad bots to one page
+  RewriteCond %{HTTP_USER_AGENT} facebookexternalhit [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} Twitterbot [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} Baiduspider [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} MetaURI [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} mediawords [NC,OR]
+  RewriteCond %{HTTP_USER_AGENT} FlipboardProxy [NC]
+  RewriteCond %{REQUEST_URI} !\/robots.txt
+  RewriteRule .* robots.txt [L]
     # -----------------------------------------------------------------------------
     # Dynamically detect Rewritebase and URI part past Rewritebase
     # -----------------------------------------------------------------------------

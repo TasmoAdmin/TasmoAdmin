@@ -12,7 +12,7 @@ var Sonoff = function ( options ) {
 	 * in the class
 	 */
 	var vars = {
-		timeout: 10,
+		timeout: 10
 	};
 	
 	/*
@@ -80,9 +80,27 @@ var Sonoff = function ( options ) {
 		
 		doAjax( ip, id, cmnd, callback );
 		
-	}
+	};
 	
-	;
+	
+	/**
+	 * getStatus
+	 *
+	 * @param {string} ip
+	 * @param {int} id
+	 * @param {int} relais
+	 * @param {function} callback
+	 */
+	this.off = function ( ip, id, relais, callback ) {
+		relais   = relais || 1;
+		var cmnd = "Power" + relais + " 0";
+		
+		console.log( "[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd );
+		
+		doAjax( ip, id, cmnd, callback );
+		
+	};
+	
 	/*
 	 * Private method
 	 * Can only be called inside class
@@ -96,9 +114,10 @@ var Sonoff = function ( options ) {
 			        timeout : options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
+			        async   : true,
 			        data    : {
 				        id  : id,
-				        cmnd: encodeURIComponent( cmnd ),
+				        cmnd: encodeURIComponent( cmnd )
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -118,7 +137,7 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
-			        },
+			        }
 		        } );
 	};
 	/*
@@ -135,7 +154,7 @@ var Sonoff = function ( options ) {
 			        cache   : false,
 			        type    : "post",
 			        data    : {
-				        cmnd: encodeURIComponent( cmnd ),
+				        cmnd: encodeURIComponent( cmnd )
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -156,7 +175,7 @@ var Sonoff = function ( options ) {
 				        if ( callback !== undefined ) {
 					        callback( data );
 				        }
-			        },
+			        }
 		        } );
 	};
 	
@@ -172,7 +191,7 @@ var Sonoff = function ( options ) {
 			        },
 			        error  : function ( data, xmlhttprequest, textstatus, message ) {
 				
-			        },
+			        }
 		        } );
 	};
 	
@@ -187,7 +206,7 @@ var Sonoff = function ( options ) {
 				        id      : id,
 				        field   : encodeURIComponent( field ),
 				        newvalue: encodeURIComponent( newvalue ),
-				        target  : "csv",
+				        target  : "csv"
 			        },
 			        success : function ( data ) {
 				        // var data = data || { ERROR : "NO DATA" };
@@ -202,7 +221,7 @@ var Sonoff = function ( options ) {
 			        },
 			        error   : function ( data, xmlhttprequest, textstatus, message ) {
 				        console.log( "ERROR setDeviceValue" );
-			        },
+			        }
 		        } );
 	};
 	

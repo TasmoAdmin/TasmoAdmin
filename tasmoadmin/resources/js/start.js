@@ -1,4 +1,9 @@
 $( document ).on( "ready", function () {
+	
+	if ( $( window ).height() <= 600 ) {
+		$( "footer" ).hide();
+	}
+	
 	deviceTools();
 	updateStatus();
 	
@@ -11,11 +16,13 @@ $( document ).on( "ready", function () {
 	} else {
 		console.log( "[Global][Refreshtime]Dont refresh" );
 	}
+	
+	
 } );
 
 
 function updateStatus() {
-	$( '#content .box_device' ).each( function ( key, box ) {
+	$( '#content .box_device:not(#all_off)' ).each( function ( key, box ) {
 		
 		var device_ip     = $( box ).data( "device_ip" );
 		var device_id     = $( box ).data( "device_id" );
@@ -27,7 +34,7 @@ function updateStatus() {
 			
 			console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
 			
-			if ( device_group == "multi" && device_relais > 1 ) {
+			if ( device_group === "multi" && device_relais > 1 ) {
 				console.log( "[Start][updateStatus]skip multi " + $( box ).data( "device_ip" ) );
 				return; //relais 1 will update all others
 			}
@@ -48,10 +55,11 @@ function updateStatus() {
 					                  if ( device_group === "multi" ) {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
+								                  //TODO: make function to set image
 								                  var img           = $( groupbox ).find( "img" );
 								                  var src           = _RESOURCESURL_ + "img/device_icons/"
 								                                      + img.data( "icon" )
-								                                      + "_%pw.png";
+								                                      + "_%pw.png?v=160";
 								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
 									                  .data( "device_relais" ) );
 								
@@ -66,7 +74,7 @@ function updateStatus() {
 						                  var img           = $( box ).find( "img" );
 						                  var src           = _RESOURCESURL_ + "img/device_icons/"
 						                                      + img.data( "icon" )
-						                                      + "_%pw.png";
+						                                      + "_%pw.png?v=160";
 						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
 						
 						                  src = src.replace( "%pw", device_status.toLowerCase() );
@@ -79,20 +87,32 @@ function updateStatus() {
 					
 				                  } else {
 					                  console.log( "ERROR => " + JSON.stringify( data ) );
-					                  if ( device_group == "multi" ) {
+					
+					
+					                  if ( device_group === "multi" ) {
 						                  $( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
 								                  $( groupbox ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
 								                  $( groupbox ).removeClass( "updating" );
+								                  var img = $( groupbox ).find( "img" );
+								                  var src = _RESOURCESURL_ + "img/device_icons/"
+								                            + img.data( "icon" )
+								                            + "_error.png?v=160";
+								                  img.attr( "src", src );
 							                  } );
 					                  } else {
 						                  $( box ).addClass( "error" ).find( ".animated" ).removeClass( "animated" );
 						                  $( box ).removeClass( "updating" );
+						                  var img = $( box ).find( "img" );
+						                  var src = _RESOURCESURL_ + "img/device_icons/"
+						                            + img.data( "icon" )
+						                            + "_error.png?v=160";
+						                  img.attr( "src", src );
 					                  }
 				                  }
 				                  //console.log( result );
 				
-			                  },
+			                  }
 			);
 		}
 	} );
@@ -101,7 +121,7 @@ function updateStatus() {
 };
 
 function deviceTools() {
-	$( '#content .box_device' ).on( "click", function ( e ) {
+	$( '#content .box_device:not(#all_off)' ).on( "click", function ( e ) {
 		e.preventDefault();
 		if ( $( this ).hasClass( "toggled" ) ) {
 			return;
@@ -115,13 +135,16 @@ function deviceTools() {
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
 				var img           = device_box.find( "img" );
-				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				src               = src.replace( "%pw", device_status.toLowerCase() );
 				img.attr( "src", src ).parent().removeClass( "animated" );
 				device_box.removeClass( "error" );
 			} else {
 				device_box.addClass( "error" );
+				var img = device_box.find( "img" );
+				var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png?v=160";
+				img.attr( "src", src ).parent().removeClass( "animated" );
 				console.log( "[Start][toggle]ERROR "
 				             + device_ip
 				             + " => "
@@ -132,6 +155,48 @@ function deviceTools() {
 			
 		} );
 		
+		
+	} );
+	
+	$( "#all_off" ).on( "click", function ( e ) {
+		e.preventDefault();
+		$( '#content .box_device:not(#all_off)' ).each( function ( key, box ) {
+			var device_ip     = $( box ).data( "device_ip" );
+			var device_id     = $( box ).data( "device_id" );
+			var device_relais = $( box ).data( "device_relais" );
+			var device_group  = $( box ).data( "device_group" );
+			
+			
+			console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
+			
+			if ( device_group === "multi" && device_relais > 1 ) {
+				console.log( "[Start][updateStatus]skip multi " + $( box ).data( "device_ip" ) );
+				return; //relais 1 will update all others
+			}
+			
+			
+			Sonoff.off( device_ip, device_id, device_relais, function ( data ) {
+				if ( data && !data.ERROR && !data.WARNING ) {
+					var img           = $( box ).find( "img" );
+					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
+					var device_status = data.POWER || eval( "data.POWER" + device_relais );
+					src               = src.replace( "%pw", device_status.toLowerCase() );
+					img.attr( "src", src ).parent().removeClass( "animated" );
+					$( box ).removeClass( "error" );
+				} else {
+					$( box ).addClass( "error" );
+					var img = device_box.find( "img" );
+					var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png?v=160";
+					img.attr( "src", src ).parent().removeClass( "animated" );
+					console.log( "[Start][toggle]ERROR "
+					             + device_ip
+					             + " => "
+					             + data.ERROR
+					             || "Unknown Error" );
+				}
+				
+			} );
+		} );
 		
 	} );
 }
@@ -149,7 +214,7 @@ function updateBox( row, data, device_status ) {
 	} else { //try german else use english
 		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
 		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Laufzeit != "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
+		var uptime = data.StatusSTS.Laufzeit !== "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 		//console.log( uptime );
 	}
 	
@@ -158,43 +223,43 @@ function updateBox( row, data, device_status ) {
 	//var fakeData = JSON.parse(
 	//	"{\"StatusSNS\":{\"Time\":\"2018-02-10T22:46:34\",\"BMP280\":{\"Temperature\":80.9,\"Pressure\":984.4}}}" );
 	
-	var temp = getTemp( data );
+	var temp = getTemp( data, ", " );
 	
-	if ( temp != "" ) {
+	if ( temp !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( temp ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
-	var humidity = getHumidity( data );
+	var humidity = getHumidity( data, ", " );
 	
-	if ( humidity != "" ) {
+	if ( humidity !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( humidity ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
-	var pressure = getPressure( data );
+	var pressure = getPressure( data, ", " );
 	
-	if ( pressure != "" ) {
+	if ( pressure !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( pressure ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
 	
-	var distance = getDistance( data );
+	var distance = getDistance( data, ", " );
 	
-	if ( distance != "" ) {
+	if ( distance !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( distance ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
 	
 	
-	var energyPower = getEnergyPower( data );
+	var energyPower = getEnergyPower( data, ", " );
 	
-	if ( energyPower != "" ) {
+	if ( energyPower !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( energyPower ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
 	
 	//var energyTodayYesterday = getEnergyTodayYesterday( data );
 	//
-	//if ( energyTodayYesterday != "" ) {
+	//if ( energyTodayYesterday !== "" ) {
 	//	$( row )
 	//		.find( ".info-" + infoBoxCounter + " span" )
 	//		.html( energyTodayYesterday )
@@ -203,9 +268,9 @@ function updateBox( row, data, device_status ) {
 	//	infoBoxCounter++;
 	//}
 	
-	var gas = getGas( data );
+	var gas = getGas( data, ", " );
 	
-	if ( gas != "" ) {
+	if ( gas !== "" ) {
 		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( gas ).parent().removeClass( "hidden" );
 		infoBoxCounter++;
 	}
@@ -214,14 +279,14 @@ function updateBox( row, data, device_status ) {
 	var idx = (
 		data.idx ? data.idx : ""
 	);
-	if ( idx != "" ) {
+	if ( idx !== "" ) {
 		$( row ).find( ".idx span" ).html( idx );
 		$( "#device-list .idx" ).removeClass( "hidden" ).show();
 	}
 	
 	$( row ).find( ".version span" ).html( data.StatusFWR.Version );
 	
-	if ( device_status == "ON" ) {
+	if ( device_status === "ON" ) {
 		$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
 	} else {
 		$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );

@@ -35,18 +35,18 @@ $( document ).on( "ready", function () {
 			id,
 			step,
 			$.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n( 'BLOCK_CHECK_CONNECTION_START_CHECK_TRY' ) + tries,
-			"info",
+			"info"
 		);
 		$.ajax( {
 			        dataType: "json",
 			        url     : _BASEURL_ + "doAjax",
 			        data    : {
 				        id  : id,
-				        cmnd: cmnd,
+				        cmnd: cmnd
 			        },
 			        timeout : ajaxTimeout * 1000,
 			        custom  : {
-				        callback: callback,
+				        callback: callback
 			        },
 			        type    : "post",
 			        success : function ( data ) {
@@ -59,7 +59,7 @@ $( document ).on( "ready", function () {
 							        $.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n(
 							        'BLOCK_CHECK_CONNECTION_CHECK_ERROR_MSG' )
 							                                            + data.WARNING,
-							        "error",
+							        "error"
 						        );
 					        }
 					        log(
@@ -67,12 +67,12 @@ $( document ).on( "ready", function () {
 						        step,
 						        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
 						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_OK_VERSION' )
-						        + data.StatusFWR.Version, "success",
+						        + data.StatusFWR.Version, "success"
 					        );
 					        this.custom.callback( p1, p2, step );
 				        } else {
 					        log( id, step, $.i18n( 'BLOCK_CHECK_CONNECTION' ),
-						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ) + data.ERROR, "error",
+						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ) + data.ERROR, "error"
 					        );
 					        if ( tries < 3 ) {
 						        tries = tries + 1;
@@ -86,13 +86,13 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
 					        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ),
-					        "error",
+					        "error"
 				        );
 				        if ( tries < 3 ) {
 					        tries = tries + 1;
 					        device_responses( id, callback, p1, p2, step, tries );
 				        }
-			        },
+			        }
 		        } );
 	}
 	
@@ -112,7 +112,7 @@ $( document ).on( "ready", function () {
 			        url     : _BASEURL_ + "doAjax",
 			        data    : {
 				        id  : id,
-				        cmnd: cmnd,
+				        cmnd: cmnd
 			        },
 			        timeout : ajaxTimeout * 1000,
 			        type    : "post",
@@ -123,14 +123,14 @@ $( document ).on( "ready", function () {
 						        id,
 						        step,
 						        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_ERROR_MSG" ) + data.WARNING,
-						        "error",
+						        "error"
 					        );
 				        }
 				        log(
 					        id,
 					        1,
 					        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_SUCCESS_FWTYPE" ) + fwType,
-					        "success",
+					        "success"
 				        );
 				        startUpdate( id, step );
 				
@@ -141,10 +141,10 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( "BLOCK_OTAURL" ),
 					        $.i18n( "BLOCK_OTAURL_CHECK_NO_RESPONSE_MSG" ),
-					        "error",
+					        "error"
 				        );
 				
-			        },
+			        }
 		        } );
 	}
 	
@@ -156,7 +156,7 @@ $( document ).on( "ready", function () {
 			        url     : _BASEURL_ + "doAjax",
 			        data    : {
 				        id  : id,
-				        cmnd: cmnd,
+				        cmnd: cmnd
 			        },
 			        type    : "post",
 			        timeout : ajaxTimeout * 1000,
@@ -168,7 +168,7 @@ $( document ).on( "ready", function () {
 							        id,
 							        step,
 							        $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_ERROR_MSG" ) + data.WARNING,
-							        "error",
+							        "error"
 						        );
 					        } else {
 						        log( id, step, $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_SUCCESS" ), "info" );
@@ -180,7 +180,7 @@ $( document ).on( "ready", function () {
 						        step,
 						        $.i18n( "BLOCK_UPDATE" ),
 						        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-						        "error",
+						        "error"
 					        );
 				        }
 				
@@ -191,10 +191,10 @@ $( document ).on( "ready", function () {
 					        step,
 					        $.i18n( "BLOCK_UPDATE" ),
 					        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-					        "error",
+					        "error"
 				        );
 				
-			        },
+			        }
 		        } );
 		
 	}
@@ -223,7 +223,7 @@ $( document ).on( "ready", function () {
 					        url     : _BASEURL_ + "doAjax",
 					        data    : {
 						        id  : id,
-						        cmnd: cmnd,
+						        cmnd: cmnd
 					        },
 					        timeout : ajaxTimeout * 1000,
 					        type    : "post",
@@ -236,7 +236,7 @@ $( document ).on( "ready", function () {
 									        step,
 									        $.i18n( "BLOCK_CHECK_UPDATE" ),
 									        $.i18n( "BLOCK_CHECK_UPDATE_UPDATE_DONE" ),
-									        "success",
+									        "success"
 								        );
 								        step2( id );
 							        } else {
@@ -246,7 +246,7 @@ $( document ).on( "ready", function () {
 										        step,
 										        $.i18n( "BLOCK_CHECK_UPDATE" ),
 										        $.i18n( "MINIMAL IS INSTALLED NOW, WAIT FOR MAIN FW!" ),
-										        "info",
+										        "info"
 									        );
 									        checkUpdateDone( id, step, 1 );
 								        } else {
@@ -255,7 +255,7 @@ $( document ).on( "ready", function () {
 										        step,
 										        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
 										        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
-										        "success",
+										        "success"
 									        );
 									
 								        }
@@ -266,7 +266,7 @@ $( document ).on( "ready", function () {
 								        step,
 								        $.i18n( "BLOCK_CHECK_UPDATE" ),
 								        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-								        "info",
+								        "info"
 							        );
 							        checkUpdateDone( id, step, i + 1 );
 						        }
@@ -277,12 +277,12 @@ $( document ).on( "ready", function () {
 							        step,
 							        $.i18n( "BLOCK_CHECK_UPDATE" ),
 							        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-							        "info",
+							        "info"
 						        );
 						        checkUpdateDone( id, step, i + 1 );
-					        },
+					        }
 				        } );
-			}, sec * 1000,
+			}, sec * 1000
 		);
 	}
 	

@@ -1,8 +1,10 @@
 <?php
-	$msg = FALSE;
-	if( isset( $_REQUEST ) && !empty( $_REQUEST ) ) {
-		if( isset( $_REQUEST[ "save" ] ) ) {
-			$settings = $_REQUEST;
+	$msg      = FALSE;
+	$settings = [];
+
+	if( isset( $_POST ) && !empty( $_POST ) ) {
+		if( isset( $_POST[ "save" ] ) ) {
+			$settings = $_POST;
 			unset( $settings[ "save" ] );
 
 			if( !isset( $settings[ "login" ] ) ) {
@@ -11,6 +13,9 @@
 
 			if( !isset( $settings[ "check_for_updates" ] ) ) {
 				$settings[ "check_for_updates" ] = "0";
+			}
+			if( !isset( $settings[ "ota_server_ssl" ] ) ) {
+				$settings[ "ota_server_ssl" ] = "0";
 			}
 
 			if( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
@@ -26,11 +31,12 @@
 			foreach( $settings as $settingKey => $settingVal ) {
 				$Config->write( $settingKey, $settingVal );
 			}
+			//header( "Refresh:0" ); //fix for not updated config cuz of buffer
 			$msg = __( "MSG_USER_CONFIG_SAVED", "USER_CONFIG" );
 		}
 	}
 
-	$config = $Config->readAll();
+	$config = array_merge( $Config->readAll(), $settings );
 
 ?>
 
@@ -106,12 +112,12 @@
 				</label>
 				<select class="form-control custom-select" id="homepage" name='homepage'>
 					<option value='start'
-						<?php echo $config[ "homepage" ] == "start" ? "selected=\selected\"" : ""; ?>
+						<?php echo $config[ "homepage" ] == "start" ? "selected=\"selected\"" : ""; ?>
 					>
 						<?php echo __( "CONFIG_HOMEPAGE_START", "USER_CONFIG" ); ?>
 					</option>
 					<option value='devices'
-						<?php echo $config[ "homepage" ] == "devices" ? "selected=\selected\"" : ""; ?>
+						<?php echo $config[ "homepage" ] == "devices" ? "selected=\"selected\"" : ""; ?>
 					>
 						<?php echo __( "CONFIG_HOMEPAGE_DEVICES", "USER_CONFIG" ); ?>
 					</option>
@@ -121,7 +127,22 @@
 
 
 			<div class="form-row  mt-5">
-				<div class="form-group col-12 col-sm-8">
+				<div class="form-group col-12 col-sm-3">
+					<div class="form-check custom-control custom-checkbox mb-3" style='margin-top: 35px;'>
+						<input class="form-check-input custom-control-input"
+						       type="checkbox"
+						       value="1"
+						       id="cb_ota_server_ssl"
+						       name='ota_server_ssl' <?php echo $config[ "ota_server_ssl" ] == "1"
+							? "checked=\"checked\"" : ""; ?>>
+						<label class="form-check-label custom-control-label" for="cb_ota_server_ssl" style='top:3px;'>
+							<?php echo __( "CONFIG_SERVER_SSL", "USER_CONFIG" ); ?>
+						</label>
+					</div>
+				</div>
+
+
+				<div class="form-group col-12 col-sm-6">
 					<label for="ota_server_ip">
 						<?php echo __( "CONFIG_SERVER_IP", "USER_CONFIG" ); ?>
 					</label>
@@ -136,7 +157,7 @@
 						<?php echo __( "CONFIG_SERVER_IP_HELP", "USER_CONFIG" ); ?>
 					</small>
 				</div>
-				<div class="form-group col-12 col-sm-4">
+				<div class="form-group col-12 col-sm-3">
 					<label for="ota_server_port">
 						<?php echo __( "CONFIG_SERVER_PORT", "USER_CONFIG" ); ?>
 					</label>
@@ -159,76 +180,46 @@
 				<label for="update_automatic_lang">
 					<?php echo __( "CONFIG_AUTOMATIC_LANG", "USER_CONFIG" ); ?>
 				</label>
+				<?php $tasmotaReleases = [
+					"BG",
+					"BR",
+					"CN",
+					"CZ",
+					"DE",
+					"EN",
+					"ES",
+					"FR",
+					"GR",
+					"HU",
+					"IT",
+					"NL",
+					"PL",
+					"PT",
+					"RU",
+					"TR",
+					"TW",
+					"UK",
+					"classic",
+					"knx",
+					"sensors",
+				]; ?>
 				<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
 					<?php if( $config[ "update_automatic_lang" ] == "" ): ?>
 						<option><?php echo __( "PLEASE_SELECT" ); ?></option>
 					<?php endif; ?>
-					<option value='CN' <?php echo $config[ "update_automatic_lang" ] == "CN" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_CN",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='DE' <?php echo $config[ "update_automatic_lang" ] == "DE" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_DE",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='ds18x20' <?php echo $config[ "update_automatic_lang" ] == "ds18x20"
-						? "selected=\selected\"" : ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_DS18X20",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='EN' <?php echo $config[ "update_automatic_lang" ] == "EN" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_EN",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='ES' <?php echo $config[ "update_automatic_lang" ] == "ES" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_ES",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='FR' <?php echo $config[ "update_automatic_lang" ] == "FR" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_FR",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='HU' <?php echo $config[ "update_automatic_lang" ] == "HU" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_HU",
-							"USER_CONFIG"
-						); ?> (next release version!)
-					</option>
-					<option value='IT' <?php echo $config[ "update_automatic_lang" ] == "IT" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_IT",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='NL' <?php echo $config[ "update_automatic_lang" ] == "NL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_NL",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='PL' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_PL",
-							"USER_CONFIG"
-						); ?>
-					</option>
-					<option value='RU' <?php echo $config[ "update_automatic_lang" ] == "PL" ? "selected=\selected\""
-						: ""; ?>><?php echo __(
-							"CONFIG_AUTOMATIC_LANGAUGE_RU",
-							"USER_CONFIG"
-						); ?> (next release version!)
-					</option>
+
+					<?php foreach( $tasmotaReleases as $tr ): ?>
+						<option value='<?php echo $tr; ?>'
+							<?php echo $config[ "update_automatic_lang" ] == $tr ? "selected=\selected\"" : ""; ?>
+						>
+							<?php echo __(
+								"CONFIG_AUTOMATIC_LANGAUGE_".$tr,
+								"USER_CONFIG"
+							); ?>
+						</option>
+					<?php endforeach; ?>
+
+
 				</select>
 			</div>
 			<div class="form-group mt-5">

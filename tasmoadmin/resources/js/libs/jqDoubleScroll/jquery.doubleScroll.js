@@ -24,15 +24,15 @@
 				contentElement     : undefined, // Widest element, if not specified first child element will be used
 				scrollCss          : {
 					'overflow-x': 'auto',
-					'overflow-y': 'hidden',
+					'overflow-y': 'hidden'
 				},
 				contentCss         : {
 					'overflow-x': 'auto',
-					'overflow-y': 'hidden',
+					'overflow-y': 'hidden'
 				},
 				onlyIfScroll       : true, // top scrollbar is not shown if the bottom one is not present
 				resetOnWindowResize: false, // recompute the top ScrollBar requirements when the window is resized
-				timeToWaitForResize: undefined, // wait for the last update event (usefull when browser fire resize event constantly during ressing)
+				timeToWaitForResize: undefined // wait for the last update event (usefull when browser fire resize event constantly during ressing)
 			};
 			
 			$.extend( true, options, userOptions );
@@ -42,7 +42,7 @@
 			$.extend( options, {
 				topScrollBarMarkup         : '<div class="doubleScroll-scroll-wrapper" style="height: 20px;"><div class="doubleScroll-scroll" style="height: 20px;"></div></div>',
 				topScrollBarWrapperSelector: '.doubleScroll-scroll-wrapper',
-				topScrollBarInnerSelector  : '.doubleScroll-scroll',
+				topScrollBarInnerSelector  : '.doubleScroll-scroll'
 			} );
 			
 			var _showScrollBar = function ( $self, options ) {
