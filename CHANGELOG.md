@@ -19,6 +19,7 @@
 - **CHANGE**: Startpage rework:
 ![startpage_v1.2.PNG](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/changelog/startpage_v1.2.PNG)   
 - **DEV**: Some more Error Catchings and debugs on error for lost configs [#207](https://github.com/reloxx13/TasmoAdmin/issues/207)
+- **NEW**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154) 
 
 ## v1.5.4
 - **FIX** autoload case-sensitive [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)  
