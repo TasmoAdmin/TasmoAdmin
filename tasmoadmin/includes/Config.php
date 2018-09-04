@@ -9,13 +9,14 @@
 
 		private $defaultConfigs
 			= [
+				"ota_server_ssl"        => "0", //0 = http, 1 = https
 				"ota_server_ip"         => "",
 				"ota_server_port"       => "",
 				"username"              => "",
 				"password"              => "",
-				"refreshtime"           => "5",
+				"refreshtime"           => "8",
 				"current_git_tag"       => "",
-				"update_automatic_lang" => "",
+				"update_automatic_lang" => "EN",
 				"nightmode"             => "auto",
 				"login"                 => "1",
 				"scan_from_ip"          => "192.168.178.2",

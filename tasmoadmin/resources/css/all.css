@@ -402,7 +402,8 @@ td.runtime {
 
 .custom-control-label::before {
   border: 1px solid;
-  background-color: #FFFFFF; }
+  background-color: #FFFFFF;
+  top: 0.18rem; }
 
 .table-responsive {
   width: auto; }

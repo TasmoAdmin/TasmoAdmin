@@ -314,6 +314,7 @@ td {
 .custom-control-label::before {
   border           : 1px solid;
   background-color : $white;
+  top              : 0.18rem;
 }
 
 .table-responsive {
