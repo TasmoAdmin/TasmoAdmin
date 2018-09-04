@@ -59,7 +59,7 @@ function updateStatus() {
 								                  var img           = $( groupbox ).find( "img" );
 								                  var src           = _RESOURCESURL_ + "img/device_icons/"
 								                                      + img.data( "icon" )
-								                                      + "_%pw.png";
+								                                      + "_%pw.png?v=160";
 								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
 									                  .data( "device_relais" ) );
 								
@@ -74,7 +74,7 @@ function updateStatus() {
 						                  var img           = $( box ).find( "img" );
 						                  var src           = _RESOURCESURL_ + "img/device_icons/"
 						                                      + img.data( "icon" )
-						                                      + "_%pw.png";
+						                                      + "_%pw.png?v=160";
 						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
 						
 						                  src = src.replace( "%pw", device_status.toLowerCase() );
@@ -97,7 +97,7 @@ function updateStatus() {
 								                  var img = $( groupbox ).find( "img" );
 								                  var src = _RESOURCESURL_ + "img/device_icons/"
 								                            + img.data( "icon" )
-								                            + "_error.png";
+								                            + "_error.png?v=160";
 								                  img.attr( "src", src );
 							                  } );
 					                  } else {
@@ -106,7 +106,7 @@ function updateStatus() {
 						                  var img = $( box ).find( "img" );
 						                  var src = _RESOURCESURL_ + "img/device_icons/"
 						                            + img.data( "icon" )
-						                            + "_error.png";
+						                            + "_error.png?v=160";
 						                  img.attr( "src", src );
 					                  }
 				                  }
@@ -135,7 +135,7 @@ function deviceTools() {
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
 				var img           = device_box.find( "img" );
-				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
 				var device_status = data.POWER || eval( "data.POWER" + device_relais );
 				src               = src.replace( "%pw", device_status.toLowerCase() );
 				img.attr( "src", src ).parent().removeClass( "animated" );
@@ -143,7 +143,7 @@ function deviceTools() {
 			} else {
 				device_box.addClass( "error" );
 				var img = device_box.find( "img" );
-				var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png";
+				var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png?v=160";
 				img.attr( "src", src ).parent().removeClass( "animated" );
 				console.log( "[Start][toggle]ERROR "
 				             + device_ip
@@ -178,7 +178,7 @@ function deviceTools() {
 			Sonoff.off( device_ip, device_id, device_relais, function ( data ) {
 				if ( data && !data.ERROR && !data.WARNING ) {
 					var img           = $( box ).find( "img" );
-					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png";
+					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
 					var device_status = data.POWER || eval( "data.POWER" + device_relais );
 					src               = src.replace( "%pw", device_status.toLowerCase() );
 					img.attr( "src", src ).parent().removeClass( "animated" );
@@ -186,7 +186,7 @@ function deviceTools() {
 				} else {
 					$( box ).addClass( "error" );
 					var img = device_box.find( "img" );
-					var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png";
+					var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_error.png?v=160";
 					img.attr( "src", src ).parent().removeClass( "animated" );
 					console.log( "[Start][toggle]ERROR "
 					             + device_ip
