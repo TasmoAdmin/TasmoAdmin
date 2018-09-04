@@ -1,7 +1,6 @@
 <?php
 	ob_start();
 
-
 	include_once( "./includes/top.php" );
 
 	if( !$loggedin ) {

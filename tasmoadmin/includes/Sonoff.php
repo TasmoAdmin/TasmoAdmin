@@ -537,22 +537,22 @@
 			 */
 
 			$offArray = explode(
-				",",
+				", ",
 
 				strtolower(
 					""
 
 					/**
 					 * EN
-					 */."off, down, offline, out,"
+					 */."off, down, offline, out, "
 
 					/**
 					 * DE
-					 */."aus, unten, runter, schließen, schliessen, zu,"
+					 */."aus, unten, runter, schließen, schliessen, zu, "
 
 					/**
 					 * PL
-					 */."z, poniżej, ponizej, blisko, do, zamknięte, zamkniete"
+					 */."z, poniżej, ponizej, blisko, do, zamknięte, zamkniete, "
 				)
 			);
 			$onArray  = explode(
@@ -563,7 +563,7 @@
 
 					/**
 					 * EN
-					 */."on, up, online, in,"
+					 */."on, up, online, in, "
 
 					/**
 					 * DE
