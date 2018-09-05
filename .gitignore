@@ -26,3 +26,7 @@
 !.empty
 !.htaccess
 tasmoadmin/data/devices_all.csv
+
+/portable/xampp
+/portable/xampp.zip
+!/portable/xampp.zip.*

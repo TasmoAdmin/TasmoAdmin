@@ -24,22 +24,26 @@ before_script:
     - if [ ! -z "$TRAVIS_TAG" ]; then export BUILD_VERSION=$TRAVIS_TAG; else export BUILD_VERSION=$TRAVIS_BRANCH; fi
 
 script:
-    # Pack TasmoAdmin src to tar.gz
-    - tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
-    - zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
-    # Pack TasmoAdmin XAMPP portable
-    - cat portable/xampp.zip.part-* > portable/xampp.zip
-    - unzip -q portable/xampp.zip -d ./tmp/
-    - cp -R tasmoadmin ./tmp/xampp/htdocs/
-    - >
-        pushd tmp &&
-        zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
-        popd
 
     # Build Docker images
     - ./.docker/docker.sh build
     # Test Docker images
     - ./.docker/docker.sh test
+
+
+    # Pack TasmoAdmin src to tar.gz
+    - tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
+    - zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
+    # Pack TasmoAdmin XAMPP portable
+    - cat portable/xampp.zip.* > portable/xampp.zip
+    - unzip -q portable/xampp.zip -d ./tmp/
+    - cp -R tasmoadmin ./tmp/xampp/htdocs/
+    - cp -R portable/root_xampp/* ./tmp/xampp/
+    - >
+        pushd tmp &&
+        zip -q -r ../_releases/tasmoadmin_${BUILD_VERSION}_xampp_portable.zip xampp &&
+        popd
+
 
 deploy:
     # Deploy TasmoAdmin release to github

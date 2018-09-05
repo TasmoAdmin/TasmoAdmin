@@ -1,0 +1,7 @@
+xampp-portable-win32-7.2.9-0-VC15
+
+2018-09-05
+
+
+MOD:
+- moved xampp website from htdocs/* to a new htdocs/xampp folder, this allows nameservers
