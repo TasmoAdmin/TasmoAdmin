@@ -3,6 +3,9 @@
 
 ## Upcoming
 
+### v1.6.0-beta6
+- FIX: XAMPP Folder Structure in ZIP
+- DEV: Lower zip splitted parts filezize for git
 
 ### v1.6.0-beta5   
 - **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
