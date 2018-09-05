@@ -4,8 +4,9 @@
 ## Upcoming
 
 ### v1.6.0-beta4   
--**FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
--**FIX**: Unwanted underscore added [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
+- **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
+- **FIX**: Unwanted underscore added [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
+- **FIX**: XAMPP Pack fixed and updated to XAMPP 7.2.9.0 (PHP7) [141](https://github.com/reloxx13/TasmoAdmin/issues/141), [209](https://github.com/reloxx13/TasmoAdmin/issues/209)
 
 ### v1.6.0-beta3
 -FIX: nginx config
