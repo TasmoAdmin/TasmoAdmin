@@ -59,8 +59,12 @@ var Sonoff = function ( options ) {
 	};
 	
 	this.generic = function ( device_id, cmnd, newvalue, callback ) {
-		var newvalue = newvalue !== undefined ? " " + newvalue : "";
-		var cmnd     = cmnd + " " + newvalue;
+		var newvalue = (
+			(
+				newvalue !== undefined
+			) ? " " + newvalue : ""
+		);
+		var cmnd     = cmnd + newvalue;
 		
 		doAjax( null, device_id, cmnd, callback );
 	};

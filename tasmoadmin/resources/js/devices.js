@@ -120,7 +120,7 @@ function initCommandHelper() {
 			return d;
 		} );
 		//console.log( selectedDevices );
-		if ( selectedDevices.length == 0 ) {
+		if ( selectedDevices.length === 0 ) {
 			$( this )
 				.parent()
 				.parent().addClass( "has-error" )
@@ -137,7 +137,7 @@ function initCommandHelper() {
 			.parent().find( ".commandInput" ).val();
 		
 		//console.log( cmnd );
-		if ( cmnd == "" ) {
+		if ( cmnd === "" ) {
 			$( this )
 				.parent()
 				.parent().addClass( "has-error" )
