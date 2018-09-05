@@ -552,7 +552,7 @@
 
 					/**
 					 * PL
-					 */."z, poniżej, ponizej, blisko, do, zamknięte, zamkniete, "
+					 */."z, poniżej, ponizej, blisko, do, zamknięte, zamkniete"
 				)
 			);
 			$onArray  = explode(
@@ -571,7 +571,7 @@
 
 					/**
 					 * PL
-					 */."do, powyżej, powyzej, wysoki, otwarte, "
+					 */."do, powyżej, powyzej, wysoki, otwarte"
 				)
 			);
 
@@ -584,7 +584,7 @@
 				//try to detect OFF
 				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
-				} elseif( in_array( $state, $onArray ) ) {
+				} elseif( in_array( strtolower( $state ), $onArray ) ) {
 					$state = "ON";
 				}
 
@@ -599,7 +599,7 @@
 				//try to detect OFF
 				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
-				} elseif( in_array( $state, $onArray ) ) {
+				} elseif( in_array( strtolower( $state ), $onArray ) ) {
 					$state = "ON";
 				}
 
@@ -618,9 +618,9 @@
 
 				$state = $status->StatusSTS->$power;
 				//try to detect OFF
-				if( in_array( $state, $offArray ) ) {
+				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
-				} elseif( in_array( $state, $onArray ) ) {
+				} elseif( in_array( strtolower( $state ), $onArray ) ) {
 					$state = "ON";
 				}
 
@@ -640,9 +640,9 @@
 
 				$state = $status->$power;
 				//try to detect OFF
-				if( in_array( $state, $offArray ) ) {
+				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
-				} elseif( in_array( $state, $onArray ) ) {
+				} elseif( in_array( strtolower( $state ), $onArray ) ) {
 					$state = "ON";
 				}
 

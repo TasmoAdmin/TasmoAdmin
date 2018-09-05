@@ -2,10 +2,13 @@
 
 
 ## Upcoming
+            
+### v1.6.0-beta7
+- **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154) 
 
 ### v1.6.0-beta6
 - FIX: XAMPP Folder Structure in ZIP
-- DEV: Lower zip splitted parts filezize for git
+- DEV: Lower zip splitted parts filesize for git
 
 ### v1.6.0-beta5   
 - **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
