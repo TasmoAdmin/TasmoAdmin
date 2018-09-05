@@ -28,5 +28,5 @@
 tasmoadmin/data/devices_all.csv
 
 /portable/xampp
-/portable/xampp.zip
+/portable/xampp_draft.zip
 !/portable/xampp.zip.*

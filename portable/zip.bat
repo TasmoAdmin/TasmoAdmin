@@ -1,4 +1,4 @@
-bin\7za.exe -v55m a xampp.zip xampp
+bin\7za.exe -v32m a xampp.zip xampp
 
 
 
