@@ -710,7 +710,12 @@
 					}
 				}
 
-				if( isset( $data->WARNING ) && !empty( $data->WARNING ) && $try == 1 ) {
+				$skipWarning = FALSE;
+				if( strpos( $cmnd, "Backlog" ) !== FALSE ) {
+					$skipWarning = TRUE;
+				}
+
+				if( !$skipWarning && isset( $data->WARNING ) && !empty( $data->WARNING ) && $try == 1 ) {
 					$try++;
 					//set web log level 2 and try again
 					$webLog = $this->setWebLog( $device, 2, $try );
