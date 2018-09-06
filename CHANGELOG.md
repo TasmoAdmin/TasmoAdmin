@@ -3,8 +3,12 @@
 
 ## Upcoming
             
+### v1.6.0-beta8
+- **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154)   
+
+
 ### v1.6.0-beta7
-- **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154) 
+- CI skipped, use v1.6.0-beta8
 
 ### v1.6.0-beta6
 - FIX: XAMPP Folder Structure in ZIP
