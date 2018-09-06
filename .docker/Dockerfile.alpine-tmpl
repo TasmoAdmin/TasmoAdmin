@@ -77,12 +77,8 @@ COPY tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
-# Volume
-VOLUME /data
-
-
-# Volume
-# VOLUME /etc/nginx/nginx.conf
+# Volumes
+VOLUME ["/data", "/etc/nginx"]
 
 # Expose
 EXPOSE 80
