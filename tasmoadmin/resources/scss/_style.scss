@@ -25,12 +25,12 @@ footer {
 
 #content {
 
-  @media (max-width : 1200px) {
-    padding-left  : 10px;
-    padding-right : 10px;
-  }
+  padding : 70px 30px;
 
-  padding : 70px 50px;
+  @media all and (min-width : 1200px) {
+    padding-left  : 15px;
+    padding-right : 15px;
+  }
 }
 
 .btn {
