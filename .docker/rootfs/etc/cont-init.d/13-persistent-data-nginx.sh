@@ -7,17 +7,12 @@
 #source /usr/lib/hassio-addons/base.sh
 
 # Setup structure if it does not exists
-if [ ! -d "/data/ngnix" ]; then
-    echo 'Data directory not initialized, doing that now...'
-    mkdir -p /data/ngnix
-    cp -Rv /etc/nginx /data/nginx
+if [ ! -d "/data/nginx" ]; then
+    echo 'Data nginx directory not initialized, doing that now...'
+    mkdir -p /data/nginx
+    cp -Rv /etc/nginx/nginx.conf /data/nginx/nginx.conf
 fi
 
-echo 'Symlinking data/nginx directory to persistent storage location...'
-rm -f -r /etc/nginx
-ln -s /data/nginx /etc/nginx
-
-# Ensure file permissions
-#chown -R nginx:nginx /data/tasmoadmin
-#find /data/tasmoadmin -not -perm 0644 -type f -exec chmod 0644 {} \;
-#find /data/tasmoadmin -not -perm 0755 -type d -exec chmod 0755 {} \;
+echo 'Symlinking /etc/nginx.conf to persistent storage location...'
+rm -f -r /etc/nginx/nginx.conf
+ln -s /data/nginx/nginx.conf /etc/nginx/nginx.conf
