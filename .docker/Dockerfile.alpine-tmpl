@@ -20,12 +20,9 @@ LABEL \
     org.label-schema.vcs-ref=${BUILD_REF} \
     org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
 
-
 # Setup Qemu
 ARG QEMU_ARCH
 COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
-
-
 
 # Install base system
 ARG BUILD_ARCH=arm32v6
@@ -66,9 +63,6 @@ ENV BUILD_REF ${BUILD_REF}
 RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_params
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
 
-
-
-
 # Copy root filesystem
 COPY .docker/rootfs /
 
@@ -78,7 +72,7 @@ RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; 
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
 # Volumes
-VOLUME ["/data", "/etc/nginx"]
+VOLUME [ "/data" ]
 
 # Expose
 EXPOSE 80
