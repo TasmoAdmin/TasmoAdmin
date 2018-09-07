@@ -1,12 +1,10 @@
 # CHANGELOG   
 
-
 ## Upcoming
-       
-### v1.6.0-beta14
--**FIX**: Display new release version available for betas
+- ssl / https
 
-### v1.6.0-beta9-13
+### v1.6.0-beta9-14
+-**FIX**: Display new release version available for betas
 - nginx config is now modifyable by user if needed
 
 ##### Custom nginx.config
