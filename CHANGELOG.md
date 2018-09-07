@@ -2,7 +2,11 @@
 
 
 ## Upcoming
-       
+   
+   
+### v1.6.0-beta15
+-**FIX**: Space in mobile
+
 ### v1.6.0-beta14
 -**FIX**: Display new release version available for betas
 
