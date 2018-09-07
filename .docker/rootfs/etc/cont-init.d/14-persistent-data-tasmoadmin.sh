@@ -21,7 +21,7 @@ fi
 
 # Create /data/tasmoadmin/updates if it does not exists
 if [ ! -d "/data/tasmoadmin/updates" ]; then
-    mkdir /data/updates
+    mkdir /data/tasmoadmin/updates
     echo "/data/tasmoadmin/updates created."
 fi
 
