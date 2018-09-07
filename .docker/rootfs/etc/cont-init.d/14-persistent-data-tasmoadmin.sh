@@ -13,6 +13,27 @@ if [ ! -d "/data/tasmoadmin" ]; then
     cp -Rv /var/www/tasmoadmin/data/* /data/tasmoadmin
 fi
 
+if [ -f "/data/devices.csv" ]; then
+	echo 'Move old configs to new dir'
+
+	if [ -d "/data/tasmoadmin/firmwares" ]; then
+    	rm -rf /data/tasmoadmin/firmwares
+	fi
+	if [ -d "/data/tasmoadmin/updates" ]; then
+    	rm -rf /data/tasmoadmin/updates
+	fi
+
+
+	mv /data/.htaccess /data/tasmoadmin/
+	mv /data/devices.csv /data/tasmoadmin/
+	mv /data/MyConfig.json /data/tasmoadmin/
+	mv /data/MyConfig.php /data/tasmoadmin/
+
+
+	mv /data/firmwares /data/tasmoadmin/
+	mv /data/updates /data/tasmoadmin/
+fi
+
 # Create /data/tasmoadmin/firmware if it does not exists
 if [ ! -d "/data/tasmoadmin/firmwares" ]; then
     mkdir -p /data/tasmoadmin/firmwares
