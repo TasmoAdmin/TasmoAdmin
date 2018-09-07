@@ -225,11 +225,11 @@ body {
   line-height: 1.2rem; }
 
 #content {
-  padding: 70px 50px; }
-  @media (max-width: 1200px) {
+  padding: 70px 30px; }
+  @media all and (min-width: 1200px) {
     #content {
-      padding-left: 10px;
-      padding-right: 10px; } }
+      padding-left: 15px;
+      padding-right: 15px; } }
 
 .btn {
   width: 100%;
