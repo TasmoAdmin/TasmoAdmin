@@ -2,13 +2,17 @@
 
 
 ## Upcoming
+       
+### v1.6.0-beta14
+-**FIX**: Display new release version available for betas
 
 ### v1.6.0-beta9-13
 - nginx config is now modifyable by user if needed
 
 ##### Custom nginx.config
-1) If you want to use your own (custom) nginx.config, then just place it in your local data volume you started the docker container with like **/home/pi/tasmoadmin/data/nginx/** and replace existing nginx.config.
-2) (Re-)Start your container to use custom nginx.config.
+1. If you want to use your own (custom) nginx.config, then just place it in your local data volume you started the docker container with like **/home/pi/tasmoadmin/data/nginx/** and replace existing nginx.config.
+
+2. (Re-)Start your container to use custom nginx.config.
             
 ### v1.6.0-beta8
 - **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154)   
