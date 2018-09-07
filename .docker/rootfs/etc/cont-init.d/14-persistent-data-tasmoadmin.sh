@@ -13,25 +13,30 @@ if [ ! -d "/data/tasmoadmin" ]; then
     cp -Rv /var/www/tasmoadmin/data/* /data/tasmoadmin
 fi
 
+# Migrating old structure to new structure
 if [ -f "/data/devices.csv" ]; then
-	echo 'Move old configs to new dir'
+    echo 'Migration: Moving devices.csv to new location...'
+    mv /data/devices.csv /data/tasmoadmin/
+fi
 
-	if [ -d "/data/tasmoadmin/firmwares" ]; then
-    	rm -rf /data/tasmoadmin/firmwares
-	fi
-	if [ -d "/data/tasmoadmin/updates" ]; then
-    	rm -rf /data/tasmoadmin/updates
-	fi
+if [ -f "/data/MyConfig.json" ]; then
+    echo 'Migration: Moving MyConfig.json to new location...'
+    mv /data/MyConfig.json /data/tasmoadmin/
+fi
 
+if [ -f "/data/MyConfig.php" ]; then
+    echo 'Migration: Moving MyConfig.php to new location...'
+    mv /data/MyConfig.php /data/tasmoadmin/
+fi
 
-	mv /data/.htaccess /data/tasmoadmin/
-	mv /data/devices.csv /data/tasmoadmin/
-	mv /data/MyConfig.json /data/tasmoadmin/
-	mv /data/MyConfig.php /data/tasmoadmin/
+if [ -d "/data/firmwares" ]; then
+    echo 'Migration: Remove old firmwares directory...'
+    rm -rf /data/firmwares
+fi
 
-
-	mv /data/firmwares /data/tasmoadmin/
-	mv /data/updates /data/tasmoadmin/
+if [ -d "/data/updates" ]; then
+    echo 'Migration: Remove old updates directory...'
+    rm -rf /data/updates
 fi
 
 # Create /data/tasmoadmin/firmware if it does not exists
