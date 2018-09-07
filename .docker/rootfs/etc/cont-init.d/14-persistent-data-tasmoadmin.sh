@@ -10,7 +10,7 @@
 if [ ! -d "/data/tasmoadmin" ]; then
     echo 'Data directory not initialized, doing that now...'
     mkdir -p /data/tasmoadmin
-    cp -Rv /var/www/tasmoadmin/data /data/tasmoadmin
+    cp -Rv /var/www/tasmoadmin/data/* /data/tasmoadmin
 fi
 
 # Create /data/tasmoadmin/firmware if it does not exists
