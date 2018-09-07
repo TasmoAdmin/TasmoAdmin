@@ -584,10 +584,17 @@ function checkForUpdate( timer ) {
 	    .addClass( "fa-sync" )
 	    .addClass( "fa-spin" );
 	
-	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
+	var action = "releases/latest";
+	if ( currentGitTag.indexOf( "beta" ) !== false ) {
+		action = "releases";
+	}
+	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/" + action;
 	
 	$.get( githubApiRelease, {}, function ( result ) {
 		if ( result !== undefined ) {
+			if ( Array.isArray( result ) ) {
+				result = result[ 0 ];
+			}
 			if ( result.tag_name !== undefined ) {
 				var latestTag = result.tag_name;
 				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
@@ -676,5 +683,4 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 	} );
 	return this;
 };
-
 
