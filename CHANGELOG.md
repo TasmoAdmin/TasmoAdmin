@@ -1,7 +1,7 @@
 # CHANGELOG
 
 ### v1.6.0-beta16
-- **NEW** support ssl / https added
+- **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113)
 
 ### v1.6.0-beta9-14
 - **FIX**: Display new release version available for betas
