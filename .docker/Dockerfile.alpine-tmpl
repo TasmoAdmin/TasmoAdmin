@@ -76,7 +76,7 @@ RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; 
 VOLUME [ "/data" ]
 
 # Expose
-EXPOSE 80
+EXPOSE 80 443
 
 # Entrypoint
 ENTRYPOINT [ "/init" ]
