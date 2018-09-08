@@ -1,11 +1,11 @@
-# CHANGELOG   
+# CHANGELOG
 
-## Upcoming
-- ssl / https
+### v1.6.0-beta16
+- **NEW** support ssl / https added
 
 ### v1.6.0-beta9-14
--**FIX**: Display new release version available for betas
-- nginx config is now modifyable by user if needed
+- **FIX**: Display new release version available for betas
+- **NEW**: nginx config is now modifyable by user if needed
 
 ##### Custom nginx.config
 1. If you want to use your own (custom) nginx.config, then just place it in your local data volume you started the docker container with like **/home/pi/tasmoadmin/data/nginx/** and replace existing nginx.config.
@@ -20,8 +20,8 @@
 - CI skipped, use v1.6.0-beta8
 
 ### v1.6.0-beta6
-- FIX: XAMPP Folder Structure in ZIP
-- DEV: Lower zip splitted parts filesize for git
+- **FIX**: XAMPP Folder Structure in ZIP
+- **DEV**: Lower zip splitted parts filesize for git
 
 ### v1.6.0-beta5   
 - **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
@@ -32,7 +32,7 @@
 - CI skipped, use v1.6.0-beta5
 
 ### v1.6.0-beta3
--FIX: nginx config
+-**FIX**: nginx config
 
 ### v1.6.0-beta2
 - **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
