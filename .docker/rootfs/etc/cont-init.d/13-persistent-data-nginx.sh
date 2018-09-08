@@ -11,6 +11,7 @@ if [ ! -d "/data/nginx" ]; then
     echo 'Data nginx directory not initialized, doing that now...'
     mkdir -p /data/nginx
     cp -Rv /etc/nginx/nginx.conf /data/nginx/nginx.conf
+    cp -Rv /etc/nginx/nginx-ssl.conf /data/nginx/nginx-ssl.conf
     mkdir -p /data/nginx/certs
     cp -Rv /etc/nginx/certs/* /data/nginx/certs
 fi
