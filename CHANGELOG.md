@@ -7,7 +7,17 @@
 - DEV: CSS & HTML fixes
 
 ### v1.6.0-beta16
-- **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113)   
+- **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113) 
+  
+To use TasmoAdmin with ssl:
+
+```
+sudo docker run -d -p 5443:443 -e SSL=true -v /home/pi/tasmoadmin:/data --name=TasmoAdmin --restart=always raymondmm/tasmoadmin:beta
+```
+Using self-signed root certificate give a warning in your browser and is not secure.
+
+You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt which are stored on your host, i.e. /home/pi/tasmoadmin/nginx/certs
+
                      
 ### v1.6.0-beta15
 - **FIX**: Space in mobile 
