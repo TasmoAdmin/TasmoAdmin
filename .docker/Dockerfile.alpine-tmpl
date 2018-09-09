@@ -59,6 +59,7 @@ RUN \
 # Environment variables
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV BUILD_REF ${BUILD_REF}
+ENV SSL false
 
 RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_params
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
@@ -75,7 +76,7 @@ RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; 
 VOLUME [ "/data" ]
 
 # Expose
-EXPOSE 80
+EXPOSE 80 443
 
 # Entrypoint
 ENTRYPOINT [ "/init" ]
