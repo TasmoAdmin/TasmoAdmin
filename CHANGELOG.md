@@ -3,8 +3,11 @@
 
 ## Upcoming
                  
-### v1.6.0-beta17
+### v1.6.0-beta18
 - DEV: CSS & HTML fixes
+
+### v1.6.0-beta17
+- CI skipped, use v1.6.0-beta18
 
 ### v1.6.0-beta16
 - **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113) 
