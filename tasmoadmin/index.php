@@ -51,7 +51,9 @@
 
 
 <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
-	<?php include_once( _PAGESDIR_.$page.".php" ); ?>
+	<div id='content-holder'>
+		<?php include_once( _PAGESDIR_.$page.".php" ); ?>
+	</div>
 </main>
 <?php include_once( _INCLUDESDIR_."footer.php" ); //always load header
 

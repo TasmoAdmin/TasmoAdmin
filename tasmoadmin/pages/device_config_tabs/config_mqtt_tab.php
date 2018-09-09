@@ -9,7 +9,7 @@
 
 
 	<!-- SetOption3 MQTT enabled -->
-	<div class="form-group">
+	<div class="form-group col">
 		<div class="form-check custom-control custom-checkbox">
 			<input id='SetOption3h' type='hidden' value='0' name='SetOption3'>
 			<input class="form-check-input custom-control-input"
@@ -27,7 +27,7 @@
 	</div>
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-8">
+		<div class="form-group col col-12 col-sm-8">
 			<label for="MqttHost">
 				<?php echo __( "MQTT_HOST", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -44,7 +44,7 @@
 				<?php echo __( "MQTT_HOST_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="MqttPort">
 				<?php echo __( "MQTT_PORT", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -64,7 +64,7 @@
 		</div>
 	</div>
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttClient">
 				<?php echo __( "MQTT_CLIENT", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -82,7 +82,7 @@
 				<?php echo __( "MQTT_CLIENT_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttFingerprint">
 				<?php echo __( "MQTTFINGERPRINT", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -101,7 +101,7 @@
 		</div>
 	</div>
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttUser">
 				<?php echo __( "MQTT_USER", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -118,7 +118,7 @@
 				<?php echo __( "MQTT_USER_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttPassword">
 				<?php echo __( "MQTT_PASSWORD", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -140,7 +140,7 @@
 
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="Topic">
 				<?php echo __( "TOPIC", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -157,7 +157,7 @@
 				<?php echo __( "TOPIC_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="FullTopic">
 				<?php echo __( "FULLTOPIC", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -179,7 +179,7 @@
 
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="GroupTopic">
 				<?php echo __( "GROUPTOPIC", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -197,7 +197,7 @@
 				<?php echo __( "GROUPTOPIC_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="ButtonTopic">
 				<?php echo __( "BUTTONTOPIC", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -214,7 +214,7 @@
 				<?php echo __( "BUTTONTOPIC_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="SwitchTopic">
 				<?php echo __( "SWITCHTOPIC", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -236,7 +236,7 @@
 	</div>
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="Prefix1">
 				<?php echo __( "PREFIX1", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -253,7 +253,7 @@
 				<?php echo __( "PREFIX1_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="Prefix2">
 				<?php echo __( "PREFIX2", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -270,7 +270,7 @@
 				<?php echo __( "PREFIX2_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<label for="Prefix3">
 				<?php echo __( "PREFIX3", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -292,7 +292,7 @@
 
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText1">
 				<?php echo __( "STATUSTEXT1", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -309,7 +309,7 @@
 				<?php echo __( "STATUSTEXT1_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText2">
 				<?php echo __( "STATUSTEXT2", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -328,7 +328,7 @@
 		</div>
 	</div>
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText3">
 				<?php echo __( "STATUSTEXT3", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -345,7 +345,7 @@
 				<?php echo __( "STATUSTEXT3_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText4">
 				<?php echo __( "STATUSTEXT4", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -365,7 +365,7 @@
 	</div>
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttRetry">
 				<?php echo __( "MQTTRETRY", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -384,7 +384,7 @@
 				<?php echo __( "MQTTRETRY_HELP", "DEVICE_CONFIG" ); ?>
 			</small>
 		</div>
-		<div class="form-group col-12 col-sm-6">
+		<div class="form-group col col-12 col-sm-6">
 			<label for="TelePeriod">
 				<?php echo __( "TELEPERIOD", "DEVICE_CONFIG" ); ?>
 			</label>
@@ -407,7 +407,7 @@
 
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='ButtonRetainh' type='hidden' value='0' name='ButtonRetain'>
 				<input class="form-check-input custom-control-input"
@@ -426,7 +426,7 @@
 				<!--				</small>-->
 			</div>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='PowerRetainh' type='hidden' value='0' name='PowerRetain'>
 				<input class="form-check-input custom-control-input"
@@ -445,7 +445,7 @@
 				<!--				</small>-->
 			</div>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='SensorRetainh' type='hidden' value='0' name='SensorRetain'>
 				<input class="form-check-input custom-control-input"
@@ -468,7 +468,7 @@
 
 
 	<div class="form-row">
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='SetOption2h' type='hidden' value='0' name='SetOption2'>
 				<input class="form-check-input custom-control-input"
@@ -487,7 +487,7 @@
 				</small>
 			</div>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='SetOption4h' type='hidden' value='0' name='SetOption4'>
 				<input class="form-check-input custom-control-input"
@@ -506,7 +506,7 @@
 				</small>
 			</div>
 		</div>
-		<div class="form-group col-12 col-sm-4">
+		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check custom-control custom-checkbox">
 				<input id='SetOption10h' type='hidden' value='0' name='SetOption10'>
 				<input class="form-check-input custom-control-input"
@@ -529,7 +529,7 @@
 
 
 	<div class="row mt-5">
-		<div class="col-12">
+		<div class="col col-12">
 			<div class="text-right">
 				<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 					<?php echo __( "BTN_SAVE_DEVICE_CONFIG", "DEVICE_CONFIG" ); ?>

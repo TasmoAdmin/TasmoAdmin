@@ -100,13 +100,13 @@
 	$config = $Config->readAll();
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-8 col-xl-6'>
+	<div class='col col-12 col-md-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
 		<?php if( isset( $error ) && $error ): ?>
 			<div class='row justify-content-sm-center'>
-				<div class='col-12'>
+				<div class='col col-12'>
 					<div class="alert alert-danger fade show mb-5" data-dismiss="alert" role="alert">
 						<?php echo $msg; ?>
 					</div>
@@ -114,7 +114,7 @@
 			</div>
 		<?php elseif( isset( $msg ) && $msg != "" ): ?>
 			<div class='row justify-content-sm-center'>
-				<div class='col-12'>
+				<div class='col col-12'>
 					<div class="alert alert-success fade show mb-5" role="alert">
 						<?php echo $msg; ?>
 						<?php if( $action == "done" ): ?>
@@ -135,7 +135,7 @@
 		      method='post'>
 
 			<div class="form-row">
-				<div class="form-group col-12 col-sm-6">
+				<div class="form-group col col-12 col-sm-6">
 					<label for="from_ip">
 						<?php echo __( "FROM_IP", "DEVICES_AUTOSCAN" ); ?>
 					</label>
@@ -150,7 +150,7 @@
 						<?php echo __( "FROM_IP_HELP", "DEVICES_AUTOSCAN" ); ?>
 					</small>
 				</div>
-				<div class="form-group col-12 col-sm-6">
+				<div class="form-group col col-12 col-sm-6">
 					<label for="to_ip">
 						<?php echo __( "TO_IP", "DEVICES_AUTOSCAN" ); ?>
 					</label>
@@ -166,38 +166,43 @@
 					</small>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="device_username">
-					<?php echo __( "DEVICE_USERNAME", "DEVICE_ACTIONS" ); ?>
-				</label>
-				<input type="text"
-				       class="form-control"
-				       id="device_username"
-				       name='device_username'
-				       value='<?php echo isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
-					       : "admin"; ?>'
-				>
-				<small id="device_usernameHelp" class="form-text text-muted">
-					<?php echo __( "DEVICE_USERNAME_HELP", "DEVICE_ACTIONS" ); ?>
-				</small>
+			<div class="form-row">
+				<div class="form-group col">
+					<label for="device_username">
+						<?php echo __( "DEVICE_USERNAME", "DEVICE_ACTIONS" ); ?>
+					</label>
+					<input type="text"
+					       class="form-control"
+					       id="device_username"
+					       name='device_username'
+					       value='<?php echo isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
+						       : "admin"; ?>'
+					>
+					<small id="device_usernameHelp" class="form-text text-muted">
+						<?php echo __( "DEVICE_USERNAME_HELP", "DEVICE_ACTIONS" ); ?>
+					</small>
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="device_password">
-					<?php echo __( "DEVICE_PASSWORD", "DEVICE_ACTIONS" ); ?>
-				</label>
-				<input type="text"
-				       class="form-control"
-				       id="device_password"
-				       name='device_password'
-				       value='<?php echo isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
-					       : ""; ?>'
-				>
-				<small id="device_passwordHelp" class="form-text text-muted">
-					<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>
-				</small>
+			<div class="form-row">
+				<div class="form-group col">
+					<label for="device_password">
+						<?php echo __( "DEVICE_PASSWORD", "DEVICE_ACTIONS" ); ?>
+					</label>
+					<input type="text"
+					       class="form-control"
+					       id="device_password"
+					       name='device_password'
+					       value='<?php echo isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
+						       : ""; ?>'
+					>
+					<small id="device_passwordHelp" class="form-text text-muted">
+						<?php echo __( "DEVICE_PASSWORD_HELP", "DEVICE_ACTIONS" ); ?>
+					</small>
+				</div>
 			</div>
 			<div class='row justify-content-sm-center mt-5'>
-				<div class="col-12 col-sm-6 text-center">
+				<div class='d-none d-sm-inline-flex col flex-column'></div>
+				<div class="col col-12 col-sm-6">
 					<button type='submit'
 					        name='search'
 					        value='search'
@@ -224,7 +229,7 @@
 						<?php echo __( "DEVICE", "DEVICES_AUTOSCAN" )." ".( $idx+1 ); ?>
 					</h3>
 					<div class="form-row">
-						<div class="form-group col-12 col-sm-12">
+						<div class="form-group col col-12 col-sm-12">
 							<label for="device_ip">
 								<?php echo __( "DEVICE_IP", "DEVICE_ACTIONS" ); ?>
 							</label>
@@ -245,19 +250,21 @@
 					</div>
 
 
-					<div class="form-group">
-						<label for="device_position">
-							<?php echo __( "DEVICE_POSITION", "DEVICE_ACTIONS" ); ?>
-						</label>
-						<input type="text"
-						       class="form-control"
-						       id="device_position"
-						       name='devices[<?php echo $idx; ?>][device_position]'
-						       value='<?php echo $idx+1; ?>'
-						>
-						<small id="device_positionHelp" class="form-text text-muted">
-							<?php echo __( "DEVICE_POSITION_HELP", "DEVICE_ACTIONS" ); ?>
-						</small>
+					<div class="form-row">
+						<div class="form-group col">
+							<label for="device_position">
+								<?php echo __( "DEVICE_POSITION", "DEVICE_ACTIONS" ); ?>
+							</label>
+							<input type="text"
+							       class="form-control"
+							       id="device_position"
+							       name='devices[<?php echo $idx; ?>][device_position]'
+							       value='<?php echo $idx+1; ?>'
+							>
+							<small id="device_positionHelp" class="form-text text-muted">
+								<?php echo __( "DEVICE_POSITION_HELP", "DEVICE_ACTIONS" ); ?>
+							</small>
+						</div>
 					</div>
 					<?php if( isset( $device->StatusSTS->POWER ) ): ?>
 						<?php
@@ -265,7 +272,7 @@
 							? $device->Status->FriendlyName[ 0 ] : $device->Status->FriendlyName;
 						?>
 						<div class="form-row">
-							<div class="form-group col-12 col-sm-6">
+							<div class="form-group col col-12 col-sm-6">
 								<label for="device_name">
 									<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?>
 								</label>
@@ -280,10 +287,11 @@
 									&nbsp;
 								</small>
 							</div>
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col col-12 col-sm-3">
 								<label class="d-none d-sm-block mb-3">&nbsp;</label>
-								( <a href='#'
-								     class='default-name'><?php echo $friendlyName; ?></a>
+								(
+								<a href='#'
+								   class='default-name'><?php echo $friendlyName; ?></a>
 								)
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
@@ -291,7 +299,7 @@
 
 
 							</div>
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col col-12 col-sm-3">
 								<a id='test_device' class='btn btn-secondary col-12 test_device'
 								   style='margin-top: 1.8rem;'
 								   data-device_ip='<?php echo $device->StatusNET->IPAddress; ?>'
@@ -317,7 +325,7 @@
 								: "" ) : $device->Status->FriendlyName." ".$i;
 						?>
 						<div class="form-row">
-							<div class="form-group col-12 col-sm-6">
+							<div class="form-group col col-12 col-sm-6">
 								<label for="device_name_<?php echo $i; ?>">
 									<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?><?php echo $i; ?>
 								</label>
@@ -336,7 +344,7 @@
 									&nbsp;
 								</small>
 							</div>
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col col-12 col-sm-3">
 								<label class="d-none d-sm-block mb-3">&nbsp;</label>
 								(
 								<a href='#' title='<?php echo __( "OVERTAKE", "DEVICE_ACTIONS" ); ?>'
@@ -350,7 +358,7 @@
 
 
 							</div>
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col col-12 col-sm-3">
 								<a id='' class='btn btn-secondary col-12 test_device'
 								   style='margin-top: 1.8rem;'
 								   data-device_ip='<?php echo $device->StatusNET->IPAddress; ?>'
@@ -377,7 +385,7 @@
 							? $device->Status->FriendlyName[ 0 ] : $device->Status->FriendlyName;
 						?>
 						<div class="form-row">
-							<div class="form-group col-12 col-sm-9">
+							<div class="form-group col col-12 col-sm-9">
 								<label for="device_name">
 									<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?>
 								</label>
@@ -392,10 +400,11 @@
 									&nbsp;
 								</small>
 							</div>
-							<div class="form-group col-12 col-sm-3">
+							<div class="form-group col col-12 col-sm-3">
 								<label class="d-none d-sm-block mb-3">&nbsp;</label>
-								( <a href='#'
-								     class='default-name'><?php echo $friendlyName; ?></a>
+								(
+								<a href='#'
+								   class='default-name'><?php echo $friendlyName; ?></a>
 								)
 								<small id="default_nameHelp" class="form-text text-muted">
 									<?php echo __( "DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS" ); ?>
@@ -407,12 +416,12 @@
 
 				<?php endforeach; ?>
 				<div class="row">
-					<div class="col-12 col-sm-6 text-left">
+					<div class="col col-12 col-sm-6 text-left">
 						<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 							<?php echo __( "BTN_BACK", "DEVICE_ACTIONS" ); ?>
 						</a>
 					</div>
-					<div class="col-12 col-sm-6 text-right">
+					<div class="col col-12 col-sm-6 text-right">
 						<button type='submit'
 						        name='save_all'
 						        value='save_all'

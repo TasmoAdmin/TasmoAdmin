@@ -59,10 +59,10 @@
 
 <div class="container-fluid" id='content'>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col col-md-12">
 			<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
 			<div class="row">
-				<div class="col-md-6 mx-auto">
+				<div class="col col-md-6 mx-auto">
 					<span class="anchor" id="formLogin"></span>
 					<?php if( isset( $msg ) && $msg != "" ): ?>
 						<div class="alert alert-danger alert-dismissible fade show mb-5"
@@ -78,7 +78,7 @@
 					<div class="card rounded-0 bg-dark text-white">
 						<div class="card-body">
 							<form class="form" name='loginform' method='POST'>
-								<div class="form-group">
+								<div class="form-group col">
 									<label for="username">Username</label>
 									<input type="text"
 									       class="form-control form-control-lg rounded-0"
@@ -89,7 +89,7 @@
 
 
 								</div>
-								<div class="form-group">
+								<div class="form-group col">
 									<label>Password</label>
 									<input type="password"
 									       class="form-control form-control-lg rounded-0"

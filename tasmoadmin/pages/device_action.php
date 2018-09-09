@@ -124,7 +124,7 @@
 
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-8 col-xl-6'>
+	<div class='col col-12 col-md-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
@@ -140,10 +140,10 @@
 		<?php endif; ?>
 		<?php if( $action == "done" ): ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
-				<div class="col-12 text-left">
+				<div class="col col-12 text-left">
 					<?php echo $msg; ?>
 				</div>
-				<div class="col-12 text-left mt-3">
+				<div class="col col-12 text-left mt-3">
 					<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 						<?php echo __( "BTN_BACK", "DEVICE_ACTIONS" ); ?>
 					</a>
@@ -169,7 +169,7 @@
 
 
 				<div class="form-row">
-					<div class="form-group col-12 col-sm-9">
+					<div class="form-group col col-12 col-sm-9">
 						<label for="device_ip">
 							<?php echo __( "DEVICE_IP", "DEVICE_ACTIONS" ); ?>
 						</label>
@@ -186,7 +186,7 @@
 							<?php echo __( "DEVICE_IP_HELP", "DEVICE_ACTIONS" ); ?>
 						</small>
 					</div>
-					<div class="form-group col-12 col-sm-3">
+					<div class="form-group col col-12 col-sm-3">
 						<label class="d-none d-sm-block">&nbsp;</label>
 						<button type='submit'
 						        name='search'
@@ -197,7 +197,7 @@
 						</button>
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group col">
 					<label for="device_username">
 						<?php echo __( "DEVICE_USERNAME", "DEVICE_ACTIONS" ); ?>
 					</label>
@@ -223,7 +223,7 @@
 						<?php echo __( "DEVICE_USERNAME_HELP", "DEVICE_ACTIONS" ); ?>
 					</small>
 				</div>
-				<div class="form-group">
+				<div class="form-group col">
 					<label for="device_password">
 						<?php echo __( "DEVICE_PASSWORD", "DEVICE_ACTIONS" ); ?>
 					</label>
@@ -263,7 +263,7 @@
 								<span aria-hidden="true">&times;</span>
 							</button>
 						</div>
-						<div class="form-group">
+						<div class="form-group col">
 							<label for="device_position">
 								<?php echo __( "DEVICE_POSITION", "DEVICE_ACTIONS" ); ?>
 							</label>
@@ -287,7 +287,7 @@
 								? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
 							?>
 							<div class="form-row">
-								<div class="form-group col-12 col-sm-9">
+								<div class="form-group col col-12 col-sm-9">
 									<label for="device_name">
 										<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?>
 									</label>
@@ -304,7 +304,7 @@
 										&nbsp;
 									</small>
 								</div>
-								<div class="form-group col-12 col-sm-3">
+								<div class="form-group col col-12 col-sm-3">
 									<label class="d-none d-sm-block mb-3">&nbsp;</label>
 									( <a href='#'
 									     class='default-name'><?php echo $friendlyName; ?></a>
@@ -330,7 +330,7 @@
 								? $status->Status->FriendlyName[ $i-1 ] : $status->Status->FriendlyName." ".$i
 							?>
 							<div class="form-row">
-								<div class="form-group col-12 col-sm-9">
+								<div class="form-group col col-12 col-sm-9">
 									<label for="device_name_<?php echo $i; ?>">
 										<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?><?php echo $i; ?>
 									</label>
@@ -351,7 +351,7 @@
 										&nbsp;
 									</small>
 								</div>
-								<div class="form-group col-12 col-sm-3">
+								<div class="form-group col col-12 col-sm-3">
 									<label class="d-none d-sm-block mb-3">&nbsp;</label>
 									(
 									<a href='#' title='<?php echo __( "OVERTAKE", "DEVICE_ACTIONS" ); ?>'
@@ -382,7 +382,7 @@
 								? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
 							?>
 							<div class="form-row">
-								<div class="form-group col-12 col-sm-9">
+								<div class="form-group col col-12 col-sm-9">
 									<label for="device_name">
 										<?php echo __( "LABEL_NAME", "DEVICE_ACTIONS" ); ?>
 									</label>
@@ -399,7 +399,7 @@
 										&nbsp;
 									</small>
 								</div>
-								<div class="form-group col-12 col-sm-3">
+								<div class="form-group col col-12 col-sm-3">
 									<label class="d-none d-sm-block mb-3">&nbsp;</label>
 									( <a href='#'
 									     class='default-name'><?php echo $friendlyName; ?></a>
@@ -417,12 +417,12 @@
 
 				<?php endif; ?>
 				<div class="row">
-					<div class="col-12 col-sm-6 text-left">
+					<div class="col col-12 col-sm-6 text-left">
 						<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 							<?php echo __( "BTN_BACK", "DEVICE_ACTIONS" ); ?>
 						</a>
 					</div>
-					<div class="col-12 col-sm-6 text-right">
+					<div class="col col-12 col-sm-6 text-right">
 						<button type='submit'
 						        name='submit'
 						        value='<?php echo isset( $device->id ) ? "edit" : "add"; ?>'

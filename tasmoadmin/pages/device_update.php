@@ -21,14 +21,14 @@
 	$device_ids = isset( $_REQUEST[ "device_ids" ] ) ? $_REQUEST[ "device_ids" ] : FALSE;
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-8 '>
+	<div class='col col-12 col-md-8 '>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
 	</div>
 </div>
 <div class='row justify-content-center'>
-	<div class='col-12 col-md-10'>
+	<div class='col col-12 col-md-10'>
 		<?php if( !$device_ids ): ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo __( "NO_DEVICES_SELECTED", "DEVICE_UPDATE" ); ?>

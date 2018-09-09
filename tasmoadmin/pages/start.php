@@ -82,18 +82,18 @@
 		</div>
 	<?php else: ?>
 		<div class='row'>
-			<div class='col-12 text-center'>
+			<div class='col col-12 text-center'>
 				<?php echo __( "NO_DEVICES_FOUND", "STARTPAGE" ); ?>
 			</div>
 		</div>
 		<div class='row mt-5 justify-content-center text-center'>
-			<div class='col-12 col-sm-2 '>
+			<div class='col col-12 col-sm-2 '>
 				<a class="btn btn-primary"
 				   href="<?php echo _BASEURL_; ?>devices_autoscan">
 					<?php echo __( "DEVICES_AUTOSCAN", "NAVI" ); ?>
 				</a>
 			</div>
-			<div class='col-12 col-sm-2 '>
+			<div class='col col-12 col-sm-2 '>
 				<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
 					<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
 				</a>

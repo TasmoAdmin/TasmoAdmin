@@ -1,8 +1,5 @@
 $( document ).on( "ready", function () {
 	
-	if ( $( window ).height() <= 600 ) {
-		$( "footer" ).hide();
-	}
 	
 	deviceTools();
 	updateStatus();
