@@ -1,17 +1,23 @@
-# CHANGELOG   
+# CHANGELOG
 
 
 ## Upcoming
-   
-   
+                 
+### v1.6.0-beta17
+- DEV: CSS & HTML fixes
+
+### v1.6.0-beta16
+- **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113)   
+                     
 ### v1.6.0-beta15
--**FIX**: Space in mobile
+- **FIX**: Space in mobile 
 
 ### v1.6.0-beta14
 -**FIX**: Display new release version available for betas
 
+
 ### v1.6.0-beta9-13
-- nginx config is now modifyable by user if needed
+- **NEW**: nginx config is now modifyable by user if needed
 
 ##### Custom nginx.config
 1. If you want to use your own (custom) nginx.config, then just place it in your local data volume you started the docker container with like **/home/pi/tasmoadmin/data/nginx/** and replace existing nginx.config.
@@ -26,8 +32,8 @@
 - CI skipped, use v1.6.0-beta8
 
 ### v1.6.0-beta6
-- FIX: XAMPP Folder Structure in ZIP
-- DEV: Lower zip splitted parts filesize for git
+- **FIX**: XAMPP Folder Structure in ZIP
+- **DEV**: Lower zip splitted parts filesize for git
 
 ### v1.6.0-beta5   
 - **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
@@ -38,7 +44,7 @@
 - CI skipped, use v1.6.0-beta5
 
 ### v1.6.0-beta3
--FIX: nginx config
+-**FIX**: nginx config
 
 ### v1.6.0-beta2
 - **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
@@ -292,7 +298,7 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - higher timeout for curl, fixes some timeout problem with much devices   
 - minor **FIX**: i18n  
 - added double click edit of config in device list   
-![2018-02-03_1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/sonweb/changelog/2018-02-03_1.PNG)   
+![2018-02-03_1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/changelog/2018-02-03_1.PNG)   
 
 ### 2018-02-02
 - add nightmode   
