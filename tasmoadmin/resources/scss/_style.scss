@@ -1,10 +1,11 @@
 //@extend-elements
 //original selectors
 //footer, .footer
-%extend_1 {
-  position : fixed;
-  bottom   : 0;
-  width    : 100%;
+
+.form-control {
+  &:focus {
+    box-shadow : $inputBoxShadow;
+  }
 }
 
 body {
@@ -15,137 +16,237 @@ body {
   line-height : 1.2rem;
 }
 
-footer {
-  @extend %extend_1;
-}
-
 .footer {
-  @extend %extend_1;
+  position : fixed;
+  bottom   : 0;
+  width    : 100%;
 }
 
 #content {
-
-  padding : 70px 30px;
-
-  @media all and (min-width : 1200px) {
-    padding-left  : 15px;
-    padding-right : 15px;
+  position : absolute;
+  top      : 55px;
+  bottom   : 25px;
+  display  : inline-block;
+  padding  : 0px;
+  @media all and (max-width : 587px) {
+    bottom : 45px;
   }
+  #content-holder {
+    height     : 100%;
+    overflow-y : auto;
+    padding    : 0px 15px;
+    &::after, &::before {
+      content       : "\0020";
+      display       : table;
+      margin-bottom : 15px;
+    }
+  }
+}
+
+.alert-dismissible .close {
+  top : -5px;
 }
 
 .btn {
   width       : 100%;
   //Instead of the line below you could use @include user-select($select)
   user-select : none;
-}
 
-.btn-green {
-  background-color : $color_forest_green_approx;
-  border-color     : $color_forest_green_approx;
-  &:hover {
-    background-color : darken($color_forest_green_approx, 5%) !important;
-    border-color     : darken($color_forest_green_approx, 5%) !important;
-  }
-  &:focus {
-    background-color : darken($color_forest_green_approx, 5%) !important;
-    border-color     : darken($color_forest_green_approx, 5%) !important;
-  }
-  &:active {
-    background-color : darken($color_forest_green_approx, 5%) !important;
-    border-color     : darken($color_forest_green_approx, 5%) !important;
-  }
-
-  &.no-hover {
+  &.btn-primary.no-hover {
     &:hover {
-      background-color : $color_forest_green_approx !important;
-      border-color     : $color_forest_green_approx !important;
+      background-color : $blueBtn;
+      border-color     : $blueBtnBorder;
     }
     &:focus {
-      background-color : $color_forest_green_approx !important;
-      border-color     : $color_forest_green_approx !important;
+      background-color : $blueBtn;
+      border-color     : $blueBtnBorder;
     }
     &:active {
-      background-color : $color_forest_green_approx !important;
-      border-color     : $color_forest_green_approx !important;
+      background-color : $blueBtn;
+      border-color     : $blueBtnBorder;
     }
   }
-}
 
-.no-hover {
-  cursor : default !important;
-  &:hover {
-    cursor     : default !important;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow : none !important;
+  &.btn-secondary.no-hover {
+    &:hover {
+      background-color : $greyBtn;
+      border-color     : $greyBtnBorder;
+    }
+    &:focus {
+      background-color : $greyBtn;
+      border-color     : $greyBtnBorder;
+    }
+    &:active {
+      background-color : $greyBtn;
+      border-color     : $greyBtnBorder;
+    }
   }
-  &:focus {
-    cursor     : default !important;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow : none !important;
-  }
-  &:active {
-    cursor     : default !important;
-    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
-    box-shadow : none !important;
-  }
-}
 
-.fas {
-  color : $color_pacific_blue_approx;
-}
+  &.btn-green {
+    background-color : $greenBtn;
+    border-color     : $greenBtnBorder;
+    &:hover {
+      background-color : $greenBtnHover;
+      border-color     : $greenBtnBorderHover;
+    }
+    &:focus {
+      background-color : $greenBtnHover;
+      border-color     : $greenBtnBorderHover;
+    }
+    &:active {
+      background-color : $greenBtnHover;
+      border-color     : $greenBtnBorderHover;
+    }
 
-a {
-  .fas {
-    &.error {
-      color : $color_monza_approx;
+    &.no-hover {
       &:hover {
-        color : $color_carmine_approx;
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
+      }
+      &:focus {
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
+      }
+      &:active {
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
       }
     }
-    &.add {
-      color : $color_green_approx;
+  }
+  &.btn-primary {
+    background-color : $blueBtn;
+    border-color     : $blueBtnBorder;
+    &:hover {
+      background-color : $blueBtnHover;
+      border-color     : $blueBtnBorderHover;
+    }
+    &:focus {
+      background-color : $blueBtnHover;
+      border-color     : $blueBtnBorderHover;
+    }
+    &:active {
+      background-color : $blueBtnHover;
+      border-color     : $blueBtnBorderHover;
+    }
+
+    &.no-hover {
       &:hover {
-        color : $color_la_palma_approx;
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
+      }
+      &:focus {
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
+      }
+      &:active {
+        background-color : $greenBtn;
+        border-color     : $greenBtnBorder;
       }
     }
   }
-  &.fas:hover {
-    color : $color_persian_blue_approx;
-  }
-  &:hover .fas {
-    color : $color_persian_blue_approx;
-    &.add {
-      color : $color_la_palma_approx;
+  &:not(:disabled):not(.disabled) {
+    &.no-hover {
+      cursor : default;
+      &:hover {
+        cursor     : default;
+        box-shadow : none;
+      }
+      &:focus {
+        cursor     : default;
+        box-shadow : none;
+      }
+      &:active {
+        cursor     : default;
+        box-shadow : none;
+      }
     }
   }
+}
+
+a .fas, a .fa, th.link a, a {
+
+  color : $lightBlueIcon;
+  &:not(.no-hover):not(.btn) {
+    color           : $lightBlueIconHover;
+    text-decoration : none;
+  }
+  &.error {
+    color : $redError;
+    &:hover {
+      color : $redErrorHover;
+    }
+  }
+  &.add {
+    color : $greenIcon;
+    &:hover {
+      color : $greenIconHover;
+    }
+  }
+
   &.delete .fas {
-    color : $color_monza_approx;
+    color : $redError;
     &:hover {
-      color : $color_carmine_approx;
+      color : $redErrorHover;
     }
   }
-  .error .fas {
-    color : $color_monza_approx;
+  &.error .fas {
+    color : $redError;
     &:hover {
-      color : $color_carmine_approx;
+      color : $redErrorHover;
     }
   }
   &.add .fas {
-    color : $color_green_approx;
+    color : $greenBtn;
     &:hover {
-      color : $color_la_palma_approx;
+      color : $greenBtnHover;
     }
   }
 }
 
-.dropdown-item {
-  &.active {
-    color            : $white;
-    background-color : transparent;
+.navbar {
+  .navbar-nav .nav-link {
+    @media all and(max-width : 767px) {
+      padding : 7px;
+    }
   }
-  &:active {
-    color            : $white;
-    background-color : transparent;
+  .dropdown {
+    .dropdown-toggle::after {
+      top      : 2px;
+      position : relative;
+      @media all and(max-width : 767px) {
+        margin-left : 0px;
+      }
+    }
+  }
+
+  &.navbar-dark {
+
+    color : $greyFont;
+    i {
+      color : $greyFont;
+    }
+
+    a {
+      &:hover, &:focus {
+        color : $greyFontHover;
+        i {
+          color : $greyFontHover;
+        }
+      }
+      &.error {
+        color : $redError;
+        i {
+          color : $redError;
+        }
+        &:hover, &:focus {
+          color : $redErrorHover;
+          i {
+            color : $redErrorHover;
+          }
+        }
+
+      }
+    }
   }
 }
 
@@ -158,6 +259,9 @@ a {
       display   : table-cell;
       min-width : 210px;
       width     : auto;
+      @media all and (max-width : 641px) {
+        width : 100%;
+      }
     }
     &.hidden {
       display : none;
@@ -204,7 +308,7 @@ a {
     border : 0 none;
   }
   tfoot th {
-    border-top : 2px solid $color_mercury_approx;
+    border-top : 2px solid $whiteThBorder;
   }
 }
 
@@ -217,6 +321,9 @@ td {
       text-align : center;
       i {
         padding : 10px;
+        @media all and(max-width : 641px) {
+          padding : 7px;
+        }
       }
     }
   }
@@ -237,7 +344,7 @@ td {
     margin-right     : .5rem;
     width            : 46px;
     height           : 26px;
-    background-color : $color_mercury_approx;
+    background-color : $whiteGrey;
     //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
     border-radius    : 23px;
     vertical-align   : text-bottom;
@@ -289,7 +396,7 @@ td {
     display : none;
     &:checked {
       + i {
-        background-color : $color_pacific_blue_approx;
+        background-color : $lightBlueIcon;
       }
       + i::before {
         //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
@@ -360,65 +467,44 @@ hr {
     }
     &.error {
       i::before {
-        background-color : $color_venetian_red_approx;
+        background-color : $nmRedError;
       }
       input:checked + i {
-        background-color : $color_venetian_red_approx;
+        background-color : $nmRedError;
       }
     }
     input:checked + i {
       background-color : $color_deep_cerulean_approx;
     }
   }
-  a {
-    color : $color_cerulean_approx;
-    &:hover {
-      color : $color_cerulean_approx;
-      .fas {
-        color : $color_deep_cerulean_approx;
-        &.add {
-          color : $color_green_approx;
+  a .fas, a .fa, th.link a, a, a i {
+
+    color : $nmLightBlueIcon;
+    &:not(.no-hover):not(.btn) {
+      &:hover {
+        color           : $nmLightBlueIconHover;
+        text-decoration : none;
+      }
+      &.error, &.error i {
+        color : $nmRedError;
+        &:hover, &:hover i {
+          color : $nmRedErrorHover;
+        }
+      }
+      &.add, &.add i {
+        color : $nmGreenIcon;
+        &:hover, &:hover i {
+          color : $nmGreenIconHover;
+        }
+      }
+
+      &.delete, &.delete i {
+        color : $nmRedError;
+        &:hover, &:hover i {
+          color : $nmRedErrorHover;
         }
       }
     }
-    .fas {
-      &.error {
-        color : $color_venetian_red_approx;
-        &:hover {
-          color : $color_carmine_approx;
-        }
-      }
-      &.add {
-        color : $color_la_palma_approx;
-        &:hover {
-          color : $color_green_approx;
-        }
-      }
-    }
-    &.fas:hover {
-      color : $color_deep_cerulean_approx;
-    }
-    &.delete .fas {
-      color : $color_venetian_red_approx;
-      &:hover {
-        color : $color_carmine_approx;
-      }
-    }
-    .error .fas {
-      color : $color_venetian_red_approx;
-      &:hover {
-        color : $color_carmine_approx;
-      }
-    }
-    &.add .fas {
-      color : $color_la_palma_approx;
-      &:hover {
-        color : $color_green_approx;
-      }
-    }
-  }
-  .fas {
-    color : $color_orient_approx;
   }
   .nav-tabs {
     border-color : $whiteNightMode;
@@ -478,18 +564,7 @@ hr {
   hr {
     border-color : $whiteNightMode;
   }
-  .btn-primary {
-    color : $white_80;
-    &:hover {
-      color : $white;
-    }
-  }
-  .btn-secondary {
-    color : $white_80;
-    &:hover {
-      color : $white;
-    }
-  }
+
   .form-control:focus {
     border-color : $white_75;
     color        : $white_75;
@@ -502,47 +577,172 @@ hr {
     //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow   : 0 0 0 0.1rem $white_10;
   }
-  .navbar-dark .navbar-text a {
-    color : $white_80;
-    &:hover {
-      color : $white;
+  .navbar {
+    .navbar-nav .nav-link {
+      @media all and(max-width : 767px) {
+        padding : 7px;
+      }
+    }
+    .dropdown {
+      .dropdown-toggle::after {
+        top      : 2px;
+        position : relative;
+        @media all and(max-width : 767px) {
+          margin-left : 0px;
+        }
+      }
+    }
+    &.navbar-dark {
+
+      &:not(.no-hover):not(.btn) {
+        color : $greyFont;
+        i {
+          color : $greyFont;
+        }
+
+        .navbar-text a, a {
+          color : $greyLinkFont;
+          &.active {
+            color : $greyLinkActiveFont;
+            i {
+              color : $greyLinkActiveFont;
+            }
+          }
+          &:hover, &:focus {
+            color : $greyFontHover;
+            i {
+              color : $greyFontHover;
+            }
+          }
+          &.error {
+            color : $nmRedError;
+            i {
+              color : $nmRedError;
+            }
+            &:hover, &:focus {
+              color : $nmRedErrorHover;
+              i {
+                color : $nmRedErrorHover;
+              }
+            }
+
+          }
+        }
+      }
     }
   }
-  .footer .navbar-dark .navbar-text a {
-    color : $color_orient_approx;
-    &:hover {
-      color : $color_deep_cerulean_approx;
+
+  .btn {
+    color : $nmGreyFont;
+    &.btn-primary.no-hover {
+      &:hover {
+        background-color : $nmBlueBtn;
+        border-color     : $nmBlueBtnBorder;
+      }
+      &:focus {
+        background-color : $nmBlueBtn;
+        border-color     : $nmBlueBtnBorder;
+      }
+      &:active {
+        background-color : $nmBlueBtn;
+        border-color     : $nmBlueBtnBorder;
+      }
     }
-  }
-}
 
-.btn-primary.no-hover {
-  &:hover {
-    background-color : $color_azure_radiance_approx !important;
-    border-color     : $color_azure_radiance_approx !important;
-  }
-  &:focus {
-    background-color : $color_azure_radiance_approx !important;
-    border-color     : $color_azure_radiance_approx !important;
-  }
-  &:active {
-    background-color : $color_azure_radiance_approx !important;
-    border-color     : $color_azure_radiance_approx !important;
-  }
-}
+    &.btn-secondary.no-hover {
+      &:hover {
+        background-color : $greyBtn;
+        border-color     : $greyBtnBorder;
+      }
+      &:focus {
+        background-color : $greyBtn;
+        border-color     : $greyBtnBorder;
+      }
+      &:active {
+        background-color : $greyBtn;
+        border-color     : $greyBtnBorder;
+      }
+    }
 
-.btn-secondary.no-hover {
-  &:hover {
-    background-color : $color_pale_sky_approx !important;
-    border-color     : $color_pale_sky_approx !important;
-  }
-  &:focus {
-    background-color : $color_pale_sky_approx !important;
-    border-color     : $color_pale_sky_approx !important;
-  }
-  &:active {
-    background-color : $color_pale_sky_approx !important;
-    border-color     : $color_pale_sky_approx !important;
+    &.btn-green {
+      background-color : $greenBtn;
+      border-color     : $greenBtnBorder;
+      &:hover {
+        background-color : $greenBtnHover;
+        border-color     : $greenBtnBorderHover;
+      }
+      &:focus {
+        background-color : $greenBtnHover;
+        border-color     : $greenBtnBorderHover;
+      }
+      &:active {
+        background-color : $greenBtnHover;
+        border-color     : $greenBtnBorderHover;
+      }
+
+      &.no-hover {
+        &:hover {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+        &:focus {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+        &:active {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+      }
+    }
+    &.btn-primary {
+      background-color : $nmBlueBtn;
+      border-color     : $nmBlueBtnBorder;
+      &:hover {
+        background-color : $nmBlueBtnHover;
+        border-color     : $nmBlueBtnBorderHover;
+      }
+      &:focus {
+        background-color : $nmBlueBtnHover;
+        border-color     : $nmBlueBtnBorderHover;
+      }
+      &:active {
+        background-color : $nmBlueBtnHover;
+        border-color     : $nmBlueBtnBorderHover;
+      }
+
+      &.no-hover {
+        &:hover {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+        &:focus {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+        &:active {
+          background-color : $greenBtn;
+          border-color     : $greenBtnBorder;
+        }
+      }
+    }
+    &:not(:disabled):not(.disabled) {
+      &.no-hover {
+        cursor : default;
+        &:hover {
+          cursor     : default;
+          box-shadow : none;
+        }
+        &:focus {
+          cursor     : default;
+          box-shadow : none;
+        }
+        &:active {
+          cursor     : default;
+          box-shadow : none;
+        }
+      }
+    }
   }
 }
 
@@ -564,6 +764,13 @@ hr {
 
 .table-striped tbody tr:nth-of-type(2n + 1) td {
   background-color : $black_5;
+}
+
+.changelog {
+  img {
+    max-width : 100%;
+    height    : auto;
+  }
 }
 
 #progressbox span {
@@ -592,4 +799,181 @@ hr {
 
 .update-now #update-icon {
   color : $color_pirate_gold_approx !important;
+}
+
+.devices {
+  &.details {
+    #devices-accordion {
+
+      .card {
+        .card-header {
+          cursor  : pointer;
+          padding : 5px;
+          .card-img-top {
+            max-width  : 30px;
+            max-height : 30px;
+            width      : auto;
+            height     : auto;
+          }
+        }
+      }
+
+    }
+    //devices-accordion
+  }
+  //&.details
+}
+
+.ta-wifi {
+  &.ta-wifi-none {
+    .ta-wifi-base {
+      fill : #848484;
+    }
+
+    .ta-wifi-wave * {
+      stroke       : #848484;
+      opacity      : .3;
+      stroke-width : .5;
+    }
+  }
+
+  &.ta-wifi-bad {
+    .ta-wifi-wave * {
+      stroke       : #B52808;
+      opacity      : 0.3;
+      stroke-width : 0.5;
+    }
+    .ta-wifi-wave-bow.ta-wifi-wave-base {
+      fill    : #B52808;
+      stroke  : none;
+      opacity : 1;
+    }
+  }
+
+  &.ta-wifi-weak {
+    .ta-wifi-base {
+      fill : #B52808;
+    }
+    .ta-wifi-wave * {
+      stroke : #B52808;
+    }
+    .ta-wifi-wave-bow.ta-wifi-wave-outer,
+    .ta-wifi-wave-bow.ta-wifi-wave-middle {
+      opacity      : 0.3;
+      stroke-width : 0.5;
+    }
+  }
+  &.ta-wifi-medium {
+    .ta-wifi-base {
+      fill : #EFC411;
+    }
+
+    .ta-wifi-wave * {
+      stroke : #EFC411;
+    }
+
+    .ta-wifi-wave-outer {
+      opacity      : 0.3;
+      stroke-width : 0.5;
+    }
+  }
+
+  &.ta-wifi-strong {
+    .ta-wifi-base {
+      fill : #569E26;
+    }
+    .ta-wifi-wave * {
+      stroke : #569E26;
+    }
+  }
+}
+
+@-o-keyframes wifianimation {
+  0% {
+    opacity : 0.4
+  }
+  5% {
+    opacity : 1
+  }
+  6% {
+    opacity : 0.8
+  }
+  100% {
+    opacity : 0.1;
+  }
+}
+
+@-moz-keyframes wifianimation {
+  0% {
+    opacity : 0.4
+  }
+  5% {
+    opacity : 1
+  }
+  6% {
+    opacity : 0.8
+  }
+  100% {
+    opacity : 0.1;
+  }
+}
+
+@-webkit-keyframes wifianimation {
+  0% {
+    opacity : 0.4
+  }
+  5% {
+    opacity : 1
+  }
+  10% {
+    opacity : 0.8
+  }
+  100% {
+    opacity : 0.1;
+  }
+}
+
+.ta-wifi.searching {
+
+  &.error {
+    .ta-wifi-wave-bow, .ta-wifi-base {
+      stroke : #B52808;
+    }
+  }
+
+  .ta-wifi-wave-bow {
+    -o-animation      : wifianimation 2s infinite;
+    -moz-animation    : wifianimation 2s infinite;
+    -webkit-animation : wifianimation 2s infinite;
+    animation         : wifianimation 2s infinite;
+    opacity           : 0.1;
+
+    &.ta-wifi-wave-outer {
+      -o-animation-delay      : 600ms;
+      -moz-animation-delay    : 600ms;
+      -webkit-animation-delay : 600ms;
+      animation-delay         : 600ms;
+    }
+
+    &.ta-wifi-wave-middle {
+      -o-animation-delay      : 400ms;
+      -moz-animation-delay    : 400ms;
+      -webkit-animation-delay : 400ms;
+      animation-delay         : 400ms;
+    }
+
+    &.ta-wifi-wave-inner {
+      -o-animation-delay      : 200ms;
+      -moz-animation-delay    : 200ms;
+      -webkit-animation-delay : 200ms;
+      animation-delay         : 200ms;
+    }
+    &.ta-wifi-wave-base {
+      -o-animation-delay      : 0ms;
+      -moz-animation-delay    : 0ms;
+      -webkit-animation-delay : 0ms;
+      animation-delay         : 0ms;
+    }
+
+  }
 }

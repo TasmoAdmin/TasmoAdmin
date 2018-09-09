@@ -33,7 +33,7 @@
 ?>
 
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-10 col-lg-8 col-xl-6'>
+	<div class='col col-12 col-md-10 col-lg-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
 			<?php if( !$docker ): ?>
 				<?php echo $title; ?>
@@ -71,7 +71,7 @@
 				<?php echo __( "UPDATE_FOUND", "SELFUPDATE" ); ?>!
 			</div>
 			<div class='mt-3 row'>
-				<div class='col-12 col-sm-5'>
+				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-secondary w-100'
 					   <?php if( !empty(
 					   $Selfupdate->getCurrentTag()
@@ -91,12 +91,12 @@
 						); ?>
 					</a>
 				</div>
-				<div class='col-12 col-sm-2 text-center align-text-top'>
+				<div class='col col-12 col-sm-2 text-center align-text-top'>
 					<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i>
 					<i class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x my-3"
 					   style='font-size:2.5rem;'></i>
 				</div>
-				<div class='col-12 col-sm-5'>
+				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-primary w-100 btn-green'
 					   <?php if( !empty(
 					   $Selfupdate->getLatestTag()
@@ -109,7 +109,7 @@
 			</div>
 			<?php if( !$docker ): ?>
 				<div class='row justify-content-sm-center mt-5'>
-					<div class="col-12 col-sm-6 col-md-3 col-lg-4 text-center">
+					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>
 							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
 								<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>
@@ -124,7 +124,7 @@
 			</div>
 			<?php if( !$docker ): ?>
 				<div class='row justify-content-sm-center mt-5'>
-					<div class="col-12 col-sm-6 text-center">
+					<div class="col col-12 col-sm-6 text-center">
 						<form name='selfupdateform' method='post'>
 							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
 								<?php echo __( "BTN_START_SELFUPDATE", "SELFUPDATE" ); ?>

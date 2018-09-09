@@ -1,6 +1,6 @@
 <footer class="footer">
 	<div class='navbar navbar-expand-lg navbar-dark bg-dark py-0 '>
-		<div class="container  d-flex justify-content-center">
+		<div class="mx-auto">
 			<span class="navbar-text py-1">
 		        &copy; <?php echo date( "Y" ); ?> <?php echo __( "BY" ); ?> reloxx13
 
@@ -29,17 +29,18 @@
 				     target='_blank'>
 					Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
 				</a>
+
 			</span>
 		</div>
 	</div>
 </footer>
 
 <script>
-	$( "#content-holder" ).css(
-		"width", "calc(100% - " + (
-		         $( "#navi" ).innerWidth() + 42
-	) + "px)"
-	);
+	//$( "#content-holder" ).css(
+	//	"width", "calc(100% - " + (
+	//	         $( "#navi" ).innerWidth() + 42
+	//) + "px)"
+	//);
 	var nightmodeconfig = "<?php echo $Config->read( "nightmode" ); ?>";
 </script>
 </body>
