@@ -68,6 +68,10 @@
 											"TABLE_HEAD_PRESSURE",
 											"DEVICES"
 										); ?></th>
+									<th class='seapressure hidden'><?php echo __(
+											"TABLE_HEAD_SEAPRESSURE",
+											"DEVICES"
+										); ?></th>
 									<th class='distance hidden'><?php echo __(
 											"TABLE_HEAD_DISTANCE",
 											"DEVICES"
@@ -193,6 +197,11 @@
 														</span>
 													</td>
 													<td class='pressure hidden'>
+														<span>
+															-
+														</span>
+													</td>
+													<td class='seapressure hidden'>
 														<span>
 															-
 														</span>
@@ -403,6 +412,10 @@
 										); ?></th>
 									<th class='pressure hidden'><?php echo __(
 											"TABLE_HEAD_PRESSURE",
+											"DEVICES"
+										); ?></th>
+									<th class='seapressure hidden'><?php echo __(
+											"TABLE_HEAD_SEAPRESSURE",
 											"DEVICES"
 										); ?></th>
 									<th class='distance hidden'><?php echo __(

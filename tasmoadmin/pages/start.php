@@ -30,11 +30,17 @@
 				<div class='card box_device position-relative' id='all_off' style=''>
 					<div class=" rubberBand">
 						<?php //col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
-							$img = _RESOURCESURL_."img/device_icons/".$imgNight.$device_group->img."_off.png";
+							if( !empty( $device_group ) ) {
+								$type = $device_group->img;
+							} else {
+								$type = "bulb_1";
+							}
+							$img = _RESOURCESURL_."img/device_icons/".$imgNight.$type."_off.png";
+
 						?>
 						<img class='card-img-top'
 						     src='<?php echo $img; ?>'
-						     data-icon='<?php echo $device_group->img; ?>'
+						     data-icon='<?php echo $type; ?>'
 						     alt=''>
 					</div>
 					<div class='card-body'>

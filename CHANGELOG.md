@@ -2,6 +2,10 @@
 
 
 ## Upcoming
+        
+### v1.6.0-beta21
+- fix startpage all off icon          
+- **UPDATE**: Support Sensor BMP180 [#224](https://github.com/reloxx13/TasmoAdmin/issues/224)
           
 ### v1.6.0-beta20
 - FIX: login page horizontal scrollable removed
