@@ -239,6 +239,14 @@ function updateBox( row, data, device_status ) {
 		infoBoxCounter++;
 	}
 	
+	
+	var seapressure = getSeaPressure( data, ", " );
+	
+	if ( seapressure !== "" ) {
+		$( row ).find( ".info-" + infoBoxCounter + " span" ).html( seapressure ).parent().removeClass( "hidden" );
+		infoBoxCounter++;
+	}
+	
 	var distance = getDistance( data, ", " );
 	
 	if ( distance !== "" ) {

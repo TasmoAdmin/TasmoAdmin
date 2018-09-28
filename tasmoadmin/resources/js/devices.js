@@ -437,7 +437,7 @@ function deviceTools() {
 		if ( e.type === "keypress" && e.which !== 13 ) {
 			return;
 		}
-		if ( input.val() != "" ) {
+		if ( input.val() !== "" ) {
 			var newvalue  = input.val();
 			var device_id = $( this ).closest( "tr" ).data( "device_id" );
 			var target    = $( this ).closest( "td" ).data( "target" ) || "device";
@@ -480,14 +480,14 @@ function updateRow( row, data, device_status ) {
 	
 	var energyPower = getEnergyPower( data );
 	
-	if ( energyPower != "" ) {
+	if ( energyPower !== "" ) {
 		$( row ).find( ".energyPower span" ).html( energyPower );
 		$( "#device-list .energyPower" ).removeClass( "hidden" );
 	}
 	
 	var temp = getTemp( data );
 	
-	if ( temp != "" ) {
+	if ( temp !== "" ) {
 		$( row ).find( ".temp span" ).html( temp );
 		$( "#device-list .temp" ).removeClass( "hidden" );
 	}
@@ -495,28 +495,35 @@ function updateRow( row, data, device_status ) {
 	
 	var humidity = getHumidity( data );
 	
-	if ( humidity != "" ) {
+	if ( humidity !== "" ) {
 		$( row ).find( ".humidity span" ).html( humidity );
 		$( "#device-list .humidity" ).removeClass( "hidden" );
 	}
 	
 	var pressure = getPressure( data );
 	
-	if ( pressure != "" ) {
+	if ( pressure !== "" ) {
 		$( row ).find( ".pressure span" ).html( pressure );
 		$( "#device-list .pressure" ).removeClass( "hidden" );
 	}
 	
+	var seapressure = getSeaPressure( data );
+	
+	if ( seapressure !== "" ) {
+		$( row ).find( ".seapressure span" ).html( seapressure );
+		$( "#device-list .seapressure" ).removeClass( "hidden" );
+	}
+	
 	var distance = getDistance( data );
 	
-	if ( distance != "" ) {
+	if ( distance !== "" ) {
 		$( row ).find( ".distance span" ).html( distance );
 		$( "#device-list .distance" ).removeClass( "hidden" );
 	}
 	
 	var gas = getGas( data );
 	
-	if ( gas != "" ) {
+	if ( gas !== "" ) {
 		$( row ).find( ".gas span" ).html( gas );
 		$( "#device-list .gas" ).removeClass( "hidden" );
 	}
@@ -524,7 +531,7 @@ function updateRow( row, data, device_status ) {
 	var idx = (
 		data.idx ? data.idx : ""
 	);
-	if ( idx != "" ) {
+	if ( idx !== "" ) {
 		$( row ).find( ".idx span" ).html( idx );
 		$( "#device-list .idx" ).removeClass( "hidden" ).show();
 	}

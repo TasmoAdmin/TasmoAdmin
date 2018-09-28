@@ -745,9 +745,9 @@
 				urldecode( $_REQUEST[ "cmnd" ] )
 			);
 
-			//            if( $device->id == 6 ) {
-			//                $url = "http://tasmoAdmin/dev/test.json";
-			//            }
+			//			if( $device->id == 6 ) {
+			//				$url = "http://tasmoAdmin/dev/test.json";
+			//			}
 
 			$result = NULL;
 			$ch     = curl_init();

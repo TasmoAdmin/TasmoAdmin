@@ -356,6 +356,11 @@ function getTemp( data, joinString ) {
 			           data.StatusSNS.HTU21.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.BMP180.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
 	
 	//console.log( temp );
 	
@@ -429,6 +434,27 @@ function getPressure( data, joinString ) {
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		if ( data.StatusSNS.BME680.Pressure !== undefined ) {
 			press.push( data.StatusSNS.BME680.Pressure + "&nbsp;hPa" );
+		}
+	}
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		if ( data.StatusSNS.BMP180.Pressure !== undefined ) {
+			press.push( data.StatusSNS.BMP180.Pressure + "&nbsp;hPa" );
+		}
+	}
+	
+	//console.log( press );
+	
+	return press.join( joinString );
+}
+
+
+function getSeaPressure( data, joinString ) {
+	var press      = [];
+	var joinString = joinString || "<br/>";
+	
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		if ( data.StatusSNS.BMP180.SeaPressure !== undefined ) {
+			press.push( data.StatusSNS.BMP180.SeaPressure + "&nbsp;hPa" );
 		}
 	}
 	
