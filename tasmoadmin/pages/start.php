@@ -29,11 +29,12 @@
 			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
 				<div class='card box_device position-relative' id='all_off' style=''>
 					<div class=" rubberBand">
-						<?php
-							$img = _RESOURCESURL_."img/device_icons/".$imgNight."bulb_1_off.png";
+						<?php //col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
+							$img = _RESOURCESURL_."img/device_icons/".$imgNight.$device_group->img."_off.png";
 						?>
 						<img class='card-img-top'
 						     src='<?php echo $img; ?>'
+						     data-icon='<?php echo $device_group->img; ?>'
 						     alt=''>
 					</div>
 					<div class='card-body'>
@@ -67,12 +68,24 @@
 									<?php echo $devicename; ?>
 								</h5>
 								<div class='card-text info-holder'>
-									<div class='info info-1 hidden'><span>-</span></div>
-									<div class='info info-2 hidden'><span>-</span></div>
-									<div class='info info-3 hidden'><span>-</span></div>
-									<div class='info info-4 hidden'><span>-</span></div>
-									<div class='info info-5 hidden'><span>-</span></div>
-									<div class='info info-6 hidden'><span>-</span></div>
+									<div class='info info-1 hidden'>
+										<span>-</span>
+									</div>
+									<div class='info info-2 hidden'>
+										<span>-</span>
+									</div>
+									<div class='info info-3 hidden'>
+										<span>-</span>
+									</div>
+									<div class='info info-4 hidden'>
+										<span>-</span>
+									</div>
+									<div class='info info-5 hidden'>
+										<span>-</span>
+									</div>
+									<div class='info info-6 hidden'>
+										<span>-</span>
+									</div>
 								</div>
 							</div>
 						</div>

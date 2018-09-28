@@ -2,7 +2,13 @@
 
 
 ## Upcoming
-                 
+          
+### v1.6.0-beta20
+- FIX: login page horizontal scrollable removed
+         
+### v1.6.0-beta19
+- FIX: JS bug caused devices not to load (non-docker only bug) #225 #226
+
 ### v1.6.0-beta18
 - DEV: CSS & HTML fixes
 

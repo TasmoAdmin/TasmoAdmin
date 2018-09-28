@@ -32,20 +32,26 @@
 								<div class='row'>
 									<div class='col col-auto d-flex align-items-center '>
 										<?php //col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
-											$img = _RESOURCESURL_."img/device_icons/".$imgNight."bulb_1_off.png";
+											$img = _RESOURCESURL_
+											       ."img/device_icons/"
+											       .$imgNight
+											       .$device_group->img
+											       ."_off.png";
 										?>
 										<div class='row'>
 											<div class='col col-6  pr-1 d-flex align-items-center'>
 												<div class='img-container devices-switch-container'>
 													<img class='card-img-top'
 													     src='<?php echo $img; ?>'
+													     data-icon='<?php echo $device_group->img; ?>'
 													     alt=''>
 
 												</div>
 											</div>
-											<div class='col col-6 pl-0 d-flex align-items-center'>
+											<div class='col col-6 pl-1 d-flex align-items-center'>
 												<div class='device-rssi'
 												     data-toggle='tooltip'
+												     title='Searching...'
 												>
 													<img src="<?php echo _RESOURCESURL_
 													                     ."css/fontawesome/signal-solid.svg"; ?>"
@@ -76,15 +82,41 @@
 										</div>
 										<div class='row'>
 											<div class='col col-12 '>
-												<span class='version d-none onload'>
-													&nbsp;
+												<span class=''>
+													<?php echo $device_group->ip; ?>
 												</span>
 											</div>
 										</div>
 
+
 									</div>
-									<div class='col col-auto d-flex align-items-center text-left'>
-										<span></span>
+									<div class='col col-auto text-left'>
+										<div class='row '>
+											<div class='col col-12 '>
+												<span class='device-data version hidden'>
+												</span>
+											</div>
+										</div>
+										<div class='row'>
+											<div class='col col-12 '>
+												<span class='device-data runtime hidden'>
+												</span>
+											</div>
+										</div>
+									</div>
+									<div class='col col-auto text-left'>
+										<div class='row '>
+											<div class='col col-12 '>
+												<span class='device-data humidity hidden'>
+												</span>
+											</div>
+										</div>
+										<div class='row'>
+											<div class='col col-12 '>
+												<span class='device-data temp hidden'>
+												</span>
+											</div>
+										</div>
 									</div>
 								</div>
 

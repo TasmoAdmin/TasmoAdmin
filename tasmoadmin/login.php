@@ -58,7 +58,7 @@
 <?php include_once( _INCLUDESDIR_."header.php" ); //always load header?>
 
 <div class="container-fluid" id='content'>
-	<div class="row">
+	<div class="row mx-0">
 		<div class="col col-md-12">
 			<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
 			<div class="row">
@@ -99,16 +99,18 @@
 									       placeholder='<?php echo __( "LOGIN_PASSWORD_PLACEHOLDER", "LOGIN" ); ?>'
 									>
 								</div>
-								<button type='submit'
-								        name='<?php echo $register ? "register" : "login"; ?>'
-								        class='btn btn-success btn-lg float-right'>
-									<?php echo $register
-										? __( "BTN_REGISTER", "LOGIN" )
-										: __(
-											"BTN_LOGIN",
-											"LOGIN"
-										); ?>
-								</button>
+								<div class='col col-12'>
+									<button type='submit'
+									        name='<?php echo $register ? "register" : "login"; ?>'
+									        class='btn btn-success btn-lg float-right'>
+										<?php echo $register
+											? __( "BTN_REGISTER", "LOGIN" )
+											: __(
+												"BTN_LOGIN",
+												"LOGIN"
+											); ?>
+									</button>
+								</div>
 							</form>
 						</div>
 						<!--/card-block-->
