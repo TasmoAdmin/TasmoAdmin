@@ -3,23 +3,12 @@
 
 ## Upcoming
         
-### v1.6.0-beta21
-- fix startpage all off icon          
+### v1.6.0
+- FIX: startpage all off icon error         
 - **UPDATE**: Support Sensor BMP180 [#224](https://github.com/reloxx13/TasmoAdmin/issues/224)
-          
-### v1.6.0-beta20
 - FIX: login page horizontal scrollable removed
-         
-### v1.6.0-beta19
 - FIX: JS bug caused devices not to load (non-docker only bug) #225 #226
-
-### v1.6.0-beta18
 - DEV: CSS & HTML fixes
-
-### v1.6.0-beta17
-- CI skipped, use v1.6.0-beta18
-
-### v1.6.0-beta16
 - **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113) 
   
 To use TasmoAdmin with ssl:
@@ -31,15 +20,8 @@ Using self-signed root certificate give a warning in your browser and is not sec
 
 You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt which are stored on your host, i.e. /home/pi/tasmoadmin/nginx/certs
 
-                     
-### v1.6.0-beta15
 - **FIX**: Space in mobile 
-
-### v1.6.0-beta14
--**FIX**: Display new release version available for betas
-
-
-### v1.6.0-beta9-13
+- **FIX**: Display new release version available for betas
 - **NEW**: nginx config is now modifyable by user if needed
 
 ##### Custom nginx.config
@@ -47,37 +29,21 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 
 2. (Re-)Start your container to use custom nginx.config.
             
-### v1.6.0-beta8
 - **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154)   
-
-
-### v1.6.0-beta7
 - CI skipped, use v1.6.0-beta8
-
-### v1.6.0-beta6
 - **FIX**: XAMPP Folder Structure in ZIP
 - **DEV**: Lower zip splitted parts filesize for git
-
-### v1.6.0-beta5   
 - **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
 - **FIX**: Unwanted underscore added [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
 - **FIX**: XAMPP Pack fixed and updated to XAMPP 7.2.9.0 (PHP7) [141](https://github.com/reloxx13/TasmoAdmin/issues/141), [209](https://github.com/reloxx13/TasmoAdmin/issues/209)
 
-### v1.6.0-beta4
-- CI skipped, use v1.6.0-beta5
-
-### v1.6.0-beta3
--**FIX**: nginx config
-
-### v1.6.0-beta2
+- **FIX**: nginx config
 - **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
    - New Checkbox to choose http/https, default is http.   
 ![grafik](https://user-images.githubusercontent.com/14855001/45046243-e2f26a00-b075-11e8-9304-8621cc6e0ba5.png)
 - **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
 - DEV: Add robots/search crawler protection
 - **FIX**: Add device password field as password not text input [#184](https://github.com/reloxx13/TasmoAdmin/issues/184)
-
-### v1.6.0-beta1
 - **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
 - **NEW**: CZ language ( Big thanks @Vladimir S. by Mail) 
 - **FIX**: Update Tasmota language Releases for auto updates.    
