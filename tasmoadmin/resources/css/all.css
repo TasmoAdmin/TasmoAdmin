@@ -6,10 +6,6 @@
   z-index: 1035;
   background-color: black;
   padding: 3px; }
-.debug .col, .debug .card {
-  border: 1px solid red !important; }
-.debug .row, .debug .form-row {
-  border: 1px solid blue !important; }
 
 @media (max-width: 340px) and (min-width: 0px) {
   .col-xs-6 {

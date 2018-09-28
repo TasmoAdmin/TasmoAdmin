@@ -112,70 +112,75 @@ function updateCard( card, data, device_status ) {
 		var uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 		
 	}
+	var deviceData = {};
 	
 	var energyPower = getEnergyPower( data );
 	
-	if ( energyPower != "" ) {
-		$( card ).find( ".energyPower span" ).html( energyPower );
-		$( "#device-list .energyPower" ).removeClass( "hidden" );
+	if ( energyPower !== "" ) {
+		
+		deviceData.energyPower = energyPower;
 	}
 	
 	var temp = getTemp( data );
 	
-	if ( temp != "" ) {
-		$( card ).find( ".temp span" ).html( temp );
-		$( "#device-list .temp" ).removeClass( "hidden" );
+	if ( temp !== "" ) {
+		deviceData.temp = temp;
 	}
 	
 	
 	var humidity = getHumidity( data );
 	
-	if ( humidity != "" ) {
-		$( card ).find( ".humidity span" ).html( humidity );
-		$( "#device-list .humidity" ).removeClass( "hidden" );
+	if ( humidity !== "" ) {
+		deviceData.humidity = humidity;
 	}
 	
 	var pressure = getPressure( data );
 	
-	if ( pressure != "" ) {
-		$( card ).find( ".pressure span" ).html( pressure );
-		$( "#device-list .pressure" ).removeClass( "hidden" );
+	if ( pressure !== "" ) {
+		deviceData.pressure = pressure;
 	}
 	
 	var distance = getDistance( data );
 	
-	if ( distance != "" ) {
-		$( card ).find( ".distance span" ).html( distance );
-		$( "#device-list .distance" ).removeClass( "hidden" );
+	if ( distance !== "" ) {
+		deviceData.distance = distance;
 	}
 	
 	var gas = getGas( data );
 	
-	if ( gas != "" ) {
-		$( card ).find( ".gas span" ).html( gas );
-		$( "#device-list .gas" ).removeClass( "hidden" );
+	if ( gas !== "" ) {
+		deviceData.gas = gas;
 	}
 	
 	var idx = (
 		data.idx ? data.idx : ""
 	);
-	if ( idx != "" ) {
-		$( card ).find( ".idx span" ).html( idx );
-		$( "#device-list .idx" ).removeClass( "hidden" ).show();
+	if ( idx !== "" ) {
+		deviceData.idx = idx;
 	}
 	
-	$( card ).find( ".version span" ).html( data.StatusFWR.Version );
+	deviceData.version = data.StatusFWR.Version;
 	
 	
-	if ( $( card ).hasClass( "toggled" ) ) {
-		$( card ).removeClass( "toggled" );
-	} else {
-		if ( device_status == "ON" ) {
-			$( card ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
-		} else {
-			$( card ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
-		}
-	}
+	var img = $( card ).find( ".devices-switch-container img" );
+	var src = _RESOURCESURL_ + "img/device_icons/"
+	          + img.data( "icon" )
+	          + "_%pw.png?v=160";
+	
+	
+	src = src.replace( "%pw", device_status.toLowerCase() );
+	img.attr( "src", src );
+	
+	//if ( $( card ).hasClass( "toggled" ) ) {
+	//	$( card ).removeClass( "toggled" );
+	//} else {
+	//	if ( device_status === "ON" ) {
+	//		$( card ).find( ".devices-switch-container img" ).src();
+	//	} else {
+	//		$( card ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
+	//	}
+	//}
+	
 	var signalStrength = "bad";
 	
 	if ( rssi >= 25 ) {
@@ -188,8 +193,12 @@ function updateCard( card, data, device_status ) {
 		signalStrength = "strong";
 	}
 	
-	$( card ).find( ".device-rssi svg" ).addClass( "ta-wifi-" + signalStrength ).removeClass( "searching error" );
 	
+	$( card ).find( ".device-rssi svg" ).addClass( "ta-wifi-" + signalStrength ).removeClass( "searching error" );
+	$( card ).find( ".device-rssi" )
+	         .data( "original-title", rssi + "%" )
+	         .attr( "title", rssi + "%" )
+	         .tooltip( '_fixTitle' );
 	
 	var startup = (
 		(
@@ -267,20 +276,23 @@ function updateCard( card, data, device_status ) {
 		
 		uptime = $.trim( uptime );
 		
-		$( card ).find( ".runtime span" ).html( uptime ).attr(
-			"data-original-title",
-			startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
-				.attr( "lang" )
-				.toUpperCase(), { hour12: false }
-			)
-		).attr( "data-toggle", "tooltip" ).tooltip( {
-			                                            html : true,
-			                                            delay: 700
-		                                            } );
+		
+		var uptimeString = startupdatetime.toLocaleString( $( "html" ).attr( "lang" ) + "-" + $( "html" )
+			.attr( "lang" )
+			.toUpperCase(), { hour12: false }
+		);
+		
+		//console.log( uptimeString );
+		$( card ).find( ".runtime" )
+		         .html( uptime )
+		         .data( "original-title", uptimeString )
+		         .attr( "title", uptimeString )
+		         .tooltip( '_fixTitle' );
+		$( card ).find( ".runtime" ).fadeIn();
 		
 	} else {
-		console.log( uptime );
-		$( card ).find( ".runtime span" ).html( uptime + "h" );
+		//console.log( uptime );
+		$( card ).find( ".runtime" ).html( uptime + "h" );
 	}
 	
 	
@@ -360,6 +372,14 @@ function updateCard( card, data, device_status ) {
 		                                 width: $( "#device-list" ).width()
 	                                 } ).parent().trigger( "resize" );
 	
+	
+	//console.log( deviceData );
+	$.each( deviceData, function ( key, value ) {
+		console.log( key + " => " + value );
+		if ( card.find( ".device-data." + key ).length > 0 ) {
+			card.find( ".device-data." + key ).html( value ).fadeIn();
+		}
+	} );
 	
 	$( card ).removeClass( "updating" );
 }

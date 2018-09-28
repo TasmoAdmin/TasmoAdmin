@@ -49,7 +49,7 @@ $( document ).on( "ready", function () {
 	
 	$( '[title][title!=""]' ).tooltip( {
 		                                   html : true,
-		                                   delay: 700
+		                                   delay: 300
 	                                   } );
 	
 	$( '.custom-file-input' ).on( 'change', function () {
