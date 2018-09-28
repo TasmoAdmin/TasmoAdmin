@@ -1,10 +1,21 @@
 # TasmoAdmin
 ![Logo](https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
+[![GitHub release](https://img.shields.io/github/release/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
+[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin) 
+[![GitHub contributors](https://img.shields.io/github/contributors/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/graphs/contributors/) 
 
-[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
+[![HitCount](http://hits.dwyl.io/reloxx13/TasmoAdmin.svg)](http://hits.dwyl.io/reloxx13/TasmoAdmin)
+[![GitHub stars](https://img.shields.io/github/stars/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/stargazers)
+[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+[![GitHub forks](https://img.shields.io/github/forks/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/network)
 [![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
-[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg?maxAge=2592000)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+[![Github all releases](https://img.shields.io/github/downloads/reloxx13/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
+
+[![GitHub license](https://img.shields.io/github/license/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/blob/master/LICENSE)
+[![bootstap](https://img.shields.io/badge/bootstrap-v4.1.x-%23563d7c.svg)](https://getbootstrap.com/)
+[![php](https://img.shields.io/badge/php-7.2.x-%238892BF.svg)](https://secure.php.net/)
+
 
 TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
