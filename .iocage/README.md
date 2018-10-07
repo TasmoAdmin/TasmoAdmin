@@ -1,37 +1,54 @@
 # iocage-tasmoadmin
+Artifact file(s) for [TasmoAdmin](https://github.com/reloxx13/TasmoAdmin)
 
-This should help create an iocage based jail for TasmoAdmin using nginx and php72 (Tested on FreeNAS-11.2-BETA3)
+---
+## iocage-plugin-tasmoadmin
 
-These steps were tested on FreeNAS and assume you have already [activated iocage and fetched the 11.2-RELEASE](https://iocage.readthedocs.io/en/latest/basic-use.html#activate-iocage.)
+ - This script will by default create a plugin-jail for TasmoAdmin using *nginx and php72* on FreeNAS 11.2 
 
-More information about iocage on FreeNAS can be found in the [FreeNAS guide](https://doc.freenas.org/11.2/jails.html#using-iocage)
+**Download plugin and install**
+
+    wget -O /tmp/tasmoadmin.json https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/.iocage/tasmoadmin.json
+    sudo iocage fetch -P dhcp=on vnet=on bpf=yes -n /tmp/tasmoadmin.json --branch 'master'
+
+---
+---
+### iocage-jail-tasmoadmin
+ 
+ - This scrpit can also be used to create a standard-jail for the same *TasmoAdmin using nginx and php72*
+
+##### Create a jail using a pkg-list to install requirements
+
+    wget -O /tmp/pkglist.json https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/.iocage/pkg-list.json
+    sudo iocage create -r 11.2-RELEASE boot=on dhcp=on bpf=yes vnet=on -p /tmp/pkglist.json -n tasmoadmin
+
+
+##### Git TasmoAdmin and install
+
+    sudo iocage exec tasmoadmin git https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
+    sudo iocage exec tasmoadmin bash /root/TasmoAdmin/post_install.sh standard
 
 ---
 
-Create a jail using a pkg-list to install requirements
+ - You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
+ 
+###### Reset the TasmoAdmin login
 
-	wget https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/.iocage/tasmoadmin-pkgs.json
-	sudo iocage create -r 11.2-RELEASE boot=on dhcp=on bpf=yes vnet=on -p tasmoadmin-pkgs.json -n tasmoadmin
+    sudo iocage exec tasmoadmin tasmo-pwreset
 
-
-Download TasmoAdmin and get it running with nginx
-
-	sudo iocage exec tasmoadmin git clone https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
-	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/tasmoadmin-install.sh
-
-You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
-
-
-
----
-
-To see a list of jails as well as their ip address
+###### To see a list of jails as well as their ip address
 
     sudo iocage list -l
-    
-    +-----+------------+------+-------+------+-----------------+---------------------+-----+----------+
-    | JID |    NAME    | BOOT | STATE | TYPE |     RELEASE     |         IP4         | IP6 | TEMPLATE |
-    +=====+============+======+=======+======+=================+=====================+=====+==========+
-    | 1   | tasmoadmin | on   | up    | jail | 11.2-RELEASE-p3 | epair0b|192.0.1.126 | -   | -        |
-    +-----+------------+------+-------+------+-----------------+---------------------+-----+----------+
- 
+    +-----+--------------+------+-------+----------+-----------------+---------------------+-----+----------+
+    | JID |     NAME     | BOOT | STATE |   TYPE   |     RELEASE     |         IP4         | IP6 | TEMPLATE |
+    +=====+==============+======+=======+==========+=================+=====================+=====+==========+
+    | 1   | tasmoadmin   | on   | up    | jail     | 11.2-RELEASE-p4 | epair0b|192.0.1.73  | -   | -        |
+    +-----+--------------+------+-------+----------+-----------------+---------------------+-----+----------+
+    | 2   | tasmoadmin_2 | on   | up    | pluginv2 | 11.2-RELEASE-p4 | epair0b|192.0.1.76  | -   | -        |
+    +-----+--------------+------+-------+----------+-----------------+---------------------+-----+----------+
+
+
+Tested on FreeNAS-11.2-BETA3  
+More information about [iocage plugins](https://doc.freenas.org/11.2/plugins.html) and [iocage jails](https://doc.freenas.org/11.2/jails.html) can be found in the [FreeNAS guide](https://doc.freenas.org/11.2/intro.html#introduction)  
+This script should also still work with FreeNAS 11.1
+
