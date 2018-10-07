@@ -9,6 +9,6 @@
 - Use TasmoAdmin's built in " Self-Update" to get the latest version
 
 - Other packages can be updated with
-    pkg updated && pkg upgrade
+    pkg update && pkg upgrade
     
 ------------------------------------------------------

@@ -25,8 +25,8 @@ Artifact file(s) for [TasmoAdmin](https://github.com/reloxx13/TasmoAdmin)
 
 ##### Git TasmoAdmin and install
 
-    sudo iocage exec tasmoadmin git https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
-    sudo iocage exec tasmoadmin bash /root/TasmoAdmin/post_install.sh standard
+    sudo iocage exec tasmoadmin git clone https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
+    sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/post_install.sh standard
 
 ---
 
