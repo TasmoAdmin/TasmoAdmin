@@ -1,0 +1,14 @@
+-- TasmoAdmin plugin for FreeNAS -- 
+
+- TasmoAdmin config file
+    /usr/local/www/tasmoadmin/data/MyConfig.json
+    
+- Reset TasmoAdmin login
+    tasmo-pwreset
+    
+- Use TasmoAdmin's built in " Self-Update" to get the latest version
+
+- Other packages can be updated with
+    pkg updated && pkg upgrade
+    
+------------------------------------------------------

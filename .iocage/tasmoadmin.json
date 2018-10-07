@@ -1,0 +1,26 @@
+{
+  "name": "tasmoadmin",                                                             
+  "release": "11.2-RELEASE",                                                    
+  "artifact": "https://github.com/tprelog/iocage-tasmoadmin.git", 
+  "pkgs": [
+    "shells/bash",
+    "devel/git",
+    "www/nginx",
+    "lang/php72",
+    "ftp/php72-curl",
+    "security/php72-filter",
+    "devel/php72-json",
+    "www/php72-session",
+    "archivers/php72-zip"
+      ],
+  "packagesite": "http://pkg.FreeBSD.org/${ABI}/quarterly",
+  "fingerprints": {
+	  "plugin-default": [
+		  {
+		  "function": "sha256",
+		  "fingerprint": "b0170035af3acc5f3f3ae1859dc717101b4e6c1d0a794ad554928ca0cbb2f438"
+	  }
+	  ]
+  },
+  "official": false
+}
