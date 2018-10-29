@@ -2,7 +2,7 @@
 
 
 ## Upcoming
-
+-FIX: login box position fix
 
 ### v1.6.1-beta1
 - FIX: Remove SSL Keys 
