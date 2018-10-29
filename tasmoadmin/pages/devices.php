@@ -23,7 +23,7 @@
 				</div>
 			</div>
 			<div class='row justify-content-center'>
-				<div class='col '>
+				<div class='col col-12'>
 					<div class='table-responsive double-scroll'>
 						<table id='device-list'
 						       class='table table-striped table-sm table-hover tablesaw tablesaw-stack '

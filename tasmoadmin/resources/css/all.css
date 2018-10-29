@@ -242,7 +242,6 @@ body {
   width: 100%; }
 
 #content {
-  position: absolute;
   top: 55px;
   bottom: 25px;
   display: inline-block;
@@ -253,7 +252,7 @@ body {
   #content #content-holder {
     height: 100%;
     overflow-y: auto;
-    padding: 0px 15px; }
+    padding: 50px 15px 25px; }
     #content #content-holder::after, #content #content-holder::before {
       content: "\0020";
       display: table;
@@ -338,9 +337,9 @@ body {
       box-shadow: none; }
 
 a .fas, a .fa, th.link a, a {
-  color: #008FCC; }
-  a .fas:not(.no-hover):not(.btn), a .fa:not(.no-hover):not(.btn), th.link a:not(.no-hover):not(.btn), a:not(.no-hover):not(.btn) {
-    color: #006b99;
+  color: #1C99D2; }
+  a .fas:not(.no-hover.btn), a .fa:not(.no-hover.btn), th.link a:not(.no-hover.btn), a:not(.no-hover.btn) {
+    color: #1678a5;
     text-decoration: none; }
   a .fas.error, a .fa.error, th.link a.error, a.error {
     color: #BA001A; }
@@ -479,7 +478,7 @@ td.runtime {
   .form-switch input {
     display: none; }
     .form-switch input:checked + i {
-      background-color: #008FCC; }
+      background-color: #1C99D2; }
     .form-switch input:checked + i::before {
       transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0); }
     .form-switch input:checked + i::after {
@@ -531,9 +530,9 @@ hr {
   .nightmode .form-switch input:checked + i {
     background-color: #007EB4; }
   .nightmode a .fas, .nightmode a .fa, .nightmode th.link a, .nightmode a, .nightmode a i {
-    color: #3088AE; }
+    color: #1C99D2; }
     .nightmode a .fas:not(.no-hover):not(.btn):hover, .nightmode a .fa:not(.no-hover):not(.btn):hover, .nightmode th.link a:not(.no-hover):not(.btn):hover, .nightmode a:not(.no-hover):not(.btn):hover, .nightmode a i:not(.no-hover):not(.btn):hover {
-      color: #59add1;
+      color: #53b9e8;
       text-decoration: none; }
     .nightmode a .fas:not(.no-hover):not(.btn).error, .nightmode a .fas:not(.no-hover):not(.btn).error i, .nightmode a .fa:not(.no-hover):not(.btn).error, .nightmode a .fa:not(.no-hover):not(.btn).error i, .nightmode th.link a:not(.no-hover):not(.btn).error, .nightmode th.link a:not(.no-hover):not(.btn).error i, .nightmode a:not(.no-hover):not(.btn).error, .nightmode a:not(.no-hover):not(.btn).error i, .nightmode a i:not(.no-hover):not(.btn).error, .nightmode a i:not(.no-hover):not(.btn).error i {
       color: #a10016; }
@@ -839,6 +838,9 @@ hr {
     -moz-animation-delay: 0ms;
     -webkit-animation-delay: 0ms;
     animation-delay: 0ms; }
+
+.table-responsive {
+  overflow: auto !important; }
 
 .startpage {
   padding-top: 15px; }

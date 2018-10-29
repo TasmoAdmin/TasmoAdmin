@@ -2,8 +2,17 @@
 
 
 ## Upcoming
-- FIX: Remove SSL Keys    
-        
+
+
+### v1.6.1-beta1
+- FIX: Remove SSL Keys 
+- **UPDATE**: Support multi BMP´s ([pr#4195](https://github.com/arendst/Sonoff-Tasmota/pull/4195))
+  - BME280-76/77
+- adjust some colors  
+- **FIX**: IOS/Mobile Scroll bug [#244](https://github.com/reloxx13/TasmoAdmin/issues/244) 
+- **FIX**: Startpage Devices without Relais shaking and breaking js [#97](https://github.com/reloxx13/TasmoAdmin/issues/97)  
+
+    
 ### v1.6.0
 - FIX: startpage all off icon error         
 - **UPDATE**: Support Sensor BMP180 [#224](https://github.com/reloxx13/TasmoAdmin/issues/224)
