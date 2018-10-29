@@ -32,11 +32,11 @@ $greyBtnBorder : $grey;
 $greyBtnHover : darken($greyBtn, 5%);
 $greyBtnBorderHover : darken($greyBtnBorder, 10%);
 
-$lightBlue : #008FCC;
+$lightBlue : #1C99D2;
 $lightBlueIcon : $lightBlue;
 $lightBlueIconHover : darken($lightBlue, 10%);
 
-$nmLightBlueIcon : #3088AE;
+$nmLightBlueIcon : #1C99D2;
 $nmLightBlueIconHover : lighten($nmLightBlueIcon, 15%);
 
 $inputBoxShadow : 0 0 0 0.2rem rgba($blue, 0.25);

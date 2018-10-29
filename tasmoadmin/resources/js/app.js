@@ -346,6 +346,12 @@ function getTemp( data, joinString ) {
 			           data.StatusSNS.BME280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		temp.push( data.StatusSNS[ "BME280-76" ].Temperature + "°" + data.StatusSNS.TempUnit );
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		temp.push( data.StatusSNS[ "BME280-77" ].Temperature + "°" + data.StatusSNS.TempUnit );
+	}
 	if ( data.StatusSNS.SI7021 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.SI7021.Temperature + "°" + data.StatusSNS.TempUnit
@@ -379,6 +385,17 @@ function getHumidity( data, joinString ) {
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Humidity !== undefined ) {
 			humi.push( data.StatusSNS.BME280.Humidity + "%" );
+		}
+	}
+	
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-76" ].Humidity !== undefined ) {
+			humi.push( data.StatusSNS[ "BME280-76" ].Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-77" ].Humidity !== undefined ) {
+			humi.push( data.StatusSNS[ "BME280-77" ].Humidity + "%" );
 		}
 	}
 	if ( data.StatusSNS.BME680 !== undefined ) {
@@ -424,6 +441,16 @@ function getPressure( data, joinString ) {
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Pressure !== undefined ) {
 			press.push( data.StatusSNS.BME280.Pressure + "&nbsp;hPa" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-76" ].Pressure !== undefined ) {
+			press.push( data.StatusSNS[ "BME280-76" ].Pressure + "&nbsp;hPa" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-77" ].Pressure !== undefined ) {
+			press.push( data.StatusSNS[ "BME280-77" ].Pressure + "&nbsp;hPa" );
 		}
 	}
 	if ( data.StatusSNS.BMP280 !== undefined ) {

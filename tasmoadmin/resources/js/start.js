@@ -72,11 +72,13 @@ function updateStatus() {
 						                  var src           = _RESOURCESURL_ + "img/device_icons/"
 						                                      + img.data( "icon" )
 						                                      + "_%pw.png?v=160";
-						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1;
+						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1 || undefined;
 						
-						                  src = src.replace( "%pw", device_status.toLowerCase() );
-						                  img.attr( "src", src ).parent().removeClass( "animated" );
-						                  updateBox( $( box ), data, device_status );
+						                  if ( device_status !== undefined ) {
+							                  src = src.replace( "%pw", device_status.toLowerCase() );
+							                  img.attr( "src", src ).parent().removeClass( "animated" );
+							                  updateBox( $( box ), data, device_status );
+						                  }
 						                  $( box ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
 						                  $( box ).removeClass( "updating" );
 					                  }
@@ -133,9 +135,13 @@ function deviceTools() {
 			if ( data && !data.ERROR && !data.WARNING ) {
 				var img           = device_box.find( "img" );
 				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
-				var device_status = data.POWER || eval( "data.POWER" + device_relais );
-				src               = src.replace( "%pw", device_status.toLowerCase() );
-				img.attr( "src", src ).parent().removeClass( "animated" );
+				var device_status = data.POWER || eval( "data.POWER" + device_relais ) || undefined;
+				
+				if ( device_status !== undefined ) {
+					src = src.replace( "%pw", device_status.toLowerCase() );
+					img.attr( "src", src );
+				}
+				img.parent().removeClass( "animated" );
 				device_box.removeClass( "error" );
 			} else {
 				device_box.addClass( "error" );
@@ -177,8 +183,11 @@ function deviceTools() {
 					var img           = $( box ).find( "img" );
 					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
 					var device_status = data.POWER || eval( "data.POWER" + device_relais );
-					src               = src.replace( "%pw", device_status.toLowerCase() );
-					img.attr( "src", src ).parent().removeClass( "animated" );
+					if ( device_status !== undefined ) {
+						src = src.replace( "%pw", device_status.toLowerCase() );
+						img.attr( "src", src );
+					}
+					img.parent().removeClass( "animated" );
 					$( box ).removeClass( "error" );
 				} else {
 					$( box ).addClass( "error" );

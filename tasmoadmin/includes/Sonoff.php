@@ -749,6 +749,7 @@
 			//				$url = "http://tasmoAdmin/dev/test.json";
 			//			}
 
+
 			$result = NULL;
 			$ch     = curl_init();
 			curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 10 );
@@ -823,6 +824,9 @@
 				//                if( $device->id == 6 ) {
 				//                    $url = "http://tasmoAdmin/dev/BME680.json";
 				//                }
+
+				//$url = "http://tasmoAdmin/dev/test.json";
+
 
 				$urls[ $url ] = $device;
 				$urlsClone[]  = $url;
