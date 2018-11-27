@@ -60,6 +60,8 @@
 				$devicesFoundTmp = $devicesFound;
 				$devicesFound    = [];
 				foreach( $devicesFoundTmp as $device ) {
+					if ( empty ($device)  || ! empty($device->error))
+        					continue;
 					$ip                       = explode( ".", $device->StatusNET->IPAddress );
 					$devicesFound[ $ip[ 3 ] ] = $device;
 				}
