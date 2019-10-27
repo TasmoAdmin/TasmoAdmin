@@ -31,25 +31,30 @@
 				$skipIps[] = $device->ip;
 			}
 
-			while( $fromip[ 3 ] <= $toip[ 3 ] ) {
-				if( !in_array( implode( ".", $fromip ), $skipIps ) ) {
+			while( $fromip[ 2 ] <= $toip[ 2 ] ) {
+				while( $fromip[ 3 ] <= $toip[ 3 ] ) {
+					if( !in_array( implode( ".", $fromip ), $skipIps ) ) {
 
 
-					$fakeDevice           = new stdClass();
-					$fakeDevice->ip       = implode( ".", $fromip );
-					$fakeDevice->username = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
-						: "";
-					$fakeDevice->password = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
-						: "";
-					$cmnd                 = "status 0";
+						$fakeDevice           = new stdClass();
+						$fakeDevice->ip       = implode( ".", $fromip );
+						$fakeDevice->username = isset( $_REQUEST[ "device_username" ] ) ? $_REQUEST[ "device_username" ]
+							: "";
+						$fakeDevice->password = isset( $_REQUEST[ "device_password" ] ) ? $_REQUEST[ "device_password" ]
+							: "";
+						$cmnd                 = "status 0";
 
 
-					$urls[] = $Sonoff->buildCmndUrl( $fakeDevice, $cmnd );
+						$urls[] = $Sonoff->buildCmndUrl( $fakeDevice, $cmnd );
 
 
-					unset( $fakeDevice );
+						unset( $fakeDevice );
+					}
+					$fromip[ 3 ]++;
 				}
-				$fromip[ 3 ]++;
+				$fromip[ 3 ] = 0;
+				$fromip[ 2 ]++;
+
 			}
 			$devicesFound = $Sonoff->search( $urls );
 
