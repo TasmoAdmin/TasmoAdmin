@@ -182,7 +182,9 @@
 		</form>
 		<hr class='my-5'>
 		<div class='changelog'>
-			<h2>Tasmota Changelog</h2>
+			<h2>
+				<?php echo __( "TASMOTA_CHANGELOG", "DEVICE_UPDATE" ); ?>
+			</h2>
 			<?php echo $fchangelog; ?>
 		</div>
 	</div>
