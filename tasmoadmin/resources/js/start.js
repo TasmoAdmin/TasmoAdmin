@@ -77,8 +77,8 @@ function updateStatus() {
 						                  if ( device_status !== undefined ) {
 							                  src = src.replace( "%pw", device_status.toLowerCase() );
 							                  img.attr( "src", src ).parent().removeClass( "animated" );
-							                  updateBox( $( box ), data, device_status );
 						                  }
+						                  updateBox( $( box ), data, device_status );
 						                  $( box ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
 						                  $( box ).removeClass( "updating" );
 					                  }
