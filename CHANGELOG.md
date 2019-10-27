@@ -2,6 +2,9 @@
 
 
 ## Upcoming
+
+
+### v1.6.1-beta2
 -FIX: login box position fix
 - **UPDATE**: Change to new Tasmota Github URL
 - FIX: loop 3rd an 4th ip block in autoscan to support bigger networks [#302](https://github.com/reloxx13/TasmoAdmin/issues/302), thx @[Leuselator](https://github.com/Leuselator) 
