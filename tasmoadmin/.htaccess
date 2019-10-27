@@ -10,9 +10,17 @@ SetEnvIfNoCase User-Agent "mediawords" bad_bot
 SetEnvIfNoCase User-Agent "FlipboardProxy" bad_bot
 
 <Limit GET POST HEAD>
-	Order Allow,Deny
-	Allow from all
-	Deny from env=bad_bot
+    <IfModule !mod_access_compat.c>
+    	<RequireAll>
+        	Require all granted
+            Require not env bad_bot
+        </RequireAll>
+    </IfModule>
+    <IfModule mod_access_compat.c>
+    	Order allow,deny
+        Allow from all
+        Deny from env=bad_bot
+    </IfModule>
 </Limit>
 
 <IfModule mod_rewrite.c>
