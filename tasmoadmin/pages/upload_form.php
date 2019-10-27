@@ -1,5 +1,5 @@
 <?php
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/RELEASENOTES.md?r=".time();
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -28,7 +28,7 @@
 		$mdParser  = new Parsedown();
 		$changelog = $mdParser->parse( $changelog );
 
-		$tasmotaIssueUrl = "https://github.com/arendst/Sonoff-Tasmota/issues/";
+		$tasmotaIssueUrl = "https://github.com/arendst/Tasmota/issues/";
 		$changelog       = preg_replace(
 			"/\B#([\d]+)/",
 			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
@@ -40,8 +40,7 @@
 	$fchangelog .= "<br/><br/>";
 
 
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Sonoff-Tasmota/development/sonoff/_changelog.ino?r="
-	                .time();
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/sonoff/_changelog.ino?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
