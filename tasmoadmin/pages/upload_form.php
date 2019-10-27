@@ -40,7 +40,7 @@
 	$fchangelog .= "<br/><br/>";
 
 
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/sonoff/_changelog.ino?r=".time();
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/tasmota/_changelog.ino?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -50,18 +50,18 @@
 
 
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
-	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
+	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" || empty( $changelog ) ) {
 		$changelog = "";
 	} else {
 		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 99999 )."...";
-
+		$changelog = str_replace( "****\\", "", $changelog );
 		$changelog = substr( $changelog, 0, strpos( $changelog, " 2018", 1000 )-10 );
 
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
 		$mdParser  = new Parsedown();
 		$changelog = $mdParser->parse( $changelog );
 
-		$tasmotaIssueUrl = "https://github.com/arendst/Sonoff-Tasmota/issues/";
+		$tasmotaIssueUrl = "https://github.com/arendst/Tasmota/issues/";
 		$changelog       = preg_replace(
 			"/\B#([\d]+)/",
 			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
@@ -80,7 +80,7 @@
 		<div class='text-center mb-3'>
 			<?php echo __( "UPLOAD_DESCRIPTION", "DEVICE_UPDATE" ); ?>
 			<br/>
-			<a href='https://github.com/arendst/Sonoff-Tasmota/releases' target='_blank'>Tasmota Releases</a>
+			<a href='https://github.com/arendst/Tasmota/releases' target='_blank'>Tasmota Releases</a>
 		</div>
 
 

@@ -302,21 +302,21 @@
 								   href="<?php echo _BASEURL_; ?>chat">
 									<?php echo __( "HELP_CHAT", "NAVI" ); ?>
 								</a>
-								<a href='https://github.com/arendst/Sonoff-Tasmota/wiki' target='_blank'
+								<a href='https://github.com/arendst/Tasmota/wiki' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 									   $page,
 									   []
 								   ) ? "active" : ""; ?>'>
 									<?php echo __( "HELP_TASWIKI", "NAVI" ); ?>
 								</a>
-								<a href='https://github.com/arendst/Sonoff-Tasmota/wiki/Commands' target='_blank'
+								<a href='https://github.com/arendst/Tasmota/wiki/Commands' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 									   $page,
 									   []
 								   ) ? "active" : ""; ?>'>
 									<?php echo __( "HELP_TASCOMMANDS", "NAVI" ); ?>
 								</a>
-								<a href='https://github.com/arendst/Sonoff-Tasmota/wiki/Troubleshooting' target='_blank'
+								<a href='https://github.com/arendst/Tasmota/wiki/Troubleshooting' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 									   $page,
 									   []

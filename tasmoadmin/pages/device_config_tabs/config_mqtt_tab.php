@@ -2,7 +2,7 @@
 	<?php
 		$o = &$status->StatusLOG->SetOptionDecoded;
 
-		//TODO: add link to https://github.com/arendst/Sonoff-Tasmota/wiki/MQTT-Features
+		//TODO: add link to https://github.com/arendst/Tasmota/wiki/MQTT-Features
 	?>
 
 	<input type='hidden' name='tab-index' value='2'>

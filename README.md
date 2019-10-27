@@ -17,7 +17,7 @@
 [![php](https://img.shields.io/badge/php-7.2.x-%238892BF.svg)](https://secure.php.net/)
 
 
-TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
+TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
 It supports running on Windows, Linux, Docker container and as Home Assistant addon.
 

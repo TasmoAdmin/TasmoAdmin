@@ -97,7 +97,7 @@
 		</small>
 	</div>
 
-	<?php // TODO: Enable again if restart gets fixed https://github.com/arendst/Sonoff-Tasmota/issues/1819 ?>
+	<?php // TODO: Enable again if restart gets fixed https://github.com/arendst/Tasmota/issues/1819 ?>
 	<div class="form-group mt-5">
 		<label for="NtpServer1">
 			<?php echo __( "CONFIG_NTPSERVER", "DEVICE_CONFIG" ); ?>
