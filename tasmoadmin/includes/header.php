@@ -298,10 +298,6 @@
 										<?php echo __( "HELP_CHANGELOG", "NAVI" ); ?>
 									</a>
 								<?php endif; ?>
-								<a class="dropdown-item nav-link <?php echo $page == "chat" ? "active" : ""; ?>"
-								   href="<?php echo _BASEURL_; ?>chat">
-									<?php echo __( "HELP_CHAT", "NAVI" ); ?>
-								</a>
 								<a href='https://github.com/arendst/Tasmota/wiki' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 									   $page,
@@ -316,12 +312,34 @@
 								   ) ? "active" : ""; ?>'>
 									<?php echo __( "HELP_TASCOMMANDS", "NAVI" ); ?>
 								</a>
+								<a href='https://blakadder.github.io/templates/' target='_blank'
+								   class='dropdown-item nav-link <?php echo in_array(
+									   $page,
+									   []
+								   ) ? "active" : ""; ?>'>
+									<?php echo __( "HELP_TASTEMPLATES", "NAVI" ); ?>
+								</a>
 								<a href='https://github.com/arendst/Tasmota/wiki/Troubleshooting' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 									   $page,
 									   []
 								   ) ? "active" : ""; ?>'>
 									<?php echo __( "HELP_TASTROUBLESHOOTING", "NAVI" ); ?>
+								</a>
+
+								<a href='https://discord.gg/Ks2Kzd4' target='_blank'
+								   class='dropdown-item nav-link <?php echo in_array(
+									   $page,
+									   []
+								   ) ? "active" : ""; ?>'>
+									<?php echo __( "HELP_DISCORD_TASMOTA", "NAVI" ); ?>
+								</a>
+								<a href='https://discord.gg/Q6zPX3C' target='_blank'
+								   class='dropdown-item nav-link <?php echo in_array(
+									   $page,
+									   []
+								   ) ? "active" : ""; ?>'>
+									<?php echo __( "HELP_DISCORD_TASMOADMIN", "NAVI" ); ?>
 								</a>
 
 							</div>
