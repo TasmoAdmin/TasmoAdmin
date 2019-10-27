@@ -19,12 +19,15 @@
 			}
 
 			if( !isset( $settings[ "password" ] ) || empty( $settings[ "password" ] )
-			    || $settings[ "password" ] == ""
-			    || $settings[ "login" ] == "0" ) {
+			    || $settings[ "password" ] == "")
+			{
 				unset( $settings[ "password" ] );
-				unset( $settings[ "username" ] );
 			} else {
 				$settings[ "password" ] = md5( $settings[ "password" ] );
+			}
+			if ($settings[ "login" ] == "0" ) {
+				unset( $settings[ "password" ] );
+				unset( $settings[ "username" ] );			
 			}
 
 
