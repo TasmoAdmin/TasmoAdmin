@@ -156,7 +156,7 @@
 				$lCodeTasmota = "";
 			}
 
-			$url = "https://api.github.com/repos/arendst/Sonoff-Tasmota/releases/latest";
+			$url = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
 
 			$ch = curl_init();
 			curl_setopt( $ch, CURLOPT_URL, $url );

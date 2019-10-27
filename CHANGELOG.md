@@ -3,10 +3,11 @@
 
 ## Upcoming
 -FIX: login box position fix
+- Change to new Tasmota Github URL
 
 ### v1.6.1-beta1
 - FIX: Remove SSL Keys 
-- **UPDATE**: Support multi BMP´s ([pr#4195](https://github.com/arendst/Sonoff-Tasmota/pull/4195))
+- **UPDATE**: Support multi BMP´s ([pr#4195](https://github.com/arendst/Tasmota/pull/4195))
   - BME280-76/77
 - adjust some colors  
 - **FIX**: IOS/Mobile Scroll bug [#244](https://github.com/reloxx13/TasmoAdmin/issues/244) 
@@ -54,7 +55,7 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 - **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
 - DEV: Add robots/search crawler protection
 - **FIX**: Add device password field as password not text input [#184](https://github.com/reloxx13/TasmoAdmin/issues/184)
-- **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Sonoff-Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
+- **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
 - **NEW**: CZ language ( Big thanks @Vladimir S. by Mail) 
 - **FIX**: Update Tasmota language Releases for auto updates.    
 - **UPDATE**: Font Awesome 5.0.13 -> 5.3.1   
@@ -97,7 +98,7 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 - **NEW**: Disable update check option [#156](https://github.com/reloxx13/TasmoAdmin/issues/156) 
 - **NEW**: Add top scrollbar on device list [#170](https://github.com/reloxx13/TasmoAdmin/issues/170) 
 - MINOR: Rename "Show More" => "Detail View" in i18n.EN [#168](https://github.com/reloxx13/TasmoAdmin/issues/168) 
-- **NEW**: Support Multi Friendlyname on Device General Config Page (fw >= 5.12.0h) [Sonoff-Tasmota#3161](https://github.com/arendst/Sonoff-Tasmota/issues/3161)
+- **NEW**: Support Multi Friendlyname on Device General Config Page (fw >= 5.12.0h) [Tasmota#3161](https://github.com/arendst/Tasmota/issues/3161)
 - **FIX**: device config allow more steps for Sleep [#172](https://github.com/reloxx13/TasmoAdmin/issues/172)      
 
 
@@ -252,8 +253,8 @@ Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
 - minor fixes
    
 ### 2018-02-11
-- support runtime calculation from [reloxx13/Sonoff-Tasmota-Modified](https://github.com/reloxx13/Sonoff-Tasmota-Modified) for correct runtime with using sleep
-   - Fix for [#1842](https://github.com/arendst/Sonoff-Tasmota/issues/1842)
+- support runtime calculation from [reloxx13/Tasmota-Modified](https://github.com/reloxx13/Tasmota-Modified) for correct runtime with using sleep
+   - Fix for [#1842](https://github.com/arendst/Tasmota/issues/1842)
 - add BMP280 sensor
 - add SI7021 sensor
    
