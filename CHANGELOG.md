@@ -3,7 +3,10 @@
 
 ## Upcoming
 -FIX: login box position fix
-- Change to new Tasmota Github URL
+- **UPDATE**: Change to new Tasmota Github URL
+- FIX: loop 3rd an 4th ip block in autoscan to support bigger networks #302, thx @[Leuselator](https://github.com/Leuselator) 
+  - Note: Autoscan will take longer now
+
 
 ### v1.6.1-beta1
 - FIX: Remove SSL Keys 
