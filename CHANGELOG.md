@@ -10,7 +10,7 @@
 - FIX: loop 3rd an 4th ip block in autoscan to support bigger networks [#302](https://github.com/reloxx13/TasmoAdmin/issues/302), thx @[Leuselator](https://github.com/Leuselator) 
   - Note: Autoscan will take longer now
 - **UPDATE**: Change htaccess to new syntax [#299](https://github.com/reloxx13/TasmoAdmin/issues/299), thx @[joba-1](https://github.com/joba-1)
-- FIX: Remove PHP5 support, add SELinux info to redmea [#290](https://github.com/reloxx13/TasmoAdmin/issues/290)
+- FIX: Remove PHP5 support, add SELinux info to readme [#290](https://github.com/reloxx13/TasmoAdmin/issues/290)
 
 
 ### v1.6.1-beta1
