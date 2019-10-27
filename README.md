@@ -74,10 +74,16 @@ Now you can type in your browser http://YOURLOCALIP and TasmoAdmin shows up.
 Running TasmoAdmin on a Linux/Unix hosts requires the following:
 * A Webserver
   * apache2 recommended
-  * php7 recommended (works with php5 too)
+  * php7
   * php-curl php-zip Modules installed
 
 You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
+
+#### SELinux (#209)
+`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/data(/.*)?"`
+`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/tmp(/.*)?"`
+
+`restorecon -Rv /var/www/`
 
 ## Example Images
 #### Login Page
