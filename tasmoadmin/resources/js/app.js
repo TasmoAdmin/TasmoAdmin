@@ -367,6 +367,11 @@ function getTemp( data, joinString ) {
 			           data.StatusSNS.BMP180.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.LM75AD !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.LM75AD.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
 	
 	//console.log( temp );
 	
