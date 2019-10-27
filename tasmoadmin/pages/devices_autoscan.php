@@ -60,8 +60,12 @@
 				$devicesFoundTmp = $devicesFound;
 				$devicesFound    = [];
 				foreach( $devicesFoundTmp as $device ) {
-					if ( empty ($device)  || ! empty($device->error))
-        					continue;
+					if( empty ( $device ) || !empty( $device->error ) ) {
+						continue;
+					}
+					if( empty( $device->StatusNET ) ) {
+						continue; //TODO: show error message per device
+					}
 					$ip                       = explode( ".", $device->StatusNET->IPAddress );
 					$devicesFound[ $ip[ 3 ] ] = $device;
 				}
