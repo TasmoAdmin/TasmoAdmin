@@ -4,6 +4,8 @@
 ## Upcoming
 - **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/reloxx13/TasmoAdmin/issues/275)
 - **FIX**: Follow up for renaming of sonoff -> tasmota [#310](https://github.com/reloxx13/TasmoAdmin/issues/310) [PR#311](https://github.com/reloxx13/TasmoAdmin/pull/311)
+- **UPDATE**: Font Awesome 5.3.1 -> 5.11.2   
+- **UPDATE**: Bootstrap 4.1.2 -> 4.3.1
 
 ### v1.6.1-beta2
 -FIX: login box position fix
