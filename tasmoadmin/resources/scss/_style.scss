@@ -455,8 +455,14 @@ hr {
   background-color : $color_mako_approx;
   color            : $whiteNightMode;
 
+  .table-hover tbody tr:hover {
+    color : $whiteNightMode;
+  }
   .table {
     color : $whiteNightMode;
+    &:hover {
+      color : $whiteNightMode;
+    }
   }
 
   .form-switch {
