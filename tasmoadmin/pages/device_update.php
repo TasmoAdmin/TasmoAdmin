@@ -14,7 +14,7 @@
 
 
 	if( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
-		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
+		$ota_minimal_firmware_url = $otaServer."data/firmwares/tasmota-minimal.bin";
 	}
 	$ota_new_firmware_url = $otaServer."data/firmwares/tasmota.bin";
 

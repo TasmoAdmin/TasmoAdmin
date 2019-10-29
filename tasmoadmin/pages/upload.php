@@ -62,7 +62,7 @@
 				}
 
 
-				$minimal_firmware_path = $firmwarefolder."sonoff-minimal.bin";
+				$minimal_firmware_path = $firmwarefolder."tasmota-minimal.bin";
 
 				if( !move_uploaded_file(
 					$_FILES[ 'minimal_firmware' ][ 'tmp_name' ],
@@ -125,7 +125,7 @@
 				);
 			}
 
-			$new_firmware_path = $firmwarefolder."sonoff.bin";
+			$new_firmware_path = $firmwarefolder."tasmota.bin";
 
 			if( !move_uploaded_file(
 				$_FILES[ 'new_firmware' ][ 'tmp_name' ],
@@ -172,8 +172,14 @@
 			$data = json_decode( $result );
 
 			foreach( $data->assets as $binfileData ) {
+				if( $binfileData->name == "tasmota-minimal.bin" ) {
+					$fwMinimalUrl = $binfileData->browser_download_url;
+				}
 				if( $binfileData->name == "sonoff-minimal.bin" ) {
 					$fwMinimalUrl = $binfileData->browser_download_url;
+				}
+				if( $binfileData->name == sprintf( "tasmota%s.bin", $lCodeTasmota ) ) {
+					$fwUrl = $binfileData->browser_download_url;
 				}
 				if( $binfileData->name == sprintf( "sonoff%s.bin", $lCodeTasmota ) ) {
 					$fwUrl = $binfileData->browser_download_url;
@@ -181,8 +187,8 @@
 
 			}
 			if( isset( $fwUrl ) && isset( $fwMinimalUrl ) ) {
-				$minimal_firmware_path = $firmwarefolder.'sonoff-minimal.bin';
-				$new_firmware_path     = $firmwarefolder.'sonoff.bin';
+				$minimal_firmware_path = $firmwarefolder.'tasmota-minimal.bin';
+				$new_firmware_path     = $firmwarefolder.'tasmota.bin';
 				$file                  = fopen( $minimal_firmware_path, 'w' );
 				// cURL
 				$ch = curl_init();
