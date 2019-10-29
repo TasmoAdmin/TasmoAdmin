@@ -517,6 +517,8 @@ hr {
 .nightmode {
   background-color: #44494F;
   color: rgba(255, 255, 255, 0.5); }
+  .nightmode .table {
+    color: rgba(255, 255, 255, 0.5); }
   .nightmode .form-switch i::before {
     background-color: #284681; }
   .nightmode .form-switch i::after {

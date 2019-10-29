@@ -455,6 +455,10 @@ hr {
   background-color : $color_mako_approx;
   color            : $whiteNightMode;
 
+  .table {
+    color : $whiteNightMode;
+  }
+
   .form-switch {
     i::before {
       background-color : $color_bay_of_many_approx;
