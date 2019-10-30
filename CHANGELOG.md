@@ -2,6 +2,8 @@
 
 
 ## Upcoming
+
+### v1.6.1-beta3
 - **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/reloxx13/TasmoAdmin/issues/275)
 - **FIX**: Follow up for renaming of sonoff -> tasmota [#310](https://github.com/reloxx13/TasmoAdmin/issues/310) [PR#311](https://github.com/reloxx13/TasmoAdmin/pull/311)
 - **UPDATE**: Font Awesome 5.3.1 -> 5.11.2   
