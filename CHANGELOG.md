@@ -3,22 +3,21 @@
 
 ## Upcoming
 
-### v1.6.1-beta3
+###### v1.6.2-beta1
+...
+
+
+### v1.6.1
 - **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/reloxx13/TasmoAdmin/issues/275)
 - **FIX**: Follow up for renaming of sonoff -> tasmota [#310](https://github.com/reloxx13/TasmoAdmin/issues/310) [PR#311](https://github.com/reloxx13/TasmoAdmin/pull/311)
 - **UPDATE**: Font Awesome 5.3.1 -> 5.11.2   
 - **UPDATE**: Bootstrap 4.1.2 -> 4.3.1
-
-### v1.6.1-beta2
 -FIX: login box position fix
 - **UPDATE**: Change to new Tasmota Github URL
 - FIX: loop 3rd an 4th ip block in autoscan to support bigger networks [#302](https://github.com/reloxx13/TasmoAdmin/issues/302), thx @[Leuselator](https://github.com/Leuselator) 
   - Note: Autoscan will take longer now
 - **UPDATE**: Change htaccess to new syntax [#299](https://github.com/reloxx13/TasmoAdmin/issues/299), thx @[joba-1](https://github.com/joba-1)
 - FIX: Remove PHP5 support, add SELinux info to readme [#290](https://github.com/reloxx13/TasmoAdmin/issues/290)
-
-
-### v1.6.1-beta1
 - FIX: Remove SSL Keys 
 - **UPDATE**: Support multi BMP´s ([pr#4195](https://github.com/arendst/Tasmota/pull/4195))
   - BME280-76/77
