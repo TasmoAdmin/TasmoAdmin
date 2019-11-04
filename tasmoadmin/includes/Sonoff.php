@@ -459,6 +459,8 @@
 				"}STATUS10 = {",
 				"}STATUS11 = {",
 				"STATUS2 = ",
+				":nan,",
+				":nan}",
 			];
 			$replace = [
 				"",
@@ -477,6 +479,8 @@
 				",",
 				",",
 				"",
+				":\"NaN\",",
+				":\"NaN\"}",
 			];
 
 			$string = str_replace( $remove, $replace, $string );
