@@ -4,7 +4,7 @@
 ## Upcoming
 
 ###### v1.6.2-beta1
-...
+- FIX: Try to fix invalid json by ```nan``` by replacing it with ```"NaN"``` [#318](https://github.com/reloxx13/TasmoAdmin/issues/318)
 
 
 ### v1.6.1
