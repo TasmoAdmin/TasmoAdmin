@@ -859,51 +859,56 @@ hr {
     flex: 0 0 100%;
     max-width: 100%;
     min-width: 15px !important; }
-    @media (min-width: 250px) {
+    @media (min-width: 200px) {
       .startpage .card-holder {
         -ms-flex: 0 0 50%;
         flex: 0 0 50%;
         max-width: 50%; } }
-    @media (min-width: 300px) {
+    @media (min-width: 320px) {
       .startpage .card-holder {
-        -ms-flex: 0 0 33.33333333333333%;
-        flex: 0 0 33.33333333333333%;
-        max-width: 33.33333333333333%; } }
-    @media (min-width: 350px) {
+        -ms-flex: 0 0 30%;
+        flex: 0 0 30%;
+        max-width: 30%; } }
+    @media (min-width: 450px) {
       .startpage .card-holder {
-        -ms-flex: 0 0 25%;
-        flex: 0 0 25%;
-        max-width: 25%; } }
-    @media (min-width: 650px) {
+        -ms-flex: 0 0 20%;
+        flex: 0 0 20%;
+        max-width: 20%; } }
+    @media (min-width: 520px) {
       .startpage .card-holder {
         -ms-flex: 0 0 16.66666666666667%;
         flex: 0 0 16.66666666666667%;
         max-width: 16.66666666666667%; } }
-    @media (min-width: 1024px) {
+    @media (min-width: 650px) {
+      .startpage .card-holder {
+        -ms-flex: 0 0 15%;
+        flex: 0 0 15%;
+        max-width: 15%; } }
+    @media (min-width: 700px) {
+      .startpage .card-holder {
+        -ms-flex: 0 0 15%;
+        flex: 0 0 15%;
+        max-width: 15%; } }
+    @media (min-width: 760px) {
       .startpage .card-holder {
         -ms-flex: 0 0 12%;
         flex: 0 0 12%;
         max-width: 12%; } }
-    @media (min-width: 1200px) {
+    @media (min-width: 1000px) {
       .startpage .card-holder {
-        -ms-flex: 0 0 12%;
-        flex: 0 0 12%;
-        max-width: 12%; } }
-    @media (min-width: 1400px) {
-      .startpage .card-holder {
-        -ms-flex: 0 0 9%;
-        flex: 0 0 9%;
-        max-width: 9%; } }
-    @media (min-width: 1800px) {
+        -ms-flex: 0 0 10%;
+        flex: 0 0 10%;
+        max-width: 10%; } }
+    @media (min-width: 1100px) {
       .startpage .card-holder {
         -ms-flex: 0 0 8%;
         flex: 0 0 8%;
         max-width: 8%; } }
-    @media (min-width: 2000px) {
+    @media (min-width: 1200px) {
       .startpage .card-holder {
-        -ms-flex: 0 0 5%;
-        flex: 0 0 5%;
-        max-width: 5%; } }
+        -ms-flex: 0 0 7%;
+        flex: 0 0 7%;
+        max-width: 7%; } }
     .startpage .card-holder .card.box_device {
       border: 0px none;
       cursor: pointer;
@@ -926,25 +931,31 @@ hr {
         overflow: hidden;
         margin-bottom: 3px;
         margin-top: 8px;
-        font-weight: bold; }
+        font-weight: bold;
+        text-transform: uppercase; }
       .startpage .card-holder .card.box_device .info-holder {
         width: 100%;
         height: 100%;
         color: #212529; }
         .startpage .card-holder .card.box_device .info-holder .info {
-          padding: 3px;
+          padding: 0px;
           font-size: 0.8rem;
           line-height: 0.9rem;
           overflow: hidden; }
-    @media all and (min-width: 1200px) {
-      .startpage .card-holder .box_device .info {
-        font-size: 0.5rem; } }
-    @media all and (min-width: 1351px) {
-      .startpage .card-holder .box_device .info {
-        font-size: 0.6rem; } }
-    @media all and (min-width: 1471px) {
-      .startpage .card-holder .box_device .info {
-        font-size: 0.8rem; } }
+      @media all and (min-width: 600px) {
+        .startpage .card-holder .card.box_device .box_device_name {
+          font-size: 0.7rem;
+          line-height: 0.7rem; }
+        .startpage .card-holder .card.box_device .info-holder .info {
+          font-size: 0.7rem;
+          line-height: 0.7rem; } }
+      @media all and (min-width: 1200px) {
+        .startpage .card-holder .card.box_device .box_device_name {
+          font-size: 0.9rem;
+          line-height: 0.9rem; }
+        .startpage .card-holder .card.box_device .info-holder .info {
+          font-size: 0.9rem;
+          line-height: 0.9rem; } }
 
 .nightmode .startpage .card-holder .card.box_device .box_device_name {
   color: rgba(255, 255, 255, 0.5); }
