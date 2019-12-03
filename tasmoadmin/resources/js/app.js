@@ -376,9 +376,9 @@ function getTemp( data, joinString ) {
 		temp.push( (
 			           data.StatusSNS.MAX31855.ProbeTemperature + "°" + data.StatusSNS.TempUnit
 		           ) );
-		temp.push( (
-			           data.StatusSNS.MAX31855.ReferenceTemperature + "°" + data.StatusSNS.TempUnit
-		           ) );
+		//temp.push( (
+		//	           data.StatusSNS.MAX31855.ReferenceTemperature + "°" + data.StatusSNS.TempUnit
+		//           ) );
 	}
 	
 	//console.log( temp );
