@@ -581,7 +581,6 @@ hr {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ffffff' fill-opacity=\"0.75\" d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"); }
   .nightmode .custom-control-label::before {
     background-color: #343A40 !important;
-    color: rgba(255, 255, 255, 0.5);
     border-color: rgba(255, 255, 255, 0.75);
     color: rgba(255, 255, 255, 0.75);
     box-shadow: 0 0 0 0.1rem rgba(255, 255, 255, 0.1); }
@@ -705,6 +704,9 @@ hr {
       .nightmode .btn:not(:disabled):not(.disabled).no-hover:active {
         cursor: default;
         box-shadow: none; }
+  .nightmode code {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: #212529; }
 
 .navbar-dark .navbar-nav .show .nav-link {
   color: rgba(255, 255, 255, 0.5); }
