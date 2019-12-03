@@ -6,6 +6,9 @@
 
 ## Published
 
+### v1.6.4-beta1
+- UPDATE: Adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
+
 ### v1.6.3
 - **HOTFIX** DOCKER: fix and prevent nginx.conf link loop
 
