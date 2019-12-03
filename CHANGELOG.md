@@ -6,9 +6,8 @@
 
 ## Published
 
-
-### v1.6.3-beta1
-- DOCKER: fix and prevent nginx.conf link loop
+### v1.6.3
+- **HOTFIX** DOCKER: fix and prevent nginx.conf link loop
 
 ### v1.6.2
 - **FIX**: Support for Tasmota 7.1.1.1 [#326](https://github.com/reloxx13/TasmoAdmin/issues/326) 
