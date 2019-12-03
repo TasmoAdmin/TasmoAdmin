@@ -1,46 +1,44 @@
 <?php
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md?r=".time();
-	$ch           = curl_init();
+	$releaselogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md?r=".time();
+	$ch            = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
-	curl_setopt( $ch, CURLOPT_URL, $changelogUrl );
+	curl_setopt( $ch, CURLOPT_URL, $releaselogUrl );
 	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	$changelog = curl_exec( $ch );
+	$releaselog = curl_exec( $ch );
 
 
 	$fchangelog = "";
 	//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
-	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" ) {
-		$changelog = "";
+	if( !$releaselog || curl_error( $ch ) != "" || $releaselog == "" ) {
+		$releaselog = "";
 	} else {
-		$changelog = str_replace( [ "*/", "/*", " *\n" ], [ "", "", "" ], $changelog );
-		if( strlen( $changelog ) > 99999 ) {
-			$changelog = substr( $changelog, 0, 5000 )."...";
-		}
+		$releaselog = str_replace( [ "*/", "/*", " *\n" ], [ "", "", "" ], $releaselog );
+		//		if( strlen( $releaselog ) > 99999 ) {
+		//			$releaselog = substr( $releaselog, 0, 5000 )."...";
+		//		}
 
-		$changelog = substr(
-			$changelog,
-			0,
-			strpos( $changelog, "Available Features and Sensors" )-5
-		);        //.substr($changelog,strpos( $changelog, "Changelog" )-4)
+		//		$changelog = substr(
+		//			$releaselog,
+		//			0,
+		//			strpos( $releaselog, "Available Features and Sensors" )-5
+		//		);        //.substr($releaselog,strpos( $releaselog, "Changelog" )-4)
 
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
-		$mdParser  = new Parsedown();
-		$changelog = $mdParser->parse( $changelog );
+		$mdParser   = new Parsedown();
+		$releaselog = $mdParser->parse( $releaselog );
 
 		$tasmotaIssueUrl = "https://github.com/arendst/Tasmota/issues/";
-		$changelog       = preg_replace(
+		$releaselog      = preg_replace(
 			"/\B#([\d]+)/",
 			"<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
-			$changelog
+			$releaselog
 		);
-		//$changelog       = str_replace( "\n", "<br/>", $changelog );
+		//$releaselog       = str_replace( "\n", "<br/>", $releaselog );
 	}
-	$fchangelog .= $changelog;
-	$fchangelog .= "<br/><br/>";
 
 
-	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/tasmota/_changelog.ino?r=".time();
+	$changelogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/tasmota/CHANGELOG.md?r=".time();
 	$ch           = curl_init();
 	curl_setopt( $ch, CURLOPT_CONNECTTIMEOUT, 5 );
 	curl_setopt( $ch, CURLOPT_TIMEOUT, 5 );
@@ -53,9 +51,9 @@
 	if( !$changelog || curl_error( $ch ) != "" || $changelog == "" || empty( $changelog ) ) {
 		$changelog = "";
 	} else {
-		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 99999 )."...";
-		$changelog = str_replace( "****\\", "", $changelog );
-		$changelog = substr( $changelog, 0, strpos( $changelog, " 2018", 1000 )-10 );
+		//		$changelog = substr( str_replace( [ "*/", "/*", " *\n" ], [ "", " * ", "\n" ], $changelog ), 0, 99999 )."...";
+		//		$changelog = str_replace( "****\\", "", $changelog );
+		//		$changelog = substr( $changelog, 0, strpos( $changelog, " 2018", 1000 )-10 );
 
 		require_once _LIBSDIR_."parsedown/Parsedown.php";
 		$mdParser  = new Parsedown();
@@ -69,7 +67,7 @@
 		);
 		//		$changelog       = "<h2>Developer Changelog</h2>".$changelog;
 	}
-	$fchangelog = $changelog.$fchangelog;
+	//	$fchangelog = $fchangelog.$changelog;
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -180,14 +178,28 @@
 
 
 		</form>
+
+	</div>
+
+	<div class='col-12'>
 		<hr class='my-5'>
-		<div class='changelog'>
-			<h2>
-				<?php echo __( "TASMOTA_CHANGELOG", "DEVICE_UPDATE" ); ?>
-			</h2>
-			<?php echo $fchangelog; ?>
+		<div class='row'>
+			<div class='col col-12 col-md-6'>
+				<div class='changelog'>
+					<?php echo $releaselog; ?>
+				</div>
+			</div>
+			<div class='col col-12 col-md-6'>
+				<div class='changelog'>
+					<h1 class='text-uppercase'>
+						<?php echo __( "TASMOTA_CHANGELOG", "DEVICE_UPDATE" ); ?>
+					</h1>
+					<?php echo $changelog; ?>
+				</div>
+			</div>
 		</div>
 	</div>
+
 </div>
 
 <script>

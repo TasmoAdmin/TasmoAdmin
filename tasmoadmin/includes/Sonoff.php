@@ -585,15 +585,28 @@
 			//status 0 request for 1 relais
 			if( isset( $status->StatusSTS->POWER ) ) {
 				$state = $status->StatusSTS->POWER;
-				//try to detect OFF
-				if( in_array( strtolower( $state ), $offArray ) ) {
-					$state = "OFF";
-				} elseif( in_array( strtolower( $state ), $onArray ) ) {
-					$state = "ON";
+				if( isset( $status->StatusSTS->POWER->STATE ) ) {
+					$state = $status->StatusSTS->POWER->STATE;
 				}
+				if( !is_object( $state ) ) {
+					//try to detect OFF
+					if( in_array( strtolower( $state ), $offArray ) ) {
+						$state = "OFF";
+					} elseif( in_array( strtolower( $state ), $onArray ) ) {
+						$state = "ON";
+					}
 
-				if( !empty( $state ) ) {
-					$status->StatusSTS->POWER = $state;
+
+					if( !empty( $state ) ) {
+						if( isset( $status->StatusSTS->POWER->STATE ) ) {
+							$status->StatusSTS->POWER->STATE = $state;
+						} else {
+							$status->StatusSTS->POWER = $state;
+						}
+					}
+				} else {
+					//multi states array
+
 				}
 			}
 
@@ -825,9 +838,9 @@
 					$cmnd
 				);
 
-				//                if( $device->id == 6 ) {
-				//                    $url = "http://tasmoAdmin/dev/BME680.json";
-				//                }
+				//				if( $device->id == 2 ) {
+				//					$url = "http://192.168.178.10/dev/test.json";
+				//				}
 
 				//$url = "http://tasmoAdmin/dev/test.json";
 
