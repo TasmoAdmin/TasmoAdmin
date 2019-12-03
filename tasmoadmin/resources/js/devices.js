@@ -186,7 +186,7 @@ function updateStatus() {
 			console.log( "[Devices][updateStatus]get status from " + $( tr ).data( "device_ip" ) );
 			$( tr ).addClass( "updating" );
 			
-			if ( device_group == "multi" && device_relais > 1 ) {
+			if ( device_group === "multi" && device_relais > 1 ) {
 				console.log( "[Devices][updateStatus]SKIP multi " + $( tr ).data( "device_ip" ) );
 				return; //relais 1 will update all others
 			}
@@ -212,7 +212,8 @@ function updateStatus() {
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
-						var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
+						var device_status = data.StatusSTS.POWER.STATE || data.StatusSTS.POWER
+						                    || eval( "data.StatusSTS.POWER" + device_relais );
 						
 						updateRow( $( tr ), data, device_status );
 					}
@@ -295,7 +296,9 @@ function updateAllStatus() {
 				                          === undefined ) {
 					                     console.log( "[LIST][updateAllStatus][" + device_id + "]MSG => " + JSON.stringify( data ) );
 					
-					                     var device_status = data.StatusSTS.POWER || eval( "data.StatusSTS.POWER" + device_relais );
+					                     var device_status = data.StatusSTS.POWER.STATE
+					                                         || data.StatusSTS.POWER
+					                                         || eval( "data.StatusSTS.POWER" + device_relais );
 					
 					                     $( tr ).removeAttr(
 						                     "data-original-title"
@@ -384,7 +387,7 @@ function deviceTools() {
 		
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
-				var device_status = data.POWER || eval( "data.POWER" + device_relais );
+				var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais );
 				//if ( device_status == "ON" ) {
 				//	statusField.find( "input" ).prop( "checked", "checked" );
 				//} else {

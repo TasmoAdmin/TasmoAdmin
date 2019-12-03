@@ -2,10 +2,11 @@
 
 
 ## Upcoming
+- **FIX**: Support for Tasmota 7.1.1.1 [#326](https://github.com/reloxx13/TasmoAdmin/issues/326) 
+  - Module data could not get parsed cause of changes in JSON from newer Tasmota Version
 
 ###### v1.6.2-beta1
 - FIX: Try to fix invalid json by ```nan``` by replacing it with ```"NaN"``` [#318](https://github.com/reloxx13/TasmoAdmin/issues/318)
-
 
 ### v1.6.1
 - **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/reloxx13/TasmoAdmin/issues/275)
