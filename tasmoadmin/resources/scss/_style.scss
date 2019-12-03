@@ -557,7 +557,6 @@ hr {
   }
   .custom-control-label::before {
     background-color : $color_tuna_approx !important;
-    color            : $whiteNightMode;
     border-color     : $white_75;
     color            : $white_75;
     //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
@@ -753,6 +752,11 @@ hr {
         }
       }
     }
+  }
+
+  code {
+    color            : $whiteNightMode;
+    background-color : $black;
   }
 }
 
