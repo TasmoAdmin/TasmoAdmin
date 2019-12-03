@@ -195,26 +195,26 @@ function updateStatus() {
 				if ( data
 				     && !data.ERROR
 				     && !data.WARNING
-				     && data
-				     !== ""
-				     && data
-				     !== undefined
-				     && data.statusText
-				     === undefined ) {
+				     && data !== ""
+				     && data !== undefined
+				     && data.statusText === undefined
+				) {
 					//console.log( "DATA => " + JSON.stringify( data ) );
 					if ( device_group === "multi" ) {
 						$( '#device-list tbody tr[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							.each( function ( key, grouptr ) {
-								var device_status = eval( "data.StatusSTS.POWER" + $( grouptr )
-									.data( "device_relais" ) );
+								
+								var device_relais = $( grouptr ).data( "device_relais" );
+								var device_status = Sonoff.parseDeviceStatus( data, device_relais );
 								
 								updateRow( $( grouptr ), data, device_status );
 								$( grouptr ).removeClass( "updating" );
 							} );
 					} else {
-						var device_status = data.StatusSTS.POWER.STATE || data.StatusSTS.POWER
-						                    || eval( "data.StatusSTS.POWER" + device_relais );
 						
+						var device_status = Sonoff.parseDeviceStatus( data, device_relais );
+						
+						console.log( device_status );
 						updateRow( $( tr ), data, device_status );
 					}
 				} else {
@@ -288,17 +288,12 @@ function updateAllStatus() {
 				                          && !$.isEmptyObject( data )
 				                          && !data.ERROR
 				                          && !data.WARNING
-				                          && data
-				                          !== ""
-				                          && data
-				                          !== undefined
-				                          && data.statusText
-				                          === undefined ) {
+				                          && data !== ""
+				                          && data.statusText === undefined
+				                     ) {
 					                     console.log( "[LIST][updateAllStatus][" + device_id + "]MSG => " + JSON.stringify( data ) );
 					
-					                     var device_status = data.StatusSTS.POWER.STATE
-					                                         || data.StatusSTS.POWER
-					                                         || eval( "data.StatusSTS.POWER" + device_relais );
+					                     var device_status = Sonoff.parseDeviceStatus( data, device_relais );
 					
 					                     $( tr ).removeAttr(
 						                     "data-original-title"
@@ -387,7 +382,8 @@ function deviceTools() {
 		
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
-				var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais );
+				
+				var device_status = Sonoff.parseDeviceStatus( data, device_relais );
 				//if ( device_status == "ON" ) {
 				//	statusField.find( "input" ).prop( "checked", "checked" );
 				//} else {
@@ -545,9 +541,14 @@ function updateRow( row, data, device_status ) {
 	if ( $( row ).hasClass( "toggled" ) ) {
 		$( row ).removeClass( "toggled" );
 	} else {
-		if ( device_status == "ON" ) {
+		if ( device_status === "ON" ) {
 			$( row ).find( ".status" ).find( "input" ).prop( "checked", "checked" ).parent().removeClass( "error" );
-		} else {
+		}
+		else if ( device_status === "NONE" ) {
+			$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
+			$( row ).find( ".status" ).find( "label" ).addClass( "d-none" );
+		}
+		else {
 			$( row ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 		}
 	}

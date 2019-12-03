@@ -4,6 +4,8 @@
 ## Upcoming
 - **FIX**: Support for Tasmota 7.1.1.1 [#326](https://github.com/reloxx13/TasmoAdmin/issues/326) 
   - Module data could not get parsed cause of changes in JSON from newer Tasmota Version
+- **UPDATE**: Support for MAX31855 Sensor [#327](https://github.com/reloxx13/TasmoAdmin/issues/327)
+- **UPDATE**: Added sensor icon for none-relais devices
 
 ###### v1.6.2-beta1
 - FIX: Try to fix invalid json by ```nan``` by replacing it with ```"NaN"``` [#318](https://github.com/reloxx13/TasmoAdmin/issues/318)

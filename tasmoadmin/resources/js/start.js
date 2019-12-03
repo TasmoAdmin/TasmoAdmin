@@ -27,7 +27,6 @@ function updateStatus() {
 		var device_group  = $( box ).data( "device_group" );
 		
 		if ( !$( box ).hasClass( "updating" ) ) {
-			$( box ).addClass( "updating" );
 			
 			console.log( "[Start][updateStatus]get status from " + $( box ).data( "device_ip" ) );
 			
@@ -37,28 +36,28 @@ function updateStatus() {
 			}
 			
 			
+			$( box ).addClass( "updating" );
+			
 			Sonoff.getStatus( device_ip, device_id, device_relais, function ( data ) {
 				
 				                  if ( data
 				                       && !data.ERROR
 				                       && !data.WARNING
-				                       && data
-				                       !== ""
-				                       && data
-				                       !== undefined
-				                       && data.statusText
-				                       === undefined ) {
+				                       && data !== ""
+				                       && data !== undefined
+				                       && data.statusText === undefined ) {
 					
 					                  if ( device_group === "multi" ) {
 						                  $( '#content .box_device[data-device_group="multi"][data-device_ip="' + device_ip + '"]' )
 							                  .each( function ( key, groupbox ) {
 								                  //TODO: make function to set image
-								                  var img           = $( groupbox ).find( "img" );
-								                  var src           = _RESOURCESURL_ + "img/device_icons/"
-								                                      + img.data( "icon" )
-								                                      + "_%pw.png?v=160";
-								                  var device_status = eval( "data.StatusSTS.POWER" + $( groupbox )
-									                  .data( "device_relais" ) );
+								                  var img = $( groupbox ).find( "img" );
+								                  var src = _RESOURCESURL_ + "img/device_icons/"
+								                            + img.data( "icon" )
+								                            + "_%pw.png?v=160";
+								
+								                  var device_relais = $( groupbox ).data( "device_relais" );
+								                  var device_status = Sonoff.parseDeviceStatus( data, device_relais );
 								
 								                  console.log( device_status.toLowerCase() );
 								                  src = src.replace( "%pw", device_status.toLowerCase() );
@@ -68,18 +67,23 @@ function updateStatus() {
 								                  $( groupbox ).removeClass( "updating" );
 							                  } );
 					                  } else {
-						                  var img           = $( box ).find( "img" );
-						                  var src           = _RESOURCESURL_ + "img/device_icons/"
-						                                      + img.data( "icon" )
-						                                      + "_%pw.png?v=160";
-						                  var device_status = data.StatusSTS.POWER.STATE
-						                                      || data.StatusSTS.POWER
-						                                      || data.StatusSTS.POWER1
-						                                      || undefined;
+						                  var img = $( box ).find( "img" );
+						                  var src = _RESOURCESURL_ + "img/device_icons/"
+						                            + img.data( "icon" )
+						                            + "_%pw.png?v=160";
 						
+						                  var device_status = Sonoff.parseDeviceStatus( data, 1 );
+						
+						                  console.log( "device_status", device_status );
 						                  if ( device_status !== undefined ) {
 							                  src = src.replace( "%pw", device_status.toLowerCase() );
 							                  img.attr( "src", src ).parent().removeClass( "animated" );
+							
+							                  console.log( "$( box )", $( box ) );
+							                  if ( device_status === "NONE" ) {
+								                  //$( box ).attr( "data-device_group", "sensor" );
+								                  $( box ).data( "device_group", "sensor" );
+							                  }
 						                  }
 						                  updateBox( $( box ), data, device_status );
 						                  $( box ).removeClass( "error" ).find( ".animated" ).removeClass( "animated" );
@@ -125,20 +129,31 @@ function updateStatus() {
 function deviceTools() {
 	$( '#content .box_device:not(#all_off)' ).on( "click", function ( e ) {
 		e.preventDefault();
-		if ( $( this ).hasClass( "toggled" ) ) {
-			return;
-		}
-		$( this ).addClass( "toggled" );
-		var device_box = $( this );
-		device_box.find( "img" ).shake( 3, 5, 500 );
+		
+		var device_box    = $( this );
 		var device_ip     = device_box.data( "device_ip" );
 		var device_id     = device_box.data( "device_id" );
 		var device_relais = device_box.data( "device_relais" );
+		var device_group  = device_box.data( "device_group" );
+		
+		if ( device_group === "sensor" ) {
+			console.log( "[Start][updateStatus]skip sensor " + $( box ).data( "device_ip" ) );
+			return; //relais 1 will update all others
+		}
+		
+		if ( $( this ).hasClass( "toggled" ) ) {
+			console.log( "[Start][updateStatus]is toggling " + $( box ).data( "device_ip" ) );
+			return;
+		}
+		$( this ).addClass( "toggled" );
+		device_box.find( "img" ).shake( 3, 5, 500 );
+		
 		Sonoff.toggle( device_ip, device_id, device_relais, function ( data ) {
 			if ( data && !data.ERROR && !data.WARNING ) {
-				var img           = device_box.find( "img" );
-				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
-				var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais ) || undefined;
+				var img = device_box.find( "img" );
+				var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
+				
+				var device_status = Sonoff.parseDeviceStatus( data, device_relais );
 				
 				if ( device_status !== undefined ) {
 					src = src.replace( "%pw", device_status.toLowerCase() );
@@ -179,13 +194,19 @@ function deviceTools() {
 				console.log( "[Start][updateStatus]skip multi " + $( box ).data( "device_ip" ) );
 				return; //relais 1 will update all others
 			}
+			if ( device_group === "sensor" ) {
+				console.log( "[Start][updateStatus]skip sensor " + $( box ).data( "device_ip" ) );
+				return; //relais 1 will update all others
+			}
 			
 			
 			Sonoff.off( device_ip, device_id, device_relais, function ( data ) {
 				if ( data && !data.ERROR && !data.WARNING ) {
-					var img           = $( box ).find( "img" );
-					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
-					var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais );
+					var img = $( box ).find( "img" );
+					var src = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
+					
+					var device_status = Sonoff.parseDeviceStatus( data, device_relais );
+					
 					if ( device_status !== undefined ) {
 						src = src.replace( "%pw", device_status.toLowerCase() );
 						img.attr( "src", src );

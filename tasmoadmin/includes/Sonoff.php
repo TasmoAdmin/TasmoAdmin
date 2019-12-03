@@ -588,25 +588,20 @@
 				if( isset( $status->StatusSTS->POWER->STATE ) ) {
 					$state = $status->StatusSTS->POWER->STATE;
 				}
-				if( !is_object( $state ) ) {
-					//try to detect OFF
-					if( in_array( strtolower( $state ), $offArray ) ) {
-						$state = "OFF";
-					} elseif( in_array( strtolower( $state ), $onArray ) ) {
-						$state = "ON";
+				//try to detect OFF
+				if( in_array( strtolower( $state ), $offArray ) ) {
+					$state = "OFF";
+				} elseif( in_array( strtolower( $state ), $onArray ) ) {
+					$state = "ON";
+				}
+
+
+				if( !empty( $state ) ) {
+					if( isset( $status->StatusSTS->POWER->STATE ) ) {
+						$status->StatusSTS->POWER->STATE = $state;
+					} else {
+						$status->StatusSTS->POWER = $state;
 					}
-
-
-					if( !empty( $state ) ) {
-						if( isset( $status->StatusSTS->POWER->STATE ) ) {
-							$status->StatusSTS->POWER->STATE = $state;
-						} else {
-							$status->StatusSTS->POWER = $state;
-						}
-					}
-				} else {
-					//multi states array
-
 				}
 			}
 
@@ -634,6 +629,9 @@
 
 
 				$state = $status->StatusSTS->$power;
+				if( isset( $status->StatusSTS->$power->STATE ) ) {
+					$state = $status->StatusSTS->$power->STATE;
+				}
 				//try to detect OFF
 				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
@@ -642,7 +640,11 @@
 				}
 
 				if( !empty( $state ) ) {
-					$status->StatusSTS->$power = $state;
+					if( isset( $status->StatusSTS->$power->STATE ) ) {
+						$status->StatusSTS->$power->STATE = $state;
+					} else {
+						$status->StatusSTS->$power = $state;
+					}
 				}
 
 
@@ -650,12 +652,20 @@
 				$power = "POWER".$i;
 			}
 
+
+			$i     = 1;
+			$power = "POWER".$i;
+
 			//toggle request for multi relais
 			while( isset( $status->$power ) ) {
 				$state = NULL;
 
 
 				$state = $status->$power;
+				if( isset( $status->$power->STATE ) ) {
+					$state = $status->$power->STATE;
+				}
+
 				//try to detect OFF
 				if( in_array( strtolower( $state ), $offArray ) ) {
 					$state = "OFF";
@@ -664,6 +674,11 @@
 				}
 
 				if( !empty( $state ) ) {
+					if( isset( $status->$power->STATE ) ) {
+						$status->$power->STATE = $state;
+					} else {
+						$status->$power = $state;
+					}
 					$status->$power = $state;
 				}
 
@@ -762,8 +777,9 @@
 				urldecode( $_REQUEST[ "cmnd" ] )
 			);
 
-			//			if( $device->id == 6 ) {
-			//				$url = "http://tasmoAdmin/dev/test.json";
+
+			//			if( $device->id == 1 ) {
+			//				$url = "http://192.168.178.10/dev/test.json";
 			//			}
 
 
@@ -838,7 +854,7 @@
 					$cmnd
 				);
 
-				//				if( $device->id == 2 ) {
+				//				if( $device->id == 1 ) {
 				//					$url = "http://192.168.178.10/dev/test.json";
 				//				}
 
