@@ -72,7 +72,10 @@ function updateStatus() {
 						                  var src           = _RESOURCESURL_ + "img/device_icons/"
 						                                      + img.data( "icon" )
 						                                      + "_%pw.png?v=160";
-						                  var device_status = data.StatusSTS.POWER || data.StatusSTS.POWER1 || undefined;
+						                  var device_status = data.StatusSTS.POWER.STATE
+						                                      || data.StatusSTS.POWER
+						                                      || data.StatusSTS.POWER1
+						                                      || undefined;
 						
 						                  if ( device_status !== undefined ) {
 							                  src = src.replace( "%pw", device_status.toLowerCase() );
@@ -135,7 +138,7 @@ function deviceTools() {
 			if ( data && !data.ERROR && !data.WARNING ) {
 				var img           = device_box.find( "img" );
 				var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
-				var device_status = data.POWER || eval( "data.POWER" + device_relais ) || undefined;
+				var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais ) || undefined;
 				
 				if ( device_status !== undefined ) {
 					src = src.replace( "%pw", device_status.toLowerCase() );
@@ -182,7 +185,7 @@ function deviceTools() {
 				if ( data && !data.ERROR && !data.WARNING ) {
 					var img           = $( box ).find( "img" );
 					var src           = _RESOURCESURL_ + "img/device_icons/" + img.data( "icon" ) + "_%pw.png?v=160";
-					var device_status = data.POWER || eval( "data.POWER" + device_relais );
+					var device_status = data.POWER.STATE || data.POWER || eval( "data.POWER" + device_relais );
 					if ( device_status !== undefined ) {
 						src = src.replace( "%pw", device_status.toLowerCase() );
 						img.attr( "src", src );
