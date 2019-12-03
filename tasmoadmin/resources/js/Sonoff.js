@@ -184,6 +184,49 @@ var Sonoff = function ( options ) {
 	};
 	
 	
+	this.parseDeviceStatus = function ( data, device_relais ) {
+		var device_status = "NONE";
+		
+		if ( data.StatusSTS !== undefined ) {
+			if ( device_relais !== undefined && eval( "data.StatusSTS.POWER" + device_relais ) !== undefined ) {
+				
+				if ( eval( "data.StatusSTS.POWER" + device_relais + ".STATE" ) !== undefined ) {
+					device_status = eval( "data.StatusSTS.POWER" + device_relais + ".STATE" );
+				} else {
+					device_status = eval( "data.StatusSTS.POWER" + device_relais );
+				}
+			} else {
+				if ( data.StatusSTS.POWER !== undefined ) {
+					if ( data.StatusSTS.POWER.STATE !== undefined ) {
+						device_status = data.StatusSTS.POWER.STATE;
+					} else {
+						device_status = data.StatusSTS.POWER;
+					}
+				}
+			}
+		} else {
+			if ( device_relais !== undefined && eval( "data.POWER" + device_relais ) !== undefined ) {
+				
+				if ( eval( "data.POWER" + device_relais + ".STATE" ) !== undefined ) {
+					device_status = eval( "data.POWER" + device_relais + ".STATE" );
+				} else {
+					device_status = eval( "data.POWER" + device_relais );
+				}
+			} else {
+				if ( data.POWER !== undefined ) {
+					if ( data.POWER.STATE !== undefined ) {
+						device_status = data.POWER.STATE;
+					} else {
+						device_status = data.POWER;
+					}
+				}
+			}
+		}
+		
+		return device_status;
+	};
+	
+	
 	this.directAjax = function ( url ) {
 		//var url = root.buildCmndUrl( ip, cmnd );
 		$.ajax( {
