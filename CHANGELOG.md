@@ -2,6 +2,7 @@
 
 
 ## Upcoming
+- FIX: fix and prevent nginx.conf link loop
 
 
 ## Published
