@@ -2,7 +2,8 @@
 
 
 ## Upcoming
-
+- UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)
+ 
 
 ## Published
 
