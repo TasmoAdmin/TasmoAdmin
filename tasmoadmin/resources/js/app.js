@@ -148,7 +148,7 @@ $( document ).on( "ready", function () {
 
 function notifyMe( msg, title ) {
 	var title = title || "";
-	if ( title != "" ) {
+	if ( title !== "" ) {
 		title = " - " + title;
 	}
 	
@@ -188,15 +188,15 @@ function notifyMe( msg, title ) {
 $.fn.attachDragger = function () {
 	var attachment = false, lastPosition, position, difference;
 	$( $( this ).selector ).on( "mousedown mouseup mousemove", function ( e ) {
-		if ( e.type == "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
+		if ( e.type === "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
 			attachment = true, lastPosition = [ e.clientX, e.clientY ];
 			$( ".tablesaw-cell-content" ).addClass( "dontselect" );
 		}
-		if ( e.type == "mouseup" ) {
+		if ( e.type === "mouseup" ) {
 			attachment = false;
 			$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
 		}
-		if ( e.type == "mousemove" && attachment == true ) {
+		if ( e.type === "mousemove" && attachment === true ) {
 			position   = [ e.clientX, e.clientY ];
 			difference = [
 				(
@@ -280,6 +280,21 @@ function getTemp( data, joinString ) {
 				           data.StatusSNS.DS18x20.DS5.Temperature + "°" + data.StatusSNS.TempUnit
 			           ) );
 		}
+		if ( data.StatusSNS.DS18x20.DS6 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS6.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+		if ( data.StatusSNS.DS18x20.DS7 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS7.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+		if ( data.StatusSNS.DS18x20.DS8 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS8.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
 	}
 	
 	//6.1.1c 20180904
@@ -306,6 +321,21 @@ function getTemp( data, joinString ) {
 	if ( data.StatusSNS[ "DS18B20-5" ] !== undefined ) {
 		temp.push( (
 			           data.StatusSNS[ "DS18B20-5" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-6" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-6" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-7" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-7" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-8" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-8" ].Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
 	
