@@ -4,6 +4,7 @@
 ## Upcoming
 - UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)
 - UPDATE: Support up to 8 DS18B20 [#333](https://github.com/reloxx13/TasmoAdmin/issues/333) 
+- UPDATE: Another adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
 
 ## Published
 
