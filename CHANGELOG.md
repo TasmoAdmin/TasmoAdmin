@@ -2,11 +2,15 @@
 
 
 ## Upcoming
+
+
+## Published
+        
+### v1.6.4-beta2   
 - UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)
 - UPDATE: Support up to 8 DS18B20 [#333](https://github.com/reloxx13/TasmoAdmin/issues/333) 
 - UPDATE: Another adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
-
-## Published
+- **UPDATE**: IOCage Update and FreeNAS Plugin Support, thx @[tprelog](https://github.com/tprelog)
 
 ### v1.6.4-beta1
 - UPDATE: Adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
