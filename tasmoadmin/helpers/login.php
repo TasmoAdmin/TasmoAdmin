@@ -14,7 +14,7 @@ class Login
             $upgradedPassword = self::hashPassword($password);
 
             $Config->write("password", $upgradedPassword);
-            
+ 
             return true;
         }
 
