@@ -118,6 +118,7 @@ asort($tasmotaReleases);
 				<div class="form-group col col-12 col-sm-3">
 					<div class="form-check custom-control custom-checkbox mb-5">
 						<input class="form-check-input custom-control-input"
+							   autofocus="autofocus"
 							   type="checkbox"
 							   value="1"
 							   id="cb_login"

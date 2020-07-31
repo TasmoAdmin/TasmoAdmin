@@ -146,6 +146,7 @@ $config = $Config->readAll();
 		<form class='form'
 			  name='autoscan_form'
 			  method='post'
+			  autocomplete="off"
 		>
 			
 			<div class="form-row">
@@ -160,6 +161,7 @@ $config = $Config->readAll();
 						   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
 						   value='<?php echo $config["scan_from_ip"]; ?>'
 						   required
+						   autofocus="autofocus"
 					>
 					<small id="from_ipHelp" class="form-text text-muted">
 						<?php echo __("FROM_IP_HELP", "DEVICES_AUTOSCAN"); ?>
@@ -209,6 +211,8 @@ $config = $Config->readAll();
 							   class="form-control"
 							   id="device_password"
 							   name='device_password'
+							   autocomplete="off"
+							   aria-autocomplete="none"
 							   value='<?php echo isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"] : ""; ?>'
 						>
 						<div class="input-group-append">

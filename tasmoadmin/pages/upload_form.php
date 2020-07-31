@@ -170,6 +170,7 @@ asort($tasmotaReleases);
 						<input class="form-check-input custom-control-input"
 							   type="checkbox"
 							   value="1"
+							   autofocus="autofocus"
 							   id="cb_ota_server_ssl"
 							   name='ota_server_ssl' <?php echo $Config->read("ota_server_ssl") == "1"
 							? "checked=\"checked\"" : ""; ?>>

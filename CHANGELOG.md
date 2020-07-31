@@ -6,7 +6,7 @@
 - **UPDATE**: (non-docker) Selfupdate switch between beta and stable
 - UPDATE: Get live list of available tasmota firmware versions for automatic update
 - UPDATE: Add version selectbox on device update page
-
+- UPDATE: Autofocus on login and forms [#370](https://github.com/reloxx13/TasmoAdmin/issues/370)
 
 ## Published
         
