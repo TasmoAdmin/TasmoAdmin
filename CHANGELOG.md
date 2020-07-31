@@ -6,24 +6,19 @@
 
 ## PUBLISHED
         
-###  v1.6.4-beta5
+###  v1.6.4
 - **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/reloxx13/TasmoAdmin/issues/312)
 - **NEW**: Protect device to get powered on or/and off
     - For both you need to edit the device and set the desired checkboxes
     - At the bottom of the table view is a button to unlock the protected device for 60s
     - On the startpage you can change the state if you press the device button for 5s   
     ![grafik](https://user-images.githubusercontent.com/14855001/89078631-0cf95780-d385-11ea-9787-cce69adfe870.png)
-
-###  v1.6.4-beta4
 - UPDATE: Add 120s and 300s to refresh times
 - **UPDATE**: (non-docker) Selfupdate switch between beta and stable
 - UPDATE: Get live list of available tasmota firmware versions for automatic update
 - UPDATE: Add version selectbox on device update page
 - UPDATE: Autofocus on login and forms [#370](https://github.com/reloxx13/TasmoAdmin/issues/370)
 - NEW: Add support for AHT1X sensor thanks to @[crashdown79](https://github.com/crashdown79) [#356](https://github.com/reloxx13/TasmoAdmin/issues/356)
-
-
-###  v1.6.4-beta3
 - UPDATE: Add new password hashing thanks to @[inverse](https://github.com/inverse) ( [PR#357](https://github.com/reloxx13/TasmoAdmin/pull/357) )
 - UPDATE: Hide password in device autoscanner thanks to @[WatskeBart](https://github.com/WatskeBart) ( [PR#387](https://github.com/reloxx13/TasmoAdmin/pull/387) )
     - and add show/hide password button
@@ -33,17 +28,10 @@
 - UPDATE: Bootstrap 4.3.1 -> 4.5.0
 - UPDATE: Change wiki links (top navi) to tasmota docs [#381](https://github.com/reloxx13/TasmoAdmin/issues/381)
 - UPDATE: Change to new changelog/releaselogs (device update page)
-
-###  v1.6.4-beta3-1
-- Docker Test 
-        
-### v1.6.4-beta2   
 - UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)
 - UPDATE: Support up to 8 DS18B20 [#333](https://github.com/reloxx13/TasmoAdmin/issues/333) 
 - UPDATE: Another adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
 - **UPDATE**: IOCage Update and FreeNAS Plugin Support, thx @[tprelog](https://github.com/tprelog)
-
-### v1.6.4-beta1
 - UPDATE: Adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
 
 ### v1.6.3
