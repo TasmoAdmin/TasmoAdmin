@@ -153,7 +153,7 @@ function deviceTools()
 {
 
 
-	$("#content .box_device:not(#all_off)").on("mousedown", function ()
+	$("#content .box_device:not(#all_off)").on("mousedown touchstart", function ()
 	{
 		clearTimeout(longPressTimer);
 		let device_box = $(this);
@@ -170,13 +170,13 @@ function deviceTools()
 													   }, 60 * 1000);
 										}, 5 * 1000);
 		}
-	}).on("mouseup mouseleave", function ()
+	}).on("mouseup mouseleave touchend touchmove", function ()
 	{
 		clearTimeout(longPressTimer);
 	});
 
 
-	$("#content .box_device:not(#all_off)").on("mouseup", function (e)
+	$("#content .box_device:not(#all_off)").on("mouseup touchend", function (e)
 	{
 		e.preventDefault();
 
