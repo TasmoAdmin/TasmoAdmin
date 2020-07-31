@@ -169,8 +169,10 @@ $(document).on("ready", function ()
 		if (pwInput.attr("type") === "password")
 		{
 			pwInput.attr("type", "text");
+			$(this).find("i").addClass("fa-eye-slash");
 		} else
 		{
+			$(this).find("i").removeClass("fa-eye-slash");
 			pwInput.attr("type", "password");
 		}
 	});
