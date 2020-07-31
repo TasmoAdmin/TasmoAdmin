@@ -2,6 +2,11 @@
 
 
 ## Upcoming
+- UPDATE: Add new password hashing thanks to @[inverse](https://github.com/inverse) ( [PR#357](https://github.com/reloxx13/TasmoAdmin/pull/357) )
+- UPDATE: Hide password in device autoscanner thanks to @[WatskeBart](https://github.com/WatskeBart) ( [PR#387](https://github.com/reloxx13/TasmoAdmin/pull/387) )
+    - and add show/hide password button
+- NEW: Add zh-TW localization thanks to @[petercpg](https://github.com/petercpg) ( [PR#374](https://github.com/reloxx13/TasmoAdmin/pull/374) )  
+- NEW: Add a ENV variable ( TASMO_BASEURL ) to adjust the base url thanks to @[rhuss](https://github.com/rhuss) ( [PR#346](https://github.com/reloxx13/TasmoAdmin/pull/346) )   
 
 
 ## Published

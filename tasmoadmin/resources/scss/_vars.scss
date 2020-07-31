@@ -1,103 +1,104 @@
 //colors
 
-$green : #02A030;
-$greenBtn : $green;
-$greenBtnBorder : $green;
-$greenBtnHover : darken($greenBtn, 5%);
-$greenBtnBorderHover : darken($greenBtnBorder, 10%);
+$green: #02A030;
+$greenBtn: $green;
+$greenBtnBorder: $green;
+$greenBtnHover: darken($greenBtn, 5%);
+$greenBtnBorderHover: darken($greenBtnBorder, 10%);
 
-$nmGreenBtn : darken($greenBtn, 5%);
-$nmGreenBtnHover : $greenBtn;
+$nmGreenBtn: darken($greenBtn, 5%);
+$nmGreenBtnHover: $greenBtn;
 
-$nmGreenIcon : $nmGreenBtn;
-$nmGreenIconHover : $nmGreenBtnHover;
+$nmGreenIcon: $nmGreenBtn;
+$nmGreenIconHover: $nmGreenBtnHover;
 
-$greenIcon : $greenBtn;
-$greenIconHover : $greenBtnHover;
+$greenIcon: $greenBtn;
+$greenIconHover: $greenBtnHover;
 
-$blue : #007BFF;
-$blueBtn : $blue;
-$blueBtnBorder : $blue;
-$blueBtnHover : darken($blueBtn, 5%);
-$blueBtnBorderHover : darken($blueBtnBorder, 10%);
+$blue: #007BFF;
+$blueBtn: $blue;
+$blueBtnBorder: $blue;
+$blueBtnHover: darken($blueBtn, 5%);
+$blueBtnBorderHover: darken($blueBtnBorder, 10%);
 
-$nmBlueBtn : #005C84;
-$nmBlueBtnHover : #0073A5;
-$nmBlueBtnBorder : $nmBlueBtn;
-$nmBlueBtnBorderHover : darken($nmBlueBtnHover, 5%);
+$nmBlueBtn: #005C84;
+$nmBlueBtnHover: #0073A5;
+$nmBlueBtnBorder: $nmBlueBtn;
+$nmBlueBtnBorderHover: darken($nmBlueBtnHover, 5%);
 
-$grey : #6C757D;
-$greyBtn : $grey;
-$greyBtnBorder : $grey;
-$greyBtnHover : darken($greyBtn, 5%);
-$greyBtnBorderHover : darken($greyBtnBorder, 10%);
+$grey: #6C757D;
+$greyBtn: $grey;
+$greyBtnBorder: $grey;
+$greyBtnHover: darken($greyBtn, 5%);
+$greyBtnBorderHover: darken($greyBtnBorder, 10%);
 
-$lightBlue : #1C99D2;
-$lightBlueIcon : $lightBlue;
-$lightBlueIconHover : darken($lightBlue, 10%);
+$lightBlue: #1C99D2;
+$lightBlueIcon: $lightBlue;
+$lightBlueIconHover: darken($lightBlue, 10%);
 
-$nmLightBlueIcon : #1C99D2;
-$nmLightBlueIconHover : lighten($nmLightBlueIcon, 15%);
+$nmLightBlueIcon: #1C99D2;
+$nmLightBlueIconHover: lighten($nmLightBlueIcon, 15%);
 
-$inputBoxShadow : 0 0 0 0.2rem rgba($blue, 0.25);
+$inputBoxShadow: 0 0 0 0.2rem rgba($blue, 0.25);
 
-$red : #BA001A;
-$redError : $red;
-$redErrorHover : #A10016;
+$red: #BA001A;
+$redError: $red;
+$redErrorHover: #A10016;
 
-$nmRedError : darken($redError, 5%);
-$nmRedErrorHover : $redError;
+$nmRedError: darken($redError, 5%);
+$nmRedErrorHover: $redError;
 
-$white : #FFFFFF;
-$whiteFont : $white;
-$greyFont : darken($whiteFont, 50%);
-$greyLinkFont : darken($whiteFont, 25%);
-$greyLinkActiveFont : darken($whiteFont, 10%);
-$greyFontHover : darken($whiteFont, 15%);
+$white: #FFFFFF;
+$whiteFont: $white;
+$greyFont: darken($whiteFont, 50%);
+$greyLinkFont: darken($whiteFont, 25%);
+$greyLinkActiveFont: darken($whiteFont, 10%);
+$greyFontHover: darken($whiteFont, 15%);
 
-$nmGreyFont : #CBCBCB;
+$nmGreyFont: #CBCBCB;
 
-$whiteGrey : #E6E6E6;
+$whiteGrey: #E6E6E6;
 
-$whiteBorder : $whiteGrey;
-$whiteThBorder : $whiteBorder;
+$whiteBorder: $whiteGrey;
+$whiteThBorder: $whiteBorder;
 
-$white_75 : rgba(255, 255, 255, 0.75);
-$white_50 : rgba(255, 255, 255, 0.5);
-$black_5 : rgba(0, 0, 0, 0.05);
-$color_mercury_approx : #E6E6E6;
-$black_24 : rgba(0, 0, 0, 0.24);
-$color_pacific_blue_80_approx : rgba(0, 148, 204, 0.8);
-$color_japanese_laurel_approx : green;
-$color_pizazz_approx : darkorange;
-$color_tuna_approx : #343A40;
-$color_gravel_approx : #4B4B4B;
-$color_pirate_gold_approx : #CA8500;
-$color_mako_approx : #44494F;
-$color_bay_of_many_approx : #284681;
-$color_pacific_blue_40_approx : rgba(0, 148, 204, 0.4);
-$color_gulf_blue_approx : #031959;
-$color_deep_cerulean_approx : #007EB4;
-$color_cerulean_approx : #00A0E4;
-$color_orient_approx : #00628C;
-$white_10 : rgba(255, 255, 255, 0.1);
-$white_80 : rgba(255, 255, 255, 0.8);
+$white_75: rgba(255, 255, 255, 0.75);
+$white_50: rgba(255, 255, 255, 0.5);
+$black_5: rgba(0, 0, 0, 0.05);
+$color_mercury_approx: #E6E6E6;
+$black_24: rgba(0, 0, 0, 0.24);
+$color_pacific_blue_80_approx: rgba(0, 148, 204, 0.8);
+$color_japanese_laurel_approx: green;
+$color_pizazz_approx: darkorange;
+$color_tuna_approx: #343A40;
+$color_gravel_approx: #4B4B4B;
+$color_pirate_gold_approx: #CA8500;
+$color_mako_approx: #44494F;
+$color_bay_of_many_approx: #284681;
+$color_pacific_blue_40_approx: rgba(0, 148, 204, 0.4);
+$color_gulf_blue_approx: #031959;
+$color_deep_cerulean_approx: #007EB4;
+$color_cerulean_approx: #00A0E4;
+$color_orient_approx: #00628C;
+$white_10: rgba(255, 255, 255, 0.1);
+$white_80: rgba(255, 255, 255, 0.8);
 
-$black : #212529;
-$whiteNightMode : rgba(255, 255, 255, 0.5); //$white_50
+$black: #212529;
+$whiteNightMode: rgba(255, 255, 255, 0.5); //$white_50
 
 .debug {
   .fixed-top {
     //position : initial;
   }
+
   .bs-debugger {
-    width            : 100%;
-    color            : red;
-    position         : fixed;
-    top              : 0px;
-    z-index          : 1035;
-    background-color : black;
-    padding          : 3px;
+    width: 100%;
+    color: red;
+    position: fixed;
+    top: 0px;
+    z-index: 1035;
+    background-color: black;
+    padding: 3px;
   }
 
   .col, .card {
@@ -109,10 +110,10 @@ $whiteNightMode : rgba(255, 255, 255, 0.5); //$white_50
   }
 }
 
-@media (max-width : 340px) and(min-width : 0px) {
+@media (max-width: 340px) and(min-width: 0px) {
   .col-xs-6 {
-    -ms-flex  : 0 0 50%;
-    flex      : 0 0 50%;
-    max-width : 50%;
+    -ms-flex: 0 0 50%;
+    flex: 0 0 50%;
+    max-width: 50%;
   }
 }
