@@ -15,7 +15,7 @@
 - NEW: Add a ENV variable ( TASMO_BASEURL ) to adjust the base url thanks to @[rhuss](https://github.com/rhuss) ( [PR#346](https://github.com/reloxx13/TasmoAdmin/pull/346) )   
 - UPDATE: Font Awesome 5.11.2 -> 5.14.0   
 - UPDATE: Bootstrap 4.3.1 -> 4.5.0
-- UPDATE: Change wiki links (top navi) to tasmota docs
+- UPDATE: Change wiki links (top navi) to tasmota docs [#381](https://github.com/reloxx13/TasmoAdmin/issues/381)
 - UPDATE: Change to new changelog/releaselogs (device update page)
 
 ###  v1.6.4-beta3-1
