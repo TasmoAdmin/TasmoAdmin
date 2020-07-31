@@ -30,10 +30,10 @@
 		clear : both;
 	}
 	
-	.tablesaw-stack td,
+	.tablesaw-stack td:not(.cmd_cb),
 	.tablesaw-stack th {
 		text-align : left;
-		display    : block;
+		display    : table-cell;
 	}
 	
 	.tablesaw-stack tr {
@@ -47,6 +47,10 @@
 		display : inline-block;
 		padding : 0 .6em 0 0;
 		width   : 40%;
+	}
+	
+	.tablesaw-stack td.actions .tablesaw-cell-label {
+		width : 100%;
 	}
 	
 	/* For grouped headers, have a different style to visually separate the levels by classing the first label in each col group */
@@ -72,14 +76,14 @@
 	}
 }
 
-@media (max-width : 640px) {
+@media (max-width : 641px) {
 	/* Table rows have a gray bottom stroke by default */
 	.table-responsive {
 		width : 100% !important;
 	}
 	
 	.tablesaw-stack tbody tr {
-		display       : block;
+		display       : inline-block;
 		width         : 100%;
 		border-bottom : 1px solid #DFDFDF;
 	}
@@ -90,12 +94,12 @@
 		display : none !important;
 	}
 	
-	.tablesaw-stack thead th.link,
-	.tablesaw-stack tfoot th.link {
+	.tablesaw-stack thead th.link:not(.d-none),
+	.tablesaw-stack tfoot th.link:not(.d-none) {
 		display : block !important;
 	}
 	
-	.tablesaw-stack tbody td,
+	.tablesaw-stack tbody td:not(.cmd_cb),
 	.tablesaw-stack tbody th {
 		display : block;
 		float   : left;
@@ -142,11 +146,21 @@
 		max-width  : 100%;
 		text-align : left;
 	}
+	
+	.tablesaw-stack td:not(.actions) .tablesaw-cell-label,
+	.tablesaw-stack th .tablesaw-cell-label {
+		display : inline-block !important;
+	}
+	
+	.tablesaw-stack td.cmd_cb .tablesaw-cell-label {
+		display : none !important;
+	}
+	
 }
 
 /* Media query to show as a standard table at 560px (35em x 16px) or wider */
 
-@media (min-width : 641px) {
+@media (min-width : 642px) {
 	.tablesaw-stack tr {
 		display : table-row;
 	}

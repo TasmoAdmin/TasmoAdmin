@@ -78,9 +78,9 @@
 
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-10 col-lg-10 col-xl-6'>
+	<div class='col col-12 col-md-10 col-lg-10 col-xl-6'>
 		<div class='row'>
-			<div class='col-12'>
+			<div class='col col-12'>
 				<h2 class='text-sm-center'>
 					<?php echo __( "CONFIG_HL", "DEVICE_CONFIG" ); ?>: <?php echo implode( " | ", $device->names ); ?>
 
@@ -88,7 +88,7 @@
 			</div>
 		</div>
 		<div class='row'>
-			<div class='col-12 mb-5'>
+			<div class='col col-12 mb-5'>
 				<div class='text-center'>
 					ID: <?php echo $device->id; ?>
 					<a href='http://<?php echo $device->ip; ?>' target='_blank'><?php echo $device->ip; ?>  </a>
@@ -96,7 +96,7 @@
 			</div>
 		</div>
 		<div class='row'>
-			<div class='col-12'>
+			<div class='col col-12'>
 				<?php if( isset( $msg ) && $msg != "" ): ?>
 					<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 						<?php echo $msg; ?>
@@ -120,7 +120,7 @@
 		</div>
 		<?php else: ?>
 			<div class='row'>
-				<div class='col-12'>
+				<div class='col col-12'>
 					<ul class="nav nav-tabs" id="device_config" role="tablist">
 						<li class="nav-item">
 							<a class="nav-link <?php echo $activeTabIndex == 0 ? "active" : ""; ?>"

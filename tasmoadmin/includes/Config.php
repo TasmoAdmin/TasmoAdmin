@@ -9,13 +9,14 @@
 
 		private $defaultConfigs
 			= [
+				"ota_server_ssl"        => "0", //0 = http, 1 = https
 				"ota_server_ip"         => "",
 				"ota_server_port"       => "",
 				"username"              => "",
 				"password"              => "",
-				"refreshtime"           => "5",
+				"refreshtime"           => "8",
 				"current_git_tag"       => "",
-				"update_automatic_lang" => "",
+				"update_automatic_lang" => "EN",
 				"nightmode"             => "auto",
 				"login"                 => "1",
 				"scan_from_ip"          => "192.168.178.2",
@@ -39,7 +40,10 @@
 
 			$configJSON = json_encode( $config );
 
-			setcookie( "MyConfig", $configJSON, intval( time()+( 8640000000*30 ) ), "/" );
+			$_SESSION[ "MyConfig" ] = $configJSON;
+
+			//			debug( debug_backtrace() );
+			//			debug( "set cookie" );
 
 			return $configJSON;
 		}
@@ -48,10 +52,10 @@
 			if( $this->debug ) {
 				debug( "COOKIE READ".( !empty( $key ) ? " ( ".$key." )" : "" ) );
 			}
-			if( empty( $_COOKIE[ "MyConfig" ] ) ) {
+			if( empty( $_SESSION[ "MyConfig" ] ) ) {
 				return FALSE;
 			}
-			$configJSON = $_COOKIE[ "MyConfig" ];
+			$configJSON = $_SESSION[ "MyConfig" ];
 
 			$config = json_decode( $configJSON, TRUE );
 			if( json_last_error() != 0 ) {
@@ -79,6 +83,17 @@
 		}
 
 		function __construct() {
+
+			if( !is_dir( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NO DIR! | __construct()" );
+			}
+			if( !is_writable( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NOT WRITEABLE! | __construct()" );
+			}
+
+
 			if( !file_exists( $this->cfgFile ) ) { //create file if not exists
 				$fh = fopen( $this->cfgFile, 'w+' ) or die(
 				__(
@@ -119,7 +134,7 @@
 				$config     = $configJSON = NULL;    //reset
 				$configJSON = file_get_contents( $this->cfgFile );
 				if( !$configJSON ) {
-					var_dump( debug_backtrace() );
+					//					var_dump( debug_backtrace() );
 					die( "could not read MyConfig.json" );
 				} else {
 					$config = json_decode( $configJSON, TRUE );
@@ -128,20 +143,19 @@
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
 
-				$this->setCacheConfig( $config );
 			}
 
 			//write default config if does not exists in file
 			foreach( $this->defaultConfigs as $configName => $configValue ) {
-				$config = $this->read( $configName );
+				$config = $this->read( $configName, TRUE );
 				if( !isset( $config ) || $config == "" ) {
-					$this->write( $configName, $configValue );
+					$this->write( $configName, $configValue, TRUE );
 				}
 			}
 
 
 			//remove trash from config
-			$config = $this->readAll( TRUE );
+			$config = $this->readAll( TRUE, TRUE );
 
 			if( !empty( $config[ "page" ] ) ) {
 				unset( $config[ "page" ] );
@@ -150,21 +164,45 @@
 				if( $this->debug ) {
 					debug( "PERFORM WRITE (unset => page)" );
 				}
+
+				if( !is_dir( _DATADIR_ ) ) {
+					var_dump( debug_backtrace() );
+					die( _DATADIR_." is NO DIR! | write()" );
+				}
+				if( !is_writable( _DATADIR_ ) ) {
+					var_dump( debug_backtrace() );
+					die( _DATADIR_." is NOT WRITEABLE! | write()" );
+				}
+				if( !is_writable( $this->cfgFile ) ) {
+					var_dump( debug_backtrace() );
+					die( $this->cfgFile." is NOT WRITEABLE! | write()" );
+				}
+
+				if( empty( $configJSON ) ) {
+					var_dump( $configJSON );
+					var_dump( debug_backtrace() );
+					die( "configJSON IS EMPTY! | write()" );
+				}
+
+
 				file_put_contents( $this->cfgFile, $configJSON );
 
-				$this->setCacheConfig( $config );
 			}
 
 
-			if( empty( $config[ "current_git_tag" ] ) ) {
-				if( !empty( getenv( "BUILD_VERSION" ) ) ) {
-					$this->write( "current_git_tag", getenv( "BUILD_VERSION" ) );
-				}
+			if( !empty( getenv( "BUILD_VERSION" ) )
+			    && ( $config[ "current_git_tag" ] != getenv(
+						"BUILD_VERSION"
+					) ) ) {
+				$this->write( "current_git_tag", getenv( "BUILD_VERSION" ), TRUE );
 			}
+
+			$this->setCacheConfig( $config );
+
 
 		}
 
-		public function readAll( $inclPassword = FALSE ) {
+		public function readAll( $inclPassword = FALSE, $skipCookie = FALSE ) {
 			$config = FALSE;
 			if( !$inclPassword ) { //if pw requested, get from file
 				$config = $this->getCacheConfig();
@@ -183,7 +221,9 @@
 				if( json_last_error() != 0 ) {
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
-				$this->setCacheConfig( $config );
+				if( !$skipCookie ) {
+					$this->setCacheConfig( $config, $skipCookie );
+				}
 			}
 			if( !$inclPassword ) {
 				unset( $config[ "password" ] );
@@ -193,7 +233,7 @@
 			return $config;
 		}
 
-		public function read( $key ) {
+		public function read( $key, $skipCookie = FALSE ) {
 			$config = FALSE;
 			if( $key !== "password" ) { //if pw requested, get from file
 				$config = $this->getCacheConfig( $key );
@@ -212,7 +252,9 @@
 				if( json_last_error() != 0 ) {
 					die( "JSON CONFIG ERROR: ".json_last_error()." => ".json_last_error_msg() );
 				}
-				$this->setCacheConfig( $config );
+				if( !$skipCookie ) {
+					$this->setCacheConfig( $config );
+				}
 
 				$config = isset( $config[ $key ] ) ? $config[ $key ] : NULL;
 			}
@@ -220,7 +262,7 @@
 			return $config;
 		}
 
-		public function write( $key, $value ) {
+		public function write( $key, $value, $skipCookie = FALSE ) {
 			if( $this->debug ) {
 				debug( "PERFORM READ FOR WRITE" );
 			}
@@ -238,10 +280,36 @@
 			if( $this->debug ) {
 				debug( "PERFORM WRITE (".$key." => ".$value.")" );
 			}
-			file_put_contents( $this->cfgFile, $configJSON );
+
+			if( !is_dir( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NO DIR! | write()" );
+			}
+			if( !is_writable( _DATADIR_ ) ) {
+				var_dump( debug_backtrace() );
+				die( _DATADIR_." is NOT WRITEABLE! | write()" );
+			}
+			if( !is_writable( $this->cfgFile ) ) {
+				var_dump( debug_backtrace() );
+				die( $this->cfgFile." is NOT WRITEABLE! | write()" );
+			}
+
+			if( empty( $configJSON ) ) {
+				var_dump( $configJSON );
+				var_dump( debug_backtrace() );
+				die( "configJSON IS EMPTY! | write()" );
+			}
+
+			if( file_put_contents( $this->cfgFile, $configJSON ) ) {
+
+			} else {
+				die( "file_put_contents FAILED! | write()" );
+			}
 
 
-			$this->setCacheConfig( $config );
+			if( !$skipCookie ) {
+				$this->setCacheConfig( $config );
+			}
 
 			return TRUE;
 		}

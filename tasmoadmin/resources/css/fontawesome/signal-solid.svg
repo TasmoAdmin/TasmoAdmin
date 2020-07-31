@@ -1,0 +1,10 @@
+<svg version="1.1" class="svg-inject ta ta-wifi" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="180" height="127.88632326820604" viewBox="0 0 11.26 8" enable-background="new 0 0 11.26 8" xml:space="preserve">
+  <g class="ta-wifi-wave">
+        <path class="ta-wifi-wave-bow ta-wifi-wave-base" d="M6.337,7.247c-0.391-0.391-1.023-0.391-1.414,0l0.708,0.708L6.337,7.247z"></path>
+    <path class="ta-wifi-wave-bow ta-wifi-wave-inner" fill="none" stroke="#000000" stroke-miterlimit="10" d="M7.62,5.966c-1.098-1.098-2.88-1.098-3.977,0"></path>
+    <path class="ta-wifi-wave-bow ta-wifi-wave-middle" fill="none" stroke="#000000" stroke-miterlimit="10" d="M9.31,4.275C7.278,2.244,3.984,2.245,1.952,4.276"></path>
+    <path class="ta-wifi-wave-bow ta-wifi-wave-outer" fill="none" stroke="#000000" stroke-miterlimit="10" d="M10.9,2.684c-2.911-2.911-7.629-2.911-10.54,0"></path>
+
+
+  </g>
+</svg>

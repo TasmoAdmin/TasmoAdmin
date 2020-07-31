@@ -58,73 +58,77 @@
 <?php include_once( _INCLUDESDIR_."header.php" ); //always load header?>
 
 <div class="container-fluid" id='content'>
-	<div class="row">
-		<div class="col-md-12">
-			<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
-			<div class="row">
-				<div class="col-md-6 mx-auto">
-					<span class="anchor" id="formLogin"></span>
-					<?php if( isset( $msg ) && $msg != "" ): ?>
-						<div class="alert alert-danger alert-dismissible fade show mb-5"
-						     data-dismiss="alert"
-						     role="alert">
-							<?php echo $msg; ?>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-					<?php endif; ?>
-					<!-- form card login -->
-					<div class="card rounded-0 bg-dark text-white">
-						<div class="card-body">
-							<form class="form" name='loginform' method='POST'>
-								<div class="form-group">
-									<label for="username">Username</label>
-									<input type="text"
-									       class="form-control form-control-lg rounded-0"
-									       name="username"
-									       id="username"
-									       placeholder='<?php echo __( "LOGIN_USERNAME_PLACEHOLDER", "LOGIN" ); ?>'
-									       required="">
-
-
-								</div>
-								<div class="form-group">
-									<label>Password</label>
-									<input type="password"
-									       class="form-control form-control-lg rounded-0"
-									       id="password"
-									       name="password"
-									       required=""
-									       placeholder='<?php echo __( "LOGIN_PASSWORD_PLACEHOLDER", "LOGIN" ); ?>'
-									>
-								</div>
-								<button type='submit'
-								        name='<?php echo $register ? "register" : "login"; ?>'
-								        class='btn btn-success btn-lg float-right'>
-									<?php echo $register
-										? __( "BTN_REGISTER", "LOGIN" )
-										: __(
-											"BTN_LOGIN",
-											"LOGIN"
-										); ?>
+	<div id='content-holder'>
+		<div class="row mx-0">
+			<div class="col col-md-12">
+				<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
+				<div class="row">
+					<div class="col col-md-6 mx-auto">
+						<span class="anchor" id="formLogin"></span>
+						<?php if( isset( $msg ) && $msg != "" ): ?>
+							<div class="alert alert-danger alert-dismissible fade show mb-5"
+							     data-dismiss="alert"
+							     role="alert">
+								<?php echo $msg; ?>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
 								</button>
-							</form>
+							</div>
+						<?php endif; ?>
+						<!-- form card login -->
+						<div class="card rounded-0 bg-dark text-white">
+							<div class="card-body">
+								<form class="form" name='loginform' method='POST'>
+									<div class="form-group col">
+										<label for="username">Username</label>
+										<input type="text"
+										       class="form-control form-control-lg rounded-0"
+										       name="username"
+										       id="username"
+										       placeholder='<?php echo __( "LOGIN_USERNAME_PLACEHOLDER", "LOGIN" ); ?>'
+										       required="">
+
+
+									</div>
+									<div class="form-group col">
+										<label>Password</label>
+										<input type="password"
+										       class="form-control form-control-lg rounded-0"
+										       id="password"
+										       name="password"
+										       required=""
+										       placeholder='<?php echo __( "LOGIN_PASSWORD_PLACEHOLDER", "LOGIN" ); ?>'
+										>
+									</div>
+									<div class='col col-12'>
+										<button type='submit'
+										        name='<?php echo $register ? "register" : "login"; ?>'
+										        class='btn btn-success btn-lg float-right'>
+											<?php echo $register
+												? __( "BTN_REGISTER", "LOGIN" )
+												: __(
+													"BTN_LOGIN",
+													"LOGIN"
+												); ?>
+										</button>
+									</div>
+								</form>
+							</div>
+							<!--/card-block-->
 						</div>
-						<!--/card-block-->
+						<!-- /form card login -->
+
 					</div>
-					<!-- /form card login -->
+
 
 				</div>
-
+				<!--/row-->
 
 			</div>
-			<!--/row-->
-
+			<!--/col-->
 		</div>
-		<!--/col-->
+		<!--/row-->
 	</div>
-	<!--/row-->
 </div>
 <!--/container-->
 

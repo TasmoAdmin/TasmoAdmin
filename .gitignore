@@ -14,6 +14,9 @@
 /tasmoadmin/data/MyConfig.php
 /tasmoadmin/data/MyConfig.json
 /tasmoadmin/tasmoadmin/resources/css/custom.css
+/tasmoadmin/tasmoadmin/resources/css/custom.min.css
+/tasmoadmin/resources/css/custom.css
+/tasmoadmin/resources/css/custom.min.css
 
 /tasmoadmin/data/updates/*.zip
 
@@ -25,3 +28,8 @@
 
 !.empty
 !.htaccess
+tasmoadmin/data/devices_all.csv
+
+/portable/xampp
+/portable/xampp_draft.zip
+!/portable/xampp.zip.*

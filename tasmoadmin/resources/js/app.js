@@ -1,5 +1,6 @@
 var Sonoff;
 var refreshtime = false;
+var nightmode   = false;
 $( document ).on( "ready", function () {
 	
 	var $lang    = $( "html" ).attr( "lang" );
@@ -48,7 +49,7 @@ $( document ).on( "ready", function () {
 	
 	$( '[title][title!=""]' ).tooltip( {
 		                                   html : true,
-		                                   delay: 700
+		                                   delay: 300
 	                                   } );
 	
 	$( '.custom-file-input' ).on( 'change', function () {
@@ -147,7 +148,7 @@ $( document ).on( "ready", function () {
 
 function notifyMe( msg, title ) {
 	var title = title || "";
-	if ( title != "" ) {
+	if ( title !== "" ) {
 		title = " - " + title;
 	}
 	
@@ -187,15 +188,15 @@ function notifyMe( msg, title ) {
 $.fn.attachDragger = function () {
 	var attachment = false, lastPosition, position, difference;
 	$( $( this ).selector ).on( "mousedown mouseup mousemove", function ( e ) {
-		if ( e.type == "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
+		if ( e.type === "mousedown" && !$( e.target ).hasClass( "tablesaw-cell-content" ) ) {
 			attachment = true, lastPosition = [ e.clientX, e.clientY ];
 			$( ".tablesaw-cell-content" ).addClass( "dontselect" );
 		}
-		if ( e.type == "mouseup" ) {
+		if ( e.type === "mouseup" ) {
 			attachment = false;
 			$( ".tablesaw-cell-content" ).removeClass( "dontselect" );
 		}
-		if ( e.type == "mousemove" && attachment == true ) {
+		if ( e.type === "mousemove" && attachment === true ) {
 			position   = [ e.clientX, e.clientY ];
 			difference = [
 				(
@@ -240,8 +241,9 @@ var parseVersion = function ( versionString ) {
 };
 
 
-function getTemp( data ) {
-	var temp = [];
+function getTemp( data, joinString ) {
+	var temp       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.TempUnit == undefined ) {
 		data.StatusSNS.TempUnit = "F";
@@ -278,7 +280,66 @@ function getTemp( data ) {
 				           data.StatusSNS.DS18x20.DS5.Temperature + "°" + data.StatusSNS.TempUnit
 			           ) );
 		}
+		if ( data.StatusSNS.DS18x20.DS6 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS6.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+		if ( data.StatusSNS.DS18x20.DS7 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS7.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
+		if ( data.StatusSNS.DS18x20.DS8 !== undefined ) {
+			temp.push( (
+				           data.StatusSNS.DS18x20.DS8.Temperature + "°" + data.StatusSNS.TempUnit
+			           ) );
+		}
 	}
+	
+	//6.1.1c 20180904
+	if ( data.StatusSNS[ "DS18B20-1" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-1" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-2" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-2" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-3" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-3" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-4" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-4" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-5" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-5" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-6" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-6" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-7" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-7" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS[ "DS18B20-8" ] !== undefined ) {
+		temp.push( (
+			           data.StatusSNS[ "DS18B20-8" ].Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	
+	
 	if ( data.StatusSNS.DHT11 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.DHT11.Temperature + "°" + data.StatusSNS.TempUnit
@@ -303,6 +364,7 @@ function getTemp( data ) {
 		temp.push( (
 			           data.StatusSNS.BMP280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
+		
 	}
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		temp.push( (
@@ -314,6 +376,12 @@ function getTemp( data ) {
 			           data.StatusSNS.BME280.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		temp.push( data.StatusSNS[ "BME280-76" ].Temperature + "°" + data.StatusSNS.TempUnit );
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		temp.push( data.StatusSNS[ "BME280-77" ].Temperature + "°" + data.StatusSNS.TempUnit );
+	}
 	if ( data.StatusSNS.SI7021 !== undefined ) {
 		temp.push( (
 			           data.StatusSNS.SI7021.Temperature + "°" + data.StatusSNS.TempUnit
@@ -324,14 +392,33 @@ function getTemp( data ) {
 			           data.StatusSNS.HTU21.Temperature + "°" + data.StatusSNS.TempUnit
 		           ) );
 	}
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.BMP180.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS.LM75AD !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.LM75AD.Temperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+	}
+	if ( data.StatusSNS.MAX31855 !== undefined ) {
+		temp.push( (
+			           data.StatusSNS.MAX31855.ProbeTemperature + "°" + data.StatusSNS.TempUnit
+		           ) );
+		//temp.push( (
+		//	           data.StatusSNS.MAX31855.ReferenceTemperature + "°" + data.StatusSNS.TempUnit
+		//           ) );
+	}
 	
 	//console.log( temp );
 	
-	return temp.join( "<br/>" );
+	return temp.join( joinString );
 }
 
-function getHumidity( data ) {
-	var humi = [];
+function getHumidity( data, joinString ) {
+	var humi       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.AM2301 !== undefined ) {
 		if ( data.StatusSNS.AM2301.Humidity !== undefined ) {
@@ -341,6 +428,17 @@ function getHumidity( data ) {
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Humidity !== undefined ) {
 			humi.push( data.StatusSNS.BME280.Humidity + "%" );
+		}
+	}
+	
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-76" ].Humidity !== undefined ) {
+			humi.push( data.StatusSNS[ "BME280-76" ].Humidity + "%" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-77" ].Humidity !== undefined ) {
+			humi.push( data.StatusSNS[ "BME280-77" ].Humidity + "%" );
 		}
 	}
 	if ( data.StatusSNS.BME680 !== undefined ) {
@@ -376,15 +474,26 @@ function getHumidity( data ) {
 	
 	//console.log( humi );
 	
-	return humi.join( "<br/>" );
+	return humi.join( joinString );
 }
 
-function getPressure( data ) {
-	var press = [];
+function getPressure( data, joinString ) {
+	var press      = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME280 !== undefined ) {
 		if ( data.StatusSNS.BME280.Pressure !== undefined ) {
 			press.push( data.StatusSNS.BME280.Pressure + "&nbsp;hPa" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-76" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-76" ].Pressure !== undefined ) {
+			press.push( data.StatusSNS[ "BME280-76" ].Pressure + "&nbsp;hPa" );
+		}
+	}
+	if ( data.StatusSNS[ "BME280-77" ] !== undefined ) {
+		if ( data.StatusSNS[ "BME280-77" ].Pressure !== undefined ) {
+			press.push( data.StatusSNS[ "BME280-77" ].Pressure + "&nbsp;hPa" );
 		}
 	}
 	if ( data.StatusSNS.BMP280 !== undefined ) {
@@ -397,14 +506,36 @@ function getPressure( data ) {
 			press.push( data.StatusSNS.BME680.Pressure + "&nbsp;hPa" );
 		}
 	}
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		if ( data.StatusSNS.BMP180.Pressure !== undefined ) {
+			press.push( data.StatusSNS.BMP180.Pressure + "&nbsp;hPa" );
+		}
+	}
 	
 	//console.log( press );
 	
-	return press.join( "<br/>" );
+	return press.join( joinString );
 }
 
-function getDistance( data ) {
-	var dist = [];
+
+function getSeaPressure( data, joinString ) {
+	var press      = [];
+	var joinString = joinString || "<br/>";
+	
+	if ( data.StatusSNS.BMP180 !== undefined ) {
+		if ( data.StatusSNS.BMP180.SeaPressure !== undefined ) {
+			press.push( data.StatusSNS.BMP180.SeaPressure + "&nbsp;hPa" );
+		}
+	}
+	
+	//console.log( press );
+	
+	return press.join( joinString );
+}
+
+function getDistance( data, joinString ) {
+	var dist       = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.SR04 !== undefined ) {
 		if ( data.StatusSNS.SR04.Distance !== undefined ) {
@@ -414,12 +545,13 @@ function getDistance( data ) {
 	
 	//console.log( press );
 	
-	return dist.join( "<br/>" );
+	return dist.join( joinString );
 }
 
 
-function getEnergyPower( data ) {
+function getEnergyPower( data, joinString ) {
 	var enerygPower = [];
+	var joinString  = joinString || "<br/>";
 	
 	if ( data.StatusSNS.ENERGY !== undefined ) {
 		if ( data.StatusSNS.ENERGY.Power !== undefined ) {
@@ -440,7 +572,7 @@ function getEnergyPower( data ) {
 	}
 	//console.log( press );
 	
-	return enerygPower.join( "<br/>" );
+	return enerygPower.join( joinString );
 }
 
 //function getEnergyTodayYesterday( data ) {
@@ -458,11 +590,18 @@ function getEnergyPower( data ) {
 //
 //	//console.log( press );
 //
-//	return energyTodayYesterday.join( "<br/>" );
+//	return energyTodayYesterday.join( joinString );
 //}
 
-function getGas( data ) {
-	var gas = [];
+
+Date.prototype.addHours = function ( h ) {
+	this.setHours( this.getHours() + h );
+	return this;
+};
+
+function getGas( data, joinString ) {
+	var gas        = [];
+	var joinString = joinString || "<br/>";
 	
 	if ( data.StatusSNS.BME680 !== undefined ) {
 		if ( data.StatusSNS.BME680.Gas !== undefined ) {
@@ -472,9 +611,8 @@ function getGas( data ) {
 	
 	//console.log( press );
 	
-	return gas.join( "<br/>" );
+	return gas.join( joinString );
 }
-
 
 function checkNightmode( config ) {
 	console.log( "[APP][checkNightmode] Start" );
@@ -510,13 +648,10 @@ function checkNightmode( config ) {
 			$( "body" ).addClass( "nightmode" );
 		}
 	}
+	if ( $( "body" ).hasClass( "nightmode" ) ) {
+		nightmode = true;
+	}
 }
-
-Date.prototype.addHours = function ( h ) {
-	this.setHours( this.getHours() + h );
-	return this;
-};
-
 
 function checkForUpdate( timer ) {
 	if ( $( "#versionHolder" ).data( "update-check" ) == "0" ) {
@@ -545,10 +680,17 @@ function checkForUpdate( timer ) {
 	    .addClass( "fa-sync" )
 	    .addClass( "fa-spin" );
 	
-	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/releases/latest";
+	var action = "releases/latest";
+	if ( currentGitTag.indexOf( "beta" ) !== false ) {
+		action = "releases";
+	}
+	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/" + action;
 	
 	$.get( githubApiRelease, {}, function ( result ) {
 		if ( result !== undefined ) {
+			if ( Array.isArray( result ) ) {
+				result = result[ 0 ];
+			}
 			if ( result.tag_name !== undefined ) {
 				var latestTag = result.tag_name;
 				console.log( "[APP][checkForUpdate] latestTag => " + latestTag );
@@ -637,3 +779,4 @@ jQuery.fn.shake = function ( intShakes, intDistance, intDuration ) {
 	} );
 	return this;
 };
+

@@ -1,12 +1,23 @@
 # TasmoAdmin
 ![Logo](https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
+[![GitHub release](https://img.shields.io/github/release/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
+[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin) 
+[![GitHub contributors](https://img.shields.io/github/contributors/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/graphs/contributors/) 
 
-[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin)
+[![HitCount](http://hits.dwyl.io/reloxx13/TasmoAdmin.svg)](http://hits.dwyl.io/reloxx13/TasmoAdmin)
+[![GitHub stars](https://img.shields.io/github/stars/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/stargazers)
+[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+[![GitHub forks](https://img.shields.io/github/forks/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/network)
 [![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
-[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg?maxAge=2592000)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
+[![Github all releases](https://img.shields.io/github/downloads/reloxx13/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
 
-TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Sonoff-Tasmota](https://github.com/arendst/Sonoff-Tasmota).   
+[![GitHub license](https://img.shields.io/github/license/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/blob/master/LICENSE)
+[![bootstap](https://img.shields.io/badge/bootstrap-v4.3.x-%23563d7c.svg)](https://getbootstrap.com/)
+[![php](https://img.shields.io/badge/php-7.3.x-%238892BF.svg)](https://secure.php.net/)
+
+
+TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
 It supports running on Windows, Linux, Docker container and as Home Assistant addon.
 
@@ -17,13 +28,14 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
   * Automatic Modus downloads latest firmware bin from Tasmota GitHub
 * Show device information
 * Mobile Responsive (Bootstrap4)
+  * SCSS & Minified
 * Config devices
 * SelfUpdate function for TasmoAdmin (disabled for Docker)
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
 * Send Command to selected Devices
-* chat (beta)
+* Chat (beta)
 
 ### Supported Platforms
 * Apache2 and nginx
@@ -62,10 +74,16 @@ Now you can type in your browser http://YOURLOCALIP and TasmoAdmin shows up.
 Running TasmoAdmin on a Linux/Unix hosts requires the following:
 * A Webserver
   * apache2 recommended
-  * php7 recommended (works with php5 too)
+  * php7
   * php-curl php-zip Modules installed
 
 You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
+
+#### SELinux (#209)
+`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/data(/.*)?"`
+`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/tmp(/.*)?"`
+
+`restorecon -Rv /var/www/`
 
 ## Example Images
 #### Login Page

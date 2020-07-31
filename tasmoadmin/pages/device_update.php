@@ -1,41 +1,34 @@
 <?php
 	//	var_dump( $_REQUEST );
+	$useSSL    = $Config->read( "ota_server_ssl" );
 	$localIP   = $Config->read( "ota_server_ip" );
 	$localPort = $Config->read( "ota_server_port" );
-	if( empty( $localPort ) ) {
-		$localPort = $_SERVER[ "SERVER_PORT" ];
-	}
-	$subdir = dirname( $_SERVER[ 'PHP_SELF' ] );
-	$subdir = str_replace( "\\", "/", $subdir );
-	$subdir = $subdir == "/" ? "" : $subdir;
 
-	if( !empty( $_SERVER[ 'REQUEST_SCHEME' ] ) ) {
-		$schema = $_SERVER[ 'REQUEST_SCHEME' ];
+
+	if( $useSSL == 1 || $useSSL == "1" ) {
+		$schema = "https";
 	} else {
-		if( !empty( $_SERVER[ "SERVER_PORT" ] ) && $_SERVER[ "SERVER_PORT" ] == "443" ) {
-			$schema = "https";
-		} else {
-			$schema = "http";
-		}
+		$schema = "http";
 	}
 	$otaServer = $schema."://".$localIP.":".$localPort._BASEURL_."";
 
+
 	if( isset( $_REQUEST[ 'minimal_firmware_path' ] ) && !empty( $_REQUEST[ 'minimal_firmware_path' ] ) ) {
-		$ota_minimal_firmware_url = $otaServer."data/firmwares/sonoff-minimal.bin";
+		$ota_minimal_firmware_url = $otaServer."data/firmwares/tasmota-minimal.bin";
 	}
-	$ota_new_firmware_url = $otaServer."data/firmwares/sonoff.bin";
+	$ota_new_firmware_url = $otaServer."data/firmwares/tasmota.bin";
 
 	$device_ids = isset( $_REQUEST[ "device_ids" ] ) ? $_REQUEST[ "device_ids" ] : FALSE;
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col-12 col-md-8 '>
+	<div class='col col-12 col-md-8 '>
 		<h2 class='text-sm-center mb-5'>
 			<?php echo $title; ?>
 		</h2>
 	</div>
 </div>
 <div class='row justify-content-center'>
-	<div class='col-12 col-md-10'>
+	<div class='col col-12 col-md-10'>
 		<?php if( !$device_ids ): ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo __( "NO_DEVICES_SELECTED", "DEVICE_UPDATE" ); ?>

@@ -59,8 +59,12 @@ var Sonoff = function ( options ) {
 	};
 	
 	this.generic = function ( device_id, cmnd, newvalue, callback ) {
-		var newvalue = newvalue !== undefined ? " " + newvalue : "";
-		var cmnd     = cmnd + " " + newvalue;
+		var newvalue = (
+			(
+				newvalue !== undefined
+			) ? " " + newvalue : ""
+		);
+		var cmnd     = cmnd + newvalue;
 		
 		doAjax( null, device_id, cmnd, callback );
 	};
@@ -80,9 +84,27 @@ var Sonoff = function ( options ) {
 		
 		doAjax( ip, id, cmnd, callback );
 		
-	}
+	};
 	
-	;
+	
+	/**
+	 * getStatus
+	 *
+	 * @param {string} ip
+	 * @param {int} id
+	 * @param {int} relais
+	 * @param {function} callback
+	 */
+	this.off = function ( ip, id, relais, callback ) {
+		relais   = relais || 1;
+		var cmnd = "Power" + relais + " 0";
+		
+		console.log( "[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd );
+		
+		doAjax( ip, id, cmnd, callback );
+		
+	};
+	
 	/*
 	 * Private method
 	 * Can only be called inside class
@@ -96,6 +118,7 @@ var Sonoff = function ( options ) {
 			        timeout : options.timeout * 1000,
 			        cache   : false,
 			        type    : "post",
+			        async   : true,
 			        data    : {
 				        id  : id,
 				        cmnd: encodeURIComponent( cmnd )
@@ -158,6 +181,49 @@ var Sonoff = function ( options ) {
 				        }
 			        }
 		        } );
+	};
+	
+	
+	this.parseDeviceStatus = function ( data, device_relais ) {
+		var device_status = "NONE";
+		
+		if ( data.StatusSTS !== undefined ) {
+			if ( device_relais !== undefined && eval( "data.StatusSTS.POWER" + device_relais ) !== undefined ) {
+				
+				if ( eval( "data.StatusSTS.POWER" + device_relais + ".STATE" ) !== undefined ) {
+					device_status = eval( "data.StatusSTS.POWER" + device_relais + ".STATE" );
+				} else {
+					device_status = eval( "data.StatusSTS.POWER" + device_relais );
+				}
+			} else {
+				if ( data.StatusSTS.POWER !== undefined ) {
+					if ( data.StatusSTS.POWER.STATE !== undefined ) {
+						device_status = data.StatusSTS.POWER.STATE;
+					} else {
+						device_status = data.StatusSTS.POWER;
+					}
+				}
+			}
+		} else {
+			if ( device_relais !== undefined && eval( "data.POWER" + device_relais ) !== undefined ) {
+				
+				if ( eval( "data.POWER" + device_relais + ".STATE" ) !== undefined ) {
+					device_status = eval( "data.POWER" + device_relais + ".STATE" );
+				} else {
+					device_status = eval( "data.POWER" + device_relais );
+				}
+			} else {
+				if ( data.POWER !== undefined ) {
+					if ( data.POWER.STATE !== undefined ) {
+						device_status = data.POWER.STATE;
+					} else {
+						device_status = data.POWER;
+					}
+				}
+			}
+		}
+		
+		return device_status;
 	};
 	
 	

@@ -1,6 +1,6 @@
 <form class='center config-form' name='device_config_network' method='post'>
 	<input type='hidden' name='tab-index' value='1'>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="Hostname">
 			<?php echo __( "CONFIG_HOSTNAME", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -16,7 +16,7 @@
 			<?php echo __( "CONFIG_HOSTNAME_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="IPAddress1">
 			<?php echo __( "CONFIG_IPADDRESS", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -32,7 +32,7 @@
 			<?php echo __( "CONFIG_IPADDRESS_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="IPAddress2">
 			<?php echo __( "CONFIG_GATEWAY", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -48,7 +48,7 @@
 			<?php echo __( "CONFIG_GATEWAY_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="IPAddress3">
 			<?php echo __( "CONFIG_SUBNETMASK", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -64,7 +64,7 @@
 			<?php echo __( "CONFIG_SUBNETMASK_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="IPAddress4">
 			<?php echo __( "CONFIG_DNSSERVER", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -80,7 +80,7 @@
 			<?php echo __( "CONFIG_DNSSERVER_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="Mac">
 			<?php echo __( "CONFIG_MACADDRESS", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -97,7 +97,7 @@
 		</small>
 	</div>
 
-	<?php // TODO: Enable again if restart gets fixed https://github.com/arendst/Sonoff-Tasmota/issues/1819 ?>
+	<?php // TODO: Enable again if restart gets fixed https://github.com/arendst/Tasmota/issues/1819 ?>
 	<div class="form-group mt-5">
 		<label for="NtpServer1">
 			<?php echo __( "CONFIG_NTPSERVER", "DEVICE_CONFIG" ); ?>
@@ -144,7 +144,7 @@
 			<?php echo __( "CONFIG_USE_AP_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="SSId1">
 			<?php echo __( "CONFIG_SSID1", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -160,7 +160,7 @@
 			<?php echo __( "CONFIG_SSID1_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="Password1">
 			<?php echo __( "CONFIG_SSID1PW", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -175,7 +175,7 @@
 			<?php echo __( "CONFIG_SSID1PW_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="SSId2">
 			<?php echo __( "CONFIG_SSID2", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -191,7 +191,7 @@
 			<?php echo __( "CONFIG_SSID2_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="Password2">
 			<?php echo __( "CONFIG_SSID2PW", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -206,7 +206,7 @@
 			<?php echo __( "CONFIG_SSID2PW_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="WifiConfig">
 			<?php echo __( "CONFIG_WIFICONFIG", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -242,7 +242,7 @@
 	</div>
 
 	<div class="row mt-5">
-		<div class="col-12">
+		<div class="col col-12">
 			<div class="text-right">
 				<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 					<?php echo __( "BTN_SAVE_DEVICE_CONFIG", "DEVICE_CONFIG" ); ?>
