@@ -10,8 +10,8 @@
 - **NEW**: Protect device to get powered on or/and off
     - For both you need to edit the device and set the desired checkboxes
     - At the bottom of the table view is a button to unlock the protected device for 60s
-    - On the startpage you can change the state if you press the device button for 5s
-
+    - On the startpage you can change the state if you press the device button for 5s   
+    ![grafik](https://user-images.githubusercontent.com/14855001/89078631-0cf95780-d385-11ea-9787-cce69adfe870.png)
 
 ###  v1.6.4-beta4
 - UPDATE: Add 120s and 300s to refresh times
