@@ -909,6 +909,16 @@ hr {
   img {
     max-width: 100%;
     height: auto;
+
+    &:first-child {
+      max-height: 76px;
+    }
+  }
+
+  .emojione {
+    height: 26px;
+    position: relative;
+    top: -6px;
   }
 }
 
