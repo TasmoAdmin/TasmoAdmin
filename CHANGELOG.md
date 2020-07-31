@@ -1,9 +1,10 @@
 # CHANGELOG
 
 
-## Upcoming
+## UPCOMING
 
-## Published
+
+## PUBLISHED
         
 ###  v1.6.4-beta5
 - **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/reloxx13/TasmoAdmin/issues/312)
