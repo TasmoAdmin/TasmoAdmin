@@ -4,6 +4,9 @@
 ## Upcoming
 - UPDATE: Add 120s and 300s to refresh times
 - **UPDATE**: (non-docker) Selfupdate switch between beta and stable
+- UPDATE: Get live list of available tasmota firmware versions for automatic update
+- UPDATE: Add version selectbox on device update page
+
 
 ## Published
         

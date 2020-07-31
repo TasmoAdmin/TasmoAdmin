@@ -106,6 +106,48 @@ else {
 	//		$changelog       = "<h2>Developer Changelog</h2>".$changelog;
 }
 
+
+$tasmotaReleases       = [];
+$tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
+curl_setopt($ch, CURLOPT_URL, $tasmotaRepoReleaseUrl);
+$release = json_decode(curl_exec($ch));
+if (curl_error($ch)) {
+	$result = [
+		"ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
+				$ch
+			),
+	];
+}
+curl_close($ch);
+
+if (!empty($release) && !empty($release->assets)) {
+	foreach ($release->assets as $asset) {
+		if (strpos($asset->name, ".bin.gz") !== FALSE
+			|| strpos($asset->name, "-minimal.bin") !== FALSE) {
+			continue;
+		}
+		$tasmotaReleases[] = $asset->name;
+	}
+	//echo "\$tasmotaReleases=[\"" . implode("\",\"", $tasmotaReleases) . "\"];";
+}
+else {
+	$tasmotaReleases =
+		[
+			"tasmota-BG.bin", "tasmota-BR.bin", "tasmota-CN.bin", "tasmota-CZ.bin", "tasmota-DE.bin",
+			"tasmota-display.bin", "tasmota-ES.bin", "tasmota-FR.bin", "tasmota-GR.bin", "tasmota-HE.bin",
+			"tasmota-HU.bin", "tasmota-ir.bin", "tasmota-ircustom.bin", "tasmota-IT.bin", "tasmota-knx.bin",
+			"tasmota-KO.bin", "tasmota-lite.bin", "tasmota-NL.bin", "tasmota-PL.bin", "tasmota-PT.bin",
+			"tasmota-RO.bin", "tasmota-RU.bin", "tasmota-SE.bin", "tasmota-sensors.bin", "tasmota-SK.bin",
+			"tasmota-TR.bin", "tasmota-TW.bin", "tasmota-UK.bin", "tasmota-zbbridge.bin", "tasmota.bin",
+			"tasmota32-BG.bin", "tasmota32-BR.bin", "tasmota32-CN.bin", "tasmota32-CZ.bin", "tasmota32-DE.bin",
+			"tasmota32-display.bin", "tasmota32-ES.bin", "tasmota32-FR.bin", "tasmota32-GR.bin", "tasmota32-HE.bin",
+			"tasmota32-ir.bin", "tasmota32-ircustom.bin", "tasmota32-knx.bin", "tasmota32-lite.bin",
+			"tasmota32-PL.bin", "tasmota32-PT.bin", "tasmota32-RO.bin", "tasmota32-RU.bin", "tasmota32-SE.bin",
+			"tasmota32-sensors.bin", "tasmota32-SK.bin", "tasmota32-TR.bin", "tasmota32-TW.bin", "tasmota32-UK.bin",
+			"tasmota32-webcam.bin", "tasmota32.bin",
+		];
+}
+asort($tasmotaReleases);
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 col-md-8 col-xl-6'>
@@ -195,7 +237,29 @@ else {
 					</div>
 				</div>
 			</div>
-			
+			<div class="form-row">
+				<div class="form-group col col-12 col-sm-6">
+					<label for="update_automatic_lang">
+						<?php echo __("CONFIG_AUTOMATIC_FW", "USER_CONFIG"); ?>
+					</label>
+					
+					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
+						<?php if ($Config->read("update_automatic_lang") == ""): ?>
+							<option><?php echo __("PLEASE_SELECT"); ?></option>
+						<?php endif; ?>
+						
+						<?php foreach ($tasmotaReleases as $tr): ?>
+							<option value='<?php echo $tr; ?>'
+								<?php echo $Config->read("update_automatic_lang") == $tr ? "selected=\selected\"" : ""; ?>
+							>
+								<?php echo substr($tr, 0, stripos($tr, ".")); ?>
+							</option>
+						<?php endforeach; ?>
+					
+					
+					</select>
+				</div>
+			</div>
 			<div class='form-row'>
 				<div class="col col-12 col-sm-3">
 					<button type='submit' class='btn btn-primary' id="automatic" name='auto' value='submit'
