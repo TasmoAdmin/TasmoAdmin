@@ -88,6 +88,22 @@ $config = array_merge($Config->readAll(), $settings);
 						</label>
 					</div>
 				</div>
+				<?php if (empty($config["update_channel"]) || $config["update_channel"] !== "docker"): ?>
+					<div class="form-group col col-12 col-sm-2">
+						<select class="form-control custom-select" id="update_channel" name='update_channel'>
+							<option value='stable'
+								<?php echo empty($config["update_channel"]) || $config["update_channel"] == "stable" ? "selected=\"selected\"" : ""; ?>
+							>
+								<?php echo __("CONFIG_UPDATE_CHANNEL_STABLE", "USER_CONFIG"); ?>
+							</option>
+							<option value='beta'
+								<?php echo $config["update_channel"] == "beta" ? "selected=\"selected\"" : ""; ?>
+							>
+								<?php echo __("CONFIG_UPDATE_CHANNEL_BETA", "USER_CONFIG"); ?>
+							</option>
+						</select>
+					</div>
+				<?php endif; ?>
 			</div>
 			<div class='form-row'>
 				<div class="form-group col col-12 col-sm-6">
@@ -140,7 +156,8 @@ $config = array_merge($Config->readAll(), $settings);
 			
 			<div class="form-row  mt-5">
 				<div class="form-group col col-12 col-sm-3">
-					<div class="form-check custom-control custom-checkbox mb-5" style='margin-top: 35px;'>
+					<label>&nbsp;</label>
+					<div class="form-check custom-control custom-checkbox mb-5">
 						<input class="form-check-input custom-control-input"
 							   type="checkbox"
 							   value="1"

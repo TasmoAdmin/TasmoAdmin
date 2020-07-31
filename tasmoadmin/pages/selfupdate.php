@@ -4,7 +4,7 @@ require_once _LIBSDIR_ . "parsedown/Parsedown.php";
 require_once _INCLUDESDIR_ . "Selfupdate.php";
 
 
-$mdParser  = new Parsedown();
+$mdParser = new Parsedown();
 
 $msg        = "";
 $Selfupdate = new Selfupdate($Config);
@@ -96,8 +96,8 @@ else {
 				</div>
 				<div class='col col-12 col-sm-2 text-center align-text-top'>
 					<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i> <i
-							class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x my-3"
-							style='font-size:2.5rem;'
+						class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x my-3"
+						style='font-size:2.5rem;'
 					></i>
 				</div>
 				<div class='col col-12 col-sm-5'>
@@ -111,7 +111,7 @@ else {
 				
 				</div>
 			</div>
-			<?php if (!$docker): ?>
+			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>
@@ -126,7 +126,7 @@ else {
 			<div class="alert alert-info fade show mb-5" role="alert">
 				<?php echo __("NO_UPDATE_FOUND", "SELFUPDATE"); ?>
 			</div>
-			<?php if (!$docker): ?>
+			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 text-center">
 						<form name='selfupdateform' method='post'>
