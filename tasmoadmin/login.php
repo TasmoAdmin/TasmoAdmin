@@ -33,13 +33,12 @@
 	if( isset( $_POST ) && !empty( $_POST ) ) {
 		$home = $Config->read( "homepage" );
 		if( isset( $_REQUEST[ "register" ] ) && ( $user == "" || $password == "" ) ) {
-			$Config->write( "username", $_REQUEST[ "username" ] );
-			$Config->write( "password", md5( $_REQUEST[ "password" ] ) );
+			Login::register($_REQUEST["username"], $_REQUEST["password"]);
 			$_SESSION[ 'login' ] = "1";
 			header( "Location: "._BASEURL_.$home );
 
 		} elseif( isset( $_REQUEST[ "login" ] ) ) {
-			if( $user == $_REQUEST[ "username" ] && $password == md5( $_REQUEST[ "password" ] ) ) {
+			if( $user == $_REQUEST[ "username" ] && Login::login($_REQUEST["password"], $password) ) {
 				$_SESSION[ 'login' ] = "1";
 				header( "Location: "._BASEURL_.$home );
 			} else {
