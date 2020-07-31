@@ -675,6 +675,18 @@ td.runtime {
 .form-switch.error input:checked + i {
   background-color: #BA001A;
 }
+.form-switch.disabled i {
+  background-color: #6C757D;
+}
+.form-switch.disabled i::before {
+  background-color: #6C757D;
+}
+.form-switch.disabled i::after {
+  background-color: #3d4246;
+}
+.form-switch.disabled input:checked + i {
+  background-color: #6C757D;
+}
 
 .custom-control.custom-checkbox {
   position: relative;
@@ -743,6 +755,18 @@ hr {
 }
 .nightmode .form-switch input:checked + i {
   background-color: #007EB4;
+}
+.nightmode .form-switch.disabled i {
+  background-color: #6C757D;
+}
+.nightmode .form-switch.disabled i::before {
+  background-color: #6C757D;
+}
+.nightmode .form-switch.disabled i::after {
+  background-color: #3d4246;
+}
+.nightmode .form-switch.disabled input:checked + i {
+  background-color: #6C757D;
 }
 .nightmode a .fas, .nightmode a .fa, .nightmode th.link a, .nightmode a, .nightmode a i {
   color: #1C99D2;
@@ -1287,6 +1311,13 @@ hr {
   padding: 0px 10px 0px;
   box-sizing: border-box;
   height: auto;
+}
+.startpage .card-holder .card.box_device.disabled:not(.ignoreProtection) img {
+  -webkit-filter: invert(40%);
+  -moz-filter: invert(40%);
+  -o-filter: invert(40%);
+  -ms-filter: invert(40%);
+  filter: invert(40%);
 }
 .startpage .card-holder .card.box_device .card-body {
   padding: 0px;

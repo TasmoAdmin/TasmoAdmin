@@ -5,6 +5,14 @@
 
 ## Published
         
+###  v1.6.4-beta5
+- **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/reloxx13/TasmoAdmin/issues/312)
+- **NEW**: Protect device to get powered on or/and off
+    - For both you need to edit the device and set the desired checkboxes
+    - At the bottom of the table view is a button to unlock the protected device for 60s
+    - On the startpage you can change the state if you press the device button for 5s
+
+
 ###  v1.6.4-beta4
 - UPDATE: Add 120s and 300s to refresh times
 - **UPDATE**: (non-docker) Selfupdate switch between beta and stable

@@ -479,6 +479,24 @@ td {
       background-color: $red;
     }
   }
+
+  &.disabled {
+    i {
+      background-color: $greyBtn;
+    }
+
+    i::before {
+      background-color: $greyBtn;
+    }
+
+    i::after {
+      background-color: $greyDark;
+    }
+
+    input:checked + i {
+      background-color: $greyBtn;
+    }
+  }
 }
 
 .custom-control {
@@ -563,6 +581,24 @@ hr {
 
     input:checked + i {
       background-color: $color_deep_cerulean_approx;
+    }
+
+    &.disabled {
+      i {
+        background-color: $greyBtn;
+      }
+
+      i::before {
+        background-color: $greyBtn;
+      }
+
+      i::after {
+        background-color: $greyDark;
+      }
+
+      input:checked + i {
+        background-color: $greyBtn;
+      }
     }
   }
 
