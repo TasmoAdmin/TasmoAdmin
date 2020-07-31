@@ -497,14 +497,14 @@
 					<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
 						<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
 					</a>
-				</div>
-			</div>
+                </div>
+            </div>
 
-		<?php endif; ?>
+        <?php endif; ?>
 
 
-	</div>
+    </div>
 </div>
 <?php include "elements/modal_delete_device.php"; ?>
 
-<script src="<?php echo URL::JS( "devices" ); ?>"></script>
+<script src="<?php echo UrlHelper::JS("devices"); ?>"></script>

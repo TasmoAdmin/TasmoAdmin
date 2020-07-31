@@ -176,7 +176,7 @@
 		</div>
 		<div class='col col-12 col-sm-2 '>
 			<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
-				<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+				<?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>
 			</a>
 		</div>
 	</div>
@@ -184,4 +184,4 @@
 <?php endif; ?>
 <?php include "elements/modal_delete_device.php"; ?>
 
-<script src="<?php echo URL::JS( "devices_details" ); ?>"></script>
+<script src="<?php echo UrlHelper::JS("devices_details"); ?>"></script>

@@ -114,7 +114,7 @@
 			</div>
 			<div class='col col-12 col-sm-2 '>
 				<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
-					<?php echo __( "TABLE_HEAD_NEW_DEVICE", "DEVICES" ); ?>
+					<?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>
 				</a>
 			</div>
 		</div>
@@ -122,4 +122,4 @@
 	<?php endif; ?>
 </div>
 
-<script src="<?php echo URL::JS( "start" ); ?>"></script>
+<script src="<?php echo UrlHelper::JS("start"); ?>"></script>
