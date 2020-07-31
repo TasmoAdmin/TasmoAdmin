@@ -2,6 +2,11 @@
 
 
 ## Upcoming
+
+
+## Published
+        
+###  v1.6.4-beta3
 - UPDATE: Add new password hashing thanks to @[inverse](https://github.com/inverse) ( [PR#357](https://github.com/reloxx13/TasmoAdmin/pull/357) )
 - UPDATE: Hide password in device autoscanner thanks to @[WatskeBart](https://github.com/WatskeBart) ( [PR#387](https://github.com/reloxx13/TasmoAdmin/pull/387) )
     - and add show/hide password button
@@ -12,7 +17,8 @@
 - UPDATE: Change wiki links (top navi) to tasmota docs
 - UPDATE: Change to new changelog/releaselogs (device update page)
 
-## Published
+###  v1.6.4-beta3-1
+- Docker Test 
         
 ### v1.6.4-beta2   
 - UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)

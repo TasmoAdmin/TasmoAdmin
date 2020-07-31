@@ -806,11 +806,11 @@ hr {
   color: rgba(255, 255, 255, 0.75);
   box-shadow: 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
 }
-.nightmode .custom-file-label {
+.nightmode .custom-file-label, .nightmode .input-group-prepend, .nightmode .input-group-append, .nightmode .input-group-text {
   background-color: #343A40 !important;
   color: rgba(255, 255, 255, 0.5);
 }
-.nightmode .custom-file-label::after {
+.nightmode .custom-file-label::after, .nightmode .input-group-prepend::after, .nightmode .input-group-append::after, .nightmode .input-group-text::after {
   background-color: #343A40 !important;
   color: rgba(255, 255, 255, 0.5);
 }
@@ -1178,6 +1178,9 @@ hr {
 
 .show-hide-password {
   cursor: pointer;
+}
+.show-hide-password i {
+  min-width: 20px;
 }
 
 .startpage {
