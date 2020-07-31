@@ -71,7 +71,7 @@ $(document).on("ready", function ()
 	$("#versionHolder").on("click", function (e)
 	{
 		e.preventDefault();
-		if ($(this).hasClass("update-now") || $("#versionHolder").data("update-check") == "0")
+		if ($(this).hasClass("update-now") || $("#versionHolder").data("update-check") === "0")
 		{
 			window.location.href = _BASEURL_ + "selfupdate";
 		} else
@@ -797,7 +797,7 @@ function checkNightmode(config)
 
 function checkForUpdate(timer)
 {
-	if ($("#versionHolder").data("update-check") == "0")
+	if ($("#versionHolder").data("update-check") === "0")
 	{
 		console.log("[APP][checkForUpdate] Update check is disabed");
 		$("#update-icon").remove();
@@ -807,6 +807,7 @@ function checkForUpdate(timer)
 	var timer = timer || true;
 	var icon = $("#update-icon");
 	var currentGitTag = icon.data("current_git_tag");
+	var updateChannel = icon.data("update_channel");
 
 	if (icon.parent().hasClass("update-now"))
 	{
@@ -827,7 +828,7 @@ function checkForUpdate(timer)
 		.addClass("fa-spin");
 
 	var action = "releases/latest";
-	if (currentGitTag.indexOf("beta") !== false)
+	if (updateChannel !== "stable")
 	{
 		action = "releases";
 	}
@@ -845,7 +846,7 @@ function checkForUpdate(timer)
 			{
 				var latestTag = result.tag_name;
 				console.log("[APP][checkForUpdate] latestTag => " + latestTag);
-				if (latestTag != currentGitTag)
+				if (latestTag !== currentGitTag)
 				{
 					console.log("[APP][checkForUpdate] NEW VERSION FOUND");
 					if (result.assets.length !== 3)

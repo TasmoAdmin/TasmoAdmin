@@ -20,6 +20,7 @@
 						   0,
 						   15
 					   ); ?>'
+					   data-update_channel='<?php echo $Config->read("update_channel"); ?>'
 					   style=''
 					></i>
 				</div><?php //endif; ?>
