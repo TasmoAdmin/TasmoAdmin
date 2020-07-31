@@ -44,18 +44,18 @@
 		<input type='hidden' id='ota_minimal_firmware_url'
 		       value='<?php echo isset( $ota_minimal_firmware_url ) ? $ota_minimal_firmware_url : ""; ?>'>
 		<input type='hidden'
-		       id='ota_new_firmware_url'
-		       value='<?php echo isset( $ota_new_firmware_url ) ? $ota_new_firmware_url : ""; ?>'>
+               id='ota_new_firmware_url'
+               value='<?php echo isset($ota_new_firmware_url) ? $ota_new_firmware_url : ""; ?>'>
 
 
-			<script>
-				var device_ids = '<?php echo json_encode( $device_ids ); ?>';
+            <script>
+                var device_ids = '<?php echo json_encode($device_ids); ?>';
 
-			</script>
+            </script>
 
 
-			<script src="<?php echo URL::JS( "device_update" ); ?>"></script>
+            <script src="<?php echo UrlHelper::JS("device_update"); ?>"></script>
 
-		<?php endif; ?>
+        <?php endif; ?>
 	</div>
 </div>

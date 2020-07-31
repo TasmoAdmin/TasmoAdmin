@@ -1,16 +1,19 @@
 <?php
 
-	class URL {
+class UrlHelper
+{
 
-		public static function redirect( $url = NULL, $status ) {
-			header( 'Location: '.DIR.$url, TRUE, $status );
-			exit;
-		}
+    public static function redirect($url = NULL, $status)
+    {
+        header('Location: ' . DIR . $url, TRUE, $status);
+        exit;
+    }
 
-		public static function halt( $status = 404, $message = 'Something went wrong.' ) {
-			if( ob_get_level() !== 0 ) {
-				ob_clean();
-			}
+    public static function halt($status = 404, $message = 'Something went wrong.')
+    {
+        if (ob_get_level() !== 0) {
+            ob_clean();
+        }
 
 			http_response_code( $status );
 			$data[ 'status' ]  = $status;

@@ -749,16 +749,16 @@
 				}
 
 				//check "select all" if all checkbox items are checked
-				if ( $( '.device_checkbox:checked' ).length == $( '.device_checkbox' ).length ) {
-					$( '.select_all' ).each( function () { //iterate all listed checkbox items
+				if ($('.device_checkbox:checked').length == $('.device_checkbox').length) {
+					$('.select_all').each(function () { //iterate all listed checkbox items
 						this.checked = true; //change ".checkbox" checked status
-					} );
+					});
 				}
-			} );
+			});
 
-		} );
+		});
 	</script>
 
-	<script src="<?php echo URL::JS( "devices" ); ?>"></script>
+	<script src="<?php echo UrlHelper::JS("devices"); ?>"></script>
 <?php endif; ?>
 

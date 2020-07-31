@@ -171,10 +171,10 @@
 							<?php include_once _PAGESDIR_."device_config_tabs/config_network_tab.php"; ?>
 						</div>
 						<div class="tab-pane fade <?php echo $activeTabIndex == 2 ? "show active" : ""; ?>"
-						     id="config_mqtt_tab"
-						     role="tabpanel"
-						     aria-labelledby="config_mqtt_tab-tab">
-							<?php include_once _PAGESDIR_."device_config_tabs/config_mqtt_tab.php"; ?>
+							 id="config_mqtt_tab"
+							 role="tabpanel"
+							 aria-labelledby="config_mqtt_tab-tab">
+							<?php include_once _PAGESDIR_ . "device_config_tabs/config_mqtt_tab.php"; ?>
 						</div>
 					</div>
 				</div>
@@ -183,4 +183,4 @@
 	</div>
 </div>
 
-<script src="<?php echo URL::JS( "device_config" ); ?>"></script>
+<script src="<?php echo UrlHelper::JS("device_config"); ?>"></script>

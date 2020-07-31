@@ -1,11 +1,15 @@
 <?php
 
-class Login
+class LoginHelper
 {
     public static function login($password, $storedPassword)
     {
+
+        $Config = new Config();
+
         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
 
+        //update hashing
         if (strpos($storedPassword, '$2y$') !== 0) {
             if ($storedPassword !== md5($password)) {
                 return false;
@@ -27,8 +31,13 @@ class Login
 
     public static function register($username, $password)
     {
+        $Config = new Config();
+
         $Config->write("username", $username);
         $Config->write("password", self::hashPassword($password));
+
+
+        return true;
     }
 
     private static function hashPassword($password)

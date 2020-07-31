@@ -70,75 +70,76 @@
 		      sizes="16x16"
 		      href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-16x16.png">
 		<link rel="manifest" href="<?php echo _RESOURCESURL_; ?>img/favicons/manifest.json">
-		<meta name="msapplication-TileColor" content="#ffffff">
-		<meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
+        <meta name="theme-color" content="#ffffff">
 
 
-		<title><?php echo isset( $title ) ? $title." - " : ""; ?>TasmoAdmin</title>
-		<script type="application/javascript">
-			var _BASEURL_      = "<?php echo _BASEURL_; ?>";
-			var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
-		</script>
-		<script src="<?php echo URL::JS( "jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery" ); ?>"></script>
-		<script src="<?php echo URL::JS( "jquery-ui/jquery-ui-1.12.1.custom/jquery-ui" ); ?>"></script>
-		<script>
-			/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-			$.widget.bridge( 'uibutton', $.ui.button );
-			$.widget.bridge( 'uitooltip', $.ui.tooltip );
-		</script>
-		<script src="<?php echo URL::JS( "bootstrap/bootstrap.bundle" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n.messagestore" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n.fallbacks" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n.parser" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n.emitter" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/jquery.i18n.language" ); ?>"></script>
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/bs" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/dsb" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/fi" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/ga" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/he" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hsb" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hu" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/hy" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/la" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/ml" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo URL::JS( "i18n/languages/os" ); ?><!--"></script>-->
-		<script src="<?php echo URL::JS( "i18n/languages/ru" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/languages/sl" ); ?>"></script>
-		<script src="<?php echo URL::JS( "i18n/languages/uk" ); ?>"></script>
+        <title><?php echo isset($title) ? $title . " - " : ""; ?>TasmoAdmin</title>
+        <script type="application/javascript">
+            var _BASEURL_ = "<?php echo _BASEURL_; ?>";
+            var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
+        </script>
+        <script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"></script>
+        <script>
+            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
+            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uitooltip', $.ui.tooltip);
+        </script>
+        <script src="<?php echo UrlHelper::JS("bootstrap/bootstrap.bundle"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.messagestore"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.fallbacks"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.parser"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.emitter"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.language"); ?>"></script>
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/bs" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/dsb" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/fi" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/ga" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/he" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/hsb" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/hu" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/hy" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/la" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/ml" ); ?><!--"></script>-->
+        <!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/os" ); ?><!--"></script>-->
+        <script src="<?php echo UrlHelper::JS("i18n/languages/ru"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/languages/sl"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
 
-		<script src="<?php echo URL::JS( "js-cookie/js-cookie" ); ?>"></script>
-		<script src="<?php echo URL::JS( "tablesaw/tablesaw.stackonly.jquery" ); ?>"></script>
-		<script src="<?php echo URL::JS( "tablesaw/tablesaw-init" ); ?>"></script>
-		<script src="<?php echo URL::JS( "bootstrap-waitingfor/waitingfor" ); ?>"></script>
-		<script src="<?php echo URL::JS( "libs/jqDoubleScroll/jquery.doubleScroll" ); ?>"></script>
-		<script src="<?php echo URL::JS( "libs/jquery.svgInject/jquery.svgInject" ); ?>"></script>
-		<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
+        <script src="<?php echo UrlHelper::JS("js-cookie/js-cookie"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("tablesaw/tablesaw.stackonly.jquery"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("tablesaw/tablesaw-init"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("bootstrap-waitingfor/waitingfor"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("libs/jqDoubleScroll/jquery.doubleScroll"); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
+        <!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 
-		<script src="<?php echo URL::JS( "Sonoff" ); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 
-		<script src="<?php echo URL::JS( "app" ); ?>"></script>
+        <script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 
-		<link href="<?php echo URL::STYLES( "bootstrap/bootstrap" ); ?>" rel="stylesheet">
-		<link href="<?php echo URL::STYLES( "../js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui" ); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("bootstrap/bootstrap"); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("../js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"
+              rel="stylesheet">
 
-		<link href="<?php echo URL::STYLES( "fontawesome/css/all" ); ?>" rel="stylesheet">
-		<link href="<?php echo URL::STYLES( "tablesaw/tablesaw" ); ?>" rel="stylesheet">
-		<link href="<?php echo URL::STYLES( "tablesaw/tablesaw.stackonly" ); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("fontawesome/css/all"); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("tablesaw/tablesaw"); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("tablesaw/tablesaw.stackonly"); ?>" rel="stylesheet">
 
-		<link href="<?php echo URL::STYLES( "all" ); ?>" rel="stylesheet">
+        <link href="<?php echo UrlHelper::STYLES("all"); ?>" rel="stylesheet">
 
-		<?php if( @file_exists( _RESOURCESDIR_."css/custom.css" ) ): ?>
-			<link href="<?php echo URL::STYLES( "custom" ); ?>" rel="stylesheet">
-		<?php endif; ?>
+        <?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
+            <link href="<?php echo UrlHelper::STYLES("custom"); ?>" rel="stylesheet">
+        <?php endif; ?>
 
-	</head>
-	<body class='<?php echo $nightmode; ?> <?php echo( $Config->read( "minimize_resources" ) == 0 ? "debug" : "" ); ?>'>
+    </head>
+    <body class='<?php echo $nightmode; ?> <?php echo($Config->read("minimize_resources") == 0 ? "debug" : ""); ?>'>
 
 
-		<?php
+    <?php
 			/**
 			 * Bootstrap debug helper
 			 * set minimize_resources in config to 0 to activate.
