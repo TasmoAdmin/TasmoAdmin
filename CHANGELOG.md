@@ -7,7 +7,7 @@
 - UPDATE: Get live list of available tasmota firmware versions for automatic update
 - UPDATE: Add version selectbox on device update page
 - UPDATE: Autofocus on login and forms [#370](https://github.com/reloxx13/TasmoAdmin/issues/370)
-
+- NEW: Add support for AHT1X sensor thanks to @[crashdown79](https://github.com/crashdown79) [#356](https://github.com/reloxx13/TasmoAdmin/issues/356)
 ## Published
         
 ###  v1.6.4-beta3

@@ -295,7 +295,7 @@ function getTemp(data, joinString)
 	var temp = [];
 	var joinString = joinString || "<br/>";
 
-	if (data.StatusSNS.TempUnit == undefined)
+	if (data.StatusSNS.TempUnit === undefined)
 	{
 		data.StatusSNS.TempUnit = "F";
 	}
@@ -492,6 +492,26 @@ function getTemp(data, joinString)
 		//temp.push( (
 		//	           data.StatusSNS.MAX31855.ReferenceTemperature + "°" + data.StatusSNS.TempUnit
 		//           ) );
+	}
+
+
+	if (data.StatusSNS.AHT1X !== undefined)
+	{
+		temp.push((
+					  data.StatusSNS.AHT1X.Temperature + "°" + data.StatusSNS.TempUnit
+				  ));
+	}
+	if (data.StatusSNS["AHT1X-0x38"] !== undefined)
+	{
+		temp.push((
+					  data.StatusSNS["AHT1X-0x38"].Temperature + "°" + data.StatusSNS.TempUnit
+				  ));
+	}
+	if (data.StatusSNS["AHT1X-0x39"] !== undefined)
+	{
+		temp.push((
+					  data.StatusSNS["AHT1X-0x39"].Temperature + "°" + data.StatusSNS.TempUnit
+				  ));
 	}
 
 	//console.log( temp );
