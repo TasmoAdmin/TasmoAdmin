@@ -25,6 +25,7 @@ class Config {
 			"check_for_updates"     => "1",
 			"minimize_resources"    => "1",
 			"update_channel"        => "stable",
+			"hide_copyright"        => "1",
 		];
 	
 	function __construct() {
