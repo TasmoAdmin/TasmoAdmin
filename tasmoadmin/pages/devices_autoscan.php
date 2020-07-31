@@ -199,7 +199,7 @@
 					<label for="device_password">
 						<?php echo __( "DEVICE_PASSWORD", "DEVICE_ACTIONS" ); ?>
 					</label>
-					<input type="text"
+					<input type="password"
 					       class="form-control"
 					       id="device_password"
 					       name='device_password'
