@@ -27,6 +27,7 @@ $nmBlueBtnBorder: $nmBlueBtn;
 $nmBlueBtnBorderHover: darken($nmBlueBtnHover, 5%);
 
 $grey: #6C757D;
+$greyDark: darken($grey, 20%);
 $greyBtn: $grey;
 $greyBtnBorder: $grey;
 $greyBtnHover: darken($greyBtn, 5%);

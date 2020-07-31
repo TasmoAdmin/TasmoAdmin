@@ -1,3 +1,4 @@
+var ignoreProtectionsTimer;
 $(document).on("ready", function ()
 {
 	deviceTools();
@@ -26,6 +27,36 @@ $(document).on("ready", function ()
 		$(".doubleScroll-scroll").css({
 										  width: $("#device-list").width()
 									  }).parent().trigger("resize");
+	});
+
+	$(".ignoreProtections").on("change", function (e)
+	{
+		clearTimeout(ignoreProtectionsTimer);
+
+		if ($(this).prop("checked"))
+		{
+			ignoreProtectionsTimer = setTimeout(function (e)
+												{
+													$(".ignoreProtections").prop("checked", false);
+													$("label[for=" + $(".ignoreProtections").attr("id") + "]").removeClass("btn-primary").addClass(
+														"btn-secondary");
+													$("label[for=" + $(".ignoreProtections").attr("id") + "]").find("i").removeClass("fa-lock-open");
+
+												}, 60 * 1000);
+
+			$(".ignoreProtections").prop("checked", true);
+			$("label[for=" + $(".ignoreProtections").attr("id") + "]").removeClass("btn-secondary").addClass(
+				"btn-primary");
+			$("label[for=" + $(".ignoreProtections").attr("id") + "]").find("i").addClass("fa-lock-open");
+		} else
+		{
+			$(".ignoreProtections").prop("checked", false);
+			$("label[for=" + $(".ignoreProtections").attr("id") + "]").removeClass("btn-primary").addClass(
+				"btn-secondary");
+			$("label[for=" + $(".ignoreProtections").attr("id") + "]").find("i").removeClass("fa-lock-open");
+		}
+
+
 	});
 
 	if (Cookies.get("devices_show_more") !== undefined && Cookies.get("devices_show_more") == "1")
@@ -93,7 +124,7 @@ function initCommandHelper()
 
 	$(".select_all").change(function ()
 							{  //"select all" change
-								var status = this.checked; // "select all" checked status
+								let status = this.checked; // "select all" checked status
 								$(".device_checkbox").each(function ()
 														   { //iterate all listed checkbox items
 															   this.checked = status; //change ".checkbox" checked status
@@ -136,9 +167,9 @@ function initCommandHelper()
 			.find("#commandInputError")
 			.addClass("d-none").html("");
 
-		var selectedDevices = $.map($(".cmd_cb:not(.link ) input:not(.select_all):checked"), function (elem, idx)
+		let selectedDevices = $.map($(".cmd_cb:not(.link ) input:not(.select_all):checked"), function (elem, idx)
 		{
-			var d = new Array($(elem).val());
+			let d = new Array($(elem).val());
 			return d;
 		});
 		//console.log( selectedDevices );
@@ -155,7 +186,7 @@ function initCommandHelper()
 			return false;
 		}
 
-		var cmnd = $(this)
+		let cmnd = $(this)
 			.parent()
 			.parent().find(".commandInput").val();
 
@@ -179,7 +210,7 @@ function initCommandHelper()
 			Sonoff.generic(device_id, cmnd, undefined, function (result)
 			{
 				console.log(result);
-				var device_name = $("[data-device_id=" + device_id + "]:first")
+				let device_name = $("[data-device_id=" + device_id + "]:first")
 					.find(".device_name a")
 					.text()
 					.trim();
@@ -206,10 +237,10 @@ function updateStatus()
 	$("#device-list tbody tr").each(function (key, tr)
 									{
 
-										var device_ip = $(tr).data("device_ip");
-										var device_id = $(tr).data("device_id");
-										var device_relais = $(tr).data("device_relais");
-										var device_group = $(tr).data("device_group");
+										let device_ip = $(tr).data("device_ip");
+										let device_id = $(tr).data("device_id");
+										let device_relais = $(tr).data("device_relais");
+										let device_group = $(tr).data("device_group");
 										if (!$(tr).hasClass("updating"))
 										{
 											console.log("[Devices][updateStatus]get status from " + $(tr).data("device_ip"));
@@ -238,8 +269,8 @@ function updateStatus()
 															.each(function (key, grouptr)
 																  {
 
-																	  var device_relais = $(grouptr).data("device_relais");
-																	  var device_status = Sonoff.parseDeviceStatus(data, device_relais);
+																	  let device_relais = $(grouptr).data("device_relais");
+																	  let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
 																	  updateRow($(grouptr), data, device_status);
 																	  $(grouptr).removeClass("updating");
@@ -247,7 +278,7 @@ function updateStatus()
 													} else
 													{
 
-														var device_status = Sonoff.parseDeviceStatus(data, device_relais);
+														let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
 														console.log(device_status);
 														updateRow($(tr), data, device_status);
@@ -311,7 +342,7 @@ function updateStatus()
 function updateAllStatus()
 {
 
-	var device_holder = $("#device-list");
+	let device_holder = $("#device-list");
 
 
 	if (!device_holder.hasClass("updating"))
@@ -320,16 +351,16 @@ function updateAllStatus()
 
 		console.log("[Devices][updateAllStatus]START");
 
-		var timeout = device_holder.find("tbody tr").length * 15; //max 12 sec per device
+		let timeout = device_holder.find("tbody tr").length * 15; //max 12 sec per device
 
 		Sonoff.getAllStatus(timeout, function (result)
 							{
 								device_holder.find("tbody tr").each(function (key, tr)
 																	{
-																		var device_id = $(tr).data("device_id");
-																		var device_relais = $(tr).data("device_relais");
-																		var device_group = $(tr).data("device_group");
-																		var data = result[device_id] || undefined;
+																		let device_id = $(tr).data("device_id");
+																		let device_relais = $(tr).data("device_relais");
+																		let device_group = $(tr).data("device_group");
+																		let data = result[device_id] || undefined;
 																		if (data !== undefined
 																			&& !$.isEmptyObject(data)
 																			&& !data.ERROR
@@ -340,7 +371,7 @@ function updateAllStatus()
 																		{
 																			console.log("[LIST][updateAllStatus][" + device_id + "]MSG => " + JSON.stringify(data));
 
-																			var device_status = Sonoff.parseDeviceStatus(data, device_relais);
+																			let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
 																			$(tr).removeAttr(
 																				"data-original-title"
@@ -366,7 +397,7 @@ function updateAllStatus()
 																					 .parent().addClass("error");
 																			}
 
-																			var msg = $.i18n("ERROR");
+																			let msg = $.i18n("ERROR");
 																			if (data !== undefined)
 																			{
 																				if (data.ERROR !== undefined)
@@ -426,39 +457,72 @@ function deviceTools()
 	$("#device-list tbody tr td.status").on("click", function (e)
 	{
 		e.preventDefault();
-		var statusField = $(this);
-		var device_ip = $(this).closest("tr").data("device_ip");
-		var device_id = $(this).closest("tr").data("device_id");
-		var device_relais = $(this).closest("tr").data("device_relais");
+		let statusField = $(this);
+		let device_ip = $(this).closest("tr").data("device_ip");
+		let device_id = $(this).closest("tr").data("device_id");
+		let device_relais = $(this).closest("tr").data("device_relais");
+		let device_protect_on = $(this).closest("tr").data("device_protect_on");
+		let device_protect_off = $(this).closest("tr").data("device_protect_off");
 
 		if (statusField.find("input").prop("checked"))
 		{
+			if (device_protect_off === 1 && !$(".ignoreProtections").prop("checked"))
+			{
+				return;
+			}
 			statusField.find("input").removeProp("checked");
 		} else
 		{
+			if (device_protect_on === 1 && !$(".ignoreProtections").prop("checked"))
+			{
+				return;
+			}
 			statusField.find("input").prop("checked", "checked");
 		}
 
 		$(this).closest("tr").addClass("toggled");
 
-		Sonoff.toggle(device_ip, device_id, device_relais, function (data)
-		{
-			if (data && !data.ERROR && !data.WARNING)
+		Sonoff.toggle(
+			device_ip, device_id, device_relais, function (data)
 			{
+				if (data && !data.ERROR && !data.WARNING)
+				{
 
-				var device_status = Sonoff.parseDeviceStatus(data, device_relais);
-				//if ( device_status == "ON" ) {
-				//	statusField.find( "input" ).prop( "checked", "checked" );
-				//} else {
-				//	statusField.find( "input" ).removeProp( "checked" );
-				//}
-			} else
-			{
-				statusField.find("input")
-					//.removeProp( "checked" )
-						   .parent().addClass("error");
+					let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+					console.log("device_status", device_status);
+					if (device_status === "ON")
+					{
+						if (device_protect_off === 1)
+						{
+							statusField.find("input").prop("disabled", "disabled")
+									   .parent().addClass("disabled");
+						} else
+						{
+							statusField.find("input").removeProp("disabled", "disabled")
+									   .parent().removeClass("disabled");
+						}
+					}
+				} else if (device_status === "OFF")
+				{
+					{
+						if (device_protect_on === 1)
+						{
+							statusField.find("input").prop("disabled", "disabled")
+									   .parent().addClass("disabled");
+						} else
+						{
+							statusField.find("input").removeProp("disabled", "disabled")
+									   .parent().removeClass("disabled");
+						}
+					}
+				} else
+				{
+					statusField.find("input")
+						//.removeProp( "checked" )
+							   .parent().addClass("error");
+				}
 			}
-		});
+		);
 
 
 	});
@@ -466,21 +530,21 @@ function deviceTools()
 	$("#deleteDeviceModal").on("show.bs.modal", function (event)
 	{
 
-		var modal = $(this);
+		let modal = $(this);
 
-		var button = $(event.relatedTarget); // Button that triggered the modal
+		let button = $(event.relatedTarget); // Button that triggered the modal
 
 		console.log(modal.find(".btn-ok"));
 		modal.find(".btn-ok").attr("href", button.attr("href"));
 
-		var body = button.data("dialog-text");
+		let body = button.data("dialog-text");
 		modal.find(".modal-body").html(body);
 	});
 
 	$("#device-list tbody tr td a.restart-device").on("click", function (e)
 	{
 		e.preventDefault();
-		var device_id = $(this).closest("tr").data("device_id");
+		let device_id = $(this).closest("tr").data("device_id");
 		Sonoff.generic(device_id, "Restart", 1);
 
 	});
@@ -490,7 +554,7 @@ function deviceTools()
 	{
 		oriVal = $(this).text().toString().trim();
 		$(this).text("").addClass("dont-update");
-		var w = oriVal.toString().length * 10 + 20;
+		let w = oriVal.toString().length * 10 + 20;
 		input = $("<input class='dblEdit-Input form-control' type='text' style='width: "
 				  + w
 				  + "px; padding: 3px;'>");
@@ -507,13 +571,13 @@ function deviceTools()
 		}
 		if (input.val() !== "")
 		{
-			var newvalue = input.val();
-			var device_id = $(this).closest("tr").data("device_id");
-			var target = $(this).closest("td").data("target") || "device";
-			var cmnd = $(this).closest("td").data("cmnd") || "";
-			var field = $(this).closest("td").data("field") || "";
+			let newvalue = input.val();
+			let device_id = $(this).closest("tr").data("device_id");
+			let target = $(this).closest("td").data("target") || "device";
+			let cmnd = $(this).closest("td").data("cmnd") || "";
+			let field = $(this).closest("td").data("field") || "";
 			$(this).hide();
-			var td = $(this).parent();
+			let td = $(this).parent();
 			$(this)
 				.parent()
 				.removeClass("dont-update")
@@ -536,7 +600,12 @@ function deviceTools()
 
 function updateRow(row, data, device_status)
 {
-	var version = "n/A";
+	let device_all_off = $(row).data("device_all_off");
+	let device_protect_on = $(row).data("device_protect_on");
+	let device_protect_off = $(row).data("device_protect_off");
+
+	let version = "n/A";
+	let rssi, ssid, uptime;
 	if (data.StatusFWR !== undefined)
 	{
 		version = parseVersion(data.StatusFWR.Version);
@@ -545,18 +614,17 @@ function updateRow(row, data, device_status)
 
 	if (version >= 510009)
 	{//no json translations since 5.10.0j
-		var rssi = data.StatusSTS.Wifi.RSSI;
-		var ssid = data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Uptime;
+		rssi = data.StatusSTS.Wifi.RSSI;
+		ssid = data.StatusSTS.Wifi.SSId;
+		uptime = data.StatusSTS.Uptime;
 	} else
 	{ //try german else use english
-		var rssi = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		var ssid = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-
+		rssi = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
+		ssid = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
+		uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
 	}
 
-	var energyPower = getEnergyPower(data);
+	let energyPower = getEnergyPower(data);
 
 	if (energyPower !== "")
 	{
@@ -564,7 +632,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .energyPower").removeClass("hidden");
 	}
 
-	var temp = getTemp(data);
+	let temp = getTemp(data);
 
 	if (temp !== "")
 	{
@@ -573,7 +641,7 @@ function updateRow(row, data, device_status)
 	}
 
 
-	var humidity = getHumidity(data);
+	let humidity = getHumidity(data);
 
 	if (humidity !== "")
 	{
@@ -581,7 +649,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .humidity").removeClass("hidden");
 	}
 
-	var pressure = getPressure(data);
+	let pressure = getPressure(data);
 
 	if (pressure !== "")
 	{
@@ -589,7 +657,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .pressure").removeClass("hidden");
 	}
 
-	var seapressure = getSeaPressure(data);
+	let seapressure = getSeaPressure(data);
 
 	if (seapressure !== "")
 	{
@@ -597,7 +665,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .seapressure").removeClass("hidden");
 	}
 
-	var distance = getDistance(data);
+	let distance = getDistance(data);
 
 	if (distance !== "")
 	{
@@ -605,7 +673,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .distance").removeClass("hidden");
 	}
 
-	var gas = getGas(data);
+	let gas = getGas(data);
 
 	if (gas !== "")
 	{
@@ -613,7 +681,7 @@ function updateRow(row, data, device_status)
 		$("#device-list .gas").removeClass("hidden");
 	}
 
-	var idx = (
+	let idx = (
 		data.idx ? data.idx : ""
 	);
 	if (idx !== "")
@@ -633,12 +701,33 @@ function updateRow(row, data, device_status)
 		if (device_status === "ON")
 		{
 			$(row).find(".status").find("input").prop("checked", "checked").parent().removeClass("error");
+			if (device_protect_off === 1)
+			{
+				$(row).find(".status").find("input").prop("disabled", "disabled")
+					  .parent().addClass("disabled");
+			} else
+			{
+				$(row).find(".status").find("input").removeProp("disabled", "disabled")
+					  .parent().removeClass("disabled");
+			}
 		} else if (device_status === "NONE")
 		{
+			$(row).find(".status").find("input").prop("disabled", "disabled")
+				  .parent().addClass("disabled");
+
 			$(row).find(".status").find("input").removeProp("checked").parent().removeClass("error");
 			$(row).find(".status").find("label").addClass("d-none");
 		} else
 		{
+			if (device_protect_on === 1)
+			{
+				$(row).find(".status").find("input").prop("disabled", "disabled")
+					  .parent().addClass("disabled");
+			} else
+			{
+				$(row).find(".status").find("input").removeProp("disabled", "disabled")
+					  .parent().removeClass("disabled");
+			}
 			$(row).find(".status").find("input").removeProp("checked").parent().removeClass("error");
 		}
 	}
@@ -649,7 +738,7 @@ function updateRow(row, data, device_status)
 																			});
 
 
-	var startup = (
+	let startup = (
 		(
 			data.StatusPRM.StartupDateTimeUtc !== undefined
 			? data.StatusPRM.StartupDateTimeUtc
@@ -664,8 +753,8 @@ function updateRow(row, data, device_status)
 	if (startup !== "")
 	{
 
-		//var startupdatetime = startup.replace( 'T', ' ' );
-		var startupdatetime = startup + "Z".replace(/-/g, "/");
+		//let startupdatetime = startup.replace( 'T', ' ' );
+		let startupdatetime = startup + "Z".replace(/-/g, "/");
 		//console.log( startupdatetime );
 		startupdatetime = new Date(startupdatetime);
 		//console.log( startupdatetime );
@@ -673,21 +762,21 @@ function updateRow(row, data, device_status)
 		//	startupdatetime.getTimezoneOffset()
 		//) * -1 * 60 * 1000 );
 		//console.log( startupdatetime );
-		var now = new Date();
-		var sec_num = (
+		let now = new Date();
+		let sec_num = (
 						  now - startupdatetime
 					  ) / 1000;
-		var days = Math.floor(sec_num / (
+		let days = Math.floor(sec_num / (
 			3600 * 24
 		));
-		var hours = Math.floor((
+		let hours = Math.floor((
 								   sec_num - (
 									   days * (
 									   3600 * 24
 									   )
 								   )
 							   ) / 3600);
-		var minutes = Math.floor((
+		let minutes = Math.floor((
 									 sec_num - (
 										 days * (
 										 3600 * 24
@@ -696,7 +785,7 @@ function updateRow(row, data, device_status)
 										 hours * 3600
 									 )
 								 ) / 60);
-		var seconds = Math.floor(sec_num - (
+		let seconds = Math.floor(sec_num - (
 			days * (
 			3600 * 24
 			)
