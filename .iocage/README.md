@@ -1,35 +1,27 @@
-# iocage-tasmoadmin
+### TasmoAdmin plugin for FreeNAS 11 using *nginx* and *php72*
 
-This should help create an iocage based jail for TasmoAdmin using nginx and php72 (Tested on FreeNAS-11.1-U5)
+#### FreeNAS 11.3
 
-These steps were tested on FreeNAS and assume you have already [activated iocage and fetched the 11.1-RELEASE](https://iocage.readthedocs.io/en/latest/basic-use.html#basic-usage.)
+**Download plugin and install**
 
-More information about iocage on FreeNAS can be found in the [FreeNAS guide](http://doc.freenas.org/11/jails.html#using-iocage)
+```bash
+wget -O /tmp/tasmoadmin.json https://raw.githubusercontent.com/tprelog/iocage-tasmoadmin/11.3-RELEASE/tasmoadmin.json
+sudo iocage fetch -P /tmp/tasmoadmin.json
+```
 
----
+#### FreeNAS 11.2
 
-Create a jail using a pkg-list to install requirements
+**Download plugin and install**
 
-	wget https://raw.githubusercontent.com/reloxx13/TasmoAdmin/iocage/.iocage/tasmoadmin-pkgs.json
-	sudo iocage create -r 11.1-RELEASE -n tasmoadmin boot=on dhcp=on bpf=yes vnet=on -p tasmoadmin-pkgs.json
-
-
-Download TasmoAdmin and get it running with nginx
-
-	sudo iocage exec tasmoadmin git clone https://github.com/reloxx13/TasmoAdmin.git /root/TasmoAdmin
-	sudo iocage exec tasmoadmin bash /root/TasmoAdmin/.iocage/tasmoadmin-install.sh
-
-You should now be able to use TasmoAdmin by entering `http://YOUR.TASMOADMIN.IP.ADDRESS` in your browser
+```bash
+wget -O /tmp/tasmoadmin.json https://raw.githubusercontent.com/tprelog/iocage-tasmoadmin/11.2-RELEASE/tasmoadmin.json
+sudo iocage fetch -P dhcp=on vnet=on bpf=yes -n /tmp/tasmoadmin.json
+```
 
 ---
 
-To see a list of jails as well as their ip address
+##### Reset the TasmoAdmin login
 
-    sudo iocage list -l
-    
-    +-----+------------+------+-------+------+------------------+---------------------+-----+----------+
-    | JID |    NAME    | BOOT | STATE | TYPE |     RELEASE      |         IP4         | IP6 | TEMPLATE |
-    +=====+============+======+=======+======+==================+=====================+=====+==========+
-    | 1   | tasmoadmin | on   | up    | jail | 11.1-RELEASE-p10 | epair0b|192.0.1.126 | -   | -        |
-    +-----+------------+------+-------+------+------------------+---------------------+-----+----------+
- 
+```bash
+sudo iocage exec tasmoadmin tasmo-pwreset
+```

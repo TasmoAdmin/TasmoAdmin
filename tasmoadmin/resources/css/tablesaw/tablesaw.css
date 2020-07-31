@@ -423,7 +423,7 @@ a.tablesaw-btn {
 		display : none;
 	}
 	
-	.tablesaw-stack tbody td,
+	.tablesaw-stack tbody td:not(.cmd_cb),
 	.tablesaw-stack tbody th {
 		display : block;
 		float   : left;

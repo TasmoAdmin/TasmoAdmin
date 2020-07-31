@@ -4,9 +4,9 @@
 	<?php if( is_array( $status->Status->FriendlyName ) ): //array since >= 5.12.0h   ?>
 		<div class="form-row  mt-5">
 			<?php foreach( $status->Status->FriendlyName as $key => $friendlyName ): ?>
-				<div class="form-group col-12 <?php echo ( count( $status->Status->FriendlyName ) == 1 ) ? "col-sm-12"
+				<div class="form-group col col-12 <?php echo ( count( $status->Status->FriendlyName ) == 1 ) ? "col-sm-12"
 					: "col-sm-6"; ?>">
-					<div class="form-group">
+					<div class="form-group col">
 						<?php
 
 						?>
@@ -29,7 +29,7 @@
 		</div>
 
 	<?php else : //only one friendlyname was editable v < 5.12.0h ?>
-		<div class="form-group">
+		<div class="form-group col">
 			<?php
 				$friendlyName = is_array( $status->Status->FriendlyName ) //array since 5.12.0h
 					? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
@@ -50,7 +50,7 @@
 		</div>
 	<?php endif; //END only one friendlyname was editable v < 5.12.0h ?>
 
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="PowerOnState">
 			<?php echo __( "CONFIG_POWERONSTATE", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -80,7 +80,7 @@
 			<?php echo __( "CONFIG_POWERONSTATE_HELP", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="LedState">
 			<?php echo __( "CONFIG_LEDSTATE", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -122,7 +122,7 @@
 			<?php echo __( "CONFIG_LEDSTATE", "DEVICE_CONFIG" ); ?>
 		</small>
 	</div>
-	<div class="form-group">
+	<div class="form-group col">
 		<label for="Sleep">
 			<?php echo __( "CONFIG_SLEEP", "DEVICE_CONFIG" ); ?>
 		</label>
@@ -141,7 +141,7 @@
 	</div>
 
 	<div class="row mt-5">
-		<div class="col-12">
+		<div class="col col-12">
 			<div class="text-right">
 				<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 					<?php echo __( "BTN_SAVE_DEVICE_CONFIG", "DEVICE_CONFIG" ); ?>
