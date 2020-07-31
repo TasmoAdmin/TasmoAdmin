@@ -7,7 +7,8 @@
     - and add show/hide password button
 - NEW: Add zh-TW localization thanks to @[petercpg](https://github.com/petercpg) ( [PR#374](https://github.com/reloxx13/TasmoAdmin/pull/374) )  
 - NEW: Add a ENV variable ( TASMO_BASEURL ) to adjust the base url thanks to @[rhuss](https://github.com/rhuss) ( [PR#346](https://github.com/reloxx13/TasmoAdmin/pull/346) )   
-
+- UPDATE: Font Awesome5.11.2 -> 5.14.0   
+- UPDATE: Bootstrap 4.3.1 -> 4.5.0
 
 ## Published
         
