@@ -3,6 +3,7 @@
 
 ## Upcoming
 - UPDATE: Add 120s and 300s to refresh times
+- **UPDATE**: (non-docker) Selfupdate switch between beta and stable
 
 ## Published
         
