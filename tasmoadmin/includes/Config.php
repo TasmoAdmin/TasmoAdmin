@@ -16,19 +16,38 @@ class Config {
 			"password"              => "",
 			"refreshtime"           => "8",
 			"current_git_tag"       => "",
-			"update_automatic_lang" => "EN",
+			"update_automatic_lang" => "tasmota-sensors.bin",
 			"nightmode"             => "auto",
 			"login"                 => "1",
 			"scan_from_ip"          => "192.168.178.2",
 			"scan_to_ip"            => "192.168.178.254",
 			"homepage"              => "start",
-			"check_for_updates"     => "1",
+			"check_for_updates"     => "3",
 			"minimize_resources"    => "1",
 			"update_channel"        => "stable",
 			"hide_copyright"        => "1",
 		];
 	
 	function __construct() {
+		
+		//init default values
+		$this->defaultConfigs["ota_server_ip"]   = !empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "";
+		$this->defaultConfigs["ota_server_port"] = !empty($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : "";
+		
+		if (!empty($_SERVER["SERVER_ADDR"])) {
+			$ipBlocks                             = explode(".", $_SERVER["SERVER_ADDR"]);
+			$ipBlocks[3]                          = 2;
+			$this->defaultConfigs["scan_from_ip"] = implode(".", $ipBlocks);
+			$ipBlocks[3]                          = 254;
+			$this->defaultConfigs["scan_to_ip"]   = implode(".", $ipBlocks);
+		}
+		
+		if (file_exists(_APPROOT_ . ".dockerenv")) {
+			$this->defaultConfigs["update_channel"] = "docker";
+		}
+		
+		//init default values end
+		
 		
 		if (!is_dir(_DATADIR_)) {
 			var_dump(debug_backtrace());
@@ -77,9 +96,11 @@ class Config {
 		 */
 		if (!$this->getCacheConfig()) {
 			
-			$config     = $configJSON = NULL;    //reset
+			$this->clearCacheConfig();
+			$config = $configJSON = NULL;    //reset
+			
 			$configJSON = file_get_contents($this->cfgFile);
-			if (!$configJSON) {
+			if ($configJSON === FALSE) {
 				//					var_dump( debug_backtrace() );
 				die("could not read MyConfig.json");
 			}
@@ -136,7 +157,7 @@ class Config {
 			}
 			
 			
-			file_put_contents($this->cfgFile, $configJSON);
+			file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
 			
 		}
 		
@@ -189,6 +210,10 @@ class Config {
 		return $config;
 	}
 	
+	private function clearCacheConfig() {
+		unset($_SESSION["MyConfig"]);
+	}
+	
 	public function read($key, $skipCookie = FALSE) {
 		$config = FALSE;
 		if ($key !== "password") { //if pw requested, get from file
@@ -199,7 +224,7 @@ class Config {
 				debug("PERFORM READ (" . $key . ")");
 			}
 			$configJSON = file_get_contents($this->cfgFile);
-			if (!$configJSON) {
+			if ($configJSON === FALSE) {
 				var_dump(debug_backtrace());
 				die("could not read MyConfig.json in read");
 			}
@@ -207,7 +232,9 @@ class Config {
 				$config = json_decode($configJSON, TRUE);
 			}
 			if (json_last_error() != 0) {
-				die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
+				var_dump($configJSON);
+				$this->clearCacheConfig();
+				die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
 			}
 			if (!$skipCookie) {
 				$this->setCacheConfig($config);
@@ -246,12 +273,19 @@ class Config {
 			debug("PERFORM READ FOR WRITE");
 		}
 		$configJSON = file_get_contents($this->cfgFile);
-		if (!$configJSON) {
+		if ($configJSON === FALSE) {
 			var_dump(debug_backtrace());
 			die("could not read MyConfig.json in write");
 		}
 		else {
 			$config = json_decode($configJSON, TRUE);
+		}
+		
+		
+		$value = trim($value);
+		
+		if (empty($value) && $value != 0) {
+			$value = $this->defaultConfigs[$key];
 		}
 		
 		$config[$key] = $value;
@@ -280,12 +314,14 @@ class Config {
 			die("configJSON IS EMPTY! | write()");
 		}
 		
-		if (file_put_contents($this->cfgFile, $configJSON)) {
+		$tempfile = _DATADIR_ . uniqid(microtime(TRUE));
+		if (file_put_contents($tempfile, $configJSON, LOCK_EX)) {
 		
 		}
 		else {
 			die("file_put_contents FAILED! | write()");
 		}
+		rename($tempfile, $this->cfgFile);
 		
 		
 		if (!$skipCookie) {
@@ -305,7 +341,7 @@ class Config {
 				debug("PERFORM READALL");
 			}
 			$configJSON = file_get_contents($this->cfgFile);
-			if (!$configJSON) {
+			if ($configJSON === FALSE) {
 				var_dump(debug_backtrace());
 				die("could not read MyConfig.json in readAll");
 			}
@@ -313,10 +349,11 @@ class Config {
 				$config = json_decode($configJSON, TRUE);
 			}
 			if (json_last_error() != 0) {
-				die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
+				$this->clearCacheConfig();
+				die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
 			}
 			if (!$skipCookie) {
-				$this->setCacheConfig($config, $skipCookie);
+				$this->setCacheConfig($config);
 			}
 		}
 		if (!$inclPassword) {
