@@ -3,8 +3,12 @@
 
 ## UPCOMING
 
+
 ## PUBLISHED
         
+### v1.6.5-beta1  
+- *FIX*: Possible fix for config crashes      
+
 ###  v1.6.4
 - **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/reloxx13/TasmoAdmin/issues/312)
 - **NEW**: Protect device to get powered on or/and off
