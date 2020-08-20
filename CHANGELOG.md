@@ -2,7 +2,7 @@
 
 
 ## UPCOMING
-
+- FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/reloxx13/TasmoAdmin/issues/345)
 
 ## PUBLISHED
 

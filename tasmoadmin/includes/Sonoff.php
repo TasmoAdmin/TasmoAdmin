@@ -1045,10 +1045,9 @@ class Sonoff {
 					$data = json_decode($output);
 					
 					
-					if (json_last_error()
-						== JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
-						$result = preg_replace('/[[:cntrl:]]/', '', $result);
-						$data   = json_decode($result);
+					if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+						$output = preg_replace('/[[:cntrl:]]/', '', $output);
+						$data   = json_decode($output);
 					}
 					
 					if (json_last_error() !== JSON_ERROR_NONE) {
