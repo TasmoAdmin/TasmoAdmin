@@ -8,7 +8,7 @@
 
 
 ### v1.6.5
-- NEW: Add support for BME280 SeaPresure thanks to @[gknauf](https://github.com/gknauf) [#283](https://github.com/reloxx13/TasmoAdmin/issues/283)  
+- NEW: Add support for BME280 SeaPressure thanks to @[gknauf](https://github.com/gknauf) [#283](https://github.com/reloxx13/TasmoAdmin/issues/283)  
 - *FIX*: Possible fix for config crashes      
 
 ###  v1.6.4
