@@ -11,6 +11,16 @@ $devices = $Sonoff->getDevices();
 		<?php if (isset($devices) && !empty($devices)): ?>
 			<div class='row mb-1 mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
+					<div class="form-group">
+						<input 	type="text" 
+								id="filterInput" 
+								class='form-control' 
+								onkeyup="device_filter()" 
+								placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+						>
+					</div>
+				</div>
+				<div class="col col-auto offset-0 offset-xl-1">
 					<div class="form-check pl-0">
 						<input type="checkbox"
 							   class="form-check-input showmore d-none"
@@ -560,3 +570,4 @@ $devices = $Sonoff->getDevices();
 <?php include "elements/modal_delete_device.php"; ?>
 
 <script src="<?php echo UrlHelper::JS("devices"); ?>"></script>
+<script src="<?php echo UrlHelper::JS("device_filter"); ?>"></script>
