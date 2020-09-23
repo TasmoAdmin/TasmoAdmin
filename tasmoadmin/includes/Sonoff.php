@@ -83,15 +83,20 @@ class Sonoff {
 			if (json_last_error() !== JSON_ERROR_NONE) {
 				$result = $this->fixJsonFormatv5100($result);
 				$data   = json_decode($result);
-				if (json_last_error() !== JSON_ERROR_NONE) {
-					$data        = new stdClass();
-					$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
-					$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
-					$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
-					
-				}
 			}
 			
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$result = $this->fixJsonFormatv8500($result);
+				$data   = json_decode($result);
+			}
+			
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$data        = new stdClass();
+				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
+				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
+				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
+				
+			}
 			$skipWarning = FALSE;
 			if (strpos($cmnd, "Backlog") !== FALSE) {
 				$skipWarning = TRUE;
@@ -214,6 +219,24 @@ class Sonoff {
 		//			var_dump( json_decode( $string ) );
 		//			var_dump( json_last_error_msg() );
 		//			die();
+		
+		return $string;
+	}
+	
+	/**
+	 *
+	 * This fixes wrong formated json answer form Tasmota Version 8.5.0.x
+	 * Example wrong format: dev/json_error_8500.json
+	 *
+	 * Shutters missed a } at the end
+	 * https://github.com/reloxx13/TasmoAdmin/issues/398
+	 *
+	 * @param $string
+	 *
+	 * @return mixed
+	 */
+	private function fixJsonFormatv8500($string) {
+		$string = $string . "}";
 		
 		return $string;
 	}
@@ -645,9 +668,9 @@ class Sonoff {
 		);
 		
 		
-		//			if( $device->id == 1 ) {
-		//				$url = "http://192.168.178.10/dev/test.json";
-		//			}
+		//		if ($device->id == 1) {
+		//			$url = "http://192.168.178.10/dev/test.json";
+		//		}
 		
 		
 		$result = NULL;
@@ -664,6 +687,8 @@ class Sonoff {
 		}
 		else {
 			
+			$backupResult = $result;
+			
 			$data = json_decode($result);
 			
 			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
@@ -674,14 +699,21 @@ class Sonoff {
 			if (json_last_error() !== JSON_ERROR_NONE) {
 				$result = $this->fixJsonFormatv5100($result);
 				$data   = json_decode($result);
+			}
+			
+			
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$result = $backupResult;
+				$result = $this->fixJsonFormatv8500($result);
+				$data   = json_decode($result);
+			}
+			
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				$data        = new stdClass();
+				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
+				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
+				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
 				
-				if (json_last_error() !== JSON_ERROR_NONE) {
-					$data        = new stdClass();
-					$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
-					$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
-					$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
-					
-				}
 			}
 			
 			if (isset($data->WARNING) && !empty($data->WARNING) && $try < 1) {
@@ -767,9 +799,9 @@ class Sonoff {
 				$cmnd
 			);
 			
-			//				if( $device->id == 1 ) {
-			//					$url = "http://192.168.178.10/dev/test.json";
-			//				}
+			//			if ($device->id == 1) {
+			//				$url = "http://192.168.178.10/dev/test.json";
+			//			}
 			
 			//$url = "http://tasmoAdmin/dev/test.json";
 			
@@ -853,19 +885,25 @@ class Sonoff {
 						$data      = json_decode($outputTmp);
 						unset($outputTmp);
 						
-						if (json_last_error() !== JSON_ERROR_NONE) {
-							$data        = new stdClass();
-							$data->ERROR = __("JSON_ERROR", "API")
-								. " => "
-								. json_last_error()
-								. ": "
-								. json_last_error_msg();
-							$data->ERROR .= "<br/><strong>"
-								. __("JSON_ERROR_CONTACT_DEV", "API", [$output])
-								. "</strong>";
-							$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($output, TRUE);
-							
-						}
+					}
+					if (json_last_error() !== JSON_ERROR_NONE) {
+						$outputTmp = $this->fixJsonFormatv8500($output);
+						$data      = json_decode($outputTmp);
+						unset($outputTmp);
+						
+					}
+					if (json_last_error() !== JSON_ERROR_NONE) {
+						$data        = new stdClass();
+						$data->ERROR = __("JSON_ERROR", "API")
+							. " => "
+							. json_last_error()
+							. ": "
+							. json_last_error_msg();
+						$data->ERROR .= "<br/><strong>"
+							. __("JSON_ERROR_CONTACT_DEV", "API", [$output])
+							. "</strong>";
+						$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($output, TRUE);
+						
 					}
 				}
 				if (empty($data->ERROR)) {
@@ -1059,19 +1097,13 @@ class Sonoff {
 					if (json_last_error() !== JSON_ERROR_NONE) {
 						$outputTmp = $this->fixJsonFormatv5100($output);
 						$data      = json_decode($outputTmp);
-						unset($outputTmp);
-						
-						if (json_last_error() !== JSON_ERROR_NONE) {
-						
-						}
-						else {
-							
-							if (empty($data->ERROR)) {
-								$data = $this->compatibility($data);
-								$data = $this->stateTextsDetection($data);
-							}
-							$result[] = $data;
-						}
+					}
+					if (json_last_error() !== JSON_ERROR_NONE) {
+						$outputTmp = $this->fixJsonFormatv8500($output);
+						$data      = json_decode($outputTmp);
+					}
+					
+					if (json_last_error() !== JSON_ERROR_NONE) {
 					}
 					else {
 						
@@ -1081,6 +1113,7 @@ class Sonoff {
 						}
 						$result[] = $data;
 					}
+					unset($outputTmp);
 				}
 				
 				// start a new request (it's important to do this before removing the old one)
