@@ -912,7 +912,6 @@ function checkForUpdate(timer)
 	}, "json").fail(function (result)
 					{
 						icon.removeClass("fa-sync").removeClass("fa-spin").addClass("fa-times");
-						//console.log( result );
 						console.log("[APP][checkForUpdate] Github Error => " + result.status + ": " + result.responseJSON.message);
 						setTimeout(checkForUpdate, 30 * 60 * 1000);
 					});

@@ -322,6 +322,22 @@ $Config->write("ota_server_port", $ota_server_port);
 							</label>
 						</div>
 					</div>
+					<div class="col col-auto">
+						<div class="form-group">
+							<div class="input-group">
+								<input type="text"
+									   name="searchterm"
+									   class='form-control device-search has-clearer'
+									   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+								>
+								<div class="input-group-append">
+									<span class="input-group-text">
+										<i class="fas fa-search"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class='row justify-content-center'>
 					<div class='col'>
@@ -396,12 +412,16 @@ $Config->write("ota_server_port", $ota_server_port);
 									if (isset($devices) && !empty($devices)):
 										foreach ($devices as $device_group):
 											foreach ($device_group->names as $key => $devicename): ?>
+												<?php
+												$device_group->keywords[] = strtolower($devicename);
+												?>
 												<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 													data-device_id='<?php echo $device_group->id; ?>'
 													data-device_group='<?php echo count($device_group->names) > 1
 														? "multi" : "single"; ?>'
 													data-device_ip='<?php echo $device_group->ip; ?>'
 													data-device_relais='<?php echo $key + 1; ?>'
+													data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
 												>
 													<td class='update_cb'>
 														<?php if ($key == 0): ?>

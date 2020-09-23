@@ -5,7 +5,11 @@ $(document).on("ready", function ()
 	updateAllStatus();
 
 	initCommandHelper();
-	initDeviceFilter();
+
+	if ($(".device-search").length > 0)
+	{
+		initDeviceFilter();
+	}
 
 	$(".showmore").on("change", function (e)
 	{
@@ -234,106 +238,106 @@ function initCommandHelper()
 
 function updateStatus()
 {
-	$("#device-list tbody tr").each(function (key, tr)
-									{
+	$("#device-list tbody tr").each(
+		function (key, tr)
+		{
+			let device_ip = $(tr).data("device_ip");
+			let device_id = $(tr).data("device_id");
+			let device_relais = $(tr).data("device_relais");
+			let device_group = $(tr).data("device_group");
+			if (!$(tr).hasClass("updating"))
+			{
+				console.log("[Devices][updateStatus]get status from " + $(tr).data("device_ip"));
+				$(tr).addClass("updating");
 
-										let device_ip = $(tr).data("device_ip");
-										let device_id = $(tr).data("device_id");
-										let device_relais = $(tr).data("device_relais");
-										let device_group = $(tr).data("device_group");
-										if (!$(tr).hasClass("updating"))
-										{
-											console.log("[Devices][updateStatus]get status from " + $(tr).data("device_ip"));
-											$(tr).addClass("updating");
+				if (device_group === "multi" && device_relais > 1)
+				{
+					console.log("[Devices][updateStatus]SKIP multi " + $(tr).data("device_ip"));
+					return; //relais 1 will update all others
+				}
 
-											if (device_group === "multi" && device_relais > 1)
-											{
-												console.log("[Devices][updateStatus]SKIP multi " + $(tr).data("device_ip"));
-												return; //relais 1 will update all others
-											}
+				Sonoff.getStatus(device_ip, device_id, device_relais, function (data)
+				{
+					if (data
+						&& !data.ERROR
+						&& !data.WARNING
+						&& data !== ""
+						&& data !== undefined
+						&& data.statusText === undefined
+					)
+					{
+						if (device_group === "multi")
+						{
+							$("#device-list tbody tr[data-device_group=\"multi\"][data-device_ip=\"" + device_ip + "\"]").each(
+								function (key, grouptr)
+								{
 
-											Sonoff.getStatus(device_ip, device_id, device_relais, function (data)
-											{
-												if (data
-													&& !data.ERROR
-													&& !data.WARNING
-													&& data !== ""
-													&& data !== undefined
-													&& data.statusText === undefined
-												)
-												{
-													//console.log( "DATA => " + JSON.stringify( data ) );
-													if (device_group === "multi")
-													{
-														$("#device-list tbody tr[data-device_group=\"multi\"][data-device_ip=\"" + device_ip + "\"]")
-															.each(function (key, grouptr)
-																  {
+									let device_relais = $(grouptr).data("device_relais");
+									let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
-																	  let device_relais = $(grouptr).data("device_relais");
-																	  let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
-																	  updateRow($(grouptr), data, device_status);
-																	  $(grouptr).removeClass("updating");
-																  });
-													} else
-													{
+									updateRow($(grouptr), data, device_status);
+									$(grouptr).removeClass("updating");
+								});
+						} else
+						{
 
-														let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+							let device_status = Sonoff.parseDeviceStatus(data, device_relais);
 
-														console.log(device_status);
-														updateRow($(tr), data, device_status);
-													}
-												} else
-												{
-													console.log("ERROR => " + JSON.stringify(data));
-													if (device_group === "multi")
-													{
-														$("#device-list tbody tr[data-device_group=\"multi\"][data-device_ip=\"" + device_ip + "\"]")
-															.each(function (key, grouptr)
-																  {
+							console.log(device_status);
+							updateRow($(tr), data, device_status);
+						}
+					} else
+					{
+						console.log("ERROR => " + JSON.stringify(data));
+						if (device_group === "multi")
+						{
+							$("#device-list tbody tr[data-device_group=\"multi\"][data-device_ip=\"" + device_ip + "\"]")
+								.each(function (key, grouptr)
+									  {
 
-																	  $(grouptr)
-																		  .find(".status")
-																		  .find("input")
-																		  //.removeProp( "checked" )
-																		  .parent()
-																		  .addClass("error");
-																	  //$( grouptr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
-																	  //$( grouptr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
-																	  //$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
+										  $(grouptr)
+											  .find(".status")
+											  .find("input")
+											  //.removeProp( "checked" )
+											  .parent()
+											  .addClass("error");
+										  //$( grouptr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+										  //$( grouptr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+										  //$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
 
-																	  $(grouptr).find("td").each(function (key, td)
-																								 {
-																									 //console.log( key );
-																									 //console.log( td );
-																									 if ($(td).find(".loader").length > 0)
-																									 {
-																										 $(td).find("span").html("-");
-																									 }
-																								 });
+										  $(grouptr).find("td").each(function (key, td)
+																	 {
+																		 //console.log( key );
+																		 //console.log( td );
+																		 if ($(td).find(".loader").length > 0)
+																		 {
+																			 $(td).find("span").html("-");
+																		 }
+																	 });
 
-																	  $(grouptr).removeClass("updating");
-																  });
-													} else
-													{
+										  $(grouptr).removeClass("updating");
+									  });
+						} else
+						{
 
-														$(tr).find(".status").find("input")
-															//.removeProp( "checked" )
-															 .parent().addClass("error");
-														//$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
-														//$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
-														//$( tr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
-														$(tr).removeClass("updating");
-													}
-												}
+							$(tr).find(".status").find("input")
+								//.removeProp( "checked" )
+								 .parent().addClass("error");
+							//$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
+							//$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
+							//$( tr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
+							$(tr).removeClass("updating");
+						}
+					}
 
-											});
-										} else
-										{
-											console.log("[Devices][updateStatus]SKIP get status from " + $(tr).data("device_ip"));
-										}
+				});
+			} else
+			{
+				console.log("[Devices][updateStatus]SKIP get status from " + $(tr).data("device_ip"));
+			}
 
-									});
+		});
 
 
 };
@@ -606,6 +610,8 @@ function updateRow(row, data, device_status)
 
 	let version = "n/A";
 	let rssi, ssid, uptime;
+
+
 	if (data.StatusFWR !== undefined)
 	{
 		version = parseVersion(data.StatusFWR.Version);
@@ -912,6 +918,13 @@ function updateRow(row, data, device_status)
 	}
 
 	$(row).find(".vcc span").html(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
+
+
+	let device_hostname = Sonoff.parseDeviceHostname(data);
+	if (device_hostname !== false)
+	{
+		$(row).data("keywords", $(row).data("keywords") + " " + device_hostname);
+	}
 
 	$(".doubleScroll-scroll").css({
 									  width: $("#device-list").width()

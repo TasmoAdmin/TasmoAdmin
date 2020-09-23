@@ -743,7 +743,13 @@ class Sonoff {
 		$device->device_protect_on  = isset($deviceLine[8]) ? $deviceLine[8] : 0;
 		$device->device_protect_off = isset($deviceLine[9]) ? $deviceLine[9] : 0;
 		
+		$keywords   = [];
+		$keywords[] = count($device->names) > 1 ? "multi" : "single";
+		$keywords[] = "IP#" . $device->ip;
+		$keywords[] = "ID#" . $device->id;
+		$keywords[] = "POS#" . $device->position;
 		
+		$device->keywords = $keywords;
 		return $device;
 	}
 	
