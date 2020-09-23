@@ -28,7 +28,7 @@ $devices = $Sonoff->getDevices();
 							<input type="text"
 								   name="searchterm"
 								   class='form-control device-search has-clearer'
-								   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+								   placeholder="<?php echo __("FILTER", "DEVICES"); //(Name, IP#123, ID#321, POS#1) ?>"
 							>
 							<div class="input-group-append">
 								<span class="input-group-text">
@@ -127,13 +127,8 @@ $devices = $Sonoff->getDevices();
 								if (isset($devices) && !empty($devices)):
 									foreach ($devices as $device_group):
 										foreach ($device_group->names as $key => $devicename): ?>
-											<?php $keywords = [];
-											$keywords[]     = strtolower($devicename);
-											$keywords[]     = count($device_group->names) > 1 ? "multi" : "single";
-											$keywords[]     = $device_group->ip;
-											$keywords[]     = $device_group->id;
-											$keywords[]     = $device_group->position;
-											
+											<?php
+											$device_group->keywords[] = strtolower($devicename);
 											?>
 											<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 												data-device_id='<?php echo $device_group->id; ?>'
@@ -144,7 +139,7 @@ $devices = $Sonoff->getDevices();
 												data-device_all_off='<?php echo $device_group->device_all_off; ?>'
 												data-device_protect_on='<?php echo $device_group->device_protect_on; ?>'
 												data-device_protect_off='<?php echo $device_group->device_protect_off; ?>'
-												data-keywords="<?php echo implode(" ", $keywords); ?>"
+												data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
 											>
 												<td class='cmd_cb d-none'>
 													<?php if ($key == 0): ?>
