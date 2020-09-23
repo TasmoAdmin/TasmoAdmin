@@ -17,6 +17,9 @@ if (isset($_POST) && !empty($_POST)) {
 		if (!isset($settings["ota_server_ssl"])) {
 			$settings["ota_server_ssl"] = "0";
 		}
+		if (!isset($settings["show_search"])) {
+			$settings["show_search"] = "0";
+		}
 		
 		if (!isset($settings["password"]) || empty($settings["password"])
 			|| $settings["password"] == "") {
@@ -351,6 +354,23 @@ asort($tasmotaReleases);
 					</select>
 				</div>
 			</div>
+			
+			<div class="form-row">
+				<div class="form-group col col-12 col-sm-4">
+					<div class="form-check custom-control custom-checkbox mb-5">
+						<input class="form-check-input custom-control-input"
+							   type="checkbox"
+							   value="1"
+							   id="cb_show_search"
+							   name='show_search' <?php echo $config["show_search"] == "1"
+							? "checked=\"checked\"" : ""; ?>>
+						<label class="form-check-label custom-control-label" for="cb_show_search">
+							<?php echo __("CONFIG_SHOW_SEARCH", "USER_CONFIG"); ?>
+						</label>
+					</div>
+				</div>
+			</div>
+			
 			<div class="form-row  mt-5">
 				<div class='d-none d-sm-inline-flex col flex-column'></div>
 				<div class="col col-12 col-sm-6 text-sm-right">

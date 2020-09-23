@@ -322,22 +322,24 @@ $Config->write("ota_server_port", $ota_server_port);
 							</label>
 						</div>
 					</div>
-					<div class="col col-auto">
-						<div class="form-group">
-							<div class="input-group">
-								<input type="text"
-									   name="searchterm"
-									   class='form-control device-search has-clearer'
-									   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
-								>
-								<div class="input-group-append">
-									<span class="input-group-text">
-										<i class="fas fa-search"></i>
-									</span>
+					<?php if ($Config->read("show_search") == 1): ?>
+						<div class="col col-auto">
+							<div class="form-group">
+								<div class="input-group">
+									<input type="text"
+										   name="searchterm"
+										   class='form-control device-search has-clearer'
+										   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+									>
+									<div class="input-group-append">
+										<span class="input-group-text">
+											<i class="fas fa-search"></i>
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					<?php endif; ?>
 				</div>
 				<div class='row justify-content-center'>
 					<div class='col'>
