@@ -5,7 +5,7 @@ $(document).on("ready", function ()
 	updateAllStatus();
 
 	initCommandHelper();
-
+	initDeviceFilter();
 
 	$(".showmore").on("change", function (e)
 	{
@@ -922,3 +922,53 @@ function updateRow(row, data, device_status)
 }
 
 
+function initDeviceFilter()
+{
+
+	$(".device-search").on("keyup", function (e)
+	{
+		// var input, filter, table, tr, td, i, txtValue;
+		let input = $(this);
+		let searchterm = input.val().trim();
+
+		let table = $("#device-list");
+		let deviceRows = table.find("tr");
+
+		if (searchterm !== "")
+		{
+
+			let regex = new RegExp(searchterm, "i");
+			$.each(deviceRows, function (key, elem)
+				   {
+					   let deviceRow = $(elem);
+
+					   if (key === 0 || key === deviceRows.length - 1)
+					   {
+						   // console.log("skip header and footer row", key);
+						   return; //skip header and footer row
+					   }
+					   let keywords = deviceRow.data("keywords");
+
+					   if (keywords !== undefined && keywords !== "")
+					   {
+						   if (regex.test(keywords))
+						   {
+							   deviceRow.removeClass("d-none");
+						   } else
+						   {
+							   deviceRow.addClass("d-none");
+						   }
+					   } else
+					   {
+						   deviceRow.addClass("d-none");
+					   }
+				   }
+			);
+		} else
+		{
+			deviceRows.removeClass("d-none");
+		}
+	});
+
+
+}

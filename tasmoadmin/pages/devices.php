@@ -11,16 +11,6 @@ $devices = $Sonoff->getDevices();
 		<?php if (isset($devices) && !empty($devices)): ?>
 			<div class='row mb-1 mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
-					<div class="form-group">
-						<input 	type="text" 
-								id="filterInput" 
-								class='form-control' 
-								onkeyup="device_filter()" 
-								placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
-						>
-					</div>
-				</div>
-				<div class="col col-auto offset-0 offset-xl-1">
 					<div class="form-check pl-0">
 						<input type="checkbox"
 							   class="form-check-input showmore d-none"
@@ -30,6 +20,22 @@ $devices = $Sonoff->getDevices();
 						<label class="form-check-label  btn btn-secondary" for="showmore">
 							<?php echo __("SHOW_MORE", "DEVICES"); ?>
 						</label>
+					</div>
+				</div>
+				<div class="col col-auto">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text"
+								   name="searchterm"
+								   class='form-control device-search has-clearer'
+								   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+							>
+							<div class="input-group-append">
+								<span class="input-group-text">
+									<i class="fas fa-search"></i>
+								</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -121,6 +127,14 @@ $devices = $Sonoff->getDevices();
 								if (isset($devices) && !empty($devices)):
 									foreach ($devices as $device_group):
 										foreach ($device_group->names as $key => $devicename): ?>
+											<?php $keywords = [];
+											$keywords[]     = strtolower($devicename);
+											$keywords[]     = count($device_group->names) > 1 ? "multi" : "single";
+											$keywords[]     = $device_group->ip;
+											$keywords[]     = $device_group->id;
+											$keywords[]     = $device_group->position;
+											
+											?>
 											<tr class='<?php echo $odd ? "odd" : "even"; ?>'
 												data-device_id='<?php echo $device_group->id; ?>'
 												data-device_group='<?php echo count($device_group->names) > 1
@@ -130,6 +144,7 @@ $devices = $Sonoff->getDevices();
 												data-device_all_off='<?php echo $device_group->device_all_off; ?>'
 												data-device_protect_on='<?php echo $device_group->device_protect_on; ?>'
 												data-device_protect_off='<?php echo $device_group->device_protect_off; ?>'
+												data-keywords="<?php echo implode(" ", $keywords); ?>"
 											>
 												<td class='cmd_cb d-none'>
 													<?php if ($key == 0): ?>
@@ -570,4 +585,3 @@ $devices = $Sonoff->getDevices();
 <?php include "elements/modal_delete_device.php"; ?>
 
 <script src="<?php echo UrlHelper::JS("devices"); ?>"></script>
-<script src="<?php echo UrlHelper::JS("device_filter"); ?>"></script>
