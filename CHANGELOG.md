@@ -9,6 +9,7 @@
 - FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/reloxx13/TasmoAdmin/issues/345)
 - **NEW**: Adds a filter for the device list view thanks to @[alexhk](https://github.com/alexhk) [PR#399](https://github.com/reloxx13/TasmoAdmin/pull/399)
     - Search for Name/Hostname, IP#123, ID#321, POS#1, Single/Multi
+    - Hide the search filter in settings
 - FIX: Correct bad JSON Response from Tasmota 8.5.0.x, fixes [#398](https://github.com/reloxx13/TasmoAdmin/issues/345),[#397](https://github.com/reloxx13/TasmoAdmin/issues/397),[#394](https://github.com/reloxx13/TasmoAdmin/issues/394)   
 
 ### v1.6.5
