@@ -26,6 +26,7 @@ class Config {
 			"minimize_resources"    => "1",
 			"update_channel"        => "stable",
 			"hide_copyright"        => "1",
+			"show_search"           => "1",
 		];
 	
 	function __construct() {
