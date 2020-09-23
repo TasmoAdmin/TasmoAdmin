@@ -4,7 +4,7 @@
 ## UPCOMING
 - FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/reloxx13/TasmoAdmin/issues/345)
 - **NEW**: Adds a filter for the device list view thanks to @[alexhk](https://github.com/alexhk) [PR#399](https://github.com/reloxx13/TasmoAdmin/pull/399)
-    - Search for Name, IP#123, ID#321, POS#1, Single/Multi
+    - Search for Name/Hostname, IP#123, ID#321, POS#1, Single/Multi
     
     
 ## PUBLISHED
