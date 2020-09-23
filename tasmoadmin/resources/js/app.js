@@ -660,6 +660,34 @@ function getSeaPressure(data, joinString)
 	var press = [];
 	var joinString = joinString || "<br/>";
 
+	if (data.StatusSNS.BME280 !== undefined)
+	{
+		if (data.StatusSNS.BME280.SeaPressure !== undefined)
+		{
+			press.push(data.StatusSNS.BME280.SeaPressure + "&nbsp;hPa");
+		}
+	}
+	if (data.StatusSNS["BME280-76"] !== undefined)
+	{
+		if (data.StatusSNS["BME280-76"].SeaPressure !== undefined)
+		{
+			press.push(data.StatusSNS["BME280-76"].SeaPressure + "&nbsp;hPa");
+		}
+	}
+	if (data.StatusSNS["BME280-77"] !== undefined)
+	{
+		if (data.StatusSNS["BME280-77"].SeaPressure !== undefined)
+		{
+			press.push(data.StatusSNS["BME280-77"].SeaPressure + "&nbsp;hPa");
+		}
+	}
+	if (data.StatusSNS.BMP280 !== undefined)
+	{
+		if (data.StatusSNS.BMP280.SeaPressure !== undefined)
+		{
+			press.push(data.StatusSNS.BMP280.SeaPressure + "&nbsp;hPa");
+		}
+	}
 	if (data.StatusSNS.BMP180 !== undefined)
 	{
 		if (data.StatusSNS.BMP180.SeaPressure !== undefined)
