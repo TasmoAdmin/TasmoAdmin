@@ -698,6 +698,9 @@ td.runtime {
   top: 0.18rem;
 }
 
+#device-list .custom-control.custom-checkbox {
+  top: 2px;
+}
 .table-responsive {
   width: auto;
 }
