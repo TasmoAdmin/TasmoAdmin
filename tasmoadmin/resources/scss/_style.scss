@@ -512,6 +512,17 @@ td {
   }
 }
 
+#device-list {
+  .custom-control {
+    &.custom-checkbox {
+      top: 2px;
+    }
+
+    .custom-control-label::before {
+    }
+  }
+}
+
 
 .table-responsive {
   width: auto;

@@ -2,6 +2,8 @@
 
 
 ## UPCOMING
+- FIX: Select all and filter were conflicting, fixes [#400](https://github.com/reloxx13/TasmoAdmin/issues/400)
+- FIX: Select all style position
 
 ## PUBLISHED
 

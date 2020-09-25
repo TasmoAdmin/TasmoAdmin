@@ -29,6 +29,7 @@ $devices = $Sonoff->getDevices();
 								<input type="text"
 									   name="searchterm"
 									   class='form-control device-search has-clearer'
+									   autocomplete="off"
 									   placeholder="<?php echo __("FILTER", "DEVICES"); //(Name, IP#123, ID#321, POS#1) ?>"
 								>
 								<div class="input-group-append">

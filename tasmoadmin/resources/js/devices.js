@@ -129,10 +129,10 @@ function initCommandHelper()
 	$(".select_all").change(function ()
 							{  //"select all" change
 								let status = this.checked; // "select all" checked status
-								$(".device_checkbox").each(function ()
-														   { //iterate all listed checkbox items
-															   this.checked = status; //change ".checkbox" checked status
-														   });
+								$("#device-list tr:not(.d-none) .device_checkbox").each(function ()
+																						{ //iterate all listed checkbox items
+																							this.checked = status; //change ".checkbox" checked status
+																						});
 
 								$(".select_all").each(function ()
 													  { //iterate all listed checkbox items
@@ -970,6 +970,7 @@ function initDeviceFilter()
 						   } else
 						   {
 							   deviceRow.addClass("d-none");
+							   deviceRow.find(".device_checkbox").prop("checked", false);
 						   }
 					   } else
 					   {
