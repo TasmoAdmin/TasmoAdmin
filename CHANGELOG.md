@@ -2,10 +2,12 @@
 
 
 ## UPCOMING
-- FIX: Select all and filter were conflicting, fixes [#400](https://github.com/reloxx13/TasmoAdmin/issues/400)
-- FIX: Select all style position
 
 ## PUBLISHED
+
+### v1.7.0-beta2
+- FIX: Select all and filter were conflicting, fixes [#400](https://github.com/reloxx13/TasmoAdmin/issues/400)
+- FIX: Select all style position
 
 ### v1.7.0-beta1
 - FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/reloxx13/TasmoAdmin/issues/345)
