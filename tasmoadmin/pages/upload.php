@@ -156,32 +156,9 @@ elseif (isset($_REQUEST["auto"])) {
 	$fwAsset = $Config->read("update_automatic_lang");
 	
 	if ($fwAsset != "") {
+		$fwMinimalUrl = "http://ota.tasmota.com/tasmota/release/tasmota-minimal.bin";
+                $fwUrl = "http://ota.tasmota.com/tasmota/release/".$fwAsset;
 		
-		
-		$url = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt(
-			$ch,
-			CURLOPT_USERAGENT,
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-		);
-		$result = curl_exec($ch);
-		curl_close($ch);
-		
-		$data = json_decode($result);
-		
-		foreach ($data->assets as $binfileData) {
-			if ($binfileData->name == "tasmota-minimal.bin") {
-				$fwMinimalUrl = $binfileData->browser_download_url;
-			}
-			if ($binfileData->name == $fwAsset) {
-				$fwUrl = $binfileData->browser_download_url;
-			}
-			
-		}
 		if (isset($fwUrl) && isset($fwMinimalUrl)) {
 			$minimal_firmware_path = $firmwarefolder . 'tasmota-minimal.bin';
 			$new_firmware_path     = $firmwarefolder . 'tasmota.bin';
