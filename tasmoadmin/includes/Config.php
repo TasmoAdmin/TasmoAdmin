@@ -27,6 +27,7 @@ class Config {
 			"update_channel"        => "stable",
 			"hide_copyright"        => "1",
 			"show_search"           => "1",
+			"use_gzip_package"      => "0",
 		];
 	
 	function __construct() {
