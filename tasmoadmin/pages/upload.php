@@ -59,7 +59,7 @@ if (isset($_REQUEST["upload"])) {
 			
 			if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
 				|| $_FILES['minimal_firmware']["type"] == "application/macbinary"
-            || $_FILES['minimal_firmware']["type"] == "application/gzip") {
+				|| $_FILES['minimal_firmware']["type"] == "application/gzip") {
 				if ($useGZIP == 1 || $useGZIP == "1") {
 					$ext = "bin.gz";
 				}
@@ -132,7 +132,7 @@ if (isset($_REQUEST["upload"])) {
 		}
 		if ($_FILES['new_firmware']["type"] == "application/octet-stream"
 			|| $_FILES['new_firmware']["type"] == "application/macbinary"
-         || $_FILES['new_firmware']["type"] == "application/gzip") {
+			|| $_FILES['new_firmware']["type"] == "application/gzip") {
 			if ($useGZIP == 1 || $useGZIP == "1") {
 				$ext = "bin.gz";
 			}
