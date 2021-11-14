@@ -55,28 +55,30 @@ if (isset($_REQUEST["upload"])) {
 				throw new RuntimeException(
 					__("UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", ["maxsize" => "502kb"])
 				);
-			}
-			
-			if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
-				|| $_FILES['minimal_firmware']["type"] == "application/macbinary"
-				|| $_FILES['minimal_firmware']["type"] == "application/gzip") {
-				if ($useGZIP == 1 || $useGZIP == "1") {
-					$ext = "bin.gz";
+			}		
+			if ($useGZIP == 1 || $useGZIP == "1") {
+				if ($_FILES['minimal_firmware']["type"] == "application/gzip"
+				 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
+						$ext = "bin.gz";
 				}
 				else {
-					$ext = "bin";
+					throw new RuntimeException(
+						__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT_GZIP", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+					);
 				}
 			}
 			else {
-				throw new RuntimeException(
-					__(
-						"UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT",
-						"DEVICE_UPDATE",
-						$_FILES['minimal_firmware']["type"]
-					)
-				);
+				if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
+				 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
+						$ext = "bin";
+				}
+				else {
+					throw new RuntimeException(
+						__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+					);
+				}
 			}
-			
+
 			$minimal_firmware_path = $firmwarefolder . "tasmota-minimal" . $suffix;
 			
 			if (!move_uploaded_file(
@@ -130,20 +132,27 @@ if (isset($_REQUEST["upload"])) {
 		if ($_FILES['new_firmware']['size'] > 1000000) {
 			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
 		}
-		if ($_FILES['new_firmware']["type"] == "application/octet-stream"
-			|| $_FILES['new_firmware']["type"] == "application/macbinary"
-			|| $_FILES['new_firmware']["type"] == "application/gzip") {
-			if ($useGZIP == 1 || $useGZIP == "1") {
-				$ext = "bin.gz";
+		if ($useGZIP == 1 || $useGZIP == "1") {
+			if ($_FILES['minimal_firmware']["type"] == "application/gzip"
+			 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
+					$ext = "bin.gz";
 			}
 			else {
-				$ext = "bin";
+				throw new RuntimeException(
+					__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT_GZIP", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+				);
 			}
 		}
 		else {
-			throw new RuntimeException(
-				__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['new_firmware']["type"])
-			);
+			if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
+			 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
+					$ext = "bin";
+			}
+			else {
+				throw new RuntimeException(
+					__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+				);
+			}
 		}
 		
 		$new_firmware_path = $firmwarefolder . "tasmota" . $suffix;
