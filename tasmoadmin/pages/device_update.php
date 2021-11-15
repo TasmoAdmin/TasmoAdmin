@@ -3,8 +3,6 @@
 $useSSL    = $Config->read("ota_server_ssl");
 $localIP   = $Config->read("ota_server_ip");
 $localPort = $Config->read("ota_server_port");
-$useGZIP   = $Config->read("use_gzip_package");
-
 
 if ($useSSL == 1 || $useSSL == "1") {
 	$schema = "https";
@@ -12,19 +10,13 @@ if ($useSSL == 1 || $useSSL == "1") {
 else {
 	$schema = "http";
 }
-if ($useGZIP == 1 || $useGZIP == "1") {
-	$suffix = ".bin.gz";
-}
-else {
-	$suffix = ".bin";
-}
+
 $otaServer = $schema . "://" . $localIP . ":" . $localPort . _BASEURL_ . "";
 
-
 if (isset($_REQUEST['minimal_firmware_path']) && !empty($_REQUEST['minimal_firmware_path'])) {
-	$ota_minimal_firmware_url = $otaServer . "data/firmwares/tasmota-minimal" . $suffix;
+	$ota_minimal_firmware_url = $otaServer . "data/firmwares/" . basename($_REQUEST['minimal_firmware_path']);
 }
-$ota_new_firmware_url = $otaServer . "data/firmwares/tasmota" . $suffix;
+$ota_new_firmware_url = $otaServer . "data/firmwares/" . basename($_REQUEST['new_firmware_path']);
 
 $device_ids = isset($_REQUEST["device_ids"]) ? $_REQUEST["device_ids"] : FALSE;
 ?>
