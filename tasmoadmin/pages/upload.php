@@ -5,13 +5,8 @@ $firmwarefolder        = _DATADIR_ . "firmwares/";
 $minimal_firmware_path = "";
 $new_firmware_path     = "";
 
-$useGZIP   = $Config->read("use_gzip_package");
-if ($useGZIP == 1 || $useGZIP == "1") {
-	$suffix = ".bin.gz";
-}
-else {
-	$suffix = ".bin";
-}
+$use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
+$Config->write("use_gzip_package", $use_gzip_package);
 
 $files = glob($firmwarefolder . '*'); // get all file names
 foreach ($files as $file) { // iterate files
@@ -56,30 +51,23 @@ if (isset($_REQUEST["upload"])) {
 					__("UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", ["maxsize" => "502kb"])
 				);
 			}		
-			if ($useGZIP == 1 || $useGZIP == "1") {
-				if ($_FILES['minimal_firmware']["type"] == "application/gzip"
-				 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
-						$ext = "bin.gz";
-				}
-				else {
-					throw new RuntimeException(
-						__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT_GZIP", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
-					);
-				}
+			if ($_FILES['minimal_firmware']["type"] == "application/gzip"
+			 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
+					$ext = "bin.gz";
+					$useGZIP = 1;
+			}
+			elseif ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
+					 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
+					$ext = "bin";
+					$useGZIP = 0;
 			}
 			else {
-				if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
-				 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
-						$ext = "bin";
-				}
-				else {
-					throw new RuntimeException(
-						__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
-					);
-				}
+				throw new RuntimeException(
+					__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+				);
 			}
 
-			$minimal_firmware_path = $firmwarefolder . "tasmota-minimal" . $suffix;
+			$minimal_firmware_path = $firmwarefolder . "tasmota-minimal" . "." . $ext;
 			
 			if (!move_uploaded_file(
 				$_FILES['minimal_firmware']['tmp_name'],
@@ -132,30 +120,23 @@ if (isset($_REQUEST["upload"])) {
 		if ($_FILES['new_firmware']['size'] > 1000000) {
 			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
 		}
-		if ($useGZIP == 1 || $useGZIP == "1") {
-			if ($_FILES['minimal_firmware']["type"] == "application/gzip"
-			 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
-					$ext = "bin.gz";
-			}
-			else {
-				throw new RuntimeException(
-					__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT_GZIP", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
-				);
-			}
+		if ($_FILES['new_firmware']["type"] == "application/gzip"
+		 || $_FILES['new_firmware']["type"] == "application/x-gzip") {
+				$ext = "bin.gz";
+				$useGZIP = 1;
+		}
+		elseif ($_FILES['new_firmware']["type"] == "application/octet-stream"
+				 || $_FILES['new_firmware']["type"] == "application/macbinary") {
+				$ext = "bin";
+				$useGZIP = 0;
 		}
 		else {
-			if ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
-			 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
-					$ext = "bin";
-			}
-			else {
-				throw new RuntimeException(
-					__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
-				);
-			}
+			throw new RuntimeException(
+				__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['new_firmware']["type"])
+			);
 		}
 		
-		$new_firmware_path = $firmwarefolder . "tasmota" . $suffix;
+		$new_firmware_path = $firmwarefolder . "tasmota" . "." . $ext;
 		
 		if (!move_uploaded_file(
 			$_FILES['new_firmware']['tmp_name'],
@@ -177,6 +158,14 @@ if (isset($_REQUEST["upload"])) {
 	}
 }
 elseif (isset($_REQUEST["auto"])) {
+	$useGZIP   = $Config->read("use_gzip_package");
+	if ($useGZIP == 1 || $useGZIP == "1") {
+		$ext = "bin.gz";
+	}
+	else {
+		$ext = "bin";
+	}
+
 	//File to save the contents to
 	if (!empty($_REQUEST["update_automatic_lang"])) {
 		$Config->write("update_automatic_lang", $_REQUEST["update_automatic_lang"]);
@@ -202,17 +191,17 @@ elseif (isset($_REQUEST["auto"])) {
 		$data = json_decode($result);
 		
 		foreach ($data->assets as $binfileData) {
-			if ($binfileData->name == "tasmota-minimal" . $suffix) {
+			if ($binfileData->name == "tasmota-minimal" . "." . $ext) {
 				$fwMinimalUrl = $binfileData->browser_download_url;
 			}
-			if ($binfileData->name == pathinfo($fwAsset, PATHINFO_FILENAME) . $suffix) {
+			if ($binfileData->name == pathinfo($fwAsset, PATHINFO_FILENAME) . "." . $ext) {
 				$fwUrl = $binfileData->browser_download_url;
 			}
 			
 		}
 		if (isset($fwUrl) && isset($fwMinimalUrl)) {
-			$minimal_firmware_path = $firmwarefolder . 'tasmota-minimal' . $suffix;
-			$new_firmware_path     = $firmwarefolder . 'tasmota' . $suffix;
+			$minimal_firmware_path = $firmwarefolder . 'tasmota-minimal' . "." . $ext;
+			$new_firmware_path     = $firmwarefolder . 'tasmota' . "." . $ext;
 			$file                  = fopen($minimal_firmware_path, 'w');
 			// cURL
 			$ch = curl_init();
@@ -266,17 +255,13 @@ else {
 	$msg   .= __("UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE") . "<br/>";
 }
 
-
 $ota_server_ssl  = isset($_REQUEST["ota_server_ssl"]) ? $_REQUEST["ota_server_ssl"] : "0";
 $ota_server_ip   = isset($_REQUEST["ota_server_ip"]) ? $_REQUEST["ota_server_ip"] : "";
 $ota_server_port = isset($_REQUEST["ota_server_port"]) ? $_REQUEST["ota_server_port"] : "";
-$use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
-
 
 $Config->write("ota_server_ssl", $ota_server_ssl);
 $Config->write("ota_server_ip", $ota_server_ip);
 $Config->write("ota_server_port", $ota_server_port);
-$Config->write("use_gzip_package", $use_gzip_package);
 
 ?>
 
