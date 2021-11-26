@@ -159,7 +159,7 @@ if (isset($_REQUEST["upload"])) {
 }
 elseif (isset($_REQUEST["auto"])) {
 	$useGZIP   = $Config->read("use_gzip_package");
-	if ($useGZIP == 1 || $useGZIP == "1") {
+	if ($useGZIP == 1) {
 		$ext = "bin.gz";
 	}
 	else {
