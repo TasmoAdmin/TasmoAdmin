@@ -12,6 +12,12 @@ env:
     - QEMU_VERSION=v2.12.0
 
 before_install:
+    - tmpdaemon=$(mktemp)
+    - sudo jq '."registry-mirrors" += ["https://mirror.gcr.io"]' /etc/docker/daemon.json > $tmpdaemon
+    - sudo mv $tmpdaemon /etc/docker/daemon.json
+    - sudo systemctl daemon-reload
+    - sudo systemctl restart docker
+    - docker system info
     - mkdir tmp
     - ./.docker/docker.sh prepare
 
