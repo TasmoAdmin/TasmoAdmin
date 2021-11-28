@@ -183,14 +183,7 @@ docker_manifest_list_version_os_arch() {
 
 setup_dependencies() {
   echo "PREPARE: Setting up dependencies."
-
-  sudo apt update -y
-  # sudo apt install realpath python python-pip -y
-  sudo apt install --only-upgrade docker-ce -y
-  # sudo pip install docker-compose || true
-
   docker info
-  # docker-compose --version
 }
 
 update_docker_configuration() {
