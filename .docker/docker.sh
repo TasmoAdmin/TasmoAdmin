@@ -30,8 +30,8 @@ docker_prepare() {
     # Prepare the machine before any code installation scripts
     setup_dependencies
 
-    # Update docker configuration to enable docker manifest command
-    update_docker_configuration
+    # # Update docker configuration to enable docker manifest command
+    # update_docker_configuration
 
     # Prepare qemu to build images other then x86_64 on travis
     prepare_qemu
