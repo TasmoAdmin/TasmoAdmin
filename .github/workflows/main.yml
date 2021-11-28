@@ -20,8 +20,8 @@ jobs:
     - run: echo "$BUILD_REF $BUILD_VERSION"
     - name: Prepare
       run: |
-      mkdir tmp
-      ./.docker/docker.sh prepare
+        mkdir tmp
+        ./.docker/docker.sh prepare
     - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
