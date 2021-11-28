@@ -17,8 +17,7 @@ jobs:
       BUILD_VERSION: "$GITHUB_REF_NAME"
     steps:
     - uses: actions/checkout@master
-    - name: Echo
-      run: echo "BUILD_REF: $BUILD_REF BUILD_VERSION: $BUILD_VERSION"
+    - run: echo "$BUILD_REF $BUILD_VERSION"
     - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
