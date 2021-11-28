@@ -1,8 +1,10 @@
 name: main
 
-on:
+on:  
   push:
     branches: [master]
+    tags:
+      - '*'
   pull_request: ~
 
 env:
@@ -17,7 +19,6 @@ jobs:
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@master
-    - run: echo "$BUILD_REF $BUILD_VERSION"
     - name: Prepare
       run: |
         mkdir tmp
@@ -26,3 +27,20 @@ jobs:
       run: ./.docker/docker.sh build
     - name: Test docker images
       run: ./.docker/docker.sh test
+  release:
+    runs-on: ubuntu-20.04
+    env:
+      BUILD_REF: ${{ github.sha }}
+      BUILD_VERSION: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@master
+    - name: Prepare
+      run: |
+        mkdir tmp
+        ./.docker/docker.sh prepare
+    - name: Build docker images
+      run: ./.docker/docker.sh build
+    - name: Test docker images
+      run: ./.docker/docker.sh test
+    - name: Package
+      run: make package

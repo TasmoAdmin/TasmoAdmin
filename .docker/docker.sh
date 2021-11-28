@@ -27,12 +27,6 @@ main() {
 }
 
 docker_prepare() {
-    # Prepare the machine before any code installation scripts
-    setup_dependencies
-
-    # # Update docker configuration to enable docker manifest command
-    # update_docker_configuration
-
     # Prepare qemu to build images other then x86_64 on travis
     prepare_qemu
 }
@@ -181,31 +175,6 @@ docker_manifest_list_version_os_arch() {
   docker manifest push $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
-setup_dependencies() {
-  echo "PREPARE: Setting up dependencies."
-  docker info
-}
-
-update_docker_configuration() {
-  echo "PREPARE: Updating docker configuration"
-
-  mkdir $HOME/.docker
-
-  # enable experimental to use docker manifest command
-  echo '{
-    "experimental": "enabled"
-  }' | tee $HOME/.docker/config.json
-
-  # enable experimental
-  echo '{
-    "experimental": true,
-    "storage-driver": "overlay2",
-    "max-concurrent-downloads": 100,
-    "max-concurrent-uploads": 100
-  }' | sudo tee /etc/docker/daemon.json
-
-  sudo service docker restart
-}
 
 prepare_qemu(){
     echo "PREPARE: Qemu"
