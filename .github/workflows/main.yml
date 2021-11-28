@@ -13,7 +13,7 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     env:
-      BUILD_REF: ${{ env.GITHUB_SHA}}
+      BUILD_REF: ${{ env.GITHUB_SHA }}
       BUILD_VERSION: ${{ env.GITHUB_REF_NAME }}
     steps:
     - uses: actions/checkout@master
