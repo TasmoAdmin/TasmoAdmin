@@ -13,10 +13,12 @@ jobs:
   test:
     runs-on: ubuntu-20.04
     env:
-      BUILD_REF: "${{ env.GITHUB_SHA }}"
-      BUILD_VERSION: "${{ env.GITHUB_REF_NAME }}"
+      BUILD_REF: "$GITHUB_SHA"
+      BUILD_VERSION: "$GITHUB_REF_NAME"
     steps:
     - uses: actions/checkout@master
+    - name: Echo
+      run: echo "BUILD_REF: $BUILD_REF BUILD_VERSION: $BUILD_VERSION"
     - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
