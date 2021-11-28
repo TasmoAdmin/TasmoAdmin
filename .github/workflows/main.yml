@@ -1,0 +1,28 @@
+name: main
+
+on:
+  push:
+    branches: [master]
+  pull_request: ~
+
+env:
+  TARGET: raymondmm/tasmoadmin
+  QEMU_VERSION: v2.12.0
+
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    env:
+      BUILD_REF: ${{ github.sha }}
+      BUILD_VERSION: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@master
+    - run: echo "$BUILD_REF $BUILD_VERSION"
+    - name: Prepare
+      run: |
+        mkdir tmp
+        ./.docker/docker.sh prepare
+    - name: Build docker images
+      run: ./.docker/docker.sh build
+    - name: Test docker images
+      run: ./.docker/docker.sh test
