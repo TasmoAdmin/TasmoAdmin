@@ -45,3 +45,8 @@ jobs:
       run: ./.docker/docker.sh test
     - name: Package
       run: make package
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            _releases/*
