@@ -23,6 +23,7 @@ main() {
             ;;
         *)
             echo "none of above!"
+            exit 1
     esac
 }
 
