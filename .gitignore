@@ -23,7 +23,7 @@
 
 /tasmoadmin/dev/*
 
-
+/tasmoadmin/vendor/
 
 
 !.empty

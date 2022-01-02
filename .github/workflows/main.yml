@@ -17,7 +17,12 @@ jobs:
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@master
-    - run: echo "$BUILD_REF $BUILD_VERSION"
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+    - name: Install dependencies
+      run: composer install
     - name: Prepare
       run: |
         mkdir tmp
