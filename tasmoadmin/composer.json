@@ -1,0 +1,9 @@
+{
+    "name": "reloxx13/tasmoadmin",
+    "type": "project",
+    "require": {
+        "erusev/parsedown": "^1.7",
+        "philipp15b/php-i18n": "^4.0"
+    },
+    "license": "GPL3"
+}

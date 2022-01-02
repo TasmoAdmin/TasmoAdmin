@@ -1,6 +1,6 @@
 <?php
 
-require_once _LIBSDIR_ . "parsedown/Parsedown.php";
+require_once _APPROOT_ . "/vendor/autoload.php"; 
 
 $mdParser = new Parsedown();
 $ch       = curl_init();
