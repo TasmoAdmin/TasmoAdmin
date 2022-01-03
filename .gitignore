@@ -24,6 +24,7 @@
 /tasmoadmin/dev/*
 
 /tasmoadmin/vendor/
+/tasmoadmin/composer.lock
 
 
 !.empty
