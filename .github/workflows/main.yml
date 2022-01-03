@@ -27,7 +27,7 @@ jobs:
       run: |
         mkdir tmp
         ./.docker/docker.sh prepare
-    - name: Build dockerimages
+    - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
       run: ./.docker/docker.sh test
