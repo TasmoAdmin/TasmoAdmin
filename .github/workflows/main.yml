@@ -22,12 +22,12 @@ jobs:
       with:
         php-version: '7.4'
     - name: Install dependencies
-      run: composer install
+      run: composer install -d tasmoadmin/
     - name: Prepare
       run: |
         mkdir tmp
         ./.docker/docker.sh prepare
-    - name: Build docker images
+    - name: Build dockerimages
       run: ./.docker/docker.sh build
     - name: Test docker images
       run: ./.docker/docker.sh test
