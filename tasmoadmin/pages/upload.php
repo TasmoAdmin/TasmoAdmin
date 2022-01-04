@@ -230,8 +230,9 @@ elseif (isset($_REQUEST["auto"])) {
 			curl_close($ch);
 			// close file
 			fclose($file);
+			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . $fwAsset . "</strong> | " . __(
+			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . substr($fwAsset, 0, stripos($fwAsset, ".")) . "</strong> | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
 				) . ": " . $data->tag_name . " | " . __("DATE", "DEVICE_UPDATE") . " " . $data->published_at;
