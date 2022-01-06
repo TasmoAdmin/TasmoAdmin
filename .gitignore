@@ -25,6 +25,7 @@
 
 /tasmoadmin/vendor/
 /tasmoadmin/composer.lock
+/tasmoadmin/.phpunit.result.cache
 
 
 !.empty

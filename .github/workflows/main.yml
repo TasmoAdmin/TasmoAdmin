@@ -10,19 +10,28 @@ env:
   QEMU_VERSION: v2.12.0
 
 jobs:
-  test:
+  php-tests:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.0', 7.4']
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: Install dependencies
+      run: composer install
+    - name: Run tests
+      run: ./vendor/bin/phpunit
+  docker-tests:
     runs-on: ubuntu-20.04
     env:
       BUILD_REF: ${{ github.sha }}
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@master
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
-    - name: Install dependencies
-      run: composer install -d tasmoadmin/
     - name: Prepare
       run: |
         mkdir tmp
