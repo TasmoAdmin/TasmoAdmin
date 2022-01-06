@@ -24,7 +24,9 @@ jobs:
     - name: Install dependencies
       run: composer install -d tasmoadmin/
     - name: Run tests
-      run: ./tasmoadmin/vendor/bin/phpunit
+      run: |
+      cd tasmoadmin
+      ./vendor/bin/phpunit
   docker-tests:
     runs-on: ubuntu-20.04
     env:
