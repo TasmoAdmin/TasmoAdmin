@@ -1,10 +1,11 @@
+ARG BUILD_FROM=arm32v6/alpine:3.12
+
 FROM composer AS builder
 
 COPY tasmoadmin /tasmoadmin
 RUN composer install -d /tasmoadmin
 
 
-ARG BUILD_FROM=arm32v6/alpine:3.12
 FROM ${BUILD_FROM}
 
 # Build arguments
