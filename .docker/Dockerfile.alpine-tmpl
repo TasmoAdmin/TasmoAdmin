@@ -1,3 +1,9 @@
+FROM composer AS builder
+
+COPY tasmoadmin /tasmoadmin
+RUN composer install -d /tasmoadmin
+
+
 ARG BUILD_FROM=arm32v6/alpine:3.12
 FROM ${BUILD_FROM}
 
@@ -56,8 +62,6 @@ RUN \
     \
     && rm -f -r /tmp/*
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer 
-
 # Environment variables
 ENV BUILD_VERSION ${BUILD_VERSION}
 ENV BUILD_REF ${BUILD_REF}
@@ -70,8 +74,7 @@ RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
 COPY .docker/rootfs /
 
 # Setup application
-COPY tasmoadmin /var/www/tasmoadmin
-RUN composer install -d /var/www/tasmoadmin
+COPY --from=builder /tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
