@@ -207,7 +207,7 @@
 				            .$this->compile( $config )
 				            .'public static function __callStatic($string, $args) {'
 				            ."\n"
-				            .'$args = array_shift($args);'
+				            .'$args = (array)array_shift($args);'
 				            ."\n"
 				
 				            .'    return vsprintf(constant("self::" . $string), $args);'
