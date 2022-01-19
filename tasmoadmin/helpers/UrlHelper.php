@@ -3,7 +3,7 @@
 class UrlHelper
 {
 
-    public static function redirect($url = NULL, $status)
+    public static function redirect($status, $url = NULL)
     {
         header('Location: ' . DIR . $url, TRUE, $status);
         exit;
