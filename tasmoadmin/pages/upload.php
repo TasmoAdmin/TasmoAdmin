@@ -180,11 +180,7 @@ elseif (isset($_REQUEST["auto"])) {
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt(
-			$ch,
-			CURLOPT_USERAGENT,
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-		);
+		curl_setopt($ch, CURLOPT_USERAGENT, "TasmoAdmin/{$Config->read('current_git_tag')}" );
 		$result = curl_exec($ch);
 		curl_close($ch);
 		
@@ -234,8 +230,9 @@ elseif (isset($_REQUEST["auto"])) {
 			curl_close($ch);
 			// close file
 			fclose($file);
+			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . $fwAsset . "</strong> | " . __(
+			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . substr($fwAsset, 0, stripos($fwAsset, ".")) . "</strong> | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
 				) . ": " . $data->tag_name . " | " . __("DATE", "DEVICE_UPDATE") . " " . $data->published_at;
