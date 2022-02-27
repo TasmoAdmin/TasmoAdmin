@@ -33,3 +33,6 @@ tasmoadmin/data/devices_all.csv
 /portable/xampp
 /portable/xampp_draft.zip
 !/portable/xampp.zip.*
+/_tmp/
+/_releases/
+portable/xampp.zip

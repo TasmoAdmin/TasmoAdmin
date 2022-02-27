@@ -3,6 +3,8 @@ name: main
 on:
   push:
     branches: [master]
+    tags:
+      - '*'
   pull_request: ~
 
 env:
@@ -17,12 +19,43 @@ jobs:
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@master
-    - run: echo "$BUILD_REF $BUILD_VERSION"
     - name: Prepare
       run: |
-        mkdir tmp
+        mkdir _tmp
         ./.docker/docker.sh prepare
     - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
       run: ./.docker/docker.sh test
+  release:
+    runs-on: ubuntu-20.04
+    if: ${{ github.ref_type == 'tag' }}
+    env:
+      BUILD_REF: ${{ github.sha }}
+      BUILD_VERSION: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@master
+    - name: Prepare
+      run: |
+        mkdir _tmp
+        ./.docker/docker.sh prepare
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - name: Build docker images
+      run: ./.docker/docker.sh build
+    - name: Test docker images
+      run: ./.docker/docker.sh test
+    - name: Push all docker images
+      run: ./.docker/docker.sh push
+    - name: Create and push manifest list
+      run: ./.docker/docker.sh manifest-list
+    - name: Package
+      run: make package
+    - name: Create GitHub release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          _releases/*

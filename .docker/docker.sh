@@ -23,16 +23,11 @@ main() {
             ;;
         *)
             echo "none of above!"
+            exit 1
     esac
 }
 
 docker_prepare() {
-    # Prepare the machine before any code installation scripts
-    setup_dependencies
-
-    # # Update docker configuration to enable docker manifest command
-    # update_docker_configuration
-
     # Prepare qemu to build images other then x86_64 on travis
     prepare_qemu
 }
@@ -181,37 +176,12 @@ docker_manifest_list_version_os_arch() {
   docker manifest push $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
-setup_dependencies() {
-  echo "PREPARE: Setting up dependencies."
-  docker info
-}
-
-update_docker_configuration() {
-  echo "PREPARE: Updating docker configuration"
-
-  mkdir $HOME/.docker
-
-  # enable experimental to use docker manifest command
-  echo '{
-    "experimental": "enabled"
-  }' | tee $HOME/.docker/config.json
-
-  # enable experimental
-  echo '{
-    "experimental": true,
-    "storage-driver": "overlay2",
-    "max-concurrent-downloads": 100,
-    "max-concurrent-uploads": 100
-  }' | sudo tee /etc/docker/daemon.json
-
-  sudo service docker restart
-}
 
 prepare_qemu(){
     echo "PREPARE: Qemu"
     # Prepare qemu to build non amd64 / x86_64 images
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    pushd tmp &&
+    pushd _tmp &&
     curl -L -o qemu-x86_64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-x86_64-static.tar.gz && tar xzf qemu-x86_64-static.tar.gz &&
     curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz &&
     curl -L -o qemu-aarch64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-aarch64-static.tar.gz && tar xzf qemu-aarch64-static.tar.gz &&
