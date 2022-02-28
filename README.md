@@ -1,8 +1,9 @@
 # TasmoAdmin
+
 ![Logo](https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
 [![GitHub release](https://img.shields.io/github/release/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
-[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin) 
+[![Main](https://github.com/reloxx13/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/reloxx13/TasmoAdmin/actions/workflows/main.yml)
 [![GitHub contributors](https://img.shields.io/github/contributors/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/graphs/contributors/) 
 
 [![HitCount](http://hits.dwyl.io/reloxx13/TasmoAdmin.svg)](http://hits.dwyl.io/reloxx13/TasmoAdmin)
@@ -17,9 +18,9 @@
 [![php](https://img.shields.io/badge/php-7.3.x-%238892BF.svg)](https://secure.php.net/)
 
 
-TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
+TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
-It supports running on Windows, Linux, Docker container and as Home Assistant addon.
+It can run on Windows, Linux, Docker container and as Home Assistant addon.
 
 ## Features
 * Login protected
