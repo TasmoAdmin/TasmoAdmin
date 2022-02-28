@@ -1,6 +1,9 @@
 #!/bin/bash
 set -o errexit
 
+TARGET=raymondmm/tasmoadmin
+QEMU_VERSION=v2.12.0
+
 main() {
     case $1 in
         "prepare")
