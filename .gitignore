@@ -35,4 +35,5 @@ tasmoadmin/data/devices_all.csv
 !/portable/xampp.zip.*
 /_tmp/
 /_releases/
+/_artifacts/
 portable/xampp.zip
