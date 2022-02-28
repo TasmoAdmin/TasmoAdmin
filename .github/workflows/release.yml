@@ -7,6 +7,7 @@ on:
 
 jobs:
   release:
+    name: Release new version
     runs-on: ubuntu-20.04
     env:
       BUILD_REF: ${{ github.sha }}
