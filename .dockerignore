@@ -1,2 +1,7 @@
 /portable/
 /.git/
+/tasmoadmin/data/firmwares/*
+/tasmoadmin/data/devices.csv
+/tasmoadmin/data/devices_bk.csv
+/tasmoadmin/data/MyConfig.php
+/tasmoadmin/data/MyConfig.json
