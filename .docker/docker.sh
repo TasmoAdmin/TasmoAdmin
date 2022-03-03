@@ -2,7 +2,11 @@
 set -o errexit
 
 TARGET=raymondmm/tasmoadmin
-QEMU_VERSION=v2.12.0
+QEMU_VERSION=v6.1.0-8
+ALPINE_VERSION=3.15
+BUILD_REF=${BUILD_REF:=dev}
+BUILD_VERSION=${BUILD_VERSION:=dev}
+
 
 main() {
     case $1 in
@@ -37,9 +41,9 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine --build-arg BUILD_ARCH=arm32v6 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v6 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=arm32v6 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v6 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
 }
 
 docker_test() {
@@ -183,6 +187,7 @@ docker_manifest_list_version_os_arch() {
 prepare_qemu(){
     echo "PREPARE: Qemu"
     # Prepare qemu to build non amd64 / x86_64 images
+    mkdir -p _tmp
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
     pushd _tmp &&
     curl -L -o qemu-x86_64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-x86_64-static.tar.gz && tar xzf qemu-x86_64-static.tar.gz &&
