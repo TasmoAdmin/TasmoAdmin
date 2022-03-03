@@ -86,6 +86,20 @@ You need to install a web server with php-zip and php-curl modules installed. Al
 
 `restorecon -Rv /var/www/`
 
+
+## Development
+
+Provided is a docker-compose setup to ease getting started.
+
+Simply run:
+
+```bash
+./.docker/docker.sh prepare
+docker-compose up
+```
+
+Then visit http://localhost:8000
+
 ## Example Images
 #### Login Page
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/1.png)

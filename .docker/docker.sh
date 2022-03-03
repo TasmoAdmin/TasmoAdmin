@@ -4,9 +4,6 @@ set -o errexit
 TARGET=raymondmm/tasmoadmin
 QEMU_VERSION=v6.1.0-8
 ALPINE_VERSION=3.15
-BUILD_REF=${BUILD_REF:=dev}
-BUILD_VERSION=${BUILD_VERSION:=dev}
-
 
 main() {
     case $1 in
@@ -187,9 +184,9 @@ docker_manifest_list_version_os_arch() {
 prepare_qemu(){
     echo "PREPARE: Qemu"
     # Prepare qemu to build non amd64 / x86_64 images
-    mkdir -p _tmp
+    mkdir -p .docker/_tmp
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    pushd _tmp &&
+    pushd .docker/_tmp &&
     curl -L -o qemu-x86_64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-x86_64-static.tar.gz && tar xzf qemu-x86_64-static.tar.gz &&
     curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz &&
     curl -L -o qemu-aarch64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-aarch64-static.tar.gz && tar xzf qemu-aarch64-static.tar.gz &&
