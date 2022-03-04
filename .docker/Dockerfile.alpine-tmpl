@@ -73,7 +73,7 @@ RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; 
     && find /var/www/tasmoadmin -type f -name ".empty" -depth -exec rm -f {} \;
 
 # Volumes
-VOLUME [ "/data" ]do
+VOLUME [ "/data" ]
 
 # Expose
 EXPOSE 80 443
