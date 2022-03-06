@@ -1,9 +1,24 @@
 # CHANGELOG
 
-
 ## UPCOMING
 
 ## PUBLISHED
+
+### v1.8.0
+
+- Update lang_pl.ini by @ponuryzrzeda in [#409](https://github.com/reloxx13/TasmoAdmin/issues/#409)
+- Missing translations, typos and better French by @amayii0 in [#421](https://github.com/reloxx13/TasmoAdmin/issues/#421)
+- Improve German translation by @CodeFinder2 in [#422](https://github.com/reloxx13/TasmoAdmin/issues/#422)
+- Remove clear_env from docker php config by @merlinschumacher in [#416](https://github.com/reloxx13/TasmoAdmin/issues/#416)
+- Update lang_it.ini by @ZioCook in [#436](https://github.com/reloxx13/TasmoAdmin/issues/#436)
+- Gzip support by @PhilipWhiteside in [#447](https://github.com/reloxx13/TasmoAdmin/issues/#447)
+- Migrate to GitHub Actions by @inverse in [#451](https://github.com/reloxx13/TasmoAdmin/issues/#451)
+- Correct GitHub spelling by @inverse in [#457](https://github.com/reloxx13/TasmoAdmin/issues/#457)
+- Improve gzip output by @inverse in [#460](https://github.com/reloxx13/TasmoAdmin/issues/#460)
+- Fix loading versions by passing user-agent by @inverse in [#458](https://github.com/reloxx13/TasmoAdmin/issues/#458)
+- make sure vsprintf() is called with array by @martin-herzog in [#461](https://github.com/reloxx13/TasmoAdmin/issues/#461)
+- Bigcookie german lang update for gzip support by @bigcookie in [#464](https://github.com/reloxx13/TasmoAdmin/issues/#464)
+- Add foundations for GitHub actions release pipeline by @inverse in [#452](https://github.com/reloxx13/TasmoAdmin/issues/#452)
 
 ### v1.7.0
 - FIX: Select all and filter were conflicting, fixes [#400](https://github.com/reloxx13/TasmoAdmin/issues/400)
