@@ -28,11 +28,13 @@
 
 !.empty
 !.htaccess
-tasmoadmin/data/devices_all.csv
+/tasmoadmin/data
+/tasmoadmin/.dockerenv
 
 /portable/xampp
 /portable/xampp_draft.zip
 !/portable/xampp.zip.*
 /_tmp/
 /_releases/
+/.docker/_tmp/
 portable/xampp.zip
