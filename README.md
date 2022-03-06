@@ -1,8 +1,9 @@
 # TasmoAdmin
+
 ![Logo](https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
 [![GitHub release](https://img.shields.io/github/release/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
-[![Build Status](https://travis-ci.org/reloxx13/TasmoAdmin.svg?branch=master)](https://travis-ci.org/reloxx13/TasmoAdmin) 
+[![Main](https://github.com/reloxx13/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/reloxx13/TasmoAdmin/actions/workflows/main.yml)
 [![GitHub contributors](https://img.shields.io/github/contributors/reloxx13/TasmoAdmin.svg)](https://GitHub.com/reloxx13/TasmoAdmin/graphs/contributors/) 
 
 [![HitCount](http://hits.dwyl.io/reloxx13/TasmoAdmin.svg)](http://hits.dwyl.io/reloxx13/TasmoAdmin)
@@ -17,20 +18,20 @@
 [![php](https://img.shields.io/badge/php-7.3.x-%238892BF.svg)](https://secure.php.net/)
 
 
-TasmoAdmin (previously SonWEB) is an administrative Website for Devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
+TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/reloxx13/TasmoAdmin).
-It supports running on Windows, Linux, Docker container and as Home Assistant addon.
+It can run on Windows, Linux, Docker container and as Home Assistant addon.
 
 ## Features
 * Login protected
-* Multi Update Process
+* Multi update process
   * Select devices to update
   * Automatic Modus downloads latest firmware bin from Tasmota GitHub
 * Show device information
 * Mobile Responsive (Bootstrap4)
   * SCSS & Minified
 * Config devices
-* SelfUpdate function for TasmoAdmin (disabled for Docker)
+* Self-update function for TasmoAdmin (disabled for Docker installs)
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
@@ -38,7 +39,7 @@ It supports running on Windows, Linux, Docker container and as Home Assistant ad
 * Chat (beta)
 
 ### Supported Platforms
-* Apache2 and nginx
+* Apache2 and Nginx
 * XAMPP on Windows
 * Docker by @RaymondMouthaan
   * unRaid by @digiblur
@@ -52,7 +53,8 @@ by DrZzs
 ## Installation
 
 ### Docker
-TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Nginx and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
+
+TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine  based image with Nginx and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
 
 ### Home Assistant Addon
 TasmoAdmin is available as Home Assistant addon, please refer to
@@ -84,6 +86,20 @@ You need to install a web server with php-zip and php-curl modules installed. Al
 `semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/tmp(/.*)?"`
 
 `restorecon -Rv /var/www/`
+
+
+## Development
+
+Provided is a docker-compose setup to ease getting started.
+
+Simply run:
+
+```bash
+./.docker/docker.sh prepare
+docker-compose up
+```
+
+Then visit http://localhost:8000
 
 ## Example Images
 #### Login Page

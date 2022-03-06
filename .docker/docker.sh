@@ -1,6 +1,10 @@
 #!/bin/bash
 set -o errexit
 
+TARGET=raymondmm/tasmoadmin
+QEMU_VERSION=v6.1.0-8
+ALPINE_VERSION=3.15
+
 main() {
     case $1 in
         "prepare")
@@ -23,25 +27,20 @@ main() {
             ;;
         *)
             echo "none of above!"
+            exit 1
     esac
 }
 
 docker_prepare() {
-    # Prepare the machine before any code installation scripts
-    setup_dependencies
-
-    # # Update docker configuration to enable docker manifest command
-    # update_docker_configuration
-
     # Prepare qemu to build images other then x86_64 on travis
     prepare_qemu
 }
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine --build-arg BUILD_ARCH=arm32v6 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v6 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=arm32v6 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v6 .
+    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
 }
 
 docker_test() {
@@ -181,37 +180,13 @@ docker_manifest_list_version_os_arch() {
   docker manifest push $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
-setup_dependencies() {
-  echo "PREPARE: Setting up dependencies."
-  docker info
-}
-
-update_docker_configuration() {
-  echo "PREPARE: Updating docker configuration"
-
-  mkdir $HOME/.docker
-
-  # enable experimental to use docker manifest command
-  echo '{
-    "experimental": "enabled"
-  }' | tee $HOME/.docker/config.json
-
-  # enable experimental
-  echo '{
-    "experimental": true,
-    "storage-driver": "overlay2",
-    "max-concurrent-downloads": 100,
-    "max-concurrent-uploads": 100
-  }' | sudo tee /etc/docker/daemon.json
-
-  sudo service docker restart
-}
 
 prepare_qemu(){
     echo "PREPARE: Qemu"
     # Prepare qemu to build non amd64 / x86_64 images
+    mkdir -p .docker/_tmp
     docker run --rm --privileged multiarch/qemu-user-static:register --reset
-    pushd tmp &&
+    pushd .docker/_tmp &&
     curl -L -o qemu-x86_64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-x86_64-static.tar.gz && tar xzf qemu-x86_64-static.tar.gz &&
     curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz &&
     curl -L -o qemu-aarch64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-aarch64-static.tar.gz && tar xzf qemu-aarch64-static.tar.gz &&

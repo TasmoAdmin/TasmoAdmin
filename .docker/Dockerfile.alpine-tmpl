@@ -1,17 +1,15 @@
-ARG BUILD_FROM=arm32v6/alpine:3.12
-
 FROM composer AS builder
 
 COPY tasmoadmin /tasmoadmin
 RUN composer install -d /tasmoadmin
 
-
+ARG BUILD_FROM=amd64/alpine:3.15
 FROM ${BUILD_FROM}
 
 # Build arguments
 ARG BUILD_DATE
-ARG BUILD_REF
-ARG BUILD_VERSION
+ARG BUILD_REF=dev
+ARG BUILD_VERSION=dev
 
 # Label
 LABEL \
@@ -28,11 +26,11 @@ LABEL \
     org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
 
 # Setup Qemu
-ARG QEMU_ARCH
-COPY tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
+ARG QEMU_ARCH=x86_64
+COPY .docker/_tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 
 # Install base system
-ARG BUILD_ARCH=arm32v6
+ARG BUILD_ARCH=amd64
 RUN \
     apk add --no-cache --virtual .build-dependencies \
         tar \

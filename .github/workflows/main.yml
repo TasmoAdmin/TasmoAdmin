@@ -1,16 +1,13 @@
-name: main
+name: Main
 
 on:
   push:
     branches: [master]
   pull_request: ~
 
-env:
-  TARGET: raymondmm/tasmoadmin
-  QEMU_VERSION: v2.12.0
-
 jobs:
   php-tests:
+      name: Run PHP tests
     runs-on: ubuntu-20.04
     strategy:
       matrix:
@@ -28,6 +25,7 @@ jobs:
         cd tasmoadmin
         ./vendor/bin/phpunit
   docker-tests:
+    name: Run Docker tests
     runs-on: ubuntu-20.04
     env:
       BUILD_REF: ${{ github.sha }}
@@ -36,7 +34,7 @@ jobs:
     - uses: actions/checkout@master
     - name: Prepare
       run: |
-        mkdir tmp
+        mkdir _tmp
         ./.docker/docker.sh prepare
     - name: Build docker images
       run: ./.docker/docker.sh build
