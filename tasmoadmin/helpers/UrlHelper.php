@@ -27,67 +27,69 @@ class UrlHelper
 			exit;
 		}
 
-		public static function STYLES( $filename = FALSE, $csspath = NULL ) {
-			if( empty( $csspath ) ) {
-				$cssreal = _RESOURCESDIR_."css/";
+		public static function STYLES($filename, $csspath = null) {
+			if($csspath === null) {
 				$csspath = _RESOURCESURL_."css/";
 			}
-			if( $filename ) {
-				$Config = new Config();
 
-				$cacheTag = time();
-				$min      = "";
-				if( $Config->read( "minimize_resources" ) === "1" ) {
-					$cacheTag = $Config->read( "current_git_tag" );
-					if( empty( $cacheTag ) ) {
-						$cacheTag = time();
-					}
-					$min = ".min";
+			$cssreal = $csspath;
+
+			$Config = new Config();
+
+			$cacheTag = time();
+			$min      = "";
+			if( $Config->read( "minimize_resources" ) === "1" ) {
+				$cacheTag = $Config->read( "current_git_tag" );
+				if( empty( $cacheTag ) ) {
+					$cacheTag = time();
 				}
-				$cacheTag = str_replace( ".", "", $cacheTag );
-				$cacheTag = "?_=".$cacheTag;
-
-
-				$path = $filename.$min.".css";
-				if( file_exists( $cssreal.$path ) ) {
-					$filepath = $csspath.$path.$cacheTag;
-				} else {
-					$filepath = $csspath.$filename.".css".$cacheTag;
-				}
+				$min = ".min";
 			}
+			$cacheTag = str_replace( ".", "", $cacheTag );
+			$cacheTag = "?_=".$cacheTag;
+
+
+			$path = $filename.$min.".css";
+			if( file_exists( $cssreal.$path ) ) {
+				$filepath = $cssreal.$path.$cacheTag;
+			} else {
+				$filepath = $csspath.$filename.".css".$cacheTag;
+			}
+		
 
 			return $filepath;
 		}
 
 
-		public static function JS( $filename = FALSE ) {
-			$jsreal = _RESOURCESDIR_."js/";
-			$jspath = _RESOURCESURL_."js/";
-
-			if( $filename ) {
-				$Config = new Config();
-
-				$cacheTag = time();
-				$min      = "";
-				if( $Config->read( "minimize_resources" ) === "1" ) {
-					$cacheTag = $Config->read( "current_git_tag" );
-					if( empty( $cacheTag ) ) {
-						$cacheTag = time();
-					}
-					$min = ".min";
-				}
-				$cacheTag = str_replace( ".", "", $cacheTag );
-				$cacheTag = "?_=".$cacheTag;
-
-
-				$path = $filename.$min.".js";
-				if( file_exists( $jsreal.$path ) ) {
-					$filepath = $jspath.$path.$cacheTag;
-				} else {
-					$filepath = $jspath.$filename.".js".$cacheTag;
-				}
+		public static function JS($filename, $jspath = null) {
+			if ($jspath === null) {
+				$jspath = _RESOURCESURL_."js/";
 			}
 
+			$jsreal = $jspath;
+
+			$Config = new Config();
+
+			$cacheTag = time();
+			$min      = "";
+			if( $Config->read( "minimize_resources" ) === "1" ) {
+				$cacheTag = $Config->read( "current_git_tag" );
+				if( empty( $cacheTag ) ) {
+					$cacheTag = time();
+				}
+				$min = ".min";
+			}
+			$cacheTag = str_replace( ".", "", $cacheTag );
+			$cacheTag = "?_=".$cacheTag;
+
+
+			$path = $filename.$min.".js";
+			if( file_exists( $jsreal.$path ) ) {
+				$filepath = $jspath.$path.$cacheTag;
+			} else {
+				$filepath = $jspath.$filename.".js".$cacheTag;
+			}
+		
 			return $filepath;
 		}
 	}

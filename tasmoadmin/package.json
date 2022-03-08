@@ -1,0 +1,11 @@
+{
+  "name": "tasmoadmin",
+  "version": "1.0.0",
+  "description": "",
+  "license": "GPL3",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.0.0",
+    "bootstrap": "^4.5.3",
+    "tablesaw": "^3.1.2"
+  }
+}
