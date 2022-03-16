@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-TARGET=reloxx13/tasmoadmin
+TARGET=ghcr.io/reloxx13/tasmoadmin
 QEMU_VERSION=v6.1.0-8
 ALPINE_VERSION=3.15
 
