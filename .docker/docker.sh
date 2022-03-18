@@ -1,6 +1,5 @@
 #!/bin/bash
 set -o errexit
-set -x
 
 TARGET=ghcr.io/tasmoadmin/tasmoadmin
 QEMU_VERSION=v6.1.0-8
