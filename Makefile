@@ -1,26 +1,24 @@
 .DEFAULT_GOAL := docker-build
 
-BUILD_REF ?= dev
-BUILD_VERSION ?= dev
-
 clean:
 	rm -rf _releases
 	rm -rf _tmp
 	rm -rf .docker/_tmp
 
+
 docker-build: clean
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh prepare
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh build
+	./.docker/docker.sh prepare
+	./.docker/docker.sh build
 
 docker-test: docker-build
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh test
+	./.docker/docker.sh test
 
 docker-tag: docker-test
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh tag
+	./.docker/docker.sh tag
 
 docker-publish: docker-tag
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh push
-	BUILD_REF=$(BUILD_REF) BUILD_VERSION=$(BUILD_VERSION) ./.docker/docker.sh manifest-list
+	./.docker/docker.sh push
+	./.docker/docker.sh manifest-list
 
 package: clean
 	mkdir _releases
