@@ -66,7 +66,7 @@ docker_test() {
        echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-arm32v6."
     fi
 
-    docker kill test-alpine-arm32v6 
+    docker kill test-alpine-arm32v6
 
     docker run -d --rm --name=test-alpine-arm64v8 ${TARGET}:build-alpine-arm64v8
     if [ $? -ne 0 ]; then
