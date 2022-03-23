@@ -8,9 +8,7 @@
 
 [![HitCount](http://hits.dwyl.io/reloxx13/TasmoAdmin.svg)](http://hits.dwyl.io/reloxx13/TasmoAdmin)
 [![GitHub stars](https://img.shields.io/github/stars/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/stargazers)
-[![DockerHub Star](https://img.shields.io/docker/stars/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
 [![GitHub forks](https://img.shields.io/github/forks/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/network)
-[![DockerHub Pull](https://img.shields.io/docker/pulls/raymondmm/tasmoadmin.svg)](https://hub.docker.com/r/raymondmm/tasmoadmin/)
 [![Github all releases](https://img.shields.io/github/downloads/reloxx13/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/reloxx13/TasmoAdmin/releases/) 
 
 [![GitHub license](https://img.shields.io/github/license/reloxx13/TasmoAdmin.svg)](https://github.com/reloxx13/TasmoAdmin/blob/master/LICENSE)
@@ -24,14 +22,14 @@ It can run on Windows, Linux, Docker container and as Home Assistant addon.
 
 ## Features
 * Login protected
-* Multi Update Process
+* Multi update process
   * Select devices to update
   * Automatic Modus downloads latest firmware bin from Tasmota GitHub
 * Show device information
 * Mobile Responsive (Bootstrap4)
   * SCSS & Minified
 * Config devices
-* SelfUpdate function for TasmoAdmin (disabled for Docker)
+* Self-update function for TasmoAdmin (disabled for Docker installs)
 * NightMode (Enable/Disable/Auto) in settings
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
@@ -39,7 +37,7 @@ It can run on Windows, Linux, Docker container and as Home Assistant addon.
 * Chat (beta)
 
 ### Supported Platforms
-* Apache2 and nginx
+* Apache2 and Nginx
 * XAMPP on Windows
 * Docker by @RaymondMouthaan
   * unRaid by @digiblur
@@ -53,7 +51,8 @@ by DrZzs
 ## Installation
 
 ### Docker
-TasmoAdmin is available as a Docker image at [Docker Hub](https://hub.docker.com/r/raymondmm/tasmoadmin/). This is a Linux Alpine (3.7) based image with Nginx and Php7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
+
+TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin). This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
 
 ### Home Assistant Addon
 TasmoAdmin is available as Home Assistant addon, please refer to
@@ -85,6 +84,20 @@ You need to install a web server with php-zip and php-curl modules installed. Al
 `semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/tmp(/.*)?"`
 
 `restorecon -Rv /var/www/`
+
+
+## Development
+
+Provided is a docker-compose setup to ease getting started.
+
+Simply run:
+
+```bash
+./.docker/docker.sh prepare
+docker-compose up
+```
+
+Then visit http://localhost:8000
 
 ## Example Images
 #### Login Page

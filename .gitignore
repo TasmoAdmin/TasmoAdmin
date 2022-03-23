@@ -28,7 +28,8 @@
 
 !.empty
 !.htaccess
-tasmoadmin/data/devices_all.csv
+/tasmoadmin/data
+/tasmoadmin/.dockerenv
 
 /portable/xampp
 /portable/xampp_draft.zip
@@ -36,4 +37,5 @@ tasmoadmin/data/devices_all.csv
 /_tmp/
 /_releases/
 /_artifacts/
+/.docker/_tmp/
 portable/xampp.zip
