@@ -52,7 +52,7 @@ by DrZzs
 
 ### Docker
 
-TasmoAdmin is available as a Docker image at on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin). This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
+TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin). This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
 
 ### Home Assistant Addon
 TasmoAdmin is available as Home Assistant addon, please refer to
