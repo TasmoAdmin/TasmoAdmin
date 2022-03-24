@@ -51,11 +51,9 @@ if [ ! -d "/data/tasmoadmin/updates" ]; then
     echo "/data/tasmoadmin/updates created."
 fi
 
-if [[ ! -n "${DEV}" ]]; then
-    echo 'Symlinking data/tasmoadmin directory to persistent storage location...'
-    rm -f -r /var/www/tasmoadmin/data
-    ln -s /data/tasmoadmin /var/www/tasmoadmin/data
-fi
+echo 'Symlinking /data/tasmoadmin directory to persistent storage location...'
+rm -f -r /var/www/tasmoadmin/data
+ln -s /data/tasmoadmin /var/www/tasmoadmin/data
 
 # Ensure file permissions
 chown -R nginx:nginx /data/tasmoadmin

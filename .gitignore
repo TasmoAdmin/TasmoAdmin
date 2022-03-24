@@ -38,3 +38,5 @@
 /_releases/
 /.docker/_tmp/
 portable/xampp.zip
+
+/.storage/
