@@ -99,6 +99,8 @@ docker-compose up
 
 Then visit http://localhost:8000
 
+Persistent storage within this setup is located in the `.storage` folder.
+
 ## Example Images
 #### Login Page
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/1.png)
