@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile.alpine-tmpl
+    environment:
+      - DEV=1
     ports:
       - "8000:80"
     volumes:
