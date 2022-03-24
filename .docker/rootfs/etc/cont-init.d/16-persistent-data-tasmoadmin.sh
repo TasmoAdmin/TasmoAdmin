@@ -52,7 +52,6 @@ if [ ! -d "/data/tasmoadmin/updates" ]; then
 fi
 
 if [[ ! -n "${DEV}" ]]; then
-    echo "DEV: ${DEV}"
     echo 'Symlinking data/tasmoadmin directory to persistent storage location...'
     rm -f -r /var/www/tasmoadmin/data
     ln -s /data/tasmoadmin /var/www/tasmoadmin/data
