@@ -1,9 +1,11 @@
 #!/bin/bash
 set -o errexit
 
-TARGET=raymondmm/tasmoadmin
+TARGET=ghcr.io/tasmoadmin/tasmoadmin
 QEMU_VERSION=v6.1.0-8
 ALPINE_VERSION=3.15
+BUILD_REF="${BUILD_REF:=dev}"
+BUILD_VERSION="${BUILD_VERSION:=dev}"
 
 main() {
     case $1 in
@@ -53,6 +55,8 @@ docker_test() {
        echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-amd64."
     fi
 
+    docker kill test-alpine-amd64
+
     docker run -d --rm --name=test-alpine-arm32v6 ${TARGET}:build-alpine-arm32v6
     if [ $? -ne 0 ]; then
        echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm32v6."
@@ -61,6 +65,8 @@ docker_test() {
        echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-arm32v6."
     fi
 
+    docker kill test-alpine-arm32v6
+
     docker run -d --rm --name=test-alpine-arm64v8 ${TARGET}:build-alpine-arm64v8
     if [ $? -ne 0 ]; then
        echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm64v8."
@@ -68,6 +74,8 @@ docker_test() {
     else
        echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-arm64v8."
     fi
+
+    docker kill test-alpine-arm64v8
 }
 
 docker_tag() {

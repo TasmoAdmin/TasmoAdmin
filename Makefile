@@ -1,16 +1,24 @@
-.DEFAULT_GOAL := package
-
-BUILD_VERSION ?= dev
-
+.DEFAULT_GOAL := docker-build
 
 clean:
 	rm -rf _releases
 	rm -rf _tmp
 	rm -rf .docker/_tmp
 
-docker: clean
+
+docker-build: clean
 	./.docker/docker.sh prepare
 	./.docker/docker.sh build
+
+docker-test: docker-build
+	./.docker/docker.sh test
+
+docker-tag: docker-test
+	./.docker/docker.sh tag
+
+docker-publish: docker-tag
+	./.docker/docker.sh push
+	./.docker/docker.sh manifest-list
 
 package: clean
 	mkdir _releases

@@ -1,1 +1,1 @@
-/var/www/tasmoadmin true nginx 0644 0755
+/var/www/tasmoadmin/tmp true nginx 0644 0755

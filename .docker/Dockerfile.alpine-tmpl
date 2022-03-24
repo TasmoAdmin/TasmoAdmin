@@ -16,15 +16,17 @@ ARG BUILD_VERSION=dev
 LABEL \
     maintainer1="Reloxx <reloxx@interia.pl>" \
     maintainer2="Raymond M Mouthaan <raymondmmouthaan@gmail.com>" \
-    org.label-schema.build-date=${BUILD_DATE} \
-    org.label-schema.license="GNU" \
-    org.label-schema.name="TasmoAdmin" \
-    org.label-schema.version=${BUILD_VERSION} \
-    org.label-schema.description="TasmoAdmin - An administrative Website for Devices flashed with Tasmota firmware." \
-    org.label-schema.url="https://github.com/reloxx13/TasmoAdmin" \
-    org.label-schema.usage="https://github.com/reloxx13/TasmoAdmin/blob/master/README.md" \
-    org.label-schema.vcs-ref=${BUILD_REF} \
-    org.label-schema.vcs-url="https://github.com/reloxx13/TasmoAdmin"
+    org.opencontainers.image.title="TasmoAdmin}" \
+    org.opencontainers.image.description="TasmoAdmin - An administrative Website for Devices flashed with Tasmota firmware" \
+    org.opencontainers.image.vendor="TasmoAdmin" \
+    org.opencontainers.image.authors="Reloxx <reloxx@interia.pl>, Raymond M Mouthaan <raymondmmouthaan@gmail.com>" \
+    org.opencontainers.image.licenses="GPL-3.0" \
+    org.opencontainers.image.url="https://github.com/TasmoAdmin/TasmoAdmin" \
+    org.opencontainers.image.source="https://github.com/TasmoAdmin/TasmoAdmin" \
+    org.opencontainers.image.documentation="https://github.com/TasmoAdmin/TasmoAdmin/blob/master/README.md" \
+    org.opencontainers.image.created=${BUILD_DATE} \
+    org.opencontainers.image.revision=${BUILD_REF} \
+    org.opencontainers.image.version=${BUILD_VERSION}
 
 # Setup Qemu
 ARG QEMU_ARCH=x86_64
@@ -55,7 +57,7 @@ RUN \
     \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
     \
-    && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-${S6_ARCH}.tar.gz" \
+    && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v2.2.0.3/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxf - -C / \
     \
     && apk del --purge .build-dependencies \
