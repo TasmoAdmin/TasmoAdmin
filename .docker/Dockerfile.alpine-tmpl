@@ -15,7 +15,7 @@ LABEL \
     org.opencontainers.image.vendor="TasmoAdmin" \
     org.opencontainers.image.authors="Reloxx <reloxx@interia.pl>, Raymond M Mouthaan <raymondmmouthaan@gmail.com>" \
     org.opencontainers.image.licenses="GPL-3.0" \
-    org.opencontainers.image.url="https://addons.community" \
+    org.opencontainers.image.url="https://github.com/TasmoAdmin/TasmoAdmin" \
     org.opencontainers.image.source="https://github.com/TasmoAdmin/TasmoAdmin" \
     org.opencontainers.image.documentation="https://github.com/TasmoAdmin/TasmoAdmin/blob/master/README.md" \
     org.opencontainers.image.created=${BUILD_DATE} \
