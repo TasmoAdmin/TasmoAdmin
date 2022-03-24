@@ -1,6 +1,6 @@
 <?php
 
-require_once _APPROOT_ . "/vendor/autoload.php"; 
+require_once _APPROOT_ . "vendor/autoload.php"; 
 
 require_once _INCLUDESDIR_ . "Selfupdate.php";
 
