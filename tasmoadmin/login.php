@@ -1,9 +1,8 @@
 <?php
+
 ob_start();
-include_once("./includes/top.php");
 
-
-$Config = new Config();
+include_once("./includes/bootstrap.php");
 
 
 $register = FALSE;

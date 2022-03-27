@@ -1,7 +1,7 @@
 <?php
 	ob_start();
 
-	include_once( "./includes/top.php" );
+	include_once( "./includes/bootstrap.php" );
 
 	if( !$loggedin ) {
 		header( "Location: "._BASEURL_."login" );
