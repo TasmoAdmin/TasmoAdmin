@@ -316,16 +316,7 @@ class Config {
 			die("configJSON IS EMPTY! | write()");
 		}
 		
-		$tempfile = _DATADIR_ . uniqid(microtime(TRUE));
-		if (file_put_contents($tempfile, $configJSON, LOCK_EX)) {
-		
-		}
-		else {
-			die("file_put_contents FAILED! | write()");
-		}
-		rename($tempfile, $this->cfgFile);
-		
-		
+		file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
 		if (!$skipCookie) {
 			$this->setCacheConfig($config);
 		}
