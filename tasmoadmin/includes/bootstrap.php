@@ -100,7 +100,7 @@
 		$docker = TRUE;
 	}
 
-	require_once _APPROOT_ . "vendor/autoload.php"; 
+	require_once _APPROOT_ . 'vendor/autoload.php'; 
 
 	$Config = new Config();
 	$Sonoff = new Sonoff();
