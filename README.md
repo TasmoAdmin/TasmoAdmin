@@ -38,7 +38,6 @@ It can run on Windows, Linux, Docker container and as Home Assistant addon.
 
 ### Supported Platforms
 * Apache2 and Nginx
-* XAMPP on Windows
 * Docker by @RaymondMouthaan
   * unRaid by @digiblur
 * IOCage (FreeNAS) by @tprelog
@@ -48,44 +47,26 @@ It can run on Windows, Linux, Docker container and as Home Assistant addon.
 [![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
 by DrZzs
 
-## Installation
+## Setup
 
 ### Docker
 
-TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin). This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for install instructions.
+TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin).
+
+ This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
+
+This is the recommended way to get up and running.
 
 ### Home Assistant Addon
-TasmoAdmin is available as Home Assistant addon, please refer to
-[Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-tasmoadmin) for more information.
 
-### Windows
-A ready to use TasmoAdmin-XAMP-Portable-\*.zip is available on the [release page](https://github.com/reloxx13/TasmoAdmin/releases) and is based on XAMPP.
+TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/) addon, please refer to [Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-tasmoadmin) for more information.
 
-1. Download the XAMPP Zip package from the releases page
-2. Extract the Zip (recommend to put the xamp folder on C:\
-3. Run once the xamp\setup_xampp.bat
-4. Start xampp-control.exe
-5. Start Apache in the opened ControlCenter
-6. Get your local IP Address
 
-Now you can type in your browser http://YOURLOCALIP and TasmoAdmin shows up.
+### Using a Web Server
 
-### Linux
-Running TasmoAdmin on a Linux/Unix hosts requires the following:
-* A Webserver
-  * apache2 recommended
-  * php7
-  * php-curl php-zip Modules installed
-  * composer (for PHP dependencies)
+TasmoAdmin should run on any webserver that supports PHP 7.4+ 
 
-You need to install a web server with php-zip and php-curl modules installed. Also mod_rewrite must be enabled. I suggest to look in the [Guide for Ubuntu Server 16.04](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-Ubuntu-Server-16.04) and try to adjust it to your server OS.
-
-#### SELinux (#209)
-`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/data(/.*)?"`
-`semanage fcontext -a -t httpd_sys_rw_content_t "/var/www/tasmoadmin/tasmoadmin/tmp(/.*)?"`
-
-`restorecon -Rv /var/www/`
-
+Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
 ## Development
 
