@@ -6,8 +6,26 @@ on:
   pull_request: ~
 
 jobs:
-  test:
-    name: Run CI steps
+  php-tests:
+    name: Run PHP tests
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php-version: ['8.1', '8.0', 7.4']
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: ${{ matrix.php-version }}
+    - name: Install dependencies
+      run: composer install -d tasmoadmin/
+    - name: Run tests
+      run: |
+        cd tasmoadmin
+        ./vendor/bin/phpunit
+  docker-tests:
+    name: Run Docker tests
     runs-on: ubuntu-20.04
     env:
       BUILD_REF: ${{ github.sha }}

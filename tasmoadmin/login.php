@@ -1,9 +1,8 @@
 <?php
+
 ob_start();
-include_once("./includes/top.php");
 
-
-$Config = new Config();
+include_once("./includes/bootstrap.php");
 
 
 $register = FALSE;
@@ -30,16 +29,18 @@ if ($Config->read("login") == 0) {
 	header("Location: " . _BASEURL_ . "");
 }
 
+$loginHelper = new LoginHelper($Config);
+
 if (isset($_POST) && !empty($_POST)) {
 	$home = $Config->read("homepage");
 	if (isset($_REQUEST["register"]) && ($user == "" || $password == "")) {
-		LoginHelper::register($_REQUEST["username"], $_REQUEST["password"]);
+		$loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
 		$_SESSION['login'] = "1";
 		header("Location: " . _BASEURL_ . $home);
 		
 	}
 	elseif (isset($_REQUEST["login"])) {
-		if ($user == $_REQUEST["username"] && LoginHelper::login($_REQUEST["password"], $password)) {
+		if ($user == $_REQUEST["username"] && $loginHelper->login($_REQUEST["password"], $password)) {
 			$_SESSION['login'] = "1";
 			header("Location: " . _BASEURL_ . $home);
 		}

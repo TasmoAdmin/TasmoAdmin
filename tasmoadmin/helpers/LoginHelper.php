@@ -2,11 +2,14 @@
 
 class LoginHelper
 {
-    public static function login($password, $storedPassword)
+    
+    public function __construct(Config $config)
     {
+        $this->config = $config;
+    }
 
-        $Config = new Config();
-
+    public function login($password, $storedPassword)
+    {
         $passwordHashed = password_hash($password, PASSWORD_DEFAULT);
 
         //update hashing
@@ -17,7 +20,7 @@ class LoginHelper
 
             $upgradedPassword = self::hashPassword($password);
 
-            $Config->write("password", $upgradedPassword);
+            $this->config->write("password", $upgradedPassword);
  
             return true;
         }
@@ -29,15 +32,10 @@ class LoginHelper
         return true;
     }
 
-    public static function register($username, $password)
+    public function register($username, $password)
     {
-        $Config = new Config();
-
-        $Config->write("username", $username);
-        $Config->write("password", self::hashPassword($password));
-
-
-        return true;
+        $this->config->write("username", $username);
+        $this->config->write("password", self::hashPassword($password));
     }
 
     private static function hashPassword($password)

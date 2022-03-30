@@ -100,10 +100,7 @@
 		$docker = TRUE;
 	}
 
-	/**
-	 * @property Sonoff Sonoff
-	 */
-	require_once _LIBSDIR_.'phpi18n/i18n.class.php';
+	require_once _APPROOT_ . 'vendor/autoload.php'; 
 
 	$Config = new Config();
 	$Sonoff = new Sonoff();
