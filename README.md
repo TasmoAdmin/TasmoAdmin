@@ -95,6 +95,7 @@ Simply run:
 
 ```bash
 ./.docker/docker.sh prepare
+composer install
 docker-compose up
 ```
 
