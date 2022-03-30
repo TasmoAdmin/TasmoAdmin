@@ -1,0 +1,24 @@
+{
+    "name": "reloxx13/tasmoadmin",
+    "type": "project",
+    "license": "GPL3",
+    "require": {
+        "php": ">=7.4",
+        "erusev/parsedown": "^1.7",
+        "philipp15b/php-i18n": "^4.0"
+    },
+    "autoload": {
+        "files": [
+            "helpers/LoginHelper.php",
+            "includes/Config.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3.8"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\TasmoAdmin\\": "tests/"
+        }
+    }
+}
