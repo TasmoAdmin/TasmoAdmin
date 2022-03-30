@@ -64,7 +64,7 @@ TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/)
 
 ### Using a Web Server
 
-TasmoAdmin should run on any webserver that supports PHP 7.4+ 
+TasmoAdmin should run on any webserver that supports PHP 7.4+
 
 Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
