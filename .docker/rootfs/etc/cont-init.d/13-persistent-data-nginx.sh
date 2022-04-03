@@ -21,7 +21,7 @@ fi
 if [[ -L "/data/nginx/nginx.conf" ]]; then
 	echo "ERROR: /data/nginx/nginx.conf is a symlink, try to download the default nginx.conf from github";
 	rm -rf /data/nginx/nginx.conf
-	wget -O /data/nginx/nginx.conf https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/.docker/rootfs/etc/nginx/nginx.conf
+	wget -O /data/nginx/nginx.conf https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/.docker/rootfs/etc/nginx/nginx.conf
     cp -Rv /data/nginx/nginx.conf /etc/nginx/nginx.conf.org
 fi
 

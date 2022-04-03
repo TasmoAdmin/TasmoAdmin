@@ -17,7 +17,7 @@ if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
 
 $newUpdate = $Selfupdate->checkForUpdate();
 
-$changelogUrl = "https://raw.githubusercontent.com/reloxx13/TasmoAdmin/master/CHANGELOG.md?r=" . time();
+$changelogUrl = "https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/CHANGELOG.md?r=" . time();
 $ch           = curl_init();
 curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5);
@@ -79,7 +79,7 @@ else {
 					<a class='btn btn-secondary w-100'
 					   <?php if (!empty(
 					   $Selfupdate->getCurrentTag()
-					   )): ?>href='https://github.com/reloxx13/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getCurrentTag(); ?>'
+					   )): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getCurrentTag(); ?>'
 					   target='_blank' <?php endif; ?>>
 						<?php echo __(
 							"OLD_TAG_VERSION",
@@ -105,7 +105,7 @@ else {
 					<a class='btn btn-primary w-100 btn-green'
 					   <?php if (!empty(
 					   $Selfupdate->getLatestTag()
-					   )): ?>href='https://github.com/reloxx13/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getLatestTag(); ?>'
+					   )): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getLatestTag(); ?>'
 					   target='_blank' <?php endif; ?>>
 						<?php echo __("NEW_TAG_VERSION", "SELFUPDATE", [$Selfupdate->getLatestTag()]); ?>
 					</a>
