@@ -75,7 +75,7 @@ class Sonoff {
 			
 			$data = json_decode($result);
 			
-			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
 				$result = preg_replace('/[[:cntrl:]]/', '', $result);
 				$data   = json_decode($result);
 			}
@@ -229,7 +229,7 @@ class Sonoff {
 	 * Example wrong format: dev/json_error_8500.json
 	 *
 	 * Shutters missed a } at the end
-	 * https://github.com/reloxx13/TasmoAdmin/issues/398
+	 * https://github.com/TasmoAdmin/TasmoAdmin/issues/398
 	 *
 	 * @param $string
 	 *
@@ -262,7 +262,7 @@ class Sonoff {
 		 * $status->StatusNET->IP
 		 * >= 5.12.0
 		 * $status->StatusNET->IPAddress
-		 * https://github.com/reloxx13/TasmoAdmin/issues/107
+		 * https://github.com/TasmoAdmin/TasmoAdmin/issues/107
 		 **/
 		if (!empty($status->StatusNET->IP)) {
 			$status->StatusNET->IPAddress = $status->StatusNET->IP;
@@ -691,7 +691,7 @@ class Sonoff {
 			
 			$data = json_decode($result);
 			
-			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
 				$result = preg_replace('/[[:cntrl:]]/', '', $result);
 				$data   = json_decode($result);
 			}
@@ -875,7 +875,7 @@ class Sonoff {
 					
 					
 					if (json_last_error()
-						== JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+						== JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
 						$result = preg_replace('/[[:cntrl:]]/', '', $result);
 						$data   = json_decode($result);
 					}
@@ -1089,7 +1089,7 @@ class Sonoff {
 					$data = json_decode($output);
 					
 					
-					if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/reloxx13/TasmoAdmin/issues/78
+					if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
 						$output = preg_replace('/[[:cntrl:]]/', '', $output);
 						$data   = json_decode($output);
 					}
