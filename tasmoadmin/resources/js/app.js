@@ -880,7 +880,7 @@ function checkForUpdate(timer)
 	{
 		action = "releases";
 	}
-	var githubApiRelease = "https://api.github.com/repos/reloxx13/TasmoAdmin/" + action;
+	var githubApiRelease = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin/" + action;
 
 	$.get(githubApiRelease, {}, function (result)
 	{

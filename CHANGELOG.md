@@ -6,35 +6,35 @@
 
 ### v1.8.0
 
-- Update lang_pl.ini by @ponuryzrzeda in [#409](https://github.com/reloxx13/TasmoAdmin/issues/#409)
-- Missing translations, typos and better French by @amayii0 in [#421](https://github.com/reloxx13/TasmoAdmin/issues/#421)
-- Improve German translation by @CodeFinder2 in [#422](https://github.com/reloxx13/TasmoAdmin/issues/#422)
-- Remove clear_env from docker php config by @merlinschumacher in [#416](https://github.com/reloxx13/TasmoAdmin/issues/#416)
-- Update lang_it.ini by @ZioCook in [#436](https://github.com/reloxx13/TasmoAdmin/issues/#436)
-- Gzip support by @PhilipWhiteside in [#447](https://github.com/reloxx13/TasmoAdmin/issues/#447)
-- Migrate to GitHub Actions by @inverse in [#451](https://github.com/reloxx13/TasmoAdmin/issues/#451)
-- Correct GitHub spelling by @inverse in [#457](https://github.com/reloxx13/TasmoAdmin/issues/#457)
-- Improve gzip output by @inverse in [#460](https://github.com/reloxx13/TasmoAdmin/issues/#460)
-- Fix loading versions by passing user-agent by @inverse in [#458](https://github.com/reloxx13/TasmoAdmin/issues/#458)
-- make sure vsprintf() is called with array by @martin-herzog in [#461](https://github.com/reloxx13/TasmoAdmin/issues/#461)
-- Bigcookie german lang update for gzip support by @bigcookie in [#464](https://github.com/reloxx13/TasmoAdmin/issues/#464)
-- Add foundations for GitHub actions release pipeline by @inverse in [#452](https://github.com/reloxx13/TasmoAdmin/issues/#452)
+- Update lang_pl.ini by @ponuryzrzeda in [#409](https://github.com/TasmoAdmin/TasmoAdmin/issues/#409)
+- Missing translations, typos and better French by @amayii0 in [#421](https://github.com/TasmoAdmin/TasmoAdmin/issues/#421)
+- Improve German translation by @CodeFinder2 in [#422](https://github.com/TasmoAdmin/TasmoAdmin/issues/#422)
+- Remove clear_env from docker php config by @merlinschumacher in [#416](https://github.com/TasmoAdmin/TasmoAdmin/issues/#416)
+- Update lang_it.ini by @ZioCook in [#436](https://github.com/TasmoAdmin/TasmoAdmin/issues/#436)
+- Gzip support by @PhilipWhiteside in [#447](https://github.com/TasmoAdmin/TasmoAdmin/issues/#447)
+- Migrate to GitHub Actions by @inverse in [#451](https://github.com/TasmoAdmin/TasmoAdmin/issues/#451)
+- Correct GitHub spelling by @inverse in [#457](https://github.com/TasmoAdmin/TasmoAdmin/issues/#457)
+- Improve gzip output by @inverse in [#460](https://github.com/TasmoAdmin/TasmoAdmin/issues/#460)
+- Fix loading versions by passing user-agent by @inverse in [#458](https://github.com/TasmoAdmin/TasmoAdmin/issues/#458)
+- make sure vsprintf() is called with array by @martin-herzog in [#461](https://github.com/TasmoAdmin/TasmoAdmin/issues/#461)
+- Bigcookie german lang update for gzip support by @bigcookie in [#464](https://github.com/TasmoAdmin/TasmoAdmin/issues/#464)
+- Add foundations for GitHub actions release pipeline by @inverse in [#452](https://github.com/TasmoAdmin/TasmoAdmin/issues/#452)
 
 ### v1.7.0
-- FIX: Select all and filter were conflicting, fixes [#400](https://github.com/reloxx13/TasmoAdmin/issues/400)
+- FIX: Select all and filter were conflicting, fixes [#400](https://github.com/TasmoAdmin/TasmoAdmin/issues/400)
 - FIX: Select all style position
-- FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/reloxx13/TasmoAdmin/issues/345)
-- **NEW**: Adds a filter for the device list view thanks to @[alexhk](https://github.com/alexhk) [PR#399](https://github.com/reloxx13/TasmoAdmin/pull/399)
+- FIX: Wrong var used in try to fix the json response fixes [#345](https://github.com/TasmoAdmin/TasmoAdmin/issues/345)
+- **NEW**: Adds a filter for the device list view thanks to @[alexhk](https://github.com/alexhk) [PR#399](https://github.com/TasmoAdmin/TasmoAdmin/pull/399)
     - Search for Name/Hostname, IP#123, ID#321, POS#1, Single/Multi
     - Hide the search filter in settings
-- FIX: Correct bad JSON Response from Tasmota 8.5.0.x, fixes [#398](https://github.com/reloxx13/TasmoAdmin/issues/345),[#397](https://github.com/reloxx13/TasmoAdmin/issues/397),[#394](https://github.com/reloxx13/TasmoAdmin/issues/394)   
+- FIX: Correct bad JSON Response from Tasmota 8.5.0.x, fixes [#398](https://github.com/TasmoAdmin/TasmoAdmin/issues/345),[#397](https://github.com/TasmoAdmin/TasmoAdmin/issues/397),[#394](https://github.com/TasmoAdmin/TasmoAdmin/issues/394)   
 
 ### v1.6.5
-- NEW: Add support for BME280 SeaPressure thanks to @[gknauf](https://github.com/gknauf) [#283](https://github.com/reloxx13/TasmoAdmin/issues/283)  
+- NEW: Add support for BME280 SeaPressure thanks to @[gknauf](https://github.com/gknauf) [#283](https://github.com/TasmoAdmin/TasmoAdmin/issues/283)  
 - *FIX*: Possible fix for config crashes      
 
 ###  v1.6.4
-- **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/reloxx13/TasmoAdmin/issues/312)
+- **NEW**: Exclude devices from "ALL OFF" [#312](https://github.com/TasmoAdmin/TasmoAdmin/issues/312)
 - **NEW**: Protect device to get powered on or/and off
     - For both you need to edit the device and set the desired checkboxes
     - At the bottom of the table view is a button to unlock the protected device for 60s
@@ -44,61 +44,61 @@
 - **UPDATE**: (non-docker) Selfupdate switch between beta and stable
 - UPDATE: Get live list of available tasmota firmware versions for automatic update
 - UPDATE: Add version selectbox on device update page
-- UPDATE: Autofocus on login and forms [#370](https://github.com/reloxx13/TasmoAdmin/issues/370)
-- NEW: Add support for AHT1X sensor thanks to @[crashdown79](https://github.com/crashdown79) [#356](https://github.com/reloxx13/TasmoAdmin/issues/356)
-- UPDATE: Add new password hashing thanks to @[inverse](https://github.com/inverse) ( [PR#357](https://github.com/reloxx13/TasmoAdmin/pull/357) )
-- UPDATE: Hide password in device autoscanner thanks to @[WatskeBart](https://github.com/WatskeBart) ( [PR#387](https://github.com/reloxx13/TasmoAdmin/pull/387) )
+- UPDATE: Autofocus on login and forms [#370](https://github.com/TasmoAdmin/TasmoAdmin/issues/370)
+- NEW: Add support for AHT1X sensor thanks to @[crashdown79](https://github.com/crashdown79) [#356](https://github.com/TasmoAdmin/TasmoAdmin/issues/356)
+- UPDATE: Add new password hashing thanks to @[inverse](https://github.com/inverse) ( [PR#357](https://github.com/TasmoAdmin/TasmoAdmin/pull/357) )
+- UPDATE: Hide password in device autoscanner thanks to @[WatskeBart](https://github.com/WatskeBart) ( [PR#387](https://github.com/TasmoAdmin/TasmoAdmin/pull/387) )
     - and add show/hide password button
-- NEW: Add zh-TW localization thanks to @[petercpg](https://github.com/petercpg) ( [PR#374](https://github.com/reloxx13/TasmoAdmin/pull/374) )  
-- NEW: Add a ENV variable ( TASMO_BASEURL ) to adjust the base url thanks to @[rhuss](https://github.com/rhuss) ( [PR#346](https://github.com/reloxx13/TasmoAdmin/pull/346) )   
+- NEW: Add zh-TW localization thanks to @[petercpg](https://github.com/petercpg) ( [PR#374](https://github.com/TasmoAdmin/TasmoAdmin/pull/374) )  
+- NEW: Add a ENV variable ( TASMO_BASEURL ) to adjust the base url thanks to @[rhuss](https://github.com/rhuss) ( [PR#346](https://github.com/TasmoAdmin/TasmoAdmin/pull/346) )   
 - UPDATE: Font Awesome 5.11.2 -> 5.14.0   
 - UPDATE: Bootstrap 4.3.1 -> 4.5.0
-- UPDATE: Change wiki links (top navi) to tasmota docs [#381](https://github.com/reloxx13/TasmoAdmin/issues/381)
+- UPDATE: Change wiki links (top navi) to tasmota docs [#381](https://github.com/TasmoAdmin/TasmoAdmin/issues/381)
 - UPDATE: Change to new changelog/releaselogs (device update page)
 - UPDATE: Updated polish translation, thx @[WiktorBuczko](https://github.com/WiktorBuczko) and @[pepeEL](https://github.com/pepeEL)
-- UPDATE: Support up to 8 DS18B20 [#333](https://github.com/reloxx13/TasmoAdmin/issues/333) 
-- UPDATE: Another adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
+- UPDATE: Support up to 8 DS18B20 [#333](https://github.com/TasmoAdmin/TasmoAdmin/issues/333) 
+- UPDATE: Another adjust device icon sizes on home screen [#325](https://github.com/TasmoAdmin/TasmoAdmin/issues/325)
 - **UPDATE**: IOCage Update and FreeNAS Plugin Support, thx @[tprelog](https://github.com/tprelog)
-- UPDATE: Adjust device icon sizes on home screen [#325](https://github.com/reloxx13/TasmoAdmin/issues/325)
+- UPDATE: Adjust device icon sizes on home screen [#325](https://github.com/TasmoAdmin/TasmoAdmin/issues/325)
 
 ### v1.6.3
 - **HOTFIX** DOCKER: fix and prevent nginx.conf link loop
 
 ### v1.6.2
-- **FIX**: Support for Tasmota 7.1.1.1 [#326](https://github.com/reloxx13/TasmoAdmin/issues/326) 
+- **FIX**: Support for Tasmota 7.1.1.1 [#326](https://github.com/TasmoAdmin/TasmoAdmin/issues/326) 
   - Module data could not get parsed cause of changes in JSON from newer Tasmota Version
-- **UPDATE**: Support for MAX31855 Sensor [#327](https://github.com/reloxx13/TasmoAdmin/issues/327)
+- **UPDATE**: Support for MAX31855 Sensor [#327](https://github.com/TasmoAdmin/TasmoAdmin/issues/327)
 - **UPDATE**: Added sensor icon for none-relais devices
 - FIX: Displaying changelog and releaselog from tasmota correctly for new MarkDown format
-- FIX: Try to fix invalid json by ```nan``` by replacing it with ```"NaN"``` [#318](https://github.com/reloxx13/TasmoAdmin/issues/318)
+- FIX: Try to fix invalid json by ```nan``` by replacing it with ```"NaN"``` [#318](https://github.com/TasmoAdmin/TasmoAdmin/issues/318)
 
 
 ### v1.6.1
-- **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/reloxx13/TasmoAdmin/issues/275)
-- **FIX**: Follow up for renaming of sonoff -> tasmota [#310](https://github.com/reloxx13/TasmoAdmin/issues/310) [PR#311](https://github.com/reloxx13/TasmoAdmin/pull/311)
+- **UPDATE**: Support for LM75AD Sensor [#275](https://github.com/TasmoAdmin/TasmoAdmin/issues/275)
+- **FIX**: Follow up for renaming of sonoff -> tasmota [#310](https://github.com/TasmoAdmin/TasmoAdmin/issues/310) [PR#311](https://github.com/TasmoAdmin/TasmoAdmin/pull/311)
 - **UPDATE**: Font Awesome 5.3.1 -> 5.11.2   
 - **UPDATE**: Bootstrap 4.1.2 -> 4.3.1
 -FIX: login box position fix
 - **UPDATE**: Change to new Tasmota Github URL
-- FIX: loop 3rd an 4th ip block in autoscan to support bigger networks [#302](https://github.com/reloxx13/TasmoAdmin/issues/302), thx @[Leuselator](https://github.com/Leuselator) 
+- FIX: loop 3rd an 4th ip block in autoscan to support bigger networks [#302](https://github.com/TasmoAdmin/TasmoAdmin/issues/302), thx @[Leuselator](https://github.com/Leuselator) 
   - Note: Autoscan will take longer now
-- **UPDATE**: Change htaccess to new syntax [#299](https://github.com/reloxx13/TasmoAdmin/issues/299), thx @[joba-1](https://github.com/joba-1)
-- FIX: Remove PHP5 support, add SELinux info to readme [#290](https://github.com/reloxx13/TasmoAdmin/issues/290)
+- **UPDATE**: Change htaccess to new syntax [#299](https://github.com/TasmoAdmin/TasmoAdmin/issues/299), thx @[joba-1](https://github.com/joba-1)
+- FIX: Remove PHP5 support, add SELinux info to readme [#290](https://github.com/TasmoAdmin/TasmoAdmin/issues/290)
 - FIX: Remove SSL Keys 
 - **UPDATE**: Support multi BMP´s ([pr#4195](https://github.com/arendst/Tasmota/pull/4195))
   - BME280-76/77
 - adjust some colors  
-- **FIX**: IOS/Mobile Scroll bug [#244](https://github.com/reloxx13/TasmoAdmin/issues/244) 
-- **FIX**: Startpage Devices without Relais shaking and breaking js [#97](https://github.com/reloxx13/TasmoAdmin/issues/97)  
+- **FIX**: IOS/Mobile Scroll bug [#244](https://github.com/TasmoAdmin/TasmoAdmin/issues/244) 
+- **FIX**: Startpage Devices without Relais shaking and breaking js [#97](https://github.com/TasmoAdmin/TasmoAdmin/issues/97)  
 
     
 ### v1.6.0
 - FIX: startpage all off icon error         
-- **UPDATE**: Support Sensor BMP180 [#224](https://github.com/reloxx13/TasmoAdmin/issues/224)
+- **UPDATE**: Support Sensor BMP180 [#224](https://github.com/TasmoAdmin/TasmoAdmin/issues/224)
 - FIX: login page horizontal scrollable removed
 - FIX: JS bug caused devices not to load (non-docker only bug) #225 #226
 - DEV: CSS & HTML fixes
-- **NEW**: support ssl / https added [#113](https://github.com/reloxx13/TasmoAdmin/issues/113) 
+- **NEW**: support ssl / https added [#113](https://github.com/TasmoAdmin/TasmoAdmin/issues/113) 
   
 To use TasmoAdmin with ssl:
 
@@ -118,21 +118,21 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 
 2. (Re-)Start your container to use custom nginx.config.
             
-- **FIX**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154)   
+- **FIX**: Detection of StateText change [#199](https://github.com/TasmoAdmin/TasmoAdmin/issues/199), [#154](https://github.com/TasmoAdmin/TasmoAdmin/issues/154)   
 - CI skipped, use v1.6.0-beta8
 - **FIX**: XAMPP Folder Structure in ZIP
 - **DEV**: Lower zip splitted parts filesize for git
-- **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
-- **FIX**: Unwanted underscore added [#210](https://github.com/reloxx13/TasmoAdmin/issues/210)
-- **FIX**: XAMPP Pack fixed and updated to XAMPP 7.2.9.0 (PHP7) [141](https://github.com/reloxx13/TasmoAdmin/issues/141), [209](https://github.com/reloxx13/TasmoAdmin/issues/209)
+- **FIX**: avoid sending backlog commands twice cuz backlog does not give any response. [#210](https://github.com/TasmoAdmin/TasmoAdmin/issues/210)
+- **FIX**: Unwanted underscore added [#210](https://github.com/TasmoAdmin/TasmoAdmin/issues/210)
+- **FIX**: XAMPP Pack fixed and updated to XAMPP 7.2.9.0 (PHP7) [141](https://github.com/TasmoAdmin/TasmoAdmin/issues/141), [209](https://github.com/TasmoAdmin/TasmoAdmin/issues/209)
 
 - **FIX**: nginx config
-- **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/reloxx13/TasmoAdmin/issues/198)
+- **CHANGE**:  HTTP/HTTPS Detection [#198](https://github.com/TasmoAdmin/TasmoAdmin/issues/198)
    - New Checkbox to choose http/https, default is http.   
 ![grafik](https://user-images.githubusercontent.com/14855001/45046243-e2f26a00-b075-11e8-9304-8621cc6e0ba5.png)
-- **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/reloxx13/TasmoAdmin/issues/202)
+- **UPDATE**: Support Sensor DS18B20 [#202](https://github.com/TasmoAdmin/TasmoAdmin/issues/202)
 - DEV: Add robots/search crawler protection
-- **FIX**: Add device password field as password not text input [#184](https://github.com/reloxx13/TasmoAdmin/issues/184)
+- **FIX**: Add device password field as password not text input [#184](https://github.com/TasmoAdmin/TasmoAdmin/issues/184)
 - **FIX**: for new tasmota changelog structure [tasmota-commit#ace6180](https://github.com/arendst/Tasmota/commit/ace6180e67a29926fade72ab10015c18b07c973e)    
 - **NEW**: CZ language ( Big thanks @Vladimir S. by Mail) 
 - **FIX**: Update Tasmota language Releases for auto updates.    
@@ -140,25 +140,25 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 - **UPDATE**: Bootstrap 4.1.1 -> 4.1.2
 - **CHANGE**: Startpage rework:
 ![startpage_v1.2.PNG](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/changelog/startpage_v1.2.PNG)   
-- **DEV**: Some more Error Catchings and debugs on error for lost configs [#207](https://github.com/reloxx13/TasmoAdmin/issues/207)
-- **NEW**: Detection of StateText change [#199](https://github.com/reloxx13/TasmoAdmin/issues/199), [#154](https://github.com/reloxx13/TasmoAdmin/issues/154) 
+- **DEV**: Some more Error Catchings and debugs on error for lost configs [#207](https://github.com/TasmoAdmin/TasmoAdmin/issues/207)
+- **NEW**: Detection of StateText change [#199](https://github.com/TasmoAdmin/TasmoAdmin/issues/199), [#154](https://github.com/TasmoAdmin/TasmoAdmin/issues/154) 
 
 ## v1.5.4
-- **FIX** autoload case-sensitive [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)  
+- **FIX** autoload case-sensitive [#182](https://github.com/TasmoAdmin/TasmoAdmin/issues/182)  
    
 ## v1.5.3
-- **FIX** another fix for chrome ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
+- **FIX** another fix for chrome ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/TasmoAdmin/TasmoAdmin/issues/182)
    
    
 ## v1.5.2
-- **FIX** Chrome crying ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/reloxx13/TasmoAdmin/issues/182)
+- **FIX** Chrome crying ERR_RESPONSE_HEADERS_TOO_BIG [#182](https://github.com/TasmoAdmin/TasmoAdmin/issues/182)
 
 ## v1.5.1
-- **FIX** Update Tag info [#180](https://github.com/reloxx13/TasmoAdmin/issues/180)
+- **FIX** Update Tag info [#180](https://github.com/TasmoAdmin/TasmoAdmin/issues/180)
 
 
 ## v1.5.0
-- **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/reloxx13/TasmoAdmin/issues/173)
+- **NEW**: Link Tasmota Changelog Issues [#173](https://github.com/TasmoAdmin/TasmoAdmin/issues/173)
 - **NEW**: Use json file for for config data
 - **NEW**: Config is now saved in a cookie
   - Cookies are stored in the Clients Browser, reduces Reads on Servers Drive. 
@@ -167,29 +167,29 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
   Old Config File will be migrated to json and removed in a later release. Stays as Backup.   
   If you delete the MyConfig.json, it will generated new based on the MyConfig.php
 - **DEV**: Use SCSS and Minified CSS/JS Resources, gives some performence boost and save network traffic.
-- **NEW**: Get Current Tag from Docker [#176](https://github.com/reloxx13/TasmoAdmin/issues/176)  
-- **FIX**: $_SERVER REQUEST_SCHEME is not reliable [#174](https://github.com/reloxx13/TasmoAdmin/issues/174)    
+- **NEW**: Get Current Tag from Docker [#176](https://github.com/TasmoAdmin/TasmoAdmin/issues/176)  
+- **FIX**: $_SERVER REQUEST_SCHEME is not reliable [#174](https://github.com/TasmoAdmin/TasmoAdmin/issues/174)    
    
 ## v1.4.0
-- **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/reloxx13/TasmoAdmin/issues/169)
-- **FIX**: go to selected homepage after login [#115](https://github.com/reloxx13/TasmoAdmin/issues/115) 
-- **NEW**: Disable update check option [#156](https://github.com/reloxx13/TasmoAdmin/issues/156) 
-- **NEW**: Add top scrollbar on device list [#170](https://github.com/reloxx13/TasmoAdmin/issues/170) 
-- MINOR: Rename "Show More" => "Detail View" in i18n.EN [#168](https://github.com/reloxx13/TasmoAdmin/issues/168) 
+- **FIX**: set session dir inside tasmota dir instead of server root /tmp [#169](https://github.com/TasmoAdmin/TasmoAdmin/issues/169)
+- **FIX**: go to selected homepage after login [#115](https://github.com/TasmoAdmin/TasmoAdmin/issues/115) 
+- **NEW**: Disable update check option [#156](https://github.com/TasmoAdmin/TasmoAdmin/issues/156) 
+- **NEW**: Add top scrollbar on device list [#170](https://github.com/TasmoAdmin/TasmoAdmin/issues/170) 
+- MINOR: Rename "Show More" => "Detail View" in i18n.EN [#168](https://github.com/TasmoAdmin/TasmoAdmin/issues/168) 
 - **NEW**: Support Multi Friendlyname on Device General Config Page (fw >= 5.12.0h) [Tasmota#3161](https://github.com/arendst/Tasmota/issues/3161)
-- **FIX**: device config allow more steps for Sleep [#172](https://github.com/reloxx13/TasmoAdmin/issues/172)      
+- **FIX**: device config allow more steps for Sleep [#172](https://github.com/TasmoAdmin/TasmoAdmin/issues/172)      
 
 
 ## v1.3.3 
 - MINOR: fix for travis building   
    
 ## v1.3.2   
-- **FIX**: fix device update, use ota magic [#165](https://github.com/reloxx13/TasmoAdmin/issues/165) [#166](https://github.com/reloxx13/TasmoAdmin/issues/166) 
+- **FIX**: fix device update, use ota magic [#165](https://github.com/TasmoAdmin/TasmoAdmin/issues/165) [#166](https://github.com/TasmoAdmin/TasmoAdmin/issues/166) 
 
 ## v1.3.1   
-- **NEW**: MQTT Config Tab on device config page [#101](https://github.com/reloxx13/TasmoAdmin/issues/101)
+- **NEW**: MQTT Config Tab on device config page [#101](https://github.com/TasmoAdmin/TasmoAdmin/issues/101)
   - ENHANCEMENT: Only changed config values will be send to the device
-- MINOR: style show more btn responsive [#145](https://github.com/reloxx13/TasmoAdmin/issues/145)
+- MINOR: style show more btn responsive [#145](https://github.com/TasmoAdmin/TasmoAdmin/issues/145)
 
 
 ## v1.2.1
@@ -198,33 +198,33 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 ## v1.2.0
 - **FIX**: some Tasmota 5.10.0 json #131 [hassio-addon#6](https://github.com/hassio-addons/addon-tasmoadmin/issues/6)
 - **UPDATE**: Font Awesome 5.0.6 -> 5.1.0
-- **DOCKER**: Show Changelog Link in helpmenu [#108](https://github.com/reloxx13/TasmoAdmin/issues/108)
+- **DOCKER**: Show Changelog Link in helpmenu [#108](https://github.com/TasmoAdmin/TasmoAdmin/issues/108)
 - MINOR: make footer smaller and sticky, darker link color in nightmode
   - top navi made a lil bit smaller, too
-- MINOR: catch and remove control chars in json response [#78](https://github.com/reloxx13/TasmoAdmin/issues/78)
+- MINOR: catch and remove control chars in json response [#78](https://github.com/TasmoAdmin/TasmoAdmin/issues/78)
 - **NEW**: Show new update available icon in footer
 - MINOR: Possible performence fixes for checkNightmode
 - MINOR: cache resources by release tag version
 
 ## v1.1.0                              
-- **NEW**: you can now set a default startpage [#115](https://github.com/reloxx13/TasmoAdmin/issues/115)
+- **NEW**: you can now set a default startpage [#115](https://github.com/TasmoAdmin/TasmoAdmin/issues/115)
 - **FIX**: Multichannel devices don't restore correctly if backend fails temporarily #121          
 - MINOR: dont be blind on page reload: set nightmode class initial if nightmode is enabled
 
 
 ## v1.0.7               
-- **NEW**: add send command within device list [#100](https://github.com/reloxx13/TasmoAdmin/issues/100)
-- MINOR: error handling for selfupdate if travis build failed [#142](https://github.com/reloxx13/TasmoAdmin/issues/142)       
+- **NEW**: add send command within device list [#100](https://github.com/TasmoAdmin/TasmoAdmin/issues/100)
+- MINOR: error handling for selfupdate if travis build failed [#142](https://github.com/TasmoAdmin/TasmoAdmin/issues/142)       
 - MINOR: restyle show more
 
 ## v1.0.6
 - **DOCKER**: update busybox to fix travis build
 
 ## v1.0.4 - 1.0.5
-- **FIX**: date in update [#124](https://github.com/reloxx13/TasmoAdmin/issues/124)
+- **FIX**: date in update [#124](https://github.com/TasmoAdmin/TasmoAdmin/issues/124)
 - MINOR: change filename to load js file correctly (only firefox issue?)
   - fixes the show more checkbox 
-- **NEW**: add configurable server port [#122](https://github.com/reloxx13/TasmoAdmin/issues/122),[#131](https://github.com/reloxx13/TasmoAdmin/issues/131)
+- **NEW**: add configurable server port [#122](https://github.com/TasmoAdmin/TasmoAdmin/issues/122),[#131](https://github.com/TasmoAdmin/TasmoAdmin/issues/131)
 - MINOR: show some energy data
 - **NEW**: add iocage support by @tprelog :)
 
@@ -234,7 +234,7 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 - **UPDATE**: bootstrap 4.0.0 -> 4.1.1
 - **DOCKER**: clean-up unnecessary lines to reduce image size
 - **DOCKER**: cleanup and readme
-- **DOCKER**: Moved from Apache to Nginx [#106](https://github.com/reloxx13/TasmoAdmin/issues/106)
+- **DOCKER**: Moved from Apache to Nginx [#106](https://github.com/TasmoAdmin/TasmoAdmin/issues/106)
 - **DOCKER**: Remove rm
   
 ## v0.0.7
@@ -243,10 +243,10 @@ You can add your own certificate by replacing tasmoadmin.key and tasmoadmin.crt 
 ## v0.0.6   
 ### 2018-05-23
 - more rename
-- hide selfupdate if on docker [#105](https://github.com/reloxx13/TasmoAdmin/issues/105)
-- **FIX**: update on https [#103](https://github.com/reloxx13/TasmoAdmin/issues/103)
-- provide TasmoAdmin Docker within repo [#92](https://github.com/reloxx13/TasmoAdmin/issues/92)
-- add help menu [#100](https://github.com/reloxx13/TasmoAdmin/issues/100)
+- hide selfupdate if on docker [#105](https://github.com/TasmoAdmin/TasmoAdmin/issues/105)
+- **FIX**: update on https [#103](https://github.com/TasmoAdmin/TasmoAdmin/issues/103)
+- provide TasmoAdmin Docker within repo [#92](https://github.com/TasmoAdmin/TasmoAdmin/issues/92)
+- add help menu [#100](https://github.com/TasmoAdmin/TasmoAdmin/issues/100)
 
 Big Thanks to @RaymondMouthaan for supporting the merge and renaming :)
    
