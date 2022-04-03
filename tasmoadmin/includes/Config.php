@@ -122,11 +122,7 @@ class Config {
 				$this->write($configName, $configValue, TRUE);
 			}
 		}
-		
-		if (file_exists(_APPROOT_ . ".dockerenv")) {
-			$this->write("update_channel", "docker");
-		}
-		
+				
 		
 		//remove trash from config
 		$config = $this->readAll(TRUE, TRUE);

@@ -8,28 +8,29 @@ class Selfupdate {
 	private $currentTag = "";
 	private $zipfile    = "";
 	private $log        = [];
-	private $Config     = NULL;
+	private Config $config;
 	private $releaseUrl = "";
 	
 	
-	public function __construct($Config) {
-		
-		$this->Config     = $Config;
-		$this->currentTag = $this->Config->read("current_git_tag");
-		$this->zipfile    = _DATADIR_ . "updates/tasmoadmin.zip";
+	public function __construct(Config $config)
+	{
+		$this->config = $config;
+		$this->currentTag = $this->config->read("current_git_tag");
+		$this->zipfile = _DATADIR_ . "updates/tasmoadmin.zip";
 		if (file_exists($this->zipfile)) {
 			unlink($this->zipfile);
 		}
 	}
 	
-	public function update() {
+	public function update()
+	{
 		$this->checkForUpdate();
 		if ($this->saveZip($this->releaseUrl)) {
 			$this->log[] = __("SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE");
 			if ($this->install()) {
 				$this->log[] = __("OLD_TAG_VERSION", "SELFUPDATE", [$this->currentTag]);
 				$this->log[] = __("NEW_TAG_VERSION", "SELFUPDATE", [$this->latestTag]);
-				$this->Config->write("current_git_tag", $this->latestTag);
+				$this->config->write("current_git_tag", $this->latestTag);
 				$this->currentTag = $this->latestTag;
 			}
 		}
@@ -38,22 +39,18 @@ class Selfupdate {
 		}
 		
 		return $this->log;
-		
 	}
 	
 	public function checkForUpdate() {
-		;
-		
 		$action  = FALSE;
 		$release = NULL;
 		
-		if ($this->Config->read("update_channel") == "stable") {
+		if ($this->config->read("update_channel") == "stable") {
 			$action = "/releases/latest";
 		}
-		elseif (in_array($this->Config->read("update_channel"), ["beta", "dev"])) {
+		elseif (in_array($this->config->read("update_channel"), ["beta", "dev"])) {
 			$action = "/releases";
 		}
-		
 		
 		$result = [
 			"update" => FALSE,
@@ -77,7 +74,7 @@ class Selfupdate {
 					if ($this->currentTag != $this->latestTag) {
 						$result["update"] = TRUE;
 					}
-					if ($this->Config->read("update_channel") == "dev") {
+					if ($this->config->read("update_channel") == "dev") {
 						$result["update"] = TRUE;
 					}
 				}
@@ -103,6 +100,7 @@ class Selfupdate {
 		$url = $this->repoUrl . $action;
 		$ch  = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
 		curl_setopt(
@@ -197,7 +195,7 @@ class Selfupdate {
 			$firstDir    = realpath($temp . '/' . $firstDir);
 			$this->log[] = __("FIRST_DIRECTORY", "SELFUPDATE", [$firstDir]);
 			if (is_dir($firstDir)) {
-				if ($this->Config->read("update_channel") == "dev") {
+				if ($this->config->read("update_channel") == "dev") {
 					$this->log[] = __("CONTENT_COPY_SKIP_DEV", "SELFUPDATE");
 					if ($this->removeDirectory($firstDir)) {
 						$this->log[] = __("TEMP_DIR_DELETED", "SELFUPDATE");
@@ -361,13 +359,6 @@ class Selfupdate {
 	 * @return null
 	 */
 	public function getConfig() {
-		return $this->Config;
-	}
-	
-	/**
-	 * @param null $Config
-	 */
-	public function setConfig($Config) {
-		$this->Config = $Config;
+		return $this->config;
 	}
 }
