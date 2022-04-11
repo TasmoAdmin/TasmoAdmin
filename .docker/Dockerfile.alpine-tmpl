@@ -53,6 +53,7 @@ RUN \
         php7-json \
         php7-session \
         php7-zip \
+        php7-mbstring \
         php7 \
     \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
