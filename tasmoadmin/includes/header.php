@@ -125,12 +125,11 @@ else {
 		<script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
 		
 		<script src="<?php echo UrlHelper::JS("js-cookie/js-cookie"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("tablesaw/tablesaw.stackonly.jquery"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("tablesaw/tablesaw-init"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor/waitingfor"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("tablesaw-init", "/node_modules/tablesaw/dist/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("libs/jqDoubleScroll/jquery.doubleScroll"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
-		<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 		
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 		
@@ -143,7 +142,7 @@ else {
 		
 		<link href="<?php echo UrlHelper::STYLES("all", "/node_modules/@fortawesome/fontawesome-free/css/"); ?>" rel="stylesheet">
 		<link href="<?php echo UrlHelper::STYLES("tablesaw", "/node_modules/tablesaw/dist/"); ?>" rel="stylesheet">
-		<link href="<?php echo UrlHelper::STYLES("tablesaw.stackonly", "/node_modules/tablesaw/dist/stackonly"); ?>" rel="stylesheet">
+		<link href="<?php echo UrlHelper::STYLES("tablesaw.stackonly", "/node_modules/tablesaw/dist/stackonly/"); ?>" rel="stylesheet">
 		
 		<link href="<?php echo UrlHelper::STYLES("all"); ?>" rel="stylesheet">
 		
