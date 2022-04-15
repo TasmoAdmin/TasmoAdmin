@@ -1,9 +1,10 @@
 <?php
 
+use TasmoAdmin\Helper\LoginHelper;
+
 ob_start();
 
 include_once("./includes/bootstrap.php");
-
 
 $register = FALSE;
 $msg      = FALSE;

@@ -1,5 +1,8 @@
 <?php
-	$msg            = FALSE;
+
+use TasmoAdmin\Helper\UrlHelper;
+
+$msg            = FALSE;
 	$device         = NULL;
 	$activeTabIndex = 0;
 

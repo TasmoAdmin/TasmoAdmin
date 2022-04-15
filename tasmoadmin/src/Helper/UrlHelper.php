@@ -1,5 +1,7 @@
 <?php
 
+namespace TasmoAdmin\Helper;
+
 class UrlHelper
 {
 	public static function STYLES(string $filename, $csspath = NULL )

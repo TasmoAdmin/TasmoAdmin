@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\TasmoAdmin;
+namespace Tests\TasmoAdmin\Helper;
 
-use \Config;
-use \LoginHelper;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Config;
+use TasmoAdmin\Helper\LoginHelper;
 
 class LoginHelperTest extends TestCase
 {
