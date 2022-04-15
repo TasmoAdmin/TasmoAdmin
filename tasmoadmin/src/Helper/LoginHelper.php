@@ -13,7 +13,7 @@ class LoginHelper
         $this->config = $config;
     }
 
-    public function login($password, $storedPassword): bool
+    public function login(string $password, string $storedPassword): bool
     {
         //update hashing
         if (strpos($storedPassword, '$2y$') !== 0) {
@@ -35,13 +35,13 @@ class LoginHelper
         return true;
     }
 
-    public function register($username, $password): void
+    public function register(string $username, string $password): void
     {
         $this->config->write("username", $username);
         $this->config->write("password", self::hashPassword($password));
     }
 
-    private static function hashPassword($password): string
+    private static function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_DEFAULT);
     }
