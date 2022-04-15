@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin\Helper;
 
+use TasmoAdmin\Config;
+
 class UrlHelper
 {
 	public static function STYLES(string $filename, $csspath = NULL )
