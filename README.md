@@ -83,7 +83,14 @@ Then visit http://localhost:8000
 
 Persistent storage within this setup is located in the `.storage` folder.
 
+## Support
+
+![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
+
+This project supported by JetBrains through their [Licenses for Open Source](https://www.jetbrains.com/community/opensource/) program.
+
 ## Example Images
+
 #### Login Page
 ![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/1.png)
 #### Start Page
