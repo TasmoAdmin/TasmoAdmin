@@ -85,7 +85,7 @@ Persistent storage within this setup is located in the `.storage` folder.
 
 ## Support
 
-![JetBrains Logo (Main) logo](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png)
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="150" >
 
 This project supported by JetBrains through their [Licenses for Open Source](https://www.jetbrains.com/community/opensource/) program.
 
