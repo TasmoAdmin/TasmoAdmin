@@ -1,5 +1,7 @@
 <?php
 
+namespace TasmoAdmin;
+
 class Config {
 	private $debug = FALSE;
 	

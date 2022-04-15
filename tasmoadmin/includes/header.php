@@ -1,6 +1,8 @@
 <!doctype html>
 <?php
 //init nightmode css class
+use TasmoAdmin\Helper\UrlHelper;
+
 $nightmode = "";
 $h         = date('H');
 
