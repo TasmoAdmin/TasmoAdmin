@@ -1,5 +1,6 @@
 <?php
 
+namespace TasmoAdmin;
 
 /**
  * Class Sonoff
