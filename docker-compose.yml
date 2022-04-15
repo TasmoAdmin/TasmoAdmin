@@ -6,6 +6,8 @@ services:
       dockerfile: .docker/Dockerfile.alpine-tmpl
     ports:
       - "8000:80"
+    environment:
+      - TASMOADMIN_DATADIR=/data/tasmoadmin/
     volumes:
       - ./tasmoadmin:/var/www/tasmoadmin
       - ./.storage:/data/tasmoadmin
