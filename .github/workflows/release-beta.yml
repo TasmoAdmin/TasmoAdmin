@@ -12,6 +12,8 @@ jobs:
     env:
       BUILD_REF: ${{ github.sha }}
       BUILD_VERSION: beta
+    permissions:
+      packages: write
     steps:
     - uses: actions/checkout@master
     - name: Prepare
