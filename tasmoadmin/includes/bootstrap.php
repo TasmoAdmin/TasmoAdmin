@@ -41,7 +41,7 @@ define( "_HELPERSDIR_", _APPROOT_."helpers/" );
 define( "_RESOURCESDIR_", _APPROOT_."resources/" );
 define( "_LIBSDIR_", _APPROOT_."libs/" );
 define( "_PAGESDIR_", _APPROOT_."pages/" );
-define( "_DATADIR_", _APPROOT_."data/" );
+define( "_DATADIR_", getenv('TASMOADMIN_DATADIR') ?: _APPROOT_."data/" );
 define( "_LANGDIR_", _APPROOT_."lang/" );
 define( "_CSVFILE_", _DATADIR_."devices.csv" );
 
