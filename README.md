@@ -79,7 +79,7 @@ Simply run:
 
 ```bash
 ./.docker/docker.sh prepare
-composer install
+composer install -d tasmoadmin
 docker-compose up
 ```
 
