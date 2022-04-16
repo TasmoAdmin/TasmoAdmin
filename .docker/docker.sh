@@ -100,7 +100,7 @@ docker_manifest_list() {
     if [[ ${BUILD_VERSION} != *"beta"* ]]; then
         echo "DOCKER MANIFEST: Create and Push docker manifest lists LATEST."
         docker_manifest_list_latest
-	else
+	  else
         echo "DOCKER MANIFEST: Create and Push docker manifest lists BETA."
         docker_manifest_list_beta
     fi
