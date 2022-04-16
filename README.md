@@ -64,6 +64,13 @@ TasmoAdmin should run on any webserver that supports PHP 7.4+
 
 Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
+## Configuration
+
+Some environment variables are configured to allow easier customisation of the application
+
+- `TASMO_DATADIR` - Path where to store data. If not provided defaults to `./tasmoadmin/data`
+- `TASMO_BASEURL` - Customise the base URL for the application
+
 ## Development
 
 Provided is a docker-compose setup to ease getting started.
