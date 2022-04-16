@@ -51,7 +51,7 @@ if [ ! -d "/data/tasmoadmin/updates" ]; then
     echo "/data/tasmoadmin/updates created."
 fi
 
-if [[ -z "${TASMOADMIN_DATADIR}" ]]; then
+if [[ -z "${TASMO_DATADIR}" ]]; then
   echo 'Symlinking /data/tasmoadmin directory to persistent storage location...'
   rm -f -r /var/www/tasmoadmin/data
   ln -s /data/tasmoadmin /var/www/tasmoadmin/data
