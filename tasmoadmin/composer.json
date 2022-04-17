@@ -4,6 +4,7 @@
     "license": "GPL3",
     "require": {
         "php": ">=7.4",
+        "ext-json": "*",
         "erusev/parsedown": "^1.7",
         "philipp15b/php-i18n": "^4.0"
     },

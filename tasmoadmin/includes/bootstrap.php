@@ -103,6 +103,7 @@ if( file_exists( _APPROOT_.".dockerenv" ) ) {
 require_once _APPROOT_ . 'vendor/autoload.php';
 
 use TasmoAdmin\Config;
+use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Sonoff;
 
 $Config = new Config();
@@ -123,12 +124,14 @@ $i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
 $i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
 $i18n->setFallbackLang( 'en' );
 $i18n->setPrefix( '__L' );
-$i18n->setSectionSeperator( '_' );
-$i18n->setMergeFallback( TRUE ); // make keys available from the fallback language
+$i18n->setSectionSeparator( '_' );
+$i18n->setMergeFallback( true ); // make keys available from the fallback language
 $i18n->init();
 
 $lang = $i18n->getAppliedLang();
 
+$langHelper = new JsonLanguageHelper($lang, _LANGDIR_."lang_${lang}.ini", _TMPDIR_.'cache/i18n/');
+$langHelper->dumpJson();
 
 if( ( isset ( $_SESSION[ "login" ] ) && $_SESSION[ "login" ] == "1" ) || $Config->read( "login" ) == "0" ) {
     $loggedin = TRUE;
