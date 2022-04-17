@@ -20,28 +20,30 @@ class JsonLanguageHelper
     }
 
     /**
-     * @return void
      * @throws JsonException
      */
     public function dumpJson(): void
     {
-        if ($this->hasExistingFile() && $this->isCacheModifiedNewerThenLanguageFile()) {
+        $cacheFile = $this->cacheFile();
+
+        if ($this->hasExistingFile($cacheFile) && $this->isCacheModifiedNewerThenLanguageFile($cacheFile)) {
             return;
         }
 
-        $this->writeFile();
+        $this->writeFile($cacheFile);
     }
 
     /**
+     * @param string $cacheFile
      * @return void
      * @throws JsonException
      */
-    private function writeFile(): void
+    private function writeFile(string $cacheFile): void
     {
         $config = parse_ini_file($this->languageFile);
         $jsConfig = $this->removeBlocks($config);
         $jsonCompiled = json_encode([$this->language => $jsConfig], JSON_THROW_ON_ERROR);
-        file_put_contents($this->cacheFile(), $jsonCompiled);
+        file_put_contents($cacheFile, $jsonCompiled);
     }
 
     private function removeBlocks($config): array
@@ -60,9 +62,9 @@ class JsonLanguageHelper
         return $jsConfig;
     }
 
-    private function hasExistingFile(): bool
+    private function hasExistingFile(string $cacheFile): bool
     {
-        return file_exists($this->cacheFile());
+        return file_exists($cacheFile);
     }
 
     private function cacheFile(): string
@@ -70,8 +72,8 @@ class JsonLanguageHelper
         return sprintf('%s/json_i18n_%s.cache.json', $this->cacheDir, $this->language);
     }
 
-    private function isCacheModifiedNewerThenLanguageFile(): bool
+    private function isCacheModifiedNewerThenLanguageFile(string $cacheFile): bool
     {
-        return filemtime($this->cacheFile()) > filemtime($this->languageFile);
+        return filemtime($cacheFile) > filemtime($this->languageFile);
     }
 }
