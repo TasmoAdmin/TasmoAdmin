@@ -8,6 +8,9 @@
     "@fortawesome/fontawesome-free": "^6.0.0",
     "bootstrap": "^4.5.3",
     "bootstrap-waitingfor": "^1.2.7",
+    "jqdoublescroll": "^1.0.0",
+    "jquery": "^1.12.4",
+    "popper.js": "^1.16.1",
     "tablesaw": "^3.1.2"
   },
   "devDependencies": {

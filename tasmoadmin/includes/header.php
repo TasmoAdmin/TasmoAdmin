@@ -94,8 +94,9 @@ else {
 		<script type="application/javascript">
             var _BASEURL_ = "<?php echo _BASEURL_; ?>";
             var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
+            var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
 		</script>
-		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery", "/node_modules/jquery/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"></script>
 		<script>
             /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
@@ -128,7 +129,7 @@ else {
 		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw-init", "/node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("libs/jqDoubleScroll/jquery.doubleScroll"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.doubleScroll", "/node_modules/jqdoublescroll/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
 		
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
