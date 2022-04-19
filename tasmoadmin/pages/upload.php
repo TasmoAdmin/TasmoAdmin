@@ -1,4 +1,7 @@
 <?php
+
+use TasmoAdmin\Helper\UrlHelper;
+
 $msg                   = "";
 $error                 = FALSE;
 $firmwarefolder        = _DATADIR_ . "firmwares/";

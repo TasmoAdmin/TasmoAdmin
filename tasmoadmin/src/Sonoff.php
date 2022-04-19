@@ -1,5 +1,6 @@
 <?php
 
+namespace TasmoAdmin;
 
 /**
  * Class Sonoff
@@ -68,7 +69,7 @@ class Sonoff {
 		
 		
 		if (!$result) {
-			$data        = new stdClass();
+			$data        = new \stdClass();
 			$data->ERROR = __("CURL_ERROR", "API") . " => " . curl_errno($ch) . ": " . curl_error($ch);
 		}
 		else {
@@ -91,7 +92,7 @@ class Sonoff {
 			}
 			
 			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new stdClass();
+				$data        = new \stdClass();
 				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
 				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
 				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
@@ -593,7 +594,7 @@ class Sonoff {
 	public function getPrefixe($device) {
 		$cmnds = ["Prefix1", "Prefix2", "Prefix3"];
 		
-		$status = new stdClass();
+		$status = new \stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			
@@ -625,7 +626,7 @@ class Sonoff {
 	public function getStateTexts($device) {
 		$cmnds = ["StateText1", "StateText2", "StateText3", "StateText4"];
 		
-		$status = new stdClass();
+		$status = new \stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			if (!empty($tmp->Command) && $tmp->Command == "Unknown") {
@@ -682,7 +683,7 @@ class Sonoff {
 		$result = curl_exec($ch);
 		
 		if (!$result) {
-			$data        = new stdClass();
+			$data        = new \stdClass();
 			$data->ERROR = __("CURL_ERROR") . " => " . curl_errno($ch) . ": " . curl_error($ch);
 		}
 		else {
@@ -709,7 +710,7 @@ class Sonoff {
 			}
 			
 			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new stdClass();
+				$data        = new \stdClass();
 				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
 				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
 				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
@@ -762,7 +763,7 @@ class Sonoff {
 			return NULL;
 		}
 		
-		$device                     = new stdClass();
+		$device                     = new \stdClass();
 		$deviceLine[1]              = explode("|", $deviceLine[1]);
 		$device->id                 = isset($deviceLine[0]) ? $deviceLine[0] : FALSE;
 		$device->names              = isset($deviceLine[1]) ? $deviceLine[1] : FALSE;
@@ -865,7 +866,7 @@ class Sonoff {
 				//                    }
 				
 				if (!$output || $output == "") {
-					$data        = new stdClass();
+					$data        = new \stdClass();
 					$data->ERROR = __("CURL_ERROR") . " => " . curl_errno($done['handle']) . ": " . curl_error(
 							$done['handle']
 						);
@@ -893,7 +894,7 @@ class Sonoff {
 						
 					}
 					if (json_last_error() !== JSON_ERROR_NONE) {
-						$data        = new stdClass();
+						$data        = new \stdClass();
 						$data->ERROR = __("JSON_ERROR", "API")
 							. " => "
 							. json_last_error()
@@ -1185,13 +1186,13 @@ class Sonoff {
 			$options = $options[0];
 		}
 		
-		$decodedOptopns = new stdClass();
+		$decodedOptopns = new \stdClass();
 		
 		$options = intval($options, 16);
 		for ($i = 0; $i < count($a_setoption); $i++) {
 			$optionV                           = ($options >> $i) & 1;
 			$SetOPtion                         = "SetOption" . $i;
-			$decodedOptopns->$SetOPtion        = new stdClass();
+			$decodedOptopns->$SetOPtion        = new \stdClass();
 			$decodedOptopns->$SetOPtion->desc  = $a_setoption[$i];
 			$decodedOptopns->$SetOPtion->value = $optionV;
 			//                $decodedOptopns[ $i ] = [

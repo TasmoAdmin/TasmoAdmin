@@ -1,5 +1,8 @@
 <?php
-	$devices = $Sonoff->getDevices();
+
+use TasmoAdmin\Helper\UrlHelper;
+
+$devices = $Sonoff->getDevices();
 
 	$imgNight = "";
 	if( $nightmode == "nightmode" ) {

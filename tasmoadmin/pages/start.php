@@ -1,4 +1,7 @@
 <?php
+
+use TasmoAdmin\Helper\UrlHelper;
+
 $devices = $Sonoff->getDevices();
 ?>
 <div class='container-fluid'>

@@ -1,5 +1,6 @@
 <?php
 
+namespace TasmoAdmin;
 
 class Selfupdate {
 	

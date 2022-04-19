@@ -8,7 +8,6 @@ clean:
 	rm -rf _tmp
 	rm -rf .docker/_tmp
 
-
 docker-build: clean
 	./.docker/docker.sh prepare
 	./.docker/docker.sh build
