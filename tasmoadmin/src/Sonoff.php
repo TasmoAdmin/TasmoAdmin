@@ -2,32 +2,21 @@
 
 namespace TasmoAdmin;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Promise;
+
 /**
  * Class Sonoff
  */
 class Sonoff {
-	
-	public function addDevice($device = []) {
-		die("not done yet"); //todo: use this to add device, decide if array or object param
-		if (!isset($device) || empty($device) || !isset($device["id"]) || empty($device["id"])) {
-			return NULL;
-		}
-		
-		$fp        = file(_CSVFILE_);
-		$device[0] = isset($device->id) && !empty($device->id) ? $device->id : count($fp) + 1;
-		$device[1] = implode("|", isset($device->names) && !empty($device->names) ? $device->names : []);
-		$device[2] = isset($device->ip) && !empty($device->ip) ? $device->ip : "";
-		$device[3] = isset($device->username) && !empty($device->username) ? $device->username : "";
-		$device[4] = isset($device->password) && !empty($device->password) ? $device->password : "";
-		$device[5] = isset($device->img) && !empty($device->img) ? $device->img : "";
-		$device[6] = isset($device->position) && !empty($device->position) ? $device->position : "";
-		
-		
-		$handle = fopen(_CSVFILE_, "a");
-		fputcsv($handle, $device);
-		fclose($handle);
-	}
-	
+
+    private Client $client;
+
+    public function __construct(?Client $client = null)
+    {
+        $this->client = $client ?? new Client();
+    }
+
 	/**
 	 * @param $ip
 	 *
@@ -51,7 +40,7 @@ class Sonoff {
 	 */
 	private function doRequest($device, $cmnd, $try = 1) {
 		$url = $this->buildCmndUrl($device, $cmnd);
-		
+
 		$result = NULL;
 		
 		
@@ -152,9 +141,8 @@ class Sonoff {
 	 *
 	 * @return mixed
 	 */
-	private function fixJsonFormatV5100($string) {
-		
-		
+	private function fixJsonFormatV5100($string)
+    {
 		$string = substr($string, strpos($string, "STATUS = "));
 		if (strpos($string, "POWER = ") !== FALSE) {
 			$string = substr($string, strpos($string, "{"));
@@ -786,167 +774,69 @@ class Sonoff {
 		return $device;
 	}
 	
-	public function doAjaxAll($try = 1) {
-		$result = NULL;
+	public function doAjaxAll(int $try = 1)
+    {
 		ini_set("max_execution_time", "99999999999");
 		
-		$devices   = $this->getDevices();
-		$cmnd      = "status 0";//urldecode( $_REQUEST[ "cmnd" ] );
-		$urlsClone = [];
-		
+		$devices = $this->getDevices();
+		$cmnd = "status 0";
+
+        $promises = [];
 		foreach ($devices as $device) {
-			$url = $this->buildCmndUrl(
-				$device,
-				$cmnd
-			);
-			
-			//			if ($device->id == 1) {
-			//				$url = "http://192.168.178.10/dev/test.json";
-			//			}
-			
-			//$url = "http://tasmoAdmin/dev/test.json";
-			
-			
-			$urls[$url]  = $device;
-			$urlsClone[] = $url;
+			$url = $this->buildCmndUrl($device, $cmnd);
+            $promises[$device->id] = $this->client->getAsync($url, [
+                'timeout' => 8,
+            ]);
 		}
-		
-		$results = [];
-		// make sure the rolling window isn't greater than the # of urls
-		$rolling_window = 2;
-		$rolling_window = (sizeof($urls) < $rolling_window) ? sizeof($urls) : $rolling_window;
-		$master         = curl_multi_init();
-		// $curl_arr = array();
-		// add additional curl options here
-		$options = [
-			CURLOPT_FOLLOWLOCATION => 0,
-			CURLOPT_RETURNTRANSFER => 1,
-			//                CURLOPT_NOSIGNAL       => 1,
-			//                CURLOPT_HEADER         => 0,
-			//                CURLOPT_HTTPHEADER     => [
-			//                    'Content-Type: application/json',
-			//                    'Accept: application/json',
-			//                ],
-			//                CURLOPT_CONNECTTIMEOUT => 5,
-			CURLOPT_TIMEOUT        => 8,
-			CURLOPT_ENCODING       => '',
-		];
-		// start the first batch of requests
-		
-		for ($i = 0; $i < $rolling_window; $i++) {
-			$ch                   = curl_init();
-			$options[CURLOPT_URL] = $urlsClone[$i];
-			curl_setopt_array($ch, $options);
-			curl_multi_add_handle($master, $ch);
-		}
-		$i--;
-		
-		do {
-			do {
-				$mh_status = curl_multi_exec($master, $running);
-			} while ($mh_status == CURLM_CALL_MULTI_PERFORM);
-			if ($mh_status != CURLM_OK) {
-				break;
-			}
-			
-			// a request was just completed -- find out which one
-			while ($done = curl_multi_info_read($master)) {
-				$info   = curl_getinfo($done['handle']);
-				$output = curl_multi_getcontent($done['handle']);
-				$device = $urls[$info['url']];
-				
-				//                    if ( curl_errno( $done[ 'handle' ] ) !== 0
-				//                         || intval( $info[ 'http_code' ] ) !== 200 ) { //if server responded with http error
-				//                        var_dump( $info );
-				//                        var_dump( curl_errno( $done[ 'handle' ] ) );
-				//                        var_dump( curl_error( $done[ 'handle' ] ) );
-				//                        var_dump( $done[ 'handle' ] );
-				//
-				//                        die();
-				//                    }
-				
-				if (!$output || $output == "") {
-					$data        = new \stdClass();
-					$data->ERROR = __("CURL_ERROR") . " => " . curl_errno($done['handle']) . ": " . curl_error(
-							$done['handle']
-						);
-				}
-				else {
-					$data = json_decode($output);
-					
-					
-					if (json_last_error()
-						== JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
-						$result = preg_replace('/[[:cntrl:]]/', '', $result);
-						$data   = json_decode($result);
-					}
-					
-					if (json_last_error() !== JSON_ERROR_NONE) {
-						$outputTmp = $this->fixJsonFormatv5100($output);
-						$data      = json_decode($outputTmp);
-						unset($outputTmp);
-						
-					}
-					if (json_last_error() !== JSON_ERROR_NONE) {
-						$outputTmp = $this->fixJsonFormatv8500($output);
-						$data      = json_decode($outputTmp);
-						unset($outputTmp);
-						
-					}
-					if (json_last_error() !== JSON_ERROR_NONE) {
-						$data        = new \stdClass();
-						$data->ERROR = __("JSON_ERROR", "API")
-							. " => "
-							. json_last_error()
-							. ": "
-							. json_last_error_msg();
-						$data->ERROR .= "<br/><strong>"
-							. __("JSON_ERROR_CONTACT_DEV", "API", [$output])
-							. "</strong>";
-						$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($output, TRUE);
-						
-					}
-				}
-				if (empty($data->ERROR)) {
-					$data = $this->compatibility($data);
-				}
-				
-				$data                = $this->stateTextsDetection($data);
-				$result[$device->id] = $data;
-				
-				// start a new request (it's important to do this before removing the old one)
-				if (sizeof($urls) >= $i + 1) {
-					$ch                   = curl_init();
-					$options[CURLOPT_URL] = $urlsClone[$i++];  // increment i
-					
-					
-					curl_setopt_array($ch, $options);
-					curl_multi_add_handle($master, $ch);
-				}
-				// remove the curl handle that just completed
-				curl_multi_remove_handle($master, $done['handle']);
-				curl_close($done["handle"]);
-			}
-		} while ($running);
-		curl_multi_close($master);
-		
-		unset($urlsClone);
-		unset($urls);
-		
-		ini_set("max_execution_time", "60");
-		
-		return $result;
+
+        $responses = Promise\settle($promises)->wait();
+
+        $results = [];
+        foreach ($responses as $deviceId => $response) {
+            if ($response['state'] === 'rejected') {
+                continue;
+            }
+
+            $result = json_decode($response['value']->getBody()->getContents());
+
+            if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
+                $result = preg_replace('/[[:cntrl:]]/', '', $result);
+                $result = json_decode($result);
+            } elseif (json_last_error() !== JSON_ERROR_NONE) {
+                $result = json_decode($this->fixJsonFormatv5100($result));
+            } elseif (json_last_error() !== JSON_ERROR_NONE) {
+                $result = json_decode($this->fixJsonFormatv8500($result));
+            } elseif (json_last_error() !== JSON_ERROR_NONE) {
+                $result = new \stdClass();
+                $result->ERROR = __("JSON_ERROR", "API")
+                    . " => "
+                    . json_last_error()
+                    . ": "
+                    . json_last_error_msg();
+                $result->ERROR .= "<br/><strong>"
+                    . __("JSON_ERROR_CONTACT_DEV", "API", [$result])
+                    . "</strong>";
+                $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
+            }
+
+            if (empty($result->ERROR)) {
+                $result = $this->compatibility($result);
+            }
+
+            $result = $this->stateTextsDetection($result);
+
+            $results[$deviceId] = $result;
+        }
+
+        return $results;
 	}
 	
-	public function getDevices($orderBy = "position") {
-		
+	public function getDevices(string $orderBy = "position")
+    {
 		$devices = [];
-		
 		$file = fopen(_CSVFILE_, 'r');
 		while (($line = fgetcsv($file)) !== FALSE) {
 			$devices[] = $this->createDeviceObject($line);
-			
-			
 		}
 		fclose($file);
 		

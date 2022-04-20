@@ -6,7 +6,8 @@
         "php": ">=7.4",
         "ext-json": "*",
         "erusev/parsedown": "^1.7",
-        "philipp15b/php-i18n": "^4.0"
+        "philipp15b/php-i18n": "^4.0",
+        "guzzlehttp/guzzle": "^7.0"
     },
     "autoload": {
         "psr-4": {
@@ -20,6 +21,11 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\TasmoAdmin\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.3"
         }
     }
 }
