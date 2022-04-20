@@ -649,91 +649,30 @@ class Sonoff {
 		return $status;
 	}
 	
-	public function doAjax($try = 1) {
-		$device = $this->getDeviceById($_REQUEST["id"]);
-		$url    = $this->buildCmndUrl(
-			$device,
-			urldecode($_REQUEST["cmnd"])
-		);
-		
-		
-		//		if ($device->id == 1) {
-		//			$url = "http://192.168.178.10/dev/test.json";
-		//		}
-		
-		
-		$result = NULL;
-		$ch     = curl_init();
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$result = curl_exec($ch);
-		
-		if (!$result) {
-			$data        = new \stdClass();
-			$data->ERROR = __("CURL_ERROR") . " => " . curl_errno($ch) . ": " . curl_error($ch);
-		}
-		else {
-			
-			$backupResult = $result;
-			
-			$data = json_decode($result);
-			
-			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
-				$result = preg_replace('/[[:cntrl:]]/', '', $result);
-				$data   = json_decode($result);
-			}
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$result = $this->fixJsonFormatv5100($result);
-				$data   = json_decode($result);
-			}
-			
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$result = $backupResult;
-				$result = $this->fixJsonFormatv8500($result);
-				$data   = json_decode($result);
-			}
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new \stdClass();
-				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
-				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
-				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
-				
-			}
-			
-			if (isset($data->WARNING) && !empty($data->WARNING) && $try < 1) {
-				$try++;
-				//set web log level 2 and try again
-				$webLog = $this->setWebLog(parse_url($url, PHP_URL_HOST), 2, $try);
-				if (!isset($webLog->WARNING) && empty($webLog->WARNING)) {
-					curl_close($ch);
-					$data = $this->doAjax($url, $try);
-				}
-			}
-			else {
-				if (empty($data->ERROR)) {
-					$data = $this->compatibility($data);
-				}
-			}
-		}
-		
-		curl_close($ch);
-		
-		
-		$data = $this->stateTextsDetection($data);
-		
-		
-		return $data;
+	public function doAjax($deviceId) {
+		$device = $this->getDeviceById($deviceId);
+
+        if ($device === null) {
+            $response = new \stdClass();
+            $response->ERROR = sprintf("No devices found with ID: %d", $deviceId);
+            return $response;
+        }
+
+		$url = $this->buildCmndUrl($device, urldecode($_REQUEST["cmnd"]));
+
+        $response = $this->client->request('GET', $url, ['timeout' => 8]);
+
+		return $this->processResult(json_decode($response->getBody()));
 	}
 	
-	public function getDeviceById($id = NULL) {
-		if (!isset($id) || empty($id)) {
-			return NULL;
+	public function getDeviceById($id = null): ?\stdClass
+    {
+		if (empty($id)) {
+			return null;
 		}
+
+        $device = null;
+
 		$file = fopen(_CSVFILE_, 'r');
 		while (($line = fgetcsv($file)) !== FALSE) {
 			if ($line[0] == $id) {
@@ -774,7 +713,7 @@ class Sonoff {
 		return $device;
 	}
 	
-	public function doAjaxAll(int $try = 1)
+	public function doAjaxAll()
     {
 		ini_set("max_execution_time", "99999999999");
 		
@@ -799,33 +738,7 @@ class Sonoff {
 
             $result = json_decode($response['value']->getBody()->getContents());
 
-            if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
-                $result = preg_replace('/[[:cntrl:]]/', '', $result);
-                $result = json_decode($result);
-            } elseif (json_last_error() !== JSON_ERROR_NONE) {
-                $result = json_decode($this->fixJsonFormatv5100($result));
-            } elseif (json_last_error() !== JSON_ERROR_NONE) {
-                $result = json_decode($this->fixJsonFormatv8500($result));
-            } elseif (json_last_error() !== JSON_ERROR_NONE) {
-                $result = new \stdClass();
-                $result->ERROR = __("JSON_ERROR", "API")
-                    . " => "
-                    . json_last_error()
-                    . ": "
-                    . json_last_error_msg();
-                $result->ERROR .= "<br/><strong>"
-                    . __("JSON_ERROR_CONTACT_DEV", "API", [$result])
-                    . "</strong>";
-                $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
-            }
-
-            if (empty($result->ERROR)) {
-                $result = $this->compatibility($result);
-            }
-
-            $result = $this->stateTextsDetection($result);
-
-            $results[$deviceId] = $result;
+            $results[$deviceId] = $this->processResult($result);
         }
 
         return $results;
@@ -1095,6 +1008,35 @@ class Sonoff {
 		
 		return $decodedOptopns;
 	}
+
+    private function processResult(\stdClass $result): \stdClass
+    {
+        if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
+            $result = preg_replace('/[[:cntrl:]]/', '', $result);
+            $result = json_decode($result);
+        } elseif (json_last_error() !== JSON_ERROR_NONE) {
+            $result = json_decode($this->fixJsonFormatv5100($result));
+        } elseif (json_last_error() !== JSON_ERROR_NONE) {
+            $result = json_decode($this->fixJsonFormatv8500($result));
+        } elseif (json_last_error() !== JSON_ERROR_NONE) {
+            $result = new \stdClass();
+            $result->ERROR = __("JSON_ERROR", "API")
+                . " => "
+                . json_last_error()
+                . ": "
+                . json_last_error_msg();
+            $result->ERROR .= "<br/><strong>"
+                . __("JSON_ERROR_CONTACT_DEV", "API", [$result])
+                . "</strong>";
+            $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
+        }
+
+        if (empty($result->ERROR)) {
+            $result = $this->compatibility($result);
+        }
+
+        return $this->stateTextsDetection($result);
+    }
 }
 
 
