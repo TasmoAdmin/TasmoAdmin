@@ -1,16 +1,13 @@
 <?php
 
-use TasmoAdmin\Selfupdate;
+use TasmoAdmin\SelfUpdate;
 
 require_once _APPROOT_ . "vendor/autoload.php";
-
-require_once _INCLUDESDIR_ . "Selfupdate.php";
-
 
 $mdParser = new Parsedown();
 
 $msg        = "";
-$Selfupdate = new Selfupdate($Config);
+$Selfupdate = new SelfUpdate($Config);
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
 	$updateResult = $Selfupdate->update();
