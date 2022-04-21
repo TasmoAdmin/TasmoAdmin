@@ -2,7 +2,7 @@
 
 namespace TasmoAdmin;
 
-class Selfupdate {
+class SelfUpdate {
 	
 	private $repoUrl    = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin";
 	private $latestTag  = "";
