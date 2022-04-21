@@ -30,24 +30,13 @@ class Sonoff {
 		
 		return $status;
 	}
-	
-	/**
-	 * @param     $ip
-	 * @param     $cmnd
-	 * @param int $try
-	 *
-	 * @return mixed
-	 */
-	private function doRequest($device, $cmnd, $try = 1) {
+
+	private function doRequest(\stdClass $device, string $cmnd, int $try = 1)
+    {
 		$url = $this->buildCmndUrl($device, $cmnd);
 
 		$result = NULL;
-		
-		
-		//            if( $device->id == 6 ) {
-		//                $url = "http://tasmoAdmin/dev/BME680.json";
-		//            }
-		
+
 		
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
@@ -685,7 +674,8 @@ class Sonoff {
 		return $device;
 	}
 	
-	private function createDeviceObject($deviceLine = []) {
+	private function createDeviceObject($deviceLine = []): ?\stdClass
+    {
 		if (!isset($deviceLine) || empty($deviceLine)) {
 			return NULL;
 		}
