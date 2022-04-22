@@ -3,6 +3,8 @@
 namespace TasmoAdmin;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise;
 
 /**
@@ -649,9 +651,15 @@ class Sonoff {
 
 		$url = $this->buildCmndUrl($device, urldecode($_REQUEST["cmnd"]));
 
-        $response = $this->client->request('GET', $url, ['timeout' => 8]);
+        try {
+            $response = $this->client->request('GET', $url, ['timeout' => 8]);
 
-		return $this->processResult(json_decode($response->getBody()));
+            return $this->processResult(json_decode($response->getBody()));
+        } catch (GuzzleException $exception) {
+            $result = new \stdClass();
+            $result->ERROR = $exception->getMessage();
+            return $result;
+        }
 	}
 	
 	public function getDeviceById($id = null): ?\stdClass
