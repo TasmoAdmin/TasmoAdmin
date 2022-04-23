@@ -54,8 +54,6 @@ jobs:
           ./.docker/docker.sh prepare
       - name: Build docker images
         run: ./.docker/docker.sh build
-      - name: Test docker images
-        run: ./.docker/docker.sh test
       - name: Tag all docker images
         run: ./.docker/docker.sh tag
       - name: Login to GitHub Container Registry
