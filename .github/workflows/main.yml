@@ -40,7 +40,7 @@ jobs:
     - name: Test docker images
       run: ./.docker/docker.sh test
   docker-release:
-    name: Release new version
+    name: Release docker dev build
     runs-on: ubuntu-20.04
     needs: docker-test
     if: github.ref == 'refs/heads/master'
