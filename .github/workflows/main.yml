@@ -38,7 +38,7 @@ jobs:
     - name: Build docker images
       run: ./.docker/docker.sh build
     - name: Test docker images
-      run: ./.docker/docker.sh tes
+      run: ./.docker/docker.sh test
   docker-release:
     name: Release new version
     runs-on: ubuntu-20.04
