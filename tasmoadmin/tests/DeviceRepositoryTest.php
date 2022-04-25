@@ -27,8 +27,37 @@ class DeviceRepositoryTest extends TestCase
         self::assertNull($repo->getDeviceById('9'));
     }
 
+    public function testGetDevices(): void
+    {
+        $devices = $this->getValidRepo()->getDevices();
+        self::assertCount(3, $devices);
+    }
+
+    public function testGetDevicesEmptyRepo(): void
+    {
+        $devices = $this->getEmptyRepo()->getDevices();
+        self::assertCount(0, $devices);
+    }
+
+    public function testSetDeviceValueMissingDevice(): void
+    {
+        $repo = $this->getEmptyRepo();
+        self::assertNull($repo->setDeviceValue('1', 'names', '1'));
+    }
+
+    public function testSetDeviceValueInvalidField(): void
+    {
+        $repo = $this->getValidRepo();
+        self::assertNull($repo->setDeviceValue('1', 'random', '1'));
+    }
+
     private function getValidRepo(): DeviceRepository
     {
         return new DeviceRepository(TestUtils::getFixturePath('devices.csv'));
+    }
+
+    private function getEmptyRepo(): DeviceRepository
+    {
+       return new DeviceRepository(TestUtils::getFixturePath('empty_devices.csv'));
     }
 }

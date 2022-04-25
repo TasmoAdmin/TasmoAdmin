@@ -2,16 +2,27 @@
 
 namespace TasmoAdmin;
 
+use stdClass;
+use Symfony\Component\Filesystem\Filesystem;
+
 class DeviceRepository
 {
     private string $file;
 
+    private Filesystem $filesystem;
+
+    private array $allowedUpdateFields = [
+        'id',
+        'names',
+    ];
+
     public function __construct(string $file)
     {
         $this->file = $file;
+        $this->filesystem = new Filesystem();
     }
 
-    public function getDeviceById($id): ?\stdClass
+    public function getDeviceById(string $id): ?stdClass
     {
         if (empty($id)) {
             return null;
@@ -44,9 +55,13 @@ class DeviceRepository
         return $devices;
     }
 
-    public function setDeviceValue($id, $field = NULL, $value = NULL): ?\stdClass
+    public function setDeviceValue(string $id, $field = NULL, $value = NULL): ?stdClass
     {
         if (empty($id)) {
+            return null;
+        }
+
+        if (!in_array($field, $this->allowedUpdateFields, true)) {
             return null;
         }
 
@@ -56,14 +71,13 @@ class DeviceRepository
         }
 
         $device->$field = $value;
-        $device = $this->updateDevice($device);
 
-        return $device;
+        return $this->updateDevice($device);
     }
 
-    private function updateDevice($device = NULL): ?\stdClass
+    private function updateDevice(stdClass $device): ?stdClass
     {
-        if (empty($device) || empty($device->id)) {
+        if (empty($device->id)) {
             return null;
         }
         $deviceArr[0] = $device->id;
@@ -86,14 +100,13 @@ class DeviceRepository
             }
         }
 
-        $tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-
+        $tempFile = $this->filesystem->tempnam(_TMPDIR_, 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {
             die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
         }
-        if (!$output = fopen($tempfile, 'w')) {
-            die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
+        if (!$output = fopen($tempFile, 'w')) {
+            die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempFile]));
         }
 
         while (($data = fgetcsv($input)) !== FALSE) {
@@ -105,14 +118,12 @@ class DeviceRepository
 
         fclose($input);
         fclose($output);
-
-        unlink($this->file);
-        rename($tempfile, $this->file);
+        $this->filesystem->rename($tempFile, $this->file);
 
         return $this->createDeviceObject($deviceArr);
     }
 
-    private function createDeviceObject(array $deviceLine): ?\stdClass
+    private function createDeviceObject(array $deviceLine): ?stdClass
     {
         return Device::fromLine($deviceLine);
     }
