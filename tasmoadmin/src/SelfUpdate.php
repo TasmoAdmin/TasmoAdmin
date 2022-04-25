@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin;
 
+use ZipArchive;
+
 class SelfUpdate {
 	
 	private $repoUrl    = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin";
@@ -172,7 +174,7 @@ class SelfUpdate {
 		
 		$firstDir = NULL;       // holds the name of the first directory
 		
-		$zip = new ZipArchive;
+		$zip = new ZipArchive();
 		$res = $zip->open($file);
 		if ($res === TRUE) {
 			$firstDir = $zip->getNameIndex(0);
