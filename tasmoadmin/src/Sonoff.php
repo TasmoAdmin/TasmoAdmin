@@ -3,7 +3,6 @@
 namespace TasmoAdmin;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise;
 
@@ -14,9 +13,12 @@ class Sonoff {
 
     private Client $client;
 
+    private DeviceRepository $deviceRepository;
+
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client();
+        $this->deviceRepository = new DeviceRepository(_CSVFILE_);
     }
 
 	/**
@@ -664,22 +666,7 @@ class Sonoff {
 	
 	public function getDeviceById($id = null): ?\stdClass
     {
-		if (empty($id)) {
-			return null;
-		}
-
-        $device = null;
-
-		$file = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			if ($line[0] == $id) {
-				$device = $this->createDeviceObject($line);
-				break;
-			}
-		}
-		fclose($file);
-		
-		return $device;
+		return $this->deviceRepository->getDeviceById($id);
 	}
 	
 	private function createDeviceObject(array $deviceLine): ?\stdClass
@@ -720,12 +707,7 @@ class Sonoff {
 	
 	public function getDevices(string $orderBy = "position")
     {
-		$devices = [];
-		$file = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			$devices[] = $this->createDeviceObject($line);
-		}
-		fclose($file);
+		$devices = $this->deviceRepository->getDevices();
 		
 		if ($orderBy == "position") {
 			$devicesTmp = [];
@@ -739,7 +721,7 @@ class Sonoff {
 					$device->position++;
 				}
 				if ($update) {
-					$this->setDeviceValue($device->id, "position", $device->position);
+					$this->deviceRepository->setDeviceValue($device->id, "position", $device->position);
 				}
 				$devicesTmp[$device->position] = $device;
 			}
@@ -749,75 +731,6 @@ class Sonoff {
 		}
 		
 		return $devices;
-	}
-	
-	public function setDeviceValue($id = NULL, $field = NULL, $value = NULL) {
-		if (!isset($id) || empty($id)) {
-			return NULL;
-		}
-		$device = NULL;
-		$file   = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			if ($line[0] == $id) {
-				$device = $this->createDeviceObject($line);
-				break;
-			}
-		}
-		fclose($file);
-		$device->$field = $value;
-		$device         = $this->updateDevice($device);
-		
-		return $device;
-	}
-	
-	public function updateDevice($device = NULL) {
-		if (!isset($device) || empty($device) || !isset($device->id) || empty($device->id)) {
-			return NULL;
-		}
-		$deviceArr[0] = $device->id;
-		$deviceArr[1] = implode("|", isset($device->names) && !empty($device->names) ? $device->names : []);
-		$deviceArr[2] = isset($device->ip) && !empty($device->ip) ? $device->ip : "";
-		$deviceArr[3] = isset($device->username) && !empty($device->username) ? $device->username : "";
-		$deviceArr[4] = isset($device->password) && !empty($device->password) ? $device->password : "";
-		$deviceArr[5] = isset($device->img) && !empty($device->img) ? $device->img : "";
-		$deviceArr[6] = isset($device->position) && !empty($device->position) ? $device->position : "";
-		
-		foreach ($deviceArr as $key => $field) {
-			if (is_array($field)) {
-				foreach ($field as $subkey => $subfield) {
-					$deviceArr[$key][$field][$subkey] = trim($subfield);
-				}
-			}
-			else {
-				
-				$deviceArr[$key] = trim($field);
-			}
-		}
-		
-		$tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-		
-		
-		if (!$input = fopen(_CSVFILE_, 'r')) {
-			die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
-		}
-		if (!$output = fopen($tempfile, 'w')) {
-			die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-		}
-		
-		while (($data = fgetcsv($input)) !== FALSE) {
-			if ($data[0] == $deviceArr[0]) {
-				$data = $deviceArr;
-			}
-			fputcsv($output, $data);
-		}
-		
-		fclose($input);
-		fclose($output);
-		
-		unlink(_CSVFILE_);
-		rename($tempfile, _CSVFILE_);
-		
-		return $this->createDeviceObject($deviceArr);
 	}
 	
 	public function search($urls = []) {
