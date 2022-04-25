@@ -11,9 +11,4 @@ class DeviceTest extends TestCase
     {
         self::assertNull(Device::fromLine([]));
     }
-
-    public function testFromLineWithId(): void
-    {
-        self::assertNull(Device::fromLine([0 => '1']));
-    }
 }
