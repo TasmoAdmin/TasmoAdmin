@@ -682,33 +682,9 @@ class Sonoff {
 		return $device;
 	}
 	
-	private function createDeviceObject($deviceLine = []): ?\stdClass
+	private function createDeviceObject(array $deviceLine): ?\stdClass
     {
-		if (!isset($deviceLine) || empty($deviceLine)) {
-			return NULL;
-		}
-		
-		$device                     = new \stdClass();
-		$deviceLine[1]              = explode("|", $deviceLine[1]);
-		$device->id                 = isset($deviceLine[0]) ? $deviceLine[0] : FALSE;
-		$device->names              = isset($deviceLine[1]) ? $deviceLine[1] : FALSE;
-		$device->ip                 = isset($deviceLine[2]) ? $deviceLine[2] : FALSE;
-		$device->username           = isset($deviceLine[3]) ? $deviceLine[3] : FALSE;
-		$device->password           = isset($deviceLine[4]) ? $deviceLine[4] : FALSE;
-		$device->img                = isset($deviceLine[5]) ? $deviceLine[5] : "bulb_1";
-		$device->position           = isset($deviceLine[6]) && $deviceLine[6] != "" ? $deviceLine[6] : "";
-		$device->device_all_off     = isset($deviceLine[7]) ? $deviceLine[7] : 1;
-		$device->device_protect_on  = isset($deviceLine[8]) ? $deviceLine[8] : 0;
-		$device->device_protect_off = isset($deviceLine[9]) ? $deviceLine[9] : 0;
-		
-		$keywords   = [];
-		$keywords[] = count($device->names) > 1 ? "multi" : "single";
-		$keywords[] = "IP#" . $device->ip;
-		$keywords[] = "ID#" . $device->id;
-		$keywords[] = "POS#" . $device->position;
-		
-		$device->keywords = $keywords;
-		return $device;
+        return Device::fromLine($deviceLine);
 	}
 	
 	public function doAjaxAll()
