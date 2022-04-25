@@ -6,7 +6,6 @@ class DeviceRepository
 {
     private string $file;
 
-
     public function __construct(string $file)
     {
         $this->file = $file;
@@ -45,7 +44,8 @@ class DeviceRepository
         return $devices;
     }
 
-    public function setDeviceValue($id, $field = NULL, $value = NULL) {
+    public function setDeviceValue($id, $field = NULL, $value = NULL): ?\stdClass
+    {
         if (empty($id)) {
             return null;
         }
@@ -61,9 +61,10 @@ class DeviceRepository
         return $device;
     }
 
-    private function updateDevice($device = NULL) {
-        if (!isset($device) || empty($device) || !isset($device->id) || empty($device->id)) {
-            return NULL;
+    private function updateDevice($device = NULL): ?\stdClass
+    {
+        if (empty($device) || empty($device->id)) {
+            return null;
         }
         $deviceArr[0] = $device->id;
         $deviceArr[1] = implode("|", isset($device->names) && !empty($device->names) ? $device->names : []);
