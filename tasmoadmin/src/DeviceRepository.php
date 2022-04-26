@@ -9,6 +9,8 @@ class DeviceRepository
 {
     private string $file;
 
+    private string $tmpDir;
+
     private Filesystem $filesystem;
 
     private array $allowedUpdateFields = [
@@ -16,10 +18,32 @@ class DeviceRepository
         'names',
     ];
 
-    public function __construct(string $file)
+    public function __construct(string $file, string $tmpDir)
     {
         $this->file = $file;
+        $this->tmpDir = $tmpDir;
         $this->filesystem = new Filesystem();
+    }
+
+    public function saveDevices(array $devices, string $deviceUsername, string $devicePassword): void
+    {
+        $handle = fopen($this->file, "a");
+        foreach ($devices as $device)
+        {
+            $fp = file($this->file);
+            $deviceHolder = [];
+            $deviceHolder[0] = count($fp) + 1;
+            $deviceHolder[1] = implode("|", $device["device_name"] ?? []);
+            $deviceHolder[2] = $device["device_ip"] ?? "";
+            $deviceHolder[3] =  $deviceUsername;
+            $deviceHolder[4] = $devicePassword;
+            $deviceHolder[5] = $device["device_img"] ?? "bulb_1";
+            $deviceHolder[6] = $device["device_position"] ?? "";
+
+            fputcsv($handle, $deviceHolder);
+        }
+
+        fclose($handle);
     }
 
     public function getDeviceById(string $id): ?stdClass
@@ -55,7 +79,7 @@ class DeviceRepository
         return $devices;
     }
 
-    public function setDeviceValue(string $id, $field = NULL, $value = NULL): ?stdClass
+    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
     {
         if (empty($id)) {
             return null;
@@ -100,7 +124,7 @@ class DeviceRepository
             }
         }
 
-        $tempFile = $this->filesystem->tempnam(_TMPDIR_, 'tmp');
+        $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {
             die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
@@ -118,7 +142,7 @@ class DeviceRepository
 
         fclose($input);
         fclose($output);
-        $this->filesystem->rename($tempFile, $this->file);
+        $this->filesystem->rename($tempFile, $this->file, true);
 
         return $this->createDeviceObject($deviceArr);
     }

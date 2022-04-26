@@ -5,6 +5,7 @@ namespace TasmoAdmin;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise;
+use stdClass;
 
 /**
  * Class Sonoff
@@ -35,7 +36,7 @@ class Sonoff {
 		return $status;
 	}
 
-	private function doRequest(\stdClass $device, string $cmnd, int $try = 1)
+	private function doRequest(stdClass $device, string $cmnd, int $try = 1)
     {
 		$url = $this->buildCmndUrl($device, $cmnd);
 
@@ -51,7 +52,7 @@ class Sonoff {
 		
 		
 		if (!$result) {
-			$data        = new \stdClass();
+			$data        = new stdClass();
 			$data->ERROR = __("CURL_ERROR", "API") . " => " . curl_errno($ch) . ": " . curl_error($ch);
 		}
 		else {
@@ -74,7 +75,7 @@ class Sonoff {
 			}
 			
 			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new \stdClass();
+				$data        = new stdClass();
 				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
 				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
 				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
@@ -575,7 +576,7 @@ class Sonoff {
 	public function getPrefixe($device) {
 		$cmnds = ["Prefix1", "Prefix2", "Prefix3"];
 		
-		$status = new \stdClass();
+		$status = new stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			
@@ -607,7 +608,7 @@ class Sonoff {
 	public function getStateTexts($device) {
 		$cmnds = ["StateText1", "StateText2", "StateText3", "StateText4"];
 		
-		$status = new \stdClass();
+		$status = new stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			if (!empty($tmp->Command) && $tmp->Command == "Unknown") {
@@ -646,7 +647,7 @@ class Sonoff {
 		$device = $this->getDeviceById($deviceId);
 
         if ($device === null) {
-            $response = new \stdClass();
+            $response = new stdClass();
             $response->ERROR = sprintf("No devices found with ID: %d", $deviceId);
             return $response;
         }
@@ -658,18 +659,18 @@ class Sonoff {
 
             return $this->processResult(json_decode($response->getBody()));
         } catch (GuzzleException $exception) {
-            $result = new \stdClass();
+            $result = new stdClass();
             $result->ERROR = $exception->getMessage();
             return $result;
         }
 	}
 	
-	public function getDeviceById($id = null): ?\stdClass
+	public function getDeviceById($id = null): ?stdClass
     {
 		return $this->deviceRepository->getDeviceById($id);
 	}
 	
-	private function createDeviceObject(array $deviceLine): ?\stdClass
+	private function createDeviceObject(array $deviceLine): ?stdClass
     {
         return Device::fromLine($deviceLine);
 	}
@@ -704,6 +705,11 @@ class Sonoff {
 
         return $results;
 	}
+
+    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
+    {
+        return $this->deviceRepository->setDeviceValue($id, $field, $value);
+    }
 	
 	public function getDevices(string $orderBy = "position")
     {
@@ -876,13 +882,13 @@ class Sonoff {
 			$options = $options[0];
 		}
 		
-		$decodedOptopns = new \stdClass();
+		$decodedOptopns = new stdClass();
 		
 		$options = intval($options, 16);
 		for ($i = 0; $i < count($a_setoption); $i++) {
 			$optionV                           = ($options >> $i) & 1;
 			$SetOPtion                         = "SetOption" . $i;
-			$decodedOptopns->$SetOPtion        = new \stdClass();
+			$decodedOptopns->$SetOPtion        = new stdClass();
 			$decodedOptopns->$SetOPtion->desc  = $a_setoption[$i];
 			$decodedOptopns->$SetOPtion->value = $optionV;
 			//                $decodedOptopns[ $i ] = [
@@ -896,7 +902,7 @@ class Sonoff {
 		return $decodedOptopns;
 	}
 
-    private function processResult(\stdClass $result): \stdClass
+    private function processResult(stdClass $result): stdClass
     {
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
             $result = preg_replace('/[[:cntrl:]]/', '', $result);
@@ -906,7 +912,7 @@ class Sonoff {
         } elseif (json_last_error() !== JSON_ERROR_NONE) {
             $result = json_decode($this->fixJsonFormatv8500($result));
         } elseif (json_last_error() !== JSON_ERROR_NONE) {
-            $result = new \stdClass();
+            $result = new stdClass();
             $result->ERROR = __("JSON_ERROR", "API")
                 . " => "
                 . json_last_error()
