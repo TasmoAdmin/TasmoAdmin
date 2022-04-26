@@ -670,11 +670,6 @@ class Sonoff {
 		return $this->deviceRepository->getDeviceById($id);
 	}
 	
-	private function createDeviceObject(array $deviceLine): ?stdClass
-    {
-        return Device::fromLine($deviceLine);
-	}
-	
 	public function doAjaxAll()
     {
 		ini_set("max_execution_time", "99999999999");
