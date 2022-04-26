@@ -29,11 +29,17 @@ class DeviceRepositoryTest extends TestCase
         $repo = $this->getVirtualRepo();
         $devices = [
             [
-                'device_name' => ['socket-1']
+                'device_name' => ['socket-1'],
+                'device_ip' => '127.0.0.1',
+                'device_img' => 'orange',
+                'device_position' => 1,
             ]
         ];
         $repo->saveDevices($devices, 'user', 'pass');
         self::assertCount(1, $repo->getDevices());
+        $device = $repo->getDevices()[0];
+        self::assertEquals(['socket-1'], $device->names);
+
     }
 
     public function testGetDeviceByIdValid(): void
