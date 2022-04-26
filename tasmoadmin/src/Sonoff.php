@@ -3,9 +3,9 @@
 namespace TasmoAdmin;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise;
+use stdClass;
 
 /**
  * Class Sonoff
@@ -14,9 +14,12 @@ class Sonoff {
 
     private Client $client;
 
+    private DeviceRepository $deviceRepository;
+
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client();
+        $this->deviceRepository = new DeviceRepository(_CSVFILE_);
     }
 
 	/**
@@ -33,7 +36,7 @@ class Sonoff {
 		return $status;
 	}
 
-	private function doRequest(\stdClass $device, string $cmnd, int $try = 1)
+	private function doRequest(stdClass $device, string $cmnd, int $try = 1)
     {
 		$url = $this->buildCmndUrl($device, $cmnd);
 
@@ -49,7 +52,7 @@ class Sonoff {
 		
 		
 		if (!$result) {
-			$data        = new \stdClass();
+			$data        = new stdClass();
 			$data->ERROR = __("CURL_ERROR", "API") . " => " . curl_errno($ch) . ": " . curl_error($ch);
 		}
 		else {
@@ -72,7 +75,7 @@ class Sonoff {
 			}
 			
 			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new \stdClass();
+				$data        = new stdClass();
 				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
 				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
 				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
@@ -573,7 +576,7 @@ class Sonoff {
 	public function getPrefixe($device) {
 		$cmnds = ["Prefix1", "Prefix2", "Prefix3"];
 		
-		$status = new \stdClass();
+		$status = new stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			
@@ -605,7 +608,7 @@ class Sonoff {
 	public function getStateTexts($device) {
 		$cmnds = ["StateText1", "StateText2", "StateText3", "StateText4"];
 		
-		$status = new \stdClass();
+		$status = new stdClass();
 		foreach ($cmnds as $cmnd) {
 			$tmp = $this->doRequest($device, $cmnd);
 			if (!empty($tmp->Command) && $tmp->Command == "Unknown") {
@@ -644,7 +647,7 @@ class Sonoff {
 		$device = $this->getDeviceById($deviceId);
 
         if ($device === null) {
-            $response = new \stdClass();
+            $response = new stdClass();
             $response->ERROR = sprintf("No devices found with ID: %d", $deviceId);
             return $response;
         }
@@ -656,59 +659,15 @@ class Sonoff {
 
             return $this->processResult(json_decode($response->getBody()));
         } catch (GuzzleException $exception) {
-            $result = new \stdClass();
+            $result = new stdClass();
             $result->ERROR = $exception->getMessage();
             return $result;
         }
 	}
 	
-	public function getDeviceById($id = null): ?\stdClass
+	public function getDeviceById($id = null): ?stdClass
     {
-		if (empty($id)) {
-			return null;
-		}
-
-        $device = null;
-
-		$file = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			if ($line[0] == $id) {
-				$device = $this->createDeviceObject($line);
-				break;
-			}
-		}
-		fclose($file);
-		
-		return $device;
-	}
-	
-	private function createDeviceObject($deviceLine = []): ?\stdClass
-    {
-		if (!isset($deviceLine) || empty($deviceLine)) {
-			return NULL;
-		}
-		
-		$device                     = new \stdClass();
-		$deviceLine[1]              = explode("|", $deviceLine[1]);
-		$device->id                 = isset($deviceLine[0]) ? $deviceLine[0] : FALSE;
-		$device->names              = isset($deviceLine[1]) ? $deviceLine[1] : FALSE;
-		$device->ip                 = isset($deviceLine[2]) ? $deviceLine[2] : FALSE;
-		$device->username           = isset($deviceLine[3]) ? $deviceLine[3] : FALSE;
-		$device->password           = isset($deviceLine[4]) ? $deviceLine[4] : FALSE;
-		$device->img                = isset($deviceLine[5]) ? $deviceLine[5] : "bulb_1";
-		$device->position           = isset($deviceLine[6]) && $deviceLine[6] != "" ? $deviceLine[6] : "";
-		$device->device_all_off     = isset($deviceLine[7]) ? $deviceLine[7] : 1;
-		$device->device_protect_on  = isset($deviceLine[8]) ? $deviceLine[8] : 0;
-		$device->device_protect_off = isset($deviceLine[9]) ? $deviceLine[9] : 0;
-		
-		$keywords   = [];
-		$keywords[] = count($device->names) > 1 ? "multi" : "single";
-		$keywords[] = "IP#" . $device->ip;
-		$keywords[] = "ID#" . $device->id;
-		$keywords[] = "POS#" . $device->position;
-		
-		$device->keywords = $keywords;
-		return $device;
+		return $this->deviceRepository->getDeviceById($id);
 	}
 	
 	public function doAjaxAll()
@@ -741,15 +700,15 @@ class Sonoff {
 
         return $results;
 	}
+
+    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
+    {
+        return $this->deviceRepository->setDeviceValue($id, $field, $value);
+    }
 	
 	public function getDevices(string $orderBy = "position")
     {
-		$devices = [];
-		$file = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			$devices[] = $this->createDeviceObject($line);
-		}
-		fclose($file);
+		$devices = $this->deviceRepository->getDevices();
 		
 		if ($orderBy == "position") {
 			$devicesTmp = [];
@@ -763,7 +722,7 @@ class Sonoff {
 					$device->position++;
 				}
 				if ($update) {
-					$this->setDeviceValue($device->id, "position", $device->position);
+					$this->deviceRepository->setDeviceValue($device->id, "position", $device->position);
 				}
 				$devicesTmp[$device->position] = $device;
 			}
@@ -773,75 +732,6 @@ class Sonoff {
 		}
 		
 		return $devices;
-	}
-	
-	public function setDeviceValue($id = NULL, $field = NULL, $value = NULL) {
-		if (!isset($id) || empty($id)) {
-			return NULL;
-		}
-		$device = NULL;
-		$file   = fopen(_CSVFILE_, 'r');
-		while (($line = fgetcsv($file)) !== FALSE) {
-			if ($line[0] == $id) {
-				$device = $this->createDeviceObject($line);
-				break;
-			}
-		}
-		fclose($file);
-		$device->$field = $value;
-		$device         = $this->updateDevice($device);
-		
-		return $device;
-	}
-	
-	public function updateDevice($device = NULL) {
-		if (!isset($device) || empty($device) || !isset($device->id) || empty($device->id)) {
-			return NULL;
-		}
-		$deviceArr[0] = $device->id;
-		$deviceArr[1] = implode("|", isset($device->names) && !empty($device->names) ? $device->names : []);
-		$deviceArr[2] = isset($device->ip) && !empty($device->ip) ? $device->ip : "";
-		$deviceArr[3] = isset($device->username) && !empty($device->username) ? $device->username : "";
-		$deviceArr[4] = isset($device->password) && !empty($device->password) ? $device->password : "";
-		$deviceArr[5] = isset($device->img) && !empty($device->img) ? $device->img : "";
-		$deviceArr[6] = isset($device->position) && !empty($device->position) ? $device->position : "";
-		
-		foreach ($deviceArr as $key => $field) {
-			if (is_array($field)) {
-				foreach ($field as $subkey => $subfield) {
-					$deviceArr[$key][$field][$subkey] = trim($subfield);
-				}
-			}
-			else {
-				
-				$deviceArr[$key] = trim($field);
-			}
-		}
-		
-		$tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-		
-		
-		if (!$input = fopen(_CSVFILE_, 'r')) {
-			die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
-		}
-		if (!$output = fopen($tempfile, 'w')) {
-			die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-		}
-		
-		while (($data = fgetcsv($input)) !== FALSE) {
-			if ($data[0] == $deviceArr[0]) {
-				$data = $deviceArr;
-			}
-			fputcsv($output, $data);
-		}
-		
-		fclose($input);
-		fclose($output);
-		
-		unlink(_CSVFILE_);
-		rename($tempfile, _CSVFILE_);
-		
-		return $this->createDeviceObject($deviceArr);
 	}
 	
 	public function search($urls = []) {
@@ -987,13 +877,13 @@ class Sonoff {
 			$options = $options[0];
 		}
 		
-		$decodedOptopns = new \stdClass();
+		$decodedOptopns = new stdClass();
 		
 		$options = intval($options, 16);
 		for ($i = 0; $i < count($a_setoption); $i++) {
 			$optionV                           = ($options >> $i) & 1;
 			$SetOPtion                         = "SetOption" . $i;
-			$decodedOptopns->$SetOPtion        = new \stdClass();
+			$decodedOptopns->$SetOPtion        = new stdClass();
 			$decodedOptopns->$SetOPtion->desc  = $a_setoption[$i];
 			$decodedOptopns->$SetOPtion->value = $optionV;
 			//                $decodedOptopns[ $i ] = [
@@ -1007,7 +897,7 @@ class Sonoff {
 		return $decodedOptopns;
 	}
 
-    private function processResult(\stdClass $result): \stdClass
+    private function processResult(stdClass $result): stdClass
     {
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
             $result = preg_replace('/[[:cntrl:]]/', '', $result);
@@ -1017,7 +907,7 @@ class Sonoff {
         } elseif (json_last_error() !== JSON_ERROR_NONE) {
             $result = json_decode($this->fixJsonFormatv8500($result));
         } elseif (json_last_error() !== JSON_ERROR_NONE) {
-            $result = new \stdClass();
+            $result = new stdClass();
             $result->ERROR = __("JSON_ERROR", "API")
                 . " => "
                 . json_last_error()

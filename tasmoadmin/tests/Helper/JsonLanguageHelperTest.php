@@ -6,6 +6,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use PHPUnit\Framework\TestCase;
+use Tests\TasmoAdmin\TestUtils;
 
 class JsonLanguageHelperTest extends TestCase
 {
@@ -16,11 +17,11 @@ class JsonLanguageHelperTest extends TestCase
         $this->root = vfsStream::setup();
     }
 
-    public function testDumpJson()
+    public function testDumpJson(): void
     {
         $jsonLanguageHelper = new JsonLanguageHelper(
             'en',
-            FIXTURE_PATH . 'language_en.ini',
+            TestUtils::getFixturePath('language_en.ini'),
             $this->root->url()
         );
 

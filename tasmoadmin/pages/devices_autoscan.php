@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\DeviceRepository;
+
 $status       = FALSE;
 $devices      = NULL;
 $devicesFound = NULL;
@@ -83,30 +85,12 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 		
 		
 	}
-	elseif (isset($_REQUEST["save_all"])) { //add
-		
-		
-		$handle = fopen($filename, "a");
-		foreach ($_REQUEST["devices"] as $device) {
-			
-			$fp              = file($filename);
-			$deviceHolder    = [];
-			$deviceHolder[0] = count($fp) + 1;
-			$deviceHolder[1] = implode("|", isset($device["device_name"]) ? $device["device_name"] : []);
-			$deviceHolder[2] = isset($device["device_ip"]) ? $device["device_ip"] : "";
-			$deviceHolder[3] = isset($_REQUEST["device_username"]) ? $_REQUEST["device_username"] : "";
-			$deviceHolder[4] = isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"] : "";
-			$deviceHolder[5] = isset($device["device_img"]) ? $device["device_img"] : "bulb_1";
-			$deviceHolder[6] = isset($device["device_position"]) ? $device["device_position"] : "";
-			
-			
-			fputcsv($handle, $deviceHolder);
-			
-		}
-		fclose($handle);
-		$msg    = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
+	elseif (isset($_REQUEST["save_all"])) {
+		$deviceRepository = new DeviceRepository($filename);
+		$deviceUsername = $_REQUEST["device_username"] ?? "";
+		$devicePassword = $_REQUEST["device_password"] ?? "";$deviceRepository->saveDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
+		$msg = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
 		$action = "done";
-		
 	}
 }
 
