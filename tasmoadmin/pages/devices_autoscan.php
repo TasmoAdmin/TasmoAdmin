@@ -85,17 +85,15 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 		
 		
 	}
-	elseif (isset($_REQUEST["save_all"])) { //add
-		
-		$deviceRepository = new DeviceRepository($filename);
+	elseif (isset($_REQUEST["save_all"])) {
+        $deviceRepository = new DeviceRepository($filename);
 
         $deviceUsername = $_REQUEST["device_username"] ?? "";
         $devicePassword = $_REQUEST["device_password"] ?? "";
-		$deviceRepository->saveDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
+        $deviceRepository->saveDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
 
-		$msg    = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
-		$action = "done";
-		
+        $msg    = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
+        $action = "done";
 	}
 }
 
