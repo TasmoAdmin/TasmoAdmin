@@ -4,7 +4,8 @@ namespace TasmoAdmin;
 
 use Symfony\Component\Filesystem\Filesystem;
 
-class Config {
+class Config
+{
 	private bool $debug = FALSE;
 
 	private string $dataDir;
@@ -37,9 +38,9 @@ class Config {
 	
 	public function __construct(?string $dataDir = null)
 	{
-		$this->dataDir = isset($dataDir) ? $dataDir :  _DATADIR_;
-		$this->cfgFile = $dataDir . "MyConfig.json";
-		$cfgFile140 = $dataDir . "MyConfig.php";       //for tag 1.4.0 migration
+		$this->dataDir = $dataDir ?: _DATADIR_;
+		$this->cfgFile = $this->dataDir . "MyConfig.json";
+		$cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
 		$this->filesystem = new Filesystem();
 
 		//init default values
