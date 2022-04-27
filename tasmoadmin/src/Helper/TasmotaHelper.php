@@ -17,7 +17,6 @@ class TasmotaHelper
 		$this->client = $client;
 	}
 
-
 	public function getReleaseNotes(): string
 	{
 		$releaseLogUrl = "https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md?r=" . time();
@@ -71,19 +70,17 @@ class TasmotaHelper
 	{
 		$tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
 		$release = json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+		$tasmotaReleases = [];
 		if (!empty($release) && !empty($release->assets)) {
 			foreach ($release->assets as $asset) {
-				if (strpos($asset->name, ".bin.gz") !== FALSE
-					|| strpos($asset->name, "-minimal.bin") !== FALSE) {
+				if (strpos($asset->name, ".bin.gz") !== false || strpos($asset->name, "-minimal.bin") !== false) {
 					continue;
 				}
 				$tasmotaReleases[] = $asset->name;
 			}
-			//echo "\$tasmotaReleases=[\"" . implode("\",\"", $tasmotaReleases) . "\"];";
 		}
 		else {
-			$tasmotaReleases =
-				[
+			$tasmotaReleases = [
 					"tasmota-BG.bin", "tasmota-BR.bin", "tasmota-CN.bin", "tasmota-CZ.bin", "tasmota-DE.bin",
 					"tasmota-display.bin", "tasmota-ES.bin", "tasmota-FR.bin", "tasmota-GR.bin", "tasmota-HE.bin",
 					"tasmota-HU.bin", "tasmota-ir.bin", "tasmota-ircustom.bin", "tasmota-IT.bin", "tasmota-knx.bin",
@@ -98,6 +95,7 @@ class TasmotaHelper
 					"tasmota32-webcam.bin", "tasmota32.bin",
 				];
 		}
+
 		asort($tasmotaReleases);
 
 		return $tasmotaReleases;
