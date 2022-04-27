@@ -19,7 +19,7 @@ class Sonoff {
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client();
-        $this->deviceRepository = new DeviceRepository(_CSVFILE_);
+        $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
 
 	/**

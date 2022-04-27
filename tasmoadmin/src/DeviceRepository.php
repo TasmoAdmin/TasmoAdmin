@@ -16,6 +16,16 @@ class DeviceRepository
     private array $allowedUpdateFields = [
         'id',
         'names',
+		'position',
+		'ip',
+		'username',
+		'password',
+		'password',
+		'img',
+		'position',
+		'device_all_off',
+		'device_protect_on',
+		'device_protect_off',
     ];
 
     public function __construct(string $file, string $tmpDir)
