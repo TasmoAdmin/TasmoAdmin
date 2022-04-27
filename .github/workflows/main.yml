@@ -6,12 +6,27 @@ on:
   pull_request: ~
 
 jobs:
+  phpstan:
+    name: Run PHPStan
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install PHP
+      uses: shivammathur/setup-php@master
+      with:
+        php-version: '8.1'
+    - name: Install dependencies
+      run: composer install -d tasmoadmin/
+    - name: Run PHPStan
+      run: |
+        cd tasmoadmin
+        ./vendor/bin/phpstan
   php-tests:
     name: Run PHP tests
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php-version: ['8.1', '8.0', 7.4']
+        php-version: ['8.1', '8.0', '7.4']
     steps:
     - uses: actions/checkout@v1
     - name: Install PHP
