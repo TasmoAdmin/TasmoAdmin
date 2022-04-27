@@ -20,7 +20,6 @@ class DeviceRepository
 		'ip',
 		'username',
 		'password',
-		'password',
 		'img',
 		'position',
 		'device_all_off',

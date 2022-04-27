@@ -585,7 +585,7 @@ class Sonoff {
 			}
 			else {
 				
-				if (!empty($status->ERROR) || empty($status)) {
+				if (!empty($status->ERROR)) {
 					$status->$cmnd = "";
 				}
 				else {
@@ -615,7 +615,7 @@ class Sonoff {
 				$status->$cmnd = "";
 			}
 			else {
-				if (!empty($status->ERROR) || empty($status)) {
+				if (!empty($status->ERROR)) {
 					$status->$cmnd = "";
 				}
 				else {

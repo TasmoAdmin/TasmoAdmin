@@ -6,13 +6,10 @@ use TasmoAdmin\Config;
 
 class UrlHelper
 {
-	public static function STYLES(string $filename, $csspath = NULL )
+	public static function STYLES(string $filename)
 	{
-		if( empty( $csspath ) ) {
-			$cssreal = _RESOURCESDIR_."css/";
-			$csspath = _RESOURCESURL_."css/";
-		}
-
+		$cssreal = _RESOURCESDIR_."css/";
+		$csspath = _RESOURCESURL_."css/";
 
 		$config = new Config();
 		$cacheTag = time();
