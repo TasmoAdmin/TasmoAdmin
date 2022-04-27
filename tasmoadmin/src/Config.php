@@ -2,15 +2,19 @@
 
 namespace TasmoAdmin;
 
-class Config {
-	private $debug = FALSE;
+use Symfony\Component\Filesystem\Filesystem;
+
+class Config
+{
+	private bool $debug = FALSE;
+
+	private string $dataDir;
+
+	private string $cfgFile;
+
+	private Filesystem $filesystem;
 	
-	private $cfgFile = _DATADIR_ . "MyConfig.json";
-	
-	private $cfgFile140 = _DATADIR_ . "MyConfig.php";       //for tag 1.4.0 migration
-	
-	private $defaultConfigs
-		= [
+	private array $defaultConfigs = [
 			"ota_server_ssl"        => "0", //0 = http, 1 = https
 			"ota_server_ip"         => "",
 			"ota_server_port"       => "",
@@ -32,8 +36,13 @@ class Config {
 			"use_gzip_package"      => "",
 		];
 	
-	function __construct() {
-		
+	public function __construct(?string $dataDir = null)
+	{
+		$this->dataDir = $dataDir ?: _DATADIR_;
+		$this->cfgFile = $this->dataDir . "MyConfig.json";
+		$cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
+		$this->filesystem = new Filesystem();
+
 		//init default values
 		$this->defaultConfigs["ota_server_ip"]   = !empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "";
 		$this->defaultConfigs["ota_server_port"] = !empty($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : "";
@@ -53,13 +62,13 @@ class Config {
 		//init default values end
 		
 		
-		if (!is_dir(_DATADIR_)) {
+		if (!is_dir($this->dataDir)) {
 			var_dump(debug_backtrace());
-			die(_DATADIR_ . " is NO DIR! | __construct()");
+			die($this->dataDir . " is NO DIR! | __construct()");
 		}
-		if (!is_writable(_DATADIR_)) {
+		if (!is_writable($this->dataDir)) {
 			var_dump(debug_backtrace());
-			die(_DATADIR_ . " is NOT WRITEABLE! | __construct()");
+			die($this->dataDir . " is NOT WRITEABLE! | __construct()");
 		}
 		
 		
@@ -77,9 +86,8 @@ class Config {
 			 * Read old data and save in new json format
 			 * Tag 1.4.0
 			 */
-			if (file_exists($this->cfgFile140)) {
-				$config = include $this->cfgFile140;
-				
+			if (file_exists($cfgFile140)) {
+				$config = include $cfgFile140;
 				if ($config === 1) { //its empty
 					$config = [];
 				}
@@ -91,26 +99,18 @@ class Config {
 				die("COULD NOT CREATE OR WRITE IN CONFIG FILE");
 			}
 			fclose($fh);
-			
-			
 		}
 		
 		/**
 		 * test file
 		 */
 		if (!$this->getCacheConfig()) {
-			
 			$this->clearCacheConfig();
-			$config = $configJSON = NULL;    //reset
-			
 			$configJSON = file_get_contents($this->cfgFile);
 			if ($configJSON === FALSE) {
-				//					var_dump( debug_backtrace() );
 				die("could not read MyConfig.json");
 			}
-			else {
-				$config = json_decode($configJSON, TRUE);
-			}
+			json_decode($configJSON);
 			if (json_last_error() != 0) {
 				die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
 			}
@@ -124,8 +124,7 @@ class Config {
 				$this->write($configName, $configValue, TRUE);
 			}
 		}
-				
-		
+
 		//remove trash from config
 		$config = $this->readAll(TRUE, TRUE);
 		
@@ -137,13 +136,13 @@ class Config {
 				debug("PERFORM WRITE (unset => page)");
 			}
 			
-			if (!is_dir(_DATADIR_)) {
+			if (!is_dir($this->dataDir)) {
 				var_dump(debug_backtrace());
-				die(_DATADIR_ . " is NO DIR! | write()");
+				die($this->dataDir . " is NO DIR! | write()");
 			}
-			if (!is_writable(_DATADIR_)) {
+			if (!is_writable($this->dataDir)) {
 				var_dump(debug_backtrace());
-				die(_DATADIR_ . " is NOT WRITEABLE! | write()");
+				die($this->dataDir . " is NOT WRITEABLE! | write()");
 			}
 			if (!is_writable($this->cfgFile)) {
 				var_dump(debug_backtrace());
@@ -174,10 +173,9 @@ class Config {
 		
 	}
 	
-	private function getCacheConfig($key = NULL) {
-		if ($this->debug) {
-			debug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
-		}
+	private function getCacheConfig($key = NULL)
+	{
+		$this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
 		if (empty($_SESSION["MyConfig"])) {
 			return FALSE;
 		}
@@ -210,27 +208,26 @@ class Config {
 		return $config;
 	}
 	
-	private function clearCacheConfig() {
+	private function clearCacheConfig()
+	{
 		unset($_SESSION["MyConfig"]);
 	}
 	
-	public function read($key, $skipCookie = FALSE) {
+	public function read($key, $skipCookie = FALSE)
+	{
 		$config = FALSE;
 		if ($key !== "password") { //if pw requested, get from file
 			$config = $this->getCacheConfig($key);
 		}
 		if (!$config) {
-			if ($this->debug) {
-				debug("PERFORM READ (" . $key . ")");
-			}
+			$this->logDebug("PERFORM READ (" . $key . ")");
 			$configJSON = file_get_contents($this->cfgFile);
 			if ($configJSON === FALSE) {
 				var_dump(debug_backtrace());
 				die("could not read MyConfig.json in read");
 			}
-			else {
-				$config = json_decode($configJSON, TRUE);
-			}
+
+			$config = json_decode($configJSON, TRUE);
 			if (json_last_error() != 0) {
 				var_dump($configJSON);
 				$this->clearCacheConfig();
@@ -248,40 +245,27 @@ class Config {
 	
 	private function setCacheConfig($config) {
 		if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] == "1") {
-			
-			return FALSE;
+			return;
 		}
-		
-		if ($this->debug) {
-			debug("COOKIE WRITE");
-			debug(debug_backtrace());
-		}
+
+		$this->logDebug("COOKIE WRITE");
+		$this->logDebug(debug_backtrace());
 		$config["password"] = "im sure you expected a top secret pw here, but you failed :)";
 		
 		$configJSON = json_encode($config);
 		
 		$_SESSION["MyConfig"] = $configJSON;
-		
-		//			debug( debug_backtrace() );
-		//			debug( "set cookie" );
-		
-		return $configJSON;
 	}
 	
-	public function write($key, $value, $skipCookie = FALSE) {
-		if ($this->debug) {
-			debug("PERFORM READ FOR WRITE");
-		}
+	public function write(string $key, $value, bool $skipCookie = false)
+	{
+		$this->logDebug("PERFORM READ FOR WRITE");
 		$configJSON = file_get_contents($this->cfgFile);
-		if ($configJSON === FALSE) {
+		if ($configJSON === false) {
 			var_dump(debug_backtrace());
 			die("could not read MyConfig.json in write");
 		}
-		else {
-			$config = json_decode($configJSON, TRUE);
-		}
-		
-		
+		$config = json_decode($configJSON, true);
 		$value = trim($value);
 		
 		if (empty($value) && $value != 0) {
@@ -290,18 +274,14 @@ class Config {
 		
 		$config[$key] = $value;
 		$configJSON   = json_encode($config, JSON_PRETTY_PRINT);
-		
-		if ($this->debug) {
-			debug("PERFORM WRITE (" . $key . " => " . $value . ")");
-		}
-		
-		if (!is_dir(_DATADIR_)) {
+		$this->logDebug("PERFORM WRITE (" . $key . " => " . $value . ")");
+		if (!is_dir($this->dataDir)) {
 			var_dump(debug_backtrace());
-			die(_DATADIR_ . " is NO DIR! | write()");
+			die($this->dataDir . " is NO DIR! | write()");
 		}
-		if (!is_writable(_DATADIR_)) {
+		if (!is_writable($this->dataDir)) {
 			var_dump(debug_backtrace());
-			die(_DATADIR_ . " is NOT WRITEABLE! | write()");
+			die($this->dataDir . " is NOT WRITEABLE! | write()");
 		}
 		if (!is_writable($this->cfgFile)) {
 			var_dump(debug_backtrace());
@@ -313,22 +293,13 @@ class Config {
 			var_dump(debug_backtrace());
 			die("configJSON IS EMPTY! | write()");
 		}
-		
-		$tempfile = _DATADIR_ . uniqid(microtime(TRUE));
-		if (file_put_contents($tempfile, $configJSON, LOCK_EX)) {
-		
-		}
-		else {
-			die("file_put_contents FAILED! | write()");
-		}
-		rename($tempfile, $this->cfgFile);
-		
-		
+
+		$tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
+		$this->filesystem->dumpFile($tempFile, $configJSON);
+		$this->filesystem->rename($tempFile, $this->cfgFile, true);
 		if (!$skipCookie) {
 			$this->setCacheConfig($config);
 		}
-		
-		return TRUE;
 	}
 	
 	public function readAll($inclPassword = FALSE, $skipCookie = FALSE) {
@@ -337,9 +308,7 @@ class Config {
 			$config = $this->getCacheConfig();
 		}
 		if (!$config) {
-			if ($this->debug) {
-				debug("PERFORM READALL");
-			}
+			$this->logDebug("PERFORM READALL");
 			$configJSON = file_get_contents($this->cfgFile);
 			if ($configJSON === FALSE) {
 				var_dump(debug_backtrace());
@@ -362,5 +331,12 @@ class Config {
 		
 		
 		return $config;
+	}
+
+	private function logDebug($message): void
+	{
+		if ($this->debug) {
+			debug($message);
+		}
 	}
 }
