@@ -16,15 +16,15 @@ class DeviceRepository
     private array $allowedUpdateFields = [
         'id',
         'names',
-		'position',
-		'ip',
-		'username',
-		'password',
-		'img',
-		'position',
-		'device_all_off',
-		'device_protect_on',
-		'device_protect_off',
+        'position',
+        'ip',
+        'username',
+        'password',
+        'img',
+        'position',
+        'device_all_off',
+        'device_protect_on',
+        'device_protect_off',
     ];
 
     public function __construct(string $file, string $tmpDir)
@@ -37,14 +37,13 @@ class DeviceRepository
     public function saveDevices(array $devices, string $deviceUsername, string $devicePassword): void
     {
         $handle = fopen($this->file, "a");
-        foreach ($devices as $device)
-        {
+        foreach ($devices as $device) {
             $fp = file($this->file);
             $deviceHolder = [];
             $deviceHolder[0] = count($fp) + 1;
             $deviceHolder[1] = implode("|", $device["device_name"] ?? []);
             $deviceHolder[2] = $device["device_ip"] ?? "";
-            $deviceHolder[3] =  $deviceUsername;
+            $deviceHolder[3] = $deviceUsername;
             $deviceHolder[4] = $devicePassword;
             $deviceHolder[5] = $device["device_img"] ?? "bulb_1";
             $deviceHolder[6] = $device["device_position"] ?? "";
@@ -108,6 +107,29 @@ class DeviceRepository
         return $this->updateDevice($device);
     }
 
+    public function removeDevice(string $id): void
+    {
+        $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
+
+        if (!$input = fopen($this->file, 'r')) {
+            die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
+        }
+        if (!$output = fopen($tempFile, 'w')) {
+            die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempFile]));
+        }
+
+        while (($data = fgetcsv($input)) !== FALSE) {
+            if ($data[0] === $id) {
+                continue;
+            }
+            fputcsv($output, $data);
+        }
+
+        fclose($input);
+        fclose($output);
+        $this->filesystem->rename($tempFile, $this->file, true);
+    }
+
     private function updateDevice(stdClass $device): ?stdClass
     {
         if (empty($device->id)) {
@@ -126,8 +148,7 @@ class DeviceRepository
                 foreach ($field as $subkey => $subfield) {
                     $deviceArr[$key][$field][$subkey] = trim($subfield);
                 }
-            }
-            else {
+            } else {
 
                 $deviceArr[$key] = trim($field);
             }

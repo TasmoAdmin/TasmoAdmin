@@ -100,6 +100,39 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['socket-2'], $device->names);
     }
 
+    public function testRemoveDeviceValid(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(5);
+        $repo->removeDevice('1');
+        self::assertNull($repo->getDeviceById('1'));
+        self::assertCount(4, $repo->getDevices());
+    }
+
+    public function testRemoveDeviceInvalid(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(5);
+        $repo->removeDevice('6');
+        self::assertCount(5, $repo->getDevices());
+    }
+
+    private function getVirtualRepoWithDevices(int $count): DeviceRepository
+    {
+        $repo = $this->getVirtualRepo();
+        $devices = [];
+        for ($i = 1; $i <= $count; $i++) {
+            $devices[] = [
+                'device_name' => [sprintf('socket-%d', $i)],
+                'device_ip' => sprintf('127.0.0.%d', $i),
+                'device_img' => 'orange',
+                'device_position' => $i,
+            ];
+        }
+
+        $repo->saveDevices($devices, 'user', 'pass');
+
+        return $repo;
+    }
+
     private function getVirtualRepo(): DeviceRepository
     {
         $deviceFile = $this->root->url() . '/devices.csv';
