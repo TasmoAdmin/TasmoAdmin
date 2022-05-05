@@ -1,7 +1,9 @@
 <?php
 
+use TasmoAdmin\DeviceRepository;
+
 ini_set("display_errors", 0);
-//	var_dump( $_GET );
+
 $action = $_GET["action"];
 $status = FALSE;
 $device = NULL;
@@ -17,32 +19,9 @@ if ($action == "edit") {
 }
 elseif ($action == "delete") {
 	$device[0] = $_GET["device_id"];
-	$tempfile  = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-	
-	if (!$input = fopen($filename, 'r')) {
-		die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => $filename]));
-	}
-	if (!$output = fopen($tempfile, 'w')) {
-		die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-	}
-	
-	$idCounter = 1;
-	while (($data = fgetcsv($input)) !== FALSE) {
-		if ($data[0] == $device[0]) {
-			continue;
-		}
-		$data[0] = $idCounter;
-		$idCounter++;
-		fputcsv($output, $data);
-	}
-	
-	fclose($input);
-	fclose($output);
-	
-	unlink($filename);
-	rename($tempfile, $filename);
-	
-	$msg    = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
+	$deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
+	$deviceRepository->removeDevice($device[0]);
+	$msg = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
 	$action = "done";
 }
 if (isset($_POST) && !empty($_POST)) {
