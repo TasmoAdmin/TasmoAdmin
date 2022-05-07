@@ -34,7 +34,27 @@ class DeviceRepository
         $this->filesystem = new Filesystem();
     }
 
-    public function saveDevices(array $devices, string $deviceUsername, string $devicePassword): void
+    public function addDevice(array $request): void
+    {
+        $device = [];
+        $device[1] = implode("|", isset($request["device_name"]) ? $request["device_name"] : []);
+        $device[2] = isset($request["device_ip"]) ? $request["device_ip"] : "";
+        $device[3] = isset($request["device_username"]) ? $request["device_username"] : "";
+        $device[4] = isset($request["device_password"]) ? $request["device_password"] : "";
+        $device[5] = isset($request["device_img"]) ? $request["device_img"] : Device::DEFAULT_IMAGE;
+        $device[6] = isset($request["device_position"]) ? $request["device_position"] : "";
+        $device[7] = isset($request["device_all_off"]) ? $request["device_all_off"] : 1;
+        $device[8] = isset($request["device_protect_on"]) ? $request["device_protect_on"] : 0;
+        $device[9] = isset($request["device_protect_off"]) ? $request["device_protect_off"] : 0;
+
+        $fp = file($this->file);
+        array_unshift($device, count($fp) + 1);
+        $handle = fopen($this->file, "a");
+        fputcsv($handle, $device);
+        fclose($handle);
+    }
+
+    public function addDevices(array $devices, string $deviceUsername, string $devicePassword): void
     {
         $handle = fopen($this->file, "a");
         foreach ($devices as $device) {
@@ -54,7 +74,7 @@ class DeviceRepository
         fclose($handle);
     }
 
-    public function getDeviceById(string $id): ?stdClass
+    public function getDeviceById(string $id): ?Device
     {
         if (empty($id)) {
             return null;
@@ -87,7 +107,7 @@ class DeviceRepository
         return $devices;
     }
 
-    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
+    public function setDeviceValue(string $id, string $field, $value = null): ?Device
     {
         if (empty($id)) {
             return null;
@@ -130,7 +150,7 @@ class DeviceRepository
         $this->filesystem->rename($tempFile, $this->file, true);
     }
 
-    private function updateDevice(stdClass $device): ?stdClass
+    private function updateDevice(Device $device): ?Device
     {
         if (empty($device->id)) {
             return null;
@@ -177,7 +197,7 @@ class DeviceRepository
         return $this->createDeviceObject($deviceArr);
     }
 
-    private function createDeviceObject(array $deviceLine): ?stdClass
+    private function createDeviceObject(array $deviceLine): ?Device
     {
         return Device::fromLine($deviceLine);
     }
