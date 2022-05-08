@@ -701,7 +701,7 @@ class Sonoff {
         return $results;
 	}
 
-    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
+    public function setDeviceValue(string $id, $field = null, $value = null): ?Device
     {
         return $this->deviceRepository->setDeviceValue($id, $field, $value);
     }

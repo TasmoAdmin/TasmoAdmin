@@ -27,4 +27,11 @@ class ConfigTest extends TestCase
 		$config = new Config($this->root->url() . '/');
 		self::assertEquals('1', $config->read('hide_copyright'));
 	}
+
+    public function testWrite(): void
+    {
+        $config = new Config($this->root->url() . '/');
+        $config->write('hide_copyright', '0');
+        self::assertEquals('0', $config->read('hide_copyright'));
+    }
 }

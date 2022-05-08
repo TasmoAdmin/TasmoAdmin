@@ -21,5 +21,6 @@ class DeviceTest extends TestCase
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
+        self::assertEquals('single', $device->keywords[0]);
     }
 }
