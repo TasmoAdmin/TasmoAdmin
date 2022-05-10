@@ -150,7 +150,7 @@ class DeviceRepository
         $this->filesystem->rename($tempFile, $this->file, true);
     }
 
-    private function updateDevice(Device $device): ?Device
+    public function updateDevice(Device $device): ?Device
     {
         if (empty($device->id)) {
             return null;
@@ -199,6 +199,6 @@ class DeviceRepository
 
     private function createDeviceObject(array $deviceLine): ?Device
     {
-        return Device::fromLine($deviceLine);
+        return DeviceFactory::fromArray($deviceLine);
     }
 }

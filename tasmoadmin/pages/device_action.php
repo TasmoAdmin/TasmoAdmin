@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Device;
+use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
 ini_set("display_errors", 0);
@@ -48,41 +49,10 @@ if (isset($_POST) && !empty($_POST)) {
 		}
 	}
 	elseif (!empty($_REQUEST['device_id'])) {//update
-		$device  = [];
-		$device[0] = $_REQUEST["device_id"];
-		$device[1] = implode("|", $_REQUEST["device_name"]);
-		$device[2] = $_REQUEST["device_ip"];
-		$device[3] = $_REQUEST["device_username"];
-		$device[4] = $_REQUEST["device_password"];
-		$device[5] = isset($_REQUEST["device_img"]) ? $_REQUEST["device_img"] : "bulb_1";
-		$device[6] = $_REQUEST["device_position"];
-		$device[7] = isset($_REQUEST["device_all_off"]) ? $_REQUEST["device_all_off"] : 1;
-		$device[8] = isset($_REQUEST["device_protect_on"]) ? $_REQUEST["device_protect_on"] : 0;
-		$device[9] = isset($_REQUEST["device_protect_off"]) ? $_REQUEST["device_protect_off"] : 0;
-		
-		$tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-		
-		
-		if (!$input = fopen($filename, 'r')) {
-			die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => $filename]));
-		}
-		if (!$output = fopen($tempfile, 'w')) {
-			die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-		}
-		
-		while (($data = fgetcsv($input)) !== FALSE) {
-			if ($data[0] == $device[0]) {
-				$data = $device;
-			}
-			fputcsv($output, $data);
-		}
-		
-		fclose($input);
-		fclose($output);
-		
-		unlink($filename);
-		rename($tempfile, $filename);
-		
+
+        $device = DeviceFactory::fromRequest($_REQUEST);
+        $deviceRepository->updateDevice($device);
+
 		$msg    = __("MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS");
 		$action = "done";
 		
