@@ -16,6 +16,23 @@ class DeviceRepositoryTest extends TestCase
         $this->root = vfsStream::setup('config');
     }
 
+    public function testAddDevice(): void
+    {
+        $repo = $this->getVirtualRepo();
+
+        $request = [
+            'device_name' => ['socket-1'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 1,
+        ];
+
+        $repo->addDevice($request);
+        self::assertCount(1, $repo->getDevices());
+        $device = $repo->getDevices()[0];
+        self::assertEquals(['socket-1'], $device->names);
+    }
+
     public function testAddDevicesEmptyDevices(): void
     {
         $repo = $this->getVirtualRepo();

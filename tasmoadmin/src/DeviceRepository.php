@@ -2,7 +2,6 @@
 
 namespace TasmoAdmin;
 
-use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DeviceRepository
@@ -36,22 +35,9 @@ class DeviceRepository
 
     public function addDevice(array $request): void
     {
-        $device = [];
-        $device[1] = implode("|", isset($request["device_name"]) ? $request["device_name"] : []);
-        $device[2] = isset($request["device_ip"]) ? $request["device_ip"] : "";
-        $device[3] = isset($request["device_username"]) ? $request["device_username"] : "";
-        $device[4] = isset($request["device_password"]) ? $request["device_password"] : "";
-        $device[5] = isset($request["device_img"]) ? $request["device_img"] : Device::DEFAULT_IMAGE;
-        $device[6] = isset($request["device_position"]) ? $request["device_position"] : "";
-        $device[7] = isset($request["device_all_off"]) ? $request["device_all_off"] : 1;
-        $device[8] = isset($request["device_protect_on"]) ? $request["device_protect_on"] : 0;
-        $device[9] = isset($request["device_protect_off"]) ? $request["device_protect_off"] : 0;
-
-        $fp = file($this->file);
-        array_unshift($device, count($fp) + 1);
-        $handle = fopen($this->file, "a");
-        fputcsv($handle, $device);
-        fclose($handle);
+        $deviceUsername = $request["device_username"] ?? "";
+        $devicePassword = $request["device_password"] ?? "";
+        $this->addDevices([$request], $deviceUsername, $devicePassword);
     }
 
     public function addDevices(array $devices, string $deviceUsername, string $devicePassword): void
@@ -67,6 +53,9 @@ class DeviceRepository
             $deviceHolder[4] = $devicePassword;
             $deviceHolder[5] = $device["device_img"] ?? "bulb_1";
             $deviceHolder[6] = $device["device_position"] ?? "";
+            $deviceHolder[7] = $device["device_all_off"] ?? 1;
+            $deviceHolder[8] = $device["device_protect_on"] ?? 0;
+            $deviceHolder[9] = $device["device_protect_off"] ?? 0;
 
             fputcsv($handle, $deviceHolder);
         }
