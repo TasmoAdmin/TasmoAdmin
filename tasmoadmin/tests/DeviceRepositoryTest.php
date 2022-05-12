@@ -16,15 +16,32 @@ class DeviceRepositoryTest extends TestCase
         $this->root = vfsStream::setup('config');
     }
 
-    public function testSaveDevicesEmptyDevices(): void
+    public function testAddDevice(): void
+    {
+        $repo = $this->getVirtualRepo();
+
+        $request = [
+            'device_name' => ['socket-1'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 1,
+        ];
+
+        $repo->addDevice($request);
+        self::assertCount(1, $repo->getDevices());
+        $device = $repo->getDevices()[0];
+        self::assertEquals(['socket-1'], $device->names);
+    }
+
+    public function testAddDevicesEmptyDevices(): void
     {
         $repo = $this->getVirtualRepo();
         $devices = [];
-        $repo->saveDevices($devices, 'user', 'pass');
+        $repo->addDevices($devices, 'user', 'pass');
         self::assertCount(0, $repo->getDevices());
     }
 
-    public function testSaveDevicesDevices(): void
+    public function testAddDevicesDevices(): void
     {
         $repo = $this->getVirtualRepo();
         $devices = [
@@ -35,7 +52,7 @@ class DeviceRepositoryTest extends TestCase
                 'device_position' => 1,
             ]
         ];
-        $repo->saveDevices($devices, 'user', 'pass');
+        $repo->addDevices($devices, 'user', 'pass');
         self::assertCount(1, $repo->getDevices());
         $device = $repo->getDevices()[0];
         self::assertEquals(['socket-1'], $device->names);
@@ -94,7 +111,7 @@ class DeviceRepositoryTest extends TestCase
                 'device_name' => ['socket-1']
             ]
         ];
-        $repo->saveDevices($devices, 'user', 'pass');
+        $repo->addDevices($devices, 'user', 'pass');
         $repo->setDeviceValue('1', 'names', ['socket-2']);
         $device = $repo->getDeviceById('1');
         self::assertEquals(['socket-2'], $device->names);
@@ -128,7 +145,7 @@ class DeviceRepositoryTest extends TestCase
             ];
         }
 
-        $repo->saveDevices($devices, 'user', 'pass');
+        $repo->addDevices($devices, 'user', 'pass');
 
         return $repo;
     }

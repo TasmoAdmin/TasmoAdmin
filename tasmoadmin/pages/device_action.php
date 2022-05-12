@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\Device;
+use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
 ini_set("display_errors", 0);
@@ -8,6 +10,8 @@ $action = $_GET["action"];
 $status = FALSE;
 $device = NULL;
 $msg    = NULL;
+$deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
+
 if ($action == "edit") {
 	$device = $Sonoff->getDeviceById($_GET["device_id"]);
 	
@@ -19,7 +23,6 @@ if ($action == "edit") {
 }
 elseif ($action == "delete") {
 	$device[0] = $_GET["device_id"];
-	$deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
 	$deviceRepository->removeDevice($device[0]);
 	$msg = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
 	$action = "done";
@@ -46,68 +49,18 @@ if (isset($_POST) && !empty($_POST)) {
 		}
 	}
 	elseif (!empty($_REQUEST['device_id'])) {//update
-		$device    = [];
-		$device[0] = $_REQUEST["device_id"];
-		$device[1] = implode("|", $_REQUEST["device_name"]);
-		$device[2] = $_REQUEST["device_ip"];
-		$device[3] = $_REQUEST["device_username"];
-		$device[4] = $_REQUEST["device_password"];
-		$device[5] = isset($_REQUEST["device_img"]) ? $_REQUEST["device_img"] : "bulb_1";
-		$device[6] = $_REQUEST["device_position"];
-		$device[7] = isset($_REQUEST["device_all_off"]) ? $_REQUEST["device_all_off"] : 1;
-		$device[8] = isset($_REQUEST["device_protect_on"]) ? $_REQUEST["device_protect_on"] : 0;
-		$device[9] = isset($_REQUEST["device_protect_off"]) ? $_REQUEST["device_protect_off"] : 0;
-		
-		$tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-		
-		
-		if (!$input = fopen($filename, 'r')) {
-			die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => $filename]));
-		}
-		if (!$output = fopen($tempfile, 'w')) {
-			die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-		}
-		
-		while (($data = fgetcsv($input)) !== FALSE) {
-			if ($data[0] == $device[0]) {
-				$data = $device;
-			}
-			fputcsv($output, $data);
-		}
-		
-		fclose($input);
-		fclose($output);
-		
-		unlink($filename);
-		rename($tempfile, $filename);
-		
+
+        $device = DeviceFactory::fromRequest($_REQUEST);
+        $deviceRepository->updateDevice($device);
+
 		$msg    = __("MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS");
 		$action = "done";
 		
 	}
 	else { //add
-		
-		$device    = [];
-		$fp        = file($filename);
-		$device[0] = count($fp) + 1;
-		$device[1] = implode("|", isset($_REQUEST["device_name"]) ? $_REQUEST["device_name"] : []);
-		$device[2] = isset($_REQUEST["device_ip"]) ? $_REQUEST["device_ip"] : "";
-		$device[3] = isset($_REQUEST["device_username"]) ? $_REQUEST["device_username"] : "";
-		$device[4] = isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"] : "";
-		$device[5] = isset($_REQUEST["device_img"]) ? $_REQUEST["device_img"] : "bulb_1";
-		$device[6] = isset($_REQUEST["device_position"]) ? $_REQUEST["device_position"] : "";
-		$device[7] = isset($_REQUEST["device_all_off"]) ? $_REQUEST["device_all_off"] : 1;
-		$device[8] = isset($_REQUEST["device_protect_on"]) ? $_REQUEST["device_protect_on"] : 0;
-		$device[9] = isset($_REQUEST["device_protect_off"]) ? $_REQUEST["device_protect_off"] : 0;
-		
-		
-		$handle = fopen($filename, "a");
-		fputcsv($handle, $device);
-		fclose($handle);
-		
+        $deviceRepository->addDevice($_REQUEST);
 		$msg    = __("MSG_DEVICE_ADD_DONE", "DEVICE_ACTIONS");
 		$action = "done";
-		
 	}
 }
 

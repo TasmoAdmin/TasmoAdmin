@@ -2,7 +2,6 @@
 
 namespace TasmoAdmin;
 
-use stdClass;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DeviceRepository
@@ -34,7 +33,14 @@ class DeviceRepository
         $this->filesystem = new Filesystem();
     }
 
-    public function saveDevices(array $devices, string $deviceUsername, string $devicePassword): void
+    public function addDevice(array $request): void
+    {
+        $deviceUsername = $request["device_username"] ?? "";
+        $devicePassword = $request["device_password"] ?? "";
+        $this->addDevices([$request], $deviceUsername, $devicePassword);
+    }
+
+    public function addDevices(array $devices, string $deviceUsername, string $devicePassword): void
     {
         $handle = fopen($this->file, "a");
         foreach ($devices as $device) {
@@ -47,6 +53,9 @@ class DeviceRepository
             $deviceHolder[4] = $devicePassword;
             $deviceHolder[5] = $device["device_img"] ?? "bulb_1";
             $deviceHolder[6] = $device["device_position"] ?? "";
+            $deviceHolder[7] = $device["device_all_off"] ?? 1;
+            $deviceHolder[8] = $device["device_protect_on"] ?? 0;
+            $deviceHolder[9] = $device["device_protect_off"] ?? 0;
 
             fputcsv($handle, $deviceHolder);
         }
@@ -54,7 +63,7 @@ class DeviceRepository
         fclose($handle);
     }
 
-    public function getDeviceById(string $id): ?stdClass
+    public function getDeviceById(string $id): ?Device
     {
         if (empty($id)) {
             return null;
@@ -87,7 +96,7 @@ class DeviceRepository
         return $devices;
     }
 
-    public function setDeviceValue(string $id, $field = null, $value = null): ?stdClass
+    public function setDeviceValue(string $id, string $field, $value = null): ?Device
     {
         if (empty($id)) {
             return null;
@@ -130,7 +139,7 @@ class DeviceRepository
         $this->filesystem->rename($tempFile, $this->file, true);
     }
 
-    private function updateDevice(stdClass $device): ?stdClass
+    public function updateDevice(Device $device): ?Device
     {
         if (empty($device->id)) {
             return null;
@@ -177,8 +186,8 @@ class DeviceRepository
         return $this->createDeviceObject($deviceArr);
     }
 
-    private function createDeviceObject(array $deviceLine): ?stdClass
+    private function createDeviceObject(array $deviceLine): ?Device
     {
-        return Device::fromLine($deviceLine);
+        return DeviceFactory::fromArray($deviceLine);
     }
 }

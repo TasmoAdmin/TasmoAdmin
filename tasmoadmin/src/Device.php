@@ -2,36 +2,46 @@
 
 namespace TasmoAdmin;
 
-use stdClass;
-
 class Device
 {
-    public static function fromLine(array $line): ?stdClass
+    public const DEFAULT_IMAGE = 'bulb_1';
+
+    public int $id;
+    public array $names;
+    public string $ip;
+    public string $username;
+    public string $password;
+    public string $img;
+    public string $position;
+    public int $deviceAllOff;
+    public int $deviceProtectionOn;
+    public int $deviceProtectionOff;
+    public array $keywords;
+
+    public function __construct(
+        int $id,
+        array $names,
+        string $ip,
+        string $username,
+        string $password,
+        string $img,
+        string $position,
+        int $deviceAllOff,
+        int $deviceProtectionOn,
+        int $deviceProtectionOff,
+        array $keywords
+    )
     {
-        if (empty($line)) {
-            return null;
-        }
-
-        $device                     = new stdClass();
-        $line[1]              = explode("|", $line[1]);
-        $device->id                 = isset($line[0]) ? $line[0] : false;
-        $device->names              = isset($line[1]) ? $line[1] : false;
-        $device->ip                 = isset($line[2]) ? $line[2] : false;
-        $device->username           = isset($line[3]) ? $line[3] : false;
-        $device->password           = isset($line[4]) ? $line[4] : false;
-        $device->img                = isset($line[5]) ? $line[5] : "bulb_1";
-        $device->position           = isset($line[6]) && $line[6] != "" ? $line[6] : "";
-        $device->device_all_off     = isset($line[7]) ? $line[7] : 1;
-        $device->device_protect_on  = isset($line[8]) ? $line[8] : 0;
-        $device->device_protect_off = isset($line[9]) ? $line[9] : 0;
-
-        $keywords   = [];
-        $keywords[] = count($device->names) > 1 ? "multi" : "single";
-        $keywords[] = "IP#" . $device->ip;
-        $keywords[] = "ID#" . $device->id;
-        $keywords[] = "POS#" . $device->position;
-
-        $device->keywords = $keywords;
-        return $device;
+        $this->id = $id;
+        $this->names = $names;
+        $this->ip = $ip;
+        $this->username = $username;
+        $this->password = $password;
+        $this->img = $img;
+        $this->position = $position;
+        $this->deviceAllOff = $deviceAllOff;
+        $this->deviceProtectionOn = $deviceProtectionOn;
+        $this->deviceProtectionOff = $deviceProtectionOff;
+        $this->keywords = $keywords;
     }
 }

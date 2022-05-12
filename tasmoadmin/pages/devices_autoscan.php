@@ -89,7 +89,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 		$deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
 		$deviceUsername = $_REQUEST["device_username"] ?? "";
 		$devicePassword = $_REQUEST["device_password"] ?? "";
-        $deviceRepository->saveDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
+        $deviceRepository->addDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
 		$msg = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
 		$action = "done";
 	}
