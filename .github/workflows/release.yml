@@ -14,6 +14,15 @@ jobs:
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@master
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '7.4'
+    - name: Read .nvmrc
+      run: echo ::set-output name=NODE_VERSION::$(cat tasmoadmin/.nvmrc)
+      id: nvm
+    - uses: actions/setup-node@v3
+      with:
+        node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
     - name: Prepare
       run: |
         ./.docker/docker.sh prepare
@@ -23,6 +32,8 @@ jobs:
       run: ./.docker/docker.sh test
     - name: Tag all docker images
       run: ./.docker/docker.sh tag
+    - name: Package
+      run: make package
     - name: Login to GitHub Container Registry
       uses: docker/login-action@v1
       with:

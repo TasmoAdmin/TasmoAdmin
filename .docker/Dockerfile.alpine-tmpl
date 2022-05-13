@@ -1,8 +1,13 @@
 ARG BUILD_FROM=amd64/alpine:3.15
 
-FROM composer AS builder
+FROM node:16-alpine AS node-builder
 
 COPY tasmoadmin /tasmoadmin
+RUN cd /tasmoadmin && npm ci && node minify.js
+
+FROM composer AS builder
+
+COPY --from=node-builder /tasmoadmin  /tasmoadmin
 RUN composer install -d /tasmoadmin
 
 FROM ${BUILD_FROM}
