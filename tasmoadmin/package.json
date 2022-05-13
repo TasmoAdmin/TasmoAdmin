@@ -1,0 +1,12 @@
+{
+  "name": "tasmoadmin",
+  "version": "1.0.0",
+  "description": "TasmoAdmin is an administrative platform for devices flashed with Tasmota",
+  "license": "GPL-3.0-or-later",
+  "repository": "https://github.com/tasmoadmin/TasmoAdmin/",
+  "devDependencies": {
+    "@node-minify/core": "^6.2.0",
+    "@node-minify/terser": "^6.2.0",
+    "glob": "^8.0.1"
+  }
+}

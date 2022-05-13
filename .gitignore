@@ -17,12 +17,14 @@
 /tasmoadmin/tasmoadmin/resources/css/custom.min.css
 /tasmoadmin/resources/css/custom.css
 /tasmoadmin/resources/css/custom.min.css
+/tasmoadmin/resources/js/*.min.js
 
 /tasmoadmin/data/updates/*.zip
 
 
 /tasmoadmin/dev/*
 
+/tasmoadmin/node_modules/
 /tasmoadmin/vendor/
 /tasmoadmin/composer.lock
 .phpunit.result.cache
