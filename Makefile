@@ -26,7 +26,7 @@ package: clean
 	mkdir _releases
 	mkdir _tmp
 	composer install -d tasmoadmin
-	npm ci
-	node minify.js
+	cd tasmoadmin; npm ci
+	node tasmoadmin/minify.js
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
