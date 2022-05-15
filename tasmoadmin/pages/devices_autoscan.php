@@ -16,7 +16,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 	if (isset($_REQUEST["search"])) {
 		$fromip = $_REQUEST["from_ip"];
 		$toip = $_REQUEST["to_ip"];
-		$urls = [];
+
 
         $ipHelper = new IpHelper();
         $devices = $Sonoff->getDevices();
@@ -24,14 +24,25 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
         foreach ($devices as $device) {
             $skipIps[] = $device->ip;
         }
-
+        $ips = [];
         try {
-            $urls = $ipHelper->fetchIps($fromip, $toip, $skipIps);
+            $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
         } catch (InvalidArgumentException $ex) {
             // TODO: Bubble up to UI
         }
         $Config->write("scan_from_ip", $fromip);
         $Config->write("scan_to_ip", $toip);
+
+        $urls = [];
+        foreach ($ips as $ip) {
+            $fakeDevice = new stdClass();
+            $fakeDevice->ip = $ip;
+            $fakeDevice->username = $_REQUEST["device_username"] ?? "";
+            $fakeDevice->password = $_REQUEST["device_password"] ?? "";
+            $cmnd = "status 0";
+            $urls[] = $Sonoff->buildCmndUrl($fakeDevice, $cmnd);
+            unset($fakeDevice);
+        }
 
 		$devicesFound = $Sonoff->search($urls);
 		
