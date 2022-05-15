@@ -22,12 +22,7 @@ class Sonoff {
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
 
-	/**
-	 * @param $ip
-	 *
-	 * @return mixed
-	 */
-	public function getAllStatus($device) {
+	public function getAllStatus(Device $device) {
 		$cmnd = "Status 0";
 		
 		
@@ -36,7 +31,7 @@ class Sonoff {
 		return $status;
 	}
 
-	private function doRequest(stdClass $device, string $cmnd, int $try = 1)
+	private function doRequest(Device $device, string $cmnd, int $try = 1)
     {
 		$url = $this->buildCmndUrl($device, $cmnd);
 
@@ -108,14 +103,8 @@ class Sonoff {
 		
 		return $data;
 	}
-	
-	/**
-	 * @param $ip
-	 * @param $cmnd
-	 *
-	 * @return mixed|string
-	 */
-	public function buildCmndUrl($device, $cmnd) {
+
+	public function buildCmndUrl(Device $device, string $cmnd) {
 		$start = "?";
 		if (isset($device->password) && $device->password != "") {
 			$start = "?user=" . urlencode($device->username) . "&password=" . urlencode($device->password) . "&";
@@ -231,7 +220,7 @@ class Sonoff {
 	 *
 	 * @return mixed
 	 */
-	public function setWebLog($device, $level = 2, $try = 1) {
+	private function setWebLog(Device $device, int $level = 2, int $try = 1) {
 		$cmnd = "Weblog " . $level;
 		
 		$weblog = $this->doRequest($device, $cmnd, $try);
@@ -665,7 +654,7 @@ class Sonoff {
         }
 	}
 	
-	public function getDeviceById($id = null): ?stdClass
+	public function getDeviceById($id = null): ?Device
     {
 		return $this->deviceRepository->getDeviceById($id);
 	}
@@ -705,8 +694,12 @@ class Sonoff {
     {
         return $this->deviceRepository->setDeviceValue($id, $field, $value);
     }
-	
-	public function getDevices(string $orderBy = "position")
+
+    /**
+     * @param string $orderBy
+     * @return Device[]
+     */
+	public function getDevices(string $orderBy = "position"): array
     {
 		$devices = $this->deviceRepository->getDevices();
 		

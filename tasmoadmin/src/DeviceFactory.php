@@ -4,6 +4,11 @@ namespace TasmoAdmin;
 
 class DeviceFactory
 {
+    public static function fakeDevice(string $ip, string $username, string $password): Device
+    {
+        return new Device(1, ['fake'], $ip, $username , $password,  Device::DEFAULT_IMAGE, 1, 1, 0, 0, []);
+    }
+
     public static function fromRequest(array $request): Device
     {
         $device  = [];
