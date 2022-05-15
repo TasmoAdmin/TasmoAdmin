@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\IpHelper;
 
 $status       = FALSE;
 $devices      = NULL;
@@ -11,53 +12,27 @@ $error        = FALSE;
 
 
 if (isset($_REQUEST) && !empty($_REQUEST)) {
-	
+
 	if (isset($_REQUEST["search"])) {
-		
-		$fromip = explode(".", $_REQUEST["from_ip"]);
-		$toip   = explode(".", $_REQUEST["to_ip"]);
-		$urls   = [];
-		
-		if (isset($fromip) && count($fromip) == 4
-			&& filter_var(implode(".", $fromip), FILTER_VALIDATE_IP)) {
-			$Config->write("scan_from_ip", implode(".", $fromip));
-		}
-		if (isset($toip) && count($toip) == 4
-			&& filter_var(implode(".", $toip), FILTER_VALIDATE_IP)) {
-			$Config->write("scan_to_ip", implode(".", $toip));
-		}
-		$devices = $Sonoff->getDevices();
-		$skipIps = [];
-		
-		foreach ($devices as $device) {
-			$skipIps[] = $device->ip;
-		}
-		
-		while ($fromip[2] <= $toip[2]) {
-			while ($fromip[3] <= $toip[3]) {
-				if (!in_array(implode(".", $fromip), $skipIps)) {
-					
-					
-					$fakeDevice           = new stdClass();
-					$fakeDevice->ip       = implode(".", $fromip);
-					$fakeDevice->username = isset($_REQUEST["device_username"]) ? $_REQUEST["device_username"]
-						: "";
-					$fakeDevice->password = isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"]
-						: "";
-					$cmnd                 = "status 0";
-					
-					
-					$urls[] = $Sonoff->buildCmndUrl($fakeDevice, $cmnd);
-					
-					
-					unset($fakeDevice);
-				}
-				$fromip[3]++;
-			}
-			$fromip[3] = 0;
-			$fromip[2]++;
-			
-		}
+		$fromip = $_REQUEST["from_ip"];
+		$toip = $_REQUEST["to_ip"];
+		$urls = [];
+
+        $ipHelper = new IpHelper();
+        $devices = $Sonoff->getDevices();
+        $skipIps = [];
+        foreach ($devices as $device) {
+            $skipIps[] = $device->ip;
+        }
+
+        try {
+            $urls = $ipHelper->fetchIps($fromip, $toip, $skipIps);
+        } catch (InvalidArgumentException $ex) {
+            // TODO: Bubble up to UI
+        }
+        $Config->write("scan_from_ip", $fromip);
+        $Config->write("scan_to_ip", $toip);
+
 		$devicesFound = $Sonoff->search($urls);
 		
 		if (empty($devicesFound)) {
