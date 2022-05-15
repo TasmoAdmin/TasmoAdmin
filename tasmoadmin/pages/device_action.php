@@ -1,6 +1,5 @@
 <?php
 
-use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
