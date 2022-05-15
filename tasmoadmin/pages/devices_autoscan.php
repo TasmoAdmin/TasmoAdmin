@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
 
