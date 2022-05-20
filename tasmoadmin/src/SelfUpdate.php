@@ -199,20 +199,8 @@ class SelfUpdate
 		return FALSE;
 	}
 
-	
-	/**
-	 * @return string
-	 */
-	public function getLatestTag() {
-		return $this->latestTag;
-	}
-	
-
-	
-	/**
-	 * @return string
-	 */
-	public function getCurrentTag() {
+	public function getCurrentTag(): string
+    {
 		return $this->currentTag;
 	}
 }
