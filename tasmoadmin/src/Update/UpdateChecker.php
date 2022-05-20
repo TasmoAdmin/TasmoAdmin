@@ -3,6 +3,7 @@
 namespace TasmoAdmin\Update;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class UpdateChecker
 {
@@ -68,34 +69,17 @@ class UpdateChecker
         return $result;
     }
 
-    private function doRequest($action = "") {
-        ini_set("max_execution_time", "240");
-        set_time_limit("240");
-
+    private function doRequest(string $action)
+    {
         $url = $this->repoUrl . $action;
-        $ch  = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-        curl_setopt(
-            $ch,
-            CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-        );
-        $result = json_decode(curl_exec($ch));
-        if (curl_error($ch)) {
+        try {
+            $result = json_decode($this->client->get($url)->getBody()->getContents());
+        } catch (RequestException $e) {
             $result = [
-                "ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
-                        $ch
-                    ),
+                "ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . $e->getMessage()
             ];
         }
-        curl_close($ch);
-
-        ini_set("max_execution_time", 30);
-
-        return $result;
+            return $result;
     }
 
     private function action(): ?string
