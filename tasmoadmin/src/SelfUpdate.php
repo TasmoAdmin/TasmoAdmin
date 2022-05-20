@@ -4,16 +4,12 @@ namespace TasmoAdmin;
 
 use ZipArchive;
 
-class SelfUpdate {
-	
-	private $repoUrl    = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin";
-	private $latestTag  = "";
-	private $currentTag = "";
-	private $zipfile    = "";
-	private $log        = [];
+class SelfUpdate
+{
+	private string $currentTag;
+	private string $zipfile;
+	private array $log = [];
 	private Config $config;
-	private $releaseUrl = "";
-	
 	
 	public function __construct(Config $config)
 	{
@@ -25,16 +21,14 @@ class SelfUpdate {
 		}
 	}
 	
-	public function update()
+	public function update(string $releaseUrl, string $latestTag): array
 	{
-		$this->checkForUpdate();
-		if ($this->saveZip($this->releaseUrl)) {
+		if ($this->saveZip($releaseUrl)) {
 			$this->log[] = __("SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE");
 			if ($this->install()) {
 				$this->log[] = __("OLD_TAG_VERSION", "SELFUPDATE", [$this->currentTag]);
-				$this->log[] = __("NEW_TAG_VERSION", "SELFUPDATE", [$this->latestTag]);
-				$this->config->write("current_git_tag", $this->latestTag);
-				$this->currentTag = $this->latestTag;
+				$this->log[] = __("NEW_TAG_VERSION", "SELFUPDATE", [$latestTag]);
+				$this->config->write("current_git_tag", $latestTag);
 			}
 		}
 		else {
@@ -44,91 +38,8 @@ class SelfUpdate {
 		return $this->log;
 	}
 	
-	public function checkForUpdate() {
-		$action  = FALSE;
-		$release = NULL;
-		
-		if ($this->config->read("update_channel") == "stable") {
-			$action = "/releases/latest";
-		}
-		elseif (in_array($this->config->read("update_channel"), ["beta", "dev"])) {
-			$action = "/releases";
-		}
-		
-		$result = [
-			"update" => FALSE,
-			"error"  => FALSE,
-			"msg"    => "",
-		];
-		
-		if ($action) {
-			$release = $this->doRequest($action);
-			if (is_array($release) && isset($release["ERROR"])) {
-				$result["error"] = TRUE;
-				$result["msg"]   = $release["ERROR"];
-			}
-			else {
-				if (is_array($release)) {
-					$release = $release[0];
-				}
-				if (isset($release->tag_name)) {
-					$this->latestTag = $release->tag_name;
-					
-					if ($this->currentTag != $this->latestTag) {
-						$result["update"] = TRUE;
-					}
-					if ($this->config->read("update_channel") == "dev") {
-						$result["update"] = TRUE;
-					}
-				}
-			}
-			
-			if (empty($release->assets[1])) {
-				$result["error"]  = TRUE;
-				$result["msg"]    = __("DOWNLOAD_MISSING", "SELFUPDATE");
-				$result["update"] = FALSE;
-			}
-			else {
-				$this->releaseUrl = $release->assets[1]->browser_download_url;
-			}
-		}
-		
-		return $result;
-	}
-	
-	private function doRequest($action = "") {
-		ini_set("max_execution_time", "240");
-		set_time_limit("240");
-		
-		$url = $this->repoUrl . $action;
-		$ch  = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-		curl_setopt(
-			$ch,
-			CURLOPT_USERAGENT,
-			'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-		);
-		$result = json_decode(curl_exec($ch));
-		if (curl_error($ch)) {
-			$result = [
-				"ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
-						$ch
-					),
-			];
-		}
-		curl_close($ch);
-		
-		ini_set("max_execution_time", 30);
-		
-		return $result;
-	}
-	
-	private function saveZip($url = "") {
-		
-		
+	private function saveZip(string $url)
+    {
 		ini_set("max_execution_time", "240");
 		set_time_limit("240");
 		$file = fopen($this->zipfile, 'w');
@@ -287,20 +198,7 @@ class SelfUpdate {
 		
 		return FALSE;
 	}
-	
-	/**
-	 * @return string
-	 */
-	public function getRepoUrl() {
-		return $this->repoUrl;
-	}
-	
-	/**
-	 * @param string $repoUrl
-	 */
-	public function setRepoUrl($repoUrl) {
-		$this->repoUrl = $repoUrl;
-	}
+
 	
 	/**
 	 * @return string
@@ -309,59 +207,12 @@ class SelfUpdate {
 		return $this->latestTag;
 	}
 	
-	/**
-	 * @param string $latestTag
-	 */
-	public function setLatestTag($latestTag) {
-		$this->latestTag = $latestTag;
-	}
+
 	
 	/**
 	 * @return string
 	 */
 	public function getCurrentTag() {
 		return $this->currentTag;
-	}
-	
-	/**
-	 * @param string $currentTag
-	 */
-	public function setCurrentTag($currentTag) {
-		$this->currentTag = $currentTag;
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getZipfile() {
-		return $this->zipfile;
-	}
-	
-	/**
-	 * @param string $zipfile
-	 */
-	public function setZipfile($zipfile) {
-		$this->zipfile = $zipfile;
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function getLog() {
-		return $this->log;
-	}
-	
-	/**
-	 * @param array $log
-	 */
-	public function setLog($log) {
-		$this->log = $log;
-	}
-	
-	/**
-	 * @return null
-	 */
-	public function getConfig() {
-		return $this->config;
 	}
 }
