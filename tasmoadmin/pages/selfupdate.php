@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\SelfUpdate;
 use TasmoAdmin\Update\UpdateChecker;
 
@@ -11,7 +12,8 @@ $msg        = "";
 
 $updateChecker = new UpdateChecker(
     $Config->read("update_channel"),
-    $Config->read("current_git_tag")
+    $Config->read("current_git_tag"),
+    GuzzleFactory::getClient($Config)
 );
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {

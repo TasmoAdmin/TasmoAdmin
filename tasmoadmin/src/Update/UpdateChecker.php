@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin\Update;
 
+use GuzzleHttp\Client;
+
 class UpdateChecker
 {
     private string $repoUrl = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin";
@@ -10,10 +12,13 @@ class UpdateChecker
 
     private string $currentTag;
 
-    public function __construct(string $updateChannel, string $currentTag)
+    private Client $client;
+
+    public function __construct(string $updateChannel, string $currentTag, Client $client)
     {
         $this->updateChannel = $updateChannel;
         $this->currentTag = $currentTag;
+        $this->client = $client;
     }
 
     public function checkForUpdate(): array
