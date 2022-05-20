@@ -26,6 +26,8 @@ class UpdateCheckerTest extends TestCase
         ));
         $result = $updateChecker->checkForUpdate();
         self::assertTrue($result['update']);
+        self::assertEquals('v1.8.0', $result['latest_tag']);
+        self::assertEquals('https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1.8.0/tasmoadmin_v1.8.0.zip', $result['release_url']);
     }
 
     public function testCheckForUpdateStableNoUpdate(): void
