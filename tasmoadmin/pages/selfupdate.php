@@ -17,12 +17,13 @@ $updateChecker = new UpdateChecker(
 );
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
-    $Selfupdate = new SelfUpdate($Config);
-	$updateResult = $Selfupdate->update($_POST['release_url'], $_POST['latest_tag']);
-	$msg          = implode("<br/>", $updateResult);
+    $selfUpdate = new SelfUpdate($Config);
+    $updateResult = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
+    $msg  = implode("<br/>", $updateResult);
 }
 
 $newUpdate = $updateChecker->checkForUpdate();
+$currentGitTag = $Config->read("current_git_tag");
 
 $changelogUrl = "https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/CHANGELOG.md?r=" . time();
 $ch           = curl_init();
@@ -79,15 +80,13 @@ else {
 			<div class='mt-3 row'>
 				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-secondary w-100'
-					   <?php if (!empty(
-					   $Selfupdate->getCurrentTag()
-					   )): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getCurrentTag(); ?>'
+					   <?php if (!empty($currentGitTag)): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
 					   target='_blank' <?php endif; ?>>
 						<?php echo __(
 							"OLD_TAG_VERSION",
 							"SELFUPDATE",
 							[
-								$Selfupdate->getCurrentTag()
+                                $currentGitTag
 									?: __(
 									"UNKNOWN",
 									"SELFUPDATE"

@@ -190,9 +190,4 @@ class SelfUpdate
 
         return FALSE;
     }
-
-    public function getCurrentTag(): string
-    {
-        return $this->currentTag;
-    }
 }
