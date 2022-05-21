@@ -27,8 +27,8 @@ class UpdateChecker
         $action = $this->action();
 
         $result = [
-            "update" => FALSE,
-            "error"  => FALSE,
+            "update" => false,
+            "error"  => false,
             "msg"    => "",
         ];
 
@@ -38,7 +38,7 @@ class UpdateChecker
 
         $release = $this->doRequest($action);
         if (is_array($release) && isset($release["ERROR"])) {
-            $result["error"] = TRUE;
+            $result["error"] = true;
             $result["msg"]   = $release["ERROR"];
 
             return $result;
@@ -52,17 +52,17 @@ class UpdateChecker
             $result["latest_tag"] = $release->tag_name;
 
             if ($this->currentTag !== $result["latest_tag"]) {
-                $result["update"] = TRUE;
+                $result["update"] = true;
             }
             if ($this->updateChannel === "dev") {
-                $result["update"] = TRUE;
+                $result["update"] = true;
             }
         }
 
         if (empty($release->assets[1])) {
-            $result["error"]  = TRUE;
+            $result["error"]  = true;
             $result["msg"]    = __("DOWNLOAD_MISSING", "SELFUPDATE");
-            $result["update"] = FALSE;
+            $result["update"] = false;
 
             return $result;
         }
