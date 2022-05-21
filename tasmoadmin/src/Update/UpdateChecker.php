@@ -40,20 +40,22 @@ class UpdateChecker
         if (is_array($release) && isset($release["ERROR"])) {
             $result["error"] = TRUE;
             $result["msg"]   = $release["ERROR"];
-        }
-        else {
-            if (is_array($release)) {
-                $release = $release[0];
-            }
-            if (isset($release->tag_name)) {
-                $result["latest_tag"] = $release->tag_name;
 
-                if ($this->currentTag !== $result["latest_tag"]) {
-                    $result["update"] = TRUE;
-                }
-                if ($this->updateChannel === "dev") {
-                    $result["update"] = TRUE;
-                }
+            return $result;
+        }
+
+        if (is_array($release)) {
+            $release = $release[0];
+        }
+
+        if (isset($release->tag_name)) {
+            $result["latest_tag"] = $release->tag_name;
+
+            if ($this->currentTag !== $result["latest_tag"]) {
+                $result["update"] = TRUE;
+            }
+            if ($this->updateChannel === "dev") {
+                $result["update"] = TRUE;
             }
         }
 
@@ -61,11 +63,11 @@ class UpdateChecker
             $result["error"]  = TRUE;
             $result["msg"]    = __("DOWNLOAD_MISSING", "SELFUPDATE");
             $result["update"] = FALSE;
-        }
-        else {
-            $result["release_url"] = $release->assets[1]->browser_download_url;
+
+            return $result;
         }
 
+        $result["release_url"] = $release->assets[1]->browser_download_url;
         return $result;
     }
 
