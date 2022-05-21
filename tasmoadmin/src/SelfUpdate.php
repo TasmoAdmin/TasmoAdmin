@@ -23,18 +23,19 @@ class SelfUpdate
 	
 	public function update(string $releaseUrl, string $latestTag): array
 	{
-		if ($this->saveZip($releaseUrl)) {
-			$this->log[] = __("SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE");
-			if ($this->install()) {
-				$this->log[] = __("OLD_TAG_VERSION", "SELFUPDATE", [$this->currentTag]);
-				$this->log[] = __("NEW_TAG_VERSION", "SELFUPDATE", [$latestTag]);
-				$this->config->write("current_git_tag", $latestTag);
-			}
-		}
-		else {
-			$this->log[] = __("ERROR_COULD_NOT_DOWNLOAD_ZIP", "SELFUPDATE");
-		}
-		
+		if (!$this->saveZip($releaseUrl)) {
+            $this->log[] = __("ERROR_COULD_NOT_DOWNLOAD_ZIP", "SELFUPDATE");
+
+            return $this->log;
+        }
+
+        $this->log[] = __("SUCCESS_DOWNLOADED_ZIP_UPDATE", "SELFUPDATE");
+        if ($this->install()) {
+            $this->log[] = __("OLD_TAG_VERSION", "SELFUPDATE", [$this->currentTag]);
+            $this->log[] = __("NEW_TAG_VERSION", "SELFUPDATE", [$latestTag]);
+            $this->config->write("current_git_tag", $latestTag);
+        }
+
 		return $this->log;
 	}
 	
@@ -74,8 +75,7 @@ class SelfUpdate
 		fclose($file);
 		ini_set("max_execution_time", 30);
 		
-		return (filesize($this->zipfile) > 0) ? TRUE : FALSE;
-		
+		return filesize($this->zipfile) > 0;
 	}
 	
 	private function install() {
@@ -148,7 +148,6 @@ class SelfUpdate
 		}
 		
 		return TRUE;
-		
 	}
 	
 	private function removeDirectory($directory, $options = []) {
