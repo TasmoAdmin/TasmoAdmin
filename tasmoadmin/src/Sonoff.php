@@ -104,15 +104,14 @@ class Sonoff {
 		return $data;
 	}
 
-	public function buildCmndUrl(Device $device, string $cmnd) {
+	public function buildCmndUrl(Device $device, string $cmnd): string
+    {
 		$start = "?";
-		if (isset($device->password) && $device->password != "") {
+		if (!empty($device->password)) {
 			$start = "?user=" . urlencode($device->username) . "&password=" . urlencode($device->password) . "&";
 		}
-		$url = "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
 		
-		
-		return $url;
+		return "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
 	}
 	
 	/**
@@ -703,13 +702,13 @@ class Sonoff {
     {
 		$devices = $this->deviceRepository->getDevices();
 		
-		if ($orderBy == "position") {
+		if ($orderBy === "position") {
 			$devicesTmp = [];
-			$update     = FALSE;
+			$update = false;
 			foreach ($devices as $device) {
-				if ($device->position == "") {
+				if ($device->position === "") {
 					$device->position = 1;
-					$update           = TRUE;
+					$update = true;
 				}
 				while (isset($devicesTmp[$device->position])) {
 					$device->position++;
