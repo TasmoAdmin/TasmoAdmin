@@ -3,10 +3,11 @@
 use TasmoAdmin\Helper\UrlHelper;
 
 $devices = $Sonoff->getDevices();
+
 ?>
 <div class='container-fluid'>
 	
-	<?php if (isset($devices) && !empty($devices)):
+	<?php if (!empty($devices)):
 		$nightmode = "";   //todo: make function
 		$h = date('H');
 		
@@ -25,7 +26,7 @@ $devices = $Sonoff->getDevices();
 		}
 		
 		$imgNight = "";
-		if ($nightmode == "nightmode") {
+		if ($nightmode === "nightmode") {
 			$imgNight = "night/";
 		}
 		?>
@@ -69,9 +70,9 @@ $devices = $Sonoff->getDevices();
 							 data-device_ip='<?php echo $device_group->ip; ?>'
 							 data-device_relais='<?php echo $key + 1; ?>'
 							 data-device_state='none'
-							 data-device_all_off='<?php echo $device_group->device_all_off; ?>'
-							 data-device_protect_on='<?php echo $device_group->device_protect_on; ?>'
-							 data-device_protect_off='<?php echo $device_group->device_protect_off; ?>'
+							 data-device_all_off='<?php echo $device_group->deviceAllOff; ?>'
+							 data-device_protect_on='<?php echo $device_group->deviceProtectionOn; ?>'
+							 data-device_protect_off='<?php echo $device_group->deviceProtectionOff; ?>'
 						>
 							<div class="animated rubberBand">
 								<img class='card-img-top'
