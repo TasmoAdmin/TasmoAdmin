@@ -377,7 +377,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_all_off"
-										   name='device_all_off' <?php echo !isset($device->device_all_off) || $device->device_all_off == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_all_off' <?php echo !isset($device->deviceAllOff) || $device->deviceAllOff == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_all_off">
 										<?php echo __("LABEL_ALL_OFF", "DEVICE_ACTIONS"); ?>
 									</label>
@@ -391,7 +391,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_on"
-										   name='device_protect_on' <?php echo $device->device_protect_on == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_protect_on' <?php echo $device->deviceProtectionOn == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_protect_on">
 										<?php echo __("LABEL_PROTECT_ON", "DEVICE_ACTIONS"); ?>
 									</label>
@@ -405,7 +405,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_off"
-										   name='device_protect_off' <?php echo $device->device_protect_off == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_protect_off' <?php echo $device->deviceProtectionOff == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_protect_off">
 										<?php echo __("LABEL_PROTECT_OFF", "DEVICE_ACTIONS"); ?>
 									</label>

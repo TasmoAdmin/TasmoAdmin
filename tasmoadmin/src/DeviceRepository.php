@@ -84,6 +84,9 @@ class DeviceRepository
         return $device;
     }
 
+    /**
+     * @return Device[]
+     */
     public function getDevices(): array
     {
         $devices = [];

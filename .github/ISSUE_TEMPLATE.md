@@ -19,6 +19,9 @@
 ## Context (Environment)
 <!--- How is your environment setup? e.g. TasmoAdmin version? Dockerised? web-server? PHP version?  -->
 
+## Context (Device)
+<!--- What device is affected? What hardware is it? Tasmo version? -->
+
 ## Detailed Description
 <!--- Provide a detailed description of the change or addition you are proposing -->
 
