@@ -18,101 +18,84 @@ class Sonoff {
 
     public function __construct(?Client $client = null)
     {
-        $this->client = $client ?? new Client();
+        $this->client = $client ?? new Client([
+            'connect_timeout' => 5,
+            'timeout' => 5,
+        ]);
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
 
-	public function getAllStatus(Device $device) {
-		$cmnd = "Status 0";
-		
-		
-		$status = $this->doRequest($device, $cmnd);
-		
-		return $status;
+	public function getAllStatus(Device $device)
+    {
+		return $this->doRequest($device, "Status 0");
 	}
 
 	private function doRequest(Device $device, string $cmnd, int $try = 1)
     {
-		$url = $this->buildCmndUrl($device, $cmnd);
+        $url = $this->buildCmndUrl($device, $cmnd);
 
-		$result = NULL;
+        try {
+            $result = $this->client->get($url)->getBody();
+        } catch (GuzzleException $exception) {
+            $result = new stdClass();
+            $result->ERROR = __("CURL_ERROR", "API") . " => " . $exception->getMessage();
+            return $result;
+        }
 
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$result = curl_exec($ch);
-		
-		
-		if (!$result) {
-			$data        = new stdClass();
-			$data->ERROR = __("CURL_ERROR", "API") . " => " . curl_errno($ch) . ": " . curl_error($ch);
-		}
-		else {
-			
-			$data = json_decode($result);
-			
-			if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
-				$result = preg_replace('/[[:cntrl:]]/', '', $result);
-				$data   = json_decode($result);
-			}
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$result = $this->fixJsonFormatv5100($result);
-				$data   = json_decode($result);
-			}
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$result = $this->fixJsonFormatv8500($result);
-				$data   = json_decode($result);
-			}
-			
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				$data        = new stdClass();
-				$data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
-				$data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
-				$data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
-				
-			}
-			$skipWarning = FALSE;
-			if (strpos($cmnd, "Backlog") !== FALSE) {
-				$skipWarning = TRUE;
-			}
-			
-			if (!$skipWarning && isset($data->WARNING) && !empty($data->WARNING) && $try == 1) {
-				$try++;
-				//set web log level 2 and try again
-				$webLog = $this->setWebLog($device, 2, $try);
-				if (!isset($webLog->WARNING) && empty($webLog->WARNING)) {
-					$data = $this->doRequest($device, $cmnd, $try);
-				}
-			}
-			else {
-				if (empty($data->ERROR)) {
-					$data = $this->compatibility($data);
-				}
-			}
-			
-		}
-		
-		curl_close($ch);
-		
-		$data = $this->stateTextsDetection($data);
-		
-		return $data;
+        $data = json_decode($result->getContents());
+
+        if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
+            $result = preg_replace('/[[:cntrl:]]/', '', $result);
+            $data   = json_decode($result);
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $result = $this->fixJsonFormatv5100($result);
+            $data   = json_decode($result);
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $result = $this->fixJsonFormatv8500($result);
+            $data   = json_decode($result);
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $data = new stdClass();
+            $data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
+            $data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
+            $data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($data, TRUE);
+
+        }
+        $skipWarning = FALSE;
+        if (strpos($cmnd, "Backlog") !== FALSE) {
+            $skipWarning = TRUE;
+        }
+
+        if (!$skipWarning && isset($data->WARNING) && !empty($data->WARNING) && $try === 1) {
+            $try++;
+            //set web log level 2 and try again
+            $webLog = $this->setWebLog($device, 2, $try);
+            if (!isset($webLog->WARNING) && empty($webLog->WARNING)) {
+                $data = $this->doRequest($device, $cmnd, $try);
+            }
+        }
+        else if (empty($data->ERROR)) {
+            $data = $this->compatibility($data);
+        }
+
+        $data = $this->stateTextsDetection($data);
+
+        return $data;
 	}
 
-	public function buildCmndUrl(Device $device, string $cmnd) {
+	public function buildCmndUrl(Device $device, string $cmnd): string
+    {
 		$start = "?";
-		if (isset($device->password) && $device->password != "") {
+		if (!empty($device->password)) {
 			$start = "?user=" . urlencode($device->username) . "&password=" . urlencode($device->password) . "&";
 		}
-		$url = "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
 		
-		
-		return $url;
+		return "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
 	}
 	
 	/**
@@ -618,14 +601,6 @@ class Sonoff {
 		return $status;
 	}
 	
-	public function toggle($device) {
-		$cmnd = "Status 0";
-		
-		$status = $this->doRequest($device, $cmnd);
-		
-		return $status;
-	}
-	
 	public function saveConfig($device, $backlog) {
 		$status = $this->doRequest($device, $backlog);
 		
@@ -703,13 +678,13 @@ class Sonoff {
     {
 		$devices = $this->deviceRepository->getDevices();
 		
-		if ($orderBy == "position") {
+		if ($orderBy === "position") {
 			$devicesTmp = [];
-			$update     = FALSE;
+			$update = false;
 			foreach ($devices as $device) {
-				if ($device->position == "") {
+				if ($device->position === "") {
 					$device->position = 1;
-					$update           = TRUE;
+					$update = true;
 				}
 				while (isset($devicesTmp[$device->position])) {
 					$device->position++;
