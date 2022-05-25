@@ -19,8 +19,8 @@ class Sonoff
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client([
-                'connect_timeout' => 5,
-                'timeout' => 5,
+                'connect_timeout' => 10,
+                'timeout' => 10,
             ]);
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
@@ -611,7 +611,7 @@ class Sonoff
         $url = $this->buildCmndUrl($device, urldecode($_REQUEST["cmnd"]));
 
         try {
-            $response = $this->client->request('GET', $url, ['timeout' => 8]);
+            $response = $this->client->request('GET', $url);
 
             return $this->processResult($response->getBody()->getContents());
         } catch (GuzzleException $exception) {
