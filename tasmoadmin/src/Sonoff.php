@@ -19,8 +19,8 @@ class Sonoff
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client([
-                'connect_timeout' => 5,
-                'timeout' => 5,
+                'connect_timeout' => 10,
+                'timeout' => 10,
             ]);
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
@@ -611,9 +611,9 @@ class Sonoff
         $url = $this->buildCmndUrl($device, urldecode($_REQUEST["cmnd"]));
 
         try {
-            $response = $this->client->request('GET', $url, ['timeout' => 8]);
+            $response = $this->client->request('GET', $url);
 
-            return $this->processResult(json_decode($response->getBody()));
+            return $this->processResult($response->getBody()->getContents());
         } catch (GuzzleException $exception) {
             $result = new stdClass();
             $result->ERROR = $exception->getMessage();
@@ -649,9 +649,7 @@ class Sonoff
                 continue;
             }
 
-            $result = json_decode($response['value']->getBody()->getContents());
-
-            $results[$deviceId] = $this->processResult($result);
+            $results[$deviceId] = $this->processResult($response['value']->getBody()->getContents());
         }
 
         return $results;
@@ -854,6 +852,7 @@ class Sonoff
 
     private function processResult(string $result): stdClass
     {
+        $result = json_decode($result);
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
             $result = preg_replace('/[[:cntrl:]]/', '', $result);
             $result = json_decode($result);
@@ -881,5 +880,3 @@ class Sonoff
         return $this->stateTextsDetection($result);
     }
 }
-
-
