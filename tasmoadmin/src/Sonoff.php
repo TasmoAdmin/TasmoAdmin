@@ -259,7 +259,7 @@ class Sonoff
                  */ . "on, up, online, in, "
 
                 /**
-                 * DE99999999999
+                 * DE
                  */ . "an, oben, hoch, öffnen, oeffnen, offen, "
 
                 /**
