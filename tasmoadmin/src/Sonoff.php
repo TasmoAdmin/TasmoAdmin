@@ -380,15 +380,9 @@ class Sonoff
         return $status;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getNTPStatus($device)
+    public function getNTPStatus(Device $device)
     {
         $cmnd = "NtpServer1";
-
 
         $status = $this->doRequest($device, $cmnd);
         if (!empty($status->Command) && $status->Command === "Unknown") {
@@ -398,12 +392,8 @@ class Sonoff
         return $status;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getFullTopic($device)
+
+    public function getFullTopic(Device $device): string
     {
         $cmnd = "FullTopic";
 
@@ -420,12 +410,7 @@ class Sonoff
         return $status->FullTopic;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getSwitchTopic($device)
+    public function getSwitchTopic(Device $device): string
     {
         $cmnd = "SwitchTopic";
 
@@ -443,12 +428,7 @@ class Sonoff
         return $status->SwitchTopic;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getMqttRetry($device)
+    public function getMqttRetry(Device $device): string
     {
         $cmnd = "MqttRetry";
 
