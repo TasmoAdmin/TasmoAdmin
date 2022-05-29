@@ -102,11 +102,11 @@ class Sonoff
      * This fixes wrong formated json answer form Tasmota Version 5.10.0
      * Example wrong format: dev/json_error_5100.json
      *
-     * @param $string
+     * @param ?string $string
      *
      * @return string
      */
-    private function fixJsonFormatV5100(string $string): string
+    private function fixJsonFormatV5100(?string $string): string
     {
         $string = substr($string, strpos($string, "STATUS = "));
         if (strpos($string, "POWER = ") !== FALSE) {
@@ -259,7 +259,7 @@ class Sonoff
                  */ . "on, up, online, in, "
 
                 /**
-                 * DE
+                 * DE99999999999
                  */ . "an, oben, hoch, öffnen, oeffnen, offen, "
 
                 /**
@@ -626,9 +626,9 @@ class Sonoff
         return $this->deviceRepository->getDeviceById($id);
     }
 
-    public function doAjaxAll()
+    public function doAjaxAll(): array
     {
-        ini_set("max_execution_time", "99999999999");
+        ini_set("max_execution_time", Constants::EXTENDED_MAX_EXECUTION_TIME);
 
         $devices = $this->getDevices();
         $cmnd = "status 0";
@@ -636,9 +636,7 @@ class Sonoff
         $promises = [];
         foreach ($devices as $device) {
             $url = $this->buildCmndUrl($device, $cmnd);
-            $promises[$device->id] = $this->client->getAsync($url, [
-                'timeout' => 8,
-            ]);
+            $promises[$device->id] = $this->client->getAsync($url);
         }
 
         $responses = Promise\settle($promises)->wait();
@@ -651,6 +649,8 @@ class Sonoff
 
             $results[$deviceId] = $this->processResult($response['value']->getBody()->getContents());
         }
+
+        ini_set("max_execution_time", Constants::DEFAULT_MAX_EXECUTION_TIME);
 
         return $results;
     }
@@ -692,102 +692,33 @@ class Sonoff
         return $devices;
     }
 
-    public function search($urls = [])
+    public function search($urls = []): array
     {
-        $result = [];
-        ini_set("max_execution_time", "99999999999");
+        ini_set("max_execution_time", Constants::EXTENDED_MAX_EXECUTION_TIME);
 
-        $urlsClone = $urls;
-
-        // make sure the rolling window isn't greater than the # of urls
-        $rolling_window = 10;
-        $rolling_window = (count($urls) < $rolling_window) ? count($urls) : $rolling_window;
-        $master = curl_multi_init();
-        // $curl_arr = array();
-        // add additional curl options here
-        $options = [
-            CURLOPT_FOLLOWLOCATION => FALSE,
-            CURLOPT_RETURNTRANSFER => TRUE,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 8,
-        ];
-        // start the first batch of requests
-
-        for ($i = 0; $i < $rolling_window; $i++) {
-            $ch = curl_init();
-            $options[CURLOPT_URL] = $urlsClone[$i];
-            curl_setopt_array($ch, $options);
-            curl_multi_add_handle($master, $ch);
+        $promises = [];
+        foreach ($urls as $url) {
+            $promises[$url] = $this->client->getAsync($url);
         }
-        $i--;
 
-        do {
-            while (($execrun = curl_multi_exec($master, $running)) == CURLM_CALL_MULTI_PERFORM) {
-                ;
+        $responses = Promise\settle($promises)->wait();
+
+        $results = [];
+        foreach ($responses as $response) {
+            if ($response['state'] === 'rejected') {
+                continue;
             }
-            if ($execrun != CURLM_OK) {
-                break;
+
+            if ($response['value']->getStatusCode() !== 200) {
+                continue;
             }
-            // a request was just completed -- find out which one
-            while ($done = curl_multi_info_read($master)) {
-                $info = curl_getinfo($done['handle']);
-                $output = curl_multi_getcontent($done['handle']);
 
-                if (!$output) {
+            $results[] = $this->processResult($response['value']->getBody()->getContents());
+        }
 
-                } else {
-                    $data = json_decode($output);
+        ini_set("max_execution_time", Constants::DEFAULT_MAX_EXECUTION_TIME);
 
-
-                    if (json_last_error() == JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
-                        $output = preg_replace('/[[:cntrl:]]/', '', $output);
-                        $data = json_decode($output);
-                    }
-
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        $outputTmp = $this->fixJsonFormatv5100($output);
-                        $data = json_decode($outputTmp);
-                    }
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                        $outputTmp = $this->fixJsonFormatv8500($output);
-                        $data = json_decode($outputTmp);
-                    }
-
-                    if (json_last_error() !== JSON_ERROR_NONE) {
-                    } else {
-
-                        if (empty($data->ERROR)) {
-                            $data = $this->compatibility($data);
-                            $data = $this->stateTextsDetection($data);
-                        }
-                        $result[] = $data;
-                    }
-                    unset($outputTmp);
-                }
-
-                // start a new request (it's important to do this before removing the old one)
-                if (count($urls) >= $i + 1) {
-                    $ch = curl_init();
-                    $options[CURLOPT_URL] = $urlsClone[$i++];  // increment i
-
-
-                    curl_setopt_array($ch, $options);
-                    curl_multi_add_handle($master, $ch);
-                }
-                // remove the curl handle that just completed
-                curl_multi_remove_handle($master, $done['handle']);
-                curl_close($done["handle"]);
-            }
-        } while ($running);
-        curl_multi_close($master);
-
-        unset($urlsClone);
-        unset($urls);
-
-
-        ini_set("max_execution_time", "60");
-
-        return $result;
+        return $results;
     }
 
     public function decodeOptions($options)
@@ -850,7 +781,7 @@ class Sonoff
         return $decodedOptopns;
     }
 
-    private function processResult(string $result): stdClass
+    private function processResult(string $result): ?stdClass
     {
         $result = json_decode($result);
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
@@ -873,7 +804,7 @@ class Sonoff
             $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
         }
 
-        if (empty($result->ERROR)) {
+        if (isset($result) && empty($result->ERROR)) {
             $result = $this->compatibility($result);
         }
 
