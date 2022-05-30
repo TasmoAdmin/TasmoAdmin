@@ -12,6 +12,8 @@ use stdClass;
  */
 class Sonoff
 {
+    public const COMMAND_INFO_STATUS_ALL = 'status 0';
+
     private Client $client;
 
     private DeviceRepository $deviceRepository;
@@ -27,7 +29,7 @@ class Sonoff
 
     public function getAllStatus(Device $device): stdClass
     {
-        return $this->doRequest($device, "Status 0");
+        return $this->doRequest($device, self::COMMAND_INFO_STATUS_ALL);
     }
 
     private function doRequest(Device $device, string $cmnd, int $try = 1): stdClass
@@ -166,13 +168,8 @@ class Sonoff
 
         $string = str_replace($remove, $replace, $string);
 
-        //remove everything befor ethe first {
+        //remove everything before the first {
         $string = strstr($string, '{');
-
-        //			var_dump( $string );
-        //			var_dump( json_decode( $string ) );
-        //			var_dump( json_last_error_msg() );
-        //			die();
 
         return $string;
     }
@@ -185,9 +182,9 @@ class Sonoff
      * Shutters missed a } at the end
      * https://github.com/TasmoAdmin/TasmoAdmin/issues/398
      *
-     * @param $string
+     * @param string $string
      *
-     * @return mixed
+     * @return string
      */
     private function fixJsonFormatv8500(string $string): string
     {
