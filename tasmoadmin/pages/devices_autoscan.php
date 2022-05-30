@@ -3,6 +3,7 @@
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
+use TasmoAdmin\Sonoff;
 
 $status       = FALSE;
 $devices      = NULL;
@@ -37,8 +38,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
         $urls = [];
         foreach ($ips as $ip) {
             $fakeDevice = DeviceFactory::fakeDevice($ip,$_REQUEST["device_username"] ?? "", $_REQUEST["device_password"] ?? "" );
-            $cmnd  = "status 0";
-            $urls[] = $Sonoff->buildCmndUrl($fakeDevice, $cmnd);
+            $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
             unset($fakeDevice);
         }
 
