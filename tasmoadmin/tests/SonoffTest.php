@@ -16,7 +16,7 @@ class SonoffTest extends TestCase
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
         $sonoff = new Sonoff();
-        $url = $sonoff->buildCmndUrl($device, 'status 0');
+        $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1/cm?user=user&password=pass&cmnd=status+0', $url);
     }
 
@@ -24,16 +24,16 @@ class SonoffTest extends TestCase
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1']);
         $sonoff = new Sonoff();
-        $url = $sonoff->buildCmndUrl($device, 'status 0');
+        $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1/cm?cmnd=status+0', $url);
     }
 
     public function testGetAllStatusValid(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
-        $sonoff = new Sonoff($this->getClient(
+        $sonoff = new Sonoff($this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json'))
-        ));
+        ]));
         $result = $sonoff->getAllStatus($device);
         self::assertEquals('socket-1', $result->Status->DeviceName);
     }
@@ -41,19 +41,32 @@ class SonoffTest extends TestCase
     public function testGetAllStatusUnauthorized(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
-        $sonoff = new Sonoff($this->getClient(
+        $sonoff = new Sonoff($this->getClient([
             new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
-        ));
+        ]));
         $result = $sonoff->getAllStatus($device);
         self::assertStringContainsString('401 Unauthorized', $result->ERROR);
     }
 
-    private function getClient(?Response $response = null): Client
+    public function testSearch(): void
     {
-        $responses = [];
-        if ($response) {
-            $responses[] = $response;
+        $sonoff = new Sonoff($this->getClient([
+            new Response(200, [], TestUtils::loadFixture('response-valid.json')),
+            new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
+        ]));
+
+        $devices = [];
+        foreach (range(1, 2) as $count) {
+            $device = DeviceFactory::fromArray([$count, sprintf('socket-%d', $count), sprintf('192.168.1.%d', $count)]);
+            $devices[] = $sonoff->buildCmndUrl($device,Sonoff::COMMAND_INFO_STATUS_ALL);
         }
+
+        $result = $sonoff->search($devices);
+        self::assertCount(1, $result);
+    }
+
+    private function getClient(array $responses = []): Client
+    {
         $mock = new MockHandler($responses);
         $handlerStack = HandlerStack::create($mock);
         return new Client(['handler' => $handlerStack]);

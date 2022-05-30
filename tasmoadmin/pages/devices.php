@@ -3,14 +3,11 @@
 use TasmoAdmin\Helper\UrlHelper;
 
 $devices = $Sonoff->getDevices();
-
-
-//var_dump( $devices );
 ?>
 <div class='row'>
 	<div class='col col-12'>
 		
-		<?php if (isset($devices) && !empty($devices)): ?>
+		<?php if (!empty($devices)): ?>
 			<div class='row mb-1 mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
 					<div class="form-check pl-0">
