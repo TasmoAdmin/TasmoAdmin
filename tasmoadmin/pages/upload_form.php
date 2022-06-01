@@ -115,7 +115,7 @@ $releases = $tasmotaHelper->getReleases();
 							<option value='<?php echo $tr; ?>'
 								<?php echo $Config->read("update_automatic_lang") == $tr ? "selected=\selected\"" : ""; ?>
 							>
-								<?php echo substr($tr, 0, stripos($tr, ".")); ?>
+								<?php echo $tr; ?>
 							</option>
 						<?php endforeach; ?>
 					

@@ -76,7 +76,8 @@ class TasmotaHelper
 				if (strpos($asset->name, ".bin.gz") !== false || strpos($asset->name, "-minimal.bin") !== false) {
 					continue;
 				}
-				$tasmotaReleases[] = $asset->name;
+
+				$tasmotaReleases[] = substr($asset->name, 0, strpos($asset->name, "."));
 			}
 		}
 		else {
@@ -96,6 +97,7 @@ class TasmotaHelper
 				];
 		}
 
+		$tasmotaReleases = array_unique($tasmotaReleases);
 		asort($tasmotaReleases);
 
 		return $tasmotaReleases;
