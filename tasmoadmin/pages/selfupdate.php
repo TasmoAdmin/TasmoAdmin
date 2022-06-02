@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\TasmoAdminHelper;
 use TasmoAdmin\SelfUpdate;
 use TasmoAdmin\Update\UpdateChecker;
 
@@ -25,22 +26,8 @@ if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
 $newUpdate = $updateChecker->checkForUpdate();
 $currentGitTag = $Config->read("current_git_tag");
 
-$changelogUrl = "https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/CHANGELOG.md?r=" . time();
-$ch           = curl_init();
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-curl_setopt($ch, CURLOPT_URL, $changelogUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$changelog = curl_exec($ch);
-
-//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
-
-if (!$changelog || curl_error($ch) != "" || $changelog == "") {
-	$changelog = "";
-}
-else {
-	$changelog = $mdParser->parse($changelog);
-}
+$tasmoAdminHelper = new TasmoAdminHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$changelog = $tasmoAdminHelper->getChangelog();
 
 ?>
 
