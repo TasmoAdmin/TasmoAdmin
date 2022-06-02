@@ -193,7 +193,7 @@ class Config
 		if (!empty($key)) {
 			if ($key == "password") {
 				$config = "im sure you expected a top secret pw here, but you failes :)";
-			}
+			}_BASEURL_
 			else {
 				if (!empty($config[$key])) {
 					$config = $config[$key];
@@ -332,6 +332,18 @@ class Config
 		
 		return $config;
 	}
+
+    public function schema(): string
+    {
+        $useSSL = $this->read('ota_server_ssl');
+        if ($useSSL === 1 || $useSSL === "1") {
+            $schema = "https";
+        } else {
+            $schema = "http";
+        }
+
+        return $schema;
+    }
 
 	private function logDebug($message): void
 	{
