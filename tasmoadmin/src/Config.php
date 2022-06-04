@@ -193,7 +193,7 @@ class Config
 		if (!empty($key)) {
 			if ($key == "password") {
 				$config = "im sure you expected a top secret pw here, but you failes :)";
-			}_BASEURL_
+			}
 			else {
 				if (!empty($config[$key])) {
 					$config = $config[$key];
