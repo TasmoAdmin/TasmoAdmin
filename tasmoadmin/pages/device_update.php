@@ -1,24 +1,15 @@
 <?php
 
+use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\UrlHelper;
 
-$useSSL = $Config->read("ota_server_ssl");
-$localIP = $Config->read("ota_server_ip");
-$localPort = $Config->read("ota_server_port");
-
-if ($useSSL == 1 || $useSSL == "1") {
-    $schema = "https";
-} else {
-    $schema = "http";
-}
-
-$otaServer = $schema . "://" . $localIP . ":" . $localPort . _BASEURL_;
+$otaHelper = new OtaHelper($Config, _BASEURL_);
 
 if (!empty($_REQUEST['minimal_firmware_path'])) {
-    $ota_minimal_firmware_url = $otaServer . "data/firmwares/" . basename($_REQUEST['minimal_firmware_path']);
+    $ota_minimal_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
 }
 if (!empty($_REQUEST['new_firmware_path'])) {
-    $ota_new_firmware_url = $otaServer . "data/firmwares/" . basename($_REQUEST['new_firmware_path']);
+    $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
 }
 
 $device_ids = $_REQUEST["device_ids"] ?? FALSE;
