@@ -179,8 +179,8 @@ elseif (isset($_REQUEST["auto"])) {
         $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
         try {
             $result = $tasmotaHelper->getLatestFirmwares($ext, $fwAsset);
-            $firmwareDownloader->download($result->getMinimalFirmwareUrl());
-            $firmwareDownloader->download($result->getFirmwareUrl());
+            $minimal_firmware_path= $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
 
 			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
