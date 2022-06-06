@@ -3,18 +3,11 @@
 namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\vfsStreamDirectory;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use PHPUnit\Framework\TestCase;
 
 class FirmwareFolderHelperTest extends TestCase
 {
-    private vfsStreamDirectory $root;
-
-    protected function setUp(): void
-    {
-    }
-
     public function testCleanEmpty(): void
     {
         $filesystem = vfsStream::setup('firmware');
