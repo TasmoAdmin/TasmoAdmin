@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\UrlHelper;
 
 $msg                   = "";
@@ -11,12 +12,9 @@ $new_firmware_path     = "";
 $use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
 $Config->write("use_gzip_package", $use_gzip_package);
 
-$files = glob($firmwarefolder . '*'); // get all file names
-foreach ($files as $file) { // iterate files
-	if (is_file($file) && strpos($file, ".empty") === FALSE && strpos($file, ".htaccess") === FALSE) {
-		unlink($file);
-	} // delete file
-}
+
+FirmwareFolderHelper::clean($firmwarefolder);
+
 $minimal_firmware_path = "";
 if (isset($_REQUEST["upload"])) {
 	if ($_FILES['minimal_firmware']["name"] == "") {
