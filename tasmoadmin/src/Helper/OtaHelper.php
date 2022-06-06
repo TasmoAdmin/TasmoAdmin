@@ -19,7 +19,7 @@ class OtaHelper
 
     public function getFirmwareUrl(string $firmware): string
     {
-        return $this->getOtaServer() . $firmware;
+        return $this->getOtaServer() . basename($firmware);
     }
 
     private function getOtaServer(): string
