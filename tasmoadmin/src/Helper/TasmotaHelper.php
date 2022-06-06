@@ -73,7 +73,7 @@ class TasmotaHelper
 	{
         $release = $this->getLatestRelease();
 		$tasmotaReleases = [];
-		if (!empty($release) && !empty($release->assets)) {
+		if (!empty($release->assets)) {
 			foreach ($release->assets as $asset) {
 				if (strpos($asset->name, ".bin.gz") !== false || strpos($asset->name, "-minimal.bin") !== false) {
 					continue;

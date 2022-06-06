@@ -3,12 +3,15 @@
 namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\OtaHelper;
 use PHPUnit\Framework\TestCase;
 
 class OtaHelperTest extends TestCase
 {
+    private vfsStreamDirectory $root;
+
     protected function setUp(): void
     {
         $this->root = vfsStream::setup('config');
