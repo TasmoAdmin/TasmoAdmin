@@ -3,7 +3,10 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
+use InvalidArgumentException;
 use Parsedown;
+use stdClass;
+use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
 {
@@ -68,8 +71,7 @@ class TasmotaHelper
 
 	public function getReleases(): array
 	{
-		$tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-		$release = json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+        $release = $this->getLatestRelease();
 		$tasmotaReleases = [];
 		if (!empty($release) && !empty($release->assets)) {
 			foreach ($release->assets as $asset) {
@@ -102,4 +104,30 @@ class TasmotaHelper
 
 		return $tasmotaReleases;
 	}
+
+    public function getLatestFirmwares(string $ext, string $configuredFirmware): AutoFirmwareResult
+    {
+        $release = $this->getLatestRelease();
+
+        foreach ($release->assets as $binfileData) {
+            if ($binfileData->name === "tasmota-minimal" . "." . $ext) {
+                $fwMinimalUrl = $binfileData->browser_download_url;
+            }
+            if ($binfileData->name === pathinfo($configuredFirmware, PATHINFO_FILENAME) . "." . $ext) {
+                $fwUrl = $binfileData->browser_download_url;
+            }
+        }
+
+        if (!isset($fwUrl, $fwMinimalUrl)) {
+            throw new InvalidArgumentException('Failed to resolve firmware');
+        }
+
+        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $release->tag_name, $release->published_at);
+    }
+
+    private function getLatestRelease(): stdClass
+    {
+        $tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
+        return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+    }
 }

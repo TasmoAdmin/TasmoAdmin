@@ -1,7 +1,10 @@
 <?php
 
 use TasmoAdmin\Helper\FirmwareFolderHelper;
+use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\UrlHelper;
+use TasmoAdmin\Update\FirmwareDownloader;
 
 $msg                   = "";
 $error                 = FALSE;
@@ -12,10 +15,8 @@ $new_firmware_path     = "";
 $use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
 $Config->write("use_gzip_package", $use_gzip_package);
 
-
 FirmwareFolderHelper::clean($firmwarefolder);
 
-$minimal_firmware_path = "";
 if (isset($_REQUEST["upload"])) {
 	if ($_FILES['minimal_firmware']["name"] == "") {
 		$msg .= __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
@@ -159,11 +160,12 @@ if (isset($_REQUEST["upload"])) {
 	}
 }
 elseif (isset($_REQUEST["auto"])) {
-	$useGZIP   = $Config->read("use_gzip_package");
-	if ($useGZIP == 1) {
+    $tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+
+	$useGZIP  = $Config->read("use_gzip_package");
+	if ($useGZIP === 1) {
 		$ext = "bin.gz";
-	}
-	else {
+	} else {
 		$ext = "bin";
 	}
 
@@ -173,74 +175,22 @@ elseif (isset($_REQUEST["auto"])) {
 	}
 	$fwAsset = $Config->read("update_automatic_lang");
 	
-	if ($fwAsset != "") {
-		
-		
-		$url = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-		
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($ch, CURLOPT_USERAGENT, "TasmoAdmin/{$Config->read('current_git_tag')}" );
-		$result = curl_exec($ch);
-		curl_close($ch);
-		
-		$data = json_decode($result);
-		
-		foreach ($data->assets as $binfileData) {
-			if ($binfileData->name == "tasmota-minimal" . "." . $ext) {
-				$fwMinimalUrl = $binfileData->browser_download_url;
-			}
-			if ($binfileData->name == pathinfo($fwAsset, PATHINFO_FILENAME) . "." . $ext) {
-				$fwUrl = $binfileData->browser_download_url;
-			}
-			
-		}
-		if (isset($fwUrl) && isset($fwMinimalUrl)) {
-			$minimal_firmware_path = $firmwarefolder . 'tasmota-minimal' . "." . $ext;
-			$new_firmware_path     = $firmwarefolder . 'tasmota' . "." . $ext;
-			$file                  = fopen($minimal_firmware_path, 'w');
-			// cURL
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $fwMinimalUrl);
-			// set cURL options
-			curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			// set file handler option
-			curl_setopt($ch, CURLOPT_FILE, $file);
-			// execute cURL
-			curl_exec($ch);
-			// close cURL
-			curl_close($ch);
-			// close file
-			fclose($file);
-			
-			$file = fopen($new_firmware_path, 'w');
-			$ch   = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $fwUrl);
-			// set cURL options
-			curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-			// set file handler option
-			curl_setopt($ch, CURLOPT_FILE, $file);
-			// execute cURL
-			curl_exec($ch);
-			// close cURL
-			curl_close($ch);
-			// close file
-			fclose($file);
+	if ($fwAsset !== "") {
+        $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
+        try {
+            $result = $tasmotaHelper->getLatestFirmwares($ext, $fwAsset);
+            $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            $firmwareDownloader->download($result->getFirmwareUrl());
+
 			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
 			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . substr($fwAsset, 0, stripos($fwAsset, ".")) . "</strong> | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
-				) . ": " . $data->tag_name . " | " . __("DATE", "DEVICE_UPDATE") . " " . $data->published_at;
-		}
-		else {
+				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt();
+		} catch (Throwable $e) {
 			$error = TRUE;
-			$msg   .= __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>";
+			$msg   .= __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();
 		}
 	}
 	else {
@@ -270,10 +220,10 @@ $Config->write("ota_server_port", $ota_server_port);
 		</h2>
 	</div>
 </div>
-<?php if (isset($error) && $error && FALSE): ?>
+<?php if (isset($error) && $error): ?>
 	<div class='row justify-content-sm-center'>
 		<div class='col col-12 col-md-6 '>
-			<div class="alert alert-danger fade show mb-3" data-dismiss="alert" role="alert">
+			<div class="alert alert-danger fade show mb-3" role="alert">
 				<?php echo $msg; ?>
 			</div>
 		</div>
@@ -282,7 +232,7 @@ $Config->write("ota_server_port", $ota_server_port);
 	<?php if (isset($msg) && $msg != ""): ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col col-12 col-md-6 '>
-				<div class="alert alert-success fade show mb-3" data-dismiss="alert" role="alert">
+				<div class="alert alert-success fade show mb-3" role="alert">
 					<?php echo $msg; ?>
 				</div>
 			</div>
