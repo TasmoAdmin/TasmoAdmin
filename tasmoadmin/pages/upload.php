@@ -2,8 +2,10 @@
 
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\UrlHelper;
+use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
 
 $msg                   = "";
@@ -210,6 +212,21 @@ $ota_server_port = isset($_REQUEST["ota_server_port"]) ? $_REQUEST["ota_server_p
 $Config->write("ota_server_ssl", $ota_server_ssl);
 $Config->write("ota_server_ip", $ota_server_ip);
 $Config->write("ota_server_port", $ota_server_port);
+
+$otaHelper = new OtaHelper($Config, _BASEURL_);
+
+$firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
+
+
+if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($minimal_firmware_path))) {
+    $error = true;
+    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", $otaHelper->getFirmwareUrl($minimal_firmware_path));
+}
+
+if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
+    $error = true;
+    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", $otaHelper->getFirmwareUrl($new_firmware_path));
+}
 
 ?>
 
