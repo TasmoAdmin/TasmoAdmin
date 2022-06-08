@@ -186,7 +186,7 @@ elseif (isset($_REQUEST["auto"])) {
 
 			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$msg .= __("LANGUAGE", "DEVICE_UPDATE") . ": <strong>" . substr($fwAsset, 0, stripos($fwAsset, ".")) . "</strong> | Gzip: " . $withGzip . " | " . __(
+			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
 				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt();
