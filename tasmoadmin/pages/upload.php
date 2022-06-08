@@ -220,12 +220,18 @@ $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 
 if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($minimal_firmware_path))) {
     $error = true;
-    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", $otaHelper->getFirmwareUrl($minimal_firmware_path));
+    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
+        __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE"),
+        $otaHelper->getFirmwareUrl($minimal_firmware_path)
+        ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
 }
 
 if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
     $error = true;
-    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", $otaHelper->getFirmwareUrl($new_firmware_path));
+    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE",[
+        __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE"),
+        $otaHelper->getFirmwareUrl($new_firmware_path)
+    ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
 }
 
 ?>
