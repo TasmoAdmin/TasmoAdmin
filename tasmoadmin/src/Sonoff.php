@@ -575,7 +575,7 @@ class Sonoff
         return $this->doRequest($device, $backlog);
     }
 
-    public function doAjax($deviceId)
+    public function doAjax($deviceId, string $cmnd)
     {
         $device = $this->getDeviceById($deviceId);
 
@@ -585,7 +585,7 @@ class Sonoff
             return $response;
         }
 
-        $url = $this->buildCmndUrl($device, urldecode($_REQUEST["cmnd"]));
+        $url = $this->buildCmndUrl($device, $cmnd);
 
         try {
             $response = $this->client->request('GET', $url);
