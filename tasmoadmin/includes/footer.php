@@ -42,14 +42,5 @@
 		</div>
 	</div>
 </footer>
-
-<script>
-    //$( "#content-holder" ).css(
-    //	"width", "calc(100% - " + (
-    //	         $( "#navi" ).innerWidth() + 42
-    //) + "px)"
-    //);
-    var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
-</script>
 </body>
 </html>

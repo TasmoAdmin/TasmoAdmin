@@ -96,6 +96,7 @@ else {
 		<script type="application/javascript">
             var _BASEURL_ = "<?php echo _BASEURL_; ?>";
             var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
+            var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
 		</script>
 		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"></script>
@@ -135,7 +136,6 @@ else {
 		<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
 		
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
-		
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 		
 		<link href="<?php echo UrlHelper::STYLES("bootstrap/bootstrap"); ?>" rel="stylesheet">

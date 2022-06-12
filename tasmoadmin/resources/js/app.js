@@ -20,7 +20,7 @@ $(document).on("ready", function ()
 		   });
 
 
-	checkNightmode(nightmodeconfig);
+	checkNightmode(nightmodeconfig || "auto");
 	checkForUpdate(true);
 
 
@@ -798,47 +798,34 @@ function getGas(data, joinString)
 function checkNightmode(config)
 {
 	console.log("[APP][checkNightmode] Start");
-	var config = config || "auto";
-
-	var currentTime = new Date();
-	var hour = currentTime.getHours();
-
-	//console.log( "check Nightmode => " + hour + "h - " + config );
-
-
-	if (config === "disable")
-	{
+	const currentTime = new Date();
+	const hour = currentTime.getHours();
+	if (config === "disable") {
 		$("body").removeClass("nightmode");
 		console.log("[APP][checkNightmode] disabled");
-	} else
-	{
-		if (config === "auto")
-		{
+	} else {
+		if (config === "auto") {
 			console.log("[APP][checkNightmode] check time");
 			if (hour >= 18 || hour <= 8)
 			{   //@TODO: get sunrise by geo
 				$("body").addClass("nightmode");
 				console.log("[APP][checkNightmode] its night");
-			} else
-			{
+			} else {
 				$("body").removeClass("nightmode");
 				console.log("[APP][checkNightmode] its day");
 			}
 
+			setTimeout(function () {
+				checkNightmode(config);
+				}, 15 * 60 * 1000
+			);
 
-			setTimeout(function ()
-					   {
-						   checkNightmode(config);
-					   }, 15 * 60 * 1000);
-
-		} else if (config === "always")
-		{
+		} else if (config === "always") {
 			console.log("[APP][checkNightmode] always");
 			$("body").addClass("nightmode");
 		}
 	}
-	if ($("body").hasClass("nightmode"))
-	{
+	if ($("body").hasClass("nightmode")) {
 		nightmode = true;
 	}
 }
