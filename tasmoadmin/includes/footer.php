@@ -32,7 +32,7 @@
 					TasmoAdmin GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
 				</a>
 				-
-				<a class='' href='https://github.com/arendst/Tasmota'
+				<a class='' hr`ef='https://github.com/arendst/Tasmota'
 				   target='_blank'
 				>
 					Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
@@ -42,14 +42,5 @@
 		</div>
 	</div>
 </footer>
-
-<script>
-    //$( "#content-holder" ).css(
-    //	"width", "calc(100% - " + (
-    //	         $( "#navi" ).innerWidth() + 42
-    //) + "px)"
-    //);
-    var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
-</script>
 </body>
 </html>
