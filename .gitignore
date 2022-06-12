@@ -26,7 +26,6 @@
 
 /tasmoadmin/node_modules/
 /tasmoadmin/vendor/
-/tasmoadmin/composer.lock
 .phpunit.result.cache
 
 
