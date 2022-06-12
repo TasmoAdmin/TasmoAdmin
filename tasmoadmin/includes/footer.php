@@ -32,7 +32,7 @@
 					TasmoAdmin GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
 				</a>
 				-
-				<a class='' hr`ef='https://github.com/arendst/Tasmota'
+				<a class='' href='https://github.com/arendst/Tasmota'
 				   target='_blank'
 				>
 					Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
