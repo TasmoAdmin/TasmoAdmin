@@ -5,10 +5,6 @@ use TasmoAdmin\Helper\TasmoAdminHelper;
 use TasmoAdmin\SelfUpdate;
 use TasmoAdmin\Update\UpdateChecker;
 
-require_once _APPROOT_ . "vendor/autoload.php";
-
-$mdParser = new Parsedown();
-
 $msg        = "";
 
 $updateChecker = new UpdateChecker(
