@@ -3,8 +3,6 @@
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
 
-require_once _APPROOT_ . "vendor/autoload.php";
-
 $tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
