@@ -29,7 +29,7 @@ if (isset($_POST) && !empty($_POST)) {
 	if (isset($_REQUEST["search"])) {
 		if (isset($_REQUEST['device_ip'])) {
 			if (!isset($device)) {
-				$device = DeviceFactory::fakeDevice(
+                $device = DeviceFactory::fakeDevice(
                         $_REQUEST['device_ip'],
                         $_REQUEST['device_username'],
                         $_REQUEST['device_password']
