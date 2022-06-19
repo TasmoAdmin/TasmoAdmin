@@ -3,8 +3,6 @@
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
-ini_set("display_errors", 0);
-
 $action = $_GET["action"];
 $status = FALSE;
 $device = NULL;

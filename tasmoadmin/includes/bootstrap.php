@@ -1,7 +1,7 @@
 <?php
 
 error_reporting( E_ALL );
-ini_set( 'display_errors', '1' );
+ini_set('display_errors', 1);
 
 
 if( !function_exists( "curl_init" ) ) {
@@ -105,6 +105,8 @@ require_once _APPROOT_ . 'vendor/autoload.php';
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Sonoff;
+
+$x = new Foo();
 
 $Config = new Config();
 $Sonoff = new Sonoff();
