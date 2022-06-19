@@ -7,9 +7,11 @@ use TasmoAdmin\Update\UpdateChecker;
 
 $msg        = "";
 
+$currentGitTag = $Config->read("current_git_tag");
+
 $updateChecker = new UpdateChecker(
     $Config->read("update_channel"),
-    $Config->read("current_git_tag"),
+    $currentGitTag,
     GuzzleFactory::getClient($Config)
 );
 
@@ -20,7 +22,6 @@ if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
 }
 
 $newUpdate = $updateChecker->checkForUpdate();
-$currentGitTag = $Config->read("current_git_tag");
 
 $tasmoAdminHelper = new TasmoAdminHelper(new Parsedown(), GuzzleFactory::getClient($Config));
 $changelog = $tasmoAdminHelper->getChangelog();
