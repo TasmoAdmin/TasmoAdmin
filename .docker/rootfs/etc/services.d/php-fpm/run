@@ -6,4 +6,4 @@
 # shellcheck disable=SC1091
 #source /usr/lib/hassio-addons/base.sh
 
-exec php-fpm7 --nodaemonize
+exec php-fpm8 --nodaemonize
