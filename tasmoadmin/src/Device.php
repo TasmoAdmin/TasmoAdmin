@@ -6,7 +6,7 @@ class Device
 {
     public const DEFAULT_IMAGE = 'bulb_1';
 
-    public int $id;
+    public ?int $id;
     public array $names;
     public string $ip;
     public string $username;
@@ -19,7 +19,7 @@ class Device
     public array $keywords;
 
     public function __construct(
-        int $id,
+        ?int $id,
         array $names,
         string $ip,
         string $username,

@@ -37,7 +37,11 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
         $urls = [];
         foreach ($ips as $ip) {
-            $fakeDevice = DeviceFactory::fakeDevice($ip,$_REQUEST["device_username"] ?? "", $_REQUEST["device_password"] ?? "" );
+            $fakeDevice = DeviceFactory::fakeDevice(
+                    $ip,
+                $_REQUEST["device_username"] ?? "",
+                    $_REQUEST["device_password"] ?? ""
+            );
             $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
             unset($fakeDevice);
         }
