@@ -39,6 +39,15 @@ class UpdateCheckerTest extends TestCase
         self::assertFalse($result['update']);
     }
 
+    public function testCheckForUpdateStableBetaUpgrade(): void
+    {
+        $updateChecker = new UpdateChecker('stable', 'v1.8.0-beta1', $this->getClient(
+            new Response(200, [], TestUtils::loadFixture('latest.json'))
+        ));
+        $result = $updateChecker->checkForUpdate();
+        self::assertTrue($result['update']);
+    }
+
     private function getClient(?Response $response = null): Client
     {
         $responses = [];
