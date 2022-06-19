@@ -2,6 +2,7 @@
 
 namespace TasmoAdmin\Update;
 
+use Composer\Semver\Comparator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
@@ -51,7 +52,7 @@ class UpdateChecker
         if (isset($release->tag_name)) {
             $result["latest_tag"] = $release->tag_name;
 
-            if ($this->currentTag !== $result["latest_tag"]) {
+            if (Comparator::greaterThan($result["latest_tag"], $this->currentTag)) {
                 $result["update"] = true;
             }
             if ($this->updateChannel === "dev") {
