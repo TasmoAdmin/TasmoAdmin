@@ -106,8 +106,6 @@ use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Sonoff;
 
-$x = new Foo();
-
 $Config = new Config();
 $Sonoff = new Sonoff();
 $i18n   = new i18n();
