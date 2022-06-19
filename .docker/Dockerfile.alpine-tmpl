@@ -53,13 +53,13 @@ RUN \
         musl \
         tzdata \
         nginx \
-        php7-curl \
-        php7-fpm \
-        php7-json \
-        php7-session \
-        php7-zip \
-        php7-mbstring \
-        php7 \
+        php8-curl \
+        php8-fpm \
+        php8-json \
+        php8-session \
+        php8-zip \
+        php8-mbstring \
+        php8 \
     \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
     \
