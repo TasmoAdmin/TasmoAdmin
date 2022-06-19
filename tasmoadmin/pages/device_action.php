@@ -29,7 +29,11 @@ if (isset($_POST) && !empty($_POST)) {
 	if (isset($_REQUEST["search"])) {
 		if (isset($_REQUEST['device_ip'])) {
 			if (!isset($device)) {
-				$device = new stdClass();
+                $device = DeviceFactory::fakeDevice(
+                        $_REQUEST['device_ip'],
+                        $_REQUEST['device_username'],
+                        $_REQUEST['device_password']
+                );
 			}
 			$device->ip       = $_REQUEST['device_ip'];
 			$device->username = $_REQUEST['device_username'];
@@ -46,13 +50,10 @@ if (isset($_POST) && !empty($_POST)) {
 		}
 	}
 	elseif (!empty($_REQUEST['device_id'])) {//update
-
         $device = DeviceFactory::fromRequest($_REQUEST);
         $deviceRepository->updateDevice($device);
-
 		$msg    = __("MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS");
 		$action = "done";
-		
 	}
 	else { //add
         $deviceRepository->addDevice($_REQUEST);
