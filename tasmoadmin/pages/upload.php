@@ -181,7 +181,6 @@ elseif (isset($_REQUEST["auto"])) {
         $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
         try {
             $result = $tasmotaHelper->getLatestFirmwares($ext, $fwAsset);
-            var_dump($result);
             $minimal_firmware_path= $firmwareDownloader->download($result->getMinimalFirmwareUrl());
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
 
