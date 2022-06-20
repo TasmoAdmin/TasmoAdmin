@@ -165,7 +165,7 @@ elseif (isset($_REQUEST["auto"])) {
     $tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
 
 	$useGZIP  = $Config->read("use_gzip_package");
-	if ($useGZIP === 1) {
+	if ($useGZIP === "1") {
 		$ext = "bin.gz";
 	} else {
 		$ext = "bin";
