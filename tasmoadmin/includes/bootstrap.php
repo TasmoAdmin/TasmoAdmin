@@ -103,6 +103,7 @@ if( file_exists( _APPROOT_.".dockerenv" ) ) {
 require_once _APPROOT_ . 'vendor/autoload.php';
 
 use TasmoAdmin\Config;
+use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Sonoff;
 
@@ -214,14 +215,8 @@ function cleanTemps() {
     //firmwares
     if( in_array( "firmwares", $what ) ) {
         debug( "cleanup firmwares dir" );
-			$files = glob( _DATADIR_.'firmwares/*' ); // get all file names
-			foreach( $files as $file ) { // iterate files
-				if( is_file( $file ) && strpos( $file, ".empty" ) === FALSE
-				    && strpos( $file, ".htaccess" ) === FALSE ) {
-					@unlink( $file );
-				} // delete file
-			}
-		}
+        FirmwareFolderHelper::clean(_DATADIR_ . "firmwares/");
+    }
 
 
 		if( in_array( "config", $what ) ) {
