@@ -9,7 +9,7 @@ if (!empty($_REQUEST['minimal_firmware_path'])) {
     $ota_minimal_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
 }
 if (!empty($_REQUEST['new_firmware_path'])) {
-    $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
+    $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']);
 }
 
 $device_ids = $_REQUEST["device_ids"] ?? FALSE;
