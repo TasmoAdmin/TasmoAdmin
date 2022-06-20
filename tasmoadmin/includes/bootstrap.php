@@ -85,6 +85,12 @@ function autoloadsystem( $class ) {
 
 spl_autoload_register( "autoloadsystem" );
 
+require_once _APPROOT_ . 'vendor/autoload.php';
+
+use TasmoAdmin\Config;
+use TasmoAdmin\Helper\JsonLanguageHelper;
+use TasmoAdmin\Helper\FirmwareFolderHelper;
+use TasmoAdmin\Sonoff;
 
 if( !empty( $_REQUEST[ "clean" ] ) ) {
     cleanTemps();
@@ -99,13 +105,6 @@ if( !file_exists( $filename ) ) {
 if( file_exists( _APPROOT_.".dockerenv" ) ) {
     $docker = TRUE;
 }
-
-require_once _APPROOT_ . 'vendor/autoload.php';
-
-use TasmoAdmin\Config;
-use TasmoAdmin\Helper\FirmwareFolderHelper;
-use TasmoAdmin\Helper\JsonLanguageHelper;
-use TasmoAdmin\Sonoff;
 
 $Config = new Config();
 $Sonoff = new Sonoff();
