@@ -304,7 +304,7 @@ if (isset($_POST) && !empty($_POST)) {
 								<div class="form-group col col-12 col-sm-3">
 									<label class="d-none d-sm-block mb-3">&nbsp;</label>
 									(
-									<a href='#' title='<?php echo __("OVERTAKE", "DEVICE_ACTIONS"); ?>'
+									<a href='#' title='<?php echo __("DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS"); ?>'
 									   class='default-name'
 									><?php echo $friendlyName; ?>
 									</a>
