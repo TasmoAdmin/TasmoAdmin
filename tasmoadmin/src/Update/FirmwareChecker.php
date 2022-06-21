@@ -3,7 +3,7 @@
 namespace TasmoAdmin\Update;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 
 class FirmwareChecker
 {
@@ -18,7 +18,7 @@ class FirmwareChecker
     {
         try {
             $this->client->head($url);
-        } catch (ClientException $exception) {
+        } catch (GuzzleException $exception) {
             return false;
         }
 
