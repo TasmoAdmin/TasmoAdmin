@@ -22,9 +22,7 @@ if( !class_exists( "ZipArchive" ) ) {
 
 
 $subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
-
-$subdir
-        = $subdir = str_replace( "\\", "/", $subdir );
+$subdir = $subdir = str_replace( "\\", "/", $subdir );
 $subdir = $subdir == "//" ? "/" : $subdir;
 
 if ($baseurl_from_env = getenv('TASMO_BASEURL')) {
@@ -53,37 +51,9 @@ session_set_cookie_params( 356*24*60*60 );
 session_name( "TASMO_SESSION" );
 session_start();
 
-//	setcookie( session_name(), session_id(), time()+30*24*60*60 );
 global $loggedin, $docker;
 $loggedin = FALSE;
 $docker   = FALSE;
-
-
-function autoloadsystem( $class ) {
-
-    $filename = _HELPERSDIR_.strtolower( $class ).".php";
-    if( file_exists( $filename ) ) {
-        require $filename;
-    } else {
-        $filename = _HELPERSDIR_.$class.".php";
-        if( file_exists( $filename ) ) {
-            require $filename;
-        }
-    }
-
-
-    $filename = _INCLUDESDIR_.$class.".php";
-    if( file_exists( $filename ) ) {
-        require $filename;
-    } else {
-        $filename = _INCLUDESDIR_.strtolower( $class ).".php";
-        if( file_exists( $filename ) ) {
-            require $filename;
-        }
-    }
-}
-
-spl_autoload_register( "autoloadsystem" );
 
 require_once _APPROOT_ . 'vendor/autoload.php';
 
