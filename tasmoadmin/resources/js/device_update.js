@@ -1,338 +1,164 @@
-var ajaxTimeout = 15;
-$( document ).on( "ready", function () {
-	// console.log( device_ids );
-	device_ids = $.parseJSON( device_ids );
-	
-	var progressBox = $( "#progressbox" );
-	
-	
-	log( "", "", $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START" ), "success" );
-	
-	$.each( device_ids, step2 );
-	
-	
-	function step1( index, id ) {
-		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_1" ), "info" );
-		
-		
-		log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
-		step2( id );
-		
-		//if ( $( "#ota_minimal_firmware_url" ).val() != "" ) {
-		//	device_responses( id, setOTAURL, id, "MINIMAL", 1 );
-		//} else {
-		//
-		//	log( id, 1, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_SKIP_STEP_1_MINIMAL" ), "info" );
-		//	step2( id );
-		//}
-	}
-	
-	
-	function device_responses( id, callback, p1, p2, step, tries ) {
-		var tries = tries || 1;
-		var cmnd  = "Status 2";
-		log(
-			id,
-			step,
-			$.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n( 'BLOCK_CHECK_CONNECTION_START_CHECK_TRY' ) + tries,
-			"info"
-		);
-		$.ajax( {
-			        dataType: "json",
-			        url     : _BASEURL_ + "doAjax",
-			        data    : {
-				        id  : id,
-				        cmnd: cmnd
-			        },
-			        timeout : ajaxTimeout * 1000,
-			        custom  : {
-				        callback: callback
-			        },
-			        type    : "post",
-			        success : function ( data ) {
-				        console.log( data );
-				        if ( data && !data.ERROR ) {
-					        if ( data.WARNING ) {
-						        log(
-							        id,
-							        step,
-							        $.i18n( 'BLOCK_CHECK_CONNECTION' ), $.i18n(
-							        'BLOCK_CHECK_CONNECTION_CHECK_ERROR_MSG' )
-							                                            + data.WARNING,
-							        "error"
-						        );
-					        }
-					        log(
-						        id,
-						        step,
-						        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
-						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_OK_VERSION' )
-						        + data.StatusFWR.Version, "success"
-					        );
-					        this.custom.callback( p1, p2, step );
-				        } else {
-					        log( id, step, $.i18n( 'BLOCK_CHECK_CONNECTION' ),
-						        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ) + data.ERROR, "error"
-					        );
-					        if ( tries < 3 ) {
-						        tries = tries + 1;
-						        device_responses( id, callback, p1, p2, step, tries );
-					        }
-				        }
-			        },
-			        error   : function ( badData ) {
-				        log(
-					        id,
-					        step,
-					        $.i18n( 'BLOCK_CHECK_CONNECTION' ),
-					        $.i18n( 'BLOCK_CHECK_CONNECTION_CHECK_NO_RESPONSE_MSG' ),
-					        "error"
-				        );
-				        if ( tries < 3 ) {
-					        tries = tries + 1;
-					        device_responses( id, callback, p1, p2, step, tries );
-				        }
-			        }
-		        } );
-	}
-	
-	function setOTAURL( id, fwType, step ) {
-		var fw = "";
-		if ( fwType === "MINIMAL" ) {
-			fw = $( "#ota_minimal_firmware_url" ).val();
-		} else {
-			fw = $( "#ota_new_firmware_url" ).val();
+const deviceContainerId = 'progressbox';
+
+const Level = {
+	info: 'info',
+	error: 'error',
+	success: 'success',
+}
+
+const otaURL = document.getElementById('ota_new_firmware_url').value;
+const targetVersion = document.getElementById('target_version').value;
+
+const sleep = (milliseconds) => {
+	return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+const defaultRetryOptions = {
+	maxRetries: 3,
+	sleepDuration: 5000,
+};
+
+const fetchWithRetries = async (
+	url,
+	options,
+	retryOptions = defaultRetryOptions,
+	retryCount = 0,
+) => {
+	try {
+		const response = await fetch(url, options);
+		if (!response.ok) {
+			throw Error(`Failed to load ${url} returned ${response.status}`);
 		}
-		
-		log( id, step, $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_SET_URL_FWTYPE" ) + fwType, "info" );
-		log( id, step, $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_SET_URL_FWURL" ) + fw, "info" );
-		var cmnd = "OtaUrl " + fw;
-		$.ajax( {
-			        dataType: "json",
-			        url     : _BASEURL_ + "doAjax",
-			        data    : {
-				        id  : id,
-				        cmnd: cmnd
-			        },
-			        timeout : ajaxTimeout * 1000,
-			        type    : "post",
-			        success : function ( data ) {
-				        console.log( data );
-				        if ( data.WARNING ) {
-					        log(
-						        id,
-						        step,
-						        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_ERROR_MSG" ) + data.WARNING,
-						        "error"
-					        );
-				        }
-				        log(
-					        id,
-					        1,
-					        $.i18n( "BLOCK_OTAURL" ), $.i18n( "BLOCK_OTAURL_SUCCESS_FWTYPE" ) + fwType,
-					        "success"
-				        );
-				        startUpdate( id, step );
-				
-			        },
-			        error   : function ( badData ) {
-				        log(
-					        id,
-					        step,
-					        $.i18n( "BLOCK_OTAURL" ),
-					        $.i18n( "BLOCK_OTAURL_CHECK_NO_RESPONSE_MSG" ),
-					        "error"
-				        );
-				
-			        }
-		        } );
-	}
-	
-	function startUpdate( id, step ) {
-		log( id, step, $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_START" ), "info" );
-		var cmnd = "Upgrade 1";
-		$.ajax( {
-			        dataType: "json",
-			        url     : _BASEURL_ + "doAjax",
-			        data    : {
-				        id  : id,
-				        cmnd: cmnd
-			        },
-			        type    : "post",
-			        timeout : ajaxTimeout * 1000,
-			        success : function ( data ) {
-				        console.log( data );
-				        if ( data && !data.ERROR ) {
-					        if ( data.WARNING ) {
-						        log(
-							        id,
-							        step,
-							        $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_ERROR_MSG" ) + data.WARNING,
-							        "error"
-						        );
-					        } else {
-						        log( id, step, $.i18n( "BLOCK_UPDATE" ), $.i18n( "BLOCK_UPDATE_SUCCESS" ), "info" );
-					        }
-					        checkUpdateDone( id, step, 1 );
-				        } else {
-					        log(
-						        id,
-						        step,
-						        $.i18n( "BLOCK_UPDATE" ),
-						        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-						        "error"
-					        );
-				        }
-				
-			        },
-			        error   : function ( badData ) {
-				        log(
-					        id,
-					        step,
-					        $.i18n( "BLOCK_UPDATE" ),
-					        $.i18n( "BLOCK_UPDATE_CHECK_NO_RESPONSE_MSG" ),
-					        "error"
-				        );
-				
-			        }
-		        } );
-		
-	}
-	
-	function step2( index, id ) {
-		log( id, 2, $.i18n( "BLOCK_GLOBAL" ), $.i18n( "BLOCK_GLOBAL_START_STEP_2" ), "info" );
-		
-		device_responses( id, setOTAURL, id, "NEW FW", 2 );
-	}
-	
-	function checkUpdateDone( id, step, i ) {
-		if ( i > 5 ) {
-			log( id, step, $.i18n( "BLOCK_CHECK_UPDATE" ), $.i18n( "BLOCK_CHECK_UPDATE_ERROR_X_MIN" ), "error" );
-			return;
+
+		return response;
+	} catch (error) {
+		if (retryCount < retryOptions.maxRetries) {
+			await sleep(retryOptions.sleepDuration)
+			return fetchWithRetries(url, options, retryOptions, retryCount + 1);
 		}
-		var sec = 60;
-		if ( i > 1 ) {
-			sec = 30;
-		}
-		log( id, step, $.i18n( "BLOCK_CHECK_UPDATE" ), $.i18n( "BLOCK_CHECK_UPDATE_WAIT_X_SECONDS" ) + sec, "info" );
-		setTimeout(
-			function () {
-				var cmnd = "Status 2";
-				$.ajax( {
-					        dataType: "json",
-					        url     : _BASEURL_ + "doAjax",
-					        data    : {
-						        id  : id,
-						        cmnd: cmnd
-					        },
-					        timeout : ajaxTimeout * 1000,
-					        type    : "post",
-					        success : function ( data ) {
-						        console.log( data );
-						        if ( data && !data.ERROR ) {
-							        if ( step == 1 ) {
-								        log(
-									        id,
-									        step,
-									        $.i18n( "BLOCK_CHECK_UPDATE" ),
-									        $.i18n( "BLOCK_CHECK_UPDATE_UPDATE_DONE" ),
-									        "success"
-								        );
-								        step2( id );
-							        } else {
-								        if ( data.StatusFWR.Version.indexOf( "minimal" ) >= 0 ) {
-									        log(
-										        id,
-										        step,
-										        $.i18n( "BLOCK_CHECK_UPDATE" ),
-										        $.i18n( "MINIMAL IS INSTALLED NOW, WAIT FOR MAIN FW!" ),
-										        "info"
-									        );
-									        checkUpdateDone( id, step, 1 );
-								        } else {
-									        log(
-										        id,
-										        step,
-										        $.i18n( "BLOCK_CHECK_UPDATE_DONE" ),
-										        $.i18n( "BLOCK_CHECK_UPDATE_DONE_MESSAGE" ),
-										        "success"
-									        );
-									
-								        }
-							        }
-						        } else {
-							        log(
-								        id,
-								        step,
-								        $.i18n( "BLOCK_CHECK_UPDATE" ),
-								        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-								        "info"
-							        );
-							        checkUpdateDone( id, step, i + 1 );
-						        }
-					        },
-					        error   : function ( badData ) {
-						        log(
-							        id,
-							        step,
-							        $.i18n( "BLOCK_CHECK_UPDATE" ),
-							        $.i18n( "BLOCK_CHECK_UPDATE_STILL_UPDATING" ),
-							        "info"
-						        );
-						        checkUpdateDone( id, step, i + 1 );
-					        }
-				        } );
-			}, sec * 1000
-		);
+
+		throw error;
 	}
-	
-	
-	function log( id, step, block, msg, level ) {
-		var dt   = new Date();
-		var time = (
-			           dt.getDate() < 10 ? "0" + dt.getDate() : dt.getDate()
-		           )
-		           + "-"
-		           + (
-			           (
-				           parseInt( dt.getMonth() ) + 1
-			           ) < 10 ? "0" + (
-			       parseInt( dt.getMonth() ) + 1
-		           ) : (
-			       parseInt( dt.getMonth() ) + 1
-			           )
-		           )
-		           + "-"
-		           + dt.getFullYear()
-		           + " "
-		           + (
-			           dt.getHours() < 10 ? "0" + dt.getHours() : dt.getHours()
-		           )
-		           + ":"
-		           + (
-			           dt.getMinutes() < 10 ? "0" + dt.getMinutes() : dt.getMinutes()
-		           )
-		           + ":"
-		           + (
-			           dt.getSeconds() < 10 ? "0" + dt.getSeconds() : dt.getSeconds()
-		           )
-		;
-		
-		var entry = "[" + time + "]";
-		
-		if ( id !== "" ) {
-			entry += "[" + $.i18n( "BLOCK_GLOBAL_ID" ) + "-" + id + "]";
-		}
-		if ( step !== "" ) {
-			entry += "[" + $.i18n( "BLOCK_GLOBAL_STEP" ) + "-" + step + "]";
-		}
-		if ( block !== "" ) {
-			entry += "[" + block + "]";
-		}
-		
-		entry += " " + msg;
-		
-		progressBox.append( "<span class='" + level + "'>" + entry + "</span>" );
-		progressBox.animate( { scrollTop: progressBox[ 0 ].scrollHeight }, 150 );
+}
+
+async function doAjax(deviceId, cmnd) {
+	const url = `http://localhost:8000/index.php?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
+	console.log(`Calling ${deviceId} on ${url} with ${cmnd}`);
+	let response = await fetchWithRetries(url);
+	response = await response.json();
+
+	if (response.hasOwnProperty('ERROR'))
+	{
+		throw Error(`Error from backend ${response.ERROR}`);
 	}
-} );
+
+	return response;
+}
+
+function setOtaUrl(deviceId) {
+	try {
+		const otaUrl = 'http://ota.tasmota.com/tasmota/tasmota.bin.gz';
+		doAjax(deviceId, `OtaUrl ${otaUrl}`);
+	} catch (e) {
+		console.log(e)
+		throw e;
+	}
+}
+
+function startUpgrade(deviceId) {
+	try {
+		doAjax(deviceId, 'Upgrade 1');
+	} catch (e) {
+		console.log(e)
+		throw e;
+	}
+}
+
+async function checkStatus(deviceId) {
+	try {
+		return doAjax(deviceId, 'Status 0');
+	} catch (e) {
+		console.log(e)
+		throw e;
+	}
+}
+
+function deviceSelector(deviceId) {
+	return `device${deviceId}`
+}
+
+function log(deviceId, message, level = Level.info) {
+	const deviceContainer = document.getElementById(deviceSelector(deviceId));
+	const logLine = document.createElement('span');
+	logLine.classList.add(level);
+	logLine.append(`[${new Date().toISOString()}] ${message}`);
+	deviceContainer.appendChild(logLine);
+}
+
+function createDeviceElement(deviceId) {
+	const deviceContainer = document.createElement('div');
+	deviceContainer.setAttribute('id', deviceSelector(deviceId));
+	deviceContainer.classList.add('device');
+
+	const deviceTitle = document.createElement('h1');
+	deviceTitle.appendChild(document.createTextNode(`Device ${deviceId}`));
+	deviceContainer.appendChild(deviceTitle);
+
+	return deviceContainer;
+}
+
+function compareVersion(target, actual) {
+	let actualMatch = /(\d+\.\d+\.\d+)/.exec(actual);
+	if (actualMatch === null) {
+		throw new Error(`Failed to match version from ${actual}`);
+	}
+
+	actualMatch = actualMatch[1];
+
+	let targetMatch = /(\d+\.\d+\.\d+)/.exec(target);
+	if (targetMatch === null) {
+		throw new Error(`Failed to match version from ${target}`);
+	}
+	targetMatch = targetMatch[1];
+
+	if (targetMatch !== actualMatch) {
+		throw new Error(`Failed to update to ${targetMatch} version is ${actualMatch}`);
+	}
+}
+
+async function doUpgrade(deviceId) {
+	const deviceContainer = document.getElementById(deviceContainerId);
+	deviceContainer.appendChild(createDeviceElement(deviceId));
+
+	try
+	{
+		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START'));
+		log(deviceId, 'Checking version...');
+		let response = await checkStatus(deviceId);
+		const beforeVersion = response.StatusFWR.Version;
+		log(deviceId, `Current version is ${beforeVersion}`);
+		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START_STEP_2'));
+		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
+		log(deviceId, 'Setting OTA URL...');
+		await sleep(1000);
+
+		// setOtaUrl(deviceId);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
+		await sleep(1000);
+		// startUpgrade(deviceId);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
+		response = await checkStatus(deviceId);
+		log(deviceId, `Version is ${response.StatusFWR.Version}`);
+		compareVersion(targetVersion, response.StatusFWR.Version);
+		log(deviceId, 'Device upgrade successful!', Level.success);
+	} catch(e) {
+		log(deviceId, e.message, Level.error);
+	}
+}
+
+document.addEventListener('DOMContentLoaded', function(event) {
+	const deviceIds = $.parseJSON( device_ids );
+
+	deviceIds.forEach(doUpgrade);
+});
+
