@@ -6,11 +6,11 @@
 
 ### v2.0.0
 
-## Breaking Changes
+#### Breaking Changes
 
 * The minimum PHP version has been set to 7.4
 
-## What's Changed
+#### What's Changed
 
 * Add mbstring dependency to docker setup by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/490
 * Tidy UrlHelper by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/493
