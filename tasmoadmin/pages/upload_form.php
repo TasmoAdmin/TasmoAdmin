@@ -166,9 +166,6 @@ $releases = $tasmotaHelper->getReleases();
 				<div class='changelog'>
 					<?php echo $releaseNotes; ?>
 				</div>
-				<div class='changelog'>
-					<?php echo $changelog; ?>
-				</div>
 			</div>
 			<div class='col col-12 col-md-6'>
 				<div class='changelog'>
@@ -180,7 +177,6 @@ $releases = $tasmotaHelper->getReleases();
 			</div>
 		</div>
 	</div>
-
 </div>
 
 <script>
