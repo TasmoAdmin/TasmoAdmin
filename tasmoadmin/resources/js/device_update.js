@@ -147,7 +147,7 @@ function compareVersion(target, actual) {
 	}
 }
 
-async function doUpgrade(deviceId) {
+async function updateDevice(deviceId) {
 	const deviceContainer = document.getElementById(deviceContainerId);
 	deviceContainer.appendChild(createDeviceElement(deviceId));
 
@@ -182,5 +182,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const deviceIds = $.parseJSON(device_ids);
-	deviceIds.forEach(doUpgrade);
+	deviceIds.forEach(updateDevice);
 });
