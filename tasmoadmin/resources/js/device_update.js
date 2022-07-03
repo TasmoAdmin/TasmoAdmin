@@ -57,11 +57,13 @@ async function doAjax(deviceId, cmnd) {
 
 async function checkOtaUrlAccessible(otaUrl) {
 	try {
-		let response = await fetchWithRetries(otaUrl, {method: 'HEAD'});
+		let response = await fetchWithRetries(otaUrl, {method: 'HEAD', mode: 'no-cors'}, {
+			maxRetries: 0,
+		});
 
 		return response.status === 200;
 	} catch (e) {
-		logGlobal(`Unable to access otaURL @ ${otaUrl} - ${e}`);
+		logGlobal(`Unable to access otaURL @ ${otaUrl} - ${e}`, Level.error);
 		return false;
 	}
 }
@@ -102,6 +104,7 @@ function logGlobal(message, level = Level.info) {
 	const logContainer = document.getElementById('logGlobal');
 	const logLine = document.createElement('span');
 	logLine.classList.add(level);
+	logLine.append(message);
 	logContainer.appendChild(logLine);
 }
 
@@ -173,11 +176,11 @@ async function doUpgrade(deviceId) {
 	}
 }
 
-document.addEventListener('DOMContentLoaded', function(event) {
-	if (!checkOtaUrlAccessible(otaURL)) {
+document.addEventListener('DOMContentLoaded', async () => {
+	if (!await checkOtaUrlAccessible(otaURL)) {
 		return;
 	}
 
-	const deviceIds = $.parseJSON( device_ids );
+	const deviceIds = $.parseJSON(device_ids);
 	deviceIds.forEach(doUpgrade);
 });

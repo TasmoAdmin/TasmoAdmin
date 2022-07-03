@@ -34,6 +34,10 @@ $device_ids = $_REQUEST["device_ids"] ?? FALSE;
                 </button>
             </div>
         <?php else: ?>
+            <div id='logGlobal' class='mt-3 border p-3'>
+
+            </div>
+
             <div id='progressbox' class='mt-3 border border-dark p-3'>
 
             </div>
