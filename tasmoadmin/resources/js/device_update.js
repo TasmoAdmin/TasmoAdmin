@@ -61,7 +61,7 @@ async function checkOtaUrlAccessible(otaUrl) {
 
 		return response.status === 200;
 	} catch (e) {
-		// TODO: Print issue about unable to get error
+		logGlobal(`Unable to access otaURL @ ${otaUrl} - ${e}`);
 		return false;
 	}
 }
@@ -96,6 +96,13 @@ async function checkStatus(deviceId) {
 
 function deviceSelector(deviceId) {
 	return `device${deviceId}`
+}
+
+function logGlobal(message, level = Level.info) {
+	const logContainer = document.getElementById('logGlobal');
+	const logLine = document.createElement('span');
+	logLine.classList.add(level);
+	logContainer.appendChild(logLine);
 }
 
 function log(deviceId, message, level = Level.info) {
@@ -152,7 +159,7 @@ async function doUpgrade(deviceId) {
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
 		log(deviceId, 'Setting OTA URL...');
 		await sleep(1000);
-		setOtaUrl(deviceId);
+		// setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
 		await sleep(1000);
 		// startUpgrade(deviceId);
@@ -174,4 +181,3 @@ document.addEventListener('DOMContentLoaded', function(event) {
 	const deviceIds = $.parseJSON( device_ids );
 	deviceIds.forEach(doUpgrade);
 });
-
