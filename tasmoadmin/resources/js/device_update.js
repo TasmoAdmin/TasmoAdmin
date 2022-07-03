@@ -181,6 +181,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 		return;
 	}
 
-	const deviceIds = $.parseJSON(device_ids);
+	const deviceIds = JSON.parse(device_ids);
 	deviceIds.forEach(updateDevice);
 });
