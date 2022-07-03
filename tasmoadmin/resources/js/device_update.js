@@ -55,6 +55,17 @@ async function doAjax(deviceId, cmnd) {
 	return response;
 }
 
+async function checkOtaUrlAccessible(otaUrl) {
+	try {
+		let response = await fetchWithRetries(otaUrl, {method: 'HEAD'});
+
+		return response.status === 200;
+	} catch (e) {
+		// TODO: Print issue about unable to get error
+		return false;
+	}
+}
+
 function setOtaUrl(deviceId) {
 	try {
 		const otaUrl = 'http://ota.tasmota.com/tasmota/tasmota.bin.gz';
@@ -141,8 +152,7 @@ async function doUpgrade(deviceId) {
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
 		log(deviceId, 'Setting OTA URL...');
 		await sleep(1000);
-
-		// setOtaUrl(deviceId);
+		setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
 		await sleep(1000);
 		// startUpgrade(deviceId);
@@ -157,8 +167,11 @@ async function doUpgrade(deviceId) {
 }
 
 document.addEventListener('DOMContentLoaded', function(event) {
-	const deviceIds = $.parseJSON( device_ids );
+	if (!checkOtaUrlAccessible(otaURL)) {
+		return;
+	}
 
+	const deviceIds = $.parseJSON( device_ids );
 	deviceIds.forEach(doUpgrade);
 });
 
