@@ -39,7 +39,6 @@ class TasmotaHelper
     public function getChangelog(): string
     {
         $changeLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md');
-        $changeLog .= $this->removeLeadingLines($this->getContents('https://raw.githubusercontent.com/tasmota/docs/master/docs/changelog.md'), 5);
         $changeLog = $this->markDownParser->parse($changeLog);
         $changeLog = $this->replaceIssuesWithUrls($changeLog);
 
@@ -105,13 +104,6 @@ class TasmotaHelper
     {
         $tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
         return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
-    }
-
-    private function removeLeadingLines(string $contents, int $lineCount): string
-    {
-        $contentsSplit = explode('\n', $contents);
-        $contentsSplit = array_slice($contentsSplit, $lineCount);
-        return implode('\n', $contentsSplit);
     }
 
     private function getContents(string $url): string
