@@ -23,7 +23,6 @@ class TasmotaHelper
     public function getReleaseNotes(): string
     {
         $releaseLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md');
-
         $releaseLog = str_replace(["*/", "/*", " *\n"], ["", "", ""], $releaseLog);
         $releaseLog = str_replace("https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
             "https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
@@ -40,15 +39,9 @@ class TasmotaHelper
     public function getChangelog(): string
     {
         $changeLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md');
-        $changeLog .= $this->getContents('https://raw.githubusercontent.com/tasmota/docs/master/docs/changelog.md');
+        $changeLog .= $this->removeLeadingLines($this->getContents('https://raw.githubusercontent.com/tasmota/docs/master/docs/changelog.md'), 5);
         $changeLog = $this->markDownParser->parse($changeLog);
         $changeLog = $this->replaceIssuesWithUrls($changeLog);
-        $changeLog = str_replace(
-            ":rotating_light:",
-            //		"<i class=\"error red fas fa-exclamation-triangle\" style='color: red;'></i>",
-            "<img alt=\"🚨\" class=\"emojione\" src=\"https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/1f6a8.png\" title=\":rotating_light:\">",
-            $changeLog
-        );
 
         return $changeLog;
     }
@@ -112,6 +105,13 @@ class TasmotaHelper
     {
         $tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
         return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+    }
+
+    private function removeLeadingLines(string $contents, int $lineCount): string
+    {
+        $contentsSplit = explode('\n', $contents);
+        $contentsSplit = array_slice($contentsSplit, $lineCount);
+        return implode('\n', $contentsSplit);
     }
 
     private function getContents(string $url): string
