@@ -98,14 +98,8 @@ else {
             var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
             var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
 		</script>
-		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/external/jquery/jquery"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"></script>
-		<script>
-            /*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
-            $.widget.bridge("uibutton", $.ui.button);
-            $.widget.bridge("uitooltip", $.ui.tooltip);
-		</script>
-		<script src="<?php echo UrlHelper::JS("bootstrap/bootstrap.bundle"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery", "/node_modules/jquery/dist/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("bootstrap.bundle", "/node_modules/bootstrap/dist/js/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.messagestore"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.fallbacks"); ?>"></script>
@@ -127,25 +121,19 @@ else {
 		<script src="<?php echo UrlHelper::JS("i18n/languages/sl"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
 		
-		<script src="<?php echo UrlHelper::JS("js-cookie/js-cookie"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("tablesaw/tablesaw.stackonly.jquery"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("tablesaw/tablesaw-init"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor/waitingfor"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("libs/jqDoubleScroll/jquery.doubleScroll"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
-		<!--	<script src="--><?php //echo _RESOURCESURL_; ?><!--js/moment-js/moment-with-locales.js"></script>-->
-		
+		<script src="<?php echo UrlHelper::JS("js.cookie", "/node_modules/js-cookie/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly.jquery", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("tablesaw-init", "/node_modules/tablesaw/dist/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.doubleScroll", "/node_modules/jqdoublescroll/"); ?>"></script>
+
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 		
-		<link href="<?php echo UrlHelper::STYLES("bootstrap/bootstrap"); ?>" rel="stylesheet">
-		<link href="<?php echo UrlHelper::STYLES("../js/jquery-ui/jquery-ui-1.12.1.custom/jquery-ui"); ?>"
-			  rel="stylesheet"
-		>
-		
-		<link href="<?php echo UrlHelper::STYLES("fontawesome/css/all"); ?>" rel="stylesheet">
-		<link href="<?php echo UrlHelper::STYLES("tablesaw/tablesaw"); ?>" rel="stylesheet">
-		<link href="<?php echo UrlHelper::STYLES("tablesaw/tablesaw.stackonly"); ?>" rel="stylesheet">
+		<link href="<?php echo UrlHelper::STYLES("bootstrap", "/node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">
+		<link href="<?php echo UrlHelper::STYLES("all", "/node_modules/@fortawesome/fontawesome-free/css/"); ?>" rel="stylesheet">
+		<link href="<?php echo UrlHelper::STYLES("tablesaw", "/node_modules/tablesaw/dist/"); ?>" rel="stylesheet">
+		<link href="<?php echo UrlHelper::STYLES("tablesaw.stackonly", "/node_modules/tablesaw/dist/stackonly/"); ?>" rel="stylesheet">
 		
 		<link href="<?php echo UrlHelper::STYLES("all"); ?>" rel="stylesheet">
 		

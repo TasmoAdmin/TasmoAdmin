@@ -1,12 +1,6 @@
 $( document ).on( "ready", function () {
-	$( ".svg-inject" ).svgInject( function () {
-		// Injection complete
-	} );
-	
 	updateAllStatus();
-	
 } );
-
 
 function updateAllStatus() {
 	
