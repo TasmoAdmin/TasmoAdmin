@@ -311,9 +311,6 @@ class Sonoff
 
         //status 0 request for multi relais
         while (isset($status->StatusSTS->$power)) {
-            $state = NULL;
-
-
             $state = $status->StatusSTS->$power;
             if (isset($status->StatusSTS->$power->STATE)) {
                 $state = $status->StatusSTS->$power->STATE;
@@ -344,9 +341,6 @@ class Sonoff
 
         //toggle request for multi relais
         while (isset($status->$power)) {
-            $state = NULL;
-
-
             $state = $status->$power;
             if (isset($status->$power->STATE)) {
                 $state = $status->$power->STATE;
@@ -442,12 +436,7 @@ class Sonoff
         return $status->MqttRetry;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getTelePeriod($device)
+    public function getTelePeriod(Device $device): string
     {
         $cmnd = "TelePeriod";
 
@@ -464,12 +453,7 @@ class Sonoff
         return $status->TelePeriod;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getSensorRetain($device)
+    public function getSensorRetain(Device $device): string
     {
         $cmnd = "SensorRetain";
 
@@ -486,12 +470,8 @@ class Sonoff
         return $status->SensorRetain;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getMqttFingerprint($device)
+
+    public function getMqttFingerprint(Device $device): string
     {
         $cmnd = "MqttFingerprint";
 
@@ -511,12 +491,7 @@ class Sonoff
         return $status->MqttFingerprint;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getPrefixe($device)
+    public function getPrefixe(Device $device): stdClass
     {
         $cmnds = ["Prefix1", "Prefix2", "Prefix3"];
 
@@ -542,12 +517,7 @@ class Sonoff
         return $status;
     }
 
-    /**
-     * @param $ip
-     *
-     * @return mixed
-     */
-    public function getStateTexts($device)
+    public function getStateTexts(Device $device): stdClass
     {
         $cmnds = ["StateText1", "StateText2", "StateText3", "StateText4"];
 
@@ -616,7 +586,7 @@ class Sonoff
             $promises[$device->id] = $this->client->getAsync($url);
         }
 
-        $responses = Promise\settle($promises)->wait();
+        $responses = Promise\Utils::settle($promises)->wait();
 
         $results = [];
         foreach ($responses as $deviceId => $response) {
@@ -678,7 +648,7 @@ class Sonoff
             $promises[$url] = $this->client->getAsync($url);
         }
 
-        $responses = Promise\settle($promises)->wait();
+        $responses = Promise\Utils::settle($promises)->wait();
 
         $results = [];
         foreach ($responses as $response) {
