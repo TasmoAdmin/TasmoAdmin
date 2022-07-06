@@ -121,13 +121,12 @@ else {
 		<script src="<?php echo UrlHelper::JS("i18n/languages/sl"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
 		
-		<script src="<?php echo UrlHelper::JS("js-cookie/js-cookie"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("js.cookie", "/node_modules/js-cookie/src/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly.jquery", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw-init", "/node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("jquery.doubleScroll", "/node_modules/jqdoublescroll/"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
-		
+
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 		

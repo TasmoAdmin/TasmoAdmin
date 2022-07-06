@@ -56,12 +56,6 @@ $devices = $Sonoff->getDevices();
 												     data-toggle='tooltip'
 												     title='Searching...'
 												>
-													<img src="<?php echo _RESOURCESURL_
-													                     ."css/fontawesome/signal-solid.svg"; ?>"
-													     alt="%" class='svg-inject searching '
-													     width='30px'
-													     height='30px'
-													>
 												</div>
 											</div>
 										</div>
