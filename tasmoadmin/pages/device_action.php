@@ -1,11 +1,14 @@
 <?php
 
-ini_set("display_errors", 0);
-//	var_dump( $_GET );
+use TasmoAdmin\DeviceFactory;
+use TasmoAdmin\DeviceRepository;
+
 $action = $_GET["action"];
 $status = FALSE;
 $device = NULL;
 $msg    = NULL;
+$deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
+
 if ($action == "edit") {
 	$device = $Sonoff->getDeviceById($_GET["device_id"]);
 	
@@ -17,32 +20,8 @@ if ($action == "edit") {
 }
 elseif ($action == "delete") {
 	$device[0] = $_GET["device_id"];
-	$tempfile  = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-	
-	if (!$input = fopen($filename, 'r')) {
-		die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => $filename]));
-	}
-	if (!$output = fopen($tempfile, 'w')) {
-		die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-	}
-	
-	$idCounter = 1;
-	while (($data = fgetcsv($input)) !== FALSE) {
-		if ($data[0] == $device[0]) {
-			continue;
-		}
-		$data[0] = $idCounter;
-		$idCounter++;
-		fputcsv($output, $data);
-	}
-	
-	fclose($input);
-	fclose($output);
-	
-	unlink($filename);
-	rename($tempfile, $filename);
-	
-	$msg    = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
+	$deviceRepository->removeDevice($device[0]);
+	$msg = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
 	$action = "done";
 }
 if (isset($_POST) && !empty($_POST)) {
@@ -50,7 +29,11 @@ if (isset($_POST) && !empty($_POST)) {
 	if (isset($_REQUEST["search"])) {
 		if (isset($_REQUEST['device_ip'])) {
 			if (!isset($device)) {
-				$device = new stdClass();
+                $device = DeviceFactory::fakeDevice(
+                        $_REQUEST['device_ip'],
+                        $_REQUEST['device_username'],
+                        $_REQUEST['device_password']
+                );
 			}
 			$device->ip       = $_REQUEST['device_ip'];
 			$device->username = $_REQUEST['device_username'];
@@ -67,68 +50,15 @@ if (isset($_POST) && !empty($_POST)) {
 		}
 	}
 	elseif (!empty($_REQUEST['device_id'])) {//update
-		$device    = [];
-		$device[0] = $_REQUEST["device_id"];
-		$device[1] = implode("|", $_REQUEST["device_name"]);
-		$device[2] = $_REQUEST["device_ip"];
-		$device[3] = $_REQUEST["device_username"];
-		$device[4] = $_REQUEST["device_password"];
-		$device[5] = isset($_REQUEST["device_img"]) ? $_REQUEST["device_img"] : "bulb_1";
-		$device[6] = $_REQUEST["device_position"];
-		$device[7] = isset($_REQUEST["device_all_off"]) ? $_REQUEST["device_all_off"] : 1;
-		$device[8] = isset($_REQUEST["device_protect_on"]) ? $_REQUEST["device_protect_on"] : 0;
-		$device[9] = isset($_REQUEST["device_protect_off"]) ? $_REQUEST["device_protect_off"] : 0;
-		
-		$tempfile = @tempnam(_TMPDIR_, "tmp"); // produce a temporary file name, in the current directory
-		
-		
-		if (!$input = fopen($filename, 'r')) {
-			die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => $filename]));
-		}
-		if (!$output = fopen($tempfile, 'w')) {
-			die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempfile]));
-		}
-		
-		while (($data = fgetcsv($input)) !== FALSE) {
-			if ($data[0] == $device[0]) {
-				$data = $device;
-			}
-			fputcsv($output, $data);
-		}
-		
-		fclose($input);
-		fclose($output);
-		
-		unlink($filename);
-		rename($tempfile, $filename);
-		
+        $device = DeviceFactory::fromRequest($_REQUEST);
+        $deviceRepository->updateDevice($device);
 		$msg    = __("MSG_DEVICE_EDIT_DONE", "DEVICE_ACTIONS");
 		$action = "done";
-		
 	}
 	else { //add
-		
-		$device    = [];
-		$fp        = file($filename);
-		$device[0] = count($fp) + 1;
-		$device[1] = implode("|", isset($_REQUEST["device_name"]) ? $_REQUEST["device_name"] : []);
-		$device[2] = isset($_REQUEST["device_ip"]) ? $_REQUEST["device_ip"] : "";
-		$device[3] = isset($_REQUEST["device_username"]) ? $_REQUEST["device_username"] : "";
-		$device[4] = isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"] : "";
-		$device[5] = isset($_REQUEST["device_img"]) ? $_REQUEST["device_img"] : "bulb_1";
-		$device[6] = isset($_REQUEST["device_position"]) ? $_REQUEST["device_position"] : "";
-		$device[7] = isset($_REQUEST["device_all_off"]) ? $_REQUEST["device_all_off"] : 1;
-		$device[8] = isset($_REQUEST["device_protect_on"]) ? $_REQUEST["device_protect_on"] : 0;
-		$device[9] = isset($_REQUEST["device_protect_off"]) ? $_REQUEST["device_protect_off"] : 0;
-		
-		
-		$handle = fopen($filename, "a");
-		fputcsv($handle, $device);
-		fclose($handle);
-		
+        $deviceRepository->addDevice($_REQUEST);
 		$msg    = __("MSG_DEVICE_ADD_DONE", "DEVICE_ACTIONS");
 		$action = "done";
-		
 	}
 }
 
@@ -374,7 +304,7 @@ if (isset($_POST) && !empty($_POST)) {
 								<div class="form-group col col-12 col-sm-3">
 									<label class="d-none d-sm-block mb-3">&nbsp;</label>
 									(
-									<a href='#' title='<?php echo __("OVERTAKE", "DEVICE_ACTIONS"); ?>'
+									<a href='#' title='<?php echo __("DEVICE_NAME_TOOLTIP", "DEVICE_ACTIONS"); ?>'
 									   class='default-name'
 									><?php echo $friendlyName; ?>
 									</a>
@@ -446,7 +376,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_all_off"
-										   name='device_all_off' <?php echo !isset($device->device_all_off) || $device->device_all_off == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_all_off' <?php echo !isset($device->deviceAllOff) || $device->deviceAllOff == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_all_off">
 										<?php echo __("LABEL_ALL_OFF", "DEVICE_ACTIONS"); ?>
 									</label>
@@ -460,7 +390,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_on"
-										   name='device_protect_on' <?php echo $device->device_protect_on == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_protect_on' <?php echo $device->deviceProtectionOn == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_protect_on">
 										<?php echo __("LABEL_PROTECT_ON", "DEVICE_ACTIONS"); ?>
 									</label>
@@ -474,7 +404,7 @@ if (isset($_POST) && !empty($_POST)) {
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_off"
-										   name='device_protect_off' <?php echo $device->device_protect_off == "1" ? "checked=\"checked\"" : ""; ?>>
+										   name='device_protect_off' <?php echo $device->deviceProtectionOff == "1" ? "checked=\"checked\"" : ""; ?>>
 									<label class="form-check-label custom-control-label" for="device_protect_off">
 										<?php echo __("LABEL_PROTECT_OFF", "DEVICE_ACTIONS"); ?>
 									</label>

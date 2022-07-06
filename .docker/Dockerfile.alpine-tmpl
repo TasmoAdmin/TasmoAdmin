@@ -1,8 +1,13 @@
 ARG BUILD_FROM=amd64/alpine:3.15
 
-FROM composer AS builder
+FROM node:16-alpine AS node-builder
 
 COPY tasmoadmin /tasmoadmin
+RUN cd /tasmoadmin && npm ci && node minify.js
+
+FROM composer AS builder
+
+COPY --from=node-builder /tasmoadmin  /tasmoadmin
 RUN composer install -d /tasmoadmin
 
 FROM ${BUILD_FROM}
@@ -48,13 +53,13 @@ RUN \
         musl \
         tzdata \
         nginx \
-        php7-curl \
-        php7-fpm \
-        php7-json \
-        php7-session \
-        php7-zip \
-        php7-mbstring \
-        php7 \
+        php8-curl \
+        php8-fpm \
+        php8-json \
+        php8-session \
+        php8-zip \
+        php8-mbstring \
+        php8 \
     \
     && if [[ "${BUILD_ARCH}" = "arm32v6" ]]; then S6_ARCH="armhf"; else S6_ARCH="${BUILD_ARCH}"; fi \
     \

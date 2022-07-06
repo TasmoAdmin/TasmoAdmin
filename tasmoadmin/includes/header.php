@@ -135,7 +135,6 @@ else {
 		<script src="<?php echo UrlHelper::JS("libs/jquery.svgInject/jquery.svgInject"); ?>"></script>
 		
 		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
-		
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 		
 		<link href="<?php echo UrlHelper::STYLES("bootstrap", "/node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">

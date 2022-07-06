@@ -6,16 +6,15 @@ use TasmoAdmin\Config;
 
 class UrlHelper
 {
-	public static function STYLES(string $filename, $csspath = null)
+	public static function STYLES(string $filename, $csspath = NULL )
 	{
-		if($csspath === null) {
+		if( empty( $csspath ) ) {
+			$cssreal = _RESOURCESDIR_."css/";
 			$csspath = _RESOURCESURL_."css/";
 		}
 
-		$cssreal = $csspath;
 
 		$config = new Config();
-
 		$cacheTag = time();
 		$min      = "";
 		if( $config->read( "minimize_resources" ) === "1" ) {
@@ -35,7 +34,7 @@ class UrlHelper
 		} else {
 			$filepath = $csspath.$filename.".css".$cacheTag;
 		}
-	
+
 
 		return $filepath;
 	}
@@ -69,7 +68,7 @@ class UrlHelper
 		} else {
 			$filepath = $jspath.$filename.".js".$cacheTag;
 		}
-	
+
 		return $filepath;
 	}
 }

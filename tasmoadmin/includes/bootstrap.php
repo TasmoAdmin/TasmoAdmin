@@ -1,7 +1,7 @@
 <?php
 
 error_reporting( E_ALL );
-ini_set( 'display_errors', '1' );
+ini_set('display_errors', 1);
 
 
 if( !function_exists( "curl_init" ) ) {
@@ -22,9 +22,7 @@ if( !class_exists( "ZipArchive" ) ) {
 
 
 $subdir = dirname( $_SERVER[ 'PHP_SELF' ] )."/";
-
-$subdir
-        = $subdir = str_replace( "\\", "/", $subdir );
+$subdir = $subdir = str_replace( "\\", "/", $subdir );
 $subdir = $subdir == "//" ? "/" : $subdir;
 
 if ($baseurl_from_env = getenv('TASMO_BASEURL')) {
@@ -53,38 +51,16 @@ session_set_cookie_params( 356*24*60*60 );
 session_name( "TASMO_SESSION" );
 session_start();
 
-//	setcookie( session_name(), session_id(), time()+30*24*60*60 );
 global $loggedin, $docker;
 $loggedin = FALSE;
 $docker   = FALSE;
 
+require_once _APPROOT_ . 'vendor/autoload.php';
 
-function autoloadsystem( $class ) {
-
-    $filename = _HELPERSDIR_.strtolower( $class ).".php";
-    if( file_exists( $filename ) ) {
-        require $filename;
-    } else {
-        $filename = _HELPERSDIR_.$class.".php";
-        if( file_exists( $filename ) ) {
-            require $filename;
-        }
-    }
-
-
-    $filename = _INCLUDESDIR_.$class.".php";
-    if( file_exists( $filename ) ) {
-        require $filename;
-    } else {
-        $filename = _INCLUDESDIR_.strtolower( $class ).".php";
-        if( file_exists( $filename ) ) {
-            require $filename;
-        }
-    }
-}
-
-spl_autoload_register( "autoloadsystem" );
-
+use TasmoAdmin\Config;
+use TasmoAdmin\Helper\JsonLanguageHelper;
+use TasmoAdmin\Helper\FirmwareFolderHelper;
+use TasmoAdmin\Sonoff;
 
 if( !empty( $_REQUEST[ "clean" ] ) ) {
     cleanTemps();
@@ -99,12 +75,6 @@ if( !file_exists( $filename ) ) {
 if( file_exists( _APPROOT_.".dockerenv" ) ) {
     $docker = TRUE;
 }
-
-require_once _APPROOT_ . 'vendor/autoload.php';
-
-use TasmoAdmin\Config;
-use TasmoAdmin\Helper\JsonLanguageHelper;
-use TasmoAdmin\Sonoff;
 
 $Config = new Config();
 $Sonoff = new Sonoff();
@@ -142,24 +112,8 @@ function __( $string, $category = NULL, $args = NULL ) {
     if( isset( $category ) && !empty( $category ) ) {
         $cat = $category."_";
     }
-    $txt        = $cat.$string;
-    $translated = @__L::$txt( $args );
-
-    if( $translated == "" ) {
-        $translated = $category."::".$string;
-        //			$myfile = fopen( _LANGDIR_."lang_new.ini", "a" ) or die( "Unable to open file!" );
-        //			fwrite( $myfile, $txt."\n" );
-        //			fclose( $myfile );
-        //			$files = glob( _TMPDIR_.'cache/i18n/*' ); // get all file names
-        //			foreach ( $files as $file ) { // iterate files
-        //				if ( is_file( $file ) ) {
-        //					//unlink( $file );
-        //				}
-        //			}
-
-    }
-
-    return $translated;
+    $txt = $cat.$string;
+    return __L($txt, $args);
 }
 
 if( isset( $_GET ) ) {
@@ -168,7 +122,7 @@ if( isset( $_GET ) ) {
         if( isset( $_REQUEST[ "target" ] ) ) {
             $data = $Sonoff->setDeviceValue( $_REQUEST[ "id" ], $_REQUEST[ "field" ], $_REQUEST[ "newvalue" ] );
         } else {
-            $data = $Sonoff->doAjax();
+            $data = $Sonoff->doAjax($_REQUEST["id"], urldecode($_REQUEST['cmnd']));
         }
         header( 'Content-Type: application/json' );
         echo json_encode( $data );
@@ -230,14 +184,8 @@ function cleanTemps() {
     //firmwares
     if( in_array( "firmwares", $what ) ) {
         debug( "cleanup firmwares dir" );
-			$files = glob( _DATADIR_.'firmwares/*' ); // get all file names
-			foreach( $files as $file ) { // iterate files
-				if( is_file( $file ) && strpos( $file, ".empty" ) === FALSE
-				    && strpos( $file, ".htaccess" ) === FALSE ) {
-					@unlink( $file );
-				} // delete file
-			}
-		}
+        FirmwareFolderHelper::clean(_DATADIR_ . "firmwares/");
+    }
 
 
 		if( in_array( "config", $what ) ) {

@@ -93,17 +93,19 @@ docker_push() {
 }
 
 docker_manifest_list() {
-    # Create and push manifest lists, displayed as FIFO
     echo "DOCKER MANIFEST: Create and Push docker manifest lists."
     docker_manifest_list_version
-    # if build is not a beta then create and push manifest lastest
-    if [[ ${BUILD_VERSION} != *"beta"* ]]; then
-        echo "DOCKER MANIFEST: Create and Push docker manifest lists LATEST."
-        docker_manifest_list_latest
-	  else
+
+    if [[ ${BUILD_VERSION} == "dev" ]]; then
+        echo "DOCKER MANIFEST: Create and Push docker manifest lists DEV."
+    elif [[ ${BUILD_VERSION} == *"beta"* ]]; then
         echo "DOCKER MANIFEST: Create and Push docker manifest lists BETA."
         docker_manifest_list_beta
+	  else
+        echo "DOCKER MANIFEST: Create and Push docker manifest lists LATEST."
+        docker_manifest_list_latest
     fi
+
     docker_manifest_list_version_os_arch
 }
 
@@ -139,9 +141,8 @@ docker_manifest_list_latest() {
   docker manifest push $TARGET:latest
 }
 
-
 docker_manifest_list_beta() {
-  # Manifest Create latest
+  # Manifest Create beta
   echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:beta."
   docker manifest create $TARGET:beta \
       $TARGET:$BUILD_VERSION-alpine-amd64 \

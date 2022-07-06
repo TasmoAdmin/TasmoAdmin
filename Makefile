@@ -25,5 +25,8 @@ docker-publish: docker-tag
 package: clean
 	mkdir _releases
 	mkdir _tmp
+	composer install --no-dev -o -d tasmoadmin
+	cd tasmoadmin; npm ci
+	node tasmoadmin/minify.js
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin

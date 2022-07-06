@@ -1,4 +1,8 @@
 <?php
+
+use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\TasmotaHelper;
+
 $msg      = FALSE;
 $settings = [];
 
@@ -47,57 +51,8 @@ if (isset($_POST) && !empty($_POST)) {
 
 $config = array_merge($Config->readAll(), $settings);
 
-$tasmotaReleases       = [];
-$tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-$ch                    = curl_init();
-curl_setopt($ch, CURLOPT_URL, $tasmotaRepoReleaseUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-curl_setopt(
-	$ch,
-	CURLOPT_USERAGENT,
-	'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-);
-$release = json_decode(curl_exec($ch));
-if (curl_error($ch)) {
-	$result = [
-		"ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
-				$ch
-			),
-	];
-}
-curl_close($ch);
-
-if (!empty($release) && !empty($release->assets)) {
-	foreach ($release->assets as $asset) {
-		if (strpos($asset->name, ".bin.gz") !== FALSE
-			|| strpos($asset->name, "-minimal.bin") !== FALSE) {
-			continue;
-		}
-		$tasmotaReleases[] = $asset->name;
-	}
-	//echo "\$tasmotaReleases=[\"" . implode("\",\"", $tasmotaReleases) . "\"];";
-}
-else {
-	
-	$tasmotaReleases =
-		[
-			"tasmota-BG.bin", "tasmota-BR.bin", "tasmota-CN.bin", "tasmota-CZ.bin", "tasmota-DE.bin",
-			"tasmota-display.bin", "tasmota-ES.bin", "tasmota-FR.bin", "tasmota-GR.bin", "tasmota-HE.bin",
-			"tasmota-HU.bin", "tasmota-ir.bin", "tasmota-ircustom.bin", "tasmota-IT.bin", "tasmota-knx.bin",
-			"tasmota-KO.bin", "tasmota-lite.bin", "tasmota-NL.bin", "tasmota-PL.bin", "tasmota-PT.bin",
-			"tasmota-RO.bin", "tasmota-RU.bin", "tasmota-SE.bin", "tasmota-sensors.bin", "tasmota-SK.bin",
-			"tasmota-TR.bin", "tasmota-TW.bin", "tasmota-UK.bin", "tasmota-zbbridge.bin", "tasmota.bin",
-			"tasmota32-BG.bin", "tasmota32-BR.bin", "tasmota32-CN.bin", "tasmota32-CZ.bin", "tasmota32-DE.bin",
-			"tasmota32-display.bin", "tasmota32-ES.bin", "tasmota32-FR.bin", "tasmota32-GR.bin", "tasmota32-HE.bin",
-			"tasmota32-ir.bin", "tasmota32-ircustom.bin", "tasmota32-knx.bin", "tasmota32-lite.bin",
-			"tasmota32-PL.bin", "tasmota32-PT.bin", "tasmota32-RO.bin", "tasmota32-RU.bin", "tasmota32-SE.bin",
-			"tasmota32-sensors.bin", "tasmota32-SK.bin", "tasmota32-TR.bin", "tasmota32-TW.bin", "tasmota32-UK.bin",
-			"tasmota32-webcam.bin", "tasmota32.bin",
-		];
-}
-
-asort($tasmotaReleases);
+$tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmotaReleases = $tasmotaHelper->getReleases();
 ?>
 
 
@@ -278,7 +233,7 @@ asort($tasmotaReleases);
 							<option value='<?php echo $tr; ?>'
 								<?php echo $config["update_automatic_lang"] == $tr ? "selected=\selected\"" : ""; ?>
 							>
-								<?php echo substr($tr, 0, stripos($tr, ".")); ?>
+								<?php echo $tr ?>
 							</option>
 						<?php endforeach; ?>
 					</select>

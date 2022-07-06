@@ -1,40 +1,30 @@
 <?php
 
-use TasmoAdmin\Selfupdate;
-
-require_once _APPROOT_ . "vendor/autoload.php";
-
-require_once _INCLUDESDIR_ . "Selfupdate.php";
-
-
-$mdParser = new Parsedown();
+use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\TasmoAdminHelper;
+use TasmoAdmin\SelfUpdate;
+use TasmoAdmin\Update\UpdateChecker;
 
 $msg        = "";
-$Selfupdate = new Selfupdate($Config);
+
+$currentGitTag = $Config->read("current_git_tag");
+
+$updateChecker = new UpdateChecker(
+    $Config->read("update_channel"),
+    $currentGitTag,
+    GuzzleFactory::getClient($Config)
+);
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
-	$updateResult = $Selfupdate->update();
-	$msg          = implode("<br/>", $updateResult);
+    $selfUpdate = new SelfUpdate($Config);
+    $updateResult = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
+    $msg  = implode("<br/>", $updateResult);
 }
 
-$newUpdate = $Selfupdate->checkForUpdate();
+$newUpdate = $updateChecker->checkForUpdate();
 
-$changelogUrl = "https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/CHANGELOG.md?r=" . time();
-$ch           = curl_init();
-curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
-curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-curl_setopt($ch, CURLOPT_URL, $changelogUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$changelog = curl_exec($ch);
-
-//$changelog = file_get_contents( _APPROOT_."CHANGELOG.md" );
-
-if (!$changelog || curl_error($ch) != "" || $changelog == "") {
-	$changelog = "";
-}
-else {
-	$changelog = $mdParser->parse($changelog);
-}
+$tasmoAdminHelper = new TasmoAdminHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$changelog = $tasmoAdminHelper->getChangelog();
 
 ?>
 
@@ -47,12 +37,7 @@ else {
 				<?php echo __("HELP_CHANGELOG", "NAVI"); ?>
 			<?php endif; ?>
 		</h2>
-		
-		<!--	<p class='warning'>-->
-		<!--		--><?php //echo __( "SELFUPDATE_WARNING", "SELFUPDATE" ); ?>
-		<!--	</p>-->
-		<!--	<br/>-->
-		<!--	<br/>-->
+
 		<?php if (isset($msg) && $msg != ""): ?>
 			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
@@ -79,17 +64,14 @@ else {
 			<div class='mt-3 row'>
 				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-secondary w-100'
-					   <?php if (!empty(
-					   $Selfupdate->getCurrentTag()
-					   )): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getCurrentTag(); ?>'
+					   <?php if (!empty($currentGitTag)): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
 					   target='_blank' <?php endif; ?>>
 						<?php echo __(
 							"OLD_TAG_VERSION",
 							"SELFUPDATE",
 							[
-								$Selfupdate->getCurrentTag()
-									? $Selfupdate->getCurrentTag()
-									: __(
+                                $currentGitTag
+									?: __(
 									"UNKNOWN",
 									"SELFUPDATE"
 								),
@@ -105,11 +87,9 @@ else {
 				</div>
 				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-primary w-100 btn-green'
-					   <?php if (!empty(
-					   $Selfupdate->getLatestTag()
-					   )): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $Selfupdate->getLatestTag(); ?>'
+					   <?php if (!empty($newUpdate["latest_tag"])): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $newUpdate["latest_tag"]; ?>'
 					   target='_blank' <?php endif; ?>>
-						<?php echo __("NEW_TAG_VERSION", "SELFUPDATE", [$Selfupdate->getLatestTag()]); ?>
+						<?php echo __("NEW_TAG_VERSION", "SELFUPDATE", [$newUpdate["latest_tag"]]); ?>
 					</a>
 				
 				</div>
@@ -118,7 +98,9 @@ else {
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>
-							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
+                            <input type="hidden" name="latest_tag" value="<?php echo $newUpdate["latest_tag"]; ?>" />
+                            <input type="hidden" name="release_url" value="<?php echo $newUpdate["release_url"]; ?>" />
+                            <button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
 								<?php echo __("BTN_START_SELFUPDATE", "SELFUPDATE"); ?>
 							</button>
 						</form>
@@ -129,17 +111,6 @@ else {
 			<div class="alert alert-info fade show mb-5" role="alert">
 				<?php echo __("NO_UPDATE_FOUND", "SELFUPDATE"); ?>
 			</div>
-			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
-				<div class='row justify-content-sm-center mt-5'>
-					<div class="col col-12 col-sm-6 text-center">
-						<form name='selfupdateform' method='post'>
-							<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-secondary'>
-								<?php echo __("BTN_START_SELFUPDATE", "SELFUPDATE"); ?>
-							</button>
-						</form>
-					</div>
-				</div>
-			<?php endif; ?>
 		<?php endif; ?>
 		<hr class='my-5'>
 		<div class='changelog'>
