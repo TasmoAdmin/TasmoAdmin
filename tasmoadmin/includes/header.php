@@ -100,12 +100,12 @@ else {
 		</script>
 		<script src="<?php echo UrlHelper::JS("jquery", "/node_modules/jquery/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("bootstrap.bundle", "/node_modules/bootstrap/dist/js/"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.messagestore"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.fallbacks"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.parser"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.emitter"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/jquery.i18n.language"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n.messagestore", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n.fallbacks", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n.parser", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n.emitter", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("jquery.i18n.language", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/bs" ); ?><!--"></script>-->
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/dsb" ); ?><!--"></script>-->
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/fi" ); ?><!--"></script>-->
