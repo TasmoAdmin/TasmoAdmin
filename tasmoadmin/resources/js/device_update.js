@@ -162,10 +162,10 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
 		log(deviceId, 'Setting OTA URL...');
 		await sleep(1000);
-		// setOtaUrl(deviceId);
+		setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
 		await sleep(1000);
-		// startUpgrade(deviceId);
+		startUpgrade(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, `Version is ${response.StatusFWR.Version}`);
