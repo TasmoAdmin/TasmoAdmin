@@ -121,7 +121,7 @@ else {
 		<script src="<?php echo UrlHelper::JS("i18n/languages/sl"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
 		
-		<script src="<?php echo UrlHelper::JS("js.cookie", "/node_modules/js-cookie/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("js.cookie", "/node_modules/js-cookie/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly.jquery", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw-init", "/node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
