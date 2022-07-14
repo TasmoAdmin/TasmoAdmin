@@ -6,7 +6,6 @@ $(document).on("ready", function ()
 
 	var $lang = $("html").attr("lang");
 	var i18nfile = _BASEURL_ + "tmp/cache/i18n/json_i18n_" + $lang + ".cache.json";
-	//console.log( i18nfile );
 
 	$.ajax({
 			   dataType: "json",
@@ -44,8 +43,6 @@ $(document).on("ready", function ()
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
-
-
 	Sonoff = new Sonoff({timeout: 15});
 
 	$("[title][title!=\"\"]").tooltip({
