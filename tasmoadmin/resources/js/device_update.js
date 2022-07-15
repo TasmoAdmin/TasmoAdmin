@@ -6,7 +6,7 @@ const Level = {
 	success: 'success',
 }
 
-const otaURL = document.getElementById('ota_new_firmware_url').value;
+const otaUrl = document.getElementById('ota_new_firmware_url').value;
 const targetVersion = document.getElementById('target_version').value;
 
 const sleep = (milliseconds) => {
@@ -56,7 +56,7 @@ async function doAjax(deviceId, cmnd) {
 
 async function checkOtaUrlAccessible(otaUrl) {
 	try {
-		let response = await fetchWithRetries(otaUrl, {method: 'HEAD', mode: 'no-cors'}, {
+		let response = await fetchWithRetries(otaUrl, {method: 'HEAD'}, {
 			maxRetries: 0,
 		});
 
@@ -158,7 +158,7 @@ async function updateDevice(deviceId) {
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
 		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START_STEP_2'));
-		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
+		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
 		log(deviceId, 'Setting OTA URL...');
 		await sleep(1000);
 		setOtaUrl(deviceId);
@@ -176,7 +176,7 @@ async function updateDevice(deviceId) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-	if (!await checkOtaUrlAccessible(otaURL)) {
+	if (!await checkOtaUrlAccessible(otaUrl)) {
 		return;
 	}
 
