@@ -443,7 +443,7 @@ if (isset($_POST) && !empty($_POST)) {
 	</div>
 </div>
 <script>
-    $(document).on("ready", function ()
+    $(document).ready(function()
     {
         $(".default-name").on("click", function (e)
         {
