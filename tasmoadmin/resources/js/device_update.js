@@ -27,7 +27,7 @@ const fetchWithRetries = async (
 	try {
 		const response = await fetch(url, options);
 		if (!response.ok) {
-			throw Error(`Failed to load ${url} returned ${response.status}`);
+			throw Error($.i18n( 'FETCH_ERROR', url, response.status));
 		}
 
 		return response;
@@ -43,13 +43,12 @@ const fetchWithRetries = async (
 
 async function doAjax(deviceId, cmnd) {
 	const url = `http://localhost:8000/index.php?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
-	console.log(`Calling ${deviceId} on ${url} with ${cmnd}`);
 	let response = await fetchWithRetries(url);
 	response = await response.json();
 
 	if (response.hasOwnProperty('ERROR'))
 	{
-		throw Error(`Error from backend ${response.ERROR}`);
+		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_FROM_BACKEND', response.ERROR));
 	}
 
 	return response;
@@ -63,7 +62,7 @@ async function checkOtaUrlAccessible(otaUrl) {
 
 		return response.status === 200;
 	} catch (e) {
-		logGlobal(`Unable to access otaURL @ ${otaUrl} - ${e}`, Level.error);
+		logGlobal($.i18n( 'BLOCK_UPDATE_ERROR_OTA_NOT_ACCESSIBLE', otaUrl, e), Level.error);
 		return false;
 	}
 }
@@ -73,7 +72,7 @@ function setOtaUrl(deviceId) {
 		const otaUrl = 'http://ota.tasmota.com/tasmota/tasmota.bin.gz';
 		doAjax(deviceId, `OtaUrl ${otaUrl}`);
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		throw e;
 	}
 }
@@ -82,7 +81,7 @@ function startUpgrade(deviceId) {
 	try {
 		doAjax(deviceId, 'Upgrade 1');
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		throw e;
 	}
 }
@@ -91,7 +90,7 @@ async function checkStatus(deviceId) {
 	try {
 		return doAjax(deviceId, 'Status 0');
 	} catch (e) {
-		console.log(e)
+		console.error(e)
 		throw e;
 	}
 }
@@ -131,19 +130,19 @@ function createDeviceElement(deviceId) {
 function compareVersion(target, actual) {
 	let actualMatch = /(\d+\.\d+\.\d+)/.exec(actual);
 	if (actualMatch === null) {
-		throw new Error(`Failed to match version from ${actual}`);
+		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE', actual));
 	}
 
 	actualMatch = actualMatch[1];
 
 	let targetMatch = /(\d+\.\d+\.\d+)/.exec(target);
 	if (targetMatch === null) {
-		throw new Error(`Failed to match version from ${target}`);
+		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE', target));
 	}
 	targetMatch = targetMatch[1];
 
 	if (targetMatch !== actualMatch) {
-		throw new Error(`Failed to update to ${targetMatch} version is ${actualMatch}`);
+		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, actualMatch));
 	}
 }
 
@@ -154,10 +153,10 @@ async function updateDevice(deviceId) {
 	try
 	{
 		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START'));
-		log(deviceId, 'Checking version...');
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_CHECKING_VERSION'));
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
-		log(deviceId, `Current version is ${beforeVersion}`);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
 		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START_STEP_2'));
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaURL);
 		log(deviceId, 'Setting OTA URL...');
@@ -168,9 +167,9 @@ async function updateDevice(deviceId) {
 		startUpgrade(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
-		log(deviceId, `Version is ${response.StatusFWR.Version}`);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		compareVersion(targetVersion, response.StatusFWR.Version);
-		log(deviceId, 'Device upgrade successful!', Level.success);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
 	} catch(e) {
 		log(deviceId, e.message, Level.error);
 	}
