@@ -160,10 +160,8 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START_STEP_2'));
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
 		log(deviceId, 'Setting OTA URL...');
-		await sleep(1000);
 		setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
-		await sleep(1000);
 		startUpgrade(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
