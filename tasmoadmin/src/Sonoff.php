@@ -21,8 +21,7 @@ class Sonoff
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client([
-                'connect_timeout' => 10,
-                'timeout' => 10,
+                'timeout' => 5,
             ]);
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
