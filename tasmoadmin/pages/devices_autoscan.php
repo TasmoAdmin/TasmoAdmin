@@ -449,7 +449,7 @@ $config = $Config->readAll();
     </div>
 </div>
 <script>
-    $(document).ready(function() 
+    $(document).ready(function()
     {
         $(".default-name").on("click", function (e)
         {

@@ -1,7 +1,7 @@
 var Sonoff;
 var refreshtime = false;
 var nightmode = false;
-$(document).ready(function() 
+$(document).ready(function()
 {
 
 	var $lang = $("html").attr("lang");

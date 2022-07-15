@@ -766,7 +766,7 @@ if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) 
 		</div>
 	</div>
 	<script>
-        $(document).ready(function() 
+        $(document).ready(function()
         {
             //select all checkboxes
             $(".select_all").change(function ()

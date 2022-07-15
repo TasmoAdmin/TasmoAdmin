@@ -1,6 +1,6 @@
 var longPressTimer;
 
-$(document).ready(function() 
+$(document).ready(function()
 {
 
 
