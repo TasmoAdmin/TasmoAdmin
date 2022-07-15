@@ -180,8 +180,9 @@ $releases = $tasmotaHelper->getReleases();
 </div>
 
 <script>
-    $("#automatic").on("click", function (e)
-    {
-        $("#new_firmware").removeProp("required");
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelector('#automatic').addEventListener('click', () => {
+            document.querySelector('#new_firmware').removeAttribute('required');
+        })
     });
 </script>
