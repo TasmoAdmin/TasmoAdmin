@@ -117,9 +117,9 @@ else {
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/la" ); ?><!--"></script>-->
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/ml" ); ?><!--"></script>-->
 		<!--	<script src="--><?php //echo UrlHelper::JS( "i18n/languages/os" ); ?><!--"></script>-->
-		<script src="<?php echo UrlHelper::JS("i18n/languages/ru"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/languages/sl"); ?>"></script>
-		<script src="<?php echo UrlHelper::JS("i18n/languages/uk"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("languages/ru", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("languages/sl", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
+		<script src="<?php echo UrlHelper::JS("languages/uk", "/node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		
 		<script src="<?php echo UrlHelper::JS("js.cookie", "/node_modules/js-cookie/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("tablesaw.stackonly.jquery", "/node_modules/tablesaw/dist/stackonly/"); ?>"></script>
