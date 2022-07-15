@@ -1,5 +1,5 @@
 var ignoreProtectionsTimer;
-$(document).on("ready", function ()
+$(document).ready(function()
 {
 	deviceTools();
 	updateAllStatus();
