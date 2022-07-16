@@ -468,67 +468,46 @@ function deviceTools()
 		let device_protect_on = $(this).closest("tr").data("device_protect_on");
 		let device_protect_off = $(this).closest("tr").data("device_protect_off");
 
-		if (statusField.find("input").prop("checked"))
-		{
-			if (device_protect_off === 1 && !$(".ignoreProtections").prop("checked"))
-			{
+		const input = statusField.find("input");
+
+		if (input.prop("checked")) {
+			if (device_protect_off === 1 && !$(".ignoreProtections").prop("checked")) {
 				return;
 			}
-			statusField.find("input").removeProp("checked");
-		} else
-		{
-			if (device_protect_on === 1 && !$(".ignoreProtections").prop("checked"))
-			{
+			input.prop("checked", false)
+		} else {
+			if (device_protect_on === 1 && !$(".ignoreProtections").prop("checked")) {
 				return;
 			}
-			statusField.find("input").prop("checked", "checked");
+
+			input.prop("checked", true)
 		}
 
-		$(this).closest("tr").addClass("toggled");
+		statusField.closest("tr").addClass("toggled");
 
-		Sonoff.toggle(
-			device_ip, device_id, device_relais, function (data)
-			{
-				if (data && !data.ERROR && !data.WARNING)
-				{
+		Sonoff.toggle(device_ip, device_id, device_relais, function (data) {
+				if (!data || data.ERROR || data.WARNING) {
+					statusField.find("input").parent().addClass("error");
+					return;
+				}
 
-					let device_status = Sonoff.parseDeviceStatus(data, device_relais);
-					console.log("device_status", device_status);
-					if (device_status === "ON")
-					{
-						if (device_protect_off === 1)
-						{
-							statusField.find("input").prop("disabled", "disabled")
-									   .parent().addClass("disabled");
-						} else
-						{
-							statusField.find("input").removeProp("disabled", "disabled")
-									   .parent().removeClass("disabled");
-						}
+				let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+				console.log("device_status", device_status);
+				if (device_status === "ON") {
+					if (device_protect_off === 1) {
+						input.prop("disabled", "disabled").parent().addClass("disabled");
+					} else {
+						input.removeProp("disabled", "disabled").parent().removeClass("disabled");
 					}
-				} else if (device_status === "OFF")
-				{
-					{
-						if (device_protect_on === 1)
-						{
-							statusField.find("input").prop("disabled", "disabled")
-									   .parent().addClass("disabled");
-						} else
-						{
-							statusField.find("input").removeProp("disabled", "disabled")
-									   .parent().removeClass("disabled");
-						}
+				} else if (device_status === "OFF") {
+					if (device_protect_on === 1) {
+						input.prop("disabled", "disabled").parent().addClass("disabled");
+					} else {
+						input.removeProp("disabled", "disabled").parent().removeClass("disabled");
 					}
-				} else
-				{
-					statusField.find("input")
-						//.removeProp( "checked" )
-							   .parent().addClass("error");
 				}
 			}
 		);
-
-
 	});
 
 	$("#deleteDeviceModal").on("show.bs.modal", function (event)
