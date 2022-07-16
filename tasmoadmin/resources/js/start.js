@@ -48,7 +48,7 @@ function updateStatus()
 
 														 $(box).addClass("updating");
 
-														 Sonoff.getStatus(device_ip, device_id, device_relais, function (data)
+														 Sonoff.getStatus(device_ip, device_id, function (data)
 																		  {
 
 																			  if (data

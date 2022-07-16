@@ -5,30 +5,15 @@
  * @property {int} timeout Current state of the Sonoff
  */
 
-var Sonoff = function (options)
+class Sonoff
 {
-
-	/*
-	 * Variables accessible
-	 * in the class
-	 */
-	var vars = {
-		timeout: 10
-	};
-
-	/*
-	 * Can access this.method
-	 * inside other methods using
-	 * root.method()
-	 */
-	var root = this;
-
-	/*
-	 * Constructor
-	 */
-	this.construct = function (options)
+	constructor(options)
 	{
-		$.extend(vars, options);
+		this.vars = {
+			timeout: 10
+		};
+
+		$.extend(this.vars, options);
 	};
 
 	/**
@@ -36,34 +21,36 @@ var Sonoff = function (options)
 	 *
 	 * @param {string} ip
 	 * @param {int} id
-	 * @param {int} relais
-	 * @param {function} callback
+	 * @param {callback} callback
 	 */
-
-
-	this.getStatus = function (ip, id, relais, callback, params)
+	getStatus(ip, id, callback)
 	{
-		relais = relais || 1;
 		var cmnd = "Status 0";
 
-		doAjax(ip, id, cmnd, callback, params);
+		this._doAjax(ip, id, cmnd, callback);
 	};
 
-	this.getAllStatus = function (timeout, callback)
+	/**
+	 * getAllStatus
+	 *
+	 * @param {int} timeout
+	 * @param {callback} callback
+	 */
+	getAllStatus(timeout, callback)
 	{
 		var cmnd = "Status 0";
 
 		doAjaxAll(timeout, cmnd, callback);
 	};
 
-	this.updateConfig = function (device_id, cmnd, newvalue, callback)
+	updateConfig(device_id, cmnd, newvalue, callback)
 	{
 		var cmnd = cmnd + " " + newvalue;
 
-		doAjax(null, device_id, cmnd, callback);
+		this._doAjax(null, device_id, cmnd, callback);
 	};
 
-	this.generic = function (device_id, cmnd, newvalue, callback)
+	generic(device_id, cmnd, newvalue, callback)
 	{
 		var newvalue = (
 			(
@@ -72,7 +59,7 @@ var Sonoff = function (options)
 		);
 		var cmnd = cmnd + newvalue;
 
-		doAjax(null, device_id, cmnd, callback);
+		this._doAjax(null, device_id, cmnd, callback);
 	};
 	/**
 	 * getStatus
@@ -82,15 +69,14 @@ var Sonoff = function (options)
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
-	this.toggle = function (ip, id, relais, callback)
+	toggle(ip, id, relais, callback)
 	{
 		relais = relais || 1;
 		var cmnd = "Power" + relais + " toggle";
 
 		console.log("[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd);
 
-		doAjax(ip, id, cmnd, callback);
-
+		this._doAjax(ip, id, cmnd, callback);
 	};
 
 
@@ -102,24 +88,27 @@ var Sonoff = function (options)
 	 * @param {int} relais
 	 * @param {function} callback
 	 */
-	this.off = function (ip, id, relais, callback)
+	off(ip, id, relais, callback)
 	{
 		relais = relais || 1;
 		var cmnd = "Power" + relais + " 0";
 
 		console.log("[Sonoff][toggle][" + ip + "][Relais" + relais + "] cmnd => " + cmnd);
 
-		doAjax(ip, id, cmnd, callback);
+		this._doAjax(ip, id, cmnd, callback);
 
 	};
 
-	/*
-	 * Private method
-	 * Can only be called inside class
+	/**
+	 * _doAjax
+	 * @param {string} ip
+	 * @param {int} id
+	 * @param {string} cmnd
+	 * @param {callback} callback
+	 * @private
 	 */
-	var doAjax = function (ip, id, cmnd, callback)
+	_doAjax(ip, id, cmnd, callback)
 	{
-		//var url = root.buildCmndUrl( ip, cmnd );
 		var ip = ip || id;
 		$.ajax({
 				   dataType: "json",
@@ -158,13 +147,16 @@ var Sonoff = function (options)
 				   }
 			   });
 	};
-	/*
-	 * Private method
-	 * Can only be called inside class
+
+	/**
+	 * _doAjaxAll
+	 * @param {int} timeout
+	 * @param {string} cmnd
+	 * @param {callback} callback
+	 * @private
 	 */
-	var doAjaxAll = function (timeout, cmnd, callback)
+	_doAjaxAll(timeout, cmnd, callback)
 	{
-		//var url = root.buildCmndUrl( ip, cmnd );
 		var timeout = timeout || options.timeout;
 		$.ajax({
 				   dataType: "json",
@@ -204,7 +196,7 @@ var Sonoff = function (options)
 	};
 
 
-	this.parseDeviceStatus = function (data, device_relais)
+	parseDeviceStatus(data, device_relais)
 	{
 		var device_status = "NONE";
 
@@ -263,7 +255,7 @@ var Sonoff = function (options)
 		return device_status;
 	};
 
-	this.parseDeviceHostname = function (data)
+	parseDeviceHostname(data)
 	{
 		var device_hostname = false;
 
@@ -279,9 +271,13 @@ var Sonoff = function (options)
 	};
 
 
-	this.directAjax = function (url)
+	/**
+	 * directAjax
+	 *
+	 * @param {string} url
+	 */
+	directAjax(url)
 	{
-		//var url = root.buildCmndUrl( ip, cmnd );
 		$.ajax({
 				   url: url,
 				   timeout: options.timeout * 1000,
@@ -297,7 +293,7 @@ var Sonoff = function (options)
 			   });
 	};
 
-	this.setDeviceValue = function (id, field, newvalue, td)
+	setDeviceValue(id, field, newvalue, td)
 	{
 		$.ajax({
 				   dataType: "json",
@@ -330,7 +326,7 @@ var Sonoff = function (options)
 			   });
 	};
 
-	this.buildCmndUrl = function (ip, cmnd)
+	buildCmndUrl(ip, cmnd)
 	{
 		cmnd = cmnd.replace(" ", "%20");
 		var url = "http://" + ip + "/cm?cmnd=" + cmnd;
@@ -338,10 +334,4 @@ var Sonoff = function (options)
 		return url;
 	};
 
-
-	/*
-	 * Pass options when class instantiated
-	 */
-	this.construct(options);
-
-};
+}
