@@ -56,7 +56,7 @@ if [[ -z "${TASMO_DATADIR}" ]]; then
   rm -f -r /var/www/tasmoadmin/data
   ln -s /data/tasmoadmin /var/www/tasmoadmin/data
 else
-    sed -i 's@location /data/firmwares {@location /data/firmwares {\n            alias '"$TASMO_DATADIR"';@'  /etc/nginx/nginx.conf
+    sed -i 's@location /data/firmwares {@location /data/firmwares {\n            alias '"$TASMO_DATADIR"';@' /etc/nginx/nginx.conf
 fi
 
 # Ensure file permissions
