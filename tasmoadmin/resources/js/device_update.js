@@ -69,7 +69,6 @@ async function checkOtaUrlAccessible(otaUrl) {
 
 function setOtaUrl(deviceId) {
 	try {
-		const otaUrl = 'http://ota.tasmota.com/tasmota/tasmota.bin.gz';
 		doAjax(deviceId, `OtaUrl ${otaUrl}`);
 	} catch (e) {
 		console.error(e)
@@ -157,12 +156,11 @@ async function updateDevice(deviceId) {
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START_STEP_2'));
 		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
-		log(deviceId, 'Setting OTA URL...');
 		setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
 		startUpgrade(deviceId);
+		await sleep(60000);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
