@@ -55,6 +55,7 @@ if [[ -z "${TASMO_DATADIR}" ]]; then
   echo 'Symlinking /data/tasmoadmin directory to persistent storage location...'
   rm -f -r /var/www/tasmoadmin/data
   ln -s /data/tasmoadmin /var/www/tasmoadmin/data
+  sed -i '/alias \/data\/tasmoadmin\/firmwares\/;/d' /etc/nginx/nginx.conf
 fi
 
 # Ensure file permissions
