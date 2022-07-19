@@ -48,7 +48,7 @@ function updateStatus()
 
 														 $(box).addClass("updating");
 
-														 Sonoff.getStatus(device_ip, device_id, function (data)
+														 sonoff.getStatus(device_ip, device_id, function (data)
 																		  {
 
 																			  if (data
@@ -71,7 +71,7 @@ function updateStatus()
 																											  + "_%pw.png?v=160";
 
 																									let device_relais = $(groupbox).data("device_relais");
-																									let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+																									let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
 																									console.log(device_status.toLowerCase());
 																									src = src.replace("%pw", device_status.toLowerCase());
@@ -87,7 +87,7 @@ function updateStatus()
 																								+ img.data("icon")
 																								+ "_%pw.png?v=160";
 
-																					  let device_status = Sonoff.parseDeviceStatus(data, 1);
+																					  let device_status = sonoff.parseDeviceStatus(data, 1);
 
 																					  console.log("device_status", device_status);
 																					  if (device_status !== undefined)
@@ -215,14 +215,14 @@ function deviceTools()
 		$(this).addClass("toggled");
 		device_box.find("img").shake(3, 5, 500);
 
-		Sonoff.toggle(device_ip, device_id, device_relais, function (data)
+		sonoff.toggle(device_ip, device_id, device_relais, function (data)
 		{
 			if (data && !data.ERROR && !data.WARNING)
 			{
 				let img = device_box.find("img");
 				let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
 
-				let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+				let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
 				if (device_status !== undefined)
 				{
@@ -293,14 +293,14 @@ function deviceTools()
 				}
 
 
-				Sonoff.off(device_ip, device_id, device_relais, function (data)
+				sonoff.off(device_ip, device_id, device_relais, function (data)
 				{
 					if (data && !data.ERROR && !data.WARNING)
 					{
 						let img = $(box).find("img");
 						let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
 
-						let device_status = Sonoff.parseDeviceStatus(data, device_relais);
+						let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
 						if (device_status !== undefined)
 						{

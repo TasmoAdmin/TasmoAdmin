@@ -14,7 +14,7 @@ function updateAllStatus() {
 		
 		var timeout = device_holder.find( 'card' ).length * 15; //max 12 sec per device
 		
-		Sonoff.getAllStatus( timeout, function ( result ) {
+		sonoff.getAllStatus( timeout, function ( result ) {
 			                     device_holder.find( '.card' ).each( function ( key, card ) {
 				                     var device_id     = $( card ).data( "device_id" );
 				                     var device_relais = $( card ).data( "device_relais" );

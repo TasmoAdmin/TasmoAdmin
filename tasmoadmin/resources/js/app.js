@@ -1,6 +1,6 @@
-var Sonoff;
-var refreshtime = false;
-var nightmode = false;
+let sonoff;
+let refreshtime = false;
+let nightmode = false;
 $(document).ready(function()
 {
 
@@ -43,7 +43,7 @@ $(document).ready(function()
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
-	Sonoff = new Sonoff({timeout: 15});
+	sonoff = new Sonoff({timeout: 15});
 
 	$("[title][title!=\"\"]").tooltip({
 										  html: true,
