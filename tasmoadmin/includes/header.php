@@ -94,9 +94,12 @@ else {
 		
 		<title><?php echo isset($title) ? $title . " - " : ""; ?>TasmoAdmin</title>
 		<script type="application/javascript">
-            var _BASEURL_ = "<?php echo _BASEURL_; ?>";
-            var _RESOURCESURL_ = "<?php echo _RESOURCESURL_; ?>";
-            var nightmodeconfig = "<?php echo $Config->read("nightmode"); ?>";
+
+            const config = {
+                base_url: '<?php echo _BASEURL_; ?>',
+                resource_url: '<?php echo _RESOURCESURL_; ?>',
+                nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
+            }
 		</script>
 		<script src="<?php echo UrlHelper::JS("jquery", "/node_modules/jquery/dist/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("bootstrap.bundle", "/node_modules/bootstrap/dist/js/"); ?>"></script>
@@ -127,7 +130,6 @@ else {
 		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("jquery.doubleScroll", "/node_modules/jqdoublescroll/"); ?>"></script>
 
-		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
 		
 		<link href="<?php echo UrlHelper::STYLES("bootstrap", "/node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">

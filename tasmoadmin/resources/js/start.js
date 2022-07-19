@@ -66,7 +66,7 @@ function updateStatus()
 																								{
 																									//TODO: make function to set image
 																									let img = $(groupbox).find("img");
-																									let src = _RESOURCESURL_ + "img/device_icons/"
+																									let src = config.resource_url + "img/device_icons/"
 																											  + img.data("icon")
 																											  + "_%pw.png?v=160";
 
@@ -83,7 +83,7 @@ function updateStatus()
 																				  } else
 																				  {
 																					  let img = $(box).find("img");
-																					  let src = _RESOURCESURL_ + "img/device_icons/"
+																					  let src = config.resource_url + "img/device_icons/"
 																								+ img.data("icon")
 																								+ "_%pw.png?v=160";
 
@@ -123,7 +123,7 @@ function updateStatus()
 																									$(groupbox).addClass("error").find(".animated").removeClass("animated");
 																									$(groupbox).removeClass("updating");
 																									let img = $(groupbox).find("img");
-																									let src = _RESOURCESURL_ + "img/device_icons/"
+																									let src = config.resource_url + "img/device_icons/"
 																											  + img.data("icon")
 																											  + "_error.png?v=160";
 																									img.attr("src", src);
@@ -133,7 +133,7 @@ function updateStatus()
 																					  $(box).addClass("error").find(".animated").removeClass("animated");
 																					  $(box).removeClass("updating");
 																					  let img = $(box).find("img");
-																					  let src = _RESOURCESURL_ + "img/device_icons/"
+																					  let src = config.resource_url + "img/device_icons/"
 																								+ img.data("icon")
 																								+ "_error.png?v=160";
 																					  img.attr("src", src);
@@ -220,7 +220,7 @@ function deviceTools()
 			if (data && !data.ERROR && !data.WARNING)
 			{
 				let img = device_box.find("img");
-				let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
+				let src = config.resource_url + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
 
 				let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
@@ -243,7 +243,7 @@ function deviceTools()
 			{
 				device_box.addClass("error");
 				let img = device_box.find("img");
-				let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_error.png?v=160";
+				let src = config.resource_url + "img/device_icons/" + img.data("icon") + "_error.png?v=160";
 				img.attr("src", src).parent().removeClass("animated");
 				console.log("[Start][toggle]ERROR "
 							+ device_ip
@@ -298,7 +298,7 @@ function deviceTools()
 					if (data && !data.ERROR && !data.WARNING)
 					{
 						let img = $(box).find("img");
-						let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
+						let src = config.resource_url + "img/device_icons/" + img.data("icon") + "_%pw.png?v=160";
 
 						let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
@@ -315,7 +315,7 @@ function deviceTools()
 					{
 						$(box).addClass("error");
 						let img = device_box.find("img");
-						let src = _RESOURCESURL_ + "img/device_icons/" + img.data("icon") + "_error.png?v=160";
+						let src = config.resource_url + "img/device_icons/" + img.data("icon") + "_error.png?v=160";
 						img.attr("src", src).parent().removeClass("animated");
 						console.log("[Start][toggle]ERROR "
 									+ device_ip

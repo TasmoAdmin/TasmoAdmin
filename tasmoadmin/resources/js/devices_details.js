@@ -157,7 +157,7 @@ function updateCard( card, data, device_status ) {
 	
 	
 	var img = $( card ).find( ".devices-switch-container img" );
-	var src = _RESOURCESURL_ + "img/device_icons/"
+	var src = config.resource_url + "img/device_icons/"
 	          + img.data( "icon" )
 	          + "_%pw.png?v=160";
 	
