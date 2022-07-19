@@ -5,7 +5,7 @@ $(document).ready(function()
 {
 
 	var $lang = $("html").attr("lang");
-	var i18nfile = _BASEURL_ + "tmp/cache/i18n/json_i18n_" + $lang + ".cache.json";
+	var i18nfile = config.base_url + "tmp/cache/i18n/json_i18n_" + $lang + ".cache.json";
 
 	$.ajax({
 			   dataType: "json",
@@ -19,7 +19,7 @@ $(document).ready(function()
 		   });
 
 
-	checkNightmode(nightmodeconfig || "auto");
+	checkNightmode(config.nightmodeconfig || "auto");
 	checkForUpdate(true);
 
 
@@ -70,7 +70,7 @@ $(document).ready(function()
 		e.preventDefault();
 		if ($(this).hasClass("update-now") || $("#versionHolder").data("update-check") === "0")
 		{
-			window.location.href = _BASEURL_ + "selfupdate";
+			window.location.href = config.base_url + "selfupdate";
 		} else
 		{
 			checkForUpdate(false);
@@ -84,7 +84,7 @@ $(document).ready(function()
 	{
 		var replace = replace || false;
 		var loader = $("<div>", {class: "loader"}).append(
-			$("img", {src: _RESOURCESURL_ + "img/loading.gif"}));
+			$("img", {src: config.resource_url + "img/loading.gif"}));
 
 		if (replace)
 		{
