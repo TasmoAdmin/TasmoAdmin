@@ -1,5 +1,3 @@
-import {Sonoff} from './'
-
 let sonoff;
 let refreshtime = false;
 let nightmode = false;

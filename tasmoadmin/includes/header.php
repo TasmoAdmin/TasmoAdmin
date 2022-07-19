@@ -130,8 +130,9 @@ else {
 		<script src="<?php echo UrlHelper::JS("bootstrap-waitingfor", "/node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("jquery.doubleScroll", "/node_modules/jqdoublescroll/"); ?>"></script>
 
+		<script src="<?php echo UrlHelper::JS("Sonoff"); ?>"></script>
 		<script src="<?php echo UrlHelper::JS("app"); ?>"></script>
-		
+
 		<link href="<?php echo UrlHelper::STYLES("bootstrap", "/node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">
 		<link href="<?php echo UrlHelper::STYLES("all", "/node_modules/@fortawesome/fontawesome-free/css/"); ?>" rel="stylesheet">
 		<link href="<?php echo UrlHelper::STYLES("tablesaw", "/node_modules/tablesaw/dist/"); ?>" rel="stylesheet">
