@@ -7,11 +7,11 @@
 
 class Sonoff {
     constructor(options) {
-        this.vars = {
+        this.options = {
             timeout: 10
         };
 
-        $.extend(this.vars, options);
+        $.extend(this.options, options);
     }
 
     /**
@@ -104,7 +104,7 @@ class Sonoff {
         $.ajax({
             dataType: "json",
             url: "index.php?doAjax",
-            timeout: options.timeout * 1000,
+            timeout: this.options.timeout * 1000,
             cache: false,
             type: "post",
             async: true,
@@ -142,7 +142,7 @@ class Sonoff {
      * @private
      */
     _doAjaxAll(timeout, cmnd, callback) {
-        var timeout = timeout || options.timeout;
+        var timeout = timeout || this.options.timeout;
         $.ajax({
             dataType: "json",
             url: "index.php?doAjaxAll",
@@ -247,7 +247,7 @@ class Sonoff {
     directAjax(url) {
         $.ajax({
             url: url,
-            timeout: options.timeout * 1000,
+            timeout: this.options.timeout * 1000,
             cache: false,
             success: function (data) {
 
@@ -262,7 +262,7 @@ class Sonoff {
         $.ajax({
             dataType: "json",
             url: "index.php?doAjax",
-            timeout: options.timeout * 1000,
+            timeout: this.options.timeout * 1000,
             cache: false,
             type: "post",
             data: {
