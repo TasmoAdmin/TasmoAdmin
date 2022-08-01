@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@node-minify/core": "^6.4.0",
-    "@node-minify/terser": "^6.2.0",
+    "@node-minify/terser": "^6.4.0",
     "glob": "^8.0.1"
   }
 }
