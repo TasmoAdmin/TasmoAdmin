@@ -36,7 +36,7 @@ class Sonoff {
     getAllStatus(timeout, callback) {
         var cmnd = "Status 0";
 
-        doAjaxAll(timeout, cmnd, callback);
+        this._doAjaxAll(timeout, cmnd, callback);
     }
 
     updateConfig(device_id, cmnd, newvalue, callback) {
