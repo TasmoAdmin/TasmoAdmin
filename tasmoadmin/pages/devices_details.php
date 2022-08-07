@@ -181,4 +181,4 @@ $devices = $Sonoff->getDevices();
 <?php endif; ?>
 <?php include "elements/modal_delete_device.php"; ?>
 
-<script src="<?php echo UrlHelper::JS("devices_details"); ?>"></script>
+<script src="<?php echo $urlHelper->js("devices_details"); ?>"></script>

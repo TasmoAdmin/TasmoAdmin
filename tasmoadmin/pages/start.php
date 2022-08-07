@@ -135,4 +135,4 @@ $devices = $Sonoff->getDevices();
 	<?php endif; ?>
 </div>
 
-<script src="<?php echo UrlHelper::JS("start"); ?>"></script>
+<script src="<?php echo $urlHelper->js("start"); ?>"></script>

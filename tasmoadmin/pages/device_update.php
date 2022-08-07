@@ -48,7 +48,7 @@ $device_ids = $_REQUEST["device_ids"] ?? FALSE;
             <script>
                 const device_ids = '<?php echo json_encode($device_ids); ?>';
             </script>
-            <script src="<?php echo UrlHelper::JS("device_update"); ?>"></script>
+            <script src="<?php echo $urlHelper->js("device_update"); ?>"></script>
         <?php endif; ?>
     </div>
 </div>
