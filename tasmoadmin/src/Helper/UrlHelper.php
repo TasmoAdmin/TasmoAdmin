@@ -6,18 +6,26 @@ use TasmoAdmin\Config;
 
 class UrlHelper
 {
-    public static function STYLES(string $filename, ?string $csspath = null): string
+    private Config $config;
+
+    private string $resourceUrl;
+
+    public function __construct(Config $config, string $resourceUrl)
+    {
+        $this->config = $config;
+        $this->resourceUrl = $resourceUrl;
+    }
+
+    public function style(string $filename, ?string $csspath = null): string
     {
         if ($csspath === null) {
-            $csspath = _RESOURCESURL_ . "css/";
+            $csspath = $this->resourceUrl . "css/";
         }
-        $cssreal = $csspath;
 
-        $config = new Config();
         $cacheTag = time();
         $min = "";
-        if ($config->read("minimize_resources") === "1") {
-            $cacheTag = $config->read("current_git_tag");
+        if ($this->config->read("minimize_resources") === "1") {
+            $cacheTag = $this->config->read("current_git_tag");
             if (empty($cacheTag)) {
                 $cacheTag = time();
             }
@@ -27,8 +35,8 @@ class UrlHelper
         $cacheTag = "?_=" . $cacheTag;
 
         $path = $filename . $min . ".css";
-        if (file_exists($cssreal . $path)) {
-            $filepath = $cssreal . $path . $cacheTag;
+        if (file_exists($csspath . $path)) {
+            $filepath = $csspath . $path . $cacheTag;
         } else {
             $filepath = $csspath . $filename . ".css" . $cacheTag;
         }
@@ -36,21 +44,16 @@ class UrlHelper
         return $filepath;
     }
 
-
-    public static function JS(string $filename, ?string $jspath = null): string
+    public function js(string $filename, ?string $jspath = null): string
     {
         if ($jspath === null) {
-            $jspath = _RESOURCESURL_ . "js/";
+            $jspath = $this->resourceUrl . "js/";
         }
-
-        $jsreal = $jspath;
-
-        $config = new Config();
 
         $cacheTag = time();
         $min = "";
-        if ($config->read("minimize_resources") === "1") {
-            $cacheTag = $config->read("current_git_tag");
+        if ($this->config->read("minimize_resources") === "1") {
+            $cacheTag = $this->config->read("current_git_tag");
             if (empty($cacheTag)) {
                 $cacheTag = time();
             }
@@ -59,9 +62,8 @@ class UrlHelper
         $cacheTag = str_replace(".", "", $cacheTag);
         $cacheTag = "?_=" . $cacheTag;
 
-
         $path = $filename . $min . ".js";
-        if (file_exists($jsreal . $path)) {
+        if (file_exists($jspath . $path)) {
             $filepath = $jspath . $path . $cacheTag;
         } else {
             $filepath = $jspath . $filename . ".js" . $cacheTag;

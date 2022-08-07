@@ -809,6 +809,6 @@ if (!$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) 
         });
 	</script>
 	
-	<script src="<?php echo UrlHelper::JS("devices"); ?>"></script>
+	<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
 <?php endif; ?>
 

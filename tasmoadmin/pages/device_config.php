@@ -186,4 +186,4 @@ $msg            = FALSE;
 	</div>
 </div>
 
-<script src="<?php echo UrlHelper::JS("device_config"); ?>"></script>
+<script src="<?php echo $urlHelper->js("device_config"); ?>"></script>
