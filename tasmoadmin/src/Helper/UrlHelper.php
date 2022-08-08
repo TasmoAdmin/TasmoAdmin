@@ -8,11 +8,14 @@ class UrlHelper
 {
     private Config $config;
 
+    private string $baseUrl;
+
     private string $resourceUrl;
 
-    public function __construct(Config $config, string $resourceUrl)
+    public function __construct(Config $config,  string $baseUrl, string $resourceUrl)
     {
         $this->config = $config;
+        $this->baseUrl = $baseUrl;
         $this->resourceUrl = $resourceUrl;
     }
 
@@ -20,6 +23,8 @@ class UrlHelper
     {
         if ($csspath === null) {
             $csspath = $this->resourceUrl . "css/";
+        } else {
+            $csspath = $this->baseUrl . $csspath;
         }
 
         $cacheTag = time();
@@ -48,6 +53,8 @@ class UrlHelper
     {
         if ($jspath === null) {
             $jspath = $this->resourceUrl . "js/";
+        } else {
+            $jspath = $this->baseUrl . $jspath;
         }
 
         $cacheTag = time();
