@@ -27,7 +27,7 @@ if (isset($_POST) && !empty($_POST)) {
 		if (!isset($settings["show_search"])) {
 			$settings["show_search"] = "0";
 		}
-		
+
 		if (!isset($settings["password"]) || empty($settings["password"])
 			|| $settings["password"] == "") {
 			unset($settings["password"]);
@@ -253,7 +253,7 @@ $tasmotaReleases = $tasmotaHelper->getReleases();
 					</div>
 				</div>
 			</div>
-			<div class="form-row  mt-5">
+			<div class="form-row mt-5">
 				<div class="form-group col col-12 col-sm-6">
 					<label for="refreshtime"><?php echo __("CONFIG_REFRESHTIME", "USER_CONFIG"); ?></label>
 					<select class="form-control custom-select" id="refreshtime" name='refreshtime'>
@@ -342,6 +342,40 @@ $tasmotaReleases = $tasmotaHelper->getReleases();
 					</div>
 				</div>
 			</div>
+
+            <div class="form-row">
+                <div class="form-group col col-12">
+                    <h2><?php echo __("CONFIG_UPDATE_CHECK", "USER_CONFIG"); ?></h2>
+                </div>
+                <div class="form-check custom-control custom-checkbox mb-5"">
+                    <input class="form-check-input custom-control-input"
+                           type="checkbox"
+                           value="1"
+                           id="cb_update_fe_check"
+                           name='update_fe_check' <?php echo $config["update_fe_check"] == "1"
+                        ? "checked=\"checked\"" : ""; ?>>
+                    <label class="form-check-label custom-control-label" for="cb_update_fe_check">
+                        <?php echo __("CONFIG_UPDATE_FE_CHECK", "USER_CONFIG"); ?>
+                    </label>
+                    <p class="small">
+                        <?php echo __("CONFIG_UPDATE_FE_CHECK_HELP", "USER_CONFIG"); ?>
+                    </p>
+                </div>
+                <div class="form-check custom-control custom-checkbox mb-5"">
+                    <input class="form-check-input custom-control-input"
+                           type="checkbox"
+                           value="1"
+                           id="cb_update_fe_check"
+                           name='update_be_check' <?php echo $config["update_be_check"] == "1"
+                        ? "checked=\"checked\"" : ""; ?>>
+                    <label class="form-check-label custom-control-label" for="cb_update_be_check">
+                        <?php echo __("CONFIG_UPDATE_BE_CHECK", "USER_CONFIG"); ?>
+                    </label>
+                    <p class="small">
+                        <?php echo __("CONFIG_UPDATE_BE_CHECK_HELP", "USER_CONFIG"); ?>
+                    </p>
+                </div>
+            </div>
 			
 			<div class="form-row  mt-5">
 				<div class='d-none d-sm-inline-flex col flex-column'></div>
