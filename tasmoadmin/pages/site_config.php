@@ -28,6 +28,14 @@ if (isset($_POST) && !empty($_POST)) {
 			$settings["show_search"] = "0";
 		}
 
+        if (!isset($settings["update_fe_check"])) {
+            $settings["update_fe_check"] = "0";
+        }
+
+        if (!isset($settings["update_be_check"])) {
+            $settings["update_be_check"] = "0";
+        }
+
 		if (!isset($settings["password"]) || empty($settings["password"])
 			|| $settings["password"] == "") {
 			unset($settings["password"]);
@@ -365,7 +373,7 @@ $tasmotaReleases = $tasmotaHelper->getReleases();
                     <input class="form-check-input custom-control-input"
                            type="checkbox"
                            value="1"
-                           id="cb_update_fe_check"
+                           id="cb_update_be_check"
                            name='update_be_check' <?php echo $config["update_be_check"] == "1"
                         ? "checked=\"checked\"" : ""; ?>>
                     <label class="form-check-label custom-control-label" for="cb_update_be_check">
