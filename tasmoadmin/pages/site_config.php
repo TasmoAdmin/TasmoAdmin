@@ -28,10 +28,6 @@ if (isset($_POST) && !empty($_POST)) {
 			$settings["show_search"] = "0";
 		}
 
-        if (!isset($settings["update_fe_check"])) {
-            $settings["update_fe_check"] = "0";
-        }
-
 		if (!isset($settings["password"]) || empty($settings["password"])
 			|| $settings["password"] == "") {
 			unset($settings["password"]);
