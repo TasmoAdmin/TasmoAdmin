@@ -3,6 +3,7 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use InvalidArgumentException;
 use Parsedown;
 use stdClass;
@@ -103,7 +104,11 @@ class TasmotaHelper
     private function getLatestRelease(): stdClass
     {
         $tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-        return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+        try {
+            return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
+        } catch (ClientException $e) {
+            return new stdClass();
+        }
     }
 
     private function getContents(string $url): string
