@@ -61,6 +61,12 @@ use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Sonoff;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+
+$whoops = new Run;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
 
 if( !empty( $_REQUEST[ "clean" ] ) ) {
     cleanTemps();
