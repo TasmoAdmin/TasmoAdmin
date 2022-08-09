@@ -17,6 +17,7 @@
 /tasmoadmin/tasmoadmin/resources/css/custom.min.css
 /tasmoadmin/resources/css/custom.css
 /tasmoadmin/resources/css/custom.min.css
+/tasmoadmin/resources/css/*.min.css
 /tasmoadmin/resources/js/*.min.js
 
 /tasmoadmin/data/updates/*.zip
