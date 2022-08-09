@@ -172,7 +172,7 @@ async function updateDevice(deviceId) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-	if (!await checkOtaUrlAccessible(otaUrl)) {
+	if (config.update_fe_check && !await checkOtaUrlAccessible(otaUrl)) {
 		return;
 	}
 

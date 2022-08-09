@@ -34,6 +34,8 @@ class Config
 			"hide_copyright"        => "1",
 			"show_search"           => "1",
 			"use_gzip_package"      => "",
+			"update_fe_check"      => "0",
+			"update_be_check"      => "1",
 		];
 	
 	public function __construct(?string $dataDir = null)

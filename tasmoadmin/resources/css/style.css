@@ -213,6 +213,11 @@ td.runtime {
 	background-color : red;
 }
 
+.small {
+	padding: 5px;
+	color: #efefef;
+}
+
 .box_device {
 	border           : 1px solid #0037CC;
 	position         : relative;
