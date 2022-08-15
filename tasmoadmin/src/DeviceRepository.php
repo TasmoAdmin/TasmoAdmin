@@ -154,6 +154,9 @@ class DeviceRepository
         $deviceArr[4] = isset($device->password) && !empty($device->password) ? $device->password : "";
         $deviceArr[5] = isset($device->img) && !empty($device->img) ? $device->img : "";
         $deviceArr[6] = isset($device->position) && !empty($device->position) ? $device->position : "";
+        $deviceArr[7] = isset($device->deviceAllOff) && !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
+        $deviceArr[8] = isset($device->deviceProtectionOn) && !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
+        $deviceArr[9] = isset($device->deviceProtectionOff) && !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
 
         foreach ($deviceArr as $key => $field) {
             if (is_array($field)) {

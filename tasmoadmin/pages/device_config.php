@@ -1,10 +1,8 @@
 <?php
 
-use TasmoAdmin\Helper\UrlHelper;
-
 $msg            = FALSE;
-	$device         = NULL;
-	$activeTabIndex = 0;
+$device         = NULL;
+$activeTabIndex = 0;
 
 	if( isset( $_GET[ "device_id" ] ) ) {
 		$device = $Sonoff->getDeviceById( $_GET[ "device_id" ] );
@@ -50,8 +48,6 @@ $msg            = FALSE;
 			$msg    .= "<br/> ".$backlog;
 			sleep( count( $settings ) );
 		}
-
-
 	}
 
 	$status = $Sonoff->getAllStatus( $device );
