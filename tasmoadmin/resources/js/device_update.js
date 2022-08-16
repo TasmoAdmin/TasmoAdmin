@@ -13,9 +13,12 @@ const sleep = (milliseconds) => {
 	return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
+const defaultTries = 10;
+const defaultSleepDuration = 10000;
+
 const defaultRetryOptions = {
-	maxRetries: 3,
-	sleepDuration: 5000,
+	maxRetries: defaultTries,
+	sleepDuration: defaultSleepDuration,
 };
 
 const fetchWithRetries = async (
@@ -85,12 +88,20 @@ function startUpgrade(deviceId) {
 	}
 }
 
-async function checkStatus(deviceId) {
+async function checkStatus(deviceId, tries = defaultTries) {
 	try {
-		return doAjax(deviceId, 'Status 0');
+		log(deviceId, $.i18n('BLOCK_UPDATE_CHECKING_VERSION'));
+		return await doAjax(deviceId, 'Status 0');
 	} catch (e) {
-		console.error(e)
-		throw e;
+		if (tries > 0) {
+			const remainingTries = --tries;
+			log(deviceId, $.i18n('BLOCK_UPDATE_FETCH_FAILED', remainingTries, defaultSleepDuration/1000));
+			await sleep(defaultSleepDuration);
+			return await checkStatus(deviceId, remainingTries);
+		} else {
+			console.error(e)
+			throw e;
+		}
 	}
 }
 
@@ -152,7 +163,6 @@ async function updateDevice(deviceId) {
 	try
 	{
 		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START'));
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_CHECKING_VERSION'));
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
@@ -160,7 +170,8 @@ async function updateDevice(deviceId) {
 		setOtaUrl(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
 		startUpgrade(deviceId);
-		await sleep(60000);
+		log(deviceId, $.i18n( 'BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
+		await sleep(defaultSleepDuration);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n( 'BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
