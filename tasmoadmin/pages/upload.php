@@ -189,7 +189,7 @@ elseif (isset($_REQUEST["auto"])) {
 			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
-				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt();
+				) . ": " . $result->getTagName();
 		} catch (Throwable $e) {
 			$error = TRUE;
 			$msg   .= __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();

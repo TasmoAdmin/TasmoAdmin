@@ -10,14 +10,11 @@ class AutoFirmwareResult
 
     private string $tagName;
 
-    private string $publishedAt;
-
-    public function __construct(string $minimalFirmwareUrl, string $firmwareUrl, string $tagName, string $publishedAt)
+    public function __construct(string $minimalFirmwareUrl, string $firmwareUrl, string $tagName)
     {
         $this->minimalFirmwareUrl = $minimalFirmwareUrl;
         $this->firmwareUrl = $firmwareUrl;
         $this->tagName = $tagName;
-        $this->publishedAt = $publishedAt;
     }
 
     public function getMinimalFirmwareUrl(): string
@@ -33,10 +30,5 @@ class AutoFirmwareResult
     public function getTagName(): string
     {
         return $this->tagName;
-    }
-
-    public function getPublishedAt(): string
-    {
-        return $this->publishedAt;
     }
 }
