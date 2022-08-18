@@ -1,7 +1,9 @@
 <?php
 
+use Goutte\Client;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
 
 $msg      = FALSE;
 $settings = [];
@@ -59,7 +61,11 @@ if (isset($_POST) && !empty($_POST)) {
 
 $config = array_merge($Config->readAll(), $settings);
 
-$tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmotaHelper = new TasmotaHelper(
+        new Parsedown(),
+        GuzzleFactory::getClient($Config),
+        new TasmotaOtaScraper('https://ota.tasmota.com/tasmota/release/', new Client())
+);
 $tasmotaReleases = $tasmotaHelper->getReleases();
 ?>
 

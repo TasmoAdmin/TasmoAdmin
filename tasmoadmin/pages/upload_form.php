@@ -2,8 +2,13 @@
 
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
 
-$tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmotaHelper = new TasmotaHelper(
+        new Parsedown(),
+        GuzzleFactory::getClient($Config),
+        new TasmotaOtaScraper('https://ota.tasmota.com/tasmota/release/', new Client())
+);
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
 $releases = $tasmotaHelper->getReleases();

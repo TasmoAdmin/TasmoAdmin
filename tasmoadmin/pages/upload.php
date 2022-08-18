@@ -4,6 +4,7 @@ use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
@@ -162,7 +163,11 @@ if (isset($_REQUEST["upload"])) {
 	}
 }
 elseif (isset($_REQUEST["auto"])) {
-    $tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+    $tasmotaHelper = new TasmotaHelper(
+            new Parsedown(),
+            GuzzleFactory::getClient($Config),
+            new TasmotaOtaScraper('https://ota.tasmota.com/tasmota/release/', new Client())
+    );
 
 	$useGZIP  = $Config->read("use_gzip_package");
 	if ($useGZIP === "1") {
