@@ -3,21 +3,24 @@
 namespace TasmoAdmin\Helper;
 
 use Goutte\Client;
-use RuntimeException;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TasmotaOtaScraper
 {
+    private const OTA_URLS = [
+        'stable' => 'https://ota.tasmota.com/tasmota/release/',
+        'dev' => 'https://ota.tasmota.com/tasmota',
+    ];
+
     private string $url;
 
     private Client $client;
 
-    public function __construct(string $url, Client $client)
+    public function __construct(string $updateChannel, Client $client)
     {
-        $this->url = $url;
+        $this->url = self::OTA_URLS[$updateChannel];
         $this->client = $client;
     }
-
 
     public function getFirmware(): TasmoFirmwareResult
     {

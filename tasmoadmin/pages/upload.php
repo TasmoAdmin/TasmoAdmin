@@ -166,7 +166,7 @@ elseif (isset($_REQUEST["auto"])) {
     $tasmotaHelper = new TasmotaHelper(
             new Parsedown(),
             GuzzleFactory::getClient($Config),
-            new TasmotaOtaScraper('https://ota.tasmota.com/tasmota/release/', new Client())
+            new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
     );
 
 	$useGZIP  = $Config->read("use_gzip_package");

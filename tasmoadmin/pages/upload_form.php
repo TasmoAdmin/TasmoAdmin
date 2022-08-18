@@ -7,7 +7,7 @@ use TasmoAdmin\Helper\TasmotaOtaScraper;
 $tasmotaHelper = new TasmotaHelper(
         new Parsedown(),
         GuzzleFactory::getClient($Config),
-        new TasmotaOtaScraper('https://ota.tasmota.com/tasmota/release/', new Client())
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
 );
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
