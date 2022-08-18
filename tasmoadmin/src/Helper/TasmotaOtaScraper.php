@@ -2,6 +2,7 @@
 
 namespace TasmoAdmin\Helper;
 
+use DateTime;
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -26,11 +27,14 @@ class TasmotaOtaScraper
     {
         $crawler = $this->client->request('GET', $this->url);
 
-        $firmwares = $crawler->filter('table tr td:nth-child(2)')->each(function ($node) {
+        $firmwares =  $crawler->filter('table tr td:nth-child(2)')->each(function ($node) {
             return new TasmoFirmware(basename($node->text()), $node->text());
         });
 
-        return new TasmoFirmwareResult($this->getVersion($crawler), $firmwares);
+        $version = $this->getVersion($crawler);
+        $publishDate =  $this->getPublishDate($crawler);
+
+        return new TasmoFirmwareResult($version, $publishDate, $firmwares);
     }
 
     private function getVersion(Crawler  $crawler): string
@@ -40,5 +44,14 @@ class TasmotaOtaScraper
         preg_match('/((\d+\.)+\d)/', $text, $matches);
 
         return $matches[1];
+    }
+
+    private function getPublishDate(Crawler $crawler): DateTime
+    {
+        $dates = $crawler->filter('table tr td:nth-child(6)')->each(function ($node) {
+            return $node->text();
+        });
+
+        return DateTime::createFromFormat('Ymd H:i', $dates[0]);
     }
 }

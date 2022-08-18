@@ -85,7 +85,7 @@ class TasmotaHelper
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion());
+        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->publishDate());
     }
 
     private function getLatestRelease(): TasmoFirmwareResult
