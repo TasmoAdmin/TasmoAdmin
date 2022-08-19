@@ -5,7 +5,7 @@ use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
-use TasmoAdmin\Helper\UrlHelper;
+use Goutte\Client;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
 

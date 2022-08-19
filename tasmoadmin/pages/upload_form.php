@@ -1,5 +1,6 @@
 <?php
 
+use Goutte\Client;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
