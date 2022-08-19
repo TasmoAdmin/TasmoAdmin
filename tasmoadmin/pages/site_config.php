@@ -239,7 +239,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 			
 			<div class="form-row">
                 <div class="form-group col col-12">
-                    <h2><?php echo __("CONFIG_UPDATE_CHECK", "USER_CONFIG"); ?></h2>
+                    <h2><?php echo __("CONFIG_AUTO_FIRMWARE_TITLE", "USER_CONFIG"); ?></h2>
                 </div>
 				<div class="form-group col col-12 col-sm-6">
 					<label for="update_automatic_lang">
@@ -261,7 +261,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				</div>
                 <div class="form-group col col-12 col-sm-3">
                     <label for="auto_update_channel">
-                        Auto firmware channel
+                        <?php echo __("CONFIG_AUTO_FIRMWARE_CHANNEL_HELP", "USER_CONFIG"); ?>
                     </label>
                     <select class="form-control custom-select" id="auto_update_channel" name='auto_update_channel'>
                         <?php foreach ($autoFirmwareChannels as $channel): ?>
