@@ -97,13 +97,12 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_);
 		
 		<title><?php echo isset($title) ? $title . " - " : ""; ?>TasmoAdmin</title>
 		<script type="application/javascript">
-
             const config = {
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
-                update_fe_check: '<?php echo $Config->read("update_fe_check"); ?>',
-            }
+                update_fe_check: <?php echo $Config->read("update_fe_check"); ?> === 1,
+            };
 		</script>
 		<script src="<?php echo $urlHelper->js("jquery", "node_modules/jquery/dist/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("bootstrap.bundle", "node_modules/bootstrap/dist/js/"); ?>"></script>
