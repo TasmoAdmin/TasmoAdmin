@@ -54,6 +54,10 @@ async function doAjax(deviceId, cmnd) {
 		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.ERROR));
 	}
 
+	if (response.hasOwnProperty('Command') && response.Command === 'Unknown') {
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.Command));
+	}
+
 	return response;
 }
 
