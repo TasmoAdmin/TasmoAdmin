@@ -30,7 +30,7 @@ const fetchWithRetries = async (
 	try {
 		const response = await fetch(url, options);
 		if (!response.ok) {
-			throw Error($.i18n( 'FETCH_ERROR', url, response.status));
+			throw Error($.i18n('FETCH_ERROR', url, response.status));
 		}
 
 		return response;
@@ -45,13 +45,17 @@ const fetchWithRetries = async (
 }
 
 async function doAjax(deviceId, cmnd) {
-	const url = `http://localhost:8000/index.php?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
+	const url = `${config.base_url}index.php?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
 	let response = await fetchWithRetries(url);
 	response = await response.json();
 
 	if (response.hasOwnProperty('ERROR'))
 	{
-		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_FROM_BACKEND', response.ERROR));
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.ERROR));
+	}
+
+	if (response.hasOwnProperty('Command') && response.Command === 'Unknown') {
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.Command));
 	}
 
 	return response;
@@ -65,7 +69,7 @@ async function checkOtaUrlAccessible(otaUrl) {
 
 		return response.status === 200;
 	} catch (e) {
-		logGlobal($.i18n( 'BLOCK_UPDATE_ERROR_OTA_NOT_ACCESSIBLE', otaUrl, e), Level.error);
+		logGlobal($.i18n('BLOCK_UPDATE_ERROR_OTA_NOT_ACCESSIBLE', otaUrl, e), Level.error);
 		return false;
 	}
 }
@@ -140,19 +144,19 @@ function createDeviceElement(deviceId) {
 function compareVersion(target, actual) {
 	let actualMatch = /(\d+\.\d+\.\d+)/.exec(actual);
 	if (actualMatch === null) {
-		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE', actual));
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', actual));
 	}
 
 	actualMatch = actualMatch[1];
 
 	let targetMatch = /(\d+\.\d+\.\d+)/.exec(target);
 	if (targetMatch === null) {
-		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE', target));
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', target));
 	}
 	targetMatch = targetMatch[1];
 
 	if (targetMatch !== actualMatch) {
-		throw Error($.i18n( 'BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, actualMatch));
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, actualMatch));
 	}
 }
 
@@ -162,21 +166,21 @@ async function updateDevice(deviceId) {
 
 	try
 	{
-		log(deviceId, $.i18n( 'BLOCK_GLOBAL_START'));
+		log(deviceId, $.i18n('BLOCK_GLOBAL_START'));
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-		log(deviceId, $.i18n( 'BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
+		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
+		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
 		setOtaUrl(deviceId);
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_START'));
+		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
 		startUpgrade(deviceId);
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
+		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 		await sleep(defaultSleepDuration);
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_SUCCESS'));
+		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
+		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		compareVersion(targetVersion, response.StatusFWR.Version);
-		log(deviceId, $.i18n( 'BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
+		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
 	} catch(e) {
 		log(deviceId, e.message, Level.error);
 	}
