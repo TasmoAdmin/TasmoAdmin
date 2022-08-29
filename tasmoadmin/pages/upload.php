@@ -2,6 +2,7 @@
 
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\GzipHelper;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
@@ -163,10 +164,11 @@ if (isset($_REQUEST["upload"])) {
 	}
 }
 elseif (isset($_REQUEST["auto"])) {
+    $client = GuzzleFactory::getClient($Config);
     $tasmotaHelper = new TasmotaHelper(
-            new Parsedown(),
-            GuzzleFactory::getClient($Config),
-            new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+        new Parsedown(),
+        $client,
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
     );
 
 	$useGZIP  = $Config->read("use_gzip_package");
@@ -185,9 +187,15 @@ elseif (isset($_REQUEST["auto"])) {
 	if ($fwAsset !== "") {
         $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
         try {
-            $result = $tasmotaHelper->getLatestFirmwares($ext, $fwAsset);
-            $minimal_firmware_path= $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
+
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
+            $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+
+            if (!$useGZIP) {
+                $new_firmware_path = GzipHelper::unzip($new_firmware_path, str_replace('.bin.gz', '.bin', $new_firmware_path));
+                $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path, str_replace('.bin.gz', '.bin', $minimal_firmware_path));
+            }
 
 			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";

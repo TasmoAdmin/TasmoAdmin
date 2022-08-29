@@ -3,10 +3,8 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use InvalidArgumentException;
 use Parsedown;
-use stdClass;
 use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
@@ -17,8 +15,11 @@ class TasmotaHelper
 
     private TasmotaOtaScraper $tasmotaOtaScraper;
 
-    public function __construct(Parsedown $markDownParser, Client $client, TasmotaOtaScraper $tasmotaOtaScraper)
-    {
+    public function __construct(
+        Parsedown $markDownParser,
+        Client $client,
+        TasmotaOtaScraper $tasmotaOtaScraper
+    ) {
         $this->markDownParser = $markDownParser;
         $this->client = $client;
         $this->tasmotaOtaScraper = $tasmotaOtaScraper;
@@ -68,15 +69,15 @@ class TasmotaHelper
         return $tasmotaReleases;
     }
 
-    public function getLatestFirmwares(string $ext, string $configuredFirmware): AutoFirmwareResult
+    public function getLatestFirmwares(string $configuredFirmware): AutoFirmwareResult
     {
         $firmwareResult = $this->getLatestRelease();
 
         foreach ($firmwareResult->getFirmares() as $asset) {
-            if ($asset->getName() === "tasmota-minimal" . "." . $ext) {
+            if ($asset->getName() === "tasmota-minimal.bin.gz") {
                 $fwMinimalUrl = $asset->getUrl();
             }
-            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . "." . $ext) {
+            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin.gz") {
                 $fwUrl = $asset->getUrl();
             }
         }

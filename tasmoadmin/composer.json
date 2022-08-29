@@ -7,6 +7,7 @@
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
+        "ext-zlib": "*",
         "erusev/parsedown": "^1.7",
         "philipp15b/php-i18n": "^4.0",
         "guzzlehttp/guzzle": "^7.0",
