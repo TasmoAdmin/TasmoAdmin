@@ -193,8 +193,8 @@ elseif (isset($_REQUEST["auto"])) {
             $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
 
             if (!$useGZIP) {
-                $new_firmware_path = GzipHelper::unzip($new_firmware_path, str_replace('.bin.gz', '.bin', $new_firmware_path));
-                $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path, str_replace('.bin.gz', '.bin', $minimal_firmware_path));
+                $new_firmware_path = GzipHelper::unzip($new_firmware_path);
+                $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path);
             }
 
 			$withGzip = $useGZIP ? "true" : "false";
