@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin\Update;
 
+use DateTime;
+
 class AutoFirmwareResult
 {
     private string $minimalFirmwareUrl;
@@ -10,9 +12,9 @@ class AutoFirmwareResult
 
     private string $tagName;
 
-    private string $publishedAt;
+    private DateTime $publishedAt;
 
-    public function __construct(string $minimalFirmwareUrl, string $firmwareUrl, string $tagName, string $publishedAt)
+    public function __construct(string $minimalFirmwareUrl, string $firmwareUrl, string $tagName, DateTime $publishedAt)
     {
         $this->minimalFirmwareUrl = $minimalFirmwareUrl;
         $this->firmwareUrl = $firmwareUrl;
@@ -35,7 +37,7 @@ class AutoFirmwareResult
         return $this->tagName;
     }
 
-    public function getPublishedAt(): string
+    public function getPublishedAt(): DateTime
     {
         return $this->publishedAt;
     }

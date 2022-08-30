@@ -1,7 +1,9 @@
 <?php
 
+use Goutte\Client;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
 
 $msg      = FALSE;
 $settings = [];
@@ -59,8 +61,16 @@ if (isset($_POST) && !empty($_POST)) {
 
 $config = array_merge($Config->readAll(), $settings);
 
-$tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmotaHelper = new TasmotaHelper(
+        new Parsedown(),
+        GuzzleFactory::getClient($Config),
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+);
 $tasmotaReleases = $tasmotaHelper->getReleases();
+
+
+$autoFirmwareChannels = ['stable', 'dev'];
+
 ?>
 
 
@@ -228,6 +238,9 @@ $tasmotaReleases = $tasmotaHelper->getReleases();
 			
 			
 			<div class="form-row">
+                <div class="form-group col col-12">
+                    <h2><?php echo __("CONFIG_AUTO_FIRMWARE_TITLE", "USER_CONFIG"); ?></h2>
+                </div>
 				<div class="form-group col col-12 col-sm-6">
 					<label for="update_automatic_lang">
 						<?php echo __("CONFIG_AUTOMATIC_FW", "USER_CONFIG"); ?>
@@ -239,14 +252,28 @@ $tasmotaReleases = $tasmotaHelper->getReleases();
 						
 						<?php foreach ($tasmotaReleases as $tr): ?>
 							<option value='<?php echo $tr; ?>'
-								<?php echo $config["update_automatic_lang"] == $tr ? "selected=\selected\"" : ""; ?>
+								<?php echo $config["update_automatic_lang"] == $tr ? "selected=\"selected\"" : ""; ?>
 							>
 								<?php echo $tr ?>
 							</option>
 						<?php endforeach; ?>
 					</select>
 				</div>
-				<div class="form-group col col-12 col-sm-6">
+                <div class="form-group col col-12 col-sm-3">
+                    <label for="auto_update_channel">
+                        <?php echo __("CONFIG_AUTO_FIRMWARE_CHANNEL_HELP", "USER_CONFIG"); ?>
+                    </label>
+                    <select class="form-control custom-select" id="auto_update_channel" name='auto_update_channel'>
+                        <?php foreach ($autoFirmwareChannels as $channel): ?>
+                            <option value="<?php echo $channel ?>"
+                                <?php echo $config["auto_update_channel"] === $channel ? "selected=\"selected\"" : ""; ?>
+                            ><?php echo $channel ?>
+                            </option>
+                        <?php endforeach; ?>
+                        </option>
+                    </select>
+                </div>
+				<div class="form-group col col-12 col-sm-3">
 					<label>&nbsp;</label>
 					<div class="form-check custom-control custom-checkbox mb-5">
 						<input class="form-check-input custom-control-input"

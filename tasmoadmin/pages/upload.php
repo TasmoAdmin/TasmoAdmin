@@ -2,9 +2,11 @@
 
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\GzipHelper;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
-use TasmoAdmin\Helper\UrlHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
+use Goutte\Client;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
 
@@ -162,7 +164,12 @@ if (isset($_REQUEST["upload"])) {
 	}
 }
 elseif (isset($_REQUEST["auto"])) {
-    $tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+    $client = GuzzleFactory::getClient($Config);
+    $tasmotaHelper = new TasmotaHelper(
+        new Parsedown(),
+        $client,
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+    );
 
 	$useGZIP  = $Config->read("use_gzip_package");
 	if ($useGZIP === "1") {
@@ -180,16 +187,22 @@ elseif (isset($_REQUEST["auto"])) {
 	if ($fwAsset !== "") {
         $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
         try {
-            $result = $tasmotaHelper->getLatestFirmwares($ext, $fwAsset);
-            $minimal_firmware_path= $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
+
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
+            $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+
+            if (!$useGZIP) {
+                $new_firmware_path = GzipHelper::unzip($new_firmware_path);
+                $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path);
+            }
 
 			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
 			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | Gzip: " . $withGzip . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
-				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt();
+				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt()->format('Y-m-d');
 		} catch (Throwable $e) {
 			$error = TRUE;
 			$msg   .= __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();

@@ -55,6 +55,7 @@ RUN \
         nginx \
         php8-curl \
         php8-fpm \
+        php8-dom \
         php8-json \
         php8-session \
         php8-zip \

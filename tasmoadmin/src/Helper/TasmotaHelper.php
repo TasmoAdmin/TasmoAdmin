@@ -3,10 +3,8 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use InvalidArgumentException;
 use Parsedown;
-use stdClass;
 use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
@@ -15,10 +13,16 @@ class TasmotaHelper
 
     private Client $client;
 
-    public function __construct(Parsedown $markDownParser, Client $client)
-    {
+    private TasmotaOtaScraper $tasmotaOtaScraper;
+
+    public function __construct(
+        Parsedown $markDownParser,
+        Client $client,
+        TasmotaOtaScraper $tasmotaOtaScraper
+    ) {
         $this->markDownParser = $markDownParser;
         $this->client = $client;
+        $this->tasmotaOtaScraper = $tasmotaOtaScraper;
     }
 
     public function getReleaseNotes(): string
@@ -48,32 +52,16 @@ class TasmotaHelper
 
     public function getReleases(): array
     {
-        $release = $this->getLatestRelease();
+        $firmwareResult = $this->getLatestRelease();
         $tasmotaReleases = [];
-        if (!empty($release->assets)) {
-            foreach ($release->assets as $asset) {
-                if (strpos($asset->name, ".bin.gz") !== false || strpos($asset->name, "-minimal.bin") !== false) {
-                    continue;
-                }
-
-                $tasmotaReleases[] = substr($asset->name, 0, strpos($asset->name, "."));
+        foreach ($firmwareResult->getFirmares() as $asset) {
+            if (strpos($asset->getName(), "-minimal.bin") !== false) {
+                continue;
             }
-        } else {
-            $tasmotaReleases = [
-                "tasmota-BG.bin", "tasmota-BR.bin", "tasmota-CN.bin", "tasmota-CZ.bin", "tasmota-DE.bin",
-                "tasmota-display.bin", "tasmota-ES.bin", "tasmota-FR.bin", "tasmota-GR.bin", "tasmota-HE.bin",
-                "tasmota-HU.bin", "tasmota-ir.bin", "tasmota-ircustom.bin", "tasmota-IT.bin", "tasmota-knx.bin",
-                "tasmota-KO.bin", "tasmota-lite.bin", "tasmota-NL.bin", "tasmota-PL.bin", "tasmota-PT.bin",
-                "tasmota-RO.bin", "tasmota-RU.bin", "tasmota-SE.bin", "tasmota-sensors.bin", "tasmota-SK.bin",
-                "tasmota-TR.bin", "tasmota-TW.bin", "tasmota-UK.bin", "tasmota-zbbridge.bin", "tasmota.bin",
-                "tasmota32-BG.bin", "tasmota32-BR.bin", "tasmota32-CN.bin", "tasmota32-CZ.bin", "tasmota32-DE.bin",
-                "tasmota32-display.bin", "tasmota32-ES.bin", "tasmota32-FR.bin", "tasmota32-GR.bin", "tasmota32-HE.bin",
-                "tasmota32-ir.bin", "tasmota32-ircustom.bin", "tasmota32-knx.bin", "tasmota32-lite.bin",
-                "tasmota32-PL.bin", "tasmota32-PT.bin", "tasmota32-RO.bin", "tasmota32-RU.bin", "tasmota32-SE.bin",
-                "tasmota32-sensors.bin", "tasmota32-SK.bin", "tasmota32-TR.bin", "tasmota32-TW.bin", "tasmota32-UK.bin",
-                "tasmota32-webcam.bin", "tasmota32.bin",
-            ];
+
+            $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), "."));
         }
+
 
         $tasmotaReleases = array_unique($tasmotaReleases);
         asort($tasmotaReleases);
@@ -81,16 +69,16 @@ class TasmotaHelper
         return $tasmotaReleases;
     }
 
-    public function getLatestFirmwares(string $ext, string $configuredFirmware): AutoFirmwareResult
+    public function getLatestFirmwares(string $configuredFirmware): AutoFirmwareResult
     {
-        $release = $this->getLatestRelease();
+        $firmwareResult = $this->getLatestRelease();
 
-        foreach ($release->assets as $binfileData) {
-            if ($binfileData->name === "tasmota-minimal" . "." . $ext) {
-                $fwMinimalUrl = $binfileData->browser_download_url;
+        foreach ($firmwareResult->getFirmares() as $asset) {
+            if ($asset->getName() === "tasmota-minimal.bin.gz") {
+                $fwMinimalUrl = $asset->getUrl();
             }
-            if ($binfileData->name === pathinfo($configuredFirmware, PATHINFO_FILENAME) . "." . $ext) {
-                $fwUrl = $binfileData->browser_download_url;
+            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin.gz") {
+                $fwUrl = $asset->getUrl();
             }
         }
 
@@ -98,17 +86,12 @@ class TasmotaHelper
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $release->tag_name, $release->published_at);
+        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
-    private function getLatestRelease(): stdClass
+    private function getLatestRelease(): TasmoFirmwareResult
     {
-        $tasmotaRepoReleaseUrl = "https://api.github.com/repos/arendst/Tasmota/releases/latest";
-        try {
-            return json_decode($this->client->get($tasmotaRepoReleaseUrl)->getBody()->getContents());
-        } catch (ClientException $e) {
-            return new stdClass();
-        }
+        return $this->tasmotaOtaScraper->getFirmware();
     }
 
     private function getContents(string $url): string

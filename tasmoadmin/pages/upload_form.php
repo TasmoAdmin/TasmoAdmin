@@ -1,9 +1,15 @@
 <?php
 
+use Goutte\Client;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
+use TasmoAdmin\Helper\TasmotaOtaScraper;
 
-$tasmotaHelper = new TasmotaHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmotaHelper = new TasmotaHelper(
+        new Parsedown(),
+        GuzzleFactory::getClient($Config),
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+);
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
 $releases = $tasmotaHelper->getReleases();
