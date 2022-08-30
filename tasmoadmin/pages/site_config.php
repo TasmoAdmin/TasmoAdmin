@@ -64,7 +64,8 @@ $config = array_merge($Config->readAll(), $settings);
 $tasmotaHelper = new TasmotaHelper(
         new Parsedown(),
         GuzzleFactory::getClient($Config),
-        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client()),
+        $Config->read("auto_update_channel")
 );
 $tasmotaReleases = $tasmotaHelper->getReleases();
 

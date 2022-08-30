@@ -9,20 +9,29 @@ use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
 {
+    private const CHANGELOG_URLS = [
+      'dev' =>  'https://raw.githubusercontent.com/arendst/Tasmota/development/CHANGELOG.md',
+      'stable' =>  'https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md',
+    ];
+
     private Parsedown $markDownParser;
 
     private Client $client;
 
     private TasmotaOtaScraper $tasmotaOtaScraper;
 
+    private string $channel;
+
     public function __construct(
         Parsedown $markDownParser,
         Client $client,
-        TasmotaOtaScraper $tasmotaOtaScraper
+        TasmotaOtaScraper $tasmotaOtaScraper,
+        string $channel
     ) {
         $this->markDownParser = $markDownParser;
         $this->client = $client;
         $this->tasmotaOtaScraper = $tasmotaOtaScraper;
+        $this->channel = $channel;
     }
 
     public function getReleaseNotes(): string
@@ -41,9 +50,10 @@ class TasmotaHelper
         return $releaseLog;
     }
 
+
     public function getChangelog(): string
     {
-        $changeLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md');
+        $changeLog = $this->getContents(self::CHANGELOG_URLS[$this->channel]);
         $changeLog = $this->markDownParser->parse($changeLog);
         $changeLog = $this->replaceIssuesWithUrls($changeLog);
 
