@@ -17,6 +17,7 @@ class TasmotaOtaScraperTest extends TestCase
         $scraper = new TasmotaOtaScraper('stable', new Client($this->getHttpClient()));
         $result = $scraper->getFirmware();
         self::assertEquals('12.1.1', $result->getVersion());
+        self::assertEquals('2022-08-25', $result->getPublishDate()->format('Y-m-d'));
 
     }
 
@@ -25,6 +26,7 @@ class TasmotaOtaScraperTest extends TestCase
         $scraper = new TasmotaOtaScraper('dev', new Client($this->getHttpClient()));
         $result = $scraper->getFirmware();
         self::assertEquals('12.1.1.1', $result->getVersion());
+        self::assertEquals('2022-08-30', $result->getPublishDate()->format('Y-m-d'));
     }
 
     private function getHttpClient(): HttpClientInterface
