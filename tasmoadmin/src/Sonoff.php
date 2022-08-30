@@ -21,8 +21,8 @@ class Sonoff
     public function __construct(?Client $client = null)
     {
         $this->client = $client ?? new Client([
-                'timeout' => 5,
-            ]);
+            'timeout' => 5,
+        ]);
         $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
 
@@ -103,11 +103,11 @@ class Sonoff
      * This fixes wrong formated json answer form Tasmota Version 5.10.0
      * Example wrong format: dev/json_error_5100.json
      *
-     * @param ?string $string
+     * @param string $string
      *
      * @return string
      */
-    private function fixJsonFormatV5100(?string $string): string
+    private function fixJsonFormatV5100(string $string): string
     {
         $string = substr($string, strpos($string, "STATUS = "));
         if (strpos($string, "POWER = ") !== FALSE) {
@@ -733,9 +733,9 @@ class Sonoff
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
             $result = preg_replace('/[[:cntrl:]]/', '', $result);
             $result = json_decode($result);
-        } elseif (json_last_error() !== JSON_ERROR_NONE) {
+        } elseif (json_last_error() !== JSON_ERROR_NONE && $result !== null) {
             $result = json_decode($this->fixJsonFormatv5100($result));
-        } elseif (json_last_error() !== JSON_ERROR_NONE) {
+        } elseif (json_last_error() !== JSON_ERROR_NONE && $result !== null) {
             $result = json_decode($this->fixJsonFormatv8500($result));
         } elseif (json_last_error() !== JSON_ERROR_NONE) {
             $result = new stdClass();
