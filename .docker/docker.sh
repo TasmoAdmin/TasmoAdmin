@@ -3,7 +3,7 @@ set -o errexit
 
 TARGET=ghcr.io/tasmoadmin/tasmoadmin
 QEMU_VERSION=v6.1.0-8
-ALPINE_VERSION=3.15
+ALPINE_VERSION=3.16
 BUILD_REF="${BUILD_REF:=dev}"
 BUILD_VERSION="${BUILD_VERSION:=dev}"
 
