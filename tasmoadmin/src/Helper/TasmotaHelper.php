@@ -10,8 +10,8 @@ use TasmoAdmin\Update\AutoFirmwareResult;
 class TasmotaHelper
 {
     private const CHANGELOG_URLS = [
-      'dev' =>  'https://github.com/arendst/Tasmota/blob/development/CHANGELOG.md',
-      'stable' =>  'https://github.com/arendst/Tasmota/blob/master/CHANGELOG.md',
+      'dev' =>  'https://raw.githubusercontent.com/arendst/Tasmota/development/CHANGELOG.md',
+      'stable' =>  'https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md',
     ];
 
     private Parsedown $markDownParser;
