@@ -168,7 +168,8 @@ elseif (isset($_REQUEST["auto"])) {
     $tasmotaHelper = new TasmotaHelper(
         new Parsedown(),
         $client,
-        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client()),
+        $Config->read("auto_update_channel")
     );
 
 	$useGZIP  = $Config->read("use_gzip_package");

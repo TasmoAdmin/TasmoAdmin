@@ -6,9 +6,10 @@ use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
 $tasmotaHelper = new TasmotaHelper(
-        new Parsedown(),
-        GuzzleFactory::getClient($Config),
-        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client())
+    new Parsedown(),
+    GuzzleFactory::getClient($Config),
+    new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client()),
+    $Config->read("auto_update_channel")
 );
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
