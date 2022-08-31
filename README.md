@@ -80,6 +80,7 @@ Simply run:
 ```bash
 ./.docker/docker.sh prepare
 composer install -d tasmoadmin
+npm install --prefix tasmoadmin
 docker-compose up
 ```
 
