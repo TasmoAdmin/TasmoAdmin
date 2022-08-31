@@ -8,15 +8,15 @@ $(document).ready(function()
 	var i18nfile = config.base_url + "tmp/cache/i18n/json_i18n_" + $lang + ".cache.json";
 
 	$.ajax({
-			   dataType: "json",
-			   url: i18nfile,
-			   async: false,
-			   success: function (data)
-			   {
+		dataType: "json",
+		url: i18nfile,
+		async: false,
+		success: (data) => $.i18n().load(data)
+   });
 
-				   $.i18n().load(data);
-			   }
-		   });
+	console.log('pooooooooooooooooooooooooooo');
+	console.log($.i18n('BLOCK_GLOBAL_START'));
+	console.log($.i18n('BLOCK_UPDATE_START'));
 
 
 	checkNightmode(config.nightmodeconfig || "auto");

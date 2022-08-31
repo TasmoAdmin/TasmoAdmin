@@ -10,6 +10,9 @@ glob('resources/js/*.js', (err, files) => {
     }
 
     files.forEach((file) => {
+        if (file.includes('.min.js')) {
+            return;
+        }
         console.log(`processing ${file}`);
         minify({
             compressor: terser,
@@ -26,6 +29,10 @@ glob('resources/css/*.css', (err, files) => {
     }
 
     files.forEach((file) => {
+        if (file.includes('.min.css')) {
+            return
+        }
+
         console.log(`processing ${file}`);
         minify({
             compressor: cleanCSS,
