@@ -142,14 +142,14 @@ function createDeviceElement(deviceId) {
 }
 
 function compareVersion(target, actual) {
-	let actualMatch = /(\d+\.\d+\.\d+)/.exec(actual);
+	let actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(actual);
 	if (actualMatch === null) {
 		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', actual));
 	}
 
 	actualMatch = actualMatch[1];
 
-	let targetMatch = /(\d+\.\d+\.\d+)/.exec(target);
+	let targetMatch = /(\d+(\.\d+)+(\d+)*)/.exec(target);
 	if (targetMatch === null) {
 		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', target));
 	}
