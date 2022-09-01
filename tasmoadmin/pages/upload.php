@@ -15,6 +15,7 @@ $error                 = FALSE;
 $firmwarefolder        = _DATADIR_ . "firmwares/";
 $minimal_firmware_path = "";
 $new_firmware_path     = "";
+$targetVersion     = "";
 
 $use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
 $Config->write("use_gzip_package", $use_gzip_package);
@@ -192,7 +193,7 @@ elseif (isset($_REQUEST["auto"])) {
 
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
-
+            $targerVersion = $result->getTagName();
             if (!$useGZIP) {
                 $new_firmware_path = GzipHelper::unzip($new_firmware_path);
                 $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path);
@@ -304,7 +305,7 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 			>
 				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-				<input type='hidden' name='target_version' value='<?php echo $result->getTagName(); ?>'>
+				<input type='hidden' name='target_version' value='<?php echo $targerVersion; ?>'>
 
 				<div class='form-row mb-3'>
 					<div class='offset-1 col-auto col col-auto'>
