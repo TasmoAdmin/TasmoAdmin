@@ -14,11 +14,6 @@ $(document).ready(function()
 		success: (data) => $.i18n().load(data)
    });
 
-	console.log('pooooooooooooooooooooooooooo');
-	console.log($.i18n('BLOCK_GLOBAL_START'));
-	console.log($.i18n('BLOCK_UPDATE_START'));
-
-
 	checkNightmode(config.nightmodeconfig || "auto");
 	checkForUpdate(true);
 
