@@ -155,9 +155,7 @@ function compareVersion(target, actual) {
 	}
 	targetMatch = targetMatch[1];
 
-	if (targetMatch !== actualMatch) {
-		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, actualMatch));
-	}
+	return  targetMatch === actualMatch;
 }
 
 async function updateDevice(deviceId) {
@@ -167,9 +165,16 @@ async function updateDevice(deviceId) {
 	try
 	{
 		log(deviceId, $.i18n('BLOCK_GLOBAL_START'));
+		log(deviceId, $.i18n('BLOCK_UPDATE_ATTEMPT_TO_VERSION', targetVersion));
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
+
+		if (compareVersion(beforeVersion, targetVersion)) {
+			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
+			return;
+		}
+
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
 		setOtaUrl(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
@@ -179,7 +184,10 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
-		compareVersion(targetVersion, response.StatusFWR.Version);
+		if (!compareVersion(targetVersion, response.StatusFWR.Version)) {
+			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, response.StatusFWR.Version), Level.error);
+			return;
+		}
 		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
 	} catch(e) {
 		log(deviceId, e.message, Level.error);
