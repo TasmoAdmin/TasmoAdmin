@@ -102,6 +102,7 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_);
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
                 update_fe_check: <?php echo $Config->read("update_fe_check"); ?> === 1,
+                force_upgrade: <?php echo $Config->read("force_upgrade"); ?> === 1,
             };
 		</script>
 		<script src="<?php echo $urlHelper->js("jquery", "node_modules/jquery/dist/"); ?>"></script>
