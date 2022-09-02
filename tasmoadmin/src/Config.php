@@ -37,6 +37,7 @@ class Config
 			"update_fe_check"      => "0",
 			"update_be_check"      => "1",
 			"auto_update_channel"  => "stable",
+			"force_upgrade"  => "0",
 		];
 	
 	public function __construct(?string $dataDir = null)

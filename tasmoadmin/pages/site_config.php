@@ -26,6 +26,9 @@ if (isset($_POST) && !empty($_POST)) {
 		if (!isset($settings["use_gzip_package"])) {
 			$settings["use_gzip_package"] = "0";
 		}
+        if (!isset($settings["force_upgrade"])) {
+            $settings["force_upgrade"] = "0";
+        }
 		if (!isset($settings["show_search"])) {
 			$settings["show_search"] = "0";
 		}
@@ -242,7 +245,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                 <div class="form-group col col-12">
                     <h2><?php echo __("CONFIG_AUTO_FIRMWARE_TITLE", "USER_CONFIG"); ?></h2>
                 </div>
-				<div class="form-group col col-12 col-sm-6">
+				<div class="form-group col col-12 col-sm-3">
 					<label for="update_automatic_lang">
 						<?php echo __("CONFIG_AUTOMATIC_FW", "USER_CONFIG"); ?>
 					</label>
@@ -288,6 +291,24 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						</label>
 					</div>
 				</div>
+                <div class="form-group col col-12 col-sm-3">
+                    <label>&nbsp;</label>
+                    <div class="form-check custom-control custom-checkbox mb-5">
+                        <input class="form-check-input custom-control-input"
+                               type="checkbox"
+                               value="1"
+                               id="force_upgrade"
+                               name='force_upgrade' <?php echo $config["force_upgrade"] == "1"
+                            ? "checked=\"checked\"" : ""; ?>>
+                        <label class="form-check-label custom-control-label" for="force_upgrade" style='top:3px;'>
+                            <?php echo __("CONFIG_FORCE_UPGRADE", "USER_CONFIG"); ?>
+                        </label>
+                        <p class="small" style="padding-top:15px;">
+                            <?php echo __("CONFIG_FORCE_UPGRADE_HELP", "USER_CONFIG"); ?>
+
+                        </p>
+                    </div>
+                </div>
 			</div>
 			<div class="form-row mt-5">
 				<div class="form-group col col-12 col-sm-6">
