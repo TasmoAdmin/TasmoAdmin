@@ -2,6 +2,61 @@
 
 ## UPCOMING
 
+* Build unified changelog by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/583
+* Correct changelog resolution by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/584
+* Tidy Sonoff by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/586
+* Leverage package manager for front-end assets by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/492
+* Bump phpstan/phpstan from 1.7.15 to 1.8.0 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/588
+* Bump js-cookie from 2.2.1 to 3.0.1 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/589
+* Fix js-cookie bump by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/591
+* Use npm jquery.i18n by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/592
+* Bump jquery to 3.6.0 by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/593
+* Fix header dependencies for i18n by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/594
+* Fix jQuery 3 migration by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/595
+* Rewrite with fetch + check updated version by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/579
+* Fix guzzle timeout values by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/596
+* Update zh-TW localization by @petercpg in https://github.com/TasmoAdmin/TasmoAdmin/pull/597
+* Fix local dev for firmware path by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/598
+* Fix development nginx config by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/600
+* Use env var instead of hardcoding for local-dev by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/599
+* Fix prop selection for toggle by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/601
+* Tidy device update js by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/602
+* Sonoff js tidy by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/603
+* Bump phpstan/phpstan from 1.8.0 to 1.8.1 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/604
+* Tidy Sonoff js usage + fix es6 refactor by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/605
+* Tidy js config by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/606
+* Bump bootstrap from 4.6.1 to 4.6.2 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/608
+* Bump phpstan/phpstan from 1.8.1 to 1.8.2 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/607
+* Bump @fortawesome/fontawesome-free from 6.1.1 to 6.1.2 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/613
+* Bump @node-minify/core from 6.2.0 to 6.4.0 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/614
+* Bump mikey179/vfsstream from 1.6.10 to 1.6.11 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/611
+* Bump symfony/filesystem from 5.4.9 to 5.4.11 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/610
+* Bump @node-minify/terser from 6.2.0 to 6.4.0 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/612
+* Fix JS refactor by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/615
+* Tidy URLHelper by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/617
+* Pass base URL into UrlHelper by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/618
+* Add whoops error handler by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/619
+* Add css minification by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/620
+* Add firmware checking config by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/621
+* Catch rate limit on GitHub fetch by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/622
+* Fix config for unset by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/623
+* Fix write changes on device actions + tidy device config by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/627
+* Bump @node-minify/core from 6.4.0 to 7.0.0 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/625
+* Bump @node-minify/terser from 6.4.0 to 7.0.0 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/626
+* Use node 16.16.0 by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/628
+* Fix device update with retries by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/629
+* Fix FE check by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/634
+* Translations + base URL by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/635
+* Bump jquery from 3.6.0 to 3.6.1 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/640
+* Bump composer deps by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/641
+* Use Ota URL for firmware download by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/630
+* Fix for PHP 8.1 by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/643
+* Fix changelog by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/644
+* Upgrade to PHP 8.1 by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/642
+* Fix target version for non-auto path by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/646
+* Fix version for dev by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/647
+* Prevent same upgrade by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/645
+
 ## PUBLISHED
 
 ### v2.0.0
