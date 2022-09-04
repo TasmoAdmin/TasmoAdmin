@@ -3,6 +3,7 @@
 ![Logo](https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
 
 [![GitHub release](https://img.shields.io/github/release/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/) 
+![Discord](https://img.shields.io/discord/401474444914196490)
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
 [![GitHub contributors](https://img.shields.io/github/contributors/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/graphs/contributors/) 
 [![GitHub stars](https://img.shields.io/github/stars/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/stargazers)
