@@ -8,7 +8,7 @@ RUN cd /tasmoadmin && npm ci && node minify.js
 FROM composer AS builder
 
 COPY --from=node-builder /tasmoadmin  /tasmoadmin
-RUN composer install -d /tasmoadmin
+RUN composer install -d /tasmoadmin --optimize-autoloader --no-dev
 
 FROM ${BUILD_FROM}
 
