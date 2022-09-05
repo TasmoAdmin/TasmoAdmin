@@ -21,7 +21,7 @@
 /tasmoadmin/resources/js/*.min.js
 
 /tasmoadmin/data/updates/*.zip
-
+/tasmoadmin/.version
 
 /tasmoadmin/dev/*
 
