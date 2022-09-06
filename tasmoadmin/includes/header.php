@@ -21,7 +21,7 @@ else {
 }
 
 
-$urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_);
+$urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
 
 
 ?>
