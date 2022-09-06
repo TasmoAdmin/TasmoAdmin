@@ -164,9 +164,9 @@ class Config
 			
 		}
 
-        if (file_exists(_APPROOT_ . ".version")) {
-            $this->defaultConfigs["current_git_tag"] = file_get_contents(_APPROOT_ . ".version");
-        } elseif (!empty(getenv("BUILD_VERSION"))
+		if (file_exists(_APPROOT_ . ".version")) {
+			 $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
+		} elseif (!empty(getenv("BUILD_VERSION"))
 			&& ($config["current_git_tag"] != getenv(
 					"BUILD_VERSION"
 				))) {
