@@ -1,12 +1,3 @@
-.debug .bs-debugger {
-  width: 100%;
-  color: red;
-  position: fixed;
-  top: 0px;
-  z-index: 1035;
-  background-color: black;
-  padding: 3px;
-}
 @media (max-width: 340px) and (min-width: 0px) {
   .col-xs-6 {
     -ms-flex: 0 0 50%;

@@ -149,63 +149,7 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
 		<?php endif; ?>
 	
 	</head>
-	<body class='<?php echo $nightmode; ?> <?php echo($Config->read("minimize_resources") == 0 ? "debug" : ""); ?>'>
-		
-		
-		<?php
-		/**
-		 * Bootstrap debug helper
-		 * set minimize_resources in config to 0 to activate.
-		 */
-		if ($Config->read("minimize_resources") == 0): ?>
-			<div class='bs-debugger' style='width: 100%; color: red;'>
-				<div class='current d-inline-block'>
-				
-				</div>
-				<div class='bp d-inline-block float-right'>
-					340,576,768,992,1200
-				</div>
-			</div>
-			<script>
-                var TO = false;
-                var resizeEvent = "onorientationchange" in window ? "orientationchange" : "resize";
-                $(window).bind(resizeEvent, function ()
-                {
-                    TO && clearTimeout(TO);
-                    TO = setTimeout(resizeBody, 100);
-                });
-                resizeBody();
-
-                function resizeBody()
-                {
-                    var height = window.innerHeight || $(window).height();
-                    var width = window.innerWidth || $(window).width();
-                    var col = "col ";
-                    if (width <= 340)
-                    {
-                        col += " > col-xs";
-                    }
-                    if (width >= 576)
-                    {
-                        col += " > col-sm";
-                    }
-                    if (width >= 768)
-                    {
-                        col += " > col-md";
-                    }
-                    if (width >= 992)
-                    {
-                        col += " > col-lg";
-                    }
-                    if (width >= 1200)
-                    {
-                        col += " > col-xl";
-                    }
-                    var size = col + " (" + width + " x " + height + ")";
-                    $(".bs-debugger .current").html(size);
-                }
-			</script>
-		<?php endif; ?>
+	<body class='<?php echo $nightmode; ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
 				<?php //var_dump( $page ); ?>
