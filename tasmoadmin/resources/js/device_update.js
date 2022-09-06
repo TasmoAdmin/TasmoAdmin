@@ -169,8 +169,7 @@ async function updateDevice(deviceId) {
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-
-		if (targetVersion && config.force_upgrade && compareVersion(beforeVersion, targetVersion)) {
+		if (targetVersion && !config.force_upgrade && compareVersion(beforeVersion, targetVersion)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
 			return;
 		}
