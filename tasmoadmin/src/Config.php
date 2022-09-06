@@ -163,18 +163,17 @@ class Config
 			file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
 			
 		}
-		
-		
-		if (!empty(getenv("BUILD_VERSION"))
+
+        if (file_exists(_APPROOT_ . ".version")) {
+            $this->defaultConfigs["current_git_tag"] = file_get_contents(_APPROOT_ . ".version");
+        } elseif (!empty(getenv("BUILD_VERSION"))
 			&& ($config["current_git_tag"] != getenv(
 					"BUILD_VERSION"
 				))) {
 			$this->write("current_git_tag", getenv("BUILD_VERSION"), TRUE);
 		}
-		
-		$this->setCacheConfig($config);
-		
-		
+
+        $this->setCacheConfig($config);
 	}
 	
 	private function getCacheConfig($key = NULL)
