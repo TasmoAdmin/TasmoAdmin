@@ -45,7 +45,7 @@ jobs:
     - name: Create and push manifest list
       run: ./.docker/docker.sh manifest-list
     - name: Generate .version
-      run: echo ${{ github.ref_name }} > tasmoadmin/.version
+      run: echo "${{ github.ref_name }}" > tasmoadmin/.version
     - name: Package
       run: make package
     - name: Create GitHub release
