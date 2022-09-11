@@ -28,7 +28,7 @@
 /tasmoadmin/node_modules/
 /tasmoadmin/vendor/
 .phpunit.result.cache
-
+/tasmoadmin/coverage.xml
 
 !.empty
 !.htaccess
@@ -44,4 +44,3 @@
 portable/xampp.zip
 
 /.storage/
-/tasmoadmin/node_modules/
