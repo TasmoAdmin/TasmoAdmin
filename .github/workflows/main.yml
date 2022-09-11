@@ -38,7 +38,12 @@ jobs:
     - name: Run tests
       run: |
         cd tasmoadmin
-        ./vendor/bin/phpunit
+        XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover coverage.xml
+    - uses: codecov/codecov-action@v3
+      if: matrix.php-version == '8.1'
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./tasmoadmin/coverage.xml
   docker-test:
     name: Run Docker tests
     runs-on: ubuntu-20.04
