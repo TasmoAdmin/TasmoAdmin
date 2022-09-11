@@ -64,9 +64,12 @@ use TasmoAdmin\Sonoff;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
-$whoops = new Run;
-$whoops->pushHandler(new PrettyPageHandler);
-$whoops->register();
+$debug = isset($_SERVER['TASMO_DEBUG']);
+if ($debug) {
+    $whoops = new Run;
+    $whoops->pushHandler(new PrettyPageHandler);
+    $whoops->register();
+}
 
 if( !empty( $_REQUEST[ "clean" ] ) ) {
     cleanTemps();
@@ -86,7 +89,7 @@ $Config = new Config();
 $Sonoff = new Sonoff();
 $i18n   = new i18n();
 
-$lang = isset( $_GET[ "lang" ] ) ? $_GET[ "lang" ] : NULL;
+$lang = $_GET["lang"] ?? NULL;
 if( isset( $lang ) ) {
     $_SESSION[ 'lang' ] = $lang;
     header(
