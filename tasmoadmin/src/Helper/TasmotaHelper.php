@@ -3,6 +3,7 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use InvalidArgumentException;
 use Parsedown;
 use TasmoAdmin\Update\AutoFirmwareResult;
@@ -106,8 +107,12 @@ class TasmotaHelper
 
     private function getContents(string $url): string
     {
-        $url = "${url}?r=" . time();
-        return $this->client->get($url)->getBody()->getContents();
+        try {
+            $url = "${url}?r=" . time();
+            return $this->client->get($url)->getBody()->getContents();
+        } catch (GuzzleException $exception) {
+            return sprintf('Failed to load %s - %s', $url, $exception->getMessage());
+        }
     }
 
     private function replaceIssuesWithUrls(string $content): string
