@@ -16,6 +16,16 @@ class IpHelperTest extends TestCase
         self::assertCount(3, $ips);
     }
 
+    public function testFetchIpsMultipleSubnet(): void
+    {
+        $ipHelper = new IpHelper();
+        $ips = $ipHelper->fetchIps('127.0.0.1', '127.0.1.254');
+
+        self::assertCount(509, $ips);
+        self::assertEquals('127.0.0.1',$ips[0]);
+        self::assertEquals('127.0.1.254',end($ips));
+    }
+
     public function testFetchIpsSingleIp(): void
     {
         $ipHelper = new IpHelper();
@@ -34,17 +44,31 @@ class IpHelperTest extends TestCase
         self::assertNotContains('127.0.0.1', $ips);
     }
 
-    public function testFetchIpsInvalidFromIp(): void
+    /**
+     * @dataProvider provideInvalidIps
+     */
+    public function testFetchIpsInvalidFromIp(string $invalidIp): void
     {
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $ipHelper = new IpHelper();
-        $ipHelper->fetchIps('foo', '127.0.0.4');
+        $ipHelper->fetchIps($invalidIp, '127.0.0.4');
     }
 
-    public function testFetchIpsInvalidToIp(): void
+    /**
+     * @dataProvider provideInvalidIps
+     */
+    public function testFetchIpsInvalidToIp(string $invalidIp): void
     {
-        self::expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $ipHelper = new IpHelper();
-        $ipHelper->fetchIps('127.0.0.1', 'bar');
+        $ipHelper->fetchIps('127.0.0.1', $invalidIp);
+    }
+
+    public function provideInvalidIps(): array
+    {
+        return [
+            ['foo'],
+           ['127.0.0,1'],
+        ];
     }
 }
