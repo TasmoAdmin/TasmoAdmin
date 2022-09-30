@@ -10,7 +10,7 @@ jobs:
     name: Run PHPStan
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Install PHP
       uses: shivammathur/setup-php@master
       with:
@@ -28,7 +28,7 @@ jobs:
       matrix:
         php-version: ['8.1', '8.0', '7.4']
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Install PHP
       uses: shivammathur/setup-php@master
       with:
@@ -51,7 +51,7 @@ jobs:
       BUILD_REF: ${{ github.sha }}
       BUILD_VERSION: ${{ github.ref_name }}
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v3
     - name: Prepare
       run: |
         ./.docker/docker.sh prepare
@@ -68,7 +68,7 @@ jobs:
       BUILD_REF: ${{ github.sha }}
       BUILD_VERSION: dev
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
       - name: Prepare
         run: |
           ./.docker/docker.sh prepare
