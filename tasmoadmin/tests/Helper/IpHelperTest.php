@@ -19,11 +19,18 @@ class IpHelperTest extends TestCase
     public function testFetchIpsMultipleSubnet(): void
     {
         $ipHelper = new IpHelper();
-        $ips = $ipHelper->fetchIps('127.0.0.1', '127.0.1.254');
+        $ips = $ipHelper->fetchIps('127.0.0.128', '127.0.1.2');
 
-        self::assertCount(509, $ips);
-        self::assertEquals('127.0.0.1',$ips[0]);
-        self::assertEquals('127.0.1.254',end($ips));
+        self::assertCount(131, $ips);
+        self::assertEquals('127.0.0.128',$ips[0]);
+        self::assertEquals('127.0.1.2',end($ips));
+    }
+
+    public function testFetchIpsTooLargeRange(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $ipHelper = new IpHelper();
+        $ipHelper->fetchIps('127.0.0.1', '127.0.8.2');
     }
 
     public function testFetchIpsSingleIp(): void

@@ -14,72 +14,72 @@ $error        = FALSE;
 
 
 if (isset($_REQUEST) && !empty($_REQUEST)) {
+    try {
+        if (isset($_REQUEST["search"])) {
+            $fromip = $_REQUEST["from_ip"];
+            $toip = $_REQUEST["to_ip"];
 
-    if (isset($_REQUEST["search"])) {
-        $fromip = $_REQUEST["from_ip"];
-        $toip = $_REQUEST["to_ip"];
 
-
-        $ipHelper = new IpHelper();
-        $devices = $Sonoff->getDevices();
-        $skipIps = [];
-        foreach ($devices as $device) {
-            $skipIps[] = $device->ip;
-        }
-        $ips = [];
-        try {
-            $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
-        } catch (InvalidArgumentException $ex) {
-            // TODO: Bubble up to UI
-        }
-        $Config->write("scan_from_ip", $fromip);
-        $Config->write("scan_to_ip", $toip);
-
-        $urls = [];
-        foreach ($ips as $ip) {
-            $fakeDevice = DeviceFactory::fakeDevice(
-                $ip,
-                $_REQUEST["device_username"] ?? "",
-                $_REQUEST["device_password"] ?? ""
-            );
-            $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
-            unset($fakeDevice);
-        }
-
-        $devicesFound = $Sonoff->search($urls);
-
-        if (empty($devicesFound)) {
-            $msg   = __("MSG_NO_DEVICES_FOUND", "DEVICES_AUTOSCAN");
-            $error = TRUE;
-        }
-        else {
-            $devicesFoundTmp = $devicesFound;
-            $devicesFound    = [];
-            foreach ($devicesFoundTmp as $device) {
-                if (empty ($device) || !empty($device->error)) {
-                    continue;
-                }
-                if (empty($device->StatusNET)) {
-                    continue; //TODO: show error message per device
-                }
-                $ip                   = explode(".", $device->StatusNET->IPAddress);
-                $devicesFound[$ip[3]] = $device;
+            $ipHelper = new IpHelper();
+            $devices = $Sonoff->getDevices();
+            $skipIps = [];
+            foreach ($devices as $device) {
+                $skipIps[] = $device->ip;
             }
-            ksort($devicesFound);
-            $devicesFound = array_values($devicesFound);
-            unset($devicesFoundTmp);
-            $msg = __("MSG_DEVICES_FOUND_COUNT", "DEVICES_AUTOSCAN") . ": " . count($devicesFound);
+            $ips = [];
+            $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
+            $Config->write("scan_from_ip", $fromip);
+            $Config->write("scan_to_ip", $toip);
+
+            $urls = [];
+            foreach ($ips as $ip) {
+                $fakeDevice = DeviceFactory::fakeDevice(
+                    $ip,
+                    $_REQUEST["device_username"] ?? "",
+                    $_REQUEST["device_password"] ?? ""
+                );
+                $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
+                unset($fakeDevice);
+            }
+
+            $devicesFound = $Sonoff->search($urls);
+
+            if (empty($devicesFound)) {
+                $msg   = __("MSG_NO_DEVICES_FOUND", "DEVICES_AUTOSCAN");
+                $error = TRUE;
+            }
+            else {
+                $devicesFoundTmp = $devicesFound;
+                $devicesFound    = [];
+                foreach ($devicesFoundTmp as $device) {
+                    if (empty ($device) || !empty($device->error)) {
+                        continue;
+                    }
+                    if (empty($device->StatusNET)) {
+                        continue; //TODO: show error message per device
+                    }
+                    $ip                   = explode(".", $device->StatusNET->IPAddress);
+                    $devicesFound[$ip[3]] = $device;
+                }
+                ksort($devicesFound);
+                $devicesFound = array_values($devicesFound);
+                unset($devicesFoundTmp);
+                $msg = __("MSG_DEVICES_FOUND_COUNT", "DEVICES_AUTOSCAN") . ": " . count($devicesFound);
+            }
+
+
         }
-
-
-    }
-    elseif (isset($_REQUEST["save_all"])) {
-        $deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
-        $deviceUsername = $_REQUEST["device_username"] ?? "";
-        $devicePassword = $_REQUEST["device_password"] ?? "";
-        $deviceRepository->addDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
-        $msg = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
-        $action = "done";
+        elseif (isset($_REQUEST["save_all"])) {
+            $deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
+            $deviceUsername = $_REQUEST["device_username"] ?? "";
+            $devicePassword = $_REQUEST["device_password"] ?? "";
+            $deviceRepository->addDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
+            $msg = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
+            $action = "done";
+        }
+    } catch (InvalidArgumentException $ex) {
+        $error = true;
+        $msg = $ex->getMessage();
     }
 }
 
