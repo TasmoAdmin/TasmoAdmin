@@ -29,6 +29,7 @@
 /tasmoadmin/vendor/
 .phpunit.result.cache
 /tasmoadmin/coverage.xml
+.php-cs-fixer.cache
 
 !.empty
 !.htaccess
