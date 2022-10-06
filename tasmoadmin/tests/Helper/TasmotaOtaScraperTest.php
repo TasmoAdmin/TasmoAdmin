@@ -18,7 +18,6 @@ class TasmotaOtaScraperTest extends TestCase
         $result = $scraper->getFirmware();
         self::assertEquals('12.1.1', $result->getVersion());
         self::assertEquals('2022-08-25', $result->getPublishDate()->format('Y-m-d'));
-
     }
 
     public function testGetDevFirmware(): void
@@ -31,7 +30,6 @@ class TasmotaOtaScraperTest extends TestCase
 
     private function getHttpClient(): HttpClientInterface
     {
-
         return new MockClient();
     }
 }

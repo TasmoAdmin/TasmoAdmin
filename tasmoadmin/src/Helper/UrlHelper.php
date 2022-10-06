@@ -16,7 +16,7 @@ class UrlHelper
 
     private ?string $currentGitTag;
 
-    public function __construct(Config $config,  string $baseUrl, string $resourceUrl, string $resourceDir)
+    public function __construct(Config $config, string $baseUrl, string $resourceUrl, string $resourceDir)
     {
         $this->baseUrl = $baseUrl;
         $this->resourceUrl = $resourceUrl;

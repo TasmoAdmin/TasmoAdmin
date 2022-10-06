@@ -23,5 +23,4 @@ class TasmoFirmware
     {
         return $this->url;
     }
-
 }

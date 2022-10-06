@@ -64,12 +64,11 @@ class Sonoff
             $data = new stdClass();
             $data->ERROR = __("JSON_ERROR", "API") . " => " . json_last_error() . ": " . json_last_error_msg();
             $data->ERROR .= "<br/><strong>" . __("JSON_ERROR_CONTACT_DEV", "API", [$result]) . "</strong>";
-            $data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($data, TRUE);
-
+            $data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($data, true);
         }
-        $skipWarning = FALSE;
-        if (strpos($cmnd, "Backlog") !== FALSE) {
-            $skipWarning = TRUE;
+        $skipWarning = false;
+        if (strpos($cmnd, "Backlog") !== false) {
+            $skipWarning = true;
         }
 
         if (!$skipWarning && isset($data->WARNING) && !empty($data->WARNING) && $try === 1) {
@@ -79,7 +78,7 @@ class Sonoff
             if (!isset($webLog->WARNING) && empty($webLog->WARNING)) {
                 $data = $this->doRequest($device, $cmnd, $try);
             }
-        } else if (empty($data->ERROR)) {
+        } elseif (empty($data->ERROR)) {
             $data = $this->compatibility($data);
         }
 
@@ -110,15 +109,15 @@ class Sonoff
     private function fixJsonFormatV5100(string $string): string
     {
         $string = substr($string, strpos($string, "STATUS = "));
-        if (strpos($string, "POWER = ") !== FALSE) {
+        if (strpos($string, "POWER = ") !== false) {
             $string = substr($string, strpos($string, "{"));
             $string = substr($string, 0, strrpos($string, "}") + 1);
         }
-        if (strpos($string, "ERGEBNIS = ") !== FALSE) {
+        if (strpos($string, "ERGEBNIS = ") !== false) {
             $string = substr($string, strpos($string, "{"));
             $string = substr($string, 0, strrpos($string, "}") + 1);
         }
-        if (strpos($string, "RESULT = ") !== FALSE) {
+        if (strpos($string, "RESULT = ") !== false) {
             $string = substr($string, strpos($string, "{"));
             $string = substr($string, 0, strrpos($string, "}") + 1);
         }
@@ -227,7 +226,6 @@ class Sonoff
 
         $offArray = explode(
             ", ",
-
             strtolower(
                 ""
 
@@ -246,7 +244,6 @@ class Sonoff
         );
         $onArray = explode(
             ", ",
-
             strtolower(
                 ""
 
@@ -265,7 +262,7 @@ class Sonoff
         );
 
 
-        $state = NULL;
+        $state = null;
 
         //status 0 request for 1 relais
         if (isset($status->StatusSTS->POWER)) {
@@ -501,14 +498,12 @@ class Sonoff
             if (!empty($tmp->Command) && $tmp->Command === "Unknown") {
                 $status->$cmnd = "";
             } else {
-
                 if (!empty($status->ERROR)) {
                     $status->$cmnd = "";
                 } else {
                     $status->$cmnd = $tmp->$cmnd;
                 }
             }
-
         }
 
         unset($tmp);
@@ -670,7 +665,7 @@ class Sonoff
     public function decodeOptions($options)
     {
         if (empty($options)) {
-            return FALSE;
+            return false;
         }
         $a_setoption = [
             //Tasmota\tools\decode-status.py
@@ -747,7 +742,7 @@ class Sonoff
             $result->ERROR .= "<br/><strong>"
                 . __("JSON_ERROR_CONTACT_DEV", "API", [$result])
                 . "</strong>";
-            $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, TRUE);
+            $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, true);
         }
 
         if (isset($result) && empty($result->ERROR)) {

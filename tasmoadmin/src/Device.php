@@ -30,8 +30,7 @@ class Device
         int $deviceProtectionOn,
         int $deviceProtectionOff,
         array $keywords
-    )
-    {
+    ) {
         $this->id = $id;
         $this->names = $names;
         $this->ip = $ip;

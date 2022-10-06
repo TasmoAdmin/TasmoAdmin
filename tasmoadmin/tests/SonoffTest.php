@@ -58,7 +58,7 @@ class SonoffTest extends TestCase
         $devices = [];
         foreach (range(1, 2) as $count) {
             $device = DeviceFactory::fromArray([$count, sprintf('socket-%d', $count), sprintf('192.168.1.%d', $count)]);
-            $devices[] = $sonoff->buildCmndUrl($device,Sonoff::COMMAND_INFO_STATUS_ALL);
+            $devices[] = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         }
 
         $result = $sonoff->search($devices);
