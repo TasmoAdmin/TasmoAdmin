@@ -17,14 +17,19 @@ class IpHelper
             throw new InvalidArgumentException(sprintf('%s is an invalid IPv4 address', $toIp));
         }
 
+        $ips = [];
+        foreach (range(ip2long($fromIp), ip2long($toIp)) as $ip) {
+            $ip = long2ip($ip);
+            if (in_array($ip, $excludedIps)) {
+                continue;
+            }
+    
+            $ips[] = $ip;
 
-        $ips = array_map('long2ip', range(ip2long($fromIp), ip2long($toIp)));
+            if (count($ips) > self::MAX_IPS) {
+                throw new InvalidArgumentException('The defined IP range is too large, please specify a smaller range');
+            }
 
-
-        $ips = array_diff($ips, $excludedIps);
-
-        if (count($ips) > self::MAX_IPS) {
-            throw new InvalidArgumentException('The defined IP range is too large, please specify a smaller range');
         }
 
         return $ips;
