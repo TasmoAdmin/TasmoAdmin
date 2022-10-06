@@ -30,7 +30,7 @@ class IpHelperTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $ipHelper = new IpHelper();
-        $ipHelper->fetchIps('127.0.0.1', '127.0.8.2');
+        $ipHelper->fetchIps('127.0.0.1', '127.255.8.2');
     }
 
     public function testFetchIpsSingleIp(): void
