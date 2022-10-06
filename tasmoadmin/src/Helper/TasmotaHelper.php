@@ -39,14 +39,18 @@ class TasmotaHelper
     {
         $releaseLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md');
         $releaseLog = str_replace(["*/", "/*", " *\n"], ["", "", ""], $releaseLog);
-        $releaseLog = str_replace("https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
+        $releaseLog = str_replace(
+            "https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
             "https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
-            $releaseLog);
+            $releaseLog
+        );
         $releaseLog = $this->markDownParser->parse($releaseLog);
         $releaseLog = $this->replaceIssuesWithUrls($releaseLog);
-        $releaseLog = str_replace("https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
+        $releaseLog = str_replace(
+            "https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
             "https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
-            $releaseLog);
+            $releaseLog
+        );
 
         return $releaseLog;
     }

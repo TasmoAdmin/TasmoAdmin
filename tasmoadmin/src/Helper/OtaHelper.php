@@ -24,7 +24,8 @@ class OtaHelper
 
     private function getOtaServer(): string
     {
-        return sprintf('%s://%s:%s%s%s',
+        return sprintf(
+            '%s://%s:%s%s%s',
             $this->config->schema(),
             $this->config->read('ota_server_ip'),
             $this->config->read('ota_server_port'),

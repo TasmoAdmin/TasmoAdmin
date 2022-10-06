@@ -31,7 +31,7 @@ class IpHelper
             if (in_array($ip, $excludedIps, true)) {
                 continue;
             }
-    
+
             $ips[] = $ip;
         }
 

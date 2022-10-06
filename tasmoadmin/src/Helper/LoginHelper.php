@@ -24,7 +24,7 @@ class LoginHelper
             $upgradedPassword = self::hashPassword($password);
 
             $this->config->write("password", $upgradedPassword);
- 
+
             return true;
         }
 

@@ -47,9 +47,9 @@ class SelfUpdate
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         // set cURL options
-        curl_setopt($ch, CURLOPT_FAILONERROR, TRUE);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(
             $ch,
             CURLOPT_USERAGENT,
@@ -64,11 +64,11 @@ class SelfUpdate
         if (curl_error($ch)) {
             $result = [
                 "ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
-                        $ch
-                    ),
+                    $ch
+                ),
             ];
 
-            return FALSE;
+            return false;
         }
         curl_close($ch);
 
@@ -84,11 +84,11 @@ class SelfUpdate
         $temp = _TMPDIR_;        // full path to temp dir to process extractions
         $path = _APPROOT_;       // full path to final destination to put the files (not the folder)
 
-        $firstDir = NULL;       // holds the name of the first directory
+        $firstDir = null;       // holds the name of the first directory
 
         $zip = new ZipArchive();
         $res = $zip->open($file);
-        if ($res === TRUE) {
+        if ($res === true) {
             $firstDir = $zip->getNameIndex(0);
             $zip->extractTo($temp);
             $zip->close();
@@ -123,31 +123,27 @@ class SelfUpdate
                         if ($this->removeDirectory($firstDir)) {
                             $this->log[] = __("TEMP_DIR_DELETED", "SELFUPDATE");
                             $this->log[] = "<br/><strong>" . __("COPY_DONE", "SELFUPDATE") . "</strong>";
-
                         } else {
                             echo 'Error deleting temp directory!<br />';
                             $this->log[] = __("ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE");
                         }
-
                     } else {
                         echo 'Error copying directory contents!<br />';
                         $this->log[] = __("ERROR_COULD_NOT_COPY_UPDATE", "SELFUPDATE");
                     }
                 }
-
-
             } else {
                 $this->log[] = __("ERROR_EMPTY_FIRST_DIR", "SELFUPDATE");
             }
         }
 
-        return TRUE;
+        return true;
     }
 
     private function removeDirectory($directory, $options = [])
     {
         if (!isset($options['traverseSymlinks'])) {
-            $options['traverseSymlinks'] = FALSE;
+            $options['traverseSymlinks'] = false;
         }
         $files = array_diff(scandir($directory), ['.', '..']);
         foreach ($files as $file) {
@@ -165,13 +161,13 @@ class SelfUpdate
         return rmdir($directory);
     }
 
-    private function copyDirectoryContents($source, $destination, $create = TRUE)
+    private function copyDirectoryContents($source, $destination, $create = true)
     {
         if (!is_dir($source)) {
-            return FALSE;
+            return false;
         }
 
-        if (!is_dir($destination) && $create === TRUE) {
+        if (!is_dir($destination) && $create === true) {
             mkdir($destination);
         }
 
@@ -185,9 +181,9 @@ class SelfUpdate
                 }
             }
 
-            return TRUE;
+            return true;
         }
 
-        return FALSE;
+        return false;
     }
 }

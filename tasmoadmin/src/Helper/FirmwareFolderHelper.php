@@ -2,7 +2,6 @@
 
 namespace TasmoAdmin\Helper;
 
-
 class FirmwareFolderHelper
 {
     private const IGNORED_FILES = [

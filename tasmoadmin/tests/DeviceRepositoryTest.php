@@ -56,7 +56,6 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(1, $repo->getDevices());
         $device = $repo->getDevices()[0];
         self::assertEquals(['socket-1'], $device->names);
-
     }
 
     public function testGetDeviceByIdValid(): void

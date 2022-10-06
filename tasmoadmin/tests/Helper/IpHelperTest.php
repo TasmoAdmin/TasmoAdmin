@@ -22,8 +22,8 @@ class IpHelperTest extends TestCase
         $ips = $ipHelper->fetchIps('127.0.0.128', '127.0.1.2');
 
         self::assertCount(131, $ips);
-        self::assertEquals('127.0.0.128',$ips[0]);
-        self::assertEquals('127.0.1.2',end($ips));
+        self::assertEquals('127.0.0.128', $ips[0]);
+        self::assertEquals('127.0.1.2', end($ips));
     }
 
     public function testFetchIpsTooLargeRange(): void

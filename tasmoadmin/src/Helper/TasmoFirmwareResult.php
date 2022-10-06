@@ -34,6 +34,4 @@ class TasmoFirmwareResult
     {
         return $this->firmares;
     }
-
-
 }

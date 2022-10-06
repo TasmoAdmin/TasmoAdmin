@@ -91,8 +91,7 @@ class UpdateChecker
 
         if ($this->updateChannel === "stable") {
             $action = "/releases/latest";
-        }
-        elseif (in_array($this->updateChannel, ["beta", "dev"])) {
+        } elseif (in_array($this->updateChannel, ["beta", "dev"])) {
             $action = "/releases";
         }
 
