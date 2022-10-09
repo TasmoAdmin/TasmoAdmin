@@ -2,6 +2,24 @@
 
 ## UPCOMING
 
+## PUBLISHED
+
+### v2.1.0
+
+#### Note
+
+With the addition of the tasmota scraping changes the requirement for the `php-dom` extension is needed.
+
+##### Noticeable changes
+
+* Rewritten update logic and UI
+* Use Tasmota for firmwares allowing beta firmware upgrades
+* Support for PHP 8.1
+* IP range scanning improvements
+* Bug fixes
+
+###### What's Changed
+
 * Build unified changelog by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/583
 * Correct changelog resolution by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/584
 * Tidy Sonoff by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/586
@@ -56,8 +74,30 @@
 * Fix target version for non-auto path by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/646
 * Fix version for dev by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/647
 * Prevent same upgrade by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/645
-
-## PUBLISHED
+* Optmise composer for production by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/648
+* Bump phpstan/phpstan from 1.8.2 to 1.8.4 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/650
+* Bump phpunit/phpunit from 9.5.23 to 9.5.24 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/649
+* Fix start click by @inverse in https://github.com/TasmoAdmin/Tas## v2.0.0moAdmin/pull/651
+* Generate .version on release by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/652
+* Fix version write by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/654
+* Fix URLHelper for min by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/655
+* Fix force upgrade flag by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/656
+* Remove legacy CSS/HTML debug by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/657
+* Only enable whoops when TASMO_DEBUG env var set by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/659
+* Add codecov by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/660
+* Coverage badge by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/661
+* Bump phpstan/phpstan from 1.8.4 to 1.8.5 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/662
+* Catch guzzle errors in tasotahelper by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/664
+* Bump phpunit/phpunit from 9.5.24 to 9.5.25 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/665
+* Bump phpstan/phpstan from 1.8.5 to 1.8.6 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/666
+* Improve tests for IpHelper by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/668
+* Bump docker/login-action from 1 to 2 by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/670
+* Bump actions/checkout from 1 to 3 by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/671
+* Bump symfony/filesystem from 5.4.12 to 5.4.13 in /tasmoadmin by @dependabot in https://github.com/TasmoAdmin/TasmoAdmin/pull/669
+* Fix IP range logic by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/674
+* Improve memory efficency of IP generation by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/675
+* IpHelper without range by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/676
+* Add php-cs-fixer by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/677
 
 ### v2.0.0
 
@@ -141,9 +181,6 @@
 * Bump composer dependencies by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/576
 * Add additional FirmwareChecker test by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/577
 * Remove legacy autoload from bootstrap by @inverse in https://github.com/TasmoAdmin/TasmoAdmin/pull/578
-
-
-**Full Changelog**: https://github.com/TasmoAdmin/TasmoAdmin/compare/v1.8.0...v2.0.0
 
 ### v1.8.0
 
