@@ -20,16 +20,23 @@ class JsonLanguageHelperTest extends TestCase
     public function testDumpJson(): void
     {
         $jsonLanguageHelper = new JsonLanguageHelper(
+            'de',
+            TestUtils::getFixturePath('language_de.ini'),
             'en',
             TestUtils::getFixturePath('language_en.ini'),
             $this->root->url()
         );
 
         $jsonLanguageHelper->dumpJson();
-        self::assertTrue($this->root->hasChild('json_i18n_en.cache.json'));
-        self::assertEquals(['en' => [
-            'HELLO' => 'hello',
-            'WORLD' => 'world',
-        ]], json_decode($this->root->getChild('json_i18n_en.cache.json')->getContent(), true));
+        self::assertTrue($this->root->hasChild('json_i18n_de.cache.json'));
+        self::assertEquals([
+            'de' => [
+                'HELLO' => 'hallo',
+            ],
+            'en' => [
+                'HELLO' => 'hello',
+                'WORLD' => 'world',
+            ],
+        ], json_decode($this->root->getChild('json_i18n_de.cache.json')->getContent(), true));
     }
 }

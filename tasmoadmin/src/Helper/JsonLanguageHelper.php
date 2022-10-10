@@ -10,12 +10,23 @@ class JsonLanguageHelper
 
     private string $languageFile;
 
+    private string $fallbackLanguage;
+
+    private string $fallbackLanguageFile;
+
     private string $cacheDir;
 
-    public function __construct(string $language, string $languageFile, string $cacheDir)
-    {
+    public function __construct(
+        string $language,
+        string $languageFile,
+        string $fallbackLanguage,
+        string $fallbackLanguageFile,
+        string $cacheDir
+    ) {
         $this->language = $language;
         $this->languageFile = $languageFile;
+        $this->fallbackLanguage = $fallbackLanguage;
+        $this->fallbackLanguageFile = $fallbackLanguageFile;
         $this->cacheDir = $cacheDir;
     }
 
@@ -40,10 +51,17 @@ class JsonLanguageHelper
      */
     private function writeFile(string $cacheFile): void
     {
-        $config = parse_ini_file($this->languageFile);
-        $jsConfig = $this->removeBlocks($config);
-        $jsonCompiled = json_encode([$this->language => $jsConfig], JSON_THROW_ON_ERROR);
+        $jsonCompiled = json_encode([
+            $this->language => $this->loadLanguage($this->languageFile),
+            $this->fallbackLanguage => $this->loadLanguage($this->fallbackLanguageFile),
+        ], JSON_THROW_ON_ERROR);
         file_put_contents($cacheFile, $jsonCompiled);
+    }
+
+    private function loadLanguage(string $languageFile): array
+    {
+        $config = parse_ini_file($languageFile);
+        return $this->removeBlocks($config);
     }
 
     private function removeBlocks($config): array
