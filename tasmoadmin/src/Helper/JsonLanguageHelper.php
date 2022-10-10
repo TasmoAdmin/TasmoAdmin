@@ -92,6 +92,8 @@ class JsonLanguageHelper
 
     private function isCacheModifiedNewerThenLanguageFile(string $cacheFile): bool
     {
-        return filemtime($cacheFile) > filemtime($this->languageFile);
+        return
+            filemtime($cacheFile) > filemtime($this->languageFile) ||
+            filemtime($cacheFile) > filemtime($this->fallbackLanguageFile);
     }
 }
