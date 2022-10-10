@@ -21,7 +21,8 @@ class JsonLanguageHelper
         string $languageFile,
         string $fallbackLanguage,
         string $fallbackLanguageFile,
-        string $cacheDir)
+        string $cacheDir
+    )
     {
         $this->language = $language;
         $this->languageFile = $languageFile;
@@ -51,7 +52,6 @@ class JsonLanguageHelper
      */
     private function writeFile(string $cacheFile): void
     {
-
         $jsonCompiled = json_encode([
             $this->language => $this->loadLanguage($this->languageFile),
             $this->fallbackLanguage => $this->loadLanguage($this->fallbackLanguageFile),
