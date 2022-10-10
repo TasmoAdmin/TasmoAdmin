@@ -165,7 +165,9 @@ async function updateDevice(deviceId) {
 	try
 	{
 		log(deviceId, $.i18n('BLOCK_GLOBAL_START'));
-		log(deviceId, $.i18n('BLOCK_UPDATE_ATTEMPT_TO_VERSION', targetVersion));
+		if (targetVersion) {
+			log(deviceId, $.i18n('BLOCK_UPDATE_ATTEMPT_TO_VERSION', targetVersion));
+		}
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));

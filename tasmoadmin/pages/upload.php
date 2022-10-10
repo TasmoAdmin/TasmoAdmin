@@ -193,7 +193,7 @@ elseif (isset($_REQUEST["auto"])) {
 
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
-            $targerVersion = $result->getTagName();
+            $targetVersion = $result->getTagName();
             if (!$useGZIP) {
                 $new_firmware_path = GzipHelper::unzip($new_firmware_path);
                 $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path);
