@@ -183,7 +183,7 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
-		if (!compareVersion(targetVersion, response.StatusFWR.Version)) {
+		if (targetVersion && !compareVersion(targetVersion, response.StatusFWR.Version)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, response.StatusFWR.Version), Level.error);
 			return;
 		}

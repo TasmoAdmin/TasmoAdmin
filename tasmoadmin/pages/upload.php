@@ -305,7 +305,7 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 			>
 				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-				<input type='hidden' name='target_version' value='<?php echo $targerVersion; ?>'>
+				<input type='hidden' name='target_version' value='<?php echo $targetVersion; ?>'>
 
 				<div class='form-row mb-3'>
 					<div class='offset-1 col-auto col col-auto'>
