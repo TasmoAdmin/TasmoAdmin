@@ -2,8 +2,8 @@ let sonoff;
 let refreshtime = false;
 let nightmode = false;
 
-const $lang = $("html").attr("lang");
-const i18nfile = config.base_url + "tmp/cache/i18n/json_i18n_" + $lang + ".cache.json";
+const lang = $("html").attr("lang");
+const i18nfile = config.base_url + "tmp/cache/i18n/json_i18n_" + lang + ".cache.json";
 $.ajax({
 	dataType: "json",
 	url: i18nfile,
