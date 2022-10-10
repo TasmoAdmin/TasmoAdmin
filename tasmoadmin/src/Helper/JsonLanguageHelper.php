@@ -22,8 +22,7 @@ class JsonLanguageHelper
         string $fallbackLanguage,
         string $fallbackLanguageFile,
         string $cacheDir
-    )
-    {
+    ) {
         $this->language = $language;
         $this->languageFile = $languageFile;
         $this->fallbackLanguage = $fallbackLanguage;
