@@ -1,3 +1,6 @@
+const $ = require('jquery');
+import Sonoff from './Sonoff';
+
 let sonoff;
 let refreshtime = false;
 let nightmode = false;

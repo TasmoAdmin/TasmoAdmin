@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 /**
  * Your classic Sonoff
  * @typedef {Object} Sonoff
@@ -5,7 +7,7 @@
  * @property {int} timeout Current state of the Sonoff
  */
 
-class Sonoff {
+export default class Sonoff {
     constructor(options) {
         this.options = {
             timeout: 10

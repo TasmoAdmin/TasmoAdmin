@@ -1,4 +1,6 @@
-var longPressTimer;
+const $ = require('jquery');
+
+let longPressTimer;
 
 $(document).ready(function () {
 	deviceTools();

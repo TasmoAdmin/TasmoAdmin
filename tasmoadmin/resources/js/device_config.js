@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 var $_forms = {};
 $( document ).on( "ready", function ( e ) {
 	

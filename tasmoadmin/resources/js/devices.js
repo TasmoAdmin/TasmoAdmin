@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 var ignoreProtectionsTimer;
 $(document).ready(function()
 {

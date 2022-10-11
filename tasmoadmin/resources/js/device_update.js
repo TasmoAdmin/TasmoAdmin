@@ -1,3 +1,5 @@
+const $ = require('jquery');
+
 const deviceContainerId = 'progressbox';
 
 const Level = {
