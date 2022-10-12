@@ -1,4 +1,12 @@
-const $ = require('jquery');
+import jQuery from "jquery";
+window.$ = window.jQuery = jQuery;
+
+import Cookies from 'js-cookie';
+
+import Sonoff from './Sonoff';
+import {parseVersion, getEnergyPower, getTemp, getHumidity, getPressure, getSeaPressure, getDistance, getGas} from "./utils";
+
+const sonoff = new Sonoff({timeout: 15});
 
 var ignoreProtectionsTimer;
 $(document).ready(function()

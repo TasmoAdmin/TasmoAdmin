@@ -133,4 +133,4 @@ $devices = $Sonoff->getDevices();
 	<?php endif; ?>
 </div>
 
-<script src="<?php echo $urlHelper->js("start"); ?>"></script>
+<script src="<?php echo $urlHelper->js("start.bundle", "resources/dist/js/"); ?>"></script>
