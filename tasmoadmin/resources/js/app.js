@@ -14,6 +14,13 @@ import '@wikimedia/jquery.i18n/src/languages/uk';
 import 'tablesaw/dist/stackonly/tablesaw.stackonly'
 import 'tablesaw/dist/tablesaw-init'
 
+import '../css/all.css';
+import '../css/animate.css';
+import '../css/custom.default.css';
+import '../css/mobile.css';
+import '../css/style.css';
+import '../css/test.css';
+
 let refreshtime = false;
 let nightmode = false;
 
