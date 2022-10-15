@@ -11,18 +11,8 @@ module.exports = {
         devices_details: './resources/js/devices_details.js',
         start: './resources/js/start.js',
     },
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-                exclude: /node_modules/
-            }
-        ]
-    },
     output: {
         filename: '[name].bundle.js',
-        path: path.resolve(__dirname, 'resources/dist/js'),
+        path: path.resolve(__dirname, 'resources/dist'),
     },
-    watch: true,
 };
