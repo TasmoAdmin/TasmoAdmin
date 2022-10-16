@@ -105,17 +105,11 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
                 force_upgrade: <?php echo $Config->read("force_upgrade"); ?> === 1,
             };
         </script>
-        <script src="<?php echo $urlHelper->js("app.bundle", "resources/dist/js/"); ?>"></script>
+        <script src="<?php echo $urlHelper->js("app.bundle", "resources/dist/"); ?>"></script>
         <script src="<?php echo $urlHelper->js("bootstrap-waitingfor", "node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 <!--        <script src="--><?php //echo $urlHelper->js("jquery.doubleScroll", "node_modules/jqdoublescroll/"); ?><!--"></script>-->
 
-
-		<link href="<?php echo $urlHelper->style("bootstrap", "node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("all", "node_modules/@fortawesome/fontawesome-free/css/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("tablesaw", "node_modules/tablesaw/dist/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("tablesaw.stackonly", "node_modules/tablesaw/dist/stackonly/"); ?>" rel="stylesheet">
-		
-		<link href="<?php echo $urlHelper->style("all"); ?>" rel="stylesheet">
+		<link href="<?php echo $urlHelper->style("app", "resources/dist/"); ?>" rel="stylesheet">
 		
 		<?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
 			<link href="<?php echo $urlHelper->style("custom"); ?>" rel="stylesheet">
