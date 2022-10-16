@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 export function parseVersion(versionString)
 {
     versionString = versionString.replace("-minimal", "").replace(/\./g, "");
@@ -499,4 +501,16 @@ export function getGas(data, joinString)
     //console.log( press );
 
     return gas.join(joinString);
+}
+
+export function getRefreshTime()
+{
+    let refreshtime = false;
+
+    if ($("#content").data("refreshtime") !== "none")
+    {
+        refreshtime = $("#content").data("refreshtime") * 1000;
+    }
+
+    return refreshtime;
 }

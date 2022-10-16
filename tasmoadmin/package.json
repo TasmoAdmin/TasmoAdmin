@@ -20,6 +20,7 @@
     "@node-minify/core": "^7.0.0",
     "@node-minify/terser": "^7.0.0",
     "css-loader": "^6.7.1",
+    "expose-loader": "^4.0.0",
     "glob": "^8.0.1",
     "mini-css-extract-plugin": "^2.6.1",
     "style-loader": "^3.3.1",

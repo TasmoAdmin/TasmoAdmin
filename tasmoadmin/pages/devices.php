@@ -1,7 +1,5 @@
 <?php
 
-use TasmoAdmin\Helper\UrlHelper;
-
 $devices = $Sonoff->getDevices();
 ?>
 <div class='row'>
@@ -581,4 +579,4 @@ $devices = $Sonoff->getDevices();
 </div>
 <?php include "elements/modal_delete_device.php"; ?>
 
-<script src="<?php echo $urlHelper->js("devices.bundle", "resources/dist/js/"); ?>"></script>
+<script src="<?php echo $urlHelper->js("devices.bundle", "resources/dist/"); ?>"></script>

@@ -107,11 +107,10 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
         </script>
         <script src="<?php echo $urlHelper->js("app.bundle", "resources/dist/"); ?>"></script>
         <script src="<?php echo $urlHelper->js("bootstrap-waitingfor", "node_modules/bootstrap-waitingfor/build/"); ?>"></script>
-<!--        <script src="--><?php //echo $urlHelper->js("jquery.doubleScroll", "node_modules/jqdoublescroll/"); ?><!--"></script>-->
-
 		<link href="<?php echo $urlHelper->style("app", "resources/dist/"); ?>" rel="stylesheet">
-		
-		<?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
+        <link href="<?php echo $urlHelper->style("all"); ?>" rel="stylesheet">
+
+        <?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
 			<link href="<?php echo $urlHelper->style("custom"); ?>" rel="stylesheet">
 		<?php endif; ?>
 	

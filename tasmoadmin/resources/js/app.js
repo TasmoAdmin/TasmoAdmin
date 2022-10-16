@@ -1,6 +1,6 @@
-import jQuery from "jquery";
-window.$ = window.jQuery = jQuery;
+import $ from "expose-loader?exposes=$,jQuery!jquery";
 
+import 'jqdoublescroll/jquery.doubleScroll';
 import 'bootstrap';
 import '@wikimedia/jquery.i18n/src/jquery.i18n';
 import '@wikimedia/jquery.i18n/src/jquery.i18n.emitter';
@@ -16,7 +16,6 @@ import 'tablesaw/dist/tablesaw-init'
 
 import '../css/app.css';
 
-let refreshtime = false;
 let nightmode = false;
 
 const lang = $("html").attr("lang");
@@ -104,11 +103,6 @@ $(document).ready(function()
 	//	$( "#navi" ).toggleClass( "show" );
 	//	$( '.hamburger' ).toggleClass( "open" );
 	//} );
-
-	if ($("#content").data("refreshtime") !== "none")
-	{
-		refreshtime = $("#content").data("refreshtime") * 1000;
-	}
 
 	$("input[type=\"number\"]").keydown(function (e)
 										{
@@ -227,43 +221,45 @@ function notifyMe(msg, title)
 }
 
 
-$.fn.attachDragger = function ()
-{
-	var attachment = false, lastPosition, position, difference;
-	$($(this).selector).on("mousedown mouseup mousemove", function (e)
+$.fn.extend({
+	attachDragger: function ()
 	{
-		if (e.type === "mousedown" && !$(e.target).hasClass("tablesaw-cell-content"))
+		var attachment = false, lastPosition, position, difference;
+		$($(this).selector).on("mousedown mouseup mousemove", function (e)
 		{
-			attachment = true, lastPosition = [e.clientX, e.clientY];
-			$(".tablesaw-cell-content").addClass("dontselect");
-		}
-		if (e.type === "mouseup")
+			if (e.type === "mousedown" && !$(e.target).hasClass("tablesaw-cell-content"))
+			{
+				attachment = true, lastPosition = [e.clientX, e.clientY];
+				$(".tablesaw-cell-content").addClass("dontselect");
+			}
+			if (e.type === "mouseup")
+			{
+				attachment = false;
+				$(".tablesaw-cell-content").removeClass("dontselect");
+			}
+			if (e.type === "mousemove" && attachment === true)
+			{
+				position = [e.clientX, e.clientY];
+				difference = [
+					(
+						position[0] - lastPosition[0]
+					),
+					(
+						position[1] - lastPosition[1]
+					)
+				];
+				$(this).scrollLeft($(this).scrollLeft() - difference[0]);
+				$(this).scrollTop($(this).scrollTop() - difference[1]);
+				lastPosition = [e.clientX, e.clientY];
+			}
+		});
+		$(window).on("mouseup", function ()
 		{
 			attachment = false;
 			$(".tablesaw-cell-content").removeClass("dontselect");
-		}
-		if (e.type === "mousemove" && attachment === true)
-		{
-			position = [e.clientX, e.clientY];
-			difference = [
-				(
-					position[0] - lastPosition[0]
-				),
-				(
-					position[1] - lastPosition[1]
-				)
-			];
-			$(this).scrollLeft($(this).scrollLeft() - difference[0]);
-			$(this).scrollTop($(this).scrollTop() - difference[1]);
-			lastPosition = [e.clientX, e.clientY];
-		}
-	});
-	$(window).on("mouseup", function ()
-	{
-		attachment = false;
-		$(".tablesaw-cell-content").removeClass("dontselect");
-	});
-};
+		});
+	}
+});
 
 
 

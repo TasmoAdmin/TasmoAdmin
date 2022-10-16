@@ -1,10 +1,17 @@
 import $ from 'jquery';
 
+import Sonoff from './Sonoff';
+import {parseVersion, getEnergyPower, getTemp, getHumidity, getPressure, getSeaPressure, getDistance, getGas, getRefreshTime} from "./utils";
+
+const sonoff = new Sonoff({timeout: 15});
+
 let longPressTimer;
 
 $(document).ready(function () {
 	deviceTools();
 	updateStatus();
+
+	const refreshtime = getRefreshTime();
 
 	if (refreshtime) {
 		console.log("[Global][Refreshtime]" + refreshtime + "ms");
