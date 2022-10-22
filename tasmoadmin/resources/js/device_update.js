@@ -172,12 +172,13 @@ async function updateDevice(deviceId) {
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-		if (targetVersion && !config.force_upgrade && compareVersion(beforeVersion, targetVersion)) {
+		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
 			return;
 		}
 
 		if (otaMinimalUrl) {
+			log(deviceId, 'Doing minimal');
 			log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaMinimalUrl);
 			setOtaUrl(deviceId, otaMinimalUrl);
 			log(deviceId, $.i18n('BLOCK_UPDATE_START'));
@@ -195,7 +196,7 @@ async function updateDevice(deviceId) {
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		if (targetVersion && !compareVersion(targetVersion, response.StatusFWR.Version)) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, response.StatusFWR.Version), Level.error);
+			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
 			return;
 		}
 		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);

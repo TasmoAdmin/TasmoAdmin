@@ -89,19 +89,17 @@ class TasmotaHelper
         $firmwareResult = $this->getLatestRelease();
 
         foreach ($firmwareResult->getFirmares() as $asset) {
-            if ($asset->getName() === "tasmota-minimal.bin.gz") {
-                $fwMinimalUrl = $asset->getUrl();
-            }
             if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin.gz") {
                 $fwUrl = $asset->getUrl();
+                break;
             }
         }
 
-        if (!isset($fwUrl, $fwMinimalUrl)) {
+        if (!isset($fwUrl)) {
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
+        return new AutoFirmwareResult($fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
     private function getLatestRelease(): TasmoFirmwareResult
