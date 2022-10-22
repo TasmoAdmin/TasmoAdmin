@@ -6,6 +6,7 @@ const Level = {
 	success: 'success',
 }
 
+const otaMinimalUrl = document.getElementById('ota_minimal_firmware_url').value;
 const otaUrl = document.getElementById('ota_new_firmware_url').value;
 const targetVersion = document.getElementById('target_version').value;
 
@@ -74,7 +75,7 @@ async function checkOtaUrlAccessible(otaUrl) {
 	}
 }
 
-function setOtaUrl(deviceId) {
+function setOtaUrl(deviceId, otaUrl) {
 	try {
 		doAjax(deviceId, `OtaUrl ${otaUrl}`);
 	} catch (e) {
@@ -176,8 +177,16 @@ async function updateDevice(deviceId) {
 			return;
 		}
 
+		if (otaMinimalUrl) {
+			log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaMinimalUrl);
+			setOtaUrl(deviceId, otaMinimalUrl);
+			log(deviceId, $.i18n('BLOCK_UPDATE_START'));
+			startUpgrade(deviceId);
+			await checkStatus(deviceId);
+		}
+
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
-		setOtaUrl(deviceId);
+		setOtaUrl(deviceId, otaUrl);
 		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
 		startUpgrade(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));

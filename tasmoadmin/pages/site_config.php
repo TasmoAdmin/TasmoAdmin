@@ -23,9 +23,6 @@ if (isset($_POST) && !empty($_POST)) {
 		if (!isset($settings["ota_server_ssl"])) {
 			$settings["ota_server_ssl"] = "0";
 		}
-		if (!isset($settings["use_gzip_package"])) {
-			$settings["use_gzip_package"] = "0";
-		}
         if (!isset($settings["force_upgrade"])) {
             $settings["force_upgrade"] = "0";
         }
@@ -277,20 +274,6 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         </option>
                     </select>
                 </div>
-				<div class="form-group col col-12 col-sm-3">
-					<label>&nbsp;</label>
-					<div class="form-check custom-control custom-checkbox mb-5">
-						<input class="form-check-input custom-control-input"
-							   type="checkbox"
-							   value="1"
-							   id="use_gzip_package"
-							   name='use_gzip_package' <?php echo $config["use_gzip_package"] == "1"
-							? "checked=\"checked\"" : ""; ?>>
-						<label class="form-check-label custom-control-label" for="use_gzip_package" style='top:3px;'>
-							<?php echo __("CONFIG_GZIP_PACKAGE", "USER_CONFIG"); ?>
-						</label>
-					</div>
-				</div>
                 <div class="form-group col col-12 col-sm-3">
                     <label>&nbsp;</label>
                     <div class="form-check custom-control custom-checkbox mb-5">

@@ -17,9 +17,6 @@ $minimal_firmware_path = "";
 $new_firmware_path     = "";
 $targetVersion     = "";
 
-$use_gzip_package  = isset($_REQUEST["use_gzip_package"]) ? $_REQUEST["use_gzip_package"] : "0";
-$Config->write("use_gzip_package", $use_gzip_package);
-
 FirmwareFolderHelper::clean($firmwarefolder);
 
 if (isset($_REQUEST["upload"])) {
@@ -57,16 +54,12 @@ if (isset($_REQUEST["upload"])) {
 				throw new RuntimeException(
 					__("UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", ["maxsize" => "502kb"])
 				);
-			}		
-			if ($_FILES['minimal_firmware']["type"] == "application/gzip"
-			 || $_FILES['minimal_firmware']["type"] == "application/x-gzip") {
-					$ext = "bin.gz";
-					$useGZIP = 1;
 			}
-			elseif ($_FILES['minimal_firmware']["type"] == "application/octet-stream"
-					 || $_FILES['minimal_firmware']["type"] == "application/macbinary") {
+			if (in_array($_FILES['minimal_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
+					$ext = "bin.gz";
+			}
+			elseif (in_array($_FILES['minimal_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
 					$ext = "bin";
-					$useGZIP = 0;
 			}
 			else {
 				throw new RuntimeException(
@@ -127,15 +120,11 @@ if (isset($_REQUEST["upload"])) {
 		if ($_FILES['new_firmware']['size'] > 1000000) {
 			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
 		}
-		if ($_FILES['new_firmware']["type"] == "application/gzip"
-		 || $_FILES['new_firmware']["type"] == "application/x-gzip") {
+        if (in_array($_FILES['new_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
 				$ext = "bin.gz";
-				$useGZIP = 1;
 		}
-		elseif ($_FILES['new_firmware']["type"] == "application/octet-stream"
-				 || $_FILES['new_firmware']["type"] == "application/macbinary") {
+        elseif (in_array($_FILES['new_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
 				$ext = "bin";
-				$useGZIP = 0;
 		}
 		else {
 			throw new RuntimeException(
@@ -173,13 +162,6 @@ elseif (isset($_REQUEST["auto"])) {
         $Config->read("auto_update_channel")
     );
 
-	$useGZIP  = $Config->read("use_gzip_package");
-	if ($useGZIP === "1") {
-		$ext = "bin.gz";
-	} else {
-		$ext = "bin";
-	}
-
 	//File to save the contents to
 	if (!empty($_REQUEST["update_automatic_lang"])) {
 		$Config->write("update_automatic_lang", $_REQUEST["update_automatic_lang"]);
@@ -192,16 +174,9 @@ elseif (isset($_REQUEST["auto"])) {
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
 
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
-            $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
             $targetVersion = $result->getTagName();
-            if (!$useGZIP) {
-                $new_firmware_path = GzipHelper::unzip($new_firmware_path);
-                $minimal_firmware_path = GzipHelper::unzip($minimal_firmware_path);
-            }
-
-			$withGzip = $useGZIP ? "true" : "false";
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | Gzip: " . $withGzip . " | " . __(
+			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
 				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt()->format('Y-m-d');
