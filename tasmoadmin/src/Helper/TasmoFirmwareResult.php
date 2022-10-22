@@ -10,14 +10,14 @@ class TasmoFirmwareResult
 
     private DateTime $publishDate;
 
-    private array $firmares;
+    private array $firmwares;
 
 
-    public function __construct(string $version, DateTime $publishDate, array $firmares)
+    public function __construct(string $version, DateTime $publishDate, array $firmwares)
     {
         $this->version = $version;
         $this->publishDate = $publishDate;
-        $this->firmares = $firmares;
+        $this->firmwares = $firmwares;
     }
 
     public function getVersion(): string
@@ -30,8 +30,8 @@ class TasmoFirmwareResult
         return $this->publishDate;
     }
 
-    public function getFirmares(): array
+    public function getFirmwares(): array
     {
-        return $this->firmares;
+        return $this->firmwares;
     }
 }

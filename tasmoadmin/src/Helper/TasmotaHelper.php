@@ -69,7 +69,7 @@ class TasmotaHelper
     {
         $firmwareResult = $this->getLatestRelease();
         $tasmotaReleases = [];
-        foreach ($firmwareResult->getFirmares() as $asset) {
+        foreach ($firmwareResult->getFirmwares() as $asset) {
             if (strpos($asset->getName(), "-minimal.bin") !== false) {
                 continue;
             }
@@ -88,7 +88,7 @@ class TasmotaHelper
     {
         $firmwareResult = $this->getLatestRelease();
 
-        foreach ($firmwareResult->getFirmares() as $asset) {
+        foreach ($firmwareResult->getFirmwares() as $asset) {
             if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin.gz") {
                 $fwUrl = $asset->getUrl();
                 break;
