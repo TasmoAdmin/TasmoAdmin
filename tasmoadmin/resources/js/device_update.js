@@ -75,18 +75,18 @@ async function checkOtaUrlAccessible(otaUrl) {
 	}
 }
 
-function setOtaUrl(deviceId, otaUrl) {
+async function setOtaUrl(deviceId, otaUrl) {
 	try {
-		doAjax(deviceId, `OtaUrl ${otaUrl}`);
+		await doAjax(deviceId, `OtaUrl ${otaUrl}`);
 	} catch (e) {
 		console.error(e)
 		throw e;
 	}
 }
 
-function startUpgrade(deviceId) {
+async function startUpgrade(deviceId) {
 	try {
-		doAjax(deviceId, 'Upgrade 1');
+		await doAjax(deviceId, 'Upgrade 1');
 	} catch (e) {
 		console.error(e)
 		throw e;
@@ -180,16 +180,16 @@ async function updateDevice(deviceId) {
 		if (otaMinimalUrl) {
 			log(deviceId, 'Doing minimal');
 			log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaMinimalUrl);
-			setOtaUrl(deviceId, otaMinimalUrl);
+			await setOtaUrl(deviceId, otaMinimalUrl);
 			log(deviceId, $.i18n('BLOCK_UPDATE_START'));
-			startUpgrade(deviceId);
+			await startUpgrade(deviceId);
 			await checkStatus(deviceId);
 		}
 
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
-		setOtaUrl(deviceId, otaUrl);
+		await setOtaUrl(deviceId, otaUrl);
 		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
-		startUpgrade(deviceId);
+		await startUpgrade(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 		await sleep(defaultSleepDuration);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
