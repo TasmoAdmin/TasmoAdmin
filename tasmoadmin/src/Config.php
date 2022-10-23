@@ -128,10 +128,37 @@ class Config
         }
 
         //remove trash from config
+        $config = $this->cleanConfig();
+
+        if (file_exists(_APPROOT_ . ".version")) {
+            $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
+        } elseif (!empty(getenv("BUILD_VERSION"))
+            && ($config["current_git_tag"] != getenv(
+                    "BUILD_VERSION"
+                ))) {
+            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
+        }
+
+
+        $this->setCacheConfig($config);
+    }
+
+    private function cleanConfig(): array
+    {
         $config = $this->readAll(true, true);
 
+        $modified = false;
         if (!empty($config["page"])) {
             unset($config["page"]);
+            $modified = true;
+        }
+
+        if (!empty($config["use_gzip_package"])) {
+            unset($config["use_gzip_package"]);
+            $modified = true;
+        }
+
+        if ($modified) {
             $configJSON = json_encode($config, JSON_PRETTY_PRINT);
 
             if ($this->debug) {
@@ -161,16 +188,7 @@ class Config
             file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
         }
 
-        if (file_exists(_APPROOT_ . ".version")) {
-            $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
-        } elseif (!empty(getenv("BUILD_VERSION"))
-            && ($config["current_git_tag"] != getenv(
-                "BUILD_VERSION"
-            ))) {
-            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
-        }
-
-        $this->setCacheConfig($config);
+        return $config;
     }
 
     private function getCacheConfig($key = null)
