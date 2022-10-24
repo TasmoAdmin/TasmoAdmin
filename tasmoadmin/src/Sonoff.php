@@ -724,31 +724,36 @@ class Sonoff
 
     private function processResult(string $result): ?stdClass
     {
-        $result = json_decode($result);
+        $data = json_decode($result);
         if (json_last_error() === JSON_ERROR_CTRL_CHAR) {  // https://github.com/TasmoAdmin/TasmoAdmin/issues/78
             $result = preg_replace('/[[:cntrl:]]/', '', $result);
-            $result = json_decode($result);
-        } elseif (json_last_error() !== JSON_ERROR_NONE && $result !== null) {
-            $result = json_decode($this->fixJsonFormatv5100($result));
-        } elseif (json_last_error() !== JSON_ERROR_NONE && $result !== null) {
-            $result = json_decode($this->fixJsonFormatv8500($result));
-        } elseif (json_last_error() !== JSON_ERROR_NONE) {
-            $result = new stdClass();
-            $result->ERROR = __("JSON_ERROR", "API")
+            $data = json_decode($result);
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $data = json_decode($this->fixJsonFormatv5100($result));
+        }
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $data = json_decode($this->fixJsonFormatv8500($result));
+        }
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            $data = new stdClass();
+            $data->ERROR = __("JSON_ERROR", "API")
                 . " => "
                 . json_last_error()
                 . ": "
                 . json_last_error_msg();
-            $result->ERROR .= "<br/><strong>"
+            $data->ERROR .= "<br/><strong>"
                 . __("JSON_ERROR_CONTACT_DEV", "API", [$result])
                 . "</strong>";
-            $result->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, true);
+            $data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, true);
         }
 
-        if (isset($result) && empty($result->ERROR)) {
-            $result = $this->compatibility($result);
+        if (isset($data) && empty($result->ERROR)) {
+            $data = $this->compatibility($data);
         }
 
-        return $this->stateTextsDetection($result);
+        return $this->stateTextsDetection($data);
     }
 }
