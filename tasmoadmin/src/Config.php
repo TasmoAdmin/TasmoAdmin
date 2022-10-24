@@ -134,8 +134,8 @@ class Config
             $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
         } elseif (!empty(getenv("BUILD_VERSION"))
             && ($config["current_git_tag"] != getenv(
-                    "BUILD_VERSION"
-                ))) {
+                "BUILD_VERSION"
+            ))) {
             $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
         }
 
