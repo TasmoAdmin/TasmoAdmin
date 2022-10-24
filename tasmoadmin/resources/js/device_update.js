@@ -178,7 +178,7 @@ async function updateDevice(deviceId) {
 		}
 
 		if (otaMinimalUrl) {
-			log(deviceId, 'Doing minimal');
+			log(deviceId, $.i18n('BLOCK_UPDATE_MINIMAL'));
 			log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaMinimalUrl);
 			await setOtaUrl(deviceId, otaMinimalUrl);
 			log(deviceId, $.i18n('BLOCK_UPDATE_START'));
