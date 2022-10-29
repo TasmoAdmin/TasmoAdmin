@@ -15,6 +15,8 @@ $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
 $releases = $tasmotaHelper->getReleases();
 
+$fwAsset = $Config->read("update_automatic_lang")
+
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 col-md-8 col-xl-6'>
@@ -112,13 +114,13 @@ $releases = $tasmotaHelper->getReleases();
 					</label>
 					
 					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
-						<?php if ($Config->read("update_automatic_lang") == ""): ?>
+						<?php if ($fwAsset === ""): ?>
 							<option><?php echo __("PLEASE_SELECT"); ?></option>
 						<?php endif; ?>
 						
 						<?php foreach ($releases as $tr): ?>
 							<option value='<?php echo $tr; ?>'
-								<?php echo $Config->read("update_automatic_lang") == $tr ? "selected=\selected\"" : ""; ?>
+								<?php echo $fwAsset === $tr ? "selected=\selected\"" : ""; ?>
 							>
 								<?php echo $tr; ?>
 							</option>
