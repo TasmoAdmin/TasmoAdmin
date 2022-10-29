@@ -22,7 +22,7 @@ class Config
             "password"              => "",
             "refreshtime"           => "8",
             "current_git_tag"       => "",
-            "update_automatic_lang" => "tasmota-sensors.bin",
+            "update_automatic_lang" => "tasmota-sensors",
             "nightmode"             => "auto",
             "login"                 => "1",
             "scan_from_ip"          => "192.168.178.2",

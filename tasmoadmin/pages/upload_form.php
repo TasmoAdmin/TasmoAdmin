@@ -15,7 +15,7 @@ $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
 $releases = $tasmotaHelper->getReleases();
 
-$fwAsset = $Config->read("update_automatic_lang")
+$fwAsset = $Config->read("update_automatic_lang");
 
 ?>
 <div class='row justify-content-sm-center'>
