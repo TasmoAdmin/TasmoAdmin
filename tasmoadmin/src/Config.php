@@ -10,6 +10,8 @@ class Config
 
     private string $dataDir;
 
+    private string $appRoot;
+
     private string $cfgFile;
 
     private Filesystem $filesystem;
@@ -39,9 +41,10 @@ class Config
             "force_upgrade"  => "0",
         ];
 
-    public function __construct(?string $dataDir = null)
+    public function __construct(?string $dataDir = null, ?string $appRoot = null)
     {
         $this->dataDir = $dataDir ?: _DATADIR_;
+        $this->appRoot = $appRoot ?: _APPROOT_;
         $this->cfgFile = $this->dataDir . "MyConfig.json";
         $cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
         $this->filesystem = new Filesystem();
@@ -58,7 +61,7 @@ class Config
             $this->defaultConfigs["scan_to_ip"]   = implode(".", $ipBlocks);
         }
 
-        if (file_exists(_APPROOT_ . ".dockerenv")) {
+        if (file_exists($this->appRoot . ".dockerenv")) {
             $this->defaultConfigs["update_channel"] = "docker";
         }
 
@@ -130,8 +133,8 @@ class Config
         //remove trash from config
         $config = $this->cleanConfig();
 
-        if (file_exists(_APPROOT_ . ".version")) {
-            $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
+        if (file_exists($this->appRoot . ".version")) {
+            $this->write("current_git_tag", file_get_contents($this->appRoot . ".version"));
         } elseif (!empty(getenv("BUILD_VERSION"))
             && ($config["current_git_tag"] != getenv(
                 "BUILD_VERSION"
