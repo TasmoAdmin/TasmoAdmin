@@ -6,6 +6,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Config
 {
+    private const NON_CACHED_KEYS = [
+      'password'
+    ];
+
     private bool $debug = false;
 
     private string $dataDir;
@@ -232,12 +236,13 @@ class Config
         unset($_SESSION["MyConfig"]);
     }
 
-    public function read($key, $skipCookie = false)
+    public function read(string $key, bool $skipCookie = false)
     {
         $config = false;
-        if ($key !== "password") { //if pw requested, get from file
+        if (!in_array($key, self::NON_CACHED_KEYS)) {
             $config = $this->getCacheConfig($key);
         }
+
         if (!$config) {
             $this->logDebug("PERFORM READ (" . $key . ")");
             $configJSON = file_get_contents($this->cfgFile);
@@ -256,13 +261,13 @@ class Config
                 $this->setCacheConfig($config);
             }
 
-            $config = isset($config[$key]) ? $config[$key] : null;
+            $config = $config[$key] ?? null;
         }
 
         return $config;
     }
 
-    private function setCacheConfig($config)
+    private function setCacheConfig(array $config): void
     {
         if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] == "1") {
             return;
