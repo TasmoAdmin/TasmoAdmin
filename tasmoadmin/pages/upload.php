@@ -173,6 +173,8 @@ elseif (isset($_REQUEST["auto"])) {
         try {
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
 
+            // We need minimal firmware downloaded for upgrade to work
+            $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
 			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
@@ -278,7 +280,6 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 				  method='post'
 				  action='<?php echo _BASEURL_; ?>device_update'
 			>
-				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
 				<input type='hidden' name='target_version' value='<?php echo $targetVersion; ?>'>
 

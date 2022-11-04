@@ -6,7 +6,6 @@ const Level = {
 	success: 'success',
 }
 
-const otaMinimalUrl = document.getElementById('ota_minimal_firmware_url').value;
 const otaUrl = document.getElementById('ota_new_firmware_url').value;
 const targetVersion = document.getElementById('target_version').value;
 
@@ -175,15 +174,6 @@ async function updateDevice(deviceId) {
 		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
 			return;
-		}
-
-		if (otaMinimalUrl) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_MINIMAL'));
-			log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaMinimalUrl);
-			await setOtaUrl(deviceId, otaMinimalUrl);
-			log(deviceId, $.i18n('BLOCK_UPDATE_START'));
-			await startUpgrade(deviceId);
-			await checkStatus(deviceId);
 		}
 
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
