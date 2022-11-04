@@ -30,7 +30,7 @@ class TasmoFirmwareResult
         return $this->publishDate;
     }
 
-    public function getFirmares(): array
+    public function getFirmwares(): array
     {
         return $this->firmares;
     }

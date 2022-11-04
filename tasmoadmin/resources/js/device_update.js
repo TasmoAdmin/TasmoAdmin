@@ -74,18 +74,18 @@ async function checkOtaUrlAccessible(otaUrl) {
 	}
 }
 
-function setOtaUrl(deviceId) {
+async function setOtaUrl(deviceId, otaUrl) {
 	try {
-		doAjax(deviceId, `OtaUrl ${otaUrl}`);
+		await doAjax(deviceId, `OtaUrl ${otaUrl}`);
 	} catch (e) {
 		console.error(e)
 		throw e;
 	}
 }
 
-function startUpgrade(deviceId) {
+async function startUpgrade(deviceId) {
 	try {
-		doAjax(deviceId, 'Upgrade 1');
+		await doAjax(deviceId, 'Upgrade 1');
 	} catch (e) {
 		console.error(e)
 		throw e;
@@ -171,22 +171,22 @@ async function updateDevice(deviceId) {
 		let response = await checkStatus(deviceId);
 		const beforeVersion = response.StatusFWR.Version;
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-		if (targetVersion && !config.force_upgrade && compareVersion(beforeVersion, targetVersion)) {
+		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
 			return;
 		}
 
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
-		setOtaUrl(deviceId);
+		await setOtaUrl(deviceId, otaUrl);
 		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
-		startUpgrade(deviceId);
+		await startUpgrade(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 		await sleep(defaultSleepDuration);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
 		response = await checkStatus(deviceId);
 		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		if (targetVersion && !compareVersion(targetVersion, response.StatusFWR.Version)) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetMatch, response.StatusFWR.Version), Level.error);
+			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
 			return;
 		}
 		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);

@@ -129,21 +129,6 @@ $fwAsset = $Config->read("update_automatic_lang");
 					
 					</select>
 				</div>
-				<div class="form-group col col-12 col-sm-3">
-					<div class="form-check custom-control custom-checkbox mb-3" style='margin-top: 35px;'>
-						<input class="form-check-input custom-control-input"
-							   type="checkbox"
-							   value="1"
-							   autofocus="autofocus"
-							   id="use_gzip_package"
-							   name='use_gzip_package' <?php echo $Config->read("use_gzip_package") == "1"
-							? "checked=\"checked\"" : ""; ?>>
-						<label class="form-check-label custom-control-label" for="use_gzip_package" style='top:3px;'>
-							<?php echo __("CONFIG_GZIP_PACKAGE", "USER_CONFIG"); ?>
-						</label>
-					</div>
-				</div>
-
 			</div>
 			<div class='form-row'>
 				<div class="col col-12 col-sm-3">

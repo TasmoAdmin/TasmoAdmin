@@ -14,6 +14,8 @@ class Config
 
     private string $dataDir;
 
+    private string $appRoot;
+
     private string $cfgFile;
 
     private Filesystem $filesystem;
@@ -26,7 +28,7 @@ class Config
             "password"              => "",
             "refreshtime"           => "8",
             "current_git_tag"       => "",
-            "update_automatic_lang" => "tasmota-sensors.bin",
+            "update_automatic_lang" => "tasmota-sensors",
             "nightmode"             => "auto",
             "login"                 => "1",
             "scan_from_ip"          => "192.168.178.2",
@@ -37,16 +39,16 @@ class Config
             "update_channel"        => "stable",
             "hide_copyright"        => "1",
             "show_search"           => "1",
-            "use_gzip_package"      => "",
             "update_fe_check"      => "0",
             "update_be_check"      => "1",
             "auto_update_channel"  => "stable",
             "force_upgrade"  => "0",
         ];
 
-    public function __construct(?string $dataDir = null)
+    public function __construct(?string $dataDir = null, ?string $appRoot = null)
     {
         $this->dataDir = $dataDir ?: _DATADIR_;
+        $this->appRoot = $appRoot ?: _APPROOT_;
         $this->cfgFile = $this->dataDir . "MyConfig.json";
         $cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
         $this->filesystem = new Filesystem();
@@ -63,7 +65,7 @@ class Config
             $this->defaultConfigs["scan_to_ip"]   = implode(".", $ipBlocks);
         }
 
-        if (file_exists(_APPROOT_ . ".dockerenv")) {
+        if (file_exists($this->appRoot . ".dockerenv")) {
             $this->defaultConfigs["update_channel"] = "docker";
         }
 
@@ -133,10 +135,37 @@ class Config
         }
 
         //remove trash from config
+        $config = $this->cleanConfig();
+
+        if (file_exists($this->appRoot . ".version")) {
+            $this->write("current_git_tag", file_get_contents($this->appRoot . ".version"));
+        } elseif (!empty(getenv("BUILD_VERSION"))
+            && ($config["current_git_tag"] != getenv(
+                "BUILD_VERSION"
+            ))) {
+            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
+        }
+
+
+        $this->setCacheConfig($config);
+    }
+
+    private function cleanConfig(): array
+    {
         $config = $this->readAll(true, true);
 
+        $modified = false;
         if (!empty($config["page"])) {
             unset($config["page"]);
+            $modified = true;
+        }
+
+        if (!empty($config["use_gzip_package"])) {
+            unset($config["use_gzip_package"]);
+            $modified = true;
+        }
+
+        if ($modified) {
             $configJSON = json_encode($config, JSON_PRETTY_PRINT);
 
             if ($this->debug) {
@@ -166,16 +195,7 @@ class Config
             file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
         }
 
-        if (file_exists(_APPROOT_ . ".version")) {
-            $this->write("current_git_tag", file_get_contents(_APPROOT_ . ".version"));
-        } elseif (!empty(getenv("BUILD_VERSION"))
-            && ($config["current_git_tag"] != getenv(
-                "BUILD_VERSION"
-            ))) {
-            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
-        }
-
-        $this->setCacheConfig($config);
+        return $config;
     }
 
     private function getCacheConfig($key = null)

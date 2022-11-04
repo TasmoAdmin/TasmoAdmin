@@ -5,9 +5,9 @@ use TasmoAdmin\Helper\UrlHelper;
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
-if (!empty($_REQUEST['minimal_firmware_path'])) {
-    $ota_minimal_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
-}
+$ota_new_firmware_url = '';
+$target_version = '';
+
 if (!empty($_REQUEST['new_firmware_path'])) {
     $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']);
 }
@@ -16,6 +16,7 @@ if (!empty($_REQUEST['target_version'])) {
 }
 
 $device_ids = $_REQUEST["device_ids"] ?? FALSE;
+
 ?>
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-8 '>
@@ -42,9 +43,8 @@ $device_ids = $_REQUEST["device_ids"] ?? FALSE;
 
             </div>
 
-        <input type='hidden' id='ota_minimal_firmware_url' value='<?php echo $ota_minimal_firmware_url ?? ""; ?>'>
-        <input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url ?? ""; ?>'>
-        <input type='hidden' id='target_version' value='<?php echo $target_version ?? ""; ?>'>
+        <input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url; ?>'>
+        <input type='hidden' id='target_version' value='<?php echo $target_version; ?>'>
             <script>
                 const device_ids = '<?php echo json_encode($device_ids); ?>';
             </script>
