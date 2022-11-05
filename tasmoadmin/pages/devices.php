@@ -47,8 +47,7 @@ $devices = $Sonoff->getDevices();
 						<table id='device-list'
 							   class='table table-striped table-sm table-hover tablesaw tablesaw-stack '
 							   data-tablesaw-mode="stack"
-							   border='0'
-							   cellspacing='0'
+                               data-tablesaw-sortable
 						>
 							<thead>
 								<tr>
@@ -65,17 +64,17 @@ $devices = $Sonoff->getDevices();
 											</label>
 										</div>
 									</th>
-									<th><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
+									<th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
 									<th class='more'><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
-									<th><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
-									<th><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
+									<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
+									<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
 									<th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
-									<th>
+									<th data-tablesaw-sortable-col>
 										<i class="fas fa-signal no-hover"
 										   title='<?php echo __("TABLE_HEAD_RSSI", "DEVICES"); ?>'
 										></i>
 									</th>
-									<th><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
+									<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
 									<th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
 									<th class='energyPower hidden'><?php echo __(
 											"TABLE_HEAD_ENERGY",
