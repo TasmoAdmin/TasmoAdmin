@@ -45,10 +45,10 @@ class Config
             "force_upgrade"  => "0",
         ];
 
-    public function __construct(?string $dataDir = null, ?string $appRoot = null)
+    public function __construct(string $dataDir, string $appRoot)
     {
-        $this->dataDir = $dataDir ?: _DATADIR_;
-        $this->appRoot = $appRoot ?: _APPROOT_;
+        $this->dataDir = $dataDir;
+        $this->appRoot = $appRoot;
         $this->cfgFile = $this->dataDir . "MyConfig.json";
         $cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
         $this->filesystem = new Filesystem();

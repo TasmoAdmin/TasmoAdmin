@@ -7,6 +7,7 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use TasmoAdmin\DeviceFactory;
+use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
 use PHPUnit\Framework\TestCase;
 
@@ -15,7 +16,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
-        $sonoff = new Sonoff();
+        $sonoff = new Sonoff(new DeviceRepository('', ''));
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1/cm?user=user&password=pass&cmnd=status+0', $url);
     }
@@ -23,7 +24,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlNoCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1']);
-        $sonoff = new Sonoff();
+        $sonoff = new Sonoff(new DeviceRepository('', ''));
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1/cm?cmnd=status+0', $url);
     }
@@ -31,7 +32,7 @@ class SonoffTest extends TestCase
     public function testGetAllStatusValid(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
-        $sonoff = new Sonoff($this->getClient([
+        $sonoff = new Sonoff(new DeviceRepository('', ''), $this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json'))
         ]));
         $result = $sonoff->getAllStatus($device);
@@ -41,7 +42,7 @@ class SonoffTest extends TestCase
     public function testGetAllStatusUnauthorized(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
-        $sonoff = new Sonoff($this->getClient([
+        $sonoff = new Sonoff(new DeviceRepository('', ''), $this->getClient([
             new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
         ]));
         $result = $sonoff->getAllStatus($device);
@@ -50,7 +51,7 @@ class SonoffTest extends TestCase
 
     public function testSearch(): void
     {
-        $sonoff = new Sonoff($this->getClient([
+        $sonoff = new Sonoff(new DeviceRepository('', ''), $this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json')),
             new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
         ]));

@@ -57,6 +57,7 @@ $docker   = FALSE;
 
 require_once _APPROOT_ . 'vendor/autoload.php';
 
+use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
@@ -64,17 +65,15 @@ use TasmoAdmin\Sonoff;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+/** @var Container $container */
+$container = require  _APPROOT_ . 'includes/container.php';
+
 $debug = isset($_SERVER['TASMO_DEBUG']);
 if ($debug) {
     $whoops = new Run;
     $whoops->pushHandler(new PrettyPageHandler);
     $whoops->register();
 }
-
-if( !empty( $_REQUEST[ "clean" ] ) ) {
-    cleanTemps();
-}
-
 
 $filename = _CSVFILE_; //csv file name
 if( !file_exists( $filename ) ) {
@@ -85,9 +84,14 @@ if( file_exists( _APPROOT_.".dockerenv" ) ) {
     $docker = TRUE;
 }
 
-$Config = new Config();
-$Sonoff = new Sonoff();
-$i18n   = new i18n();
+$Config = $container->get(Config::class);
+
+if( !empty( $_REQUEST[ "clean" ] ) ) {
+    cleanTemps($Config);
+}
+
+$Sonoff = $container->get(Sonoff::class);
+$i18n = $container->get(i18n::class);
 
 $lang = $_GET["lang"] ?? NULL;
 if( isset( $lang ) ) {
@@ -159,11 +163,8 @@ function debug( $data ) {
 }
 
 
-function cleanTemps() {
-
-    $Config = new Config();
-
-    if( $Config->read( "login" ) == "1" && ( empty( $_SESSION[ "login" ] ) || $_SESSION[ "login" ] != "1" ) ) {
+function cleanTemps(Config $config) {
+    if( $config->read( "login" ) === "1" && ( empty( $_SESSION[ "login" ] ) || $_SESSION[ "login" ] != "1" ) ) {
         debug( "pls login before you clean" );
         echo "<a href='/'>Back to login</a>";
         die();

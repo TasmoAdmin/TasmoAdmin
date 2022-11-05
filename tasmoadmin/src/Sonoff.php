@@ -14,16 +14,16 @@ class Sonoff
 {
     public const COMMAND_INFO_STATUS_ALL = 'status 0';
 
-    private Client $client;
-
     private DeviceRepository $deviceRepository;
 
-    public function __construct(?Client $client = null)
+    private Client $client;
+
+    public function __construct(DeviceRepository  $deviceRepository, ?Client $client = null)
     {
+        $this->deviceRepository = $deviceRepository;
         $this->client = $client ?? new Client([
             'timeout' => 5,
         ]);
-        $this->deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
     }
 
     public function getAllStatus(Device $device): stdClass
