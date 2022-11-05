@@ -67,7 +67,7 @@ $devices = $Sonoff->getDevices();
 									<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
 									<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
 									<th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
-									<th data-tablesaw-sortable-col>
+									<th data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
 										<i class="fas fa-signal no-hover"
 										   title='<?php echo __("TABLE_HEAD_RSSI", "DEVICES"); ?>'
 										></i>
