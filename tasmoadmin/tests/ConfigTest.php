@@ -18,20 +18,25 @@ class ConfigTest extends TestCase
 
     public function testReadInvalidKey(): void
     {
-        $config = new Config($this->root->url() . '/');
+        $config = $this->getConfig();
         self::assertNull($config->read('random_key'));
     }
 
     public function testReadValidKey(): void
     {
-        $config = new Config($this->root->url() . '/');
+        $config = $this->getConfig();
         self::assertEquals('1', $config->read('hide_copyright'));
     }
 
     public function testWrite(): void
     {
-        $config = new Config($this->root->url() . '/');
+        $config = $this->getConfig();
         $config->write('hide_copyright', '0');
         self::assertEquals('0', $config->read('hide_copyright'));
+    }
+
+    private function getConfig(): Config
+    {
+        return new Config($this->root->url() . '/', $this->root->url() . '/');
     }
 }

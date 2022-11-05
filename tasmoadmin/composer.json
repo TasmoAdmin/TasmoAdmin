@@ -15,7 +15,8 @@
         "symfony/filesystem": "^5.4",
         "composer/semver": "^3.3",
         "filp/whoops": "^2.14",
-        "fabpot/goutte": "^4.0"
+        "fabpot/goutte": "^4.0",
+        "selective/container": "^1"
     },
     "autoload": {
         "psr-4": {
