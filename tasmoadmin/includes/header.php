@@ -129,7 +129,7 @@ $urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
 		<script src="<?php echo $urlHelper->js("languages/uk", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		
 		<script src="<?php echo $urlHelper->js("js.cookie", "node_modules/js-cookie/dist/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("tablesaw.stackonly.jquery", "node_modules/tablesaw/dist/stackonly/"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("tablesaw.jquery", "node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("tablesaw-init", "node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("bootstrap-waitingfor", "node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("jquery.doubleScroll", "node_modules/jqdoublescroll/"); ?>"></script>
