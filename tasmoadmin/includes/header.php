@@ -21,8 +21,7 @@ else {
 }
 
 
-$urlHelper = new UrlHelper($Config, _BASEURL_, _RESOURCESURL_, _RESOURCESDIR_);
-
+$urlHelper = $container->get(UrlHelper::class);
 
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
