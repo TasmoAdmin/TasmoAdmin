@@ -2,6 +2,7 @@
 
 use Selective\Container\Container;
 use TasmoAdmin\Config;
+use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Sonoff;
 
@@ -14,7 +15,8 @@ $container->set(UrlHelper::class, new UrlHelper(
     _RESOURCESURL_,
     _RESOURCESDIR_)
 );
-$container->set(Sonoff::class, new Sonoff());
+$container->set(DeviceRepository::class,  new DeviceRepository(_CSVFILE_, _TMPDIR_));
+$container->set(Sonoff::class, new Sonoff($container->get(DeviceRepository::class)));
 $container->set(i18n::class, new i18n());
 
 return $container;
