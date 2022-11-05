@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__.'/../vendor/autoload.php';
 
+session_start();
+
 const FIXTURE_PATH = __DIR__.'/fixtures/';
 
 function __(string $string, ?string $category = null, array $args = []): string
