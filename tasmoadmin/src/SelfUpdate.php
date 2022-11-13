@@ -80,8 +80,6 @@ class SelfUpdate
             return false;
         }
 
-        return false;
-
         if (empty($firstDir)) {
             $this->log[] = __("ERROR_EMPTY_FIRST_DIR", "SELFUPDATE");
         } else {
