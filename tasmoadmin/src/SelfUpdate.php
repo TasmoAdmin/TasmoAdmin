@@ -75,8 +75,7 @@ class SelfUpdate
             [$file, $temp]
         );
 
-        if (!$this->preInstallChecks($temp))
-        {
+        if (!$this->preInstallChecks($temp)) {
             return false;
         }
 
@@ -94,7 +93,7 @@ class SelfUpdate
                         echo 'Error deleting temp directory!<br />';
                         $this->log[] = __("ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE");
                     }
-                } else if ($this->copyDirectoryContents($firstDir, $path)) {
+                } elseif ($this->copyDirectoryContents($firstDir, $path)) {
                     $this->log[] = __("CONTENT_COPY_DONE", "SELFUPDATE");
 
                     if ($this->removeDirectory($firstDir)) {
