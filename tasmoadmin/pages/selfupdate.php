@@ -16,7 +16,7 @@ $updateChecker = new UpdateChecker(
 );
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
-    $selfUpdate = new SelfUpdate($Config);
+    $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
     $updateResult = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
     $msg  = implode("<br/>", $updateResult);
 }
