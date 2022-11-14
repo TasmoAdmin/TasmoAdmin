@@ -38,6 +38,7 @@ class UpdateChecker
         }
 
         $release = $this->doRequest($action);
+
         if (is_array($release) && isset($release["ERROR"])) {
             $result["error"] = true;
             $result["msg"]   = $release["ERROR"];

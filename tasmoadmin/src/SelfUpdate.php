@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin;
 
+use GuzzleHttp\Client;
+use Throwable;
 use ZipArchive;
 
 class SelfUpdate
@@ -10,10 +12,12 @@ class SelfUpdate
     private string $zipfile;
     private array $log = [];
     private Config $config;
+    private Client $client;
 
-    public function __construct(Config $config)
+    public function __construct(Config $config, Client $client)
     {
         $this->config = $config;
+        $this->client = $client;
         $this->currentTag = $this->config->read("current_git_tag");
         $this->zipfile = _DATADIR_ . "updates/tasmoadmin.zip";
         if (file_exists($this->zipfile)) {
@@ -39,68 +43,41 @@ class SelfUpdate
         return $this->log;
     }
 
-    private function saveZip(string $url)
+    private function saveZip(string $url): bool
     {
         ini_set("max_execution_time", "240");
         set_time_limit("240");
-        $file = fopen($this->zipfile, 'w');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        // set cURL options
-        curl_setopt($ch, CURLOPT_FAILONERROR, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt(
-            $ch,
-            CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-        );
-        // set file handler option
-        curl_setopt($ch, CURLOPT_FILE, $file);
-        // execute cURL
-        curl_exec($ch);
-        // close cURL
-        // close file
-        if (curl_error($ch)) {
-            $result = [
-                "ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . curl_errno($ch) . ": " . curl_error(
-                    $ch
-                ),
-            ];
-
-            return false;
-        }
-        curl_close($ch);
-
-        fclose($file);
+        $this->client->get($url, ['sink' => $this->zipfile]);
         ini_set("max_execution_time", 30);
 
         return filesize($this->zipfile) > 0;
     }
 
-    private function install()
+    private function install(): bool
     {
         $file = $this->zipfile;        // full path to zip file needing extracted
         $temp = _TMPDIR_;        // full path to temp dir to process extractions
         $path = _APPROOT_;       // full path to final destination to put the files (not the folder)
 
-        $firstDir = null;       // holds the name of the first directory
-
         $zip = new ZipArchive();
         $res = $zip->open($file);
-        if ($res === true) {
-            $firstDir = $zip->getNameIndex(0);
-            $zip->extractTo($temp);
-            $zip->close();
-            $this->log[] = __(
-                "SUCCESS_FILE_EXTRACTED_TO",
-                "SELFUPDATE",
-                [$file, $temp]
-            );
-        } else {
+        if (!$res) {
             $this->log[] = __("ERROR_FILE_EXTRACTED_TO", "SELFUPDATE", [$file, $temp]);
+            return false;
         }
 
+        $firstDir = $zip->getNameIndex(0); // holds the name of the first directory
+        $zip->extractTo($temp);
+        $zip->close();
+        $this->log[] = __(
+            "SUCCESS_FILE_EXTRACTED_TO",
+            "SELFUPDATE",
+            [$file, $temp]
+        );
+
+        if (!$this->preInstallChecks($temp)) {
+            return false;
+        }
 
         if (empty($firstDir)) {
             $this->log[] = __("ERROR_EMPTY_FIRST_DIR", "SELFUPDATE");
@@ -108,7 +85,7 @@ class SelfUpdate
             $firstDir = realpath($temp . '/' . $firstDir);
             $this->log[] = __("FIRST_DIRECTORY", "SELFUPDATE", [$firstDir]);
             if (is_dir($firstDir)) {
-                if ($this->config->read("update_channel") == "dev") {
+                if ($this->config->read("update_channel") === "dev") {
                     $this->log[] = __("CONTENT_COPY_SKIP_DEV", "SELFUPDATE");
                     if ($this->removeDirectory($firstDir)) {
                         $this->log[] = __("TEMP_DIR_DELETED", "SELFUPDATE");
@@ -116,21 +93,19 @@ class SelfUpdate
                         echo 'Error deleting temp directory!<br />';
                         $this->log[] = __("ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE");
                     }
-                } else {
-                    if ($this->copyDirectoryContents($firstDir, $path)) {
-                        $this->log[] = __("CONTENT_COPY_DONE", "SELFUPDATE");
+                } elseif ($this->copyDirectoryContents($firstDir, $path)) {
+                    $this->log[] = __("CONTENT_COPY_DONE", "SELFUPDATE");
 
-                        if ($this->removeDirectory($firstDir)) {
-                            $this->log[] = __("TEMP_DIR_DELETED", "SELFUPDATE");
-                            $this->log[] = "<br/><strong>" . __("COPY_DONE", "SELFUPDATE") . "</strong>";
-                        } else {
-                            echo 'Error deleting temp directory!<br />';
-                            $this->log[] = __("ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE");
-                        }
+                    if ($this->removeDirectory($firstDir)) {
+                        $this->log[] = __("TEMP_DIR_DELETED", "SELFUPDATE");
+                        $this->log[] = "<br/><strong>" . __("COPY_DONE", "SELFUPDATE") . "</strong>";
                     } else {
-                        echo 'Error copying directory contents!<br />';
-                        $this->log[] = __("ERROR_COULD_NOT_COPY_UPDATE", "SELFUPDATE");
+                        echo 'Error deleting temp directory!<br />';
+                        $this->log[] = __("ERROR_COULD_NOT_DELETE_TEMP_DIR", "SELFUPDATE");
                     }
+                } else {
+                    echo 'Error copying directory contents!<br />';
+                    $this->log[] = __("ERROR_COULD_NOT_COPY_UPDATE", "SELFUPDATE");
                 }
             } else {
                 $this->log[] = __("ERROR_EMPTY_FIRST_DIR", "SELFUPDATE");
@@ -140,7 +115,7 @@ class SelfUpdate
         return true;
     }
 
-    private function removeDirectory($directory, $options = [])
+    private function removeDirectory($directory, $options = []): bool
     {
         if (!isset($options['traverseSymlinks'])) {
             $options['traverseSymlinks'] = false;
@@ -161,13 +136,13 @@ class SelfUpdate
         return rmdir($directory);
     }
 
-    private function copyDirectoryContents($source, $destination, $create = true)
+    private function copyDirectoryContents($source, $destination): bool
     {
         if (!is_dir($source)) {
             return false;
         }
 
-        if (!is_dir($destination) && $create === true) {
+        if (!is_dir($destination)) {
             mkdir($destination);
         }
 
@@ -185,5 +160,38 @@ class SelfUpdate
         }
 
         return false;
+    }
+
+    /**
+     * Run some pre-install checks by looking for a file n the next
+     * version that performs some sanity checks.
+     *
+     * @param string $tempDir
+     * @return bool
+     */
+    private function preInstallChecks(string $tempDir): bool
+    {
+        try {
+            $preInstallCheckFile = $tempDir . '/tasmoadmin/includes/preinstallchecks.php';
+            if (!file_exists($preInstallCheckFile)) {
+                return true;
+            }
+
+            $check = require $preInstallCheckFile;
+
+            $result = $check->run();
+
+            if (!$result->isValid()) {
+                foreach ($result->getErrors() as $error) {
+                    $this->log[] = $error;
+                }
+            }
+
+            return $result->isValid();
+        } catch (Throwable $e) {
+            $this->log[] = 'Failed to perform pre-install checks';
+            $this->log[] = $e->getMessage();
+            return true;
+        }
     }
 }
