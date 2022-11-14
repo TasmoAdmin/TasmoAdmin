@@ -95,7 +95,7 @@ $changelog = $tasmoAdminHelper->getChangelog();
 				
 				</div>
 			</div>
-			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable", "docker"])): ?>
+			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>

@@ -28,14 +28,10 @@ class UpdateChecker
         $action = $this->action();
 
         $result = [
-            "update" => true,
-            "latest_tag" => "v2.2.0-beta.2",
-            "release_url" => "https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v2.2.0-beta.2/tasmoadmin_v2.2.0-beta.2.zip",
+            "update" => false,
             "error"  => false,
             "msg"    => "",
         ];
-
-        return $result;
 
         if (!$action) {
             return $result;
