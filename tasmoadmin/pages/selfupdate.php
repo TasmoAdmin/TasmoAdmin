@@ -17,8 +17,9 @@ $updateChecker = new UpdateChecker(
 
 if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
     $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
-    $updateResult = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
-    $msg  = implode("<br/>", $updateResult);
+    $result = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
+    $msg  = implode("<br/>", $result['logs']);
+    $msgClass = $result['success'] ? 'success' :'danger';
 }
 
 $newUpdate = $updateChecker->checkForUpdate();
@@ -38,8 +39,8 @@ $changelog = $tasmoAdminHelper->getChangelog();
 			<?php endif; ?>
 		</h2>
 
-		<?php if (isset($msg) && $msg != ""): ?>
-			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+		<?php if (!empty($msg)): ?>
+			<div class="alert alert-<?php echo $msgClass; ?> alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
@@ -94,7 +95,7 @@ $changelog = $tasmoAdminHelper->getChangelog();
 				
 				</div>
 			</div>
-			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
+			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable", "docker"])): ?>
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>
