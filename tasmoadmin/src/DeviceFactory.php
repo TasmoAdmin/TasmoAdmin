@@ -6,7 +6,7 @@ class DeviceFactory
 {
     public static function fakeDevice(string $ip, string $username, string $password): Device
     {
-        return new Device(null, [], $ip, $username, $password, Device::DEFAULT_IMAGE, 1, 1, 0, 0, []);
+        return new Device(null, [], $ip, $username, $password, Device::DEFAULT_IMAGE, '1', 1, 0, 0, []);
     }
 
     public static function fromRequest(array $request): Device
@@ -40,7 +40,7 @@ class DeviceFactory
         $username = $array[3] ?? false;
         $password = $array[4] ?? false;
         $img = $array[5] ?? Device::DEFAULT_IMAGE;
-        $position = isset($array[6]) && $array[6] != "" ? $array[6] : "";
+        $position = $array[6] ?? "";
         $device_all_off = $array[7] ?? 1;
         $device_protect_on = $array[8] ?? 0;
         $device_protect_off = $array[9] ?? 0;
