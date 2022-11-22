@@ -25,9 +25,7 @@ class UpdateCheckerTest extends TestCase
             new Response(200, [], TestUtils::loadFixture('latest.json'))
         ));
         $result = $updateChecker->checkForUpdate();
-        self::assertTrue($result['update']);
-        self::assertEquals('v1.8.0', $result['latest_tag']);
-        self::assertEquals('https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1.8.0/tasmoadmin_v1.8.0.zip', $result['release_url']);
+        $this->assertValid($result);
     }
 
     public function testCheckForUpdateStableNoUpdate(): void
@@ -45,7 +43,7 @@ class UpdateCheckerTest extends TestCase
             new Response(200, [], TestUtils::loadFixture('latest.json'))
         ));
         $result = $updateChecker->checkForUpdate();
-        self::assertTrue($result['update']);
+        $this->assertValid($result);
     }
 
     public function testCheckForUpdateEmptyCurrentTag(): void
@@ -54,7 +52,14 @@ class UpdateCheckerTest extends TestCase
             new Response(200, [], TestUtils::loadFixture('latest.json'))
         ));
         $result = $updateChecker->checkForUpdate();
+        $this->assertValid($result);
+    }
+
+    private function assertValid(array $result): void
+    {
         self::assertTrue($result['update']);
+        self::assertEquals('v1.8.0', $result['latest_tag']);
+        self::assertEquals('https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1.8.0/tasmoadmin_v1.8.0.zip', $result['release_url']);
     }
 
     private function getClient(?Response $response = null): Client
