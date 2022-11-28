@@ -43,10 +43,10 @@ class DeviceRepository
     public function addDevices(array $devices, string $deviceUsername, string $devicePassword): void
     {
         $handle = fopen($this->file, "a");
+        $nextId = $this->getNextId();
         foreach ($devices as $device) {
-            $fp = file($this->file);
             $deviceHolder = [];
-            $deviceHolder[0] = count($fp) + 1;
+            $deviceHolder[0] = $nextId++;
             $deviceHolder[1] = implode("|", $device["device_name"] ?? []);
             $deviceHolder[2] = $device["device_ip"] ?? "";
             $deviceHolder[3] = $deviceUsername;
@@ -194,5 +194,15 @@ class DeviceRepository
     private function createDeviceObject(array $deviceLine): ?Device
     {
         return DeviceFactory::fromArray($deviceLine);
+    }
+
+    private function getNextId(): int
+    {
+        $id = 0;
+        foreach ($this->getDevices() as $device) {
+            $id = max($id, $device->id);
+        }
+
+        return $id + 1;
     }
 }

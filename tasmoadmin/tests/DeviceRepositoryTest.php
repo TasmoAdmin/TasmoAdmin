@@ -33,6 +33,40 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['socket-1'], $device->names);
     }
 
+    public function testAddDeviceId(): void
+    {
+        $repo = $this->getVirtualRepo();
+
+        $repo->addDevice([
+            'device_name' => ['socket-1'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 1,
+        ]);
+        $repo->addDevice([
+            'device_name' => ['socket-2'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 2,
+        ]);
+        self::assertCount(2, $repo->getDevices());
+        $repo->removeDevice(1);
+        self::assertCount(1, $repo->getDevices());
+        $repo->addDevice([
+            'device_name' => ['socket-3'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 2,
+        ]);
+        $device1 = $repo->getDevices()[0];
+        self::assertEquals(['socket-2'], $device1->names);
+        self::assertEquals(2, $device1->id);
+        $device2 = $repo->getDevices()[1];
+        self::assertEquals(['socket-3'], $device2->names);
+        self::assertEquals(3, $device2->id);
+    }
+
+
     public function testAddDevicesEmptyDevices(): void
     {
         $repo = $this->getVirtualRepo();
