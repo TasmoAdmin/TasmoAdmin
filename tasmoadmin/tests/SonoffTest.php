@@ -101,7 +101,7 @@ class SonoffTest extends TestCase
     }
 
 
-    public function testGetDevicesOverlapPosition(): void
+    public function testGetDevicesOverlapPositionBasic(): void
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
@@ -118,6 +118,28 @@ class SonoffTest extends TestCase
         self::assertEquals(['socket-2'], $devices[2]->names);
         self::assertEquals(3, $devices[3]->position);
         self::assertEquals(['socket-3'], $devices[3]->names);
+    }
+
+    public function testGetDevicesOverlapPositionComplex(): void
+    {
+        $mockRepository = $this->createMock(DeviceRepository::class);
+        $mockRepository->method('getDevices')->willReturn([
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
+            new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+        ]);
+
+        $sonoff = new Sonoff($mockRepository);
+        $devices = $sonoff->getDevices();
+        self::assertEquals(1, $devices[1]->position);
+        self::assertEquals(['socket-2'], $devices[1]->names);
+        self::assertEquals(2, $devices[2]->position);
+        self::assertEquals(['socket-1'], $devices[2]->names);
+        self::assertEquals(3, $devices[3]->position);
+        self::assertEquals(['socket-3'], $devices[3]->names);
+        self::assertEquals(4, $devices[4]->position);
+        self::assertEquals(['socket-4'], $devices[4]->names);
     }
 
     private function getClient(array $responses = []): Client
