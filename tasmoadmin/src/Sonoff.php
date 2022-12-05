@@ -602,33 +602,28 @@ class Sonoff
     }
 
     /**
-     * @param string $orderBy
      * @return Device[]
      */
-    public function getDevices(string $orderBy = "position"): array
+    public function getDevices(): array
     {
-        $devices = $this->deviceRepository->getDevices();
+        $repositoryDevices = $this->deviceRepository->getDevices();
 
-        if ($orderBy === "position") {
-            $devicesTmp = [];
-            $update = false;
-            foreach ($devices as $device) {
-                if ($device->position === "") {
-                    $device->position = 1;
-                    $update = true;
-                }
-                while (isset($devicesTmp[$device->position])) {
-                    $device->position++;
-                }
-                if ($update) {
-                    $this->deviceRepository->setDeviceValue($device->id, "position", $device->position);
-                }
-                $devicesTmp[$device->position] = $device;
+        $devices = [];
+        $update = false;
+        foreach ($repositoryDevices as $device) {
+            if ($device->position === "") {
+                $device->position = 1;
+                $update = true;
             }
-            ksort($devicesTmp);
-            $devices = $devicesTmp;
-            unset($devicesTmp);
+            while (isset($devices[$device->position])) {
+                $device->position++;
+            }
+            if ($update) {
+                $this->deviceRepository->setDeviceValue($device->id, "position", $device->position);
+            }
+            $devices[$device->position] = $device;
         }
+        ksort($devices);
 
         return $devices;
     }

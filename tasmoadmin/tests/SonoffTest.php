@@ -6,6 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use TasmoAdmin\Config;
+use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
@@ -64,6 +66,80 @@ class SonoffTest extends TestCase
 
         $result = $sonoff->search($devices);
         self::assertCount(1, $result);
+    }
+
+    public function testGetDevicesBasic(): void
+    {
+        $mockRepository = $this->createMock(DeviceRepository::class);
+        $mockRepository->method('getDevices')->willReturn([
+            new Device(3, ['socket-3'], '192.168.1.3', 'user', 'pass', 'img', 3, 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.2', 'user', 'pass', 'img', 2, 0, 0, 0, []),
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+        ]);
+
+        $sonoff = new Sonoff($mockRepository);
+        $devices = $sonoff->getDevices();
+        self::assertEquals(1, $devices[1]->position);
+        self::assertEquals(2, $devices[2]->position);
+        self::assertEquals(3, $devices[3]->position);
+    }
+
+    public function testGetDevicesMissingPosition(): void
+    {
+        $mockRepository = $this->createMock(DeviceRepository::class);
+        $mockRepository->method('getDevices')->willReturn([
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', '', 0, 0, 0, []),
+        ]);
+
+        $sonoff = new Sonoff($mockRepository);
+        $devices = $sonoff->getDevices();
+        self::assertEquals(1, $devices[1]->position);
+        self::assertEquals(['socket-1'], $devices[1]->names);
+        self::assertEquals(2, $devices[2]->position);
+        self::assertEquals(['socket-2'], $devices[2]->names);
+    }
+
+
+    public function testGetDevicesOverlapPositionBasic(): void
+    {
+        $mockRepository = $this->createMock(DeviceRepository::class);
+        $mockRepository->method('getDevices')->willReturn([
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+        ]);
+
+        $sonoff = new Sonoff($mockRepository);
+        $devices = $sonoff->getDevices();
+        self::assertEquals(1, $devices[1]->position);
+        self::assertEquals(['socket-1'], $devices[1]->names);
+        self::assertEquals(2, $devices[2]->position);
+        self::assertEquals(['socket-2'], $devices[2]->names);
+        self::assertEquals(3, $devices[3]->position);
+        self::assertEquals(['socket-3'], $devices[3]->names);
+    }
+
+    public function testGetDevicesOverlapPositionComplex(): void
+    {
+        $mockRepository = $this->createMock(DeviceRepository::class);
+        $mockRepository->method('getDevices')->willReturn([
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
+            new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+        ]);
+
+        $sonoff = new Sonoff($mockRepository);
+        $devices = $sonoff->getDevices();
+        self::assertEquals(1, $devices[1]->position);
+        self::assertEquals(['socket-2'], $devices[1]->names);
+        self::assertEquals(2, $devices[2]->position);
+        self::assertEquals(['socket-1'], $devices[2]->names);
+        self::assertEquals(3, $devices[3]->position);
+        self::assertEquals(['socket-3'], $devices[3]->names);
+        self::assertEquals(4, $devices[4]->position);
+        self::assertEquals(['socket-4'], $devices[4]->names);
     }
 
     private function getClient(array $responses = []): Client
