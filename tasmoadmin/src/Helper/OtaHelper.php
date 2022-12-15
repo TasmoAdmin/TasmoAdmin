@@ -6,7 +6,7 @@ use TasmoAdmin\Config;
 
 class OtaHelper
 {
-    private const FIRMWARE_PATH = 'data/firmwares/';
+    private const FIRMWARE_PATH = 'tasmota/';
 
     private Config $config;
     private string $baseUrl;
