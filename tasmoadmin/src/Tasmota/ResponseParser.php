@@ -1,6 +1,7 @@
 <?php
 
 namespace TasmoAdmin\Tasmota;
+
 use stdClass;
 
 class ResponseParser
