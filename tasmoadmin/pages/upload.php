@@ -326,8 +326,7 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 							<table id='device-list'
 								   class='table table-striped table-sm table-hover tablesaw tablesaw-stack'
 								   data-tablesaw-mode="stack"
-								   border='0'
-								   cellspacing='0'
+                                   data-tablesaw-sortable
 							>
 								<thead>
 									<tr>
@@ -344,16 +343,16 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 												</label>
 											</div>
 										</th>
-										<th><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
-										<th><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
-										<th><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
+										<th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
+										<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
+										<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
 										<th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
-										<th>
+										<th data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
 											<i class="fas fa-signal"
 											   title='<?php echo __("TABLE_HEAD_RSSI", "DEVICES"); ?>'
 											></i>
 										</th>
-										<th><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
+										<th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
 										<th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
 										<th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
 										<th class='humidity hidden'><?php echo __(
@@ -800,7 +799,7 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 
         });
 	</script>
-	
+
 	<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
 <?php endif; ?>
 
