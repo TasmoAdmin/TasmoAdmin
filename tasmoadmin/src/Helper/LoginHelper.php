@@ -28,11 +28,7 @@ class LoginHelper
             return true;
         }
 
-        if (!password_verify($password, $storedPassword)) {
-            return false;
-        }
-
-        return true;
+        return password_verify($password, $storedPassword);
     }
 
     public function register(string $username, string $password): void
