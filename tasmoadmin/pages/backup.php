@@ -13,3 +13,16 @@
         </h2>
     </div>
 </div>
+
+<div class='row justify-content-center'>
+    <div class='col'>
+        <div class='table-responsive double-scroll'>
+            <?php
+            $deviceLinks = true;
+            $deviceLinkActionText = __("BACKUP", "DEVICE_UPDATE");
+            include "elements/devices_table.php";
+            ?>
+        </div>
+    </div>
+</div>
+<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
