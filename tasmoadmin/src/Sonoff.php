@@ -69,13 +69,34 @@ class Sonoff
 
     public function buildCmndUrl(Device $device, string $cmnd): string
     {
-        $start = "?";
+        return $this->buildUrl($device, 'cm', ['cmnd' => $cmnd]);
+    }
+
+    public function backup(Device $device, string $downloadPath): string
+    {
+        $url = $this->buildUrl($device, 'dl');
+
+        $this->client->get($url, ['sink' => $downloadPath]);
+
+        return $downloadPath;
+    }
+
+    private function buildUrl(Device $device, string $endpoint, array $args = []): string
+    {
+        $queryParams = [];
+
         if (!empty($device->password)) {
-            $start = "?user=" . urlencode($device->username) . "&password=" . urlencode($device->password) . "&";
+            $queryParams['user'] = $device->username;
+            $queryParams['password'] = $device->password;
         }
 
-        return "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
+        $queryParams += $args;
+        $queryString = '?' . http_build_query($queryParams);
+
+        return sprintf('http://%s/%s%s', $device->ip, $endpoint, $queryString);
+
     }
+
 
     private function setWebLog(Device $device, int $level = 2, int $try = 1): stdClass
     {

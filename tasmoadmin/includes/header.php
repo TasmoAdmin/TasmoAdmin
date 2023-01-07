@@ -189,6 +189,7 @@ $urlHelper = $container->get(UrlHelper::class);
 										"device_config",
 										"device_action",
 										"devices_autoscan",
+                                        "backup"
 									]
 								) ? "active" : ""; ?>"
 								   href="#"
@@ -217,6 +218,11 @@ $urlHelper = $container->get(UrlHelper::class);
 									>
 										<?php echo __("UPDATE", "NAVI"); ?>
 									</a>
+
+                                    <a class="dropdown-item nav-link <?php echo $page == "backup" ? "active" : ""; ?>"
+                                       href="<?php echo _BASEURL_; ?>backup"
+                                    ><?php echo __("DEVICES_BACKUP", "NAVI"); ?>
+                                    </a>
 									
 									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active"
 										: ""; ?>"
