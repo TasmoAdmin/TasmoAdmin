@@ -94,7 +94,6 @@ class Sonoff
         $queryString = '?' . http_build_query($queryParams);
 
         return sprintf('http://%s/%s%s', $device->ip, $endpoint, $queryString);
-
     }
 
 

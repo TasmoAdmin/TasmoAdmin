@@ -123,309 +123,308 @@ $devices = $Sonoff->getDevices();
 							<tbody>
 								<?php
 								$odd = TRUE;
-								if (isset($devices) && !empty($devices)):
-									foreach ($devices as $device_group):
-										foreach ($device_group->names as $key => $devicename): ?>
-											<?php
-											$device_group->keywords[] = strtolower($devicename);
-											?>
-											<tr class='<?php echo $odd ? "odd" : "even"; ?>'
-												data-device_id='<?php echo $device_group->id; ?>'
-												data-device_group='<?php echo count($device_group->names) > 1
-													? "multi" : "single"; ?>'
-												data-device_ip='<?php echo $device_group->ip; ?>'
-												data-device_relais='<?php echo $key + 1; ?>'
-												data-device_all_off='<?php echo $device_group->deviceAllOff; ?>'
-												data-device_protect_on='<?php echo $device_group->deviceProtectionOn; ?>'
-												data-device_protect_off='<?php echo $device_group->deviceProtectionOff; ?>'
-												data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
-											>
-												<td class='cmd_cb d-none'>
-													<?php if ($key == 0): ?>
-														<div class="form-check custom-control custom-checkbox">
-															<input class="form-check-input custom-control-input device_checkbox"
-																   type="checkbox"
-																   value='<?php echo $device_group->id; ?>'
-																   id="cb_<?php echo $device_group->id; ?>"
-																   name='device_ids[]'
-															>
-															<label class="form-check-label custom-control-label"
-																   for="cb_<?php echo $device_group->id; ?>"
-															>
-																<?php echo __("CB_COMMAND", "DEVICES"); ?>
-															</label>
-														</div>
-													<?php endif; ?>
-												</td>
-												<td class='dblcEdit'
-													data-target='csv'
-													data-field='position'
-												>
-													<?php echo $device_group->position; ?>
-												</td>
-												<td class='more static'><?php echo $device_group->id; ?></td>
-												<td class='device_name'>
-													<a href='http://<?php echo $device_group->ip; ?>/'
-													   target='_blank'
-													   title='<?php echo __(
-														   "LINK_OPEN_DEVICE_WEBUI",
-														   "DEVICES"
-													   ); ?>'
-													><?php echo str_replace(
-															" ",
-															"&nbsp;",
-															$devicename
-														); ?></a>
-												</td>
-												<td><?php echo $device_group->ip; ?></td>
-												<td class='status'>
-													<label class="form-switch">
-														<input type="checkbox">
-														<i></i>
-													</label>
-												
-												</td>
-												<td class='rssi'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='version'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='runtime'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='energyPower hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='temp hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='humidity hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='pressure hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='seapressure hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='distance hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='gas hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='more hostname dblcEdit' data-cmnd='Hostname'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more mac'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more mqtt dblcEdit' data-cmnd='SetOption3'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more idx hidden'>
-													<span>
-														-
-													</span>
-												</td>
-												<td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more ledstate dblcEdit' data-cmnd='LedState'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more savedata dblcEdit' data-cmnd='SaveData'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more sleep dblcEdit' data-cmnd='Sleep'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more bootcount'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more savecount'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more log'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												<td class='more vcc'>
-													<span>
-														<div class='loader'>
-															<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-																 alt='<?php echo __("TEXT_LOADING"); ?>'
-																 title='<?php echo __("TEXT_LOADING"); ?>'
-															>
-														</div>
-													</span>
-												</td>
-												
-												
-												<td class='col actions col-12 text-right'>
-													<a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
-														<i class="fas fa-cogs fa-lg"
-														   title='<?php echo __(
-															   "LINK_DEVICE_CONFIG",
-															   "DEVICES"
-														   ); ?>'
-														></i></a>
-													<a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
-														<i class="fas fa-edit fa-lg"
-														   title='<?php echo __(
-															   "LINK_DEVICE_EDIT",
-															   "DEVICES"
-														   ); ?>'
-														></i></a>
-													<a class="delete"
-													   data-toggle="modal"
-													   data-target="#deleteDeviceModal"
-													   data-dialog-text='<?php echo __(
-														   "DELETE_DEVICE_CONFIRM_TEXT",
-														   "DEVICES",
-														   [
-															   $devicename,
-															   $device_group->ip,
-														   ]
-													   ); ?>'
-													   href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
-													>
-														<i class="fas fa-trash fa-lg"
-														   title='<?php echo __(
-															   "LINK_DEVICE_DELETE",
-															   "DEVICES"
-														   ); ?>'
-														></i></a>
-													<a href='#' class='restart-device'>
-														<i class="fas fa-sync fa-lg"
-														   title='<?php echo __(
-															   "LINK_DEVICE_RESTART",
-															   "DEVICES"
-														   ); ?>'
-														></i></a>
-												</td>
-											
-											</tr>
-											<?php
-											$odd = !$odd;
-										endforeach;
-									endforeach;
-								endif; ?>
+                                foreach ($devices as $device_group):
+                                    foreach ($device_group->names as $key => $devicename): ?>
+                                        <?php
+                                        $device_group->keywords[] = strtolower($devicename);
+                                        ?>
+                                        <tr class='<?php echo $odd ? "odd" : "even"; ?>'
+                                            data-device_id='<?php echo $device_group->id; ?>'
+                                            data-device_group='<?php echo count($device_group->names) > 1
+                                                ? "multi" : "single"; ?>'
+                                            data-device_ip='<?php echo $device_group->ip; ?>'
+                                            data-device_relais='<?php echo $key + 1; ?>'
+                                            data-device_all_off='<?php echo $device_group->deviceAllOff; ?>'
+                                            data-device_protect_on='<?php echo $device_group->deviceProtectionOn; ?>'
+                                            data-device_protect_off='<?php echo $device_group->deviceProtectionOff; ?>'
+                                            data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
+                                        >
+                                            <td class='cmd_cb d-none'>
+                                                <?php if ($key == 0): ?>
+                                                    <div class="form-check custom-control custom-checkbox">
+                                                        <input class="form-check-input custom-control-input device_checkbox"
+                                                               type="checkbox"
+                                                               value='<?php echo $device_group->id; ?>'
+                                                               id="cb_<?php echo $device_group->id; ?>"
+                                                               name='device_ids[]'
+                                                        >
+                                                        <label class="form-check-label custom-control-label"
+                                                               for="cb_<?php echo $device_group->id; ?>"
+                                                        >
+                                                            <?php echo __("CB_COMMAND", "DEVICES"); ?>
+                                                        </label>
+                                                    </div>
+                                                <?php endif; ?>
+                                            </td>
+                                            <td class='dblcEdit'
+                                                data-target='csv'
+                                                data-field='position'
+                                            >
+                                                <?php echo $device_group->position; ?>
+                                            </td>
+                                            <td class='more static'><?php echo $device_group->id; ?></td>
+                                            <td class='device_name'>
+                                                <a href='http://<?php echo $device_group->ip; ?>/'
+                                                   target='_blank'
+                                                   title='<?php echo __(
+                                                       "LINK_OPEN_DEVICE_WEBUI",
+                                                       "DEVICES"
+                                                   ); ?>'
+                                                ><?php echo str_replace(
+                                                        " ",
+                                                        "&nbsp;",
+                                                        $devicename
+                                                    ); ?></a>
+                                            </td>
+                                            <td><?php echo $device_group->ip; ?></td>
+                                            <td class='status'>
+                                                <label class="form-switch">
+                                                    <input type="checkbox">
+                                                    <i></i>
+                                                </label>
+
+                                            </td>
+                                            <td class='rssi'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='version'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='runtime'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='energyPower hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='temp hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='humidity hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='pressure hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='seapressure hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='distance hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='gas hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='more hostname dblcEdit' data-cmnd='Hostname'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more mac'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more mqtt dblcEdit' data-cmnd='SetOption3'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more idx hidden'>
+                                                <span>
+                                                    -
+                                                </span>
+                                            </td>
+                                            <td class='more poweronstate dblcEdit' data-cmnd='PowerOnState'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more ledstate dblcEdit' data-cmnd='LedState'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more savedata dblcEdit' data-cmnd='SaveData'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more sleep dblcEdit' data-cmnd='Sleep'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more bootcount'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more savecount'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more log'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more wificonfig dblcEdit' data-cmnd='WifiConfig'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+                                            <td class='more vcc'>
+                                                <span>
+                                                    <div class='loader'>
+                                                        <img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
+                                                             alt='<?php echo __("TEXT_LOADING"); ?>'
+                                                             title='<?php echo __("TEXT_LOADING"); ?>'
+                                                        >
+                                                    </div>
+                                                </span>
+                                            </td>
+
+
+                                            <td class='col actions col-12 text-right'>
+                                                <a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
+                                                    <i class="fas fa-cogs fa-lg"
+                                                       title='<?php echo __(
+                                                           "LINK_DEVICE_CONFIG",
+                                                           "DEVICES"
+                                                       ); ?>'
+                                                    ></i></a>
+                                                <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
+                                                    <i class="fas fa-edit fa-lg"
+                                                       title='<?php echo __(
+                                                           "LINK_DEVICE_EDIT",
+                                                           "DEVICES"
+                                                       ); ?>'
+                                                    ></i></a>
+                                                <a class="delete"
+                                                   data-toggle="modal"
+                                                   data-target="#deleteDeviceModal"
+                                                   data-dialog-text='<?php echo __(
+                                                       "DELETE_DEVICE_CONFIRM_TEXT",
+                                                       "DEVICES",
+                                                       [
+                                                           $devicename,
+                                                           $device_group->ip,
+                                                       ]
+                                                   ); ?>'
+                                                   href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
+                                                >
+                                                    <i class="fas fa-trash fa-lg"
+                                                       title='<?php echo __(
+                                                           "LINK_DEVICE_DELETE",
+                                                           "DEVICES"
+                                                       ); ?>'
+                                                    ></i></a>
+                                                <a href='#' class='restart-device'>
+                                                    <i class="fas fa-sync fa-lg"
+                                                       title='<?php echo __(
+                                                           "LINK_DEVICE_RESTART",
+                                                           "DEVICES"
+                                                       ); ?>'
+                                                    ></i></a>
+                                            </td>
+
+                                        </tr>
+                                        <?php
+                                        $odd = !$odd;
+                                    endforeach;
+                                endforeach;
+                                    ?>
 							</tbody>
 							<tfoot>
 								<tr class='bottom'>
