@@ -69,12 +69,46 @@ class Sonoff
 
     public function buildCmndUrl(Device $device, string $cmnd): string
     {
-        $start = "?";
-        if (!empty($device->password)) {
-            $start = "?user=" . urlencode($device->username) . "&password=" . urlencode($device->password) . "&";
+        return $this->buildUrl($device, 'cm', ['cmnd' => $cmnd]);
+    }
+
+    public function backup(Device $device, string $downloadPath): string
+    {
+        $url = $this->buildBasicAuthUrl($device, 'dl');
+        $downloadFilePath = $downloadPath . $device->id . '.dmp';
+        if (file_exists($downloadFilePath)) {
+            unlink($downloadFilePath);
         }
 
-        return "http://" . $device->ip . "/cm" . $start . "cmnd=" . urlencode($cmnd);
+        $this->client->get($url, ['sink' => $downloadFilePath]);
+        return $downloadFilePath;
+    }
+
+    private function buildUrl(Device $device, string $endpoint, array $args = []): string
+    {
+        $queryParams = [];
+
+        if (!empty($device->password)) {
+            $queryParams['user'] = $device->username;
+            $queryParams['password'] = $device->password;
+        }
+
+        $queryParams += $args;
+        $queryString = '?' . http_build_query($queryParams);
+
+        return sprintf('http://%s/%s%s', $device->ip, $endpoint, $queryString);
+    }
+
+    private function buildBasicAuthUrl(Device $device, string $endpoint, array $args = []): string
+    {
+        $basicAuth = '';
+        if (!empty($device->password)) {
+            $basicAuth = rawurlencode($device->username).':'.rawurlencode($device->password)."@";
+        }
+
+        $queryString = '?' . http_build_query($args);
+
+        return sprintf('http://%s%s/%s%s', $basicAuth, $device->ip, $endpoint, $queryString);
     }
 
     private function setWebLog(Device $device, int $level = 2, int $try = 1): stdClass
