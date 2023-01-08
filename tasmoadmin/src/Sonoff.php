@@ -75,7 +75,7 @@ class Sonoff
     public function backup(Device $device, string $downloadPath): string
     {
         $url = $this->buildBasicAuthUrl($device, 'dl');
-        $downloadFilePath = $downloadPath . $device->id . '.dmp';
+        $downloadFilePath = $downloadPath . sprintf('%s-%s.dmp', $device->id, implode('-', $device->names));
         if (file_exists($downloadFilePath)) {
             unlink($downloadFilePath);
         }
