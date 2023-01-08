@@ -24,7 +24,7 @@ class BackupHelper
         $this->filesystem = new Filesystem();
     }
 
-    public function backup(array $deviceIds)
+    public function backup(array $deviceIds): string
     {
         $this->createCleanBackupDir();
         $files = [];
@@ -49,9 +49,8 @@ class BackupHelper
 
         $zip = new ZipArchive();
         $zip->open($zipFilePath, ZipArchive::CREATE);
-
         foreach ($files as $file) {
-            $zip->addFile($file);
+            $zip->addFile($file, basename($file));
         }
 
         $zip->close();
