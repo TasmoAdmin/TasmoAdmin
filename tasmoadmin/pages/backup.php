@@ -1,20 +1,19 @@
 <?php
 
-use TasmoAdmin\Helper\BackupHelper;
+use TasmoAdmin\Backup\BackupHelper;
 
 $devices = $Sonoff->getDevices();
 if (isset($_POST['device_ids'])) {
     $backupHelper = $container->get(BackupHelper::class);
-    $backupFile = $backupHelper->backup($_POST['device_ids']);
+    $backupResults = $backupHelper->backup($_POST['device_ids']);
 
-    $zip = new ZipArchive();
-    $zip->open($backupFile);
+
     header('Content-type: application/zip');
     header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
-    header('Content-Length: '.filesize($backupFile));
+    header('Content-Length: '.filesize($backupResults->getZipPath()));
     ob_clean();
     flush();
-    readfile($backupFile);
+    readfile($backupResults->getZipPath());
 }
 
  ?>

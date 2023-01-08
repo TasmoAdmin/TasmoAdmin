@@ -3,7 +3,7 @@
 use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\DeviceRepository;
-use TasmoAdmin\Helper\BackupHelper;
+use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Sonoff;
 
