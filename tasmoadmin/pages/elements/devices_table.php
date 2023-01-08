@@ -388,6 +388,10 @@
         </th>
         <th><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
+        <th class='energyPower hidden'><?php echo __(
+                "TABLE_HEAD_ENERGY",
+                "DEVICES"
+            ); ?></th>
         <th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
         <th class='humidity hidden'><?php echo __(
                 "TABLE_HEAD_HUMIDITY",
@@ -409,7 +413,7 @@
         <th class='more'><?php echo __("LOGSTATES", "DEVICES"); ?></th>
         <th class='more'><?php echo __("WIFICONFIG", "DEVICES"); ?></th>
         <th class='more'><?php echo __("VCC", "DEVICES"); ?></th>
-        <th class='link'>
+        <th class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>
                 <i class="fas fa-plus add"
                    title='<?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>'
