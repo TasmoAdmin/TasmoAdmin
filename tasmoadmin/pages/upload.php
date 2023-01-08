@@ -268,7 +268,7 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 		</div>
 	<?php endif; ?>
 	<div class='row'>
-		<div class='col col-12  '>
+		<div class='col col-12'>
 			<div class='mb-3 text-center '>
 				<h3>
 					<?php echo __("CHOOSE_DEVICES_TO_UPDATE", "DEVICE_UPDATE"); ?>

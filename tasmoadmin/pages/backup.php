@@ -21,6 +21,11 @@ if (isset($_POST['device_ids'])) {
 
 <div class='row justify-content-center'>
     <div class='col'>
+        <div class='mb-3 text-center '>
+            <h3>
+                <?php echo __("CHOOSE_DEVICES_TO_BACKUP", "BACKUP"); ?>
+            </h3>
+        </div>
         <form name='backup'
               class=''
               id='backup'
@@ -30,7 +35,7 @@ if (isset($_POST['device_ids'])) {
         <div class='form-row mb-3'>
             <div class='offset-1 col-auto col col-auto'>
                 <button type='submit' class='btn btn-success' name='submit' value='submit'>
-                    <?php echo __("BTN_START_BACKUP", "DEVICE_UPDATE"); ?>
+                    <?php echo __("BTN_START_BACKUP", "BACKUP"); ?>
                 </button>
             </div>
             <div class='col col-auto'>
@@ -67,7 +72,7 @@ if (isset($_POST['device_ids'])) {
         <div class='table-responsive double-scroll'>
             <?php
             $deviceLinks = true;
-            $deviceLinkActionText = __("BACKUP", "DEVICE_UPDATE");
+            $deviceLinkActionText = __("BACKUP", "BACKUP");
             include "elements/devices_table.php";
             ?>
         </div>
