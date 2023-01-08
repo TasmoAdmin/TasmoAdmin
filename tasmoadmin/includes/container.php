@@ -3,6 +3,7 @@
 use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\BackupHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Sonoff;
 
@@ -18,5 +19,10 @@ $container->set(UrlHelper::class, new UrlHelper(
 $container->set(DeviceRepository::class,  new DeviceRepository(_CSVFILE_, _TMPDIR_));
 $container->set(Sonoff::class, new Sonoff($container->get(DeviceRepository::class)));
 $container->set(i18n::class, new i18n());
+$container->set(BackupHelper::class, new BackupHelper(
+    $container->get(DeviceRepository::class),
+    $container->get(Sonoff::class),
+    _TMPDIR_ . 'backups/'
+));
 
 return $container;

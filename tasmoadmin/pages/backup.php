@@ -1,12 +1,27 @@
 <?php
 
- $devices = $Sonoff->getDevices();
+use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\BackupHelper;
 
+$devices = $Sonoff->getDevices();
+if (isset($_POST['device_ids'])) {
+    $backupHelper = $container->get(BackupHelper::class);
+    $backupFile = $backupHelper->backup($_POST['device_ids']);
+    header('Content-type: application/zip');
+    header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
+    readfile($backupFile);
+}
 
  ?>
 
 <div class='row justify-content-center'>
     <div class='col'>
+        <form name='backup'
+              class=''
+              id='backup'
+              method='post'
+              action='<?php echo _BASEURL_; ?>backup'
+        >
         <div class='form-row mb-3'>
             <div class='offset-1 col-auto col col-auto'>
                 <button type='submit' class='btn btn-success' name='submit' value='submit'>
@@ -51,6 +66,7 @@
             include "elements/devices_table.php";
             ?>
         </div>
+        </form>
     </div>
 </div>
 <script src="<?php echo $urlHelper->js("devices"); ?>"></script>

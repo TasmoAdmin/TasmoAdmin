@@ -74,11 +74,14 @@ class Sonoff
 
     public function backup(Device $device, string $downloadPath): string
     {
-        $url = $this->buildUrl($device, 'dl');
+        $url = $this->buildBasicAuthUrl($device, 'dl');
+        $downloadFilePath = $downloadPath . $device->id . '.dmp';
+        if (file_exists($downloadFilePath)) {
+            unlink($downloadFilePath);
+        }
 
-        $this->client->get($url, ['sink' => $downloadPath]);
-
-        return $downloadPath;
+        $this->client->get($url, ['sink' => $downloadFilePath]);
+        return $downloadFilePath;
     }
 
     private function buildUrl(Device $device, string $endpoint, array $args = []): string
@@ -96,6 +99,17 @@ class Sonoff
         return sprintf('http://%s/%s%s', $device->ip, $endpoint, $queryString);
     }
 
+    private function buildBasicAuthUrl(Device $device, string $endpoint, array $args = []): string
+    {
+        $basicAuth = '';
+        if (!empty($device->password)) {
+            $basicAuth = rawurlencode($device->username).':'.rawurlencode($device->password)."@";
+        }
+
+        $queryString = '?' . http_build_query($args);
+
+        return sprintf('http://%s%s/%s%s', $basicAuth, $device->ip, $endpoint, $queryString);
+    }
 
     private function setWebLog(Device $device, int $level = 2, int $try = 1): stdClass
     {

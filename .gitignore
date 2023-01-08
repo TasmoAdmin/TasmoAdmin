@@ -2,7 +2,7 @@
 /RELEASE/
 /_release/
 
-
+/tasmoadmin/tmp/backups/*
 /tasmoadmin/tmp/sessions/*
 /tasmoadmin/tmp/cache/i18n/*
 /tasmoadmin/tmp/reloxx13-tasmoadmin-*
