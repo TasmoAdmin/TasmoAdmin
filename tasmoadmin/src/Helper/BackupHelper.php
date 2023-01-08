@@ -2,6 +2,7 @@
 
 namespace TasmoAdmin\Helper;
 
+use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Filesystem\Filesystem;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
@@ -34,7 +35,11 @@ class BackupHelper
                 continue;
             }
 
-            $files[] = $this->sonoff->backup($device, $this->backupPath);
+            try {
+                $files[] = $this->sonoff->backup($device, $this->backupPath);
+            } catch(ConnectException $exception) {
+                // Failed to download
+            }
         }
 
         return $this->createZip($files);
