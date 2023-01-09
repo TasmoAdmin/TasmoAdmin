@@ -165,6 +165,7 @@ if( isset( $_GET ) ) {
         ob_clean();
         flush();
         readfile($backup->getBackupZipPath());
+        die();
     }
 }
 
