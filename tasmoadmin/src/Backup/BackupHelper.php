@@ -4,8 +4,6 @@ namespace TasmoAdmin\Backup;
 
 use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Filesystem\Filesystem;
-use TasmoAdmin\Backup\BackupResult;
-use TasmoAdmin\Backup\BackupResults;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
 use ZipArchive;
@@ -44,16 +42,23 @@ class BackupHelper
                 $results[] = new BackupResult($device, true);
             } catch(ConnectException $exception) {
                 // Failed to download
-                $results[] = new BackupResult($device, true);
+                $results[] = new BackupResult($device, false, $exception->getMessage());
             }
         }
 
-        return new BackupResults($this->createZip($files), $results);
+        $this->createZip($files);
+
+        return new BackupResults($results);
+    }
+
+    public function getBackupZipPath(): string
+    {
+        return $this->backupPath . 'backup.zip';
     }
 
     private function createZip(array $files): string
     {
-        $zipFilePath = $this->backupPath . 'backup.zip';
+        $zipFilePath = $this->getBackupZipPath();
         if (file_exists($zipFilePath)) {
             unlink($zipFilePath);
         }
