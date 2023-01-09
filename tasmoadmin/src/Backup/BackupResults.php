@@ -2,32 +2,20 @@
 
 namespace TasmoAdmin\Backup;
 
+use Generator;
+
 class BackupResults
 {
-    private string $zipPath;
-
     /**
      * @var BackupResult[]
      */
     private array $results;
 
-    public function __construct(string $zipPath, array $results)
+    public function __construct(array $results)
     {
-        $this->zipPath = $zipPath;
         $this->results = $results;
     }
-
-    public function getZipPath(): string
-    {
-        return $this->zipPath;
-    }
-
-    public function getResults(): array
-    {
-        return $this->results;
-    }
-
-    private function hasFailure(): bool
+    public function successful(): bool
     {
         $successful = true;
         foreach ($this->results as $result) {
@@ -38,5 +26,20 @@ class BackupResults
         }
 
         return $successful;
+    }
+
+    /**
+     * @return BackupResult[]
+     */
+    public function getFailures(): array
+    {
+        $failures = [];
+        foreach ($this->results as $result) {
+            if (!$result->isSuccessful()) {
+                $failures[] = $result;
+            }
+        }
+
+        return $failures;
     }
 }

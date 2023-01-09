@@ -43,4 +43,9 @@ class Device
         $this->deviceProtectionOff = $deviceProtectionOff;
         $this->keywords = $keywords;
     }
+
+    public function getName(): string
+    {
+        return implode('-', $this->names);
+    }
 }

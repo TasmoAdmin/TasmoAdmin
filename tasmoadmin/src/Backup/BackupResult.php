@@ -10,10 +10,13 @@ class BackupResult
 
     private bool $successful;
 
-    public function __construct(Device $device, bool $successful)
+    private string $failureReason;
+
+    public function __construct(Device $device, bool $successful, string $failureReason = '')
     {
         $this->device = $device;
         $this->successful = $successful;
+        $this->failureReason = $failureReason;
     }
 
     public function getDevice(): Device
@@ -24,5 +27,10 @@ class BackupResult
     public function isSuccessful(): bool
     {
         return $this->successful;
+    }
+
+    public function getFailureReason(): string
+    {
+        return $this->failureReason;
     }
 }

@@ -58,6 +58,7 @@ $docker   = FALSE;
 require_once _APPROOT_ . 'vendor/autoload.php';
 
 use Selective\Container\Container;
+use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
@@ -153,6 +154,17 @@ if( isset( $_GET ) ) {
         header( 'Content-Type: application/json' );
         echo json_encode( $data );
         die();
+    }
+
+    if (isset($_GET['downloadBackup'])) {
+        $backup = $container->get(BackupHelper::class);
+
+        header('Content-type: application/zip');
+        header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
+        header('Content-Length: '.filesize($backup->getBackupZipPath()));
+        ob_clean();
+        flush();
+        readfile($backup->getBackupZipPath());
     }
 }
 

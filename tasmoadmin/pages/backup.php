@@ -6,17 +6,28 @@ $devices = $Sonoff->getDevices();
 if (isset($_POST['device_ids'])) {
     $backupHelper = $container->get(BackupHelper::class);
     $backupResults = $backupHelper->backup($_POST['device_ids']);
-
-
-    header('Content-type: application/zip');
-    header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
-    header('Content-Length: '.filesize($backupResults->getZipPath()));
-    ob_clean();
-    flush();
-    readfile($backupResults->getZipPath());
+    $backupAction = $backupResults->successful() ? 'success' : 'danger';
 }
+?>
 
- ?>
+<?php if (isset($backupResults, $backupAction )): ?>
+<div class='row justify-content-sm-center'>
+    <div class='col col-12 col-md-6 '>
+        <div class="alert alert-<?php echo $backupAction; ?> fade show mb-3" role="alert">
+            <a href="index.php?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
+            </br>
+            <?php if (!$backupResults->successful()): ?>
+                <?php echo __("BACKUP_FAILED", "BACKUP"); ?>
+                <ul>
+                <?php foreach ($backupResults->getFailures() as $failure): ?>
+                    <li><?php echo $failure->getDevice()->getName() . ':' . $failure->getFailureReason(); ?></li>
+                <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 
 <div class='row justify-content-center'>
     <div class='col'>
