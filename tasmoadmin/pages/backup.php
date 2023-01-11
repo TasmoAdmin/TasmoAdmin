@@ -14,16 +14,19 @@ if (isset($_POST['device_ids'])) {
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-6 '>
         <div class="alert alert-<?php echo $backupAction; ?> fade show mb-3" role="alert">
-            <a href="index.php?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
-            </br>
-            <?php if (!$backupResults->successful()): ?>
-                <?php echo __("BACKUP_FAILED", "BACKUP"); ?>
-                <ul>
-                <?php foreach ($backupResults->getFailures() as $failure): ?>
-                    <li><?php echo $failure->getDevice()->getName() . ':' . $failure->getFailureReason(); ?></li>
-                <?php endforeach; ?>
-                </ul>
-            <?php endif; ?>
+            <div class="col col-12">
+                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="index.php?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
+                </br>
+                </br>
+                <?php if (!$backupResults->successful()): ?>
+                    <?php echo __("BACKUP_FAILED", "BACKUP"); ?>
+                    <ul>
+                    <?php foreach ($backupResults->getFailures() as $failure): ?>
+                        <li><?php echo $failure->getDevice()->getName() . ': ' . $failure->getFailureReason(); ?></li>
+                    <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>
