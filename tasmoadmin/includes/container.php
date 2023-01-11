@@ -5,6 +5,7 @@ use TasmoAdmin\Config;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Helper\UrlHelper;
+use TasmoAdmin\Helper\ViewHelper;
 use TasmoAdmin\Sonoff;
 
 $container = new Container();
@@ -24,5 +25,6 @@ $container->set(BackupHelper::class, new BackupHelper(
     $container->get(Sonoff::class),
     _TMPDIR_ . 'backups/'
 ));
+$container->set(ViewHelper::class, new ViewHelper($container->get(Config::class)));
 
 return $container;
