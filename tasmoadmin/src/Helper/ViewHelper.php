@@ -6,7 +6,6 @@ use TasmoAdmin\Config;
 
 class ViewHelper
 {
-
     private Config $config;
     public function __construct(Config $config)
     {
@@ -26,13 +25,10 @@ class ViewHelper
             if ($hour >= 18 || $hour <= 8) {
                 $nightMode = "nightmode";
             }
-        }
-        elseif ($configNightMode === "always") {
+        } elseif ($configNightMode === "always") {
             $nightMode = "nightmode";
         }
 
         return $nightMode;
     }
-
-
 }
