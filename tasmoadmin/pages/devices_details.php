@@ -1,15 +1,13 @@
 <?php
 
-use TasmoAdmin\Helper\UrlHelper;
+use TasmoAdmin\Helper\ViewHelper;
 
 $devices = $Sonoff->getDevices();
 
-	$imgNight = "";
-	if( $nightmode == "nightmode" ) {
-		$imgNight = "night/";
-	}
-
-	//var_dump( $devices );
+$imgNight = "";
+if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" ) {
+    $imgNight = "night/";
+}
 ?>
 <?php if( isset( $devices ) && !empty( $devices ) ): ?>
 
@@ -18,8 +16,6 @@ $devices = $Sonoff->getDevices();
 			<div class="accordion" id="devices-accordion">
 				<?php foreach( $devices as $device_group ):
 					foreach( $device_group->names as $key => $devicename ): ?>
-						<?php //debug( $device_group ); ?>
-						<?php //debug( $devicename ); ?>
 						<div class="card"
 						     data-device_id='<?php echo $device_group->id; ?>'
 						     data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi" : "single"; ?>'

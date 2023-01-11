@@ -1,25 +1,7 @@
 <!doctype html>
 <?php
-//init nightmode css class
 use TasmoAdmin\Helper\UrlHelper;
-
-$nightmode = "";
-$h         = date('H');
-
-if ($Config->read("nightmode") === "disable") {
-	$nightmode = "";
-}
-else {
-	if ($Config->read("nightmode") === "auto") {
-		if ($h >= 18 || $h <= 8) {
-			$nightmode = "nightmode ";
-		}
-	}
-	elseif ($Config->read("nightmode") === "always") {
-		$nightmode = "nightmode ";
-	}
-}
-
+use TasmoAdmin\Helper\ViewHelper;
 
 $urlHelper = $container->get(UrlHelper::class);
 
@@ -148,7 +130,7 @@ $urlHelper = $container->get(UrlHelper::class);
 		<?php endif; ?>
 	
 	</head>
-	<body class='<?php echo $nightmode; ?>'>
+	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
 				<?php //var_dump( $page ); ?>
