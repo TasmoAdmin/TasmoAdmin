@@ -103,7 +103,7 @@ class Sonoff {
         var ip = ip || id;
         $.ajax({
             dataType: "json",
-            url: "index.php?doAjax",
+            url: "?doAjax",
             timeout: this.options.timeout * 1000,
             cache: false,
             type: "post",
@@ -145,7 +145,7 @@ class Sonoff {
         var timeout = timeout || this.options.timeout;
         $.ajax({
             dataType: "json",
-            url: "index.php?doAjaxAll",
+            url: "?doAjaxAll",
             timeout: timeout * 1000,
             cache: false,
             type: "post",
@@ -261,7 +261,7 @@ class Sonoff {
     setDeviceValue(id, field, newvalue, td) {
         $.ajax({
             dataType: "json",
-            url: "index.php?doAjax",
+            url: "?doAjax",
             timeout: this.options.timeout * 1000,
             cache: false,
             type: "post",
