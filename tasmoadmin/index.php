@@ -74,11 +74,10 @@ try {
 </main>
 <?php
     include_once( _INCLUDESDIR_."footer.php" );
-
     $response = new Response(ob_get_clean());
-    $response->send();
-    exit(0);
 } catch (Exception $exception) {
     var_dump($exception);
     $response = new Response('An error occurred', 500);
 }
+
+$response->send();
