@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 
@@ -75,6 +76,8 @@ try {
 <?php
     include_once( _INCLUDESDIR_."footer.php" );
     $response = new Response(ob_get_clean());
+} catch (ResourceNotFoundException $exception) {
+    $response = new Response('Not Found', 404);
 } catch (Exception $exception) {
     var_dump($exception);
     $response = new Response('An error occurred', 500);
