@@ -34,7 +34,7 @@ $loginHelper = new LoginHelper($Config);
 
 if (isset($_POST) && !empty($_POST)) {
 	$home = $Config->read("homepage");
-	if (isset($_REQUEST["register"]) && ($user === "" || $papssword === "")) {
+	if (isset($_REQUEST["register"]) && ($user === "" || $password === "")) {
 		$loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
 		$_SESSION['login'] = "1";
 		header("Location: " . _BASEURL_ . $home);
