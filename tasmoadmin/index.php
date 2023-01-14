@@ -10,12 +10,14 @@ ob_start();
 
 include_once( "./includes/bootstrap.php" );
 
-if( !$loggedin ) {
-    header( "Location: "._BASEURL_."login" );
-}
 
 function getTitle(string $page, ?string $action = null): string
 {
+    if ($page === 'logout') {
+        return '';
+    }
+
+
     switch( $page ) {
         case "device_action":
             $title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
@@ -60,9 +62,16 @@ $matcher = new UrlMatcher($routes, $context);
 try {
     extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
     $page  = $_route;
+
+    if( !$loggedin && $page !== 'login' ) {
+        header( "Location: "._BASEURL_."login" );
+    }
+
     if ($page === 'index') {
         $page = 'start';
     }
+
+
 
     if (!isset($action)) {
         $action = null;

@@ -2,32 +2,15 @@
 
 use TasmoAdmin\Helper\LoginHelper;
 
-ob_start();
-
-include_once("./includes/bootstrap.php");
-
 $register = FALSE;
 $msg      = FALSE;
 $user     = $Config->read("username");
 $password = $Config->read("password");
 $title    = __("LOGIN", "PAGE_TITLES");
 $page     = "login";
-if (isset($_GET["logout"])) {
-	ob_start();
-	
-	session_unset();
-	session_destroy();
-	if (isset($_COOKIE['MyConfig'])) {
-		unset($_COOKIE['MyConfig']);
-		setcookie('MyConfig', '', time() - 3600, '/'); // empty value and old timestamp
-	}
-	
-	header("Location: " . _BASEURL_ . "login");
-	ob_end_flush();
-}
 
 if ($Config->read("login") == 0) {
-	header("Location: " . _BASEURL_ . "");
+	header("Location: " . _BASEURL_);
 }
 
 $loginHelper = new LoginHelper($Config);
@@ -57,8 +40,6 @@ if (empty($user)  || empty($password) ) {
 
 ?>
 
-
-<?php include_once(_INCLUDESDIR_ . "header.php"); //always load header?>
 
 <div class="container-fluid" id='content'>
 	<div id='content-holder'>
@@ -138,7 +119,4 @@ if (empty($user)  || empty($password) ) {
 	</div>
 </div>
 <!--/container-->
-
-
-<?php include_once(_INCLUDESDIR_ . "footer.php"); //always load header?>
 
