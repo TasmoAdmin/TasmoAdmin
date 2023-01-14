@@ -14,14 +14,14 @@ if( !$loggedin ) {
     header( "Location: "._BASEURL_."login" );
 }
 
-function getTitle(string $page): string
+function getTitle(string $page, ?string $action = null): string
 {
     switch( $page ) {
         case "device_action":
             $title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
-            if( isset( $_GET[ "action" ] ) && $_GET[ "action" ] === "add" ) {
+            if( $action === "add" ) {
                 $title = __( "ADD_DEVICE", "PAGE_TITLES" );
-            } elseif( isset( $_GET[ "action" ] ) && $_GET[ "action" ] === "edit" ) {
+            } elseif( $action === "edit" ) {
                 $title = __( "EDIT_DEVICE", "PAGE_TITLES" );
             }
             break;
@@ -58,13 +58,17 @@ $context->fromRequest($request);
 $matcher = new UrlMatcher($routes, $context);
 
 try {
-    $result = $matcher->match($request->getPathInfo());
-    $page  = $result['_route'];
+    extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
+    $page  = $_route;
     if ($page === 'index') {
         $page = 'start';
     }
 
-    $title = getTitle($page);
+    if (!isset($action)) {
+        $action = null;
+    }
+
+    $title = getTitle($page, $action);
     ob_start();
     include_once( _INCLUDESDIR_."header.php" );
     ?>
