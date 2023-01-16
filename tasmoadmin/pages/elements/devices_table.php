@@ -1,3 +1,10 @@
+<?php
+
+$deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
+
+?>
+
+
 <table id='device-list'
        class='table table-striped table-sm table-hover tablesaw tablesaw-stack'
        data-tablesaw-mode="stack"
@@ -6,7 +13,7 @@
     <thead>
     <tr>
         <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
-        <th class='link'>
+        <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
             <div class="form-check custom-control custom-checkbox">
                 <input class="form-check-input custom-control-input select_all"
                        type="checkbox"
@@ -85,7 +92,7 @@
                     data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
                 >
                     <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
-                    <td class='update_cb'>
+                    <td class='cmd_cb <?php echo $deviceLinksHideClass; ?>'>
                         <?php if ($key == 0): ?>
                             <div class="form-check custom-control custom-checkbox">
                                 <input class="form-check-input custom-control-input device_checkbox"
@@ -363,7 +370,7 @@
     <tfoot>
     <tr class='bottom'>
         <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
-        <th class='link'>
+        <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
             <div class="form-check custom-control custom-checkbox">
                 <input class="form-check-input custom-control-input select_all"
                        type="checkbox"

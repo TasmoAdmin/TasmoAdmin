@@ -43,7 +43,9 @@ $devices = $Sonoff->getDevices();
 				<div class='col col-12'>
 					<div class='table-responsive double-scroll'>
                         <?php
-                        $deviceLinks = false;
+                        $deviceLinks = true;
+                        $deviceLinksDefaultHide = true;
+                        $deviceLinkActionText = __("CB_COMMAND", "DEVICES");
                         include "elements/devices_table.php";
                         ?>
 					</div>
