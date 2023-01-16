@@ -2,6 +2,11 @@
 
 $deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
 
+if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
+{
+    $deviceLinkActionText = '';
+}
+
 ?>
 
 
