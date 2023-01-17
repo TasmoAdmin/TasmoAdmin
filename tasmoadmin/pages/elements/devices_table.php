@@ -119,7 +119,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
                     <?php endif; ?>
                     <td><?php echo $device_group->id; ?></td>
                     <td>
-                        <a href='http://<?php echo (!empty($device_group->username) && !empty($device_group->password)) ? $device_group->username . ":" . $device_group->password . "@" : "" ?><?php echo $device_group->ip; ?>/'
+                        <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
                            title='<?php echo __(
                                "LINK_OPEN_DEVICE_WEBUI",
