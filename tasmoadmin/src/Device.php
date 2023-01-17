@@ -48,4 +48,14 @@ class Device
     {
         return implode('-', $this->names);
     }
+
+    public function getUrlWithAuth(): string
+    {
+        $auth = '';
+        if (!empty($this->username) && !empty($this->password)) {
+            $auth = sprintf('%s:%s@', $this->username, $this->password);
+        }
+
+        return sprintf('http://%s%s', $auth, $this->ip);
+    }
 }

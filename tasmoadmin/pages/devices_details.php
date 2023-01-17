@@ -61,7 +61,7 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 									<div class='col col-auto text-left'>
 										<div class='row '>
 											<div class='col col-12'>
-												<a href='http://<?php echo (!empty($device_group->username) && !empty($device_group->password)) ? $device_group->username . ":" . $device_group->password . "@" : "" ?><?php echo $device_group->ip; ?>/'
+												<a href='<?php echo $device_group->getUrlWithAuth(); ?>'
 												   target='_blank'
 												   title='<?php echo __(
 													   "LINK_OPEN_DEVICE_WEBUI",
