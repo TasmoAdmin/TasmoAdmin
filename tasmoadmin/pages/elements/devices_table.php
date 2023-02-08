@@ -33,6 +33,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
         </th>
         <?php endif; ?>
         <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
+        <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
         <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
         <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
@@ -118,6 +119,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
                     </td>
                     <?php endif; ?>
                     <td><?php echo $device_group->id; ?></td>
+                    <td><?php echo $device_group->position; ?></td>
                     <td>
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
@@ -390,6 +392,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
         </th>
         <?php endif; ?>
         <th><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
+        <th><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
