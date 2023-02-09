@@ -1,9 +1,9 @@
 categories:
   - title: '🚀 Added'
     label: 'added'
-  - title: '🐛 Fixed'
+  - title: '🔧 Fixed'
     label: 'fixed'
-  - title: '🔧 Dependencies'
+  - title: '⬆️ Dependencies'
     label: 'dependencies'
 exclude-labels:
   - 'skip-changelog'
