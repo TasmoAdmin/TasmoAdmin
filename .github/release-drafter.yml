@@ -1,0 +1,12 @@
+categories:
+  - title: '🚀 Added'
+    label: 'added'
+  - title: '🔧 Fixed'
+    label: 'fixed'
+  - title: '⬆️ Dependencies'
+    label: 'dependencies'
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  ## Changes
+  $CHANGES
