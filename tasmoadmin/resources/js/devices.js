@@ -583,6 +583,8 @@ function deviceTools()
 
 function updateRow(row, data, device_status)
 {
+	const id = $(row).data("device_id");
+	console.log(`Updating ${id} with ${device_status}`)
 	let device_all_off = $(row).data("device_all_off");
 	let device_protect_on = $(row).data("device_protect_on");
 	let device_protect_off = $(row).data("device_protect_off");
@@ -678,42 +680,33 @@ function updateRow(row, data, device_status)
 	$(row).find(".version span").html(data.StatusFWR.Version);
 
 
-	if ($(row).hasClass("toggled"))
-	{
+	if ($(row).hasClass("toggled")) {
 		$(row).removeClass("toggled");
-	} else
-	{
-		if (device_status === "ON")
-		{
-			$(row).find(".status").find("input").prop("checked", "checked").parent().removeClass("error");
-			if (device_protect_off === 1)
-			{
+	} else {
+		if (device_status === "ON") {
+			$(row).find(".status").find("input").prop("checked", true).parent().removeClass("error");
+			if (device_protect_off === 1) {
 				$(row).find(".status").find("input").prop("disabled", "disabled")
 					  .parent().addClass("disabled");
-			} else
-			{
+			} else {
 				$(row).find(".status").find("input").removeProp("disabled", "disabled")
 					  .parent().removeClass("disabled");
 			}
-		} else if (device_status === "NONE")
-		{
+		} else if (device_status === "NONE") {
 			$(row).find(".status").find("input").prop("disabled", "disabled")
 				  .parent().addClass("disabled");
 
-			$(row).find(".status").find("input").removeProp("checked").parent().removeClass("error");
+			$(row).find(".status").find("input").prop("checked", false).parent().removeClass("error");
 			$(row).find(".status").find("label").addClass("d-none");
-		} else
-		{
-			if (device_protect_on === 1)
-			{
+		} else {
+			if (device_protect_on === 1) {
 				$(row).find(".status").find("input").prop("disabled", "disabled")
 					  .parent().addClass("disabled");
-			} else
-			{
+			} else {
 				$(row).find(".status").find("input").removeProp("disabled", "disabled")
 					  .parent().removeClass("disabled");
 			}
-			$(row).find(".status").find("input").removeProp("checked").parent().removeClass("error");
+			$(row).find(".status").find("input").prop("checked", false).parent().removeClass("error");
 		}
 	}
 	$(row).find(".rssi span").html(rssi + "%").attr(
