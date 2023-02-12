@@ -1,0 +1,10 @@
+[main]
+host = https://www.transifex.com
+
+[o:tasmoadmin:p:tasmoadmin:r:lang]
+file_filter   = tasmoadmin/lang/<lang>/lang.ini
+source_file   = tasmoadmin/lang/en/lang.ini
+type          = PHP_INI
+minimum_perc  = 0
+resource_name = lang.ini
+
