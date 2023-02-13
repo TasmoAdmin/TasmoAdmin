@@ -24,18 +24,17 @@ elseif ($action == "delete") {
 	$msg = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
 	$action = "done";
 }
-if (isset($_POST) && !empty($_POST)) {
-	
+if (!empty($_POST)) {
 	if (isset($_REQUEST["search"])) {
 		if (isset($device_id)) {
 			if (!isset($device)) {
                 $device = DeviceFactory::fakeDevice(
-                        $device_id,
+                        $_REQUEST['device_ip'],
                         $_REQUEST['device_username'],
                         $_REQUEST['device_password']
                 );
 			}
-			$device->ip       = $device_id;
+			$device->ip       = $_REQUEST['device_ip'];
 			$device->username = $_REQUEST['device_username'];
 			$device->password = $_REQUEST['device_password'];
 			
@@ -119,11 +118,11 @@ if (isset($_POST) && !empty($_POST)) {
 							   class="form-control"
 							   id="device_ip"
 							   name='device_ip'
-							   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-							   value='<?php echo(isset($device->id) && !isset($device_id)
-								   ? $device->ip : (isset($device_id) ? $device_id
-									   : "")); ?>'
-							   required
+                               placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                               value='<?php echo(isset($device->id) && !isset($_REQUEST['device_ip'])
+                                   ? $device->ip : (isset($_REQUEST['device_ip']) ? $_REQUEST['device_ip']
+                                       : "")); ?>'
+                               required
 						>
 						<small id="device_ipHelp" class="form-text text-muted">
 							<?php echo __("DEVICE_IP_HELP", "DEVICE_ACTIONS"); ?>

@@ -8,7 +8,7 @@ $routes->add('index', new Route('/'));
 $routes->add('start', new Route('/start'));
 $routes->add('change_language', new Route('/change_language/{new_lang}'));
 $routes->add('devices', new Route('/devices'));
-$routes->add('device_action', new Route('/device_action/{action}/{device_id}'));
+$routes->add('device_action', (new Route('/device_action/{action}/{device_id}'))->addDefaults(['device_id' => '-1']));
 $routes->add('device_config', new Route('/device_config/{device_id}'));
 $routes->add('device_update', new Route('/device_update'));
 $routes->add('upload', new Route('/upload'));
