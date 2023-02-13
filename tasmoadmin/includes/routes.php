@@ -9,6 +9,8 @@ $routes->add('start', new Route('/start'));
 $routes->add('devices', new Route('/devices'));
 $routes->add('device_action', new Route('/device_action/{action}/{device_id}'));
 $routes->add('device_config', new Route('/device_config/{device_id}'));
+$routes->add('device_update', new Route('/device_update'));
+$routes->add('upload', new Route('/upload'));
 $routes->add('upload_form', new Route('/upload_form'));
 $routes->add('backup', new Route('/backup'));
 $routes->add('devices_autoscan', new Route('/devices_autoscan'));
