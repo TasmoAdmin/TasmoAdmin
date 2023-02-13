@@ -94,16 +94,6 @@ if( !empty( $_REQUEST[ "clean" ] ) ) {
 $Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
 
-$lang = $_GET["lang"] ?? NULL;
-if( isset( $lang ) ) {
-    $_SESSION[ 'lang' ] = $lang;
-    header(
-        "Location: ".( empty( $_SERVER[ "HTTP_REFERER" ] ) ? $_SERVER[ "REDIRECT_BASE" ]
-            : $_SERVER[ "HTTP_REFERER" ] )
-    );
-}
-
-
 $i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
 $i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
 $i18n->setFallbackLang( 'en' );

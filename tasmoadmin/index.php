@@ -14,7 +14,7 @@ include_once( "./includes/bootstrap.php" );
 
 function getTitle(string $page, ?string $action = null): string
 {
-    if ($page === 'logout') {
+    if (in_array($page, ['logout', 'change_language'])) {
         return '';
     }
 
