@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
+use Whoops\Handler\PrettyPageHandler;
 
 ob_start();
 
@@ -71,8 +72,6 @@ try {
         $page = 'start';
     }
 
-
-
     if (!isset($action)) {
         $action = null;
     }
@@ -92,8 +91,16 @@ try {
 } catch (ResourceNotFoundException $exception) {
     $response = new Response('Not Found', 404);
 } catch (Exception $exception) {
-    var_dump($exception);
-    $response = new Response('An error occurred', 500);
+    $debug = isset($_SERVER['TASMO_DEBUG']);
+    if ($debug) {
+        $whoops = new Whoops\Run();
+        $whoops->allowQuit(false);
+        $whoops->writeToOutput(false);
+        $whoops->pushHandler(new PrettyPageHandler());
+        $response =new Response($whoops->handleException($exception), 500);
+    } else {
+        $response = new Response(var_dump($exception), 500);
+    }
 }
 
 $response->send();

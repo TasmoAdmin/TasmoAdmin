@@ -71,7 +71,7 @@ $container = require  _APPROOT_ . 'includes/container.php';
 
 $debug = isset($_SERVER['TASMO_DEBUG']);
 if ($debug) {
-    $whoops = new Run;
+    $whoops = new Run();
     $whoops->pushHandler(new PrettyPageHandler);
     $whoops->register();
 }
