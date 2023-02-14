@@ -18,7 +18,6 @@ function getTitle(string $page, ?string $action = null): string
         return '';
     }
 
-
     switch( $page ) {
         case "device_action":
             $title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
@@ -66,6 +65,7 @@ try {
 
     if( !$loggedin && $page !== 'login' ) {
         header( "Location: "._BASEURL_."login" );
+        exit();
     }
 
     if ($page === 'index') {

@@ -1,8 +1,5 @@
 <?php
 
-
-ob_start();
-
 session_unset();
 session_destroy();
 if (isset($_COOKIE['MyConfig'])) {
@@ -11,4 +8,4 @@ if (isset($_COOKIE['MyConfig'])) {
 }
 
 header("Location: " . _BASEURL_ . "login");
-ob_end_flush();
+exit();

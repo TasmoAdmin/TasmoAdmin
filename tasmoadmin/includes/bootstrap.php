@@ -106,7 +106,7 @@ $lang = $i18n->getAppliedLang();
 
 $langHelper = new JsonLanguageHelper(
     $lang,
-    _LANGDIR_."lang_${lang}.ini",
+    _LANGDIR_."lang_{$lang}.ini",
     'en',
     _LANGDIR_."lang_en.ini",
     _TMPDIR_.'cache/i18n/');
