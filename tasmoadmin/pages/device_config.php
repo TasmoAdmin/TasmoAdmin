@@ -4,11 +4,8 @@ $msg            = FALSE;
 $device         = NULL;
 $activeTabIndex = 0;
 
-	if( isset( $_GET[ "device_id" ] ) ) {
-		$device = $Sonoff->getDeviceById( $_GET[ "device_id" ] );
-	} else {
-		$msg = __( "ERROR_NO_DEVICE_SELECTED", "DEVICE_CONFIG" );
-	}
+
+	$device = $Sonoff->getDeviceById( $device_id );
 
 	if( !empty( $_POST[ "save" ] ) ) {
 		$activeTabIndex = $_POST[ "tab-index" ];

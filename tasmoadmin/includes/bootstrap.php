@@ -71,7 +71,7 @@ $container = require  _APPROOT_ . 'includes/container.php';
 
 $debug = isset($_SERVER['TASMO_DEBUG']);
 if ($debug) {
-    $whoops = new Run;
+    $whoops = new Run();
     $whoops->pushHandler(new PrettyPageHandler);
     $whoops->register();
 }
@@ -94,16 +94,6 @@ if( !empty( $_REQUEST[ "clean" ] ) ) {
 $Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
 
-$lang = $_GET["lang"] ?? NULL;
-if( isset( $lang ) ) {
-    $_SESSION[ 'lang' ] = $lang;
-    header(
-        "Location: ".( empty( $_SERVER[ "HTTP_REFERER" ] ) ? $_SERVER[ "REDIRECT_BASE" ]
-            : $_SERVER[ "HTTP_REFERER" ] )
-    );
-}
-
-
 $i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
 $i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
 $i18n->setFallbackLang( 'en' );
@@ -116,7 +106,7 @@ $lang = $i18n->getAppliedLang();
 
 $langHelper = new JsonLanguageHelper(
     $lang,
-    _LANGDIR_."lang_${lang}.ini",
+    _LANGDIR_."lang_{$lang}.ini",
     'en',
     _LANGDIR_."lang_en.ini",
     _TMPDIR_.'cache/i18n/');
