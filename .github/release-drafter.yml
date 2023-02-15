@@ -5,6 +5,8 @@ categories:
     label: 'fixed'
   - title: '⬆️ Dependencies'
     label: 'dependencies'
+  - title: '🧹 Chore'
+    label: 'chore'
 exclude-labels:
   - 'skip-changelog'
 template: |
