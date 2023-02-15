@@ -16,7 +16,9 @@
         "composer/semver": "^3.3",
         "filp/whoops": "^2.14",
         "fabpot/goutte": "^4.0",
-        "selective/container": "^1"
+        "selective/container": "^1",
+        "symfony/routing": "^5.4",
+        "symfony/http-foundation": "^5.4"
     },
     "autoload": {
         "psr-4": {

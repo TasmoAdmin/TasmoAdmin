@@ -3,14 +3,14 @@
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
-$action = $_GET["action"];
 $status = FALSE;
 $device = NULL;
 $msg    = NULL;
 $deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
 
+
 if ($action == "edit") {
-	$device = $Sonoff->getDeviceById($_GET["device_id"]);
+	$device = $Sonoff->getDeviceById($device_id);
 	
 	$status = $Sonoff->getAllStatus($device);
 	if (isset($status->ERROR)) {
@@ -19,15 +19,14 @@ if ($action == "edit") {
 	}
 }
 elseif ($action == "delete") {
-	$device[0] = $_GET["device_id"];
+	$device[0] = $device_id;
 	$deviceRepository->removeDevice($device[0]);
 	$msg = __("MSG_DEVICE_DELETE_DONE", "DEVICE_ACTIONS");
 	$action = "done";
 }
-if (isset($_POST) && !empty($_POST)) {
-	
+if (!empty($_POST)) {
 	if (isset($_REQUEST["search"])) {
-		if (isset($_REQUEST['device_ip'])) {
+		if (isset($device_id)) {
 			if (!isset($device)) {
                 $device = DeviceFactory::fakeDevice(
                         $_REQUEST['device_ip'],
@@ -119,11 +118,11 @@ if (isset($_POST) && !empty($_POST)) {
 							   class="form-control"
 							   id="device_ip"
 							   name='device_ip'
-							   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-							   value='<?php echo(isset($device->id) && !isset($_REQUEST['device_ip'])
-								   ? $device->ip : (isset($_REQUEST['device_ip']) ? $_REQUEST['device_ip']
-									   : "")); ?>'
-							   required
+                               placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                               value='<?php echo(isset($device->id) && !isset($_REQUEST['device_ip'])
+                                   ? $device->ip : (isset($_REQUEST['device_ip']) ? $_REQUEST['device_ip']
+                                       : "")); ?>'
+                               required
 						>
 						<small id="device_ipHelp" class="form-text text-muted">
 							<?php echo __("DEVICE_IP_HELP", "DEVICE_ACTIONS"); ?>

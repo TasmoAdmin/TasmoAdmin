@@ -131,21 +131,10 @@ $(document).ready(function()
 
 	$("select#language-switch").on("change", function (event, ui)
 	{
-
-		var optionSelected = $("option:selected", this);
-		var valueSelected = this.value;
-
-		var curUrl = window.location.toString() + "/" + valueSelected + "/";
+		const valueSelected = this.value;
+		let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.href}`
 		curUrl = curUrl.replace(/([^:]\/)\/+/g, "$1");
 		window.location.href = curUrl;
-
-		// var curUrl = window.location.toString();
-		// curUrl     = curUrl.replace( /[\?\&][a-z]2/g, "" );
-		// console.log( curUrl );
-		//
-		// window.location.href = curUrl + (
-		//     curUrl.indexOf( "?" ) !== -1 ? "&" : "?"
-		// ) + "lang=" + valueSelected;
 	});
 
 
