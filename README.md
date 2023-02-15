@@ -79,10 +79,7 @@ Provided is a docker-compose setup to ease getting started.
 Simply run:
 
 ```bash
-./.docker/docker.sh prepare
-composer install -d tasmoadmin
-npm install --prefix tasmoadmin
-docker-compose up
+make dev
 ```
 
 Then visit http://localhost:8000
