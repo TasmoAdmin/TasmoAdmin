@@ -327,7 +327,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							"PL",
 							"IT",
 							"RU",
-							"TW",
+							"ZH_TW",
 						]; ?>
 						<select name='language-switch' id='language-switch' class='custom-select'>
 							<?php foreach ($tasmoAdminLanguages as $l): ?>
