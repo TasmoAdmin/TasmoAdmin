@@ -44,6 +44,10 @@ class PreInstallChecks
             $result->addError("ERROR: PHP XML is missing.");
         }
 
+        if ( PHP_VERSION_ID < 80000) {
+            $result->addError('ERROR: PHP 8 or higher is required.');
+        }
+
         return $result;
     }
 }

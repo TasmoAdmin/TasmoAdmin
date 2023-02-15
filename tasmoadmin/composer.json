@@ -3,7 +3,7 @@
     "type": "project",
     "license": "GPL3",
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
@@ -24,6 +24,8 @@
         }
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
         "phpunit/phpunit": "^9.3.8",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan": "^1.6",
@@ -36,7 +38,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.4.3"
+            "php": "8.0.28"
         }
     }
 }
