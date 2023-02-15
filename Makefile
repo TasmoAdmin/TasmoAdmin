@@ -30,3 +30,10 @@ package: clean
 	node tasmoadmin/minify.js
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
+
+dev:
+	./.docker/docker.sh prepare
+	composer install -d tasmoadmin
+	cd tasmoadmin; npm ci
+	node tasmoadmin/minify.js
+	docker-compose build --no-cache && docker-compose up
