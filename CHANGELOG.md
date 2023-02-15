@@ -2,13 +2,17 @@
 
 ## UPCOMING
 
+Check [releases](https://github.com/TasmoAdmin/TasmoAdmin/releases) for upto date information.
+
+**Important when upgrading major versions for breaking changes**
+
 ## PUBLISHED
 
 ### v2.1.0
 
 #### Note
 
-With the addition of the tasmota scraping changes the requirement for the `php-dom` extension is needed.
+With the addition of the Tasmota scraping changes the requirement for the `php-dom` extension is needed.
 
 ##### Noticeable changes
 
