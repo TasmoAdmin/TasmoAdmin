@@ -1,22 +1,27 @@
-# TasmoAdmin
+<div align="center">
 
-![Logo](https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.PNG)
+![Logo](https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.png)
 
-[![GitHub release](https://img.shields.io/github/release/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/) 
-![Discord](https://img.shields.io/discord/401474444914196490)
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
+[![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
+![Discord](https://img.shields.io/discord/401474444914196490)
+[![GitHub release](https://img.shields.io/github/release/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
 [![GitHub contributors](https://img.shields.io/github/contributors/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/graphs/contributors/) 
 [![GitHub stars](https://img.shields.io/github/stars/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/network)
 [![Github all releases](https://img.shields.io/github/downloads/TasmoAdmin/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/) 
 [![GitHub license](https://img.shields.io/github/license/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
 [![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
-[![php](https://img.shields.io/badge/php-7.4.x-%238892BF.svg)](https://secure.php.net/)
-[![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
+[![php](https://img.shields.io/badge/php-8.0.x-%238892BF.svg)](https://secure.php.net/)
+
+</div>
+
+# TasmoAdmin
 
 TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
 You can find it here: [TasmoAdmin GitHub](https://github.com/TasmoAdmin/TasmoAdmin).
-It can run on Windows, Linux, Docker container and as Home Assistant addon.
+
+It can run standalone, as a container, or as a Home Assistant addon.
 
 ## Features
 * Login protected
@@ -32,14 +37,12 @@ It can run on Windows, Linux, Docker container and as Home Assistant addon.
 * AutoScan to find Tasmota Devices
 * Support for multiple sensors
 * Send Command to selected Devices
-* Chat (beta)
 
 ### Supported Platforms
 * Apache2 and Nginx
 * Docker by @RaymondMouthaan
   * unRaid by @digiblur
 * IOCage (FreeNAS) by @tprelog
-
 
 ## YouTube
 [![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
@@ -51,7 +54,7 @@ by DrZzs
 
 TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin).
 
-This is a Linux Alpine  based image with Nginx and PHP7 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
+This is a Linux Alpine based image with Nginx and PHP 8.1 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
 
 This is the recommended way to get up and running.
 
@@ -61,7 +64,7 @@ TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/)
 
 ### Using a Web Server
 
-TasmoAdmin should run on any webserver that supports PHP 7.4+
+TasmoAdmin should run on any webserver that supports PHP 8.0+
 
 Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
