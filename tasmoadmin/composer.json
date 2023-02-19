@@ -3,7 +3,7 @@
     "type": "project",
     "license": "GPL3",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-json": "*",
         "ext-curl": "*",
         "ext-zip": "*",
@@ -12,13 +12,13 @@
         "erusev/parsedown": "^1.7",
         "philipp15b/php-i18n": "^4.0",
         "guzzlehttp/guzzle": "^7.0",
-        "symfony/filesystem": "^5.4",
+        "symfony/filesystem": "^6.2",
         "composer/semver": "^3.3",
         "filp/whoops": "^2.14",
         "fabpot/goutte": "^4.0",
         "selective/container": "^1",
-        "symfony/routing": "^5.4",
-        "symfony/http-foundation": "^5.4"
+        "symfony/routing": "^6.2",
+        "symfony/http-foundation": "^6.2"
     },
     "autoload": {
         "psr-4": {
@@ -28,7 +28,7 @@
     "require-dev": {
         "roave/security-advisories": "dev-latest"
         ,
-        "phpunit/phpunit": "^9.3.8",
+        "phpunit/phpunit": "^10.0",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan": "^1.6",
         "friendsofphp/php-cs-fixer": "^3.11"
@@ -40,7 +40,7 @@
     },
     "config": {
         "platform": {
-            "php": "8.0.28"
+            "php": "8.1.16"
         }
     }
 }

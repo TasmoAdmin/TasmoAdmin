@@ -22,7 +22,7 @@ class ResponseParserTest extends TestCase
         $parser = new ResponseParser();
         $result = $parser->processResult('{"Invalid": "\xfc\xa1\xa1\xa1\xa1\xa1"}');
 
-        self::assertObjectHasAttribute('ERROR', $result);
+        self::assertTrue(property_exists($result, 'ERROR'));
         self::assertStringContainsString('{"Invalid": "\xfc\xa1\xa1\xa1\xa1\xa1"}', $result->ERROR);
     }
 }
