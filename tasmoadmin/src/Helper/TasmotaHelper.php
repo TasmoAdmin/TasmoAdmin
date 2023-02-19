@@ -112,7 +112,7 @@ class TasmotaHelper
     private function getContents(string $url): string
     {
         try {
-            $url = "${url}?r=" . time();
+            $url = "{$url}?r=" . time();
             return $this->client->get($url)->getBody()->getContents();
         } catch (GuzzleException $exception) {
             return sprintf('Failed to load %s - %s', $url, $exception->getMessage());
