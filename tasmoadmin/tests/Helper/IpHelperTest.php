@@ -71,7 +71,7 @@ class IpHelperTest extends TestCase
         $ipHelper->fetchIps('127.0.0.1', $invalidIp);
     }
 
-    public function provideInvalidIps(): array
+    public static function provideInvalidIps(): array
     {
         return [
             ['foo'],
