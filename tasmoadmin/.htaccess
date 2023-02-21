@@ -1,85 +1,21 @@
-
-AddDefaultCharset UTF-8
-
-#block bad bots with a 403
-SetEnvIfNoCase User-Agent "facebookexternalhit" bad_bot
-SetEnvIfNoCase User-Agent "Twitterbot" bad_bot
-SetEnvIfNoCase User-Agent "Baiduspider" bad_bot
-SetEnvIfNoCase User-Agent "MetaURI" bad_bot
-SetEnvIfNoCase User-Agent "mediawords" bad_bot
-SetEnvIfNoCase User-Agent "FlipboardProxy" bad_bot
-
-<Limit GET POST HEAD>
-    <IfModule !mod_access_compat.c>
-    	<RequireAll>
-        	Require all granted
-            Require not env bad_bot
-        </RequireAll>
-    </IfModule>
-    <IfModule mod_access_compat.c>
-    	Order allow,deny
-        Allow from all
-        Deny from env=bad_bot
-    </IfModule>
-</Limit>
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-
-
-  #redirect bad bots to one page
-  RewriteCond %{HTTP_USER_AGENT} facebookexternalhit [NC,OR]
-  RewriteCond %{HTTP_USER_AGENT} Twitterbot [NC,OR]
-  RewriteCond %{HTTP_USER_AGENT} Baiduspider [NC,OR]
-  RewriteCond %{HTTP_USER_AGENT} MetaURI [NC,OR]
-  RewriteCond %{HTTP_USER_AGENT} mediawords [NC,OR]
-  RewriteCond %{HTTP_USER_AGENT} FlipboardProxy [NC]
-  RewriteCond %{REQUEST_URI} !\/robots.txt
-  RewriteRule .* robots.txt [L]
     # -----------------------------------------------------------------------------
     # Dynamically detect Rewritebase and URI part past Rewritebase
     # -----------------------------------------------------------------------------
+    RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+    RewriteRule ^(.*)$ - [E=SUFFIX:%2]
 
-	RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
-	RewriteRule ^(.*)$ - [E=SUFFIX:%2]
+    RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+    RewriteRule ^(.*)$ - [E=BASE:%1]
 
-	RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
-	RewriteRule ^(.*)$ - [E=BASE:%1]
+    RewriteCond %{ENV:REDIRECT_STATUS} =""
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
 
-    ## if request destination is any of these filetypes or located in any of these folders stop processing rewrite
-    RewriteCond %{REQUEST_FILENAME} ^(.*)\.(php|css|js|gif||jpe?g|png|json|cache\.json)$ [NC] [or]
-    RewriteCond %{REQUEST_URI} .*?\/(?:admin|images|templates|tmp|i18n)\/.
-    RewriteRule ^(.+) - [L]
-
-    #if request destination is a php file in root dir and language code in url is present lets go there
-    RewriteRule ^[a-z]{2}/([A-Za-z0-9_/-]+)\.php.* %{ENV:BASE}$1.php?%{QUERY_STRING} [PT,L]
-
-    ## if request destination is an existing directory, file or link stop processing rewrite
-    RewriteCond %{REQUEST_FILENAME} -d [or]
-    RewriteCond %{REQUEST_FILENAME} -f [or]
-    RewriteCond %{REQUEST_FILENAME} -l
-    RewriteRule ^(.+) - [L]
-
-
-    ##Logout/Login Redirect
-    RewriteRule ^login$ login.php [L]
-    RewriteRule ^logout$ login.php?logout=logout [L]
-
-    RewriteRule ^doAjaxAll$ index.php?doAjaxAll=doAjaxAll [L]
-    RewriteRule ^doAjax$ index.php?doAjax=doAjax [L]
-
-
-    ##Lang Switch detection
-#    RewriteRule /([a-z]{2})/ index.php?lang=$1 [L]
-
-    RewriteRule (^|/)([a-z]{2,2})/ index.php?lang=$2
-
-    ##Pages routing
-    RewriteRule ^([a-zA-Z_]{3,})/([a-zA-Z_]+)/([0-9_]+)/?$ index.php?page=$1&action=$2&device_id=$3
-    RewriteRule ^([a-zA-Z_]{3,})/(force)/?$ index.php?page=$1&force=1
-    RewriteRule ^([a-zA-Z_]{3,})/([a-zA-Z_]+)/?$ index.php?page=$1&action=$2
-    RewriteRule ^([a-zA-Z_]{3,})/([0-9]+)/?$ index.php?page=$1&device_id=$2
-    RewriteRule ^([a-zA-Z_]{3,})/?$ index.php?page=$1
-
+    # If the requested filename exists, simply serve it.
+    # We only want to let Apache serve files and not directories.
+    # Rewrite all other queries to the front controller.
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
 </IfModule>
