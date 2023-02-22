@@ -317,7 +317,7 @@ function updateBox(row, data, device_status) {
 		infoBoxCounter++;
 	}
 
-	let energyPower = getEnergyPower(data, ", ");
+	let energyPower = getEnergyPower(data);
 
 	if (energyPower !== "") {
 		$(row)
