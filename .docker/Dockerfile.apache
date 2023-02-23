@@ -1,0 +1,17 @@
+FROM php:8.1-apache
+
+
+RUN a2enmod rewrite
+
+RUN apt-get update \
+    && apt-get install -y \
+    libzip-dev \
+    zip \
+    && docker-php-ext-install zip
+
+COPY .docker/apache_startup.sh /apache_startup.sh
+
+# Expose
+EXPOSE 80 443
+
+ENTRYPOINT [ "/apache_startup.sh" ]

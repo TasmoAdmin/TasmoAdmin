@@ -44,7 +44,7 @@ define( "_LANGDIR_", _APPROOT_."lang/" );
 define( "_CSVFILE_", _DATADIR_."devices.csv" );
 
 
-session_save_path( _APPROOT_."tmp/sessions/" );
+session_save_path( _APPROOT_."tmp/sessions" );
 
 ini_set( 'session.gc_maxlifetime', 356*24*60*60 );
 session_set_cookie_params( 356*24*60*60 );
