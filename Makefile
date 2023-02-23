@@ -36,4 +36,4 @@ dev:
 	composer install -d tasmoadmin
 	cd tasmoadmin; npm ci
 	node tasmoadmin/minify.js
-	docker-compose build --no-cache && docker-compose up
+	docker-compose build --no-cache && docker-compose up alpine-nginx
