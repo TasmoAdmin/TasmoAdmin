@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  alpine-nginx:
+  web:
     build:
       context: .
       dockerfile: .docker/Dockerfile.alpine-tmpl
@@ -11,18 +11,4 @@ services:
       - TASMO_DEBUG=1
     volumes:
       - ./tasmoadmin:/var/www/tasmoadmin
-      - ./.storage:/data/tasmoadmin
-
-  apache:
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile.apache
-    ports:
-      - "8001:80"
-    environment:
-      - TASMO_DATADIR=/data/tasmoadmin/
-      - TASMO_TMPDIR=/tmp/tasmoadmin/
-      - TASMO_DEBUG=1
-    volumes:
-      - ./tasmoadmin:/var/www/html
       - ./.storage:/data/tasmoadmin
