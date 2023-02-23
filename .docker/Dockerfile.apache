@@ -9,9 +9,8 @@ RUN apt-get update \
     zip \
     && docker-php-ext-install zip
 
-COPY .docker/apache_startup.sh /apache_startup.sh
+RUN mkdir -p /tmp/tasmoadmin/sessions \
+    && chown -R www-data:www-data /tmp/tasmoadmin
 
 # Expose
 EXPOSE 80 443
-
-ENTRYPOINT [ "/apache_startup.sh" ]

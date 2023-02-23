@@ -31,7 +31,7 @@ if ($baseurl_from_env = getenv('TASMO_BASEURL')) {
 
 define( "_BASEURL_", $subdir );
 define( '_APPROOT_', dirname( dirname( __FILE__ ) ).'/' );
-define( "_TMPDIR_", _APPROOT_."tmp/" );
+define( "_TMPDIR_",  getenv('TASMO_TMPDIR') ?: _APPROOT_."tmp/" );
 
 define( "_RESOURCESURL_", _BASEURL_."resources/" );
 define( "_INCLUDESDIR_", _APPROOT_."includes/" );
@@ -44,8 +44,7 @@ define( "_LANGDIR_", _APPROOT_."lang/" );
 define( "_CSVFILE_", _DATADIR_."devices.csv" );
 
 
-session_save_path( _APPROOT_."tmp/sessions" );
-
+session_save_path( _TMPDIR_."sessions" );
 ini_set( 'session.gc_maxlifetime', 356*24*60*60 );
 session_set_cookie_params( 356*24*60*60 );
 session_name( "TASMO_SESSION" );

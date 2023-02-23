@@ -21,6 +21,7 @@ services:
       - "8001:80"
     environment:
       - TASMO_DATADIR=/data/tasmoadmin/
+      - TASMO_TMPDIR=/tmp/tasmoadmin/
       - TASMO_DEBUG=1
     volumes:
       - ./tasmoadmin:/var/www/html
