@@ -26,6 +26,7 @@ class Sonoff
         $this->deviceRepository = $deviceRepository;
         $this->responseParser = new ResponseParser();
         $this->client = $client ?? new Client([
+            'connect_timeout' => 5,
             'timeout' => 5,
         ]);
     }
