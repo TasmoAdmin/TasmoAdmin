@@ -45,7 +45,7 @@ const fetchWithRetries = async (
 }
 
 async function doAjax(deviceId, cmnd) {
-	const url = `${config.base_url}index.php?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
+	const url = `${config.base_url}?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
 	let response = await fetchWithRetries(url);
 	response = await response.json();
 
@@ -54,7 +54,7 @@ async function doAjax(deviceId, cmnd) {
 		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.ERROR));
 	}
 
-	if (response.hasOwnProperty('Command') && response.Command === 'Unknown') {
+	if (response.hasOwnProperty( 'Command') && response.Command === 'Unknown') {
 		throw Error($.i18n('BLOCK_UPDATE_ERROR_FROM_BACKEND', response.Command));
 	}
 
