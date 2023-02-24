@@ -26,7 +26,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
             foreach ($devices as $device) {
                 $skipIps[] = $device->ip;
             }
-            $ips = [];
+
             $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
             $Config->write("scan_from_ip", $fromip);
             $Config->write("scan_to_ip", $toip);
