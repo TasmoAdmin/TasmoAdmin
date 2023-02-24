@@ -138,7 +138,10 @@ class Config
         $config = $this->cleanConfig();
 
         if (file_exists($this->appRoot . ".version")) {
-            $this->write("current_git_tag", file_get_contents($this->appRoot . ".version"));
+            $version = trim(file_get_contents($this->appRoot . ".version"));
+            if ($config["current_git_tag"] !== $version) {
+                $this->write("current_git_tag", $version);
+            }
         } elseif (!empty(getenv("BUILD_VERSION"))
             && ($config["current_git_tag"] != getenv(
                 "BUILD_VERSION"
