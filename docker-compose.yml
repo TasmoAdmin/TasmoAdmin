@@ -12,3 +12,18 @@ services:
     volumes:
       - ./tasmoadmin:/var/www/tasmoadmin
       - ./.storage:/data/tasmoadmin
+
+
+  apache:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile.apache
+    user: $USER_ID:$GROUP_ID
+    ports:
+      - "8001:80"
+    environment:
+      - TASMO_DEBUG=1
+    volumes:
+      - ./tasmoadmin:/var/www/html
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
