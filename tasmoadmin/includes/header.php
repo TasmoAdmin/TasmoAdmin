@@ -316,25 +316,25 @@ $urlHelper = $container->get(UrlHelper::class);
 					
 					<div class='my-2 my-sm-0 language-switch-holder'>
 						<?php $tasmoAdminLanguages = [
-							"CZ",
-							"DE",
-							"EN",
-							"ES",
-							"FR",
-							"HU",
-							"IT",
-							"NL",
-							"PL",
-							"IT",
-							"RU",
-							"ZH_TW",
+							"cz",
+							"de",
+							"en",
+							"es",
+							"fr",
+							"hu",
+							"it",
+							"nl",
+							"pl",
+							"it",
+							"ru",
+							"zh_TW",
 						]; ?>
 						<select name='language-switch' id='language-switch' class='custom-select'>
 							<?php foreach ($tasmoAdminLanguages as $l): ?>
-								<option value='<?php echo strtolower($l); ?>'
-									<?php echo $lang == strtolower($l) ? "selected=\"selected\"" : ""; ?>
+								<option value='<?php echo $l; ?>'
+									<?php echo $lang === $l ? "selected=\"selected\"" : ""; ?>
 								>
-									<?php echo($l); ?>
+									<?php echo strtoupper($l); ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
