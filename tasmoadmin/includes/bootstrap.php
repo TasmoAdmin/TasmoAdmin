@@ -94,7 +94,7 @@ $Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
 
 $i18n->setCachePath( _TMPDIR_.'cache/i18n/' );
-$i18n->setFilePath( _LANGDIR_.'lang_{LANGUAGE}.ini' ); // language file path
+$i18n->setFilePath( _LANGDIR_.'{LANGUAGE}/lang.ini' ); // language file path
 $i18n->setFallbackLang( 'en' );
 $i18n->setPrefix( '__L' );
 $i18n->setSectionSeparator( '_' );
@@ -105,9 +105,9 @@ $lang = $i18n->getAppliedLang();
 
 $langHelper = new JsonLanguageHelper(
     $lang,
-    _LANGDIR_."lang_{$lang}.ini",
+    _LANGDIR_."{$lang}/lang.ini",
     'en',
-    _LANGDIR_."lang_en.ini",
+    _LANGDIR_."en/lang.ini",
     _TMPDIR_.'cache/i18n/');
 $langHelper->dumpJson();
 
