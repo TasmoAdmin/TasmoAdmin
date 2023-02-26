@@ -15,7 +15,7 @@ if (isset($_POST['device_ids'])) {
     <div class='col col-12 col-md-6 '>
         <div class="alert alert-<?php echo $backupAction; ?> fade show mb-3" role="alert">
             <div class="col col-12">
-                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="index.php?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
+                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
                 <?php if (!$backupResults->successful()): ?>
                     </br>
                     </br>
