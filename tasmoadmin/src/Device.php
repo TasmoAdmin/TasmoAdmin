@@ -49,6 +49,13 @@ class Device
         return implode('-', $this->names);
     }
 
+    public function getBackupName(): string
+    {
+        $pathSafeName = $this->getName();
+        $pathSafeName = str_replace('/', '_', $pathSafeName);
+        return sprintf('%s-%s.dmp', $this->id, $pathSafeName);
+    }
+
     public function getUrlWithAuth(): string
     {
         $auth = '';
