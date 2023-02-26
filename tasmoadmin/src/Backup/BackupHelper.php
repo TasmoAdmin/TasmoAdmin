@@ -17,7 +17,6 @@ class BackupHelper
 
     private Filesystem $filesystem;
 
-
     public function __construct(DeviceRepository $deviceRepository, Sonoff $sonoff, string $backupPath)
     {
         $this->deviceRepository = $deviceRepository;
