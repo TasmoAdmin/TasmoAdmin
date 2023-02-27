@@ -92,24 +92,10 @@ function updateAllStatus() {
 
 
 function updateCard( card, data, device_status ) {
-	
-	var version = parseVersion( data.StatusFWR.Version );
-	//console.log( "version => " + version );
-	
-	if ( version >= 510009 ) {//no json translations since 5.10.0j
-		var rssi   = data.StatusSTS.Wifi.RSSI;
-		var ssid   = data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Uptime;
-	} else { //try german else use english
-		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		
-	}
+	data = sonoff.parseStatusData(data)
 	var deviceData = {};
 	
-	var energyPower = getEnergyPower( data );
-	
+	var energyPower = sonoff.parseEnergyPower(data);
 	if ( energyPower !== "" ) {
 		
 		deviceData.energyPower = energyPower;

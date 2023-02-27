@@ -240,24 +240,10 @@ function updateBox(row, data, device_status) {
 	let device_protect_on = $(row).data("device_protect_on");
 	let device_protect_off = $(row).data("device_protect_off");
 
-	let version = "n/A";
-	let rssi, ssid, uptime;
-	if (data.StatusFWR !== undefined) {
-		version = parseVersion(data.StatusFWR.Version);
-	}
-
-	if (version >= 510009) {
-		//no json translations since 5.10.0j
-		rssi = data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Uptime;
-	} else {
-		//try german else use english
-		rssi = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Laufzeit !== "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		//console.log( uptime );
-	}
+	data = sonoff.parseStatusData(data);
+	let rssi = data.wifi.rssi;
+	let ssid = data.wifi.ssid;
+	let uptime = data.wifi.uptime;
 
 	let infoBoxCounter = 1;
 
@@ -317,7 +303,7 @@ function updateBox(row, data, device_status) {
 		infoBoxCounter++;
 	}
 
-	let energyPower = getEnergyPower(data);
+	let energyPower = sonoff.parseEnergyPower(data);
 
 	if (energyPower !== "") {
 		$(row)

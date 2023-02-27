@@ -75,19 +75,6 @@ $(document).ready(function()
 	}
 
 	$(".table-responsive").attachDragger();
-	//console.log( "5.10.0 => " + parseVersion( "5.10.0" ) );
-	//console.log( "5.10.0g => " + parseVersion( "5.10.0g" ) );
-	//console.log( "5.10.0h => " + parseVersion( "5.10.0h" ) );
-	//console.log( "5.10.0i => " + parseVersion( "5.10.0i" ) );
-	//console.log( "====" );
-	//console.log( "5.10.0j => " + parseVersion( "5.10.0j" ) );
-	//console.log( "5.10.0z => " + parseVersion( "5.10.0z" ) );
-	//console.log( "5.11.1 => " + parseVersion( "5.11.1" ) );
-	//console.log( "5.11.0 => " + parseVersion( "v5.11.0" ) );
-	//console.log( "5.11.1b => " + parseVersion( "5.11.1b" ) );
-	//console.log( "5.11.1d => " + parseVersion( "5.11.1d" ) );
-	//console.log( "5.11.1z => " + parseVersion( "5.11.1z" ) );
-
 	if (refreshtime)
 	{
 		console.log("[Global][Refreshtime]" + refreshtime + "ms");
@@ -589,30 +576,12 @@ function updateRow(row, data, device_status)
 	let device_protect_on = $(row).data("device_protect_on");
 	let device_protect_off = $(row).data("device_protect_off");
 
-	let version = "n/A";
-	let rssi, ssid, uptime;
+	data = sonoff.parseStatusData(data);
+	let rssi = data.wifi.rssi;
+	let ssid = data.wifi.ssid;
+	let uptime = data.wifi.uptime;
 
-
-	if (data.StatusFWR !== undefined)
-	{
-		version = parseVersion(data.StatusFWR.Version);
-	}
-	//console.log( "version => " + version );
-
-	if (version >= 510009)
-	{//no json translations since 5.10.0j
-		rssi = data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Uptime;
-	} else
-	{ //try german else use english
-		rssi = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-	}
-
-	let energyPower = getEnergyPower(data);
-
+	let energyPower = sonoff.parseEnergyPower(data);
 	if (energyPower !== "")
 	{
 		$(row).find(".energyPower span").html(energyPower);
