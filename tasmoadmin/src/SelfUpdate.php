@@ -182,17 +182,16 @@ class SelfUpdate
     private function preInstallChecks(string $tempDir): bool
     {
         try {
-            $preInstallCheckFile = __DIR__ . '/../includes/preinstallchecks.php';
+            $preInstallCheckFile = $tempDir . '/tasmoadmin/includes/preinstallchecks.php';
 
             if (!file_exists($preInstallCheckFile)) {
+                // File not found assumed non-existent
                 return true;
             }
 
             $check = require $preInstallCheckFile;
 
             $result = $check->run();
-
-
 
             if (!$result->isValid()) {
                 foreach ($result->getErrors() as $error) {
