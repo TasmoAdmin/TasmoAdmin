@@ -95,7 +95,7 @@ function updateCard( card, data, device_status ) {
 	data = sonoff.parseStatusData(data)
 	var deviceData = {};
 	
-	var energyPower = sonoff.parseEnergyPower(data);
+	var energyPower = getEnergyPower(data);
 	if ( energyPower !== "" ) {
 		
 		deviceData.energyPower = energyPower;

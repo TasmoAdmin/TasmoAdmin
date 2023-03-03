@@ -698,6 +698,35 @@ function getDistance(data, joinString)
 	return dist.join(joinString);
 }
 
+function getEnergyPower(data, joinString = "<br/>")
+{
+	let energyPower = [];
+	if (data.StatusSNS.ENERGY !== undefined) {
+		if (data.StatusSNS.ENERGY.Power !== undefined) {
+			energyPower.push(data.StatusSNS.ENERGY.Power + " W");
+		}
+
+		if (data.StatusSNS.ENERGY.Today !== undefined) {
+			let tmpString = data.StatusSNS.ENERGY.Today;
+			if (data.StatusSNS.ENERGY.Yesterday !== undefined) {
+				tmpString += " / " + data.StatusSNS.ENERGY.Yesterday;
+			}
+
+			if (data.StatusSNS.ENERGY.Total !== undefined) {
+				tmpString += " / " + data.StatusSNS.ENERGY.Total;
+			}
+
+			energyPower.push(tmpString + " kWh");
+		}
+
+		if (data.StatusSNS.ENERGY.Current !== undefined) {
+			energyPower.push(data.StatusSNS.ENERGY.Current + " A");
+		}
+	}
+
+	return energyPower.join(joinString);
+}
+
 Date.prototype.addHours = function (h)
 {
 	this.setHours(this.getHours() + h);

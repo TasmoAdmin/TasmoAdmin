@@ -303,7 +303,7 @@ function updateBox(row, data, device_status) {
 		infoBoxCounter++;
 	}
 
-	let energyPower = sonoff.parseEnergyPower(data);
+	let energyPower = getEnergyPower(data);
 
 	if (energyPower !== "") {
 		$(row)

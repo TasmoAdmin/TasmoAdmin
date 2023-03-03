@@ -581,7 +581,7 @@ function updateRow(row, data, device_status)
 	let ssid = data.wifi.ssid;
 	let uptime = data.wifi.uptime;
 
-	let energyPower = sonoff.parseEnergyPower(data);
+	let energyPower = getEnergyPower(data);
 	if (energyPower !== "")
 	{
 		$(row).find(".energyPower span").html(energyPower);
