@@ -240,30 +240,8 @@ function updateBox(row, data, device_status) {
 	let device_protect_on = $(row).data("device_protect_on");
 	let device_protect_off = $(row).data("device_protect_off");
 
-	let version = "n/A";
-	let rssi, ssid, uptime;
-	if (data.StatusFWR !== undefined) {
-		version = parseVersion(data.StatusFWR.Version);
-	}
-
-	if (version >= 510009) {
-		//no json translations since 5.10.0j
-		rssi = data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Uptime;
-	} else {
-		//try german else use english
-		rssi = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		ssid = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		uptime = data.StatusSTS.Laufzeit !== "undefined" ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		//console.log( uptime );
-	}
-
+	data = sonoff.parseStatusData(data);
 	let infoBoxCounter = 1;
-
-	//let fakeData = JSON.parse(
-	//	"{\"StatusSNS\":{\"Time\":\"2018-02-10T22:46:34\",\"BMP280\":{\"Temperature\":80.9,\"Pressure\":984.4}}}" );
-
 	let temp = getTemp(data, ", ");
 
 	if (temp !== "") {
@@ -328,17 +306,6 @@ function updateBox(row, data, device_status) {
 		infoBoxCounter++;
 	}
 
-	//let energyTodayYesterday = getEnergyTodayYesterday( data );
-	//
-	//if ( energyTodayYesterday !== "" ) {
-	//	$( row )
-	//		.find( ".info-" + infoBoxCounter + " span" )
-	//		.html( energyTodayYesterday )
-	//		.parent()
-	//		.removeClass( "hidden" );
-	//	infoBoxCounter++;
-	//}
-
 	let gas = getGas(data, ", ");
 
 	if (gas !== "") {
@@ -378,14 +345,6 @@ function updateBox(row, data, device_status) {
 			$(row).removeClass("disabled");
 		}
 	}
-
-	$(row)
-		.find(".rssi span")
-		.html(rssi + "%")
-		.attr("title", ssid);
-	$(row)
-		.find(".runtime span")
-		.html("~" + uptime + "h");
 
 	//MORE
 	$(row)

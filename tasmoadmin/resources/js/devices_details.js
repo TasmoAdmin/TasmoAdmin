@@ -88,28 +88,13 @@ function updateAllStatus() {
 		console.log( "[Devices][updateAllStatus]SKIP" );
 	}
 	
-};
-
+}
 
 function updateCard( card, data, device_status ) {
-	
-	var version = parseVersion( data.StatusFWR.Version );
-	//console.log( "version => " + version );
-	
-	if ( version >= 510009 ) {//no json translations since 5.10.0j
-		var rssi   = data.StatusSTS.Wifi.RSSI;
-		var ssid   = data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Uptime;
-	} else { //try german else use english
-		var rssi   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.RSSI : data.StatusSTS.Wifi.RSSI;
-		var ssid   = data.StatusSTS.WLAN ? data.StatusSTS.WLAN.SSID : data.StatusSTS.Wifi.SSId;
-		var uptime = data.StatusSTS.Laufzeit ? data.StatusSTS.Laufzeit : data.StatusSTS.Uptime;
-		
-	}
+	data = sonoff.parseStatusData(data)
 	var deviceData = {};
 	
-	var energyPower = getEnergyPower( data );
-	
+	var energyPower = getEnergyPower(data);
 	if ( energyPower !== "" ) {
 		
 		deviceData.energyPower = energyPower;
@@ -174,25 +159,29 @@ function updateCard( card, data, device_status ) {
 	//		$( card ).find( ".status" ).find( "input" ).removeProp( "checked" ).parent().removeClass( "error" );
 	//	}
 	//}
-	
-	var signalStrength = "bad";
-	
-	if ( rssi >= 25 ) {
-		signalStrength = "weak";
+
+
+	if (data.hasWifi) {
+		let rssi = data.wifi.rssi;
+
+		var signalStrength = "bad";
+
+		if (rssi >= 25) {
+			signalStrength = "weak";
+		}
+		if (rssi >= 50) {
+			signalStrength = "medium";
+		}
+		if (rssi >= 75) {
+			signalStrength = "strong";
+		}
+
+		$(card).find(".device-rssi svg").addClass("ta-wifi-" + signalStrength).removeClass("searching error");
+		$(card).find(".device-rssi")
+			.data("original-title", rssi + "%")
+			.attr("title", rssi + "%")
+			.tooltip('_fixTitle');
 	}
-	if ( rssi >= 50 ) {
-		signalStrength = "medium";
-	}
-	if ( rssi >= 75 ) {
-		signalStrength = "strong";
-	}
-	
-	
-	$( card ).find( ".device-rssi svg" ).addClass( "ta-wifi-" + signalStrength ).removeClass( "searching error" );
-	$( card ).find( ".device-rssi" )
-	         .data( "original-title", rssi + "%" )
-	         .attr( "title", rssi + "%" )
-	         .tooltip( '_fixTitle' );
 	
 	var startup = (
 		(

@@ -698,7 +698,6 @@ function getDistance(data, joinString)
 	return dist.join(joinString);
 }
 
-
 function getEnergyPower(data, joinString = "<br/>")
 {
 	let energyPower = [];
@@ -727,25 +726,6 @@ function getEnergyPower(data, joinString = "<br/>")
 
 	return energyPower.join(joinString);
 }
-
-//function getEnergyTodayYesterday( data ) {
-//	var energyTodayYesterday = [];
-//
-//	if ( data.StatusSNS.ENERGY !== undefined ) {
-//		if ( data.StatusSNS.ENERGY.Today !== undefined ) {
-//			var tmpString = data.StatusSNS.ENERGY.Today;
-//			if ( data.StatusSNS.ENERGY.Yesterday !== undefined ) {
-//				tmpString += "/" + data.StatusSNS.ENERGY.Today;
-//			}
-//			energyTodayYesterday.push( tmpString + "kWh" );
-//		}
-//	}
-//
-//	//console.log( press );
-//
-//	return energyTodayYesterday.join( joinString );
-//}
-
 
 Date.prototype.addHours = function (h)
 {
