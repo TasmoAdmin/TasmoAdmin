@@ -241,15 +241,7 @@ function updateBox(row, data, device_status) {
 	let device_protect_off = $(row).data("device_protect_off");
 
 	data = sonoff.parseStatusData(data);
-	let rssi = data.wifi.rssi;
-	let ssid = data.wifi.ssid;
-	let uptime = data.wifi.uptime;
-
 	let infoBoxCounter = 1;
-
-	//let fakeData = JSON.parse(
-	//	"{\"StatusSNS\":{\"Time\":\"2018-02-10T22:46:34\",\"BMP280\":{\"Temperature\":80.9,\"Pressure\":984.4}}}" );
-
 	let temp = getTemp(data, ", ");
 
 	if (temp !== "") {
@@ -314,17 +306,6 @@ function updateBox(row, data, device_status) {
 		infoBoxCounter++;
 	}
 
-	//let energyTodayYesterday = getEnergyTodayYesterday( data );
-	//
-	//if ( energyTodayYesterday !== "" ) {
-	//	$( row )
-	//		.find( ".info-" + infoBoxCounter + " span" )
-	//		.html( energyTodayYesterday )
-	//		.parent()
-	//		.removeClass( "hidden" );
-	//	infoBoxCounter++;
-	//}
-
 	let gas = getGas(data, ", ");
 
 	if (gas !== "") {
@@ -364,14 +345,6 @@ function updateBox(row, data, device_status) {
 			$(row).removeClass("disabled");
 		}
 	}
-
-	$(row)
-		.find(".rssi span")
-		.html(rssi + "%")
-		.attr("title", ssid);
-	$(row)
-		.find(".runtime span")
-		.html("~" + uptime + "h");
 
 	//MORE
 	$(row)

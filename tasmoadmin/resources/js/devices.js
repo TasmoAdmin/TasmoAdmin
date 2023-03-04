@@ -577,9 +577,17 @@ function updateRow(row, data, device_status)
 	let device_protect_off = $(row).data("device_protect_off");
 
 	data = sonoff.parseStatusData(data);
-	let rssi = data.wifi.rssi;
-	let ssid = data.wifi.ssid;
-	let uptime = data.wifi.uptime;
+
+	if (data.hasWifi) {
+		let rssi = data.wifi.rssi;
+		let ssid = data.wifi.ssid;
+
+		$(row).find(".rssi span").html(rssi + "%").attr(
+			"data-original-title", ssid).attr("data-toggle", "tooltip").tooltip({
+			html: true,
+			delay: 700
+		});
+	}
 
 	let energyPower = getEnergyPower(data);
 	if (energyPower !== "")
@@ -678,11 +686,6 @@ function updateRow(row, data, device_status)
 			$(row).find(".status").find("input").prop("checked", false).parent().removeClass("error");
 		}
 	}
-	$(row).find(".rssi span").html(rssi + "%").attr(
-		"data-original-title", ssid).attr("data-toggle", "tooltip").tooltip({
-																				html: true,
-																				delay: 700
-																			});
 
 
 	let startup = (
