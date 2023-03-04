@@ -11,6 +11,7 @@ $routes->add('devices', new Route('/devices'));
 $routes->add('device_action', (new Route('/device_action/{action}/{device_id}'))->addDefaults(['device_id' => '-1']));
 $routes->add('device_config', new Route('/device_config/{device_id}'));
 $routes->add('device_update', new Route('/device_update'));
+$routes->add('devices_details', new Route('/devices_details'));
 $routes->add('upload', new Route('/upload'));
 $routes->add('upload_form', new Route('/upload_form'));
 $routes->add('backup', new Route('/backup'));
