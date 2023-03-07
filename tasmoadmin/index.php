@@ -69,7 +69,7 @@ try {
     }
 
     if ($page === 'index') {
-        $page = 'start';
+        $page = $Config->read("homepage");
     }
 
     if (!isset($action)) {
