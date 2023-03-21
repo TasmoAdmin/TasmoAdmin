@@ -19,6 +19,6 @@
     "@node-minify/clean-css": "^8.0.5",
     "@node-minify/core": "^8.0.5",
     "@node-minify/terser": "^8.0.5",
-    "glob": "^9.2.1"
+    "glob": "^9.3.0"
   }
 }
