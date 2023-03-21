@@ -3,15 +3,14 @@ const minify = require('@node-minify/core');
 const terser = require('@node-minify/terser');
 const cleanCSS = require('@node-minify/clean-css');
 
-glob('resources/js/*.js', (err, files) => {
-    if (err) {
-        console.log(err);
-        return;
-    }
 
-    files.forEach((file) => {
+async function main()
+{
+    const jsFiles = await glob('resources/js/*.js')
+    for (const file of jsFiles) {
+
         if (file.includes('.min.js')) {
-            return;
+            continue;
         }
         console.log(`processing ${file}`);
         minify({
@@ -19,18 +18,12 @@ glob('resources/js/*.js', (err, files) => {
             input: file,
             output: file.slice(0, -3) + '.min.js',
         });
-    })
-});
-
-glob('resources/css/*.css', (err, files) => {
-    if (err) {
-        console.log(err);
-        return;
     }
 
-    files.forEach((file) => {
+    const cssFiles = await glob('resources/css/*.css');
+    for (const file of cssFiles) {
         if (file.includes('.min.css')) {
-            return
+            continue
         }
 
         console.log(`processing ${file}`);
@@ -39,6 +32,7 @@ glob('resources/css/*.css', (err, files) => {
             input: file,
             output: file.slice(0, -4) + '.min.css',
         });
-    })
-});
+    }
+}
 
+main();
