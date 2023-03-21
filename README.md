@@ -12,7 +12,7 @@
 [![Github all releases](https://img.shields.io/github/downloads/TasmoAdmin/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/) 
 [![GitHub license](https://img.shields.io/github/license/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
 [![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
-[![php](https://img.shields.io/badge/php-8.0.x-%238892BF.svg)](https://secure.php.net/)
+[![php](https://img.shields.io/badge/php-8.1.x-%238892BF.svg)](https://secure.php.net/)
 
 </div>
 
@@ -89,6 +89,19 @@ Then visit http://localhost:8000
 
 Persistent storage within this setup is located in the `.storage` folder.
 
+
+## Translations
+
+We use [Transifex][transifex] to maintain translations of this project. If you are not familiar with this service, you can read [Transifex Documentation][transifex-docs] to get started.
+
+
+### Add or update translations
+
+Here are steps to translate the extension to a specific language.
+
+1. Join [our team][transifex-team] on Transifex.
+2. Translate resources using Transifex web interface.
+
 ## Support
 
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="150" >
@@ -125,3 +138,8 @@ Edit in Table
 ![Devices_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m3.png)
 ![Config_General_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m4.png)
 ![Config_Network_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m4_1.png)
+
+
+[transifex-docs]: https://docs.transifex.com/getting-started-1/translators
+[transifex-team]: https://www.transifex.com/tasmoadmin/tasmoadmin
+[transifex]: https://www.transifex.com/
