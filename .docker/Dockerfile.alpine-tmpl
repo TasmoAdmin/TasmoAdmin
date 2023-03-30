@@ -93,5 +93,7 @@ VOLUME [ "/data" ]
 # Expose
 EXPOSE 80 443
 
+HEALTHCHECK CMD curl --fail http://127.0.0.1 || curl --fail https://127.0.0.1 || exit 1
+
 # Entrypoint
 ENTRYPOINT [ "/init" ]
