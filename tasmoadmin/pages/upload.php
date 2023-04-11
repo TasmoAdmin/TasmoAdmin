@@ -6,7 +6,7 @@ use TasmoAdmin\Helper\GzipHelper;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
-use Goutte\Client;
+use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
 
@@ -158,7 +158,7 @@ elseif (isset($_REQUEST["auto"])) {
     $tasmotaHelper = new TasmotaHelper(
         new Parsedown(),
         $client,
-        new TasmotaOtaScraper($Config->read('auto_update_channel'), new Client()),
+        new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
         $Config->read("auto_update_channel")
     );
 
