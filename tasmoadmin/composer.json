@@ -15,10 +15,12 @@
         "symfony/filesystem": "^6.2",
         "composer/semver": "^3.3",
         "filp/whoops": "^2.14",
-        "fabpot/goutte": "^4.0",
         "selective/container": "^1",
         "symfony/routing": "^6.2",
-        "symfony/http-foundation": "^6.2"
+        "symfony/http-foundation": "^6.2",
+        "symfony/browser-kit": "^6.2",
+        "symfony/http-client": "^6.2",
+        "symfony/css-selector": "^6.2"
     },
     "autoload": {
         "psr-4": {

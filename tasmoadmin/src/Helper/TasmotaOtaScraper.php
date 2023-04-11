@@ -3,7 +3,7 @@
 namespace TasmoAdmin\Helper;
 
 use DateTime;
-use Goutte\Client;
+use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 
 class TasmotaOtaScraper
@@ -15,9 +15,9 @@ class TasmotaOtaScraper
 
     private string $url;
 
-    private Client $client;
+    private HttpBrowser $client;
 
-    public function __construct(string $updateChannel, Client $client)
+    public function __construct(string $updateChannel, HttpBrowser $client)
     {
         $this->url = self::OTA_URLS[$updateChannel];
         $this->client = $client;
