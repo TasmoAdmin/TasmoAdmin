@@ -104,7 +104,7 @@ class TasmotaHelper
         return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
-    private function getLatestRelease(): TasmoFirmwareResult
+    private function getLatestRelease(): TasmotaFirmwareResult
     {
         return $this->tasmotaOtaScraper->getFirmware();
     }

@@ -2,7 +2,7 @@
 
 namespace TasmoAdmin\Helper;
 
-class TasmoFirmware
+class TasmotaFirmware
 {
     private string $name;
 
