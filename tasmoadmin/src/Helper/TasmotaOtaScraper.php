@@ -23,18 +23,18 @@ class TasmotaOtaScraper
         $this->client = $client;
     }
 
-    public function getFirmware(): TasmoFirmwareResult
+    public function getFirmware(): TasmotaFirmwareResult
     {
         $crawler = $this->client->request('GET', $this->url);
 
         $firmwares =  $crawler->filter('table tr td:nth-child(2)')->each(function ($node) {
-            return new TasmoFirmware(basename($node->text()), $node->text());
+            return new TasmotaFirmware(basename($node->text()), $node->text());
         });
 
         $version = $this->getVersion($crawler);
         $publishDate =  $this->getPublishDate($crawler);
 
-        return new TasmoFirmwareResult($version, $publishDate, $firmwares);
+        return new TasmotaFirmwareResult($version, $publishDate, $firmwares);
     }
 
     private function getVersion(Crawler  $crawler): string
