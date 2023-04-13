@@ -21,7 +21,6 @@ class Config
     private Filesystem $filesystem;
 
     private array $defaultConfigs = [
-            "ota_server_ssl"        => "0", //0 = http, 1 = https
             "ota_server_ip"         => "",
             "ota_server_port"       => "",
             "username"              => "",
@@ -359,18 +358,6 @@ class Config
 
 
         return $config;
-    }
-
-    public function schema(): string
-    {
-        $useSSL = $this->read('ota_server_ssl');
-        if ($useSSL === 1 || $useSSL === "1") {
-            $schema = "https";
-        } else {
-            $schema = "http";
-        }
-
-        return $schema;
     }
 
     private function logDebug($message): void

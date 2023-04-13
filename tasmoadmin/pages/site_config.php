@@ -20,9 +20,6 @@ if (isset($_POST) && !empty($_POST)) {
 		if (!isset($settings["check_for_updates"])) {
 			$settings["check_for_updates"] = "0";
 		}
-		if (!isset($settings["ota_server_ssl"])) {
-			$settings["ota_server_ssl"] = "0";
-		}
         if (!isset($settings["force_upgrade"])) {
             $settings["force_upgrade"] = "0";
         }
@@ -188,23 +185,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 			
 			
 			<div class="form-row  mt-5">
-				<div class="form-group col col-12 col-sm-3">
-					<label>&nbsp;</label>
-					<div class="form-check custom-control custom-checkbox mb-5">
-						<input class="form-check-input custom-control-input"
-							   type="checkbox"
-							   value="1"
-							   id="cb_ota_server_ssl"
-							   name='ota_server_ssl' <?php echo $config["ota_server_ssl"] == "1"
-							? "checked=\"checked\"" : ""; ?>>
-						<label class="form-check-label custom-control-label" for="cb_ota_server_ssl" style='top:3px;'>
-							<?php echo __("CONFIG_SERVER_SSL", "USER_CONFIG"); ?>
-						</label>
-					</div>
-				</div>
-				
-				
-				<div class="form-group col col-12 col-sm-6">
+				<div class="form-group col col-12 col-sm-9">
 					<label for="ota_server_ip">
 						<?php echo __("CONFIG_SERVER_IP", "USER_CONFIG"); ?>
 					</label>
