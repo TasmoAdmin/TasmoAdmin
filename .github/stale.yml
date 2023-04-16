@@ -1,0 +1,9 @@
+daysUntilStale: 60
+daysUntilClose: 14
+exemptLabels:
+  - security
+  - enhancement
+exemptProjects: true
+exemptMilestones: true
+exemptAssignees: true
+staleLabel: stale
