@@ -34,22 +34,8 @@ $fwAsset = $Config->read("update_automatic_lang");
 			  action='<?php echo _BASEURL_; ?>upload'
 		>
 			<div class='form-row'>
-				<div class="form-group col col-12 col-sm-3">
-					<div class="form-check custom-control custom-checkbox mb-3" style='margin-top: 35px;'>
-						<input class="form-check-input custom-control-input"
-							   type="checkbox"
-							   value="1"
-							   autofocus="autofocus"
-							   id="cb_ota_server_ssl"
-							   name='ota_server_ssl' <?php echo $Config->read("ota_server_ssl") == "1"
-							? "checked=\"checked\"" : ""; ?>>
-						<label class="form-check-label custom-control-label" for="cb_ota_server_ssl" style='top:3px;'>
-							<?php echo __("CONFIG_SERVER_SSL", "USER_CONFIG"); ?>
-						</label>
-					</div>
-				</div>
-				
-				<div class="form-group col col-12 col-sm-6">
+
+				<div class="form-group col col-12 col-sm-9">
 					<label for="ota_server_ip">
 						<?php echo __("CONFIG_SERVER_IP", "USER_CONFIG"); ?>
 					</label>
