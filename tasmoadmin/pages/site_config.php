@@ -47,9 +47,7 @@ if (isset($_POST["save"])) {
 		unset($settings["password"], $settings["username"]);
 	}
 
-	foreach ($settings as $settingKey => $settingVal) {
-		$Config->write($settingKey, $settingVal);
-	}
+	$Config->writeAll($settings);
 	//header( "Refresh:0" ); //fix for not updated config cuz of buffer
 	$msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
 }
