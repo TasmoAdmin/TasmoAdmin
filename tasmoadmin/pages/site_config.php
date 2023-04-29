@@ -2,58 +2,56 @@
 
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\LoginHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
 $msg      = FALSE;
 $settings = [];
 
-if (isset($_POST) && !empty($_POST)) {
-	if (isset($_POST["save"])) {
-		$settings = $_POST;
-		unset($settings["save"]);
-		
-		if (!isset($settings["login"])) {
-			$settings["login"] = "0";
-		}
-		
-		if (!isset($settings["check_for_updates"])) {
-			$settings["check_for_updates"] = "0";
-		}
-        if (!isset($settings["force_upgrade"])) {
-            $settings["force_upgrade"] = "0";
-        }
-		if (!isset($settings["show_search"])) {
-			$settings["show_search"] = "0";
-		}
+if (isset($_POST["save"])) {
+	$settings = $_POST;
+	unset($settings["save"]);
 
-        if (!isset($settings["update_fe_check"])) {
-            $settings["update_fe_check"] = "0";
-        }
-
-        if (!isset($settings["update_be_check"])) {
-            $settings["update_be_check"] = "0";
-        }
-
-		if (!isset($settings["password"]) || empty($settings["password"])
-			|| $settings["password"] == "") {
-			unset($settings["password"]);
-		}
-		else {
-			$settings["password"] = md5($settings["password"]);
-		}
-		if ($settings["login"] == "0") {
-			unset($settings["password"]);
-			unset($settings["username"]);
-		}
-		
-		
-		foreach ($settings as $settingKey => $settingVal) {
-			$Config->write($settingKey, $settingVal);
-		}
-		//header( "Refresh:0" ); //fix for not updated config cuz of buffer
-		$msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
+	if (!isset($settings["login"])) {
+		$settings["login"] = "0";
 	}
+
+	if (!isset($settings["check_for_updates"])) {
+		$settings["check_for_updates"] = "0";
+	}
+
+	if (!isset($settings["force_upgrade"])) {
+	$settings["force_upgrade"] = "0";
+	}
+
+	if (!isset($settings["show_search"])) {
+		$settings["show_search"] = "0";
+	}
+
+	if (!isset($settings["update_fe_check"])) {
+	$settings["update_fe_check"] = "0";
+	}
+
+	if (!isset($settings["update_be_check"])) {
+	$settings["update_be_check"] = "0";
+	}
+
+	if (empty($settings["password"])) {
+		unset($settings["password"]);
+	} else {
+		$settings["password"] = LoginHelper::hashPassword($settings["password"]);
+	}
+
+	if ($settings["login"] === "0") {
+		unset($settings["password"], $settings["username"]);
+	}
+
+	foreach ($settings as $settingKey => $settingVal) {
+		$Config->write($settingKey, $settingVal);
+	}
+	//header( "Refresh:0" ); //fix for not updated config cuz of buffer
+	$msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
 }
 
 $config = array_merge($Config->readAll(), $settings);
