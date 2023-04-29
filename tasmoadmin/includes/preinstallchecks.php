@@ -33,7 +33,7 @@ class PreInstallChecks
         $result = new Result();
 
         if( !function_exists( "curl_init" ) ) {
-            $result->addError("ERROR: PHP Curl is missing.");
+            $result->addError("ERROR: PHP cURL is missing.");
         }
 
         if( !class_exists( "ZipArchive" ) ) {
