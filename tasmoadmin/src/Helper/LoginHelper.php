@@ -16,7 +16,7 @@ class LoginHelper
     public function login(string $password, string $storedPassword): bool
     {
         //update hashing
-        if (strpos($storedPassword, '$2y$') !== 0) {
+        if (!str_starts_with($storedPassword, '$2y$')) {
             if ($storedPassword !== md5($password)) {
                 return false;
             }
@@ -37,7 +37,7 @@ class LoginHelper
         $this->config->write("password", self::hashPassword($password));
     }
 
-    private static function hashPassword(string $password): string
+    public static function hashPassword(string $password): string
     {
         return password_hash($password, PASSWORD_DEFAULT);
     }
