@@ -5,18 +5,14 @@ ini_set('display_errors', 1);
 
 
 if( !function_exists( "curl_init" ) ) {
-    echo "ERROR: PHP Curl is missing.";
-    echo "Please install PHP Curl";
-    echo "sudo apt-get install php7.0-curl";
-    echo "and restart webserver";
+    echo "ERROR: PHP cURL is missing.";
+    echo "Please enable PHP cURL extension and restart web-server.";
     die();
 }
 
 if( !class_exists( "ZipArchive" ) ) {
     echo "ERROR: PHP Zip is missing.";
-    echo "Please install PHP Zip";
-    echo "sudo apt-get install php7.0-zip";
-    echo "and restart webserver";
+    echo "Please enable PHP Zip extension and restart web-server.";
     die();
 }
 
