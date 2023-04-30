@@ -22,7 +22,7 @@ if (isset($_POST["save"])) {
 	}
 
 	if (!isset($settings["force_upgrade"])) {
-	$settings["force_upgrade"] = "0";
+		$settings["force_upgrade"] = "0";
 	}
 
 	if (!isset($settings["show_search"])) {
@@ -30,11 +30,11 @@ if (isset($_POST["save"])) {
 	}
 
 	if (!isset($settings["update_fe_check"])) {
-	$settings["update_fe_check"] = "0";
+		$settings["update_fe_check"] = "0";
 	}
 
 	if (!isset($settings["update_be_check"])) {
-	$settings["update_be_check"] = "0";
+		$settings["update_be_check"] = "0";
 	}
 
 	if (empty($settings["password"])) {
@@ -47,9 +47,7 @@ if (isset($_POST["save"])) {
 		unset($settings["password"], $settings["username"]);
 	}
 
-	foreach ($settings as $settingKey => $settingVal) {
-		$Config->write($settingKey, $settingVal);
-	}
+	$Config->writeAll($settings);
 	//header( "Refresh:0" ); //fix for not updated config cuz of buffer
 	$msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
 }

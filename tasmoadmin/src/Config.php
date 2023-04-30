@@ -20,7 +20,7 @@ class Config
 
     private Filesystem $filesystem;
 
-    private array $defaultConfigs = [
+    private array $defaults = [
             "ota_server_ip"         => "",
             "ota_server_port"       => "",
             "username"              => "",
@@ -53,19 +53,19 @@ class Config
         $this->filesystem = new Filesystem();
 
         //init default values
-        $this->defaultConfigs["ota_server_ip"]   = !empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "";
-        $this->defaultConfigs["ota_server_port"] = !empty($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : "";
+        $this->defaults["ota_server_ip"]   = !empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "";
+        $this->defaults["ota_server_port"] = !empty($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : "";
 
         if (!empty($_SERVER["SERVER_ADDR"])) {
             $ipBlocks                             = explode(".", $_SERVER["SERVER_ADDR"]);
             $ipBlocks[3]                          = 2;
-            $this->defaultConfigs["scan_from_ip"] = implode(".", $ipBlocks);
+            $this->defaults["scan_from_ip"] = implode(".", $ipBlocks);
             $ipBlocks[3]                          = 254;
-            $this->defaultConfigs["scan_to_ip"]   = implode(".", $ipBlocks);
+            $this->defaults["scan_to_ip"]   = implode(".", $ipBlocks);
         }
 
         if (file_exists($this->appRoot . ".dockerenv")) {
-            $this->defaultConfigs["update_channel"] = "docker";
+            $this->defaults["update_channel"] = "docker";
         }
 
         //init default values end
@@ -102,7 +102,7 @@ class Config
                 }
             }
 
-            $config     = array_merge($this->defaultConfigs, $config);
+            $config     = array_merge($this->defaults, $config);
             $configJSON = json_encode($config, JSON_PRETTY_PRINT);
             if (!fwrite($fh, $configJSON)) {
                 die("COULD NOT CREATE OR WRITE IN CONFIG FILE");
@@ -126,7 +126,7 @@ class Config
         }
 
         //write default config if does not exists in file
-        foreach ($this->defaultConfigs as $configName => $configValue) {
+        foreach ($this->defaults as $configName => $configValue) {
             $config = $this->read($configName, true);
             if (!isset($config) || $config == "") {
                 $this->write($configName, $configValue, true);
@@ -200,7 +200,7 @@ class Config
         return $config;
     }
 
-    private function getCacheConfig($key = null)
+    private function getCacheConfig(?string $key = null)
     {
         $this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
         if (empty($_SESSION["MyConfig"])) {
@@ -209,26 +209,22 @@ class Config
         $configJSON = $_SESSION["MyConfig"];
 
         $config = json_decode($configJSON, true);
-        if (json_last_error() != 0) {
+        if (json_last_error() !== 0) {
             return false;
         }
         if (empty($config)) {
             return false;
         }
 
-
         if (!empty($key)) {
-            if ($key == "password") {
-                $config = "im sure you expected a top secret pw here, but you failes :)";
+            if ($key === "password") {
+                $config = "im sure you expected a top secret pw here, but you failed :)";
+            } elseif (!empty($config[$key])) {
+                $config = $config[$key];
             } else {
-                if (!empty($config[$key])) {
-                    $config = $config[$key];
-                } else {
-                    return false;
-                }
+                return false;
             }
         }
-
 
         return $config;
     }
@@ -271,7 +267,7 @@ class Config
 
     private function setCacheConfig(array $config): void
     {
-        if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] == "1") {
+        if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] === "1") {
             return;
         }
 
@@ -284,7 +280,12 @@ class Config
         $_SESSION["MyConfig"] = $configJSON;
     }
 
-    public function write(string $key, $value, bool $skipCookie = false)
+    public function write(string $key, $value, bool $skipCookie = false): void
+    {
+        $this->writeAll([$key => $value], $skipCookie);
+    }
+
+    public function writeAll(array $updates, bool $skipCookie = false): void
     {
         $this->logDebug("PERFORM READ FOR WRITE");
         $configJSON = file_get_contents($this->cfgFile);
@@ -293,15 +294,21 @@ class Config
             die("could not read MyConfig.json in write");
         }
         $config = json_decode($configJSON, true);
-        $value = trim($value);
+        foreach ($updates as $key => $value) {
+            if ($value === 0 && array_key_exists($key, $this->defaults)) {
+                $value = $this->defaults[$key];
+            }
 
-        if (empty($value) && $value != 0) {
-            $value = $this->defaultConfigs[$key];
+            if ($value === null) {
+                unset($config[$key]);
+            } else {
+                $value = trim($value);
+                $config[$key] = $value;
+            }
+
+            $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
-
-        $config[$key] = $value;
-        $configJSON   = json_encode($config, JSON_PRETTY_PRINT);
-        $this->logDebug("PERFORM WRITE (" . $key . " => " . $value . ")");
+        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
             die($this->dataDir . " is NO DIR! | write()");
@@ -344,7 +351,7 @@ class Config
             } else {
                 $config = json_decode($configJSON, true);
             }
-            if (json_last_error() != 0) {
+            if (json_last_error() !== 0) {
                 $this->clearCacheConfig();
                 die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
             }
@@ -358,6 +365,19 @@ class Config
 
 
         return $config;
+    }
+
+    public function clean(): void
+    {
+        $config = $this->readAll(true);
+
+        foreach ($config as $key => $value) {
+            if (!isset($this->defaults[$key])) {
+                $config[$key] = null;
+            }
+        }
+
+        $this->writeAll($config);
     }
 
     private function logDebug($message): void
