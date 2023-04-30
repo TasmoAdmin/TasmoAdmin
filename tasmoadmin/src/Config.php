@@ -295,13 +295,17 @@ class Config
         }
         $config = json_decode($configJSON, true);
         foreach ($updates as $key => $value) {
-            $value = trim($value);
-
-            if (empty($value) && $value != 0) {
+            if ($value === 0 && array_key_exists($key, $this->defaults)) {
                 $value = $this->defaults[$key];
             }
 
-            $config[$key] = $value;
+            if ($value === null) {
+                unset($config[$key]);
+            } else {
+                $value = trim($value);
+                $config[$key] = $value;
+            }
+
             $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
         $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
@@ -347,7 +351,7 @@ class Config
             } else {
                 $config = json_decode($configJSON, true);
             }
-            if (json_last_error() != 0) {
+            if (json_last_error() !== 0) {
                 $this->clearCacheConfig();
                 die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
             }
@@ -369,7 +373,7 @@ class Config
 
         foreach ($config as $key => $value) {
             if (!isset($this->defaults[$key])) {
-                unset($config[$key]);
+                $config[$key] = null;
             }
         }
 

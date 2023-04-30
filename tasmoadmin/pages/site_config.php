@@ -22,7 +22,7 @@ if (isset($_POST["save"])) {
 	}
 
 	if (!isset($settings["force_upgrade"])) {
-	$settings["force_upgrade"] = "0";
+		$settings["force_upgrade"] = "0";
 	}
 
 	if (!isset($settings["show_search"])) {
@@ -30,11 +30,11 @@ if (isset($_POST["save"])) {
 	}
 
 	if (!isset($settings["update_fe_check"])) {
-	$settings["update_fe_check"] = "0";
+		$settings["update_fe_check"] = "0";
 	}
 
 	if (!isset($settings["update_be_check"])) {
-	$settings["update_be_check"] = "0";
+		$settings["update_be_check"] = "0";
 	}
 
 	if (empty($settings["password"])) {
