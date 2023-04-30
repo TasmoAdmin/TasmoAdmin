@@ -219,7 +219,7 @@ class Config
         if (!empty($key)) {
             if ($key === "password") {
                 $config = "im sure you expected a top secret pw here, but you failed :)";
-            } else if (!empty($config[$key])) {
+            } elseif (!empty($config[$key])) {
                 $config = $config[$key];
             } else {
                 return false;
