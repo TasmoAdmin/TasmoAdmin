@@ -200,7 +200,7 @@ class Config
         return $config;
     }
 
-    private function getCacheConfig($key = null)
+    private function getCacheConfig(?string $key = null)
     {
         $this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
         if (empty($_SESSION["MyConfig"])) {
@@ -209,26 +209,22 @@ class Config
         $configJSON = $_SESSION["MyConfig"];
 
         $config = json_decode($configJSON, true);
-        if (json_last_error() != 0) {
+        if (json_last_error() !== 0) {
             return false;
         }
         if (empty($config)) {
             return false;
         }
 
-
         if (!empty($key)) {
-            if ($key == "password") {
-                $config = "im sure you expected a top secret pw here, but you failes :)";
+            if ($key === "password") {
+                $config = "im sure you expected a top secret pw here, but you failed :)";
+            } else if (!empty($config[$key])) {
+                $config = $config[$key];
             } else {
-                if (!empty($config[$key])) {
-                    $config = $config[$key];
-                } else {
-                    return false;
-                }
+                return false;
             }
         }
-
 
         return $config;
     }
@@ -306,9 +302,9 @@ class Config
             }
 
             $config[$key] = $value;
+            $this->logDebug("PERFORM WRITE (" . $key . " => " . $value . ")");
         }
-        $configJSON   = json_encode($config, JSON_PRETTY_PRINT);
-        $this->logDebug("PERFORM WRITE (" . $key . " => " . $value . ")");
+        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
             die($this->dataDir . " is NO DIR! | write()");
