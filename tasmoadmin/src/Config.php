@@ -302,7 +302,7 @@ class Config
             }
 
             $config[$key] = $value;
-            $this->logDebug("PERFORM WRITE (" . $key . " => " . $value . ")");
+            $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
         $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
