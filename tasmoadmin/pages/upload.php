@@ -10,8 +10,9 @@ use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
 
+$errors = [];
+$messages = [];
 $msg                   = "";
-$error                 = FALSE;
 $firmwarefolder        = _DATADIR_ . "firmwares/";
 $minimal_firmware_path = "";
 $new_firmware_path     = "";
@@ -21,7 +22,7 @@ FirmwareFolderHelper::clean($firmwarefolder);
 
 if (isset($_REQUEST["upload"])) {
 	if ($_FILES['minimal_firmware']["name"] == "") {
-		$msg .= __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
+		$errors[] =  __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
 				"UPLOAD_FIRMWARE_MINIMAL_SKIP",
 				"DEVICE_UPDATE"
 			) . "<br/>";
@@ -82,14 +83,13 @@ if (isset($_REQUEST["upload"])) {
 				);
 			}
 			
-			$msg .= __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
+			$messages[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
 					"UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
 					"DEVICE_UPDATE"
-				) . "</br>";
+				);
 			
 		} catch (RuntimeException $e) {
-			$error = TRUE;
-			$msg   .= __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!</br>";
+			$errors[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
 			
 		}
 		
@@ -141,15 +141,14 @@ if (isset($_REQUEST["upload"])) {
 		)) {
 			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_COULD_NOT_SAVE", "DEVICE_UPDATE"));
 		}
-		
-		$msg .= __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . __(
+
+		$messages[] = __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . __(
 				"UPLOAD_FIRMWARE_FULL_SUCCESSFULLY",
 				"DEVICE_UPDATE"
-			) . "</br>";
+			);
 		
 	} catch (RuntimeException $e) {
-		$error = TRUE;
-		$msg   .= __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!</br>";
+		$errors[] =  __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
 		
 	}
 }
@@ -177,24 +176,21 @@ elseif (isset($_REQUEST["auto"])) {
             $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
-			$msg .= __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$msg .= __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | " . __(
+			$messages[] = __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
+			$messages[] =  __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | " . __(
 					"VERSION",
 					"DEVICE_UPDATE"
 				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt()->format('Y-m-d');
 		} catch (Throwable $e) {
-			$error = TRUE;
-			$msg   .= __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();
+			$errors[] = __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();
 		}
 	}
 	else {
-		$error = TRUE;
-		$msg   = __("MSG_SET_AUTOMATIC_LANG_FIRST", "DEVICE_UPDATE");
+		$errors[] = __("MSG_SET_AUTOMATIC_LANG_FIRST", "DEVICE_UPDATE");
 	}
 }
 else {
-	$error = TRUE;
-	$msg   .= __("UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE") . "<br/>";
+	$errors[] = __("UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE") . "<br/>";
 }
 
 $ota_server_ip   = isset($_REQUEST["ota_server_ip"]) ? $_REQUEST["ota_server_ip"] : "";
@@ -210,16 +206,14 @@ $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 $checkForFirmware = $Config->read("update_be_check") === "1";
 
 if ($checkForFirmware && !empty($minimal_firmware_path) && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($minimal_firmware_path))) {
-    $error = true;
-    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
+	$errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
         __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE"),
         $otaHelper->getFirmwareUrl($minimal_firmware_path)
         ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
 }
 
-if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
-    $error = true;
-    $msg = __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE",[
+if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
+	$errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE",[
         __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE"),
         $otaHelper->getFirmwareUrl($new_firmware_path)
     ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
@@ -234,24 +228,24 @@ if ($checkForFirmware &&  !$firmwareChecker->isValid($otaHelper->getFirmwareUrl(
 		</h2>
 	</div>
 </div>
-<?php if (isset($error) && $error): ?>
-	<div class='row justify-content-sm-center'>
-		<div class='col col-12 col-md-6 '>
-			<div class="alert alert-danger fade show mb-3" role="alert">
-				<?php echo $msg; ?>
-			</div>
+<?php if (!empty($errors)): ?>
+<div class='row justify-content-sm-center'>
+	<div class='col col-12 col-md-6 '>
+		<div class="alert alert-danger fade show mb-3" role="alert">
+			<?php echo implode('<br/>', $errors); ?>
 		</div>
 	</div>
+</div>
 <?php else: ?>
-	<?php if (isset($msg) && $msg != ""): ?>
-		<div class='row justify-content-sm-center'>
-			<div class='col col-12 col-md-6 '>
-				<div class="alert alert-success fade show mb-3" role="alert">
-					<?php echo $msg; ?>
-				</div>
-			</div>
-		</div>
-	<?php endif; ?>
+    <?php if (!empty($messages)): ?>
+    <div class='row justify-content-sm-center'>
+        <div class='col col-12 col-md-6 '>
+            <div class="alert alert-success fade show mb-3" role="alert">
+                <?php echo implode('<br/>', $messages); ?>
+            </div>
+        </div>
+    </div>
+    <?php endif; ?>
 	
 	<?php $devices = $Sonoff->getDevices(); ?>
 	
