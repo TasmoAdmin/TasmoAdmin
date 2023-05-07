@@ -12,7 +12,6 @@ use TasmoAdmin\Update\FirmwareDownloader;
 
 $errors = [];
 $messages = [];
-$msg                   = "";
 $firmwarefolder        = _DATADIR_ . "firmwares/";
 $minimal_firmware_path = "";
 $new_firmware_path     = "";
