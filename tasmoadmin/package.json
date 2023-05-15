@@ -10,7 +10,7 @@
     "bootstrap": "^4.6.2",
     "bootstrap-waitingfor": "^1.2.7",
     "jqdoublescroll": "^1.0.0",
-    "jquery": "^3.6.4",
+    "jquery": "^3.7.0",
     "js-cookie": "^3.0.5",
     "popper.js": "^1.16.1",
     "tablesaw": "^3.1.2"
