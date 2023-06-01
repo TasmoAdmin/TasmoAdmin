@@ -25,12 +25,15 @@ COPY .docker/_tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
 # Install base system
 ARG BUILD_ARCH=amd64
 RUN \
-    apk add --no-cache --virtual .build-dependencies \
+    set -o pipefail \
+    \
+    && apk add --no-cache --virtual .build-dependencies \
         tar \
         xz \
     \
     && apk add --no-cache \
-        apk-tools \
+        libcrypto3 \
+        libssl3 \
         bash \
         busybox \
         ca-certificates \
@@ -49,9 +52,9 @@ RUN \
         php82 \
     \
     && S6_ARCH="${BUILD_ARCH}" \
-    && if [ "${BUILD_ARCH}" = "i386" ]; then S6_ARCH="i686"; \
+    && if [ "${BUILD_ARCH}" = "arm32v6" ]; then S6_ARCH="armhf"; \
     elif [ "${BUILD_ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; \
-    elif [ "${BUILD_ARCH}" = "armv7" ]; then S6_ARCH="arm"; fi \
+    elif [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="arm"; fi \
     \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
         | tar -C / -Jxpf - \
@@ -65,9 +68,9 @@ RUN \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" \
         | tar -C / -Jxpf - \
     \
-    && apk del --purge .build-dependencies \
-    \
-    && rm -f -r /tmp/*
+    && apk del --no-cache --purge .build-dependencies \
+    && rm -f -r \
+        /tmp/*
 
 # Environment variables
 ENV BUILD_VERSION ${BUILD_VERSION}
