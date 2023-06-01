@@ -27,11 +27,11 @@ ARG BUILD_ARCH=amd64
 RUN \
     apk add --no-cache --virtual .build-dependencies \
         tar \
+        xz \
     \
     && apk add --no-cache \
         apk-tools \
         bash \
-        xz \
         busybox \
         ca-certificates \
         curl \
