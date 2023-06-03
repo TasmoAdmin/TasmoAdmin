@@ -52,9 +52,8 @@ RUN \
         php82 \
     \
     && S6_ARCH="${BUILD_ARCH}" \
-    && if [ "${BUILD_ARCH}" = "arm32v6" ]; then S6_ARCH="armhf"; \
-    elif [ "${BUILD_ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; \
-    elif [ "${BUILD_ARCH}" = "aarch64" ]; then S6_ARCH="arm"; fi \
+    && if [ "${BUILD_ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; \
+    elif [ "${BUILD_ARCH}" = "arm32v6" ]; then S6_ARCH="arm"; fi \
     \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
         | tar -C / -Jxpf - \
