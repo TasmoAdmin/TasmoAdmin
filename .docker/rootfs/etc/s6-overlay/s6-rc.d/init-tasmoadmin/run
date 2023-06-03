@@ -63,3 +63,15 @@ fi
 chown -R nginx:nginx /data/tasmoadmin
 find /data/tasmoadmin -not -perm 0644 -type f -exec chmod 0644 {} \;
 find /data/tasmoadmin -not -perm 0755 -type d -exec chmod 0755 {} \;
+
+if [ ! -f "/var/www/tasmoadmin/.dockerenv" ]; then
+    echo 'Docker env does not exist, doing that now...'
+
+    # Create .docker
+    touch /var/www/tasmoadmin/.dockerenv
+
+    # Ensure file permissions
+    chown -R nginx:nginx /var/www/tasmoadmin/.dockerenv
+fi
+
+chown -R nginx:nginx /var/www/tasmoadmin/tmp

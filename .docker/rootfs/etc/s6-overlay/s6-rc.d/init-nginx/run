@@ -27,3 +27,15 @@ fi
 echo 'Symlinking /etc/nginx.conf from persistent storage location...'
 rm -rf /etc/nginx/nginx.conf
 ln -s /data/nginx/nginx.conf /etc/nginx/nginx.conf
+
+declare certfile
+declare keyfile
+
+if ${SSL}; then
+    echo 'Symlinking /etc/nginx.conf to nginx-ssl.config on persistent storage...'
+    rm -f -r /etc/nginx/nginx.conf
+    ln -s /data/nginx/nginx-ssl.conf /etc/nginx/nginx.conf
+    rm -f -r /etc/nginx/certs
+    echo 'Symlinking /etc/nginx/certs to persistent storage...'
+    ln -s /data/nginx/certs /etc/nginx/certs
+fi
