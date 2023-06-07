@@ -7,6 +7,6 @@
 #source /usr/lib/hassio-addons/base.sh
 
 # Wait for PHP-FPM to become available
-s6-svwait -u -t 5000 /var/run/s6/services/php-fpm
+s6-svwait -u -t 5000 /var/run/service/php-fpm
 
 exec nginx -g "daemon off;"
