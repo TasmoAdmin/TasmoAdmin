@@ -25,4 +25,11 @@ class ResponseParserTest extends TestCase
         self::assertTrue(property_exists($result, 'ERROR'));
         self::assertStringContainsString('{"Invalid": "\xfc\xa1\xa1\xa1\xa1\xa1"}', $result->ERROR);
     }
+
+    public function testProcessResultv8500(): void
+    {
+        $parser = new ResponseParser();
+        $result = $parser->processResult(TestUtils::loadFixture('response-invalid-v8500.json'));
+        self::assertFalse(property_exists($result, 'ERROR'));
+    }
 }
