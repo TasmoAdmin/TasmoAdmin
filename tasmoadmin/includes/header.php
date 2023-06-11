@@ -357,3 +357,5 @@ $urlHelper = $container->get(UrlHelper::class);
 				</div>
 			</nav>
 		</header>
+        <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
+            <div id='content-holder'>

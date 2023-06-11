@@ -79,13 +79,7 @@ try {
     $title = getTitle($page, $action);
     ob_start();
     include_once( _INCLUDESDIR_."header.php" );
-    ?>
-<main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
-	<div id='content-holder'>
-		<?php include sprintf('%s%s.php', _PAGESDIR_, $page); ?>
-	</div>
-</main>
-<?php
+    include sprintf('%s%s.php', _PAGESDIR_, $page);
     include_once( _INCLUDESDIR_."footer.php" );
     $response = new Response(ob_get_clean());
 } catch (ResourceNotFoundException $exception) {

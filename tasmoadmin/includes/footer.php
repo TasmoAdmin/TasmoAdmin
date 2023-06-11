@@ -1,3 +1,5 @@
+</div>
+</main>
 <footer class="footer">
 	<div class='navbar navbar-expand-lg navbar-dark bg-dark py-0 '>
 		<div class="mx-auto">
