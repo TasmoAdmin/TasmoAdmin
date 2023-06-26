@@ -183,12 +183,32 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 		await sleep(defaultSleepDuration);
 		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
-		response = await checkStatus(deviceId);
-		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
-		if (targetVersion && !compareVersion(targetVersion, response.StatusFWR.Version)) {
+
+		let upgradeSuccessful = false;
+		for (let i = 0; i < defaultTries; i++) {
+			response = await checkStatus(deviceId);
+
+			if (!targetVersion) {
+				upgradeSuccessful = true;
+				break;
+			}
+
+			if (compareVersion(targetVersion, response.StatusFWR.Version)) {
+				upgradeSuccessful = true;
+				break;
+			}
+
+			log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION'));
+			log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
+			await sleep(defaultSleepDuration);
+		}
+
+		if (!upgradeSuccessful) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
 			return;
 		}
+
+		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
 	} catch(e) {
 		log(deviceId, e.message, Level.error);
@@ -201,5 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const deviceIds = JSON.parse(device_ids);
+
+
 	deviceIds.forEach(updateDevice);
 });
