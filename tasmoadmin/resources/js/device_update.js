@@ -13,7 +13,7 @@ const sleep = (milliseconds) => {
 	return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-const defaultTries = 10;
+const defaultTries = 15;
 const defaultSleepDuration = 10000;
 
 const defaultRetryOptions = {
