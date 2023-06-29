@@ -1038,14 +1038,16 @@ hr {
   font-size: 0.8rem;
   line-height: 1rem;
 }
-#progressbox span.error {
-  color: #BA001A;
+#progressbox span.error, #logGlobal span.error {
+  color : red;
 }
-#progressbox span.success {
-  color: green;
+
+#progressbox span.success , #logGlobal span.success {
+  color : green;
 }
-#progressbox span.warning {
-  color: darkorange;
+
+#progressbox span.warning, #logGlobal span.warning {
+  color : darkorange;
 }
 
 .modal-header > h3:nth-child(1) {

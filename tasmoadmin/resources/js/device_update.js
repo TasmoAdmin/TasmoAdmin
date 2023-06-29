@@ -173,7 +173,7 @@ async function updateDevice(deviceId) {
 		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
 		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
-			return;
+			return true;
 		}
 
 		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
@@ -205,13 +205,16 @@ async function updateDevice(deviceId) {
 
 		if (!upgradeSuccessful) {
 			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
-			return;
+			return false;
 		}
 
 		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
 		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
+
+		return true
 	} catch(e) {
 		log(deviceId, e.message, Level.error);
+		return false
 	}
 }
 
@@ -221,7 +224,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 	}
 
 	const deviceIds = JSON.parse(device_ids);
-
-
-	deviceIds.forEach(updateDevice);
+	const results = await Promise.all(deviceIds.map(deviceId =>  updateDevice(deviceId)));
+	const successful = results.reduce((count, value) => value ? count + 1 : count, 0);
+	const resultLogLevel = successful === deviceIds.length ? Level.success : Level.error;
+	logGlobal( $.i18n('BLOCK_UPDATE_RESULTS',successful, deviceIds.length), resultLogLevel)
 });
