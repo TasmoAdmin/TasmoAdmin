@@ -227,6 +227,5 @@ document.addEventListener('DOMContentLoaded', async () => {
 	const results = await Promise.all(deviceIds.map(deviceId =>  updateDevice(deviceId)));
 	const successful = results.reduce((count, value) => value ? count + 1 : count, 0);
 	const resultLogLevel = successful === deviceIds.length ? Level.success : Level.error;
-	console.log(resultLogLevel)
 	logGlobal( $.i18n('BLOCK_UPDATE_RESULTS',successful, deviceIds.length), resultLogLevel)
 });
