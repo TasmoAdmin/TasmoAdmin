@@ -25,7 +25,7 @@ $devicesJson = [];
 foreach ($devices as $device) {
     $devicesJson[] = [
             'id' => $device->id,
-            'name' => implode(" | ", $device->names),
+            'name' => $device->getName(),
     ];
 }
 ?>
