@@ -129,13 +129,13 @@ function log(deviceId, message, level = Level.info) {
 	deviceContainer.appendChild(logLine);
 }
 
-function createDeviceElement(deviceId) {
+function createDeviceElement(device) {
 	const deviceContainer = document.createElement('div');
-	deviceContainer.setAttribute('id', deviceSelector(deviceId));
+	deviceContainer.setAttribute('id', deviceSelector(device.id));
 	deviceContainer.classList.add('device');
 
 	const deviceTitle = document.createElement('h1');
-	deviceTitle.appendChild(document.createTextNode(`Device ${deviceId}`));
+	deviceTitle.appendChild(document.createTextNode(`Device ${device.id} (${device.name})`));
 	deviceContainer.appendChild(deviceTitle);
 
 	return deviceContainer;
@@ -158,35 +158,35 @@ function compareVersion(target, actual) {
 	return  targetMatch === actualMatch;
 }
 
-async function updateDevice(deviceId) {
+async function updateDevice(device) {
 	const deviceContainer = document.getElementById(deviceContainerId);
-	deviceContainer.appendChild(createDeviceElement(deviceId));
+	deviceContainer.appendChild(createDeviceElement(device));
 
 	try
 	{
-		log(deviceId, $.i18n('BLOCK_GLOBAL_START'));
+		log(device.id, $.i18n('BLOCK_GLOBAL_START'));
 		if (targetVersion) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_ATTEMPT_TO_VERSION', targetVersion));
+			log(device.id, $.i18n('BLOCK_UPDATE_ATTEMPT_TO_VERSION', targetVersion));
 		}
-		let response = await checkStatus(deviceId);
+		let response = await checkStatus(device.id);
 		const beforeVersion = response.StatusFWR.Version;
-		log(deviceId, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
+		log(device.id, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
 		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
+			log(device.id, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
 			return true;
 		}
 
-		log(deviceId, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
-		await setOtaUrl(deviceId, otaUrl);
-		log(deviceId, $.i18n('BLOCK_UPDATE_START'));
-		await startUpgrade(deviceId);
-		log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
+		log(device.id, $.i18n('BLOCK_OTAURL_SET_URL_FWURL') + otaUrl);
+		await setOtaUrl(device.id, otaUrl);
+		log(device.id, $.i18n('BLOCK_UPDATE_START'));
+		await startUpgrade(device.id);
+		log(device.id, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 		await sleep(defaultSleepDuration);
-		log(deviceId, $.i18n('BLOCK_UPDATE_SUCCESS'));
+		log(device.id, $.i18n('BLOCK_UPDATE_SUCCESS'));
 
 		let upgradeSuccessful = false;
 		for (let i = 0; i < defaultTries; i++) {
-			response = await checkStatus(deviceId);
+			response = await checkStatus(device.id);
 
 			if (!targetVersion) {
 				upgradeSuccessful = true;
@@ -198,22 +198,22 @@ async function updateDevice(deviceId) {
 				break;
 			}
 
-			log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION'));
-			log(deviceId, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
+			log(device.id, $.i18n('BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION'));
+			log(device.id, $.i18n('BLOCK_UPDATE_SLEEPING', defaultSleepDuration/1000));
 			await sleep(defaultSleepDuration);
 		}
 
 		if (!upgradeSuccessful) {
-			log(deviceId, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
+			log(device.id, $.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH', targetVersion, response.StatusFWR.Version), Level.error);
 			return false;
 		}
 
-		log(deviceId, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
-		log(deviceId, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
+		log(device.id, $.i18n('BLOCK_UPDATE_VERSION_IS', response.StatusFWR.Version));
+		log(device.id, $.i18n('BLOCK_UPDATE_FINISH_SUCCESS'), Level.success);
 
 		return true
 	} catch(e) {
-		log(deviceId, e.message, Level.error);
+		log(device.id, e.message, Level.error);
 		return false
 	}
 }
@@ -222,10 +222,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 	if (config.update_fe_check && !await checkOtaUrlAccessible(otaUrl)) {
 		return;
 	}
-
-	const deviceIds = JSON.parse(device_ids);
-	const results = await Promise.all(deviceIds.map(deviceId =>  updateDevice(deviceId)));
+	const results = await Promise.all(devices.map(device =>  updateDevice(device)));
 	const successful = results.reduce((count, value) => value ? count + 1 : count, 0);
-	const resultLogLevel = successful === deviceIds.length ? Level.success : Level.error;
-	logGlobal( $.i18n('BLOCK_UPDATE_RESULTS',successful, deviceIds.length), resultLogLevel)
+	const resultLogLevel = successful === devices.length ? Level.success : Level.error;
+	logGlobal( $.i18n('BLOCK_UPDATE_RESULTS',successful, devices.length), resultLogLevel)
 });
