@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\UrlHelper;
 
@@ -15,8 +16,18 @@ if (!empty($_REQUEST['target_version'])) {
     $target_version = ($_REQUEST['target_version']);
 }
 
-$device_ids = $_REQUEST["device_ids"] ?? FALSE;
+$deviceIds = $_REQUEST["device_ids"] ?? [];
 
+$deviceRepository = $container->get(DeviceRepository::class);
+$devices = $deviceRepository->getDevicesByIds($deviceIds);
+
+$devicesJson = [];
+foreach ($devices as $device) {
+    $devicesJson[] = [
+            'id' => $device->id,
+            'name' => $device->getName(),
+    ];
+}
 ?>
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-8 '>
@@ -27,7 +38,7 @@ $device_ids = $_REQUEST["device_ids"] ?? FALSE;
 </div>
 <div class='row justify-content-center'>
     <div class='col col-12 col-md-10'>
-        <?php if (!$device_ids): ?>
+        <?php if (empty($deviceIds)): ?>
             <div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
                 <?php echo __("NO_DEVICES_SELECTED", "DEVICE_UPDATE"); ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -46,7 +57,7 @@ $device_ids = $_REQUEST["device_ids"] ?? FALSE;
         <input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url; ?>'>
         <input type='hidden' id='target_version' value='<?php echo $target_version; ?>'>
             <script>
-                const device_ids = '<?php echo json_encode($device_ids); ?>';
+                const devices = <?php echo json_encode($devicesJson); ?>;
             </script>
             <script src="<?php echo $urlHelper->js("device_update"); ?>"></script>
         <?php endif; ?>

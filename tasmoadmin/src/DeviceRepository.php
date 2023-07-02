@@ -99,6 +99,19 @@ class DeviceRepository
         return $devices;
     }
 
+    public function getDevicesByIds(array $ids): array
+    {
+        $devices = $this->getDevices();
+
+        foreach ($devices as $index => $device) {
+            if (!in_array($device->id, $ids, false)) {
+                unset($devices[$index]);
+            }
+        }
+
+        return $devices;
+    }
+
     public function setDeviceValue(string $id, string $field, $value = null): ?Device
     {
         if (empty($id)) {
