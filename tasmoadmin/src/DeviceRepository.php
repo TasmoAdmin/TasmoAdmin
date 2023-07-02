@@ -109,7 +109,7 @@ class DeviceRepository
             }
         }
 
-        return $devices;
+        return array_values($devices);
     }
 
     public function setDeviceValue(string $id, string $field, $value = null): ?Device

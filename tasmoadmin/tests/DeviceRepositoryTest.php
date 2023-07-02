@@ -168,6 +168,14 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(5, $repo->getDevices());
     }
 
+    public function testGetDevicesByIds(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(5);
+        $devices = $repo->getDevicesByIds([1, 5]);
+        self::assertEquals(1, $devices[0]->id);
+        self::assertEquals(5, $devices[1]->id);
+    }
+
     private function getVirtualRepoWithDevices(int $count): DeviceRepository
     {
         $repo = $this->getVirtualRepo();
