@@ -135,7 +135,7 @@ function createDeviceElement(device) {
 	deviceContainer.classList.add('device');
 
 	const deviceTitle = document.createElement('h1');
-	deviceTitle.appendChild(document.createTextNode(`Device ${device.id} (${device.name})`));
+	deviceTitle.appendChild(document.createTextNode($.i18n('DEVICE') + ` ${device.id} (${device.name})`));
 	deviceContainer.appendChild(deviceTitle);
 
 	return deviceContainer;
