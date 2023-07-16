@@ -67,16 +67,18 @@ class TasmotaHelper
 
     public function getReleases(): array
     {
-        $firmwareResult = $this->getLatestRelease();
+        $firmwareResults[] = $this->tasmotaOtaScraper->getEsp8266Firmware();
+        $firmwareResults[] = $this->tasmotaOtaScraper->getEsp32Firmware();
         $tasmotaReleases = [];
-        foreach ($firmwareResult->getFirmwares() as $asset) {
-            if (strpos($asset->getName(), "-minimal.bin") !== false) {
-                continue;
+        foreach ($firmwareResults as $firmwareResult) {
+            foreach ($firmwareResult->getFirmwares() as $asset) {
+                if (str_contains($asset->getName(), "-minimal.bin")) {
+                    continue;
+                }
+
+                $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), "."));
             }
-
-            $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), "."));
         }
-
 
         $tasmotaReleases = array_unique($tasmotaReleases);
         asort($tasmotaReleases);
@@ -86,8 +88,34 @@ class TasmotaHelper
 
     public function getLatestFirmwares(string $configuredFirmware): AutoFirmwareResult
     {
-        $firmwareResult = $this->getLatestRelease();
+        $isEsp32 = str_starts_with($configuredFirmware, 'tasmota32');
 
+        if ($isEsp32) {
+            return $this->getEsp32LatestFirmwares($configuredFirmware);
+        }
+
+        return $this->getEsp8266LatestFirmwares($configuredFirmware);
+    }
+
+    private function getEsp32LatestFirmwares(string $configuredFirmware): AutoFirmwareResult
+    {
+        $firmwareResult = $this->tasmotaOtaScraper->getEsp32Firmware();
+        foreach ($firmwareResult->getFirmwares() as $asset) {
+            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin") {
+                $fwUrl = $asset->getUrl();
+            }
+        }
+
+        if (!isset($fwUrl)) {
+            throw new InvalidArgumentException('Failed to resolve firmware');
+        }
+
+        return new AutoFirmwareResult($fwUrl, null, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
+    }
+
+    private function getEsp8266LatestFirmwares(string $configuredFirmware): AutoFirmwareResult
+    {
+        $firmwareResult = $this->tasmotaOtaScraper->getEsp8266Firmware();
         foreach ($firmwareResult->getFirmwares() as $asset) {
             if ($asset->getName() === "tasmota-minimal.bin.gz") {
                 $fwMinimalUrl = $asset->getUrl();
@@ -101,12 +129,7 @@ class TasmotaHelper
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
-    }
-
-    private function getLatestRelease(): TasmotaFirmwareResult
-    {
-        return $this->tasmotaOtaScraper->getFirmware();
+        return new AutoFirmwareResult($fwUrl, $fwMinimalUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
     private function getContents(string $url): string
