@@ -171,8 +171,10 @@ elseif (isset($_REQUEST["auto"])) {
         try {
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
 
-            // We need minimal firmware downloaded for upgrade to work
-            $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            if ($result->hasMinimalFirmware()) {
+                // We need minimal firmware downloaded for upgrade to work for esp8266
+                $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+            }
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
 			$messages[] = __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";

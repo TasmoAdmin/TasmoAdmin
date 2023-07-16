@@ -110,7 +110,7 @@ class TasmotaHelper
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
+        return new AutoFirmwareResult($fwUrl, null, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
     private function getEsp8266LatestFirmwares(string $configuredFirmware): AutoFirmwareResult
@@ -129,7 +129,7 @@ class TasmotaHelper
             throw new InvalidArgumentException('Failed to resolve firmware');
         }
 
-        return new AutoFirmwareResult($fwMinimalUrl, $fwUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
+        return new AutoFirmwareResult($fwUrl, $fwMinimalUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
     }
 
     private function getContents(string $url): string

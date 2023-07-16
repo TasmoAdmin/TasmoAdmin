@@ -6,7 +6,7 @@ use DateTime;
 
 class AutoFirmwareResult
 {
-    private string $minimalFirmwareUrl;
+    private ?string $minimalFirmwareUrl;
 
     private string $firmwareUrl;
 
@@ -14,22 +14,27 @@ class AutoFirmwareResult
 
     private DateTime $publishedAt;
 
-    public function __construct(string $minimalFirmwareUrl, string $firmwareUrl, string $tagName, DateTime $publishedAt)
+    public function __construct(string $firmwareUrl, ?string $minimalFirmwareUrl, string $tagName, DateTime $publishedAt)
     {
-        $this->minimalFirmwareUrl = $minimalFirmwareUrl;
         $this->firmwareUrl = $firmwareUrl;
+        $this->minimalFirmwareUrl = $minimalFirmwareUrl;
         $this->tagName = $tagName;
         $this->publishedAt = $publishedAt;
-    }
-
-    public function getMinimalFirmwareUrl(): string
-    {
-        return $this->minimalFirmwareUrl;
     }
 
     public function getFirmwareUrl(): string
     {
         return $this->firmwareUrl;
+    }
+
+    public function hasMinimalFirmware(): bool
+    {
+        return $this->minimalFirmwareUrl !== null;
+    }
+
+    public function getMinimalFirmwareUrl(): ?string
+    {
+        return $this->minimalFirmwareUrl;
     }
 
     public function getTagName(): string
