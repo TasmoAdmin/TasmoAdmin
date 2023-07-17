@@ -113,41 +113,16 @@ function initCommandHelper()
 											   });
 
 
-	$(".select_all").change(function ()
-							{  //"select all" change
-								let status = this.checked; // "select all" checked status
-								$("#device-list tr:not(.d-none) .device_checkbox").each(function ()
-																						{ //iterate all listed checkbox items
-																							this.checked = status; //change ".checkbox" checked status
-																						});
+	$(".select_all").change(function () {
+		let status = this.checked;
+		$("#device-list tr:not(.d-none) .device_checkbox:not(:disabled)").each(function () {
+			this.checked = status;
+		});
 
-								$(".select_all").each(function ()
-													  { //iterate all listed checkbox items
-														  this.checked = status; //change ".checkbox" checked status
-													  });
-
-							});
-
-	$(".device_checkbox").change(function ()
-								 { //".checkbox" change
-									 //uncheck "select all", if one of the listed checkbox item is unchecked
-									 if (this.checked == false)
-									 { //if this item is unchecked
-										 $(".select_all").each(function ()
-															   { //iterate all listed checkbox items
-																   this.checked = false; //change ".checkbox" checked status
-															   });
-									 }
-
-									 //check "select all" if all checkbox items are checked
-									 if ($(".device_checkbox:checked").length == $(".device_checkbox").length)
-									 {
-										 $(".select_all").each(function ()
-															   { //iterate all listed checkbox items
-																   this.checked = true; //change ".checkbox" checked status
-															   });
-									 }
-								 });
+		$(".select_all").each(function () {
+			this.checked = status;
+		});
+	});
 
 
 	$(".sendCommand").on("click", function (e)
