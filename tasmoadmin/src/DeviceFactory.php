@@ -6,7 +6,20 @@ class DeviceFactory
 {
     public static function fakeDevice(string $ip, string $username, string $password): Device
     {
-        return new Device(null, [], $ip, $username, $password, Device::DEFAULT_IMAGE, '1', 1, 0, 0, []);
+        return new Device(
+            null,
+            [],
+            $ip, 
+            $username, 
+            $password,
+            Device::DEFAULT_IMAGE,
+            '1', 
+            1, 
+            0, 
+            0, 
+            [],
+            true
+        );
     }
 
     public static function fromRequest(array $request): Device
@@ -22,6 +35,7 @@ class DeviceFactory
         $device[7] = $request["device_all_off"] ?? 1;
         $device[8] = $request["device_protect_on"] ?? 0;
         $device[9] = $request["device_protect_off"] ?? 0;
+        $device[10] = $request["is_updatable"] ?? true;
 
         return self::fromArray($device);
     }
@@ -44,6 +58,7 @@ class DeviceFactory
         $device_all_off = $array[7] ?? 1;
         $device_protect_on = $array[8] ?? 0;
         $device_protect_off = $array[9] ?? 0;
+        $is_updatable = $array[10] ?? true;
 
         $keywords = [];
         $keywords[] = count($names) > 1 ? "multi" : "single";
@@ -63,7 +78,8 @@ class DeviceFactory
             $device_all_off,
             $device_protect_on,
             $device_protect_off,
-            $keywords
+            $keywords,
+            $is_updatable
         );
     }
 }
