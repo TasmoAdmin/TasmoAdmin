@@ -31,7 +31,7 @@ class Device
         int $deviceProtectionOn,
         int $deviceProtectionOff,
         array $keywords,
-        bool $isUpdatable
+        bool $isUpdatable = true
     ) {
         $this->id = $id;
         $this->names = $names;
