@@ -9,14 +9,14 @@ class DeviceFactory
         return new Device(
             null,
             [],
-            $ip, 
-            $username, 
+            $ip,
+            $username,
             $password,
             Device::DEFAULT_IMAGE,
-            '1', 
-            1, 
-            0, 
-            0, 
+            '1',
+            1,
+            0,
+            0,
             [],
             true
         );
