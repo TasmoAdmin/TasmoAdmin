@@ -103,6 +103,9 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
                             <div class="form-check custom-control custom-checkbox">
                                 <input class="form-check-input custom-control-input device_checkbox"
                                        type="checkbox"
+                                       <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)): ?>
+                                           disabled="disabled"
+                                       <?php endif ?>
                                        value='<?php echo $device_group->id; ?>'
                                        id="cb_<?php echo $device_group->id; ?>"
                                        name='device_ids[]'

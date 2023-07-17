@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\GzipHelper;
@@ -248,7 +249,16 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
     </div>
     <?php endif; ?>
 	
-	<?php $devices = $Sonoff->getDevices(); ?>
+	<?php
+
+    $devices = $Sonoff->getDevices();
+    $disabledDeviceIds = array_map(function(Device $device) {
+        return $device->id;
+    }, array_filter($devices, function(Device $device) {
+        return !$device->isUpdatable;
+    }));
+
+    ?>
 	
 	
 	<?php if (isset($_REQUEST["auto"])) : ?>
