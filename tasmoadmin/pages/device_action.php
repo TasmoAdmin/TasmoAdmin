@@ -367,7 +367,7 @@ if (!empty($_POST)) {
 						<?php endif; ?>
 						
 						<div class="form-row">
-							<div class="form-group col col-12 col-sm-4">
+							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
 									
 									<input type='hidden' name='device_all_off' value='0'>
@@ -381,7 +381,7 @@ if (!empty($_POST)) {
 									</label>
 								</div>
 							</div>
-							<div class="form-group col col-12 col-sm-4">
+							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
 									
 									<input type='hidden' name='device_protect_on' value='0'>
@@ -395,7 +395,7 @@ if (!empty($_POST)) {
 									</label>
 								</div>
 							</div>
-							<div class="form-group col col-12 col-sm-4">
+							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
 									
 									<input type='hidden' name='device_protect_off' value='0'>
@@ -409,6 +409,20 @@ if (!empty($_POST)) {
 									</label>
 								</div>
 							</div>
+                            <div class="form-group col col-12 col-sm-3">
+                                <div class="form-check custom-control custom-checkbox mb-5">
+
+                                    <input type='hidden' name='is_updatable' value='0'>
+                                    <input class="form-check-input custom-control-input"
+                                           type="checkbox"
+                                           value="1"
+                                           id="is_updatable"
+                                           name='is_updatable' <?php echo $device->isUpdatable ? "checked=\"checked\"" : ""; ?>>
+                                    <label class="form-check-label custom-control-label" for="is_updatable">
+                                        <?php echo __("LABEL_IS_UPDATABLE", "DEVICE_ACTIONS"); ?>
+                                    </label>
+                                </div>
+                            </div>
 						</div>
 					<?php endif; ?>
 				

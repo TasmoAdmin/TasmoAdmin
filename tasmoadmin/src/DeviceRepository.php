@@ -170,6 +170,7 @@ class DeviceRepository
         $deviceArr[7] = isset($device->deviceAllOff) && !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
         $deviceArr[8] = isset($device->deviceProtectionOn) && !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
         $deviceArr[9] = isset($device->deviceProtectionOff) && !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
+        $deviceArr[10] = $device->isUpdatable;
 
         foreach ($deviceArr as $key => $field) {
             if (is_array($field)) {

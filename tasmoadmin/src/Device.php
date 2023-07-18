@@ -17,6 +17,7 @@ class Device
     public int $deviceProtectionOn;
     public int $deviceProtectionOff;
     public array $keywords;
+    public bool $isUpdatable;
 
     public function __construct(
         ?int $id,
@@ -29,7 +30,8 @@ class Device
         int $deviceAllOff,
         int $deviceProtectionOn,
         int $deviceProtectionOff,
-        array $keywords
+        array $keywords,
+        bool $isUpdatable = true
     ) {
         $this->id = $id;
         $this->names = $names;
@@ -42,6 +44,7 @@ class Device
         $this->deviceProtectionOn = $deviceProtectionOn;
         $this->deviceProtectionOff = $deviceProtectionOff;
         $this->keywords = $keywords;
+        $this->isUpdatable = $isUpdatable;
     }
 
     public function getName(): string

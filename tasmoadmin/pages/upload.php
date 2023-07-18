@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\GzipHelper;
@@ -248,7 +249,16 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
     </div>
     <?php endif; ?>
 	
-	<?php $devices = $Sonoff->getDevices(); ?>
+	<?php
+
+    $devices = $Sonoff->getDevices();
+    $disabledDeviceIds = array_map(function(Device $device) {
+        return $device->id;
+    }, array_filter($devices, function(Device $device) {
+        return !$device->isUpdatable;
+    }));
+
+    ?>
 	
 	
 	<?php if (isset($_REQUEST["auto"])) : ?>
@@ -348,49 +358,6 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 		
 		</div>
 	</div>
-	<script>
-        $(document).ready(function()
-        {
-            //select all checkboxes
-            $(".select_all").change(function ()
-                                    {  //"select all" change
-                                        var status = this.checked; // "select all" checked status
-                                        $(".device_checkbox").each(function ()
-                                                                   { //iterate all listed checkbox items
-                                                                       this.checked = status; //change ".checkbox" checked status
-                                                                   });
-
-                                        $(".select_all").each(function ()
-                                                              { //iterate all listed checkbox items
-                                                                  this.checked = status; //change ".checkbox" checked status
-                                                              });
-
-                                    });
-
-            $(".device_checkbox").change(function ()
-                                         { //".checkbox" change
-                                             //uncheck "select all", if one of the listed checkbox item is unchecked
-                                             if (this.checked == false)
-                                             { //if this item is unchecked
-                                                 $(".select_all").each(function ()
-                                                                       { //iterate all listed checkbox items
-                                                                           this.checked = false; //change ".checkbox" checked status
-                                                                       });
-                                             }
-
-                                             //check "select all" if all checkbox items are checked
-                                             if ($(".device_checkbox:checked").length == $(".device_checkbox").length)
-                                             {
-                                                 $(".select_all").each(function ()
-                                                                       { //iterate all listed checkbox items
-                                                                           this.checked = true; //change ".checkbox" checked status
-                                                                       });
-                                             }
-                                         });
-
-        });
-	</script>
-	
 	<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
 <?php endif; ?>
 

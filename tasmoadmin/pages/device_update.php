@@ -2,7 +2,6 @@
 
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\OtaHelper;
-use TasmoAdmin\Helper\UrlHelper;
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
