@@ -37,6 +37,6 @@ class JsonLanguageHelperTest extends TestCase
                 'HELLO' => 'hello',
                 'WORLD' => 'world',
             ],
-        ], json_decode($this->root->getChild('json_i18n_de.cache.json')->getContent(), true));
+        ], json_decode(file_get_contents($this->root->getChild('json_i18n_de.cache.json')->url()), true));
     }
 }
