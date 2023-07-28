@@ -4,7 +4,6 @@ namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use org\bovigo\vfs\vfsStreamFile;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use PHPUnit\Framework\TestCase;
 use Tests\TasmoAdmin\TestUtils;
@@ -30,14 +29,6 @@ class JsonLanguageHelperTest extends TestCase
 
         $jsonLanguageHelper->dumpJson();
         self::assertTrue($this->root->hasChild('json_i18n_de.cache.json'));
-
-
-        $file = $this->root->getChild('json_i18n_de.cache.json');
-
-        if (!$file instanceof vfsStreamFile) {
-            self::fail('File not found');
-        }
-
         self::assertEquals([
             'de' => [
                 'HELLO' => 'hallo',
