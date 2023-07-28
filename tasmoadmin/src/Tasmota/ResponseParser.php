@@ -34,7 +34,7 @@ class ResponseParser
             $data->ERROR .= "<br/>" . __("JSON_ANSWER", "API") . " => " . print_r($result, true);
         }
 
-        if (isset($data) && empty($result->ERROR)) {
+        if (isset($data) && empty($data->ERROR)) {
             $data = $this->compatibility($data);
         }
 
@@ -51,7 +51,7 @@ class ResponseParser
          * https://github.com/TasmoAdmin/TasmoAdmin/issues/107
          **/
         if (!empty($status->StatusNET->IP)) {
-            $status->StatusNET->IPAddress = $status->StatusNET->IP;
+            $status->StatusNET->IPAddress = $status->StatusNET->IP; // @phpstan-ignore-line
         }
 
         return $status;
