@@ -42,6 +42,12 @@ class Config
             "update_be_check"      => "1",
             "auto_update_channel"  => "stable",
             "force_upgrade"  => "0",
+            "mqtt_host" => "",
+            "mqtt_port" => "1883",
+            "mqtt_username" => "",
+            "mqtt_password" => "",
+            "mqtt_topic" => "tasmotas",
+            "mqtt_topic_format" => "%prefix%/%topic%",
         ];
 
     public function __construct(string $dataDir, string $appRoot)

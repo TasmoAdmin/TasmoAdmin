@@ -20,7 +20,8 @@
         "symfony/http-foundation": "^6.2",
         "symfony/browser-kit": "^6.2",
         "symfony/http-client": "^6.2",
-        "symfony/css-selector": "^6.2"
+        "symfony/css-selector": "^6.2",
+        "php-mqtt/client": "^1.8"
     },
     "autoload": {
         "psr-4": {

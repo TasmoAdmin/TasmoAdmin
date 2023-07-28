@@ -16,6 +16,7 @@ $routes->add('upload', new Route('/upload'));
 $routes->add('upload_form', new Route('/upload_form'));
 $routes->add('backup', new Route('/backup'));
 $routes->add('devices_autoscan', new Route('/devices_autoscan'));
+$routes->add('devices_autoscan_mqtt', new Route('/devices_autoscan_mqtt'));
 $routes->add('login', new Route('/login'));
 $routes->add('logout', new Route('/logout'));
 $routes->add('site_config', new Route('/site_config'));

@@ -212,6 +212,12 @@ $urlHelper = $container->get(UrlHelper::class);
 									>
 										<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
 									</a>
+                                    <a class="dropdown-item nav-link <?php echo $page == "devices_autoscan_mqtt" ? "active"
+                                        : ""; ?>"
+                                       href="<?php echo _BASEURL_; ?>devices_autoscan_mqtt"
+                                    >
+                                        <?php echo __("DEVICES_AUTOSCAN_MQTT", "NAVI"); ?>
+                                    </a>
 								</div>
 							</li>
 						<?php endif; ?>
