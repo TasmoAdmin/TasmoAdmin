@@ -161,25 +161,19 @@ class DeviceRepository
             return null;
         }
         $deviceArr[0] = $device->id;
-        $deviceArr[1] = implode("|", isset($device->names) && !empty($device->names) ? $device->names : []);
-        $deviceArr[2] = isset($device->ip) && !empty($device->ip) ? $device->ip : "";
-        $deviceArr[3] = isset($device->username) && !empty($device->username) ? $device->username : "";
-        $deviceArr[4] = isset($device->password) && !empty($device->password) ? $device->password : "";
-        $deviceArr[5] = isset($device->img) && !empty($device->img) ? $device->img : "";
-        $deviceArr[6] = isset($device->position) && !empty($device->position) ? $device->position : "";
-        $deviceArr[7] = isset($device->deviceAllOff) && !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
-        $deviceArr[8] = isset($device->deviceProtectionOn) && !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
-        $deviceArr[9] = isset($device->deviceProtectionOff) && !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
+        $deviceArr[1] = implode("|", !empty($device->names) ? $device->names : []);
+        $deviceArr[2] = !empty($device->ip) ? $device->ip : "";
+        $deviceArr[3] = !empty($device->username) ? $device->username : "";
+        $deviceArr[4] = !empty($device->password) ? $device->password : "";
+        $deviceArr[5] = !empty($device->img) ? $device->img : "";
+        $deviceArr[6] = !empty($device->position) ? $device->position : "";
+        $deviceArr[7] = !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
+        $deviceArr[8] = !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
+        $deviceArr[9] = !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
         $deviceArr[10] = $device->isUpdatable;
 
         foreach ($deviceArr as $key => $field) {
-            if (is_array($field)) {
-                foreach ($field as $subkey => $subfield) {
-                    $deviceArr[$key][$field][$subkey] = trim($subfield);
-                }
-            } else {
-                $deviceArr[$key] = trim($field);
-            }
+            $deviceArr[$key] = trim($field);
         }
 
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');

@@ -13,7 +13,7 @@ class DeviceFactory
             $username,
             $password,
             Device::DEFAULT_IMAGE,
-            '1',
+            1,
             1,
             0,
             0,
@@ -31,7 +31,7 @@ class DeviceFactory
         $device[3] = $request["device_username"];
         $device[4] = $request["device_password"];
         $device[5] = $request["device_img"] ?? Device::DEFAULT_IMAGE;
-        $device[6] = $request["device_position"];
+        $device[6] = $request["device_position"] ?? 1;
         $device[7] = $request["device_all_off"] ?? 1;
         $device[8] = $request["device_protect_on"] ?? 0;
         $device[9] = $request["device_protect_off"] ?? 0;
@@ -46,15 +46,15 @@ class DeviceFactory
             return null;
         }
 
-        $array[1] = explode("|", $array[1]);
+        $array[1] = explode("|", $array[1] ?? '');
 
         $id = $array[0] ?? false;
-        $names = $array[1] ?? false;
+        $names = $array[1];
         $ip = $array[2] ?? false;
         $username = $array[3] ?? false;
         $password = $array[4] ?? false;
         $img = $array[5] ?? Device::DEFAULT_IMAGE;
-        $position = $array[6] ?? "";
+        $position = $array[6] ?? 0;
         $device_all_off = $array[7] ?? 1;
         $device_protect_on = $array[8] ?? 0;
         $device_protect_off = $array[9] ?? 0;
@@ -74,7 +74,7 @@ class DeviceFactory
             $username,
             $password,
             $img,
-            $position,
+            (int) $position,
             $device_all_off,
             $device_protect_on,
             $device_protect_off,
