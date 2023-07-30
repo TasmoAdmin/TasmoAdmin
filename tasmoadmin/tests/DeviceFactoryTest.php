@@ -17,7 +17,7 @@ class DeviceFactoryTest extends TestCase
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
 
-        self::assertEquals('', $device->position);
+        self::assertEquals(0, $device->position);
         self::assertEquals(['socket-1'], $device->names);
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);

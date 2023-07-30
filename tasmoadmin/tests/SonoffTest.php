@@ -89,7 +89,7 @@ class SonoffTest extends TestCase
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
             new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
-            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', '', 0, 0, 0, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 0, 0, 0, 0, []),
         ]);
 
         $sonoff = new Sonoff($mockRepository);

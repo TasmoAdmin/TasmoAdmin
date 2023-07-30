@@ -12,7 +12,7 @@ class Device
     public string $username;
     public string $password;
     public string $img;
-    public string $position;
+    public int $position;
     public int $deviceAllOff;
     public int $deviceProtectionOn;
     public int $deviceProtectionOff;
@@ -26,7 +26,7 @@ class Device
         string $username,
         string $password,
         string $img,
-        string $position,
+        int $position,
         int $deviceAllOff,
         int $deviceProtectionOn,
         int $deviceProtectionOff,

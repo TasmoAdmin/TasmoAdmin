@@ -363,7 +363,7 @@ class Sonoff
         $devices = [];
         $update = false;
         foreach ($repositoryDevices as $device) {
-            if ($device->position === "") {
+            if ($device->position === 0) {
                 $device->position = 1;
                 $update = true;
             }
