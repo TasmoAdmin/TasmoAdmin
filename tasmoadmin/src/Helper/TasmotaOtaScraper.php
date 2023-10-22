@@ -9,7 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class TasmotaOtaScraper
 {
     public const ESP8266 = 'ESP8266';
-    public const ESP32= 'ESP32';
+    public const ESP32 = 'ESP32';
 
     private const OTA_URLS = [
         'stable' => [
