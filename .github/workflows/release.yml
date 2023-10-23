@@ -20,7 +20,7 @@ jobs:
     - name: Read .nvmrc
       run: echo ::set-output name=NODE_VERSION::$(cat tasmoadmin/.nvmrc)
       id: nvm
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
     - name: Prepare
