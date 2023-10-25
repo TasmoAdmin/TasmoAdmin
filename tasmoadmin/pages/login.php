@@ -2,8 +2,8 @@
 
 use TasmoAdmin\Helper\LoginHelper;
 
-$register = FALSE;
-$msg      = FALSE;
+$register = false;
+$msg      = false;
 $user     = $Config->read("username");
 $password = $Config->read("password");
 $title    = __("LOGIN", "PAGE_TITLES");
@@ -15,7 +15,7 @@ if ($Config->read("login") == 0) {
 
 $loginHelper = new LoginHelper($Config);
 
-if (isset($_POST) && !empty($_POST)) {
+if (!empty($_POST)) {
 	$home = $Config->read("homepage");
 	if (isset($_REQUEST["register"]) && ($user === "" || $password === "")) {
 		$loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
@@ -34,8 +34,8 @@ if (isset($_POST) && !empty($_POST)) {
 	}
 }
 
-if (empty($user)  || empty($password) ) {
-	$register = TRUE;
+if (empty($user) || empty($password)) {
+	$register = true;
 }
 
 ?>
@@ -65,7 +65,7 @@ if (empty($user)  || empty($password) ) {
 							<div class="card-body">
 								<form class="form" name='loginform' method='POST'>
 									<div class="form-group col">
-										<label for="username">Username</label>
+										<label for="username"><?php echo __("LOGIN_USERNAME_PLACEHOLDER", "LOGIN"); ?></label>
 										<input type="text"
 											   autofocus="autofocus"
 											   class="form-control form-control-lg rounded-0"
@@ -78,7 +78,7 @@ if (empty($user)  || empty($password) ) {
 									
 									</div>
 									<div class="form-group col">
-										<label>Password</label>
+										<label><?php echo __("LOGIN_PASSWORD_PLACEHOLDER", "LOGIN"); ?></label>
 										<input type="password"
 											   class="form-control form-control-lg rounded-0"
 											   id="password"
