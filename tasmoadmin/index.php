@@ -59,11 +59,13 @@ $context = new RequestContext();
 $context->fromRequest($request);
 $matcher = new UrlMatcher($routes, $context);
 
+$authByPassedPages = ['login', 'change_language'];
+
 try {
     extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
     $page  = $_route;
 
-    if( !$loggedin && $page !== 'login' ) {
+    if( !$loggedin && !in_array($page, $authByPassedPages)) {
         header( "Location: "._BASEURL_."login" );
         exit();
     }
