@@ -131,7 +131,7 @@ if (!empty($_GET)) {
     if (isset($_GET["doAjax"])) {
         session_write_close(); //stop blocking other ajax batch
         if(isset($_REQUEST["target"])) {
-            $data = $Sonoff->setDeviceValue($_REQUEST["id"], $_REQUEST["field"], $_REQUEST["newvalue"]);
+            $data = $Sonoff->setDeviceValue((int)$_REQUEST["id"], $_REQUEST["field"], $_REQUEST["newvalue"]);
         } else {
             $data = $Sonoff->doAjax($_REQUEST["id"], urldecode($_REQUEST['cmnd']));
         }

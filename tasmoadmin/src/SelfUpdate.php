@@ -56,7 +56,7 @@ class SelfUpdate
     private function saveZip(string $url): bool
     {
         ini_set("max_execution_time", "240");
-        set_time_limit("240");
+        set_time_limit(240);
         $this->client->get($url, ['sink' => $this->zipfile]);
         ini_set("max_execution_time", 30);
 

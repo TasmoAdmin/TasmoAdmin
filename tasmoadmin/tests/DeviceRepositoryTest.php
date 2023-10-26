@@ -95,7 +95,7 @@ class DeviceRepositoryTest extends TestCase
     public function testGetDeviceByIdValid(): void
     {
         $repo = $this->getValidRepo();
-        $device = $repo->getDeviceById('1');
+        $device = $repo->getDeviceById(1);
 
         self::assertEquals(1, $device->id);
         self::assertEquals(['socket-1'], $device->names);
@@ -109,7 +109,7 @@ class DeviceRepositoryTest extends TestCase
     public function testGetDeviceByIdInvalidId(): void
     {
         $repo = $this->getValidRepo();
-        self::assertNull($repo->getDeviceById('9'));
+        self::assertNull($repo->getDeviceById(9));
     }
 
     public function testGetDevices(): void
@@ -127,13 +127,13 @@ class DeviceRepositoryTest extends TestCase
     public function testSetDeviceValueMissingDevice(): void
     {
         $repo = $this->getEmptyRepo();
-        self::assertNull($repo->setDeviceValue('1', 'names', '1'));
+        self::assertNull($repo->setDeviceValue(1, 'names', '1'));
     }
 
     public function testSetDeviceValueInvalidField(): void
     {
         $repo = $this->getValidRepo();
-        self::assertNull($repo->setDeviceValue('1', 'random', '1'));
+        self::assertNull($repo->setDeviceValue(1, 'random', '1'));
     }
 
     public function testSetDeviceValueValid(): void
@@ -145,16 +145,16 @@ class DeviceRepositoryTest extends TestCase
             ]
         ];
         $repo->addDevices($devices, 'user', 'pass');
-        $repo->setDeviceValue('1', 'names', ['socket-2']);
-        $device = $repo->getDeviceById('1');
+        $repo->setDeviceValue(1, 'names', ['socket-2']);
+        $device = $repo->getDeviceById(1);
         self::assertEquals(['socket-2'], $device->names);
     }
 
     public function testRemoveDeviceValid(): void
     {
         $repo = $this->getVirtualRepoWithDevices(5);
-        $repo->removeDevice('2');
-        self::assertNull($repo->getDeviceById('2'));
+        $repo->removeDevice(2);
+        self::assertNull($repo->getDeviceById(2));
         $devices = $repo->getDevices();
         self::assertCount(4, $devices);
         self::assertEquals(1, $devices[0]->position);
@@ -164,7 +164,7 @@ class DeviceRepositoryTest extends TestCase
     public function testRemoveDeviceInvalidDeviceId(): void
     {
         $repo = $this->getVirtualRepoWithDevices(5);
-        $repo->removeDevice('6');
+        $repo->removeDevice(6);
         self::assertCount(5, $repo->getDevices());
     }
 

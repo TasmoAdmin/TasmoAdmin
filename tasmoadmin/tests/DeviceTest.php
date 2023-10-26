@@ -9,14 +9,14 @@ class DeviceTest extends TestCase
 {
     public function testGetUrlWithAuth(): void
     {
-        $device = new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', '1', 0, 0, 0, []);
+        $device = new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []);
 
         $this->assertEquals('http://user:pass@192.168.1.1', $device->getUrlWithAuth());
     }
 
     public function testGetUrlWithoutAuth(): void
     {
-        $device = new Device(1, ['socket-1'], '192.168.1.1', '', '', 'img', '1', 0, 0, 0, []);
+        $device = new Device(1, ['socket-1'], '192.168.1.1', '', '', 'img', 1, 0, 0, 0, []);
 
         $this->assertEquals('http://192.168.1.1', $device->getUrlWithAuth());
     }
@@ -29,7 +29,7 @@ class DeviceTest extends TestCase
      */
     public function testGetBackupName(string $expected, array $names): void
     {
-        $device = new Device(1, $names, '192.168.1.1', '', '', 'img', '1', 0, 0, 0, []);
+        $device = new Device(1, $names, '192.168.1.1', '', '', 'img', 1, 0, 0, 0, []);
 
         $this->assertEquals($expected, $device->getBackupName());
     }

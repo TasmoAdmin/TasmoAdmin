@@ -63,17 +63,12 @@ class DeviceRepository
         fclose($handle);
     }
 
-    public function getDeviceById(string $id): ?Device
+    public function getDeviceById(int $id): ?Device
     {
-        if (empty($id)) {
-            return null;
-        }
-
         $device = null;
-
         $file = fopen($this->file, 'r');
         while (($line = fgetcsv($file)) !== false) {
-            if ($line[0] === $id) {
+            if ($line[0] == $id) {
                 $device = $this->createDeviceObject($line);
                 break;
             }
@@ -112,18 +107,15 @@ class DeviceRepository
         return array_values($devices);
     }
 
-    public function setDeviceValue(string $id, string $field, $value = null): ?Device
+    public function setDeviceValue(int $id, string $field, $value = null): ?Device
     {
-        if (empty($id)) {
-            return null;
-        }
-
-        if (!in_array($field, $this->allowedUpdateFields, true)) {
-            return null;
-        }
-
         $device = $this->getDeviceById($id);
         if ($device === null) {
+            return null;
+        }
+
+
+        if (!in_array($field, $this->allowedUpdateFields, true)) {
             return null;
         }
 
@@ -132,7 +124,7 @@ class DeviceRepository
         return $this->updateDevice($device);
     }
 
-    public function removeDevice(string $id): void
+    public function removeDevice(int $id): void
     {
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
 
@@ -144,7 +136,7 @@ class DeviceRepository
         }
 
         while (($data = fgetcsv($input)) !== false) {
-            if ($data[0] === $id) {
+            if ($data[0] == $id) {
                 continue;
             }
             fputcsv($output, $data);
