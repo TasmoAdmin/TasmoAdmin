@@ -123,7 +123,7 @@ function __( $string, $category = NULL, $args = NULL ) {
 if (!empty($_GET)) {
     if (!$loggedin) {
         ob_start();
-        header('HTTP/1.0 401 Unauthorized');
+        http_response_code(401);
         echo 'You must be logged in to perform this action';
         die();
     }
