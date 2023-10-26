@@ -12,7 +12,7 @@
 [![Github all releases](https://img.shields.io/github/downloads/TasmoAdmin/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/) 
 [![GitHub license](https://img.shields.io/github/license/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
 [![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
-[![php](https://img.shields.io/badge/php-8.1.x-%238892BF.svg)](https://secure.php.net/)
+[![php](https://img.shields.io/badge/php-8.2.x-%238892BF.svg)](https://secure.php.net/)
 
 </div>
 
@@ -54,7 +54,7 @@ by DrZzs
 
 TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin).
 
-This is a Linux Alpine based image with Nginx and PHP 8.1 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
+This is a Linux Alpine based image with Nginx and PHP 8.2 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
 
 This is the recommended way to get up and running.
 
@@ -64,7 +64,7 @@ TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/)
 
 ### Using a Web Server
 
-TasmoAdmin should run on any webserver that supports PHP 8.0+
+TasmoAdmin should run on any webserver that supports PHP 8.1+
 
 Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
