@@ -48,7 +48,7 @@ class DeviceFactory
 
         $array[1] = explode("|", $array[1] ?? '');
 
-        $id = $array[0] ?? false;
+        $id = $array[0] ?? null;
         $names = $array[1];
         $ip = $array[2] ?? false;
         $username = $array[3] ?? false;

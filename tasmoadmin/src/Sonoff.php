@@ -348,7 +348,7 @@ class Sonoff
         return $results;
     }
 
-    public function setDeviceValue(string $id, $field = null, $value = null): ?Device
+    public function setDeviceValue(int $id, string $field, $value = null): ?Device
     {
         return $this->deviceRepository->setDeviceValue($id, $field, $value);
     }
