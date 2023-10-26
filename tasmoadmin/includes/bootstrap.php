@@ -120,23 +120,30 @@ function __( $string, $category = NULL, $args = NULL ) {
     return __L($txt, $args);
 }
 
-if( isset( $_GET ) ) {
-    if( isset( $_GET[ "doAjax" ] ) ) {
-        session_write_close(); //stop blocking other ajax biatch
-        if( isset( $_REQUEST[ "target" ] ) ) {
-            $data = $Sonoff->setDeviceValue( $_REQUEST[ "id" ], $_REQUEST[ "field" ], $_REQUEST[ "newvalue" ] );
+if (!empty($_GET)) {
+    if (!$loggedin) {
+        ob_start();
+        header('HTTP/1.0 401 Unauthorized');
+        echo 'You must be logged in to perform this action';
+        die();
+    }
+
+    if (isset($_GET["doAjax"])) {
+        session_write_close(); //stop blocking other ajax batch
+        if(isset($_REQUEST["target"])) {
+            $data = $Sonoff->setDeviceValue($_REQUEST["id"], $_REQUEST["field"], $_REQUEST["newvalue"]);
         } else {
             $data = $Sonoff->doAjax($_REQUEST["id"], urldecode($_REQUEST['cmnd']));
         }
-        header( 'Content-Type: application/json' );
+        header('Content-Type: application/json');
         echo json_encode( $data );
         die();
     }
-    if( isset( $_GET[ "doAjaxAll" ] ) ) {
-        session_write_close(); //stop blocking other ajax biatch
+    if(isset($_GET["doAjaxAll"])) {
+        session_write_close(); //stop blocking other ajax batch
         $data = $Sonoff->doAjaxAll();
 
-        header( 'Content-Type: application/json' );
+        header('Content-Type: application/json');
         echo json_encode( $data );
         die();
     }
@@ -196,7 +203,7 @@ function cleanTemps(Config $config) {
 
     //firmwares
     if( in_array( "firmwares", $what ) ) {
-        debug( "cleanup firmwares dir" );
+        debug("cleanup firmwares dir" );
         FirmwareFolderHelper::clean(_DATADIR_ . "firmwares/");
     }
 
