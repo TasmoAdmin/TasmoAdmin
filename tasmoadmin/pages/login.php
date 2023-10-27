@@ -10,32 +10,32 @@ $title    = __("LOGIN", "PAGE_TITLES");
 $page     = "login";
 
 if ($Config->read("login") == 0) {
-	header("Location: " . _BASEURL_);
+    header("Location: " . _BASEURL_);
 }
 
 $loginHelper = new LoginHelper($Config);
 
 if (!empty($_POST)) {
-	$home = $Config->read("homepage");
-	if (isset($_REQUEST["register"]) && ($user === "" || $password === "")) {
-		$loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
-		$_SESSION['login'] = "1";
-		header("Location: " . _BASEURL_ . $home);
+    $home = $Config->read("homepage");
+    if (isset($_REQUEST["register"]) && ($user === "" || $password === "")) {
+        $loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
+        $_SESSION['login'] = "1";
+        header("Location: " . _BASEURL_ . $home);
         exit();
-	}
-	if (isset($_REQUEST["login"])) {
-		if ($user === $_REQUEST["username"] && $loginHelper->login($_REQUEST["password"], $password)) {
-			$_SESSION['login'] = "1";
-			header("Location: " . _BASEURL_ . $home);
+    }
+    if (isset($_REQUEST["login"])) {
+        if ($user === $_REQUEST["username"] && $loginHelper->login($_REQUEST["password"], $password)) {
+            $_SESSION['login'] = "1";
+            header("Location: " . _BASEURL_ . $home);
             exit();
-		}
+        }
 
         $msg = __("LOGIN_INCORRECT", "LOGIN");
-	}
+    }
 }
 
 if (empty($user) || empty($password)) {
-	$register = true;
+    $register = true;
 }
 
 ?>
@@ -93,11 +93,11 @@ if (empty($user) || empty($password)) {
 												class='btn btn-success btn-lg float-right'
 										>
 											<?php echo $register
-												? __("BTN_REGISTER", "LOGIN")
-												: __(
-													"BTN_LOGIN",
-													"LOGIN"
-												); ?>
+                                                ? __("BTN_REGISTER", "LOGIN")
+                                                : __(
+                                                    "BTN_LOGIN",
+                                                    "LOGIN"
+                                                ); ?>
 										</button>
 									</div>
 								</form>

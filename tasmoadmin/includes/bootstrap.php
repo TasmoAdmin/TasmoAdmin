@@ -47,13 +47,12 @@ session_name( "TASMO_SESSION" );
 session_start();
 
 global $loggedin, $docker;
-$loggedin = FALSE;
-$docker   = FALSE;
+$loggedin = false;
+$docker   = false;
 
 require_once _APPROOT_ . 'vendor/autoload.php';
 
 use Selective\Container\Container;
-use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
@@ -118,47 +117,6 @@ function __( $string, $category = NULL, $args = NULL ) {
     }
     $txt = $cat.$string;
     return __L($txt, $args);
-}
-
-if (!empty($_GET)) {
-    if (!$loggedin) {
-        ob_start();
-        http_response_code(401);
-        echo 'You must be logged in to perform this action';
-        die();
-    }
-
-    if (isset($_GET["doAjax"])) {
-        session_write_close(); //stop blocking other ajax batch
-        if(isset($_REQUEST["target"])) {
-            $data = $Sonoff->setDeviceValue((int)$_REQUEST["id"], $_REQUEST["field"], $_REQUEST["newvalue"]);
-        } else {
-            $data = $Sonoff->doAjax($_REQUEST["id"], urldecode($_REQUEST['cmnd']));
-        }
-        header('Content-Type: application/json');
-        echo json_encode( $data );
-        die();
-    }
-    if(isset($_GET["doAjaxAll"])) {
-        session_write_close(); //stop blocking other ajax batch
-        $data = $Sonoff->doAjaxAll();
-
-        header('Content-Type: application/json');
-        echo json_encode( $data );
-        die();
-    }
-
-    if (isset($_GET['downloadBackup'])) {
-        $backup = $container->get(BackupHelper::class);
-
-        header('Content-type: application/zip');
-        header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
-        header('Content-Length: '.filesize($backup->getBackupZipPath()));
-        ob_clean();
-        flush();
-        readfile($backup->getBackupZipPath());
-        die();
-    }
 }
 
 function debug( $data ) {

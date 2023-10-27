@@ -1,75 +1,79 @@
 <?php
 
-$msg            = FALSE;
-$device         = NULL;
+use TasmoAdmin\Sonoff;
+
+$msg            = false;
+$device         = null;
 $activeTabIndex = 0;
 
 
-	$device = $Sonoff->getDeviceById( $device_id );
+$Sonoff = $container->get(Sonoff::class);
 
-	if( !empty( $_POST[ "save" ] ) ) {
-		$activeTabIndex = $_POST[ "tab-index" ];
-		if( isset( $_POST[ "save" ] ) ) {
-			unset( $_POST[ "save" ] );
-			unset( $_POST[ "tab-index" ] );
-			$settings = $_POST;
-			if( !isset( $_POST[ "Password1" ] ) || empty( $settings[ "Password1" ] )
-			    || $settings[ "Password1" ] == "" ) {
-				unset( $settings[ "Password1" ] );
-			}
-			if( !isset( $settings[ "Password2" ] ) || empty( $settings[ "Password2" ] )
-			    || $settings[ "Password2" ] == "" ) {
-				unset( $settings[ "Password2" ] );
-			}
-			if( isset( $settings[ "IPAddress1" ] ) && !empty( $settings[ "IPAddress1" ] )
-			    && $settings[ "IPAddress1" ] != "" ) {
-				if( $settings[ "IPAddress1" ] != "0.0.0.0" ) {
-					if( $device->ip == $settings[ "IPAddress1" ] ) {
-						unset( $settings[ "IPAddress1" ] );
-					}
-				}
-			}
+$device = $Sonoff->getDeviceById($device_id);
 
-			$backlog = "Backlog ";
-			foreach( $settings as $settingKey => $settingVal ) {
-				$settingVal = trim( $settingVal );
-				if( $settingVal == "" ) {
-					continue;
-				}
-				$backlog .= $settingKey." ".$settingVal."; ";
-			}
-			$backlog = trim( $backlog );
+if(!empty($_POST[ "save" ])) {
+    $activeTabIndex = $_POST[ "tab-index" ];
+    if(isset($_POST[ "save" ])) {
+        unset($_POST[ "save" ]);
+        unset($_POST[ "tab-index" ]);
+        $settings = $_POST;
+        if(!isset($_POST[ "Password1" ]) || empty($settings[ "Password1" ])
+            || $settings[ "Password1" ] == "") {
+            unset($settings[ "Password1" ]);
+        }
+        if(!isset($settings[ "Password2" ]) || empty($settings[ "Password2" ])
+            || $settings[ "Password2" ] == "") {
+            unset($settings[ "Password2" ]);
+        }
+        if(isset($settings[ "IPAddress1" ]) && !empty($settings[ "IPAddress1" ])
+            && $settings[ "IPAddress1" ] != "") {
+            if($settings[ "IPAddress1" ] != "0.0.0.0") {
+                if($device->ip == $settings[ "IPAddress1" ]) {
+                    unset($settings[ "IPAddress1" ]);
+                }
+            }
+        }
 
-			$result = $Sonoff->saveConfig( $device, $backlog );
-			$msg    = __( "MSG_CONFIG_SAVED", "DEVICE_CONFIG" );
-			$msg    .= "<br/> ".$backlog;
-			sleep( count( $settings ) );
-		}
-	}
+        $backlog = "Backlog ";
+        foreach($settings as $settingKey => $settingVal) {
+            $settingVal = trim($settingVal);
+            if($settingVal == "") {
+                continue;
+            }
+            $backlog .= $settingKey." ".$settingVal."; ";
+        }
+        $backlog = trim($backlog);
 
-	$status = $Sonoff->getAllStatus( $device );
+        $result = $Sonoff->saveConfig($device, $backlog);
+        $msg    = __("MSG_CONFIG_SAVED", "DEVICE_CONFIG");
+        $msg    .= "<br/> ".$backlog;
+        sleep(count($settings));
+    }
+}
 
-	if( empty( $status->ERROR ) ) {
-		$status->statusNTP = $Sonoff->getNTPStatus( $device );
-		if( empty( $status->StatusMQT ) ) {
-			$status->StatusMQT = new stdClass();
-		}
-		$status->StatusMQT->FullTopic   = $Sonoff->getFullTopic( $device );
-		$status->StatusMQT->SwitchTopic = $Sonoff->getSwitchTopic( $device );
-		sleep( 1 );
-		$status->StatusMQT->MqttRetry    = $Sonoff->getMqttRetry( $device );
-		$status->StatusMQT->SensorRetain = $Sonoff->getSensorRetain( $device );
-		sleep( 1 );
-		$status->StatusMQT->TelePeriod = $Sonoff->getTelePeriod( $device );
-		$status->StatusMQT->Prefixe    = $Sonoff->getPrefixe( $device );
-		sleep( 1 );
-		$status->StatusMQT->StateTexts = $Sonoff->getStateTexts( $device );
-		sleep( 1 );
-		$status->StatusMQT->MqttFingerprint = $Sonoff->getMqttFingerprint( $device );
+$status = $Sonoff->getAllStatus($device);
+
+if(empty($status->ERROR)) {
+    $status->statusNTP = $Sonoff->getNTPStatus($device);
+    if(empty($status->StatusMQT)) {
+        $status->StatusMQT = new stdClass();
+    }
+    $status->StatusMQT->FullTopic   = $Sonoff->getFullTopic($device);
+    $status->StatusMQT->SwitchTopic = $Sonoff->getSwitchTopic($device);
+    sleep(1);
+    $status->StatusMQT->MqttRetry    = $Sonoff->getMqttRetry($device);
+    $status->StatusMQT->SensorRetain = $Sonoff->getSensorRetain($device);
+    sleep(1);
+    $status->StatusMQT->TelePeriod = $Sonoff->getTelePeriod($device);
+    $status->StatusMQT->Prefixe    = $Sonoff->getPrefixe($device);
+    sleep(1);
+    $status->StatusMQT->StateTexts = $Sonoff->getStateTexts($device);
+    sleep(1);
+    $status->StatusMQT->MqttFingerprint = $Sonoff->getMqttFingerprint($device);
 
 
-		$status->StatusLOG->SetOptionDecoded = $Sonoff->decodeOptions( $status->StatusLOG->SetOption[ 0 ] );
-	}
+    $status->StatusLOG->SetOptionDecoded = $Sonoff->decodeOptions($status->StatusLOG->SetOption[ 0 ]);
+}
 
 
 ?>
@@ -78,7 +82,7 @@ $activeTabIndex = 0;
 		<div class='row'>
 			<div class='col col-12'>
 				<h2 class='text-sm-center'>
-					<?php echo __( "CONFIG_HL", "DEVICE_CONFIG" ); ?>: <?php echo implode( " | ", $device->names ); ?>
+					<?php echo __("CONFIG_HL", "DEVICE_CONFIG"); ?>: <?php echo implode(" | ", $device->names); ?>
 
 				</h2>
 			</div>
@@ -93,7 +97,7 @@ $activeTabIndex = 0;
 		</div>
 		<div class='row'>
 			<div class='col col-12'>
-				<?php if( isset( $msg ) && $msg != "" ): ?>
+				<?php if(isset($msg) && $msg != ""): ?>
 					<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 						<?php echo $msg; ?>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -102,11 +106,11 @@ $activeTabIndex = 0;
 					</div>
 				<?php endif; ?>
 
-				<?php if( isset( $status->ERROR ) && !empty( $status->ERROR ) ): ?>
+				<?php if(isset($status->ERROR) && !empty($status->ERROR)): ?>
 				<div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
-					<?php echo __( "ERROR_COULD_NOT_GET_DATA", "DEVICE_CONFIG" ); ?><br/>
+					<?php echo __("ERROR_COULD_NOT_GET_DATA", "DEVICE_CONFIG"); ?><br/>
 					<?php echo $status->ERROR; ?><br/><br/>
-					<a href='#' class='reload'><?php echo __( "PAGE_RELOAD" ); ?></a>
+					<a href='#' class='reload'><?php echo __("PAGE_RELOAD"); ?></a>
 					<a type="button" class="reload close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</a>
@@ -126,7 +130,7 @@ $activeTabIndex = 0;
 							   role="tab"
 							   aria-controls="home"
 							   aria-selected="true">
-								<?php echo __( "TAB_HL_GENERAL", "DEVICE_CONFIG" ); ?>
+								<?php echo __("TAB_HL_GENERAL", "DEVICE_CONFIG"); ?>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -137,7 +141,7 @@ $activeTabIndex = 0;
 							   role="tab"
 							   aria-controls="profile"
 							   aria-selected="false">
-								<?php echo __( "TAB_HL_NETWORK", "DEVICE_CONFIG" ); ?>
+								<?php echo __("TAB_HL_NETWORK", "DEVICE_CONFIG"); ?>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -148,7 +152,7 @@ $activeTabIndex = 0;
 							   role="tab"
 							   aria-controls="profile"
 							   aria-selected="false">
-								<?php echo __( "TAB_HL_MQTT", "DEVICE_CONFIG" ); ?>
+								<?php echo __("TAB_HL_MQTT", "DEVICE_CONFIG"); ?>
 							</a>
 						</li>
 

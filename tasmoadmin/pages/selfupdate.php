@@ -19,7 +19,7 @@ if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
     $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
     $result = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
     $msg  = implode("<br/>", $result['logs']);
-    $msgClass = $result['success'] ? 'success' :'danger';
+    $msgClass = $result['success'] ? 'success' : 'danger';
 }
 
 $newUpdate = $updateChecker->checkForUpdate();
@@ -68,15 +68,15 @@ $changelog = $tasmoAdminHelper->getChangelog();
 					   <?php if (!empty($currentGitTag)): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
 					   target='_blank' <?php endif; ?>>
 						<?php echo __(
-							"OLD_TAG_VERSION",
-							"SELFUPDATE",
-							[
-                                $currentGitTag
-									?: __(
-									"UNKNOWN",
-									"SELFUPDATE"
-								),
-							]
+						    "OLD_TAG_VERSION",
+						    "SELFUPDATE",
+						    [
+						                                                                                                                                $currentGitTag
+						                                                                                                                                    ?: __(
+						                                                                                                                                        "UNKNOWN",
+						                                                                                                                                        "SELFUPDATE"
+						                                                                                                                                    ),
+						                                                                                                                            ]
 						); ?>
 					</a>
 				</div>

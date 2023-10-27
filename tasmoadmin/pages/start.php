@@ -1,47 +1,48 @@
 <?php
 
+use TasmoAdmin\Sonoff;
+
+$Sonoff = $container->get(Sonoff::class);
+
 $devices = $Sonoff->getDevices();
 
 ?>
 <div class='container-fluid'>
 	
 	<?php if (!empty($devices)):
-		$nightmode = "";   //todo: make function
-		$h = date('H');
-		
-		if ($Config->read("nightmode") === "disable") {
-			$nightmode = "";
-		}
-		else {
-			if ($Config->read("nightmode") === "auto") {
-				if ($h >= 18 || $h <= 8) {
-					$nightmode = "nightmode ";
-				}
-			}
-			elseif ($Config->read("nightmode") === "always") {
-				$nightmode = "nightmode ";
-			}
-		}
-		
-		$imgNight = "";
-		if ($nightmode === "nightmode") {
-			$imgNight = "night/";
-		}
-		?>
+	    $nightmode = "";   //todo: make function
+	    $h = date('H');
+
+	    if ($Config->read("nightmode") === "disable") {
+	        $nightmode = "";
+	    } else {
+	        if ($Config->read("nightmode") === "auto") {
+	            if ($h >= 18 || $h <= 8) {
+	                $nightmode = "nightmode ";
+	            }
+	        } elseif ($Config->read("nightmode") === "always") {
+	            $nightmode = "nightmode ";
+	        }
+	    }
+
+$imgNight = "";
+if ($nightmode === "nightmode") {
+    $imgNight = "night/";
+}
+?>
 		<div class='row justify-content-center startpage'>
 			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
 				<div class='card box_device position-relative' id='all_off' style=''>
 					<div class=" rubberBand">
 						<?php //col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
-						if (!empty($device_group)) {
-							$type = $device_group->img;
-						}
-						else {
-							$type = "bulb_1";
-						}
-						$img = _RESOURCESURL_ . "img/device_icons/" . $imgNight . $type . "_off.png";
-						
-						?>
+                if (!empty($device_group)) {
+                    $type = $device_group->img;
+                } else {
+                    $type = "bulb_1";
+                }
+                $img = _RESOURCESURL_ . "img/device_icons/" . $imgNight . $type . "_off.png";
+
+?>
 						<img class='card-img-top'
 							 src='<?php echo $img; ?>'
 							 data-icon='<?php echo $type; ?>'
@@ -59,8 +60,8 @@ $devices = $Sonoff->getDevices();
 			<?php foreach ($devices as $device_group): ?>
 				<?php foreach ($device_group->names as $key => $devicename): ?>
 					<?php
-					$img = _RESOURCESURL_ . "img/device_icons/" . $imgNight . $device_group->img . "_off.png";
-					?>
+                    $img = _RESOURCESURL_ . "img/device_icons/" . $imgNight . $device_group->img . "_off.png";
+				    ?>
 					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
 						<div class='card box_device position-relative' style=''
 							 data-device_id='<?php echo $device_group->id; ?>'

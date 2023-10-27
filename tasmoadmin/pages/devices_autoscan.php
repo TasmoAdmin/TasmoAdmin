@@ -5,12 +5,15 @@ use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
 use TasmoAdmin\Sonoff;
 
-$status       = FALSE;
-$devices      = NULL;
-$devicesFound = NULL;
-$msg          = NULL;
+$Sonoff = $container->get(Sonoff::class);
+
+
+$status       = false;
+$devices      = null;
+$devicesFound = null;
+$msg          = null;
 $action       = "";
-$error        = FALSE;
+$error        = false;
 
 
 if (isset($_REQUEST) && !empty($_REQUEST)) {
@@ -46,13 +49,12 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
             if (empty($devicesFound)) {
                 $msg   = __("MSG_NO_DEVICES_FOUND", "DEVICES_AUTOSCAN");
-                $error = TRUE;
-            }
-            else {
+                $error = true;
+            } else {
                 $devicesFoundTmp = $devicesFound;
                 $devicesFound    = [];
                 foreach ($devicesFoundTmp as $device) {
-                    if (empty ($device) || !empty($device->error)) {
+                    if (empty($device) || !empty($device->error)) {
                         continue;
                     }
                     if (empty($device->StatusNET)) {
@@ -68,8 +70,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
             }
 
 
-        }
-        elseif (isset($_REQUEST["save_all"])) {
+        } elseif (isset($_REQUEST["save_all"])) {
             $deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
             $deviceUsername = $_REQUEST["device_username"] ?? "";
             $devicePassword = $_REQUEST["device_password"] ?? "";
@@ -316,10 +317,10 @@ $config = $Config->readAll();
                     <?php
                     $i            = 1;
                     $power        = "POWER" . $i;
-                    $channelFound = FALSE;
+                    $channelFound = false;
 
                     while (isset($device->StatusSTS->$power))  : ?>
-                        <?php $channelFound = TRUE; ?>
+                        <?php $channelFound = true; ?>
                         <?php
                         $friendlyName = is_array($device->Status->FriendlyName) //array since 5.12.0h
                             ? (isset($device->Status->FriendlyName[$i - 1]) ? $device->Status->FriendlyName[$i - 1]
@@ -337,7 +338,7 @@ $config = $Config->readAll();
                                        placeholder="<?php echo __("PLEASE_ENTER"); ?>"
                                        value='<?php echo isset($device->names[$i - 1])
                                        && !empty(
-                                       $device->names[$i - 1]
+                                           $device->names[$i - 1]
                                        ) ? $device->names[$i - 1] : $friendlyName; ?>'
                                        required
                                 >

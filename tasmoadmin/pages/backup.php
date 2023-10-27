@@ -2,6 +2,10 @@
 
 use TasmoAdmin\Backup\BackupHelper;
 
+use TasmoAdmin\Sonoff;
+
+$Sonoff = $container->get(Sonoff::class);
+
 $devices = $Sonoff->getDevices();
 if (isset($_POST['device_ids'])) {
     $backupHelper = $container->get(BackupHelper::class);
@@ -10,12 +14,12 @@ if (isset($_POST['device_ids'])) {
 }
 ?>
 
-<?php if (isset($backupResults, $backupAction )): ?>
+<?php if (isset($backupResults, $backupAction)): ?>
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-6 '>
         <div class="alert alert-<?php echo $backupAction; ?> fade show mb-3" role="alert">
             <div class="col col-12">
-                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
+                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="/actions?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
                 <?php if (!$backupResults->successful()): ?>
                     </br>
                     </br>
@@ -85,9 +89,9 @@ if (isset($_POST['device_ids'])) {
         <div class='table-responsive double-scroll'>
             <?php
             $deviceLinks = true;
-            $deviceLinkActionText = __("BACKUP", "BACKUP");
-            include "elements/devices_table.php";
-            ?>
+$deviceLinkActionText = __("BACKUP", "BACKUP");
+include "elements/devices_table.php";
+?>
         </div>
         </form>
     </div>
