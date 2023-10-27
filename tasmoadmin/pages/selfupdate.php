@@ -71,12 +71,12 @@ $changelog = $tasmoAdminHelper->getChangelog();
 						    "OLD_TAG_VERSION",
 						    "SELFUPDATE",
 						    [
-						                                                                                $currentGitTag
-						                                                                                    ?: __(
-						                                                                                        "UNKNOWN",
-						                                                                                        "SELFUPDATE"
-						                                                                                    ),
-						                                                                            ]
+						                                                                                                        $currentGitTag
+						                                                                                                            ?: __(
+						                                                                                                                "UNKNOWN",
+						                                                                                                                "SELFUPDATE"
+						                                                                                                            ),
+						                                                                                                    ]
 						); ?>
 					</a>
 				</div>
