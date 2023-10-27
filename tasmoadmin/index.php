@@ -52,7 +52,6 @@ function getTitle(string $page, ?string $action = null): string
 function render_template(Request $request): Response
 {
     extract($request->attributes->all(), EXTR_SKIP);
-    $page = $_route;
     if ($page === 'index') {
         $page = $Config->read("homepage");
     }
@@ -73,7 +72,7 @@ function render_raw(Request $request): Response
 {
     extract($request->attributes->all(), EXTR_SKIP);
     ob_start();
-    include sprintf('%s%s.php', _PAGESDIR_, $_route);
+    include sprintf('%s%s.php', _PAGESDIR_, $page);
     return new Response(ob_get_clean());
 }
 
@@ -89,16 +88,25 @@ $authByPassedPages = ['login', 'change_language'];
 try {
     $matched = $matcher->match($request->getPathInfo());
     if (!$loggedin && !in_array($matched['_route'], $authByPassedPages)) {
-        header( "Location: "._BASEURL_."login" );
-        exit();
+        if ($matched['_controller'] === 'render_template') {        
+            header( "Location: "._BASEURL_."login" );
+            exit();
+        } else {
+            ob_start();
+            http_response_code(401);
+            echo 'You must be logged in to perform this action';
+            exit();
+        }
     }
+
     $request->attributes->add($matched);
     $request->attributes->add([
         'loggedin' => $loggedin,
         'docker' => $docker,
         'Config' => $Config,
         'container'=> $container,
-        'lang' => $lang
+        'lang' => $lang,
+        'page' => $matched['_route'],
     ]);
     $response = call_user_func($request->attributes->get('_controller'), $request);
 } catch (ResourceNotFoundException $exception) {
