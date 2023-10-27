@@ -15,7 +15,7 @@ $routes->add('start', new Route('/start', [
     '_controller' => 'render_template',
 ]));
 $routes->add('change_language', new Route('/change_language/{new_lang}', [  
-    '_controller' => 'render_template',
+    '_controller' => 'render_raw',
 ]));
 $routes->add('devices', new Route('/devices', [  
     '_controller' => 'render_template',
@@ -49,7 +49,7 @@ $routes->add('login', new Route('/login', [
     '_controller' => 'render_template',
 ]));
 $routes->add('logout', new Route('/logout', [  
-    '_controller' => 'render_template',
+    '_controller' => 'render_raw',
 ]));
 $routes->add('site_config', new Route('/site_config', [  
     '_controller' => 'render_template',

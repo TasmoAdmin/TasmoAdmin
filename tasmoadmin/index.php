@@ -14,14 +14,6 @@ include_once( "./includes/bootstrap.php" );
 
 function getTitle(string $page, ?string $action = null): string
 {
-    $pagesWithoutTitles = [
-        'logout', 'change_language', 'actions'
-    ];
-
-    if (in_array($page, $pagesWithoutTitles)) {
-        return '';
-    }
-
     switch( $page ) {
         case "device_action":
             $title = __( "MANAGE_DEVICE", "PAGE_TITLES" );
