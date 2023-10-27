@@ -31,8 +31,8 @@
 	<?php else : //only one friendlyname was editable v < 5.12.0h?>
 		<div class="form-group col">
 			<?php
-                $friendlyName = is_array($status->Status->FriendlyName) //array since 5.12.0h
-                    ? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
+			    $friendlyName = is_array($status->Status->FriendlyName) //array since 5.12.0h
+			        ? $status->Status->FriendlyName[ 0 ] : $status->Status->FriendlyName;
 	    ?>
 			<label for="FriendlyName">
 				<?php echo __("CONFIG_FRIENDLYNAME", "DEVICE_CONFIG"); ?>
