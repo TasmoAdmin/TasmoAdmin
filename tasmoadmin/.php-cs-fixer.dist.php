@@ -3,13 +3,13 @@
 declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(['src', 'tests'])
+    ->in(['src', 'tests', 'includes'])
 ;
 
 $config = new PhpCsFixer\Config();
 
 $config
-    ->setRiskyAllowed(true)
+    ->setRiskyAllowed(false)
     ->setRules([
         '@PSR2' => true,
         '@PSR12' => true,

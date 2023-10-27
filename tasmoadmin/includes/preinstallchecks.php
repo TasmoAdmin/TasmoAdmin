@@ -32,19 +32,19 @@ class PreInstallChecks
     {
         $result = new Result();
 
-        if( !function_exists( "curl_init" ) ) {
+        if(!function_exists("curl_init")) {
             $result->addError("ERROR: PHP cURL is missing.");
         }
 
-        if( !class_exists( "ZipArchive" ) ) {
+        if(!class_exists("ZipArchive")) {
             $result->addError("ERROR: PHP Zip is missing.");
         }
 
-        if( !class_exists( "DOMElement" ) ) {
+        if(!class_exists("DOMElement")) {
             $result->addError("ERROR: PHP XML is missing.");
         }
 
-        if ( PHP_VERSION_ID < 80100) {
+        if (PHP_VERSION_ID < 80100) {
             $result->addError('ERROR: PHP 8.1 or higher is required.');
         }
 
@@ -54,5 +54,3 @@ class PreInstallChecks
 
 
 return new PreInstallChecks();
-
-
