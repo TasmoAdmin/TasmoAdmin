@@ -172,7 +172,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								    "device_action",
 								    "devices_autoscan",
 								    "backup"
-                                    ]
+								    ]
 								) ? "active" : ""; ?>"
 								   href="#"
 								   id="devicesDropdown"
@@ -192,10 +192,10 @@ $urlHelper = $container->get(UrlHelper::class);
 									   class='dropdown-item nav-link <?php echo in_array(
 									       $page,
 									       [
-									                  "upload_form",
-									                  "upload",
-									                  "device_update",
-									              ]
+									                         "upload_form",
+									                         "upload",
+									                         "device_update",
+									                     ]
 									   ) ? "active" : ""; ?>'
 									>
 										<?php echo __("UPDATE", "NAVI"); ?>
@@ -207,7 +207,7 @@ $urlHelper = $container->get(UrlHelper::class);
                                     </a>
 									
 									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active"
-									           : ""; ?>"
+									                  : ""; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"
 									>
 										<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
@@ -253,7 +253,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							<div class="dropdown-menu bg-dark" aria-labelledby="helpDropdown">
 								<?php if ($docker): ?>
 									<a class="dropdown-item nav-link <?php echo $page == "selfupdate" ? "active"
-							: ""; ?>"
+                            : ""; ?>"
 									   href="<?php echo _BASEURL_; ?>selfupdate"
 									>
 										<?php echo __("HELP_CHANGELOG", "NAVI"); ?>
