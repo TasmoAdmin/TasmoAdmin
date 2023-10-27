@@ -8,8 +8,8 @@
 					&copy; <?php echo date("Y"); ?>&nbsp;<?php echo __("BY"); ?> reloxx13 -
 				<?php endif; ?>
 				<?php //if( $Config->read( "current_git_tag" ) != "" ) :
-				
-				$updateCheck = $Config->read("check_for_updates");
+
+                $updateCheck = $Config->read("check_for_updates");
 				?>
 				
 				
@@ -18,26 +18,26 @@
 					<i id='update-icon'
 					   class='fa fa-question <?php echo($updateCheck == "0" ? "d-none" : ""); ?> '
 					   data-current_git_tag='<?php echo substr(
-						   $Config->read("current_git_tag"),
-						   0,
-						   15
+					       $Config->read("current_git_tag"),
+					       0,
+					       15
 					   ); ?>'
 					   data-update_channel='<?php echo $Config->read("update_channel"); ?>'
 					   style=''
 					></i>
-				</div><?php //endif; ?>
+				</div><?php //endif;?>
 				<span class=''> -</span>
 				<a class=''
 				   href='https://github.com/TasmoAdmin/TasmoAdmin'
 				   target='_blank'
 				>
-					TasmoAdmin GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
+					TasmoAdmin GitHub<?php //echo __( "VIEW_ON_GITHUB" );?>
 				</a>
 				-
 				<a class='' href='https://github.com/arendst/Tasmota'
 				   target='_blank'
 				>
-					Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" ); ?>
+					Tasmota GitHub<?php //echo __( "VIEW_ON_GITHUB" );?>
 				</a>
 			
 			</span>

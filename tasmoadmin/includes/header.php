@@ -94,17 +94,17 @@ $urlHelper = $container->get(UrlHelper::class);
 		<script src="<?php echo $urlHelper->js("jquery.i18n.parser", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("jquery.i18n.emitter", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("jquery.i18n.language", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/bs" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/dsb" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/fi" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ga" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/he" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hsb" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hu" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hy" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/la" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ml" ); ?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/os" ); ?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/bs" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/dsb" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/fi" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ga" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/he" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hsb" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hu" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hy" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/la" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ml" );?><!--"></script>-->
+		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/os" );?><!--"></script>-->
 		<script src="<?php echo $urlHelper->js("languages/ru", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("languages/sl", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("languages/uk", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
@@ -133,7 +133,7 @@ $urlHelper = $container->get(UrlHelper::class);
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
-				<?php //var_dump( $page ); ?>
+				<?php //var_dump( $page );?>
 				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_ . $Config->read("homepage"); ?>'>
 					<img src='<?php echo _RESOURCESURL_; ?>img/logo_small.png' height='50px'/>
 				</a>
@@ -153,26 +153,26 @@ $urlHelper = $container->get(UrlHelper::class);
 						<?php if ($loggedin): ?>
 							<li class="nav-item <?php echo $page == "start" ? "active" : ""; ?>">
 								<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
-										"STARTPAGE",
-										"NAVI"
-									); ?></a>
+								    "STARTPAGE",
+								    "NAVI"
+								); ?></a>
 							</li>
 						<?php endif; ?>
 						
 						<?php if ($loggedin): ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle <?php echo in_array(
-									$page,
-									[
-										"upload_form",
-										"upload",
-										"device_update",
-										"devices",
-										"device_config",
-										"device_action",
-										"devices_autoscan",
-                                        "backup"
-									]
+								    $page,
+								    [
+								    "upload_form",
+								    "upload",
+								    "device_update",
+								    "devices",
+								    "device_config",
+								    "device_action",
+								    "devices_autoscan",
+								    "backup"
+                                    ]
 								) ? "active" : ""; ?>"
 								   href="#"
 								   id="devicesDropdown"
@@ -190,12 +190,12 @@ $urlHelper = $container->get(UrlHelper::class);
 									</a>
 									<a href='<?php echo _BASEURL_; ?>upload_form'
 									   class='dropdown-item nav-link <?php echo in_array(
-										   $page,
-										   [
-											   "upload_form",
-											   "upload",
-											   "device_update",
-										   ]
+									       $page,
+									       [
+									                  "upload_form",
+									                  "upload",
+									                  "device_update",
+									              ]
 									   ) ? "active" : ""; ?>'
 									>
 										<?php echo __("UPDATE", "NAVI"); ?>
@@ -207,7 +207,7 @@ $urlHelper = $container->get(UrlHelper::class);
                                     </a>
 									
 									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active"
-										: ""; ?>"
+									           : ""; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"
 									>
 										<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
@@ -236,11 +236,11 @@ $urlHelper = $container->get(UrlHelper::class);
 						<?php endif; ?>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle <?php echo in_array(
-								$page,
-								[
-									"chat",
-									($docker ? "selfupdate" : NULL),
-								]
+							    $page,
+							    [
+                                    "chat",
+                                    ($docker ? "selfupdate" : null),
+                                ]
 							) ? "active" : ""; ?>"
 							   href="#"
 							   id="helpDropdown"
@@ -253,7 +253,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							<div class="dropdown-menu bg-dark" aria-labelledby="helpDropdown">
 								<?php if ($docker): ?>
 									<a class="dropdown-item nav-link <?php echo $page == "selfupdate" ? "active"
-										: ""; ?>"
+							: ""; ?>"
 									   href="<?php echo _BASEURL_; ?>selfupdate"
 									>
 										<?php echo __("HELP_CHANGELOG", "NAVI"); ?>
@@ -261,32 +261,32 @@ $urlHelper = $container->get(UrlHelper::class);
 								<?php endif; ?>
 								<a href='https://tasmota.github.io/docs/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_TASDOCS", "NAVI"); ?>
 								</a>
 								<a href='https://tasmota.github.io/docs/Commands/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_TASCOMMANDS", "NAVI"); ?>
 								</a>
 								<a href='https://templates.blakadder.com/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_TASTEMPLATES", "NAVI"); ?>
 								</a>
 								<a href='https://tasmota.github.io/docs/Troubleshooting/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_TASTROUBLESHOOTING", "NAVI"); ?>
@@ -294,16 +294,16 @@ $urlHelper = $container->get(UrlHelper::class);
 								
 								<a href='https://discord.gg/Ks2Kzd4' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_DISCORD_TASMOTA", "NAVI"); ?>
 								</a>
 								<a href='https://discord.gg/Q6zPX3C' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
-									   $page,
-									   []
+								       $page,
+								       []
 								   ) ? "active" : ""; ?>'
 								>
 									<?php echo __("HELP_DISCORD_TASMOADMIN", "NAVI"); ?>
@@ -316,19 +316,19 @@ $urlHelper = $container->get(UrlHelper::class);
 					
 					<div class='my-2 my-sm-0 language-switch-holder'>
 						<?php $tasmoAdminLanguages = [
-							"cz",
-							"de",
-							"en",
-							"es",
-							"fr",
-							"hu",
-							"it",
-							"nl",
-							"pl",
-							"it",
-							"ru",
-							"zh_TW",
-						]; ?>
+                            "cz",
+                            "de",
+                            "en",
+                            "es",
+                            "fr",
+                            "hu",
+                            "it",
+                            "nl",
+                            "pl",
+                            "it",
+                            "ru",
+                            "zh_TW",
+                        ]; ?>
 						<select name='language-switch' id='language-switch' class='custom-select'>
 							<?php foreach ($tasmoAdminLanguages as $l): ?>
 								<option value='<?php echo $l; ?>'
@@ -357,5 +357,5 @@ $urlHelper = $container->get(UrlHelper::class);
 				</div>
 			</nav>
 		</header>
-        <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read( "refreshtime" ); ?>'>
+        <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read("refreshtime"); ?>'>
             <div id='content-holder'>
