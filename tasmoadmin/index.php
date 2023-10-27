@@ -61,12 +61,6 @@ function render_template(Request $request): Response
 {
     extract($request->attributes->all(), EXTR_SKIP);
     $page = $_route;
-
-    if( !$loggedin && !in_array($page, $authByPassedPages)) {
-        header( "Location: "._BASEURL_."login" );
-        exit();
-    }
-
     if ($page === 'index') {
         $page = $Config->read("homepage");
     }
@@ -101,7 +95,12 @@ $matcher = new UrlMatcher($routes, $context);
 $authByPassedPages = ['login', 'change_language'];
 
 try {
-    $request->attributes->add($matcher->match($request->getPathInfo()));
+    $matched = $matcher->match($request->getPathInfo());
+    if (!$loggedin && !in_array($matched['_route'], $authByPassedPages)) {
+        header( "Location: "._BASEURL_."login" );
+        exit();
+    }
+    $request->attributes->add($matched);
     $request->attributes->add([
         'loggedin' => $loggedin,
         'docker' => $docker,
