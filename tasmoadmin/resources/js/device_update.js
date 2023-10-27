@@ -45,7 +45,7 @@ const fetchWithRetries = async (
 }
 
 async function doAjax(deviceId, cmnd) {
-	const url = `${config.base_url}?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
+	const url = `${config.base_url}/actions?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
 	let response = await fetchWithRetries(url);
 	response = await response.json();
 

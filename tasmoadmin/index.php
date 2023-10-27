@@ -14,7 +14,11 @@ include_once( "./includes/bootstrap.php" );
 
 function getTitle(string $page, ?string $action = null): string
 {
-    if (in_array($page, ['logout', 'change_language'])) {
+    $pagesWithoutTitles = [
+        'logout', 'change_language', 'actions'
+    ];
+
+    if (in_array($page, $pagesWithoutTitles)) {
         return '';
     }
 
@@ -53,17 +57,10 @@ function getTitle(string $page, ?string $action = null): string
 }
 
 
-$request = Request::createFromGlobals();
-$routes = include './includes/routes.php';
-$context = new RequestContext();
-$context->fromRequest($request);
-$matcher = new UrlMatcher($routes, $context);
-
-$authByPassedPages = ['login', 'change_language'];
-
-try {
-    extract($matcher->match($request->getPathInfo()), EXTR_SKIP);
-    $page  = $_route;
+function render_template(Request $request): Response
+{
+    extract($request->attributes->all(), EXTR_SKIP);
+    $page = $_route;
 
     if( !$loggedin && !in_array($page, $authByPassedPages)) {
         header( "Location: "._BASEURL_."login" );
@@ -83,7 +80,36 @@ try {
     include_once( _INCLUDESDIR_."header.php" );
     include sprintf('%s%s.php', _PAGESDIR_, $page);
     include_once( _INCLUDESDIR_."footer.php" );
-    $response = new Response(ob_get_clean());
+    return new Response(ob_get_clean());
+}
+
+function render_raw(Request $request): Response
+{
+    extract($request->attributes->all(), EXTR_SKIP);
+    ob_start();
+    include sprintf('%s%s.php', _PAGESDIR_, $_route);
+    return new Response(ob_get_clean());
+}
+
+
+$request = Request::createFromGlobals();
+$routes = include './includes/routes.php';
+$context = new RequestContext();
+$context->fromRequest($request);
+$matcher = new UrlMatcher($routes, $context);
+
+$authByPassedPages = ['login', 'change_language'];
+
+try {
+    $request->attributes->add($matcher->match($request->getPathInfo()));
+    $request->attributes->add([
+        'loggedin' => $loggedin,
+        'docker' => $docker,
+        'Config' => $Config,
+        'container'=> $container,
+        'lang' => $lang
+    ]);
+    $response = call_user_func($request->attributes->get('_controller'), $request);
 } catch (ResourceNotFoundException $exception) {
     $response = new Response('Not Found', 404);
 } catch (Exception $exception) {

@@ -2,8 +2,7 @@
 
 $deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
 
-if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
-{
+if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
     $deviceLinkActionText = '';
 }
 
@@ -45,21 +44,21 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
         <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
         <th class='energyPower hidden'><?php echo __(
-                "TABLE_HEAD_ENERGY",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_ENERGY",
+            "DEVICES"
+        ); ?></th>
         <th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
         <th class='humidity hidden'><?php echo __(
-                "TABLE_HEAD_HUMIDITY",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_HUMIDITY",
+            "DEVICES"
+        ); ?></th>
         <th class='more'><?php echo __("HOSTNAME", "DEVICES"); ?></th>
         <th class='more'><?php echo __("MAC", "DEVICES"); ?></th>
         <th class='more'><?php echo __("MQTT", "DEVICES"); ?></th>
         <th class='more idx hidden'><?php echo __(
-                "TABLE_HEAD_IDX",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_IDX",
+            "DEVICES"
+        ); ?></th>
         <th class='more'><?php echo __("POWERONSTATE", "DEVICES"); ?></th>
         <th class='more'><?php echo __("LEDSTATE", "DEVICES"); ?></th>
         <th class='more'><?php echo __("SAVEDATA", "DEVICES"); ?></th>
@@ -82,17 +81,17 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
     </thead>
     <tbody>
     <?php
-    $odd = TRUE;
-    if (isset($devices) && !empty($devices)):
-        foreach ($devices as $device_group):
-            foreach ($device_group->names as $key => $devicename): ?>
+    $odd = true;
+if (isset($devices) && !empty($devices)):
+    foreach ($devices as $device_group):
+        foreach ($device_group->names as $key => $devicename): ?>
                 <?php
-                $device_group->keywords[] = strtolower($devicename);
-                ?>
+            $device_group->keywords[] = strtolower($devicename);
+            ?>
                 <tr class='<?php echo $odd ? "odd" : "even"; ?>'
                     data-device_id='<?php echo $device_group->id; ?>'
                     data-device_group='<?php echo count($device_group->names) > 1
-                        ? "multi" : "single"; ?>'
+                    ? "multi" : "single"; ?>'
                     data-device_ip='<?php echo $device_group->ip; ?>'
                     data-device_relais='<?php echo $key + 1; ?>'
                     data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
@@ -131,10 +130,10 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
                                "DEVICES"
                            ); ?>'
                         ><?php echo str_replace(
-                                " ",
-                                "&nbsp;",
-                                $devicename
-                            ); ?></a>
+                            " ",
+                            "&nbsp;",
+                            $devicename
+                        ); ?></a>
                     </td>
                     <td><?php echo $device_group->ip; ?></td>
                     <td class='status'>
@@ -373,9 +372,9 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
                 </tr>
                 <?php
                 $odd = !$odd;
-            endforeach;
         endforeach;
-    endif; ?>
+    endforeach;
+endif; ?>
     </tbody>
     <tfoot>
     <tr class='bottom'>
@@ -407,21 +406,21 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText))
         <th><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
         <th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
         <th class='energyPower hidden'><?php echo __(
-                "TABLE_HEAD_ENERGY",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_ENERGY",
+            "DEVICES"
+        ); ?></th>
         <th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
         <th class='humidity hidden'><?php echo __(
-                "TABLE_HEAD_HUMIDITY",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_HUMIDITY",
+            "DEVICES"
+        ); ?></th>
         <th class='more'><?php echo __("HOSTNAME", "DEVICES"); ?></th>
         <th class='more'><?php echo __("MAC", "DEVICES"); ?></th>
         <th class='more'><?php echo __("MQTT", "DEVICES"); ?></th>
         <th class='more idx hidden'><?php echo __(
-                "TABLE_HEAD_IDX",
-                "DEVICES"
-            ); ?></th>
+            "TABLE_HEAD_IDX",
+            "DEVICES"
+        ); ?></th>
         <th class='more'><?php echo __("POWERONSTATE", "DEVICES"); ?></th>
         <th class='more'><?php echo __("LEDSTATE", "DEVICES"); ?></th>
         <th class='more'><?php echo __("SAVEDATA", "DEVICES"); ?></th>

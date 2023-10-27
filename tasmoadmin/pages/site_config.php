@@ -6,59 +6,59 @@ use TasmoAdmin\Helper\LoginHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
-$msg      = FALSE;
+$msg      = false;
 $settings = [];
 
 if (isset($_POST["save"])) {
-	$settings = $_POST;
-	unset($settings["save"]);
+    $settings = $_POST;
+    unset($settings["save"]);
 
-	if (!isset($settings["login"])) {
-		$settings["login"] = "0";
-	}
+    if (!isset($settings["login"])) {
+        $settings["login"] = "0";
+    }
 
-	if (!isset($settings["check_for_updates"])) {
-		$settings["check_for_updates"] = "0";
-	}
+    if (!isset($settings["check_for_updates"])) {
+        $settings["check_for_updates"] = "0";
+    }
 
-	if (!isset($settings["force_upgrade"])) {
-		$settings["force_upgrade"] = "0";
-	}
+    if (!isset($settings["force_upgrade"])) {
+        $settings["force_upgrade"] = "0";
+    }
 
-	if (!isset($settings["show_search"])) {
-		$settings["show_search"] = "0";
-	}
+    if (!isset($settings["show_search"])) {
+        $settings["show_search"] = "0";
+    }
 
-	if (!isset($settings["update_fe_check"])) {
-		$settings["update_fe_check"] = "0";
-	}
+    if (!isset($settings["update_fe_check"])) {
+        $settings["update_fe_check"] = "0";
+    }
 
-	if (!isset($settings["update_be_check"])) {
-		$settings["update_be_check"] = "0";
-	}
+    if (!isset($settings["update_be_check"])) {
+        $settings["update_be_check"] = "0";
+    }
 
-	if (empty($settings["password"])) {
-		unset($settings["password"]);
-	} else {
-		$settings["password"] = LoginHelper::hashPassword($settings["password"]);
-	}
+    if (empty($settings["password"])) {
+        unset($settings["password"]);
+    } else {
+        $settings["password"] = LoginHelper::hashPassword($settings["password"]);
+    }
 
-	if ($settings["login"] === "0") {
-		unset($settings["password"], $settings["username"]);
-	}
+    if ($settings["login"] === "0") {
+        unset($settings["password"], $settings["username"]);
+    }
 
-	$Config->writeAll($settings);
-	//header( "Refresh:0" ); //fix for not updated config cuz of buffer
-	$msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
+    $Config->writeAll($settings);
+    //header( "Refresh:0" ); //fix for not updated config cuz of buffer
+    $msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
 }
 
 $config = array_merge($Config->readAll(), $settings);
 
 $tasmotaHelper = new TasmotaHelper(
-        new Parsedown(),
-        GuzzleFactory::getClient($Config),
-        new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
-        $Config->read("auto_update_channel")
+    new Parsedown(),
+    GuzzleFactory::getClient($Config),
+    new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
+    $Config->read("auto_update_channel")
 );
 $tasmotaReleases = $tasmotaHelper->getReleases();
 
@@ -108,7 +108,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 							   value="1"
 							   id="cb_check_for_updates"
 							   name='check_for_updates' <?php echo $config["check_for_updates"] == "1"
-							? "checked=\"checked\"" : ""; ?>>
+                            ? "checked=\"checked\"" : ""; ?>>
 						<label class="form-check-label custom-control-label" for="cb_check_for_updates">
 							<?php echo __("CONFIG_UPDATE_CHECK_ENABLE", "USER_CONFIG"); ?>
 						</label>
@@ -206,7 +206,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   name='ota_server_port'
 						   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
 						   value='<?php echo !empty($config["ota_server_port"]) ? $config["ota_server_port"]
-							   : $_SERVER["SERVER_PORT"]; ?>'
+                               : $_SERVER["SERVER_PORT"]; ?>'
 					>
 					<small id="from_ipHelp" class="form-text text-muted">
 						<?php echo __("CONFIG_SERVER_PORT_HELP", "USER_CONFIG"); ?>
@@ -296,27 +296,27 @@ $autoFirmwareChannels = ['stable', 'dev'];
 							8 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='10' <?php echo $config["refreshtime"] == "10" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							10 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='15' <?php echo $config["refreshtime"] == "15" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							15 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='30' <?php echo $config["refreshtime"] == "30" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							30 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='60' <?php echo $config["refreshtime"] == "60" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							60 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='120' <?php echo $config["refreshtime"] == "120" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							120 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 						<option value='300' <?php echo $config["refreshtime"] == "300" ? "selected=\selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							300 <?php echo __("CONFIG_REFRESHTIME_SECONDS", "USER_CONFIG"); ?>
 						</option>
 					</select>
@@ -327,17 +327,17 @@ $autoFirmwareChannels = ['stable', 'dev'];
 					</label>
 					<select class="form-control custom-select" id="nightmode" name='nightmode'>
 						<option value='disable' <?php echo $config["nightmode"] == "disable" ? "selected=\"selected\""
-							: ""; ?>><?php echo __(
-								"CONFIG_NIGHTMODE_DISABLE",
-								"USER_CONFIG"
-							); ?>
+                            : ""; ?>><?php echo __(
+                                "CONFIG_NIGHTMODE_DISABLE",
+                                "USER_CONFIG"
+                            ); ?>
 						</option>
 						<option value='always' <?php echo $config["nightmode"] == "always" ? "selected=\"selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							<?php echo __("CONFIG_NIGHTMODE_ALWAYS", "USER_CONFIG"); ?>
 						</option>
 						<option value='auto' <?php echo $config["nightmode"] == "auto" ? "selected=\"selected\""
-							: ""; ?> >
+                            : ""; ?> >
 							<?php echo __("CONFIG_NIGHTMODE_AUTO", "USER_CONFIG"); ?>
 						</option>
 					</select>
@@ -352,7 +352,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 							   value="1"
 							   id="cb_show_search"
 							   name='show_search' <?php echo $config["show_search"] == "1"
-							? "checked=\"checked\"" : ""; ?>>
+                            ? "checked=\"checked\"" : ""; ?>>
 						<label class="form-check-label custom-control-label" for="cb_show_search">
 							<?php echo __("CONFIG_SHOW_SEARCH", "USER_CONFIG"); ?>
 						</label>

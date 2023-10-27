@@ -3,13 +3,17 @@
 use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
-use TasmoAdmin\Helper\GzipHelper;
+
+;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Update\FirmwareChecker;
 use TasmoAdmin\Update\FirmwareDownloader;
+use TasmoAdmin\Sonoff;
+
+$Sonoff = $container->get(Sonoff::class);
 
 $errors = [];
 $messages = [];
@@ -21,138 +25,131 @@ $targetVersion     = "";
 FirmwareFolderHelper::clean($firmwarefolder);
 
 if (isset($_REQUEST["upload"])) {
-	if ($_FILES['minimal_firmware']["name"] == "") {
-		$errors[] =  __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
-				"UPLOAD_FIRMWARE_MINIMAL_SKIP",
-				"DEVICE_UPDATE"
-			) . "<br/>";
-	}
-	else {
-		try {
-			
-			// Undefined | Multiple Files | $_FILES Corruption Attack
-			// If this request falls under any of them, treat it invalid.
-			if (!isset($_FILES['minimal_firmware']['error'])
-				|| is_array($_FILES['minimal_firmware']['error'])) {
-				throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_INVALID_FILES", "DEVICE_UPDATE"));
-			}
-			
-			// Check $_FILES['minimal_firmware']['error'] value.
-			switch ($_FILES['minimal_firmware']['error']) {
-				case UPLOAD_ERR_OK:
-					break;
-				case UPLOAD_ERR_NO_FILE:
-					throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_ERR_NO_FILE", "DEVICE_UPDATE"));
-				case UPLOAD_ERR_INI_SIZE:
-				case UPLOAD_ERR_FORM_SIZE:
-					throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_ERR_FORM_SIZE", "DEVICE_UPDATE"));
-				default:
-					throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_UNKNOWN_ERROR", "DEVICE_UPDATE"));
-			}
-			
-			// You should also check filesize here.
-			if ($_FILES['minimal_firmware']['size'] > 502000) {
-				throw new RuntimeException(
-					__("UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", ["maxsize" => "502kb"])
-				);
-			}
-			if (in_array($_FILES['minimal_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
-					$ext = "bin.gz";
-			}
-			elseif (in_array($_FILES['minimal_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
-					$ext = "bin";
-			}
-			else {
-				throw new RuntimeException(
-					__("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
-				);
-			}
+    if ($_FILES['minimal_firmware']["name"] == "") {
+        $errors[] =  __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
+            "UPLOAD_FIRMWARE_MINIMAL_SKIP",
+            "DEVICE_UPDATE"
+        ) . "<br/>";
+    } else {
+        try {
 
-			$minimal_firmware_path = $firmwarefolder . "tasmota-minimal" . "." . $ext;
-			
-			if (!move_uploaded_file(
-				$_FILES['minimal_firmware']['tmp_name'],
-				$minimal_firmware_path
-			)) {
-				throw new RuntimeException(
-					__(
-						"UPLOAD_FIRMWARE_MINIMAL_COULD_NOT_SAVE",
-						"DEVICE_UPDATE",
-						["FWPath" => $minimal_firmware_path]
-					)
-				);
-			}
-			
-			$messages[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
-					"UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
-					"DEVICE_UPDATE"
-				);
-			
-		} catch (RuntimeException $e) {
-			$errors[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
-			
-		}
-		
-	}
-	try {
-		
-		// Undefined | Multiple Files | $_FILES Corruption Attack
-		// If this request falls under any of them, treat it invalid.
-		if (!isset($_FILES['new_firmware']['error'])
-			|| is_array($_FILES['new_firmware']['error'])) {
-			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_INVALID_FILES", "DEVICE_UPDATE"));
-		}
-		
-		// Check $_FILES['new_firmware']['error'] value.
-		switch ($_FILES['new_firmware']['error']) {
-			case UPLOAD_ERR_OK:
-				break;
-			case UPLOAD_ERR_NO_FILE:
-				throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_ERR_NO_FILE", "DEVICE_UPDATE"));
-			case UPLOAD_ERR_INI_SIZE:
-			case UPLOAD_ERR_FORM_SIZE:
-				throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_ERR_FORM_SIZE", "DEVICE_UPDATE"));
-			default:
-				throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_UNKNOWN_ERROR", "DEVICE_UPDATE"));
-		}
-		
-		// You should also check filesize here.
-		if ($_FILES['new_firmware']['size'] > 1000000) {
-			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
-		}
+            // Undefined | Multiple Files | $_FILES Corruption Attack
+            // If this request falls under any of them, treat it invalid.
+            if (!isset($_FILES['minimal_firmware']['error'])
+                || is_array($_FILES['minimal_firmware']['error'])) {
+                throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_INVALID_FILES", "DEVICE_UPDATE"));
+            }
+
+            // Check $_FILES['minimal_firmware']['error'] value.
+            switch ($_FILES['minimal_firmware']['error']) {
+                case UPLOAD_ERR_OK:
+                    break;
+                case UPLOAD_ERR_NO_FILE:
+                    throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_ERR_NO_FILE", "DEVICE_UPDATE"));
+                case UPLOAD_ERR_INI_SIZE:
+                case UPLOAD_ERR_FORM_SIZE:
+                    throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_ERR_FORM_SIZE", "DEVICE_UPDATE"));
+                default:
+                    throw new RuntimeException(__("UPLOAD_FIRMWARE_MINIMAL_UNKNOWN_ERROR", "DEVICE_UPDATE"));
+            }
+
+            // You should also check filesize here.
+            if ($_FILES['minimal_firmware']['size'] > 502000) {
+                throw new RuntimeException(
+                    __("UPLOAD_FIRMWARE_MINIMAL_TOO_BIG", "DEVICE_UPDATE", ["maxsize" => "502kb"])
+                );
+            }
+            if (in_array($_FILES['minimal_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
+                $ext = "bin.gz";
+            } elseif (in_array($_FILES['minimal_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
+                $ext = "bin";
+            } else {
+                throw new RuntimeException(
+                    __("UPLOAD_FIRMWARE_MINIMAL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['minimal_firmware']["type"])
+                );
+            }
+
+            $minimal_firmware_path = $firmwarefolder . "tasmota-minimal" . "." . $ext;
+
+            if (!move_uploaded_file(
+                $_FILES['minimal_firmware']['tmp_name'],
+                $minimal_firmware_path
+            )) {
+                throw new RuntimeException(
+                    __(
+                        "UPLOAD_FIRMWARE_MINIMAL_COULD_NOT_SAVE",
+                        "DEVICE_UPDATE",
+                        ["FWPath" => $minimal_firmware_path]
+                    )
+                );
+            }
+
+            $messages[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . __(
+                "UPLOAD_FIRMWARE_MINIMAL_SUCCESSFULLY",
+                "DEVICE_UPDATE"
+            );
+
+        } catch (RuntimeException $e) {
+            $errors[] = __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
+
+        }
+
+    }
+    try {
+
+        // Undefined | Multiple Files | $_FILES Corruption Attack
+        // If this request falls under any of them, treat it invalid.
+        if (!isset($_FILES['new_firmware']['error'])
+            || is_array($_FILES['new_firmware']['error'])) {
+            throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_INVALID_FILES", "DEVICE_UPDATE"));
+        }
+
+        // Check $_FILES['new_firmware']['error'] value.
+        switch ($_FILES['new_firmware']['error']) {
+            case UPLOAD_ERR_OK:
+                break;
+            case UPLOAD_ERR_NO_FILE:
+                throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_ERR_NO_FILE", "DEVICE_UPDATE"));
+            case UPLOAD_ERR_INI_SIZE:
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_ERR_FORM_SIZE", "DEVICE_UPDATE"));
+            default:
+                throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_UNKNOWN_ERROR", "DEVICE_UPDATE"));
+        }
+
+        // You should also check filesize here.
+        if ($_FILES['new_firmware']['size'] > 1000000) {
+            throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
+        }
         if (in_array($_FILES['new_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
-				$ext = "bin.gz";
-		}
-        elseif (in_array($_FILES['new_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
-				$ext = "bin";
-		}
-		else {
-			throw new RuntimeException(
-				__("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['new_firmware']["type"])
-			);
-		}
-		
-		$new_firmware_path = $firmwarefolder . "tasmota" . "." . $ext;
-		
-		if (!move_uploaded_file(
-			$_FILES['new_firmware']['tmp_name'],
-			
-			$new_firmware_path
-		)) {
-			throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_COULD_NOT_SAVE", "DEVICE_UPDATE"));
-		}
+            $ext = "bin.gz";
+        } elseif (in_array($_FILES['new_firmware']["type"], ["application/octet-stream", "application/macbinary"])) {
+            $ext = "bin";
+        } else {
+            throw new RuntimeException(
+                __("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['new_firmware']["type"])
+            );
+        }
 
-		$messages[] = __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . __(
-				"UPLOAD_FIRMWARE_FULL_SUCCESSFULLY",
-				"DEVICE_UPDATE"
-			);
-		
-	} catch (RuntimeException $e) {
-		$errors[] =  __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
-		
-	}
-}
-elseif (isset($_REQUEST["auto"])) {
+        $new_firmware_path = $firmwarefolder . "tasmota" . "." . $ext;
+
+        if (!move_uploaded_file(
+            $_FILES['new_firmware']['tmp_name'],
+            $new_firmware_path
+        )) {
+            throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_COULD_NOT_SAVE", "DEVICE_UPDATE"));
+        }
+
+        $messages[] = __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . __(
+            "UPLOAD_FIRMWARE_FULL_SUCCESSFULLY",
+            "DEVICE_UPDATE"
+        );
+
+    } catch (RuntimeException $e) {
+        $errors[] =  __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE") . ": " . $e->getMessage() . "!";
+
+    }
+} elseif (isset($_REQUEST["auto"])) {
     $client = GuzzleFactory::getClient($Config);
     $tasmotaHelper = new TasmotaHelper(
         new Parsedown(),
@@ -161,13 +158,13 @@ elseif (isset($_REQUEST["auto"])) {
         $Config->read("auto_update_channel")
     );
 
-	//File to save the contents to
-	if (!empty($_REQUEST["update_automatic_lang"])) {
-		$Config->write("update_automatic_lang", $_REQUEST["update_automatic_lang"]);
-	}
-	$fwAsset = $Config->read("update_automatic_lang");
-	
-	if ($fwAsset !== "") {
+    //File to save the contents to
+    if (!empty($_REQUEST["update_automatic_lang"])) {
+        $Config->write("update_automatic_lang", $_REQUEST["update_automatic_lang"]);
+    }
+    $fwAsset = $Config->read("update_automatic_lang");
+
+    if ($fwAsset !== "") {
         $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
         try {
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
@@ -178,21 +175,19 @@ elseif (isset($_REQUEST["auto"])) {
             }
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
-			$messages[] = __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
-			$messages[] =  __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | " . __(
-					"VERSION",
-					"DEVICE_UPDATE"
-				) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt()->format('Y-m-d');
-		} catch (Throwable $e) {
-			$errors[] = __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();
-		}
-	}
-	else {
-		$errors[] = __("MSG_SET_AUTOMATIC_LANG_FIRST", "DEVICE_UPDATE");
-	}
-}
-else {
-	$errors[] = __("UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE") . "<br/>";
+            $messages[] = __("AUTO_SUCCESSFULL_DOWNLOADED", "DEVICE_UPDATE") . "<br/>";
+            $messages[] =  __("ASSET", "DEVICE_UPDATE") . ": " . $fwAsset . " | " . __(
+                "VERSION",
+                "DEVICE_UPDATE"
+            ) . ": " . $result->getTagName() . " | " . __("DATE", "DEVICE_UPDATE") . " " . $result->getPublishedAt()->format('Y-m-d');
+        } catch (Throwable $e) {
+            $errors[] = __("AUTO_ERROR_DOWNLOAD", "DEVICE_UPDATE") . "<br/>" . $e->getMessage();
+        }
+    } else {
+        $errors[] = __("MSG_SET_AUTOMATIC_LANG_FIRST", "DEVICE_UPDATE");
+    }
+} else {
+    $errors[] = __("UPLOAD_PLEASE_UPLOAD_FIRMWARE", "DEVICE_UPDATE") . "<br/>";
 }
 
 $ota_server_ip   = isset($_REQUEST["ota_server_ip"]) ? $_REQUEST["ota_server_ip"] : "";
@@ -208,14 +203,14 @@ $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 $checkForFirmware = $Config->read("update_be_check") === "1";
 
 if ($checkForFirmware && !empty($minimal_firmware_path) && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($minimal_firmware_path))) {
-	$errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
+    $errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
         __("UPLOAD_FIRMWARE_MINIMAL_LABEL", "DEVICE_UPDATE"),
         $otaHelper->getFirmwareUrl($minimal_firmware_path)
         ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
 }
 
 if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
-	$errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE",[
+    $errors[] =  __("FIRMWARE_NOT_ACCESSIBLE", "DEVICE_UPDATE", [
         __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE"),
         $otaHelper->getFirmwareUrl($new_firmware_path)
     ]) . "<br>" .  __("FIRMWARE_NOT_ACCESSIBLE_HELP", "DEVICE_UPDATE");
@@ -252,13 +247,13 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 	<?php
 
     $devices = $Sonoff->getDevices();
-    $disabledDeviceIds = array_map(function(Device $device) {
-        return $device->id;
-    }, array_filter($devices, function(Device $device) {
-        return !$device->isUpdatable;
-    }));
+$disabledDeviceIds = array_map(function (Device $device) {
+    return $device->id;
+}, array_filter($devices, function (Device $device) {
+    return !$device->isUpdatable;
+}));
 
-    ?>
+?>
 	
 	
 	<?php if (isset($_REQUEST["auto"])) : ?>
@@ -327,10 +322,10 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 					<div class='col'>
 						<div class='table-responsive double-scroll'>
                             <?php
-                            $deviceLinks = true;
-                            $deviceLinkActionText = __("UPDATE", "DEVICE_UPDATE");
-                            include "elements/devices_table.php";
-                            ?>
+                        $deviceLinks = true;
+$deviceLinkActionText = __("UPDATE", "DEVICE_UPDATE");
+include "elements/devices_table.php";
+?>
 						</div>
 					</div>
 				</div>

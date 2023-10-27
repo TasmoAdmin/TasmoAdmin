@@ -1,5 +1,9 @@
 <?php
 
+
+use TasmoAdmin\Sonoff;
+
+$Sonoff = $container->get(Sonoff::class);
 $devices = $Sonoff->getDevices();
 ?>
 <div class='row'>
@@ -27,7 +31,7 @@ $devices = $Sonoff->getDevices();
 									   name="searchterm"
 									   class='form-control device-search has-clearer'
 									   autocomplete="off"
-									   placeholder="<?php echo __("FILTER", "DEVICES"); //(Name, IP#123, ID#321, POS#1) ?>"
+									   placeholder="<?php echo __("FILTER", "DEVICES"); //(Name, IP#123, ID#321, POS#1)?>"
 								>
 								<div class="input-group-append">
 									<span class="input-group-text">
@@ -44,10 +48,10 @@ $devices = $Sonoff->getDevices();
 					<div class='table-responsive double-scroll'>
                         <?php
                         $deviceLinks = true;
-                        $deviceLinksDefaultHide = true;
-                        $deviceLinkActionText = __("CB_COMMAND", "DEVICES");
-                        include "elements/devices_table.php";
-                        ?>
+		    $deviceLinksDefaultHide = true;
+		    $deviceLinkActionText = __("CB_COMMAND", "DEVICES");
+		    include "elements/devices_table.php";
+		    ?>
 					</div>
 				</div>
 			</div>

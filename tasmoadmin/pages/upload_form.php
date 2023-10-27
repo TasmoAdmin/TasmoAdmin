@@ -59,7 +59,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 						   required
 						   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
 						   value='<?php echo !empty($Config->read("ota_server_port")) ? $Config->read(
-							   "ota_server_port"
+						       "ota_server_port"
 						   ) : $_SERVER["SERVER_PORT"]; ?>'
 					>
 				</div>

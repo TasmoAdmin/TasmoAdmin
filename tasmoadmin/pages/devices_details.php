@@ -5,22 +5,22 @@ use TasmoAdmin\Helper\ViewHelper;
 $devices = $Sonoff->getDevices();
 
 $imgNight = "";
-if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" ) {
+if($container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode") {
     $imgNight = "night/";
 }
 ?>
-<?php if( isset( $devices ) && !empty( $devices ) ): ?>
+<?php if(isset($devices) && !empty($devices)): ?>
 
 	<div class='row devices details justify-content-center' id='device_details'>
 		<div class='col col-12 col-lg-10'>
 			<div class="accordion" id="devices-accordion">
-				<?php foreach( $devices as $device_group ):
-					foreach( $device_group->names as $key => $devicename ): ?>
+				<?php foreach($devices as $device_group):
+				    foreach($device_group->names as $key => $devicename): ?>
 						<div class="card"
 						     data-device_id='<?php echo $device_group->id; ?>'
-						     data-device_group='<?php echo count( $device_group->names ) > 1 ? "multi" : "single"; ?>'
+						     data-device_group='<?php echo count($device_group->names) > 1 ? "multi" : "single"; ?>'
 						     data-device_ip='<?php echo $device_group->ip; ?>'
-						     data-device_relais='<?php echo $key+1; ?>'
+						     data-device_relais='<?php echo $key + 1; ?>'
 						>
 							<div class="card-header" id="device-<?php echo $device_group->id; ?>"
 							     data-toggle="collapse"
@@ -31,12 +31,12 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 								<div class='row'>
 									<div class='col col-auto d-flex align-items-center '>
 										<?php //col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
-											$img = _RESOURCESURL_
-											       ."img/device_icons/"
-											       .$imgNight
-											       .$device_group->img
-											       ."_off.png";
-										?>
+				                            $img = _RESOURCESURL_
+				                                   ."img/device_icons/"
+				                                   .$imgNight
+				                                   .$device_group->img
+				                                   ."_off.png";
+				        ?>
 										<div class='row'>
 											<div class='col col-6  pr-1 d-flex align-items-center'>
 												<div class='img-container devices-switch-container'>
@@ -64,13 +64,13 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 												<a href='<?php echo $device_group->getUrlWithAuth(); ?>'
 												   target='_blank'
 												   title='<?php echo __(
-													   "LINK_OPEN_DEVICE_WEBUI",
-													   "DEVICES"
+												       "LINK_OPEN_DEVICE_WEBUI",
+												       "DEVICES"
 												   ); ?>'><?php echo str_replace(
-														" ",
-														"&nbsp;",
-														$devicename
-													); ?></a>
+												       " ",
+												       "&nbsp;",
+												       $devicename
+												   ); ?></a>
 											</div>
 										</div>
 										<div class='row'>
@@ -123,7 +123,7 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 									<div class='row'>
 										<div class='col col-12 text-black-50'>
 											<?php echo $device_group->ip; ?>
-											<?php debug( $device_group ); ?>
+											<?php debug($device_group); ?>
 										</div>
 									</div>
 								</div>
@@ -137,7 +137,7 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 	<div class='row mt-3'>
 		<div class="col-auto ">
 			<button class='btn btn-secondary showCommandInput'>
-				<?php echo __( "BTN_COMMAND", "DEVICES" ); ?>
+				<?php echo __("BTN_COMMAND", "DEVICES"); ?>
 			</button>
 		</div>
 	</div>
@@ -147,7 +147,7 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 		</div>
 		<div class="form-group col col-12 col-sm-4 col-md-3 col-lg-2 mb-0 px-0 pl-3">
 			<button type='submit' class='btn btn-primary sendCommand w-100' name='sendCommand'>
-				<?php echo __( "SEND_COMMAND", "DEVICES" ); ?>
+				<?php echo __("SEND_COMMAND", "DEVICES"); ?>
 			</button>
 		</div>
 		<small id="commandInputError"
@@ -157,14 +157,14 @@ if( $container->get(ViewHelper::class)->getNightMode(date('H')) === "nightmode" 
 <?php else: ?>
 	<div class='row'>
 		<div class='col col-12 text-center'>
-			<?php echo __( "NO_DEVICES_FOUND", "STARTPAGE" ); ?>
+			<?php echo __("NO_DEVICES_FOUND", "STARTPAGE"); ?>
 		</div>
 	</div>
 	<div class='row mt-5 justify-content-center text-center'>
 		<div class='col col-12 col-sm-2 '>
 			<a class="btn btn-primary"
 			   href="<?php echo _BASEURL_; ?>devices_autoscan">
-				<?php echo __( "DEVICES_AUTOSCAN", "NAVI" ); ?>
+				<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
 			</a>
 		</div>
 		<div class='col col-12 col-sm-2 '>
