@@ -189,14 +189,7 @@ $urlHelper = $container->get(UrlHelper::class);
 										<?php echo __("DEVICE_LIST", "NAVI"); ?>
 									</a>
 									<a href='<?php echo _BASEURL_; ?>upload_form'
-									   class='dropdown-item nav-link <?php echo in_array(
-									       $page,
-									       [
-									                         "upload_form",
-									                         "upload",
-									                         "device_update",
-									                     ]
-									   ) ? "active" : ""; ?>'
+									   class='dropdown-item nav-link <?php echo in_array($page, ["upload_form", "upload", "device_update"]) ? "active" : ""; ?>'
 									>
 										<?php echo __("UPDATE", "NAVI"); ?>
 									</a>
@@ -206,8 +199,7 @@ $urlHelper = $container->get(UrlHelper::class);
                                     ><?php echo __("DEVICES_BACKUP", "NAVI"); ?>
                                     </a>
 									
-									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active"
-									                  : ""; ?>"
+									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active" : ""; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"
 									>
 										<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
@@ -238,8 +230,8 @@ $urlHelper = $container->get(UrlHelper::class);
 							<a class="nav-link dropdown-toggle <?php echo in_array(
 							    $page,
 							    [
-                                    "chat",
-                                    ($docker ? "selfupdate" : null),
+                                "chat",
+                                ($docker ? "selfupdate" : null),
                                 ]
 							) ? "active" : ""; ?>"
 							   href="#"

@@ -9,7 +9,7 @@ $finder = PhpCsFixer\Finder::create()
 $config = new PhpCsFixer\Config();
 
 $config
-    ->setRiskyAllowed(true)
+    ->setRiskyAllowed(false)
     ->setRules([
         '@PSR2' => true,
         '@PSR12' => true,
