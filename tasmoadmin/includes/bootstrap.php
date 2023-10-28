@@ -55,7 +55,6 @@ require_once _APPROOT_ . 'vendor/autoload.php';
 use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
-use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Sonoff;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -124,73 +123,6 @@ function __($string, $category = null, $args = null)
 function debug($data)
 {
     echo "<pre style='background-color: black; color:#6eda6e; max-height: 300px; margin:0px; padding: 0px; font-size: 12px; overflow: auto;'>";
-    print_r($data); // or var_dump($data);
+    print_r($data);
     echo "</pre>";
-}
-
-
-function cleanTemps(Config $config)
-{
-    if($config->read("login") === "1" && (empty($_SESSION[ "login" ]) || $_SESSION[ "login" ] != "1")) {
-        debug("pls login before you clean");
-        echo "<a href='/'>Back to login</a>";
-        die();
-    }
-
-    debug("start cleaning");
-
-    $what = explode("_", $_REQUEST[ "clean" ]);
-    //sessions
-
-    if(in_array("sessions", $what)) {
-        debug("cleanup sessions dir");
-        $files = glob(_TMPDIR_."/sessions/*"); // get all file names
-        foreach($files as $file) { // iterate files
-            if(is_file($file) && strpos($file, ".empty") === false) {
-                @unlink($file);
-            } // delete file
-        }
-    }
-
-
-    if(in_array("i18n", $what)) {
-        debug("cleanup i18n dir");
-        $files = glob(_TMPDIR_.'/cache/i18n/*'); // get all file names present in folder
-        foreach($files as $file) { // iterate files
-            if(is_file($file)) {
-                @unlink($file);
-            }
-        }
-    }
-
-    //firmwares
-    if(in_array("firmwares", $what)) {
-        debug("cleanup firmwares dir");
-        FirmwareFolderHelper::clean(_DATADIR_ . "firmwares/");
-    }
-
-
-    if(in_array("config", $what)) {
-        debug("cleanup config");
-        $files = glob(_DATADIR_.'/*'); // get all file names
-        foreach($files as $file) { // iterate files
-            if(is_file($file) && (strpos($file, "MyConfig.json") || strpos($file, "MyConfig.php"))) {
-                @unlink($file);
-            } // delete file
-        }
-        session_destroy();
-    }
-    if(in_array("devices", $what)) {
-        debug("cleanup devices");
-        $files = glob(_DATADIR_.'/*'); // get all file names
-        foreach($files as $file) { // iterate files
-            if(is_file($file) && (strpos($file, "devices.csv"))) {
-                @unlink($file);
-            } // delete file
-        }
-    }
-
-    debug("done cleaning");
-    echo "<a href='/'>Back to start</a>";
-    die();
 }
