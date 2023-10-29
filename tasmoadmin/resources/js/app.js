@@ -36,7 +36,10 @@ $(document).ready(function()
 	 * Sonoff Handler
 	 * @type {Sonoff}
 	 */
-	sonoff = new Sonoff({timeout: 15});
+	sonoff = new Sonoff({
+		base_url: config.base_url,
+		timeout: 15
+	});
 
 	$("[title][title!=\"\"]").tooltip({
 										  html: true,
