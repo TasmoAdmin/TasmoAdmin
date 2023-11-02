@@ -67,17 +67,7 @@ $changelog = $tasmoAdminHelper->getChangelog();
 					<a class='btn btn-secondary w-100'
 					   <?php if (!empty($currentGitTag)): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
 					   target='_blank' <?php endif; ?>>
-						<?php echo __(
-						    "OLD_TAG_VERSION",
-						    "SELFUPDATE",
-						    [
-						                                                                                                                                $currentGitTag
-						                                                                                                                                    ?: __(
-						                                                                                                                                        "UNKNOWN",
-						                                                                                                                                        "SELFUPDATE"
-						                                                                                                                                    ),
-						                                                                                                                            ]
-						); ?>
+						<?php echo __("OLD_TAG_VERSION", "SELFUPDATE", [$currentGitTag ?: __("UNKNOWN", "SELFUPDATE"),]); ?>
 					</a>
 				</div>
 				<div class='col col-12 col-sm-2 text-center align-text-top'>
@@ -113,9 +103,20 @@ $changelog = $tasmoAdminHelper->getChangelog();
 				<?php echo __("NO_UPDATE_FOUND", "SELFUPDATE"); ?>
 			</div>
 		<?php endif; ?>
-		<hr class='my-5'>
-		<div class='changelog'>
-			<?php echo $changelog; ?>
-		</div>
+
+		<?php if (!empty($changelog)): ?>
+			<h1>
+				Changelog
+			</h1>
+			<?php foreach ($changelog as $entry): ?>
+				<?php if ($Config->read("update_channel") != "stable" OR ($Config->read("update_channel") == "stable" AND !$entry->prerelease)): ?>
+					<hr/>
+					<h2 class='mb-3'>
+						<a target="blank" href="<?php echo $entry->html_url; ?>"><?php echo $entry->name; ?></a>
+					</h2>
+					<?php echo $entry->body; ?>
+				<?php endif; ?>	
+			<?php endforeach; ?>
+		<?php endif; ?>	
 	</div>
 </div>
