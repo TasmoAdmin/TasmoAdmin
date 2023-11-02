@@ -19,14 +19,14 @@ class TasmoAdminHelper
 
     public function getChangelog(): array
     {
-		$changeLogUrl = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin/releases";
-		$changeLogJSON = $this->client->get($changeLogUrl)->getBody()->getContents();
+        $changeLogUrl = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin/releases";
+        $changeLogJSON = $this->client->get($changeLogUrl)->getBody()->getContents();
 
-		$tmpArray = json_decode($changeLogJSON);
+        $tmpArray = json_decode($changeLogJSON);
 
-		foreach($tmpArray as $key => $value){
-			$tmpArray[$key]->body = $this->markDownParser->parse($value->body);
-		}
+        foreach($tmpArray as $key => $value) {
+            $tmpArray[$key]->body = $this->markDownParser->parse($value->body);
+        }
 
         return $tmpArray;
     }
