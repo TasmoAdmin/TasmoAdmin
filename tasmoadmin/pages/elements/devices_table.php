@@ -112,7 +112,6 @@ if (isset($devices) && !empty($devices)):
                                 <label class="form-check-label custom-control-label"
                                        for="cb_<?php echo $device_group->id; ?>"
                                 >
-                                    <?php echo $deviceLinkActionText; ?>
                                 </label>
                             </div>
 
