@@ -98,9 +98,23 @@ function initCommandHelper()
 	{
 		$(this).toggleClass("btn-secondary").toggleClass("btn-primary");
 		$(".command-hidden").toggleClass("d-none");
+		$(".delete-hidden").addClass("d-none");
+		$(".showDelete").toggleClass("btn-primary").toggleClass("btn-secondary");
 		$(".cmd_cb").toggleClass("d-none").find("input").prop("checked", false);
 		$(".cmdContainer ").removeClass("has-error");
 		$(".cmdContainer ").find("input").val("");
+		$(".cmdContainer ").find("#commandInputError").html("");
+	});
+
+	$(".showDelete").on("click", function (e)
+	{
+		$(this).toggleClass("btn-secondary").toggleClass("btn-primary");
+		$(".delete-hidden").toggleClass("d-none");
+		$(".command-hidden").addClass("d-none");
+		$(".showCommand").toggleClass("btn-primary").toggleClass("btn-secondary");
+		$(".cmd_cb").toggleClass("d-none").find("input").prop("checked", false);
+		$(".deleteContainer ").removeClass("has-error");
+		$(".deleteContainer ").find("input").val("");
 		$(".cmdContainer ").find("#commandInputError").html("");
 	});
 
@@ -124,6 +138,17 @@ function initCommandHelper()
 		});
 	});
 
+	$(".sendDelete").on("click", function (e)
+	{
+		const selectedDevices = getSelectedDevices();
+		$.each(selectedDevices, function (_idx, deviceId)
+		{
+			$.get(`${config.base_url}device_action/delete/${deviceId}`);
+		});
+
+		location.reload();
+	});
+
 
 	$(".sendCommand").on("click", function (e)
 	{
@@ -133,11 +158,7 @@ function initCommandHelper()
 			.find("#commandInputError")
 			.addClass("d-none").html("");
 
-		let selectedDevices = $.map($(".cmd_cb:not(.link ) input:not(.select_all):checked"), function (elem, idx)
-		{
-			let d = new Array($(elem).val());
-			return d;
-		});
+		let selectedDevices = getSelectedDevices();
 		//console.log( selectedDevices );
 		if (selectedDevices.length === 0)
 		{
@@ -198,6 +219,12 @@ function initCommandHelper()
 }
 
 
+function getSelectedDevices() {
+	return $.map($(".cmd_cb:not(.link ) input:not(.select_all):checked"), function (elem, idx) {
+		let d = new Array($(elem).val());
+		return d;
+	});
+}
 function updateStatus()
 {
 	$("#device-list tbody tr").each(

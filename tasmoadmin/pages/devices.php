@@ -56,7 +56,6 @@ $devices = $Sonoff->getDevices();
 				</div>
 			</div>
 			<div class='row mt-3'>
-				<!--			<div class='col col-12 col-sm-3 col-md-3 col-lg-2 px-0 px-xl-1 offset-0 offset-xl-1'>-->
 				<div class="col col-auto offset-0 offset-xl-1">
 					<div class="form-check pl-0">
 						<input type="checkbox"
@@ -72,6 +71,11 @@ $devices = $Sonoff->getDevices();
 				<div class="col col-auto ">
 					<button class='btn btn-secondary showCommandInput'>
 						<?php echo __("BTN_COMMAND", "DEVICES"); ?>
+					</button>
+				</div>
+				<div class="col col-auto ">
+					<button class='btn btn-secondary showDelete'>
+						<?php echo __("BTN_DELETE", "DEVICES"); ?>
 					</button>
 				</div>
 				<div class="col col-auto ">
@@ -101,6 +105,13 @@ $devices = $Sonoff->getDevices();
 				</div>
 				<small id="commandInputError" class="form-text col-12 col-sm-11 offset-0 offset-sm-1 d-none  px-0">
 				</small>
+			</div>
+			<div class='deleteContainer row delete-hidden d-none my-3'>
+				<div class="form-group col col-12 col-sm-4 col-md-3 col-lg-2 mb-0">
+					<button type='submit' class='btn btn-primary sendDelete w-100' name='sendDelete'>
+						<?php echo __("DELETE_SELECTED", "DEVICES"); ?>
+					</button>
+				</div>
 			</div>
 		<?php else: ?>
 			<div class='row'>
