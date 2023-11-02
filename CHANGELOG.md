@@ -1,8 +1,6 @@
 # CHANGELOG
 
-## UPCOMING
-
-Check [releases](https://github.com/TasmoAdmin/TasmoAdmin/releases) for upto date information.
+Changelog information was migrated to GitHub releases. Check the [releases](https://github.com/TasmoAdmin/TasmoAdmin/releases) pages for up to date information about the version to upgrade too.
 
 **Important when upgrading major versions for breaking changes**
 
