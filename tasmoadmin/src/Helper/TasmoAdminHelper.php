@@ -17,12 +17,17 @@ class TasmoAdminHelper
         $this->client = $client;
     }
 
-    public function getChangelog(): string
+    public function getChangelog(): array
     {
-        $changeLogUrl = "https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/CHANGELOG.md?r=" . time();
+		$changeLogUrl = "https://api.github.com/repos/TasmoAdmin/TasmoAdmin/releases";
+		$changeLogJSON = $this->client->get($changeLogUrl)->getBody()->getContents();
 
-        $changeLog = $this->client->get($changeLogUrl)->getBody()->getContents();
+		$tmpArray = json_decode($changeLogJSON);
 
-        return $this->markDownParser->parse($changeLog);
+		foreach($tmpArray as $key => $value){
+			$tmpArray[$key]->body = $this->markDownParser->parse($value->body);
+		}
+
+        return $tmpArray;
     }
 }
