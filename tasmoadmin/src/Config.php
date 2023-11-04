@@ -6,10 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Config
 {
-    private const NON_CACHED_KEYS = [
-      'password'
-    ];
-
     private bool $debug = false;
 
     private string $dataDir;
@@ -125,7 +121,7 @@ class Config
         $config = $this->cleanConfig();
         foreach ($this->defaults as $configName => $configValue) {
             if (array_key_exists($configName, $config)) {
-                $this->write($configName, $configValue, true);
+                $this->write($configName, $configValue);
             }
         }
 
@@ -138,7 +134,7 @@ class Config
             && ($config["current_git_tag"] != getenv(
                 "BUILD_VERSION"
             ))) {
-            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
+            $this->write("current_git_tag", getenv("BUILD_VERSION"));
         }
     }
 
@@ -225,7 +221,6 @@ class Config
             $config = json_decode($configJSON, true);
         }
         if (json_last_error() !== 0) {
-            $this->clearCacheConfig();
             die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
         }
 
