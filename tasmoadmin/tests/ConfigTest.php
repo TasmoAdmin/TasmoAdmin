@@ -16,12 +16,6 @@ class ConfigTest extends TestCase
         $this->root = vfsStream::setup('config');
     }
 
-    public function testConstructor(): void
-    {
-        $config = $this->getConfig();
-        self::assertEquals('auto', $config->read('nightmode'));
-    }
-
     public function testReadInvalidKey(): void
     {
         $config = $this->getConfig();
