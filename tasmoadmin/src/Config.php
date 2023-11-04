@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid;
 class Config
 {
     private const NON_CACHED_KEYS = [
-      'password'
+      "password"
     ];
 
     private bool $debug = false;
@@ -22,70 +22,70 @@ class Config
     private Filesystem $filesystem;
 
     private array $defaults = [
-        'ota_server_ip'         => '',
-        'ota_server_port'       => '',
-        'username'              => '',
-        'password'              => '',
-        'refreshtime'           => '8',
-        'current_git_tag'       => '',
-        'update_automatic_lang' => 'tasmota-sensors',
-        'nightmode'             => 'auto',
-        'login'                 => '1',
-        'scan_from_ip'          => '192.168.178.2',
-        'scan_to_ip'            => '192.168.178.254',
-        'homepage'              => 'start',
-        'check_for_updates'     => '3',
-        'minimize_resources'    => '1',
-        'update_channel'        => 'stable',
-        'hide_copyright'        => '1',
-        'show_search'           => '1',
-        'update_fe_check'       => '0',
-        'update_be_check'       => '1',
-        'auto_update_channel'   => 'stable',
-        'force_upgrade'         => '0',
+        "ota_server_ip"         => "",
+        "ota_server_port"       => "",
+        "username"              => "",
+        "password"              => "",
+        "refreshtime"           => "8",
+        "current_git_tag"       => "",
+        "update_automatic_lang" => "tasmota-sensors",
+        "nightmode"             => "auto",
+        "login"                 => "1",
+        "scan_from_ip"          => "192.168.178.2",
+        "scan_to_ip"            => "192.168.178.254",
+        "homepage"              => "start",
+        "check_for_updates"     => "3",
+        "minimize_resources"    => "1",
+        "update_channel"        => "stable",
+        "hide_copyright"        => "1",
+        "show_search"           => "1",
+        "update_fe_check"       => "0",
+        "update_be_check"       => "1",
+        "auto_update_channel"   => "stable",
+        "force_upgrade"         => "0",
     ];
 
     public function __construct(string $dataDir, string $appRoot)
     {
         $this->dataDir = $dataDir;
         $this->appRoot = $appRoot;
-        $this->cfgFile = $this->dataDir . 'MyConfig.json';
-        $cfgFile140 = $this->dataDir . 'MyConfig.php';       //for tag 1.4.0 migration
+        $this->cfgFile = $this->dataDir . "MyConfig.json";
+        $cfgFile140 = $this->dataDir . "MyConfig.php";       //for tag 1.4.0 migration
         $this->filesystem = new Filesystem();
 
         //init default values
-        $this->defaults['ota_server_ip']   = !empty($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : '';
-        $this->defaults['ota_server_port'] = !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : '';
+        $this->defaults["ota_server_ip"]   = !empty($_SERVER["SERVER_ADDR"]) ? $_SERVER["SERVER_ADDR"] : "";
+        $this->defaults["ota_server_port"] = !empty($_SERVER["SERVER_PORT"]) ? $_SERVER["SERVER_PORT"] : "";
 
-        if (!empty($_SERVER['SERVER_ADDR'])) {
-            $ipBlocks                             = explode('.', $_SERVER['SERVER_ADDR']);
+        if (!empty($_SERVER["SERVER_ADDR"])) {
+            $ipBlocks                             = explode(".", $_SERVER["SERVER_ADDR"]);
             $ipBlocks[3]                          = 2;
-            $this->defaults['scan_from_ip'] = implode('.', $ipBlocks);
+            $this->defaults["scan_from_ip"] = implode(".", $ipBlocks);
             $ipBlocks[3]                          = 254;
-            $this->defaults['scan_to_ip']   = implode('.', $ipBlocks);
+            $this->defaults["scan_to_ip"]   = implode(".", $ipBlocks);
         }
 
-        if (file_exists($this->appRoot . '.dockerenv')) {
-            $this->defaults['update_channel'] = 'docker';
+        if (file_exists($this->appRoot . ".dockerenv")) {
+            $this->defaults["update_channel"] = "docker";
         }
 
 
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
-            die($this->dataDir . ' is NO DIR! | __construct()');
+            die($this->dataDir . " is NO DIR! | __construct()");
         }
         if (!is_writable($this->dataDir)) {
             var_dump(debug_backtrace());
-            die($this->dataDir . ' is NOT WRITEABLE! | __construct()');
+            die($this->dataDir . " is NOT WRITEABLE! | __construct()");
         }
 
 
         if (!file_exists($this->cfgFile)) { //create file if not exists
-            $fh = fopen($this->cfgFile, 'w+') or die(
+            $fh = fopen($this->cfgFile, "w+") or die(
                 __(
-                    'ERROR_CANNOT_CREATE_FILE',
-                    'USER_CONFIG',
-                    ['cfgFilePath' => $this->cfgFile]
+                    "ERROR_CANNOT_CREATE_FILE",
+                    "USER_CONFIG",
+                    ["cfgFilePath" => $this->cfgFile]
                 )
             );
             $config = [];
@@ -104,7 +104,7 @@ class Config
             $config     = array_merge($this->defaults, $config);
             $configJson = json_encode($config, JSON_PRETTY_PRINT);
             if (!fwrite($fh, $configJson)) {
-                die('COULD NOT CREATE OR WRITE IN CONFIG FILE');
+                die("COULD NOT CREATE OR WRITE IN CONFIG FILE");
             }
             fclose($fh);
         }
@@ -116,11 +116,11 @@ class Config
             $this->clearCacheConfig();
             $configJson = file_get_contents($this->cfgFile);
             if ($configJson === false) {
-                die('could not read MyConfig.json');
+                die("could not read MyConfig.json");
             }
             json_decode($configJson);
             if (json_last_error() != 0) {
-                die('JSON CONFIG ERROR: ' . json_last_error() . ' => ' . json_last_error_msg());
+                die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
             }
         }
 
@@ -133,16 +133,16 @@ class Config
             }
         }
 
-        if (file_exists($this->appRoot . '.version')) {
-            $version = trim(file_get_contents($this->appRoot . '.version'));
-            if ($config['current_git_tag'] !== $version) {
-                $this->write('current_git_tag', $version);
+        if (file_exists($this->appRoot . ".version")) {
+            $version = trim(file_get_contents($this->appRoot . ".version"));
+            if ($config["current_git_tag"] !== $version) {
+                $this->write("current_git_tag", $version);
             }
-        } elseif (!empty(getenv('BUILD_VERSION'))
-            && ($config['current_git_tag'] != getenv(
-                'BUILD_VERSION'
+        } elseif (!empty(getenv("BUILD_VERSION"))
+            && ($config["current_git_tag"] != getenv(
+                "BUILD_VERSION"
             ))) {
-            $this->write('current_git_tag', getenv('BUILD_VERSION'), true);
+            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
         }
 
 
@@ -154,13 +154,13 @@ class Config
         $config = $this->readAll(true, true);
 
         $modified = false;
-        if (!empty($config['page'])) {
-            unset($config['page']);
+        if (!empty($config["page"])) {
+            unset($config["page"]);
             $modified = true;
         }
 
-        if (!empty($config['use_gzip_package'])) {
-            unset($config['use_gzip_package']);
+        if (!empty($config["use_gzip_package"])) {
+            unset($config["use_gzip_package"]);
             $modified = true;
         }
 
@@ -173,11 +173,11 @@ class Config
 
     private function getCacheConfig(?string $key = null)
     {
-        $this->logDebug('COOKIE READ' . (!empty($key) ? ' ( ' . $key . ' )' : ''));
-        if (empty($_SESSION['MyConfig'])) {
+        $this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
+        if (empty($_SESSION["MyConfig"])) {
             return false;
         }
-        $configJson = $_SESSION['MyConfig'];
+        $configJson = $_SESSION["MyConfig"];
 
         $config = json_decode($configJson, true);
         if (json_last_error() !== 0) {
@@ -196,7 +196,7 @@ class Config
 
     private function clearCacheConfig()
     {
-        unset($_SESSION['MyConfig']);
+        unset($_SESSION["MyConfig"]);
     }
 
     public function read(string $key, bool $skipCookie = false)
@@ -207,18 +207,18 @@ class Config
         }
 
         if (!$config) {
-            $this->logDebug('PERFORM READ (' . $key . ')');
+            $this->logDebug("PERFORM READ (" . $key . ")");
             $configJson = file_get_contents($this->cfgFile);
             if ($configJson === false) {
                 var_dump(debug_backtrace());
-                die('could not read MyConfig.json in read');
+                die("could not read MyConfig.json in read");
             }
 
             $config = json_decode($configJson, true);
             if (json_last_error() != 0) {
                 var_dump($configJson);
                 $this->clearCacheConfig();
-                die('JSON CONFIG ERROR in read: ' . json_last_error() . ' => ' . json_last_error_msg());
+                die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
             }
             if (!$skipCookie) {
                 $this->setCacheConfig($config);
@@ -232,17 +232,17 @@ class Config
 
     private function setCacheConfig(array $config): void
     {
-        if ((empty($_SESSION['login']) || $_SESSION['login'] !== '1') && $config['login'] === '1') {
+        if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] === "1") {
             return;
         }
 
-        $this->logDebug('COOKIE WRITE');
+        $this->logDebug("COOKIE WRITE");
         $this->logDebug(debug_backtrace());
-        $config['password'] = 'im sure you expected a top secret pw here, but you failed :)';
+        $config["password"] = "im sure you expected a top secret pw here, but you failed :)";
 
         $configJson = json_encode($config);
 
-        $_SESSION['MyConfig'] = $configJson;
+        $_SESSION["MyConfig"] = $configJson;
     }
 
     public function write(string $key, $value, bool $skipCookie = false): void
@@ -252,11 +252,11 @@ class Config
 
     public function writeAll(array $updates, bool $skipCookie = false): void
     {
-        $this->logDebug('PERFORM READ FOR WRITE');
+        $this->logDebug("PERFORM READ FOR WRITE");
         $configJson = file_get_contents($this->cfgFile);
         if ($configJson === false) {
             var_dump(debug_backtrace());
-            die('could not read MyConfig.json in write');
+            die("could not read MyConfig.json in write");
         }
         $config = json_decode($configJson, true);
         foreach ($updates as $key => $value) {
@@ -271,7 +271,7 @@ class Config
                 $config[$key] = $value;
             }
 
-            $this->logDebug('PERFORM WRITE ({$key} => {$value})');
+            $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
 
         $this->writeFile($config);
@@ -288,24 +288,24 @@ class Config
             $config = $this->getCacheConfig();
         }
         if (!$config) {
-            $this->logDebug('PERFORM READALL');
+            $this->logDebug("PERFORM READALL");
             $configJson = file_get_contents($this->cfgFile);
             if ($configJson === false) {
                 var_dump(debug_backtrace());
-                die('could not read MyConfig.json in readAll');
+                die("could not read MyConfig.json in readAll");
             } else {
                 $config = json_decode($configJson, true);
             }
             if (json_last_error() !== 0) {
                 $this->clearCacheConfig();
-                die('JSON CONFIG ERROR in readAll: ' . json_last_error() . ' => ' . json_last_error_msg());
+                die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
             }
             if (!$skipCookie) {
                 $this->setCacheConfig($config);
             }
         }
         if (!$inclPassword) {
-            unset($config['password']);
+            unset($config["password"]);
         }
 
 
@@ -316,15 +316,15 @@ class Config
     {
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
-            die($this->dataDir . ' is NO DIR! | write()');
+            die($this->dataDir . " is NO DIR! | write()");
         }
         if (!is_writable($this->dataDir)) {
             var_dump(debug_backtrace());
-            die($this->dataDir . ' is NOT WRITEABLE! | write()');
+            die($this->dataDir . " is NOT WRITEABLE! | write()");
         }
         if (!is_writable($this->cfgFile)) {
             var_dump(debug_backtrace());
-            die($this->cfgFile . ' is NOT WRITEABLE! | write()');
+            die($this->cfgFile . " is NOT WRITEABLE! | write()");
         }
 
         $configJson = json_encode($config, JSON_PRETTY_PRINT);
@@ -332,10 +332,10 @@ class Config
         if (empty($configJson)) {
             var_dump($configJson);
             var_dump(debug_backtrace());
-            die('configJSON IS EMPTY! | write()');
+            die("configJSON IS EMPTY! | write()");
         }
 
-        $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
+        $tempFile = $this->filesystem->tempnam($this->dataDir, "config");
         $this->filesystem->dumpFile($tempFile, $configJson);
         $this->filesystem->rename($tempFile, $this->cfgFile, true);
     }
