@@ -162,18 +162,7 @@ class Config
 
     public function read(string $key)
     {
-        $this->logDebug("PERFORM READ (" . $key . ")");
-        $configJSON = file_get_contents($this->cfgFile);
-        if ($configJSON === false) {
-            var_dump(debug_backtrace());
-            die("could not read MyConfig.json in read");
-        }
-
-        $config = json_decode($configJSON, true);
-        if (json_last_error() != 0) {
-            var_dump($configJSON);
-            die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
-        }
+        $config = $this->readAll(true);
 
         return $config[$key] ?? null;
     }
