@@ -113,16 +113,13 @@ class Config
         /**
          * test file
          */
-        if (!$this->getCacheConfig()) {
-            $this->clearCacheConfig();
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                die("could not read MyConfig.json");
-            }
-            json_decode($configJSON);
-            if (json_last_error() != 0) {
-                die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
-            }
+        $configJSON = file_get_contents($this->cfgFile);
+        if ($configJSON === false) {
+            die("could not read MyConfig.json");
+        }
+        json_decode($configJSON);
+        if (json_last_error() != 0) {
+            die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
         }
 
         $config = $this->cleanConfig();
@@ -143,13 +140,11 @@ class Config
             ))) {
             $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
         }
-
-        $this->setCacheConfig($config);
     }
 
     private function cleanConfig(): array
     {
-        $config = $this->readAll(true, true);
+        $config = $this->readAll(true);
 
         $modified = false;
         if (!empty($config["page"])) {
@@ -169,86 +164,30 @@ class Config
         return $config;
     }
 
-    private function getCacheConfig(?string $key = null)
+    public function read(string $key)
     {
-        $this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
-        if (empty($_SESSION["MyConfig"])) {
-            return false;
+        $this->logDebug("PERFORM READ (" . $key . ")");
+        $configJSON = file_get_contents($this->cfgFile);
+        if ($configJSON === false) {
+            var_dump(debug_backtrace());
+            die("could not read MyConfig.json in read");
         }
-        $configJSON = $_SESSION["MyConfig"];
 
         $config = json_decode($configJSON, true);
-        if (json_last_error() !== 0) {
-            return false;
-        }
-        if (empty($config)) {
-            return false;
+        if (json_last_error() != 0) {
+            var_dump($configJSON);
+            die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
         }
 
-        if (array_key_exists($key, $config)) {
-            return $config[$key];
-        }
-
-        return $config;
+        return $config[$key] ?? null;
     }
 
-    private function clearCacheConfig()
+    public function write(string $key, $value): void
     {
-        unset($_SESSION["MyConfig"]);
+        $this->writeAll([$key => $value]);
     }
 
-    public function read(string $key, bool $skipCookie = false)
-    {
-        $config = false;
-        if (!in_array($key, self::NON_CACHED_KEYS)) {
-            $config = $this->getCacheConfig($key);
-        }
-
-        if (!$config) {
-            $this->logDebug("PERFORM READ (" . $key . ")");
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                var_dump(debug_backtrace());
-                die("could not read MyConfig.json in read");
-            }
-
-            $config = json_decode($configJSON, true);
-            if (json_last_error() != 0) {
-                var_dump($configJSON);
-                $this->clearCacheConfig();
-                die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
-            }
-            if (!$skipCookie) {
-                $this->setCacheConfig($config);
-            }
-
-            $config = $config[$key] ?? null;
-        }
-
-        return $config;
-    }
-
-    private function setCacheConfig(array $config): void
-    {
-        if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] === "1") {
-            return;
-        }
-
-        $this->logDebug("COOKIE WRITE");
-        $this->logDebug(debug_backtrace());
-        $config["password"] = "im sure you expected a top secret pw here, but you failed :)";
-
-        $configJSON = json_encode($config);
-
-        $_SESSION["MyConfig"] = $configJSON;
-    }
-
-    public function write(string $key, $value, bool $skipCookie = false): void
-    {
-        $this->writeAll([$key => $value], $skipCookie);
-    }
-
-    public function writeAll(array $updates, bool $skipCookie = false): void
+    public function writeAll(array $updates): void
     {
         $this->logDebug("PERFORM READ FOR WRITE");
         $configJSON = file_get_contents($this->cfgFile);
@@ -273,39 +212,26 @@ class Config
         }
 
         $this->writeFile($config);
-
-        if (!$skipCookie) {
-            $this->setCacheConfig($config);
-        }
     }
 
-    public function readAll($inclPassword = false, $skipCookie = false)
+    public function readAll($inclPassword = false)
     {
-        $config = false;
-        if (!$inclPassword) { //if pw requested, get from file
-            $config = $this->getCacheConfig();
+        $this->logDebug("PERFORM READALL");
+        $configJSON = file_get_contents($this->cfgFile);
+        if ($configJSON === false) {
+            var_dump(debug_backtrace());
+            die("could not read MyConfig.json in readAll");
+        } else {
+            $config = json_decode($configJSON, true);
         }
-        if (!$config) {
-            $this->logDebug("PERFORM READALL");
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                var_dump(debug_backtrace());
-                die("could not read MyConfig.json in readAll");
-            } else {
-                $config = json_decode($configJSON, true);
-            }
-            if (json_last_error() !== 0) {
-                $this->clearCacheConfig();
-                die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
-            }
-            if (!$skipCookie) {
-                $this->setCacheConfig($config);
-            }
+        if (json_last_error() !== 0) {
+            $this->clearCacheConfig();
+            die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
         }
+
         if (!$inclPassword) {
             unset($config["password"]);
         }
-
 
         return $config;
     }
