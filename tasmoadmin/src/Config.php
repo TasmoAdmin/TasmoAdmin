@@ -125,16 +125,12 @@ class Config
             }
         }
 
-        //write default config if does not exists in file
+        $config = $this->cleanConfig();
         foreach ($this->defaults as $configName => $configValue) {
-            $config = $this->read($configName, true);
-            if (!isset($config) || $config == "") {
+            if (array_key_exists($configName, $config)) {
                 $this->write($configName, $configValue, true);
             }
         }
-
-        //remove trash from config
-        $config = $this->cleanConfig();
 
         if (file_exists($this->appRoot . ".version")) {
             $version = trim(file_get_contents($this->appRoot . ".version"));
@@ -147,7 +143,6 @@ class Config
             ))) {
             $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
         }
-
 
         $this->setCacheConfig($config);
     }
@@ -168,33 +163,7 @@ class Config
         }
 
         if ($modified) {
-            $configJSON = json_encode($config, JSON_PRETTY_PRINT);
-
-            if ($this->debug) {
-                debug("PERFORM WRITE (unset => page)");
-            }
-
-            if (!is_dir($this->dataDir)) {
-                var_dump(debug_backtrace());
-                die($this->dataDir . " is NO DIR! | write()");
-            }
-            if (!is_writable($this->dataDir)) {
-                var_dump(debug_backtrace());
-                die($this->dataDir . " is NOT WRITEABLE! | write()");
-            }
-            if (!is_writable($this->cfgFile)) {
-                var_dump(debug_backtrace());
-                die($this->cfgFile . " is NOT WRITEABLE! | write()");
-            }
-
-            if (empty($configJSON)) {
-                var_dump($configJSON);
-                var_dump(debug_backtrace());
-                die("configJSON IS EMPTY! | write()");
-            }
-
-
-            file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
+            $this->writeFile($config);
         }
 
         return $config;
@@ -216,14 +185,8 @@ class Config
             return false;
         }
 
-        if (!empty($key)) {
-            if ($key === "password") {
-                $config = "im sure you expected a top secret pw here, but you failed :)";
-            } elseif (!empty($config[$key])) {
-                $config = $config[$key];
-            } else {
-                return false;
-            }
+        if (array_key_exists($key, $config)) {
+            return $config[$key];
         }
 
         return $config;
@@ -308,29 +271,9 @@ class Config
 
             $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
-        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
-        if (!is_dir($this->dataDir)) {
-            var_dump(debug_backtrace());
-            die($this->dataDir . " is NO DIR! | write()");
-        }
-        if (!is_writable($this->dataDir)) {
-            var_dump(debug_backtrace());
-            die($this->dataDir . " is NOT WRITEABLE! | write()");
-        }
-        if (!is_writable($this->cfgFile)) {
-            var_dump(debug_backtrace());
-            die($this->cfgFile . " is NOT WRITEABLE! | write()");
-        }
 
-        if (empty($configJSON)) {
-            var_dump($configJSON);
-            var_dump(debug_backtrace());
-            die("configJSON IS EMPTY! | write()");
-        }
+        $this->writeFile($config);
 
-        $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
-        $this->filesystem->dumpFile($tempFile, $configJSON);
-        $this->filesystem->rename($tempFile, $this->cfgFile, true);
         if (!$skipCookie) {
             $this->setCacheConfig($config);
         }
@@ -385,5 +328,32 @@ class Config
         if ($this->debug) {
             debug($message);
         }
+    }
+
+    private function writeFile(array $config): void
+    {
+        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
+        if (!is_dir($this->dataDir)) {
+            var_dump(debug_backtrace());
+            die($this->dataDir . " is NO DIR! | write()");
+        }
+        if (!is_writable($this->dataDir)) {
+            var_dump(debug_backtrace());
+            die($this->dataDir . " is NOT WRITEABLE! | write()");
+        }
+        if (!is_writable($this->cfgFile)) {
+            var_dump(debug_backtrace());
+            die($this->cfgFile . " is NOT WRITEABLE! | write()");
+        }
+
+        if (empty($configJSON)) {
+            var_dump($configJSON);
+            var_dump(debug_backtrace());
+            die("configJSON IS EMPTY! | write()");
+        }
+
+        $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
+        $this->filesystem->dumpFile($tempFile, $configJSON);
+        $this->filesystem->rename($tempFile, $this->cfgFile, true);
     }
 }
