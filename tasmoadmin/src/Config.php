@@ -7,7 +7,7 @@ use Symfony\Component\Filesystem\Filesystem;
 class Config
 {
     private const NON_CACHED_KEYS = [
-      'password'
+        'password'
     ];
 
     private bool $debug = false;
@@ -21,28 +21,28 @@ class Config
     private Filesystem $filesystem;
 
     private array $defaults = [
-            "ota_server_ip"         => "",
-            "ota_server_port"       => "",
-            "username"              => "",
-            "password"              => "",
-            "refreshtime"           => "8",
-            "current_git_tag"       => "",
-            "update_automatic_lang" => "tasmota-sensors",
-            "nightmode"             => "auto",
-            "login"                 => "1",
-            "scan_from_ip"          => "192.168.178.2",
-            "scan_to_ip"            => "192.168.178.254",
-            "homepage"              => "start",
-            "check_for_updates"     => "3",
-            "minimize_resources"    => "1",
-            "update_channel"        => "stable",
-            "hide_copyright"        => "1",
-            "show_search"           => "1",
-            "update_fe_check"      => "0",
-            "update_be_check"      => "1",
-            "auto_update_channel"  => "stable",
-            "force_upgrade"  => "0",
-        ];
+        "ota_server_ip"         => "",
+        "ota_server_port"       => "",
+        "username"              => "",
+        "password"              => "",
+        "refreshtime"           => "8",
+        "current_git_tag"       => "",
+        "update_automatic_lang" => "tasmota-sensors",
+        "nightmode"             => "auto",
+        "login"                 => "1",
+        "scan_from_ip"          => "192.168.178.2",
+        "scan_to_ip"            => "192.168.178.254",
+        "homepage"              => "start",
+        "check_for_updates"     => "3",
+        "minimize_resources"    => "1",
+        "update_channel"        => "stable",
+        "hide_copyright"        => "1",
+        "show_search"           => "1",
+        "update_fe_check"      => "0",
+        "update_be_check"      => "1",
+        "auto_update_channel"  => "stable",
+        "force_upgrade"  => "0",
+    ];
 
     public function __construct(string $dataDir, string $appRoot)
     {
@@ -83,11 +83,11 @@ class Config
 
         if (!file_exists($this->cfgFile)) { //create file if not exists
             $fh = fopen($this->cfgFile, 'w+') or die(
-                __(
-                    "ERROR_CANNOT_CREATE_FILE",
-                    "USER_CONFIG",
-                    ["cfgFilePath" => $this->cfgFile]
-                )
+            __(
+                "ERROR_CANNOT_CREATE_FILE",
+                "USER_CONFIG",
+                ["cfgFilePath" => $this->cfgFile]
+            )
             );
             $config = [];
             /**
@@ -125,16 +125,12 @@ class Config
             }
         }
 
-        //write default config if does not exists in file
+        $config = $this->cleanConfig();
         foreach ($this->defaults as $configName => $configValue) {
-            $config = $this->read($configName, true);
-            if (!isset($config) || $config == "") {
+            if (!array_key_exists($configName, $config)) {
                 $this->write($configName, $configValue, true);
             }
         }
-
-        //remove trash from config
-        $config = $this->cleanConfig();
 
         if (file_exists($this->appRoot . ".version")) {
             $version = trim(file_get_contents($this->appRoot . ".version"));
@@ -143,8 +139,8 @@ class Config
             }
         } elseif (!empty(getenv("BUILD_VERSION"))
             && ($config["current_git_tag"] != getenv(
-                "BUILD_VERSION"
-            ))) {
+                    "BUILD_VERSION"
+                ))) {
             $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
         }
 
