@@ -6,10 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Config
 {
-    private const NON_CACHED_KEYS = [
-        'password'
-    ];
-
     private bool $debug = false;
 
     private string $dataDir;
@@ -83,11 +79,11 @@ class Config
 
         if (!file_exists($this->cfgFile)) { //create file if not exists
             $fh = fopen($this->cfgFile, 'w+') or die(
-            __(
-                "ERROR_CANNOT_CREATE_FILE",
-                "USER_CONFIG",
-                ["cfgFilePath" => $this->cfgFile]
-            )
+                __(
+                    "ERROR_CANNOT_CREATE_FILE",
+                    "USER_CONFIG",
+                    ["cfgFilePath" => $this->cfgFile]
+                )
             );
             $config = [];
             /**
@@ -110,25 +106,10 @@ class Config
             fclose($fh);
         }
 
-        /**
-         * test file
-         */
-        if (!$this->getCacheConfig()) {
-            $this->clearCacheConfig();
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                die("could not read MyConfig.json");
-            }
-            json_decode($configJSON);
-            if (json_last_error() != 0) {
-                die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
-            }
-        }
-
         $config = $this->cleanConfig();
         foreach ($this->defaults as $configName => $configValue) {
             if (!array_key_exists($configName, $config)) {
-                $this->write($configName, $configValue, true);
+                $this->write($configName, $configValue);
             }
         }
 
@@ -139,18 +120,15 @@ class Config
             }
         } elseif (!empty(getenv("BUILD_VERSION"))
             && ($config["current_git_tag"] != getenv(
-                    "BUILD_VERSION"
-                ))) {
-            $this->write("current_git_tag", getenv("BUILD_VERSION"), true);
+                "BUILD_VERSION"
+            ))) {
+            $this->write("current_git_tag", getenv("BUILD_VERSION"));
         }
-
-
-        $this->setCacheConfig($config);
     }
 
     private function cleanConfig(): array
     {
-        $config = $this->readAll(true, true);
+        $config = $this->readAll(true);
 
         $modified = false;
         if (!empty($config["page"])) {
@@ -196,92 +174,30 @@ class Config
         return $config;
     }
 
-    private function getCacheConfig(?string $key = null)
-    {
-        $this->logDebug("COOKIE READ" . (!empty($key) ? " ( " . $key . " )" : ""));
-        if (empty($_SESSION["MyConfig"])) {
-            return false;
-        }
-        $configJSON = $_SESSION["MyConfig"];
-
-        $config = json_decode($configJSON, true);
-        if (json_last_error() !== 0) {
-            return false;
-        }
-        if (empty($config)) {
-            return false;
-        }
-
-        if (!empty($key)) {
-            if ($key === "password") {
-                $config = "im sure you expected a top secret pw here, but you failed :)";
-            } elseif (!empty($config[$key])) {
-                $config = $config[$key];
-            } else {
-                return false;
-            }
-        }
-
-        return $config;
-    }
-
-    private function clearCacheConfig()
-    {
-        unset($_SESSION["MyConfig"]);
-    }
-
     public function read(string $key, bool $skipCookie = false)
     {
-        $config = false;
-        if (!in_array($key, self::NON_CACHED_KEYS)) {
-            $config = $this->getCacheConfig($key);
+        $this->logDebug("PERFORM READ (" . $key . ")");
+        $configJSON = file_get_contents($this->cfgFile);
+        if ($configJSON === false) {
+            var_dump(debug_backtrace());
+            die("could not read MyConfig.json in read");
         }
 
-        if (!$config) {
-            $this->logDebug("PERFORM READ (" . $key . ")");
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                var_dump(debug_backtrace());
-                die("could not read MyConfig.json in read");
-            }
-
-            $config = json_decode($configJSON, true);
-            if (json_last_error() != 0) {
-                var_dump($configJSON);
-                $this->clearCacheConfig();
-                die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
-            }
-            if (!$skipCookie) {
-                $this->setCacheConfig($config);
-            }
-
-            $config = $config[$key] ?? null;
+        $config = json_decode($configJSON, true);
+        if (json_last_error() != 0) {
+            var_dump($configJSON);
+            die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
         }
 
-        return $config;
+        return  $config[$key] ?? null;
     }
 
-    private function setCacheConfig(array $config): void
+    public function write(string $key, $value): void
     {
-        if ((empty($_SESSION["login"]) || $_SESSION["login"] !== "1") && $config["login"] === "1") {
-            return;
-        }
-
-        $this->logDebug("COOKIE WRITE");
-        $this->logDebug(debug_backtrace());
-        $config["password"] = "im sure you expected a top secret pw here, but you failed :)";
-
-        $configJSON = json_encode($config);
-
-        $_SESSION["MyConfig"] = $configJSON;
+        $this->writeAll([$key => $value]);
     }
 
-    public function write(string $key, $value, bool $skipCookie = false): void
-    {
-        $this->writeAll([$key => $value], $skipCookie);
-    }
-
-    public function writeAll(array $updates, bool $skipCookie = false): void
+    public function writeAll(array $updates): void
     {
         $this->logDebug("PERFORM READ FOR WRITE");
         $configJSON = file_get_contents($this->cfgFile);
@@ -327,38 +243,25 @@ class Config
         $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
         $this->filesystem->dumpFile($tempFile, $configJSON);
         $this->filesystem->rename($tempFile, $this->cfgFile, true);
-        if (!$skipCookie) {
-            $this->setCacheConfig($config);
-        }
     }
 
-    public function readAll($inclPassword = false, $skipCookie = false)
+    public function readAll($inclPassword = false)
     {
-        $config = false;
-        if (!$inclPassword) { //if pw requested, get from file
-            $config = $this->getCacheConfig();
+        $this->logDebug("PERFORM READALL");
+        $configJSON = file_get_contents($this->cfgFile);
+        if ($configJSON === false) {
+            var_dump(debug_backtrace());
+            die("could not read MyConfig.json in readAll");
+        } else {
+            $config = json_decode($configJSON, true);
         }
-        if (!$config) {
-            $this->logDebug("PERFORM READALL");
-            $configJSON = file_get_contents($this->cfgFile);
-            if ($configJSON === false) {
-                var_dump(debug_backtrace());
-                die("could not read MyConfig.json in readAll");
-            } else {
-                $config = json_decode($configJSON, true);
-            }
-            if (json_last_error() !== 0) {
-                $this->clearCacheConfig();
-                die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
-            }
-            if (!$skipCookie) {
-                $this->setCacheConfig($config);
-            }
+        if (json_last_error() !== 0) {
+            die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
         }
+
         if (!$inclPassword) {
             unset($config["password"]);
         }
-
 
         return $config;
     }
