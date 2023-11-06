@@ -85,6 +85,7 @@ class Config
                     ["cfgFilePath" => $this->cfgFile]
                 )
             );
+
             $config = [];
             /**
              * MIGRATE FROM MyConfig.php tp MyConfig.json
@@ -142,39 +143,13 @@ class Config
         }
 
         if ($modified) {
-            $configJSON = json_encode($config, JSON_PRETTY_PRINT);
-
-            if ($this->debug) {
-                debug("PERFORM WRITE (unset => page)");
-            }
-
-            if (!is_dir($this->dataDir)) {
-                var_dump(debug_backtrace());
-                die($this->dataDir . " is NO DIR! | write()");
-            }
-            if (!is_writable($this->dataDir)) {
-                var_dump(debug_backtrace());
-                die($this->dataDir . " is NOT WRITEABLE! | write()");
-            }
-            if (!is_writable($this->cfgFile)) {
-                var_dump(debug_backtrace());
-                die($this->cfgFile . " is NOT WRITEABLE! | write()");
-            }
-
-            if (empty($configJSON)) {
-                var_dump($configJSON);
-                var_dump(debug_backtrace());
-                die("configJSON IS EMPTY! | write()");
-            }
-
-
-            file_put_contents($this->cfgFile, $configJSON, LOCK_EX);
+            $this->writeFile($config);
         }
 
         return $config;
     }
 
-    public function read(string $key, bool $skipCookie = false)
+    public function read(string $key)
     {
         $this->logDebug("PERFORM READ (" . $key . ")");
         $configJSON = file_get_contents($this->cfgFile);
@@ -189,7 +164,7 @@ class Config
             die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
         }
 
-        return  $config[$key] ?? null;
+        return $config[$key] ?? null;
     }
 
     public function write(string $key, $value): void
@@ -220,29 +195,8 @@ class Config
 
             $this->logDebug("PERFORM WRITE ({$key} => {$value})");
         }
-        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
-        if (!is_dir($this->dataDir)) {
-            var_dump(debug_backtrace());
-            die($this->dataDir . " is NO DIR! | write()");
-        }
-        if (!is_writable($this->dataDir)) {
-            var_dump(debug_backtrace());
-            die($this->dataDir . " is NOT WRITEABLE! | write()");
-        }
-        if (!is_writable($this->cfgFile)) {
-            var_dump(debug_backtrace());
-            die($this->cfgFile . " is NOT WRITEABLE! | write()");
-        }
 
-        if (empty($configJSON)) {
-            var_dump($configJSON);
-            var_dump(debug_backtrace());
-            die("configJSON IS EMPTY! | write()");
-        }
-
-        $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
-        $this->filesystem->dumpFile($tempFile, $configJSON);
-        $this->filesystem->rename($tempFile, $this->cfgFile, true);
+        $this->writeFile($config);
     }
 
     public function readAll($inclPassword = false)
@@ -284,5 +238,32 @@ class Config
         if ($this->debug) {
             debug($message);
         }
+    }
+
+    private function writeFile(array $config): void
+    {
+        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
+        if (!is_dir($this->dataDir)) {
+            var_dump(debug_backtrace());
+            die($this->dataDir . " is NO DIR! | write()");
+        }
+        if (!is_writable($this->dataDir)) {
+            var_dump(debug_backtrace());
+            die($this->dataDir . " is NOT WRITEABLE! | write()");
+        }
+        if (!is_writable($this->cfgFile)) {
+            var_dump(debug_backtrace());
+            die($this->cfgFile . " is NOT WRITEABLE! | write()");
+        }
+
+        if (empty($configJSON)) {
+            var_dump($configJSON);
+            var_dump(debug_backtrace());
+            die("configJSON IS EMPTY! | write()");
+        }
+
+        $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
+        $this->filesystem->dumpFile($tempFile, $configJSON);
+        $this->filesystem->rename($tempFile, $this->cfgFile, true);
     }
 }
