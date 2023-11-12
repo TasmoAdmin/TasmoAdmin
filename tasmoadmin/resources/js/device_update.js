@@ -9,6 +9,8 @@ const Level = {
 const otaUrl = document.getElementById('ota_new_firmware_url').value;
 const targetVersion = document.getElementById('target_version').value;
 
+const { compareVersions } = window.compareVersions;
+
 const sleep = (milliseconds) => {
 	return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
@@ -141,21 +143,27 @@ function createDeviceElement(device) {
 	return deviceContainer;
 }
 
-function compareVersion(target, actual) {
-	let actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(actual);
+function extractVersionFromResponse(response) {
+	let actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(response);
 	if (actualMatch === null) {
-		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', actual));
+		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', response));
 	}
 
-	actualMatch = actualMatch[1];
+	return actualMatch[1];
+}
 
-	let targetMatch = /(\d+(\.\d+)+(\d+)*)/.exec(target);
-	if (targetMatch === null) {
-		throw Error($.i18n('BLOCK_UPDATE_ERROR_VERSION_COMPARE', target));
-	}
-	targetMatch = targetMatch[1];
+function versionsEqual(target, actual) {
+	const actualMatch = extractVersionFromResponse(actual);
+	const targetMatch = extractVersionFromResponse(target);
 
-	return  targetMatch === actualMatch;
+	return targetMatch === actualMatch;
+}
+
+function versionUpgrade(target, action) {
+	const actualMatch = extractVersionFromResponse(action);
+	const targetMatch = extractVersionFromResponse(target);
+
+	return compareVersions(targetMatch, actualMatch) === 1;
 }
 
 async function updateDevice(device) {
@@ -171,8 +179,13 @@ async function updateDevice(device) {
 		let response = await checkStatus(device.id);
 		const beforeVersion = response.StatusFWR.Version;
 		log(device.id, $.i18n('BLOCK_UPDATE_CURRENT_VERSION_IS', beforeVersion));
-		if (targetVersion && !config.force_upgrade && compareVersion(targetVersion, beforeVersion)) {
+		if (targetVersion && !config.force_upgrade && versionsEqual(targetVersion, beforeVersion)) {
 			log(device.id, $.i18n('BLOCK_UPDATE_DEVICE_AT_TARGET_VERSION'), Level.success);
+			return true;
+		}
+
+		if (targetVersion && config.update_newer_only && !versionUpgrade(targetVersion, beforeVersion)) {
+			log(device.id, $.i18n('BLOCK_UPDATE_DEVICE_NEWER_THAN_TARGET_VERSION'), Level.success);
 			return true;
 		}
 
@@ -193,7 +206,7 @@ async function updateDevice(device) {
 				break;
 			}
 
-			if (compareVersion(targetVersion, response.StatusFWR.Version)) {
+			if (versionsEqual(targetVersion, response.StatusFWR.Version)) {
 				upgradeSuccessful = true;
 				break;
 			}

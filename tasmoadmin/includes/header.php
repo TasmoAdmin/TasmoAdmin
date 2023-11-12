@@ -84,6 +84,7 @@ $urlHelper = $container->get(UrlHelper::class);
                 nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
                 update_fe_check: <?php echo $Config->read("update_fe_check"); ?> === 1,
                 force_upgrade: <?php echo $Config->read("force_upgrade"); ?> === 1,
+                update_newer_only: <?php echo $Config->read("update_newer_only"); ?> === 1,
             };
 		</script>
 		<script src="<?php echo $urlHelper->js("jquery", "node_modules/jquery/dist/"); ?>"></script>
@@ -114,6 +115,7 @@ $urlHelper = $container->get(UrlHelper::class);
 		<script src="<?php echo $urlHelper->js("tablesaw-init", "node_modules/tablesaw/dist/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("bootstrap-waitingfor", "node_modules/bootstrap-waitingfor/build/"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("jquery.doubleScroll", "node_modules/jqdoublescroll/"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("index", "node_modules/compare-versions/lib/umd/"); ?>"></script>
 
 		<script src="<?php echo $urlHelper->js("Sonoff"); ?>"></script>
 		<script src="<?php echo $urlHelper->js("app"); ?>"></script>
