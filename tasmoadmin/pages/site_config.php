@@ -17,7 +17,7 @@ if (isset($_POST["save"])) {
         $settings["login"] = "0";
     }
 
-    if (!isset($settings["check_for_updates"])) {
+	if (!isset($settings["check_for_updates"])) {
         $settings["check_for_updates"] = "0";
     }
 
@@ -37,6 +37,10 @@ if (isset($_POST["save"])) {
         $settings["update_be_check"] = "0";
     }
 
+	if (!isset($settings["update_newer_only"])) {
+        $settings["update_newer_only"] = "0";
+    }
+
     if (empty($settings["password"])) {
         unset($settings["password"]);
     } else {
@@ -48,7 +52,6 @@ if (isset($_POST["save"])) {
     }
 
     $Config->writeAll($settings);
-    //header( "Refresh:0" ); //fix for not updated config cuz of buffer
     $msg = __("MSG_USER_CONFIG_SAVED", "USER_CONFIG");
 }
 
@@ -266,6 +269,23 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         <p class="small" style="padding-top:15px;">
                             <?php echo __("CONFIG_FORCE_UPGRADE_HELP", "USER_CONFIG"); ?>
 
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group col col-12 col-sm-3">
+                    <label>&nbsp;</label>
+                    <div class="form-check custom-control custom-checkbox mb-5">
+                        <input class="form-check-input custom-control-input"
+                               type="checkbox"
+                               value="1"
+                               id="update_newer_only"
+                               name='update_newer_only' <?php echo $config["update_newer_only"] == "1"
+                            ? "checked=\"checked\"" : ""; ?>>
+                        <label class="form-check-label custom-control-label" for="update_newer_only" style='top:3px;'>
+                            <?php echo __("CONFIG_UPDATE_NEWER_ONLY", "USER_CONFIG"); ?>
+                        </label>
+                        <p class="small" style="padding-top:15px;">
+                            <?php echo __("CONFIG_UPDATE_NEWER_ONLY_HELP", "USER_CONFIG"); ?>
                         </p>
                     </div>
                 </div>
