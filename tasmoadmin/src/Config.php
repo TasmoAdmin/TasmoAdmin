@@ -36,6 +36,7 @@ class Config
         "show_search"           => "1",
         "update_fe_check"      => "0",
         "update_be_check"      => "1",
+        "update_newer_only"    => "1",
         "auto_update_channel"  => "stable",
         "force_upgrade"  => "0",
     ];
