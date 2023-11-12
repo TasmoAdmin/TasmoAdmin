@@ -151,18 +151,7 @@ class Config
 
     public function read(string $key)
     {
-        $this->logDebug("PERFORM READ (" . $key . ")");
-        $configJSON = file_get_contents($this->cfgFile);
-        if ($configJSON === false) {
-            var_dump(debug_backtrace());
-            die("could not read MyConfig.json in read");
-        }
-
-        $config = json_decode($configJSON, true);
-        if (json_last_error() != 0) {
-            var_dump($configJSON);
-            die("JSON CONFIG ERROR in read: " . json_last_error() . " => " . json_last_error_msg());
-        }
+        $config = $this->readAll(true);
 
         return $config[$key] ?? null;
     }
@@ -175,12 +164,7 @@ class Config
     public function writeAll(array $updates): void
     {
         $this->logDebug("PERFORM READ FOR WRITE");
-        $configJSON = file_get_contents($this->cfgFile);
-        if ($configJSON === false) {
-            var_dump(debug_backtrace());
-            die("could not read MyConfig.json in write");
-        }
-        $config = json_decode($configJSON, true);
+        $config = $this->readAll(true);
         foreach ($updates as $key => $value) {
             if ($value === 0 && array_key_exists($key, $this->defaults)) {
                 $value = $this->defaults[$key];
@@ -205,12 +189,12 @@ class Config
         $configJSON = file_get_contents($this->cfgFile);
         if ($configJSON === false) {
             var_dump(debug_backtrace());
-            die("could not read MyConfig.json in readAll");
-        } else {
-            $config = json_decode($configJSON, true);
+            die("could not read MyConfig.json");
         }
+
+        $config = json_decode($configJSON, true);
         if (json_last_error() !== 0) {
-            die("JSON CONFIG ERROR in readAll: " . json_last_error() . " => " . json_last_error_msg());
+            die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
         }
 
         if (!$inclPassword) {
