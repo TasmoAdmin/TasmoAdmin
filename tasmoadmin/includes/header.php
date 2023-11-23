@@ -79,7 +79,7 @@ $urlHelper = $container->get(UrlHelper::class);
 		<title><?php echo isset($title) ? $title . " - " : ""; ?>TasmoAdmin</title>
 		<script type="application/javascript">
             const config = {
-                base_url: window.location.origin + '<?php echo _BASEURL_; ?>',
+                base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
                 update_fe_check: <?php echo $Config->read("update_fe_check"); ?> === 1,
