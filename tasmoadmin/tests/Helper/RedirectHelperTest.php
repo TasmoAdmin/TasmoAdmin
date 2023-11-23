@@ -1,11 +1,10 @@
 <?php
 
 namespace Tests\TasmoAdmin\Helper;
+
 use PHPUnit\Framework\Attributes\DataProvider;
 use TasmoAdmin\Helper\RedirectHelper;
 use PHPUnit\Framework\TestCase;
-
-
 
 class RedirectHelperTest extends TestCase
 {
