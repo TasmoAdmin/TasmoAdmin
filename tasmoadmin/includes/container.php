@@ -4,6 +4,7 @@ use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\Helper\RedirectHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
 use TasmoAdmin\Sonoff;
@@ -29,5 +30,6 @@ $container->set(BackupHelper::class, new BackupHelper(
     _TMPDIR_ . 'backups/'
 ));
 $container->set(ViewHelper::class, new ViewHelper($container->get(Config::class)));
+$container->set(RedirectHelper::class, new RedirectHelper(_BASEURL_));
 
 return $container;

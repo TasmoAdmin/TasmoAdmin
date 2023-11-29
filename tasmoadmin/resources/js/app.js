@@ -135,7 +135,7 @@ $(document).ready(function()
 	$("select#language-switch").on("change", function (event, ui)
 	{
 		const valueSelected = this.value;
-		let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.href}`
+		let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.pathname}`
 		curUrl = curUrl.replace(/([^:]\/)\/+/g, "$1");
 		window.location.href = curUrl;
 	});
