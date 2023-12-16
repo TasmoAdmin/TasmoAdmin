@@ -141,5 +141,5 @@ Edit in Table
 
 
 [transifex-docs]: https://docs.transifex.com/getting-started-1/translators
-[transifex-team]: https://app.transifex.com/tasmoadmin/
+[transifex-team]: https://explore.transifex.com/tasmoadmin/tasmoadmin/
 [transifex]: https://www.transifex.com/
