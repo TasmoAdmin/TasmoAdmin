@@ -1,5 +1,7 @@
 <!doctype html>
 <?php
+
+use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
 
@@ -306,29 +308,13 @@ $urlHelper = $container->get(UrlHelper::class);
 							</div>
 						</li>
 					</ul>
-					
-					
 					<div class='my-2 my-sm-0 language-switch-holder'>
-						<?php $tasmoAdminLanguages = [
-                            "cz",
-                            "de",
-                            "en",
-                            "es",
-                            "fr",
-                            "hu",
-                            "it",
-                            "nl",
-                            "pl",
-                            "it",
-                            "ru",
-                            "zh_TW",
-                        ]; ?>
 						<select name='language-switch' id='language-switch' class='custom-select'>
-							<?php foreach ($tasmoAdminLanguages as $l): ?>
+							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name): ?>
 								<option value='<?php echo $l; ?>'
 									<?php echo $lang === $l ? "selected=\"selected\"" : ""; ?>
 								>
-									<?php echo strtoupper($l); ?>
+									<?php echo $name; ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
