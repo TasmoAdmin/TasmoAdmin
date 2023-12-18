@@ -56,6 +56,7 @@ if (isset($_POST["save"])) {
 }
 
 $config = array_merge($Config->readAll(), $settings);
+unset($config["password"]);
 
 $tasmotaHelper = new TasmotaHelper(
     new Parsedown(),
