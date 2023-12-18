@@ -84,7 +84,9 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
     }
 }
 
-$config = $Config->readAll();
+$scanFromIp = $Config->read('scan_from_ip');
+$scanToIp = $Config->read('scan_to_ip');
+
 ?>
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-8 col-xl-6'>
@@ -133,7 +135,7 @@ $config = $Config->readAll();
                            id="from_ip"
                            name='from_ip'
                            placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-                           value='<?php echo $config["scan_from_ip"]; ?>'
+                           value='<?php echo $scanFromIp ?>'
                            required
                            autofocus="autofocus"
                     >
@@ -150,7 +152,7 @@ $config = $Config->readAll();
                            id="to_ip"
                            name='to_ip'
                            placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-                           value='<?php echo $config["scan_to_ip"]; ?>'
+                           value='<?php echo $scanToIp; ?>'
                            required
                     >
                     <small id="from_ipHelp" class="form-text text-muted">
@@ -167,8 +169,7 @@ $config = $Config->readAll();
                            class="form-control"
                            id="device_username"
                            name='device_username'
-                           value='<?php echo isset($_REQUEST["device_username"]) ? $_REQUEST["device_username"]
-                               : "admin"; ?>'
+                           value='<?php echo $_REQUEST["device_username"] ?? "admin"; ?>'
                     >
                     <small id="device_usernameHelp" class="form-text text-muted">
                         <?php echo __("DEVICE_USERNAME_HELP", "DEVICE_ACTIONS"); ?>
@@ -187,7 +188,7 @@ $config = $Config->readAll();
                                name='device_password'
                                autocomplete="off"
                                aria-autocomplete="none"
-                               value='<?php echo isset($_REQUEST["device_password"]) ? $_REQUEST["device_password"] : ""; ?>'
+                               value='<?php echo $_REQUEST["device_password"] ?? ""; ?>'
                         >
                         <div class="input-group-append">
                             <span class="input-group-text show-hide-password" id=""><i class="far fa-eye"></i></span>

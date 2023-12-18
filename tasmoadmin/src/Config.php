@@ -41,6 +41,8 @@ class Config
         "force_upgrade"  => "0",
     ];
 
+    private array $cachedConfig = [];
+
     public function __construct(string $dataDir, string $appRoot)
     {
         $this->dataDir = $dataDir;
@@ -130,19 +132,22 @@ class Config
 
     private function cleanConfig(): array
     {
-        $config = $this->readAll(true);
+        $config = $this->readAll();
 
         $modified = false;
-        if (!empty($config["page"])) {
-            unset($config["page"]);
-            $modified = true;
-        }
 
-        if (!empty($config["use_gzip_package"])) {
-            unset($config["use_gzip_package"]);
-            $modified = true;
-        }
+        $configKeys = [
+            "page",
+            "use_gzip_package",
+        ];
 
+        foreach ($configKeys as $key) {
+            if (!empty($config[$key])) {
+                unset($config[$key]);
+                $modified = true;
+            }
+
+        }
         if ($modified) {
             $this->writeFile($config);
         }
@@ -152,7 +157,7 @@ class Config
 
     public function read(string $key)
     {
-        $config = $this->readAll(true);
+        $config = $this->readAll();
 
         return $config[$key] ?? null;
     }
@@ -165,7 +170,7 @@ class Config
     public function writeAll(array $updates): void
     {
         $this->logDebug("PERFORM READ FOR WRITE");
-        $config = $this->readAll(true);
+        $config = $this->readAll();
         foreach ($updates as $key => $value) {
             if ($value === 0 && array_key_exists($key, $this->defaults)) {
                 $value = $this->defaults[$key];
@@ -178,14 +183,18 @@ class Config
                 $config[$key] = $value;
             }
 
-            $this->logDebug("PERFORM WRITE ({$key} => {$value})");
+            $this->logDebug("PERFORM WRITE ($key => $value)");
         }
 
         $this->writeFile($config);
     }
 
-    public function readAll($inclPassword = false)
+    public function readAll()
     {
+        if (!empty($this->cachedConfig)) {
+            return $this->cachedConfig;
+        }
+
         $this->logDebug("PERFORM READALL");
         $configJSON = file_get_contents($this->cfgFile);
         if ($configJSON === false) {
@@ -198,16 +207,14 @@ class Config
             die("JSON CONFIG ERROR: " . json_last_error() . " => " . json_last_error_msg());
         }
 
-        if (!$inclPassword) {
-            unset($config["password"]);
-        }
+        $this->cachedConfig = $config;
 
-        return $config;
+        return $this->cachedConfig;
     }
 
     public function clean(): void
     {
-        $config = $this->readAll(true);
+        $config = $this->readAll();
 
         foreach ($config as $key => $value) {
             if (!isset($this->defaults[$key])) {
@@ -227,7 +234,9 @@ class Config
 
     private function writeFile(array $config): void
     {
-        $configJSON  = json_encode($config, JSON_PRETTY_PRINT);
+        $this->cachedConfig = $config;
+
+        $configJson = json_encode($config, JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
             die($this->dataDir . " is NO DIR! | write()");
@@ -241,14 +250,14 @@ class Config
             die($this->cfgFile . " is NOT WRITEABLE! | write()");
         }
 
-        if (empty($configJSON)) {
-            var_dump($configJSON);
+        if (empty($configJson)) {
+            var_dump($configJson);
             var_dump(debug_backtrace());
             die("configJSON IS EMPTY! | write()");
         }
 
         $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
-        $this->filesystem->dumpFile($tempFile, $configJSON);
+        $this->filesystem->dumpFile($tempFile, $configJson);
         $this->filesystem->rename($tempFile, $this->cfgFile, true);
     }
 }
