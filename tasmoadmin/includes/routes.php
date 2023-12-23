@@ -20,9 +20,6 @@ $routes->add('change_language', new Route('/change_language/{new_lang}', [
 $routes->add('devices', new Route('/devices', [
     '_controller' => 'render_template',
 ]));
-$routes->add('devices_details', new Route('/devices_details', [
-    '_controller' => 'render_template',
-]));
 $routes->add('device_action', new Route('/device_action/{action}/{device_id}', [
     'device_id' => '-1',
     '_controller' => 'render_template',

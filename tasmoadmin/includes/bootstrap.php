@@ -114,10 +114,3 @@ function __($string, $category = null, $args = null)
     $txt = $cat.$string;
     return __L($txt, $args);
 }
-
-function debug($data)
-{
-    echo "<pre style='background-color: black; color:#6eda6e; max-height: 300px; margin:0px; padding: 0px; font-size: 12px; overflow: auto;'>";
-    print_r($data);
-    echo "</pre>";
-}
