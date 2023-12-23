@@ -6,8 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Config
 {
-    private bool $debug = false;
-
     private string $dataDir;
 
     private string $appRoot;
