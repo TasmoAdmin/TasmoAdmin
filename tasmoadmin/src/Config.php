@@ -169,7 +169,6 @@ class Config
 
     public function writeAll(array $updates): void
     {
-        $this->logDebug("PERFORM READ FOR WRITE");
         $config = $this->readAll();
         foreach ($updates as $key => $value) {
             if ($value === 0 && array_key_exists($key, $this->defaults)) {
@@ -182,8 +181,6 @@ class Config
                 $value = trim($value);
                 $config[$key] = $value;
             }
-
-            $this->logDebug("PERFORM WRITE ($key => $value)");
         }
 
         $this->writeFile($config);
@@ -195,7 +192,6 @@ class Config
             return $this->cachedConfig;
         }
 
-        $this->logDebug("PERFORM READALL");
         $configJSON = file_get_contents($this->cfgFile);
         if ($configJSON === false) {
             var_dump(debug_backtrace());
@@ -223,13 +219,6 @@ class Config
         }
 
         $this->writeAll($config);
-    }
-
-    private function logDebug($message): void
-    {
-        if ($this->debug) {
-            debug($message);
-        }
     }
 
     private function writeFile(array $config): void

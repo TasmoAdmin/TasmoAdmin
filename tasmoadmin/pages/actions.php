@@ -42,13 +42,9 @@ if (isset($_GET['downloadBackup'])) {
 
 
 if(isset($_GET["clean"])) {
-    debug("start cleaning");
-
     $what = explode("_", $_GET["clean"]);
 
-    //sessions
     if(in_array("sessions", $what)) {
-        debug("cleanup sessions dir");
         $files = glob(_TMPDIR_."/sessions/*"); // get all file names
         foreach($files as $file) { // iterate files
             if(is_file($file) && strpos($file, ".empty") === false) {
@@ -59,7 +55,6 @@ if(isset($_GET["clean"])) {
 
 
     if(in_array("i18n", $what)) {
-        debug("cleanup i18n dir");
         $files = glob(_TMPDIR_.'/cache/i18n/*'); // get all file names present in folder
         foreach($files as $file) { // iterate files
             if(is_file($file)) {
@@ -68,15 +63,12 @@ if(isset($_GET["clean"])) {
         }
     }
 
-    //firmwares
     if(in_array("firmwares", $what)) {
-        debug("cleanup firmwares dir");
         FirmwareFolderHelper::clean(_DATADIR_ . "firmwares/");
     }
 
 
     if(in_array("config", $what)) {
-        debug("cleanup config");
         $files = glob(_DATADIR_.'/*'); // get all file names
         foreach($files as $file) { // iterate files
             if(is_file($file) && (strpos($file, "MyConfig.json") || strpos($file, "MyConfig.php"))) {
@@ -85,8 +77,8 @@ if(isset($_GET["clean"])) {
         }
         session_destroy();
     }
+
     if(in_array("devices", $what)) {
-        debug("cleanup devices");
         $files = glob(_DATADIR_.'/*'); // get all file names
         foreach($files as $file) { // iterate files
             if(is_file($file) && (strpos($file, "devices.csv"))) {
@@ -95,7 +87,5 @@ if(isset($_GET["clean"])) {
         }
     }
 
-    debug("done cleaning");
-    echo "<a href='/'>Back to start</a>";
     die();
 }

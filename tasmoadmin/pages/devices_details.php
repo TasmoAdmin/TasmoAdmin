@@ -1,7 +1,9 @@
 <?php
 
 use TasmoAdmin\Helper\ViewHelper;
+use TasmoAdmin\Sonoff;
 
+$Sonoff = $container->get(Sonoff::class);
 $devices = $Sonoff->getDevices();
 
 $imgNight = "";

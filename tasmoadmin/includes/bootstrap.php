@@ -79,11 +79,6 @@ if(file_exists(_APPROOT_.".dockerenv")) {
 }
 
 $Config = $container->get(Config::class);
-
-if(!empty($_REQUEST[ "clean" ])) {
-    cleanTemps($Config);
-}
-
 $Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
 
