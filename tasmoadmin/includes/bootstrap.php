@@ -79,11 +79,6 @@ if(file_exists(_APPROOT_.".dockerenv")) {
 }
 
 $Config = $container->get(Config::class);
-
-if(!empty($_REQUEST[ "clean" ])) {
-    cleanTemps($Config);
-}
-
 $Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
 
@@ -118,11 +113,4 @@ function __($string, $category = null, $args = null)
     }
     $txt = $cat.$string;
     return __L($txt, $args);
-}
-
-function debug($data)
-{
-    echo "<pre style='background-color: black; color:#6eda6e; max-height: 300px; margin:0px; padding: 0px; font-size: 12px; overflow: auto;'>";
-    print_r($data);
-    echo "</pre>";
 }
