@@ -7,11 +7,12 @@ class SupportedLanguageHelper
     public static function getSupportedLanguages(): array
     {
         return [
-            "cz" => "Čeština",
+            "cs" => "Čeština",
             "de" => "Deutsch",
             "en" => "English",
             "es" => "Español",
             "fr" => "Français",
+            "he" => "עִברִית",
             "hu" => "Magyar",
             "it" => "Italiano",
             "nl" => "Nederlands",
