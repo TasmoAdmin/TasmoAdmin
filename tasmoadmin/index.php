@@ -7,8 +7,6 @@ use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Whoops\Handler\PrettyPageHandler;
 
-ob_start();
-
 include_once( "./includes/bootstrap.php" );
 
 
