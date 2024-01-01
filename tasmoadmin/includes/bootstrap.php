@@ -41,8 +41,6 @@ define("_CSVFILE_", _DATADIR_."devices.csv");
 
 
 session_save_path(_TMPDIR_."sessions");
-ini_set('session.gc_maxlifetime', 356 * 24 * 60 * 60);
-session_set_cookie_params(356 * 24 * 60 * 60);
 session_name("TASMO_SESSION");
 session_start();
 
