@@ -67,10 +67,6 @@ if ($debug) {
     $whoops->register();
 }
 
-$filename = _CSVFILE_; //csv file name
-if(!file_exists($filename)) {
-    fopen($filename, 'w') or die("Can't create file");
-}
 
 if(file_exists(_APPROOT_.".dockerenv")) {
     $docker = true;

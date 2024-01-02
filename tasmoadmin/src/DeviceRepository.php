@@ -31,6 +31,7 @@ class DeviceRepository
         $this->file = $file;
         $this->tmpDir = $tmpDir;
         $this->filesystem = new Filesystem();
+        $this->createFile();
     }
 
     public function addDevice(array $request): void
@@ -204,5 +205,12 @@ class DeviceRepository
         }
 
         return $id + 1;
+    }
+
+    private function createFile(): void
+    {
+        if (!$this->filesystem->exists($this->file)) {
+            $this->filesystem->touch($this->file);
+        }
     }
 }

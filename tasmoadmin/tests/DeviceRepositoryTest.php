@@ -16,6 +16,12 @@ class DeviceRepositoryTest extends TestCase
         $this->root = vfsStream::setup('config');
     }
 
+    public function testConstructorCreateFile(): void
+    {
+        $repo = $this->getVirtualRepo(false);
+        self::assertEquals([], $repo->getDevices());
+    }
+
     public function testAddDevice(): void
     {
         $repo = $this->getVirtualRepo();
@@ -194,10 +200,12 @@ class DeviceRepositoryTest extends TestCase
         return $repo;
     }
 
-    private function getVirtualRepo(): DeviceRepository
+    private function getVirtualRepo(bool $withFile = true): DeviceRepository
     {
         $deviceFile = $this->root->url() . '/devices.csv';
-        touch($deviceFile);
+        if ($withFile) {
+            touch($deviceFile);
+        }
 
         $tmpDir = $this->root->url() . '/tmp/';
         mkdir($tmpDir);
