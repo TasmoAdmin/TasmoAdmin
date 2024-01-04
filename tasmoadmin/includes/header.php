@@ -139,7 +139,7 @@ $urlHelper = $container->get(UrlHelper::class);
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
 				<?php //var_dump( $page );?>
 				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_ . $Config->read("homepage"); ?>'>
-					<img src='<?php echo _RESOURCESURL_; ?>img/logo_small.png' height='50px'/>
+					<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
 				</a>
 				<button class="navbar-toggler"
 						type="button"

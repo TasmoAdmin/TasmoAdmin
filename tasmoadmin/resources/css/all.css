@@ -1032,6 +1032,10 @@ hr {
   top: -6px;
 }
 
+nav img {
+    padding: 2px;
+}
+
 #progressbox span {
   width: 100%;
   display: block;
