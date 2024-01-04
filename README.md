@@ -2,7 +2,7 @@
 
 <p><img width="150" src="./assets/logo.svg"/></p>
 
-<h1> TasmoAdmin</h1>
+<h1>TasmoAdmin</h1>
 
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
@@ -21,10 +21,11 @@
 TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota). It can run standalone, as a container, or as a Home Assistant addon.
 
 ## Features
+
 * Login protected
 * Multi update process
   * Select devices to update
-  * Automatic Modus downloads latest firmware bin from Tasmota GitHub
+  * Automatic mode downloads latest firmware bin from Tasmota OTA site
 * Show device information
 * Mobile Responsive (Bootstrap4)
   * SCSS & Minified
@@ -42,6 +43,7 @@ TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed
 * IOCage (FreeNAS) by @tprelog
 
 ## YouTube
+
 [![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
 by DrZzs
 
