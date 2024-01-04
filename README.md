@@ -1,6 +1,7 @@
 <div align="center">
 
-![Logo](https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.png)
+
+![Logo](/assets/logo.png)
 
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
