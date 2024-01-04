@@ -1,6 +1,8 @@
 <div align="center">
 
-![Logo](https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/tasmoadmin/resources/img/logo_small.png)
+<p><img width="150" src="./assets/logo.svg"/></p>
+
+<h1> TasmoAdmin</h1>
 
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
@@ -16,12 +18,7 @@
 
 </div>
 
-# TasmoAdmin
-
-TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota).   
-You can find it here: [TasmoAdmin GitHub](https://github.com/TasmoAdmin/TasmoAdmin).
-
-It can run standalone, as a container, or as a Home Assistant addon.
+TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota). It can run standalone, as a container, or as a Home Assistant addon.
 
 ## Features
 * Login protected
