@@ -2,7 +2,7 @@
 
 <p><img width="150" src="./assets/logo.svg"/></p>
 
-<h1> TasmoAdmin</h1>
+<h1>TasmoAdmin</h1>
 
 [![Main](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml/badge.svg)](https://github.com/TasmoAdmin/TasmoAdmin/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
@@ -21,10 +21,11 @@
 TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed with [Tasmota](https://github.com/arendst/Tasmota). It can run standalone, as a container, or as a Home Assistant addon.
 
 ## Features
+
 * Login protected
 * Multi update process
   * Select devices to update
-  * Automatic Modus downloads latest firmware bin from Tasmota GitHub
+  * Automatic mode downloads latest firmware bin from Tasmota OTA site
 * Show device information
 * Mobile Responsive (Bootstrap4)
   * SCSS & Minified
@@ -42,6 +43,7 @@ TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed
 * IOCage (FreeNAS) by @tprelog
 
 ## YouTube
+
 [![YouTube Video by DrZzs](https://img.youtube.com/vi/vJUhRyi3-BQ/0.jpg)](https://www.youtube.com/watch?v=vJUhRyi3-BQ)    
 by DrZzs
 
@@ -104,38 +106,6 @@ Here are steps to translate the extension to a specific language.
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="150" >
 
 This project supported by JetBrains through their [Licenses for Open Source](https://www.jetbrains.com/community/opensource/) program.
-
-## Example Images
-
-#### Login Page
-![Login](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/1.png)
-#### Start Page
-![Startpage](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/2.png)
-#### Devices Page
-![Devices](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/3.png)
-Edit in Table   
-![LiveChange](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/livechange.gif)
-#### Devices Add/Edit Page
-![Device Add/Edit](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/3_1.png)
-#### Config General Page
-![Device Config_GENERAL](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/4.png)
-#### Config Network Page
-![Device Config_Network](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/4_1.png)
-#### Update Devices Page
-![Device Update 1](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/5.png)
-![Device Update 2](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/5_1.png)
-![Device Update 3](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/5_2.png)
-#### Settings Page
-![Settings](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/6.png)
-![Settings](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/7.png)
-
-#### Mobile
-![Navi_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m1.png)
-![Startpage_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m2.png)
-![Devices_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m3.png)
-![Config_General_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m4.png)
-![Config_Network_M](https://raw.githubusercontent.com/reloxx13/reloxx13.github.io/master/media/tasmoadmin/readme/m4_1.png)
-
 
 [transifex-docs]: https://docs.transifex.com/getting-started-1/translators
 [transifex-team]: https://explore.transifex.com/tasmoadmin/tasmoadmin/
