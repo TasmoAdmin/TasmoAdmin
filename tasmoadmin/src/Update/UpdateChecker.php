@@ -83,7 +83,7 @@ class UpdateChecker
                 "ERROR" => __("ERROR_CURL", "SELFUPDATE") . " - " . $e->getMessage()
             ];
         }
-            return $result;
+        return $result;
     }
 
     private function action(): ?string
