@@ -6,7 +6,7 @@ const cleanCSS = require('@node-minify/clean-css');
 
 async function main()
 {
-    const jsFiles = await glob.glob('resources/js/*.js')
+    const jsFiles = await glob.glob('resources/js/compiled/*.js')
     for (const file of jsFiles) {
 
         if (file.includes('.min.js')) {
