@@ -20,7 +20,7 @@ async function main()
         });
     }
 
-    const cssFiles = await glob.glob('resources/css/*.css');
+    const cssFiles = await glob.glob('resources/css/compiled/*.css');
     for (const file of cssFiles) {
         if (file.includes('.min.css')) {
             continue

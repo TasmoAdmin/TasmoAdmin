@@ -13,13 +13,12 @@
 /tasmoadmin/data/devices_bk.csv
 /tasmoadmin/data/MyConfig.php
 /tasmoadmin/data/MyConfig.json
-/tasmoadmin/tasmoadmin/resources/css/custom.css
-/tasmoadmin/tasmoadmin/resources/css/custom.min.css
+/tasmoadmin/resources/css/compiled/
 /tasmoadmin/resources/css/custom.css
 /tasmoadmin/resources/css/custom.min.css
 /tasmoadmin/resources/css/*.min.css
 /tasmoadmin/resources/js/*.min.js
-
+/tasmoadmin/resources/js/compiled/
 /tasmoadmin/data/updates/*.zip
 /tasmoadmin/.version
 

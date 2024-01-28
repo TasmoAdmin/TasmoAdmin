@@ -1,3 +1,9 @@
+@import "./../../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "./../../node_modules/@fortawesome/fontawesome-free/css/all.css";
+@import "./../../node_modules/tablesaw/dist/tablesaw.css";
+@import "./../../node_modules/tablesaw/dist/stackonly/tablesaw.stackonly.css";
+
+
 @media (max-width: 340px) and (min-width: 0px) {
   .col-xs-6 {
     -ms-flex: 0 0 50%;

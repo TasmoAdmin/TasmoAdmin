@@ -1,3 +1,5 @@
+import {compareVersions} from 'compare-versions';
+
 const deviceContainerId = 'progressbox';
 
 const Level = {
@@ -8,8 +10,6 @@ const Level = {
 
 const otaUrl = document.getElementById('ota_new_firmware_url').value;
 const targetVersion = document.getElementById('target_version').value;
-
-const { compareVersions } = window.compareVersions;
 
 const sleep = (milliseconds) => {
 	return new Promise(resolve => setTimeout(resolve, milliseconds))

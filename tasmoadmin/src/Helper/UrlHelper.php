@@ -37,16 +37,10 @@ class UrlHelper
         return "?_=" . $cacheTag;
     }
 
-    public function style(string $filename, ?string $csspath = null): string
+    public function style(string $filename): string
     {
-        if ($csspath === null) {
-            $csspath = $this->resourceUrl . "css/";
-            $cssReal = $this->resourceDir . "css/";
-        } else {
-            $csspath = $this->baseUrl . $csspath;
-            $cssReal = $this->baseUrl . $csspath;
-        }
-
+        $csspath = $this->resourceUrl . "css/";
+        $cssReal = $this->resourceDir . "css/";
         $cacheTag = $this->getCacheTag();
         $min = "";
         if ($this->minimizeResources) {
