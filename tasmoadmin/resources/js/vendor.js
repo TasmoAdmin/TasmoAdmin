@@ -14,7 +14,9 @@ import './../../node_modules/@wikimedia/jquery.i18n/src/languages/uk'
 
 import cookies from 'js-cookie'
 window.Cookies = cookies
-import './../../node_modules/tablesaw/dist/tablesaw.jquery'
+
+import './src/tablesaw'
+import './../../node_modules/tablesaw/dist/tablesaw-init'
 
 import 'jqdoublescroll'
 import 'bootstrap-waitingfor'
