@@ -26,14 +26,12 @@ package: clean
 	mkdir _releases
 	mkdir _tmp
 	composer install --no-dev -o -d tasmoadmin
-	cd tasmoadmin; npm ci
-	node tasmoadmin/minify.js
+	cd tasmoadmin; npm ci; npm run build
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
 dev:
 	./.docker/docker.sh prepare
 	composer install -d tasmoadmin
-	cd tasmoadmin; npm ci
-	node tasmoadmin/minify.js
+	cd tasmoadmin; npm ci; npm run build
 	docker-compose build  --no-cache && docker-compose up
