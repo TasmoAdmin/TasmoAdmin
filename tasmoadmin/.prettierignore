@@ -1,0 +1,12 @@
+node_modules/
+resources/js/compiled/
+resources/css/compiled/
+src/
+tests/
+tmp/
+vendor/
+pages/
+data/
+includes/
+lang/
+pages/

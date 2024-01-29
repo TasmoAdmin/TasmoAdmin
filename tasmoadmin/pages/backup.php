@@ -96,4 +96,4 @@ include "elements/devices_table.php";
         </form>
     </div>
 </div>
-<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
+<script src="<?php echo $urlHelper->js("compiled/devices"); ?>"></script>

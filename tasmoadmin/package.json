@@ -21,7 +21,8 @@
     "@node-minify/core": "^8.0.6",
     "@node-minify/terser": "^8.0.6",
     "esbuild": "0.19.11",
-    "glob": "^10.3.10"
+    "glob": "^10.3.10",
+    "prettier": "3.2.4"
   },
   "scripts": {
     "build": "node esbuild.mjs && node minify.js"

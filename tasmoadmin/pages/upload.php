@@ -353,6 +353,6 @@ include "elements/devices_table.php";
 		
 		</div>
 	</div>
-	<script src="<?php echo $urlHelper->js("devices"); ?>"></script>
+	<script src="<?php echo $urlHelper->js("compiled/devices"); ?>"></script>
 <?php endif; ?>
 

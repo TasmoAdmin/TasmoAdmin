@@ -44,8 +44,8 @@ $urlHelper = $container->get(UrlHelper::class);
             };
 		</script>
 		<script src="<?php echo $urlHelper->js("compiled/vendor"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("Sonoff"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("app"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("compiled/Sonoff"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("compiled/app"); ?>"></script>
 
 		
 		<link href="<?php echo $urlHelper->style("compiled/all"); ?>" rel="stylesheet">
