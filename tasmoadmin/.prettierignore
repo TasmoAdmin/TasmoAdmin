@@ -10,3 +10,5 @@ data/
 includes/
 lang/
 pages/
+composer.json
+composer.lock

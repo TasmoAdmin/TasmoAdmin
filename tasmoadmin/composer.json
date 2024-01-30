@@ -1,47 +1,48 @@
 {
-  "name": "tasmoadmin/tasmoadmin",
-  "type": "project",
-  "license": "GPL3",
-  "require": {
-    "php": ">=8.1",
-    "ext-json": "*",
-    "ext-curl": "*",
-    "ext-zip": "*",
-    "ext-zlib": "*",
-    "ext-dom": "*",
-    "erusev/parsedown": "^1.7",
-    "philipp15b/php-i18n": "^4.0",
-    "guzzlehttp/guzzle": "^7.0",
-    "symfony/filesystem": "^6.2",
-    "composer/semver": "^3.3",
-    "filp/whoops": "^2.14",
-    "selective/container": "^1",
-    "symfony/routing": "^6.2",
-    "symfony/http-foundation": "^6.2",
-    "symfony/browser-kit": "^6.2",
-    "symfony/http-client": "^6.2",
-    "symfony/css-selector": "^6.2"
-  },
-  "autoload": {
-    "psr-4": {
-      "TasmoAdmin\\": "src/"
+    "name": "tasmoadmin/tasmoadmin",
+    "type": "project",
+    "license": "GPL3",
+    "require": {
+        "php": ">=8.1",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-zip": "*",
+        "ext-zlib": "*",
+        "ext-dom": "*",
+        "erusev/parsedown": "^1.7",
+        "philipp15b/php-i18n": "^4.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "symfony/filesystem": "^6.2",
+        "composer/semver": "^3.3",
+        "filp/whoops": "^2.14",
+        "selective/container": "^1",
+        "symfony/routing": "^6.2",
+        "symfony/http-foundation": "^6.2",
+        "symfony/browser-kit": "^6.2",
+        "symfony/http-client": "^6.2",
+        "symfony/css-selector": "^6.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "TasmoAdmin\\": "src/"
+        }
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
+        "phpunit/phpunit": "^10.0",
+        "mikey179/vfsstream": "^1.6",
+        "phpstan/phpstan": "^1.6",
+        "friendsofphp/php-cs-fixer": "^3.11"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\TasmoAdmin\\": "tests/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.1.16"
+        }
     }
-  },
-  "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "phpunit/phpunit": "^10.0",
-    "mikey179/vfsstream": "^1.6",
-    "phpstan/phpstan": "^1.6",
-    "friendsofphp/php-cs-fixer": "^3.11"
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\TasmoAdmin\\": "tests/"
-    }
-  },
-  "config": {
-    "platform": {
-      "php": "8.1.16"
-    }
-  }
 }
