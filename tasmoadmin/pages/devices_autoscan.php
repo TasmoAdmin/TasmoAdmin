@@ -206,10 +206,7 @@ $scanToIp = $Config->read('scan_to_ip');
                             name='search'
                             value='search'
                             class='btn btn-primary col-12 col-sm-auto'
-                            onclick='waitingDialog.show("", { headerText:
-                                    "<?php echo __("MSG_SCANNING", "DEVICES_AUTOSCAN"); ?>"
-                                    }
-                                    );'
+                            data-toggle="modal" data-target="#exampleModal"
                     >
                         <?php echo __("BTN_START_AUTOSCAN", "DEVICES_AUTOSCAN"); ?>
                     </button>
@@ -450,13 +447,30 @@ $scanToIp = $Config->read('scan_to_ip');
 
     </div>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5><?php echo __("MSG_SCANNING", "DEVICES_AUTOSCAN"); ?></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(document).ready(function()
     {
         $(".default-name").on("click", function (e)
         {
             e.preventDefault();
-            // console.log( $( this ).parent().parent().find( "input" ) );
             $(this).parent().parent().find("input").val($(this).html());
         });
 
@@ -471,5 +485,6 @@ $scanToIp = $Config->read('scan_to_ip');
             var url = decodeURIComponent(Sonoff.buildCmndUrl(device_ip, cmnd));
             Sonoff.directAjax(url);
         });
+
     });
 </script>

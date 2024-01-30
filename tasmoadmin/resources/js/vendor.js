@@ -19,4 +19,3 @@ import "./src/tablesaw";
 import "./../../node_modules/tablesaw/dist/tablesaw-init";
 
 import "jqdoublescroll";
-import "bootstrap-waitingfor";

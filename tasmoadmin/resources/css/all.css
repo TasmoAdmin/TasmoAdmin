@@ -993,6 +993,11 @@ hr {
   color: rgba(255, 255, 255, 0.75);
   box-shadow: 0 0 0 0.1rem rgba(255, 255, 255, 0.1);
 }
+
+.nightmode .modal-content {
+    background: #444444;
+}
+
 @media all and (max-width: 767px) {
   .nightmode .navbar .navbar-nav .nav-link {
     padding: 7px;
