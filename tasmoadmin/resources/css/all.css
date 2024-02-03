@@ -995,7 +995,7 @@ hr {
 }
 
 .nightmode .modal-content {
-    background: #444444;
+  background: #444444;
 }
 
 @media all and (max-width: 767px) {

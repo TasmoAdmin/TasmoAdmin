@@ -1,4 +1,13 @@
-import {getHumidity, getTemp, getPressure, getSeaPressure, getGas, getDistance, getEnergyPower, getRefreshTime} from "./app";
+import {
+  getHumidity,
+  getTemp,
+  getPressure,
+  getSeaPressure,
+  getGas,
+  getDistance,
+  getEnergyPower,
+  getRefreshTime,
+} from "./app";
 
 var longPressTimer;
 

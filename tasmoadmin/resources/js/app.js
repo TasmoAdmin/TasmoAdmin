@@ -18,15 +18,14 @@ $.ajax({
   success: (data) => $.i18n().load(data),
 });
 
-
 export function getRefreshTime() {
-    let refreshtime = false;
+  let refreshtime = false;
 
-    if ($("#content").data("refreshtime") !== "none") {
-        refreshtime = $("#content").data("refreshtime") * 1000;
-    }
+  if ($("#content").data("refreshtime") !== "none") {
+    refreshtime = $("#content").data("refreshtime") * 1000;
+  }
 
-    return refreshtime;
+  return refreshtime;
 }
 
 $(document).ready(function () {

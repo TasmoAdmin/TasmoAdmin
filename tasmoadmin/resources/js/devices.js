@@ -1,6 +1,14 @@
-import {getHumidity, getTemp, getPressure, getSeaPressure, getGas, getDistance, getEnergyPower, getRefreshTime} from "./app";
+import {
+  getHumidity,
+  getTemp,
+  getPressure,
+  getSeaPressure,
+  getGas,
+  getDistance,
+  getEnergyPower,
+  getRefreshTime,
+} from "./app";
 const refreshtime = getRefreshTime();
-
 
 var ignoreProtectionsTimer;
 $(document).ready(function () {
