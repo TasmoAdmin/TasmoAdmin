@@ -6,8 +6,6 @@ use TasmoAdmin\Config;
 
 class UrlHelper
 {
-    private string $baseUrl;
-
     private string $resourceUrl;
 
     private string $resourceDir;
@@ -16,9 +14,8 @@ class UrlHelper
 
     private ?string $currentGitTag;
 
-    public function __construct(Config $config, string $baseUrl, string $resourceUrl, string $resourceDir)
+    public function __construct(Config $config, string $resourceUrl, string $resourceDir)
     {
-        $this->baseUrl = $baseUrl;
         $this->resourceUrl = $resourceUrl;
         $this->resourceDir = $resourceDir;
         $this->minimizeResources = $config->read("minimize_resources") === "1";
@@ -37,16 +34,10 @@ class UrlHelper
         return "?_=" . $cacheTag;
     }
 
-    public function style(string $filename, ?string $csspath = null): string
+    public function style(string $filename): string
     {
-        if ($csspath === null) {
-            $csspath = $this->resourceUrl . "css/";
-            $cssReal = $this->resourceDir . "css/";
-        } else {
-            $csspath = $this->baseUrl . $csspath;
-            $cssReal = $this->baseUrl . $csspath;
-        }
-
+        $csspath = $this->resourceUrl . "css/";
+        $cssReal = $this->resourceDir . "css/";
         $cacheTag = $this->getCacheTag();
         $min = "";
         if ($this->minimizeResources) {
@@ -63,16 +54,11 @@ class UrlHelper
         return $filepath;
     }
 
-    public function js(string $filename, ?string $jspath = null): string
+    public function js(string $filename): string
     {
-        if ($jspath === null) {
-            $jspath = $this->resourceUrl . "js/";
-            $jsReal = $this->resourceDir . "js/";
-        } else {
-            $jspath = $this->baseUrl . $jspath;
-            $jsReal = $this->baseUrl . $jspath;
-        }
 
+        $jspath = $this->resourceUrl . "js/";
+        $jsReal = $this->resourceDir . "js/";
         $cacheTag = $this->getCacheTag();
         $min = "";
         if ($this->minimizeResources) {

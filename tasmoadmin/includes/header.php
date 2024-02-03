@@ -43,45 +43,12 @@ $urlHelper = $container->get(UrlHelper::class);
                 update_newer_only: <?php echo $Config->read("update_newer_only"); ?> === 1,
             };
 		</script>
-		<script src="<?php echo $urlHelper->js("jquery", "node_modules/jquery/dist/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("bootstrap.bundle", "node_modules/bootstrap/dist/js/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n.messagestore", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n.fallbacks", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n.parser", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n.emitter", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.i18n.language", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/bs" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/dsb" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/fi" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ga" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/he" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hsb" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hu" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/hy" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/la" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/ml" );?><!--"></script>-->
-		<!--	<script src="--><?php //echo $urlHelper->js( "i18n/languages/os" );?><!--"></script>-->
-		<script src="<?php echo $urlHelper->js("languages/ru", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("languages/sl", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("languages/uk", "node_modules/@wikimedia/jquery.i18n/src/"); ?>"></script>
-		
-		<script src="<?php echo $urlHelper->js("js.cookie", "node_modules/js-cookie/dist/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("tablesaw.jquery", "node_modules/tablesaw/dist/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("tablesaw-init", "node_modules/tablesaw/dist/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("bootstrap-waitingfor", "node_modules/bootstrap-waitingfor/build/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("jquery.doubleScroll", "node_modules/jqdoublescroll/"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("index", "node_modules/compare-versions/lib/umd/"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("compiled/vendor"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("compiled/Sonoff"); ?>"></script>
+		<script src="<?php echo $urlHelper->js("compiled/app"); ?>"></script>
 
-		<script src="<?php echo $urlHelper->js("Sonoff"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("app"); ?>"></script>
-
-		<link href="<?php echo $urlHelper->style("bootstrap", "node_modules/bootstrap/dist/css/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("all", "node_modules/@fortawesome/fontawesome-free/css/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("tablesaw", "node_modules/tablesaw/dist/"); ?>" rel="stylesheet">
-		<link href="<?php echo $urlHelper->style("tablesaw.stackonly", "node_modules/tablesaw/dist/stackonly/"); ?>" rel="stylesheet">
 		
-		<link href="<?php echo $urlHelper->style("all"); ?>" rel="stylesheet">
+		<link href="<?php echo $urlHelper->style("compiled/all"); ?>" rel="stylesheet">
 		
 		<?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
 			<link href="<?php echo $urlHelper->style("custom"); ?>" rel="stylesheet">

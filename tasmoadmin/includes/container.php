@@ -16,7 +16,6 @@ $container->set(
     UrlHelper::class,
     new UrlHelper(
         $container->get(Config::class),
-        _BASEURL_,
         _RESOURCESURL_,
         _RESOURCESDIR_
     )

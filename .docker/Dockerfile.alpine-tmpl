@@ -3,7 +3,11 @@ ARG BUILD_FROM=amd64/alpine:3.18
 FROM node:20.10.0-alpine AS node-builder
 
 COPY tasmoadmin /tasmoadmin
-RUN cd /tasmoadmin && npm ci && node minify.js
+RUN \
+    cd /tasmoadmin \
+    && npm ci \
+    && npm run build \
+    && rm -rf node_modules/
 
 FROM composer AS builder
 

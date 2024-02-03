@@ -1,6 +1,6 @@
 //colors
 
-$green: #02A030;
+$green: #02a030;
 $greenBtn: $green;
 $greenBtnBorder: $green;
 $greenBtnHover: darken($greenBtn, 5%);
@@ -15,50 +15,50 @@ $nmGreenIconHover: $nmGreenBtnHover;
 $greenIcon: $greenBtn;
 $greenIconHover: $greenBtnHover;
 
-$blue: #007BFF;
+$blue: #007bff;
 $blueBtn: $blue;
 $blueBtnBorder: $blue;
 $blueBtnHover: darken($blueBtn, 5%);
 $blueBtnBorderHover: darken($blueBtnBorder, 10%);
 
-$nmBlueBtn: #005C84;
-$nmBlueBtnHover: #0073A5;
+$nmBlueBtn: #005c84;
+$nmBlueBtnHover: #0073a5;
 $nmBlueBtnBorder: $nmBlueBtn;
 $nmBlueBtnBorderHover: darken($nmBlueBtnHover, 5%);
 
-$grey: #6C757D;
+$grey: #6c757d;
 $greyDark: darken($grey, 20%);
 $greyBtn: $grey;
 $greyBtnBorder: $grey;
 $greyBtnHover: darken($greyBtn, 5%);
 $greyBtnBorderHover: darken($greyBtnBorder, 10%);
 
-$lightBlue: #1C99D2;
+$lightBlue: #1c99d2;
 $lightBlueIcon: $lightBlue;
 $lightBlueIconHover: darken($lightBlue, 10%);
 
-$nmLightBlueIcon: #1C99D2;
+$nmLightBlueIcon: #1c99d2;
 $nmLightBlueIconHover: lighten($nmLightBlueIcon, 15%);
 
 $inputBoxShadow: 0 0 0 0.2rem rgba($blue, 0.25);
 
-$red: #BA001A;
+$red: #ba001a;
 $redError: $red;
-$redErrorHover: #A10016;
+$redErrorHover: #a10016;
 
 $nmRedError: darken($redError, 5%);
 $nmRedErrorHover: $redError;
 
-$white: #FFFFFF;
+$white: #ffffff;
 $whiteFont: $white;
 $greyFont: darken($whiteFont, 50%);
 $greyLinkFont: darken($whiteFont, 25%);
 $greyLinkActiveFont: darken($whiteFont, 10%);
 $greyFontHover: darken($whiteFont, 15%);
 
-$nmGreyFont: #CBCBCB;
+$nmGreyFont: #cbcbcb;
 
-$whiteGrey: #E6E6E6;
+$whiteGrey: #e6e6e6;
 
 $whiteBorder: $whiteGrey;
 $whiteThBorder: $whiteBorder;
@@ -66,52 +66,28 @@ $whiteThBorder: $whiteBorder;
 $white_75: rgba(255, 255, 255, 0.75);
 $white_50: rgba(255, 255, 255, 0.5);
 $black_5: rgba(0, 0, 0, 0.05);
-$color_mercury_approx: #E6E6E6;
+$color_mercury_approx: #e6e6e6;
 $black_24: rgba(0, 0, 0, 0.24);
 $color_pacific_blue_80_approx: rgba(0, 148, 204, 0.8);
 $color_japanese_laurel_approx: green;
 $color_pizazz_approx: darkorange;
-$color_tuna_approx: #343A40;
-$color_gravel_approx: #4B4B4B;
-$color_pirate_gold_approx: #CA8500;
-$color_mako_approx: #44494F;
+$color_tuna_approx: #343a40;
+$color_gravel_approx: #4b4b4b;
+$color_pirate_gold_approx: #ca8500;
+$color_mako_approx: #44494f;
 $color_bay_of_many_approx: #284681;
 $color_pacific_blue_40_approx: rgba(0, 148, 204, 0.4);
 $color_gulf_blue_approx: #031959;
-$color_deep_cerulean_approx: #007EB4;
-$color_cerulean_approx: #00A0E4;
-$color_orient_approx: #00628C;
+$color_deep_cerulean_approx: #007eb4;
+$color_cerulean_approx: #00a0e4;
+$color_orient_approx: #00628c;
 $white_10: rgba(255, 255, 255, 0.1);
 $white_80: rgba(255, 255, 255, 0.8);
 
 $black: #212529;
 $whiteNightMode: rgba(255, 255, 255, 0.5); //$white_50
 
-.debug {
-  .fixed-top {
-    //position : initial;
-  }
-
-  .bs-debugger {
-    width: 100%;
-    color: red;
-    position: fixed;
-    top: 0px;
-    z-index: 1035;
-    background-color: black;
-    padding: 3px;
-  }
-
-  .col, .card {
-    //border : 1px solid red !important;
-  }
-
-  .row, .form-row {
-    //border : 1px solid blue !important;
-  }
-}
-
-@media (max-width: 340px) and(min-width: 0px) {
+@media (max-width: 340px) and (min-width: 0px) {
   .col-xs-6 {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;

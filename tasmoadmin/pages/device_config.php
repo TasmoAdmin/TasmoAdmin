@@ -183,4 +183,4 @@ if(empty($status->ERROR)) {
 	</div>
 </div>
 
-<script src="<?php echo $urlHelper->js("device_config"); ?>"></script>
+<script src="<?php echo $urlHelper->js("compiled/device_config"); ?>"></script>

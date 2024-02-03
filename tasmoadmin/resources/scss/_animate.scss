@@ -265,7 +265,7 @@
   }
   80% {
     //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
-    transform: perspective(400px) translateZ(0) rotateY(360deg) scale(.95);
+    transform: perspective(400px) translateZ(0) rotateY(360deg) scale(0.95);
     animation-timing-function: ease-in;
   }
   100% {
@@ -370,7 +370,7 @@
   }
 }
 
-@media all and(max-width: 680px) {
+@media all and (max-width: 680px) {
   .wrap {
     width: 100%;
   }

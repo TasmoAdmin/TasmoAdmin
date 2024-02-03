@@ -58,7 +58,7 @@ foreach ($devices as $device) {
             <script>
                 const devices = <?php echo json_encode($devicesJson); ?>;
             </script>
-            <script src="<?php echo $urlHelper->js("device_update"); ?>"></script>
+            <script src="<?php echo $urlHelper->js("compiled/device_update"); ?>"></script>
         <?php endif; ?>
     </div>
 </div>

@@ -134,4 +134,4 @@ if ($nightmode === "nightmode") {
 	<?php endif; ?>
 </div>
 
-<script src="<?php echo $urlHelper->js("start"); ?>"></script>
+<script src="<?php echo $urlHelper->js("compiled/start"); ?>"></script>
