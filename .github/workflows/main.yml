@@ -59,6 +59,26 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         files: ./tasmoadmin/coverage.xml
+  npm-build:
+    name: Run npm build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'tasmoadmin/.nvmrc'
+          cache: 'npm'
+      - name: Install dependencies
+        run: |
+          cd tasmoadmin
+          npm ci
+      - name: Build assets
+        run: |
+          cd tasmoadmin
+          npm run build
+
   docker-test:
     name: Run Docker tests
     runs-on: ubuntu-20.04
