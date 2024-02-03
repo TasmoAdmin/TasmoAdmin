@@ -37,7 +37,8 @@ body {
     overflow-y: auto;
     padding: 50px 15px 25px;
 
-    &::after, &::before {
+    &::after,
+    &::before {
       content: "\0020";
       display: table;
       margin-bottom: 15px;
@@ -184,8 +185,10 @@ body {
   }
 }
 
-a .fas, a .fa, th.link a, a {
-
+a .fas,
+a .fa,
+th.link a,
+a {
   color: $lightBlueIcon;
 
   &:not(.no-hover.btn) {
@@ -240,7 +243,7 @@ nav img {
 
 .navbar {
   .navbar-nav .nav-link {
-    @media all and(max-width: 767px) {
+    @media all and (max-width: 767px) {
       padding: 7px;
     }
   }
@@ -249,14 +252,13 @@ nav img {
     .dropdown-toggle::after {
       top: 2px;
       position: relative;
-      @media all and(max-width: 767px) {
+      @media all and (max-width: 767px) {
         margin-left: 0px;
       }
     }
   }
 
   &.navbar-dark {
-
     color: $greyFont;
 
     i {
@@ -264,7 +266,8 @@ nav img {
     }
 
     a {
-      &:hover, &:focus {
+      &:hover,
+      &:focus {
         color: $greyFontHover;
 
         i {
@@ -279,14 +282,14 @@ nav img {
           color: $redError;
         }
 
-        &:hover, &:focus {
+        &:hover,
+        &:focus {
           color: $redErrorHover;
 
           i {
             color: $redErrorHover;
           }
         }
-
       }
     }
   }
@@ -375,7 +378,7 @@ td {
 
       i {
         padding: 10px;
-        @media all and(max-width: 641px) {
+        @media all and (max-width: 641px) {
           padding: 7px;
         }
       }
@@ -398,7 +401,7 @@ td {
   i {
     position: relative;
     display: inline-block;
-    margin-right: .5rem;
+    margin-right: 0.5rem;
     width: 46px;
     height: 26px;
     background-color: $whiteGrey;
@@ -527,7 +530,6 @@ td {
   }
 }
 
-
 .table-responsive {
   width: auto;
 }
@@ -617,8 +619,11 @@ hr {
     }
   }
 
-  a .fas, a .fa, th.link a, a, a i {
-
+  a .fas,
+  a .fa,
+  th.link a,
+  a,
+  a i {
     color: $nmLightBlueIcon;
 
     &:not(.no-hover):not(.btn) {
@@ -627,26 +632,32 @@ hr {
         text-decoration: none;
       }
 
-      &.error, &.error i {
+      &.error,
+      &.error i {
         color: $nmRedError;
 
-        &:hover, &:hover i {
+        &:hover,
+        &:hover i {
           color: $nmRedErrorHover;
         }
       }
 
-      &.add, &.add i {
+      &.add,
+      &.add i {
         color: $nmGreenIcon;
 
-        &:hover, &:hover i {
+        &:hover,
+        &:hover i {
           color: $nmGreenIconHover;
         }
       }
 
-      &.delete, &.delete i {
+      &.delete,
+      &.delete i {
         color: $nmRedError;
 
-        &:hover, &:hover i {
+        &:hover,
+        &:hover i {
           color: $nmRedErrorHover;
         }
       }
@@ -693,10 +704,10 @@ hr {
   select {
     background-color: $color_tuna_approx !important;
     color: $whiteNightMode;
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.5\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ffffff' fill-opacity=\"0.5\" d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
 
     &:focus {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.75\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23ffffff' fill-opacity=\"0.75\" d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
     }
   }
 
@@ -710,7 +721,10 @@ hr {
     }
   }
 
-  .custom-file-label, .input-group-prepend, .input-group-append, .input-group-text {
+  .custom-file-label,
+  .input-group-prepend,
+  .input-group-append,
+  .input-group-text {
     background-color: $color_tuna_approx !important;
     color: $whiteNightMode;
 
@@ -719,7 +733,6 @@ hr {
       color: $whiteNightMode;
     }
   }
-
 
   hr {
     border-color: $whiteNightMode;
@@ -741,7 +754,7 @@ hr {
 
   .navbar {
     .navbar-nav .nav-link {
-      @media all and(max-width: 767px) {
+      @media all and (max-width: 767px) {
         padding: 7px;
       }
     }
@@ -750,14 +763,13 @@ hr {
       .dropdown-toggle::after {
         top: 2px;
         position: relative;
-        @media all and(max-width: 767px) {
+        @media all and (max-width: 767px) {
           margin-left: 0px;
         }
       }
     }
 
     &.navbar-dark {
-
       &:not(.no-hover):not(.btn) {
         color: $greyFont;
 
@@ -765,7 +777,8 @@ hr {
           color: $greyFont;
         }
 
-        .navbar-text a, a {
+        .navbar-text a,
+        a {
           color: $greyLinkFont;
 
           &.active {
@@ -776,7 +789,8 @@ hr {
             }
           }
 
-          &:hover, &:focus {
+          &:hover,
+          &:focus {
             color: $greyFontHover;
 
             i {
@@ -791,14 +805,14 @@ hr {
               color: $nmRedError;
             }
 
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
               color: $nmRedErrorHover;
 
               i {
                 color: $nmRedErrorHover;
               }
             }
-
           }
         }
       }
@@ -984,7 +998,8 @@ hr {
   }
 }
 
-#progressbox span, #logGlobal {
+#progressbox span,
+#logGlobal {
   width: 100%;
   display: block;
   font-size: 0.8rem;
@@ -1018,7 +1033,6 @@ hr {
 .devices {
   &.details {
     #devices-accordion {
-
       .card {
         .card-header {
           cursor: pointer;
@@ -1032,7 +1046,6 @@ hr {
           }
         }
       }
-
     }
 
     //devices-accordion
@@ -1049,20 +1062,20 @@ hr {
 
     .ta-wifi-wave * {
       stroke: #848484;
-      opacity: .3;
-      stroke-width: .5;
+      opacity: 0.3;
+      stroke-width: 0.5;
     }
   }
 
   &.ta-wifi-bad {
     .ta-wifi-wave * {
-      stroke: #B52808;
+      stroke: #b52808;
       opacity: 0.3;
       stroke-width: 0.5;
     }
 
     .ta-wifi-wave-bow.ta-wifi-wave-base {
-      fill: #B52808;
+      fill: #b52808;
       stroke: none;
       opacity: 1;
     }
@@ -1070,11 +1083,11 @@ hr {
 
   &.ta-wifi-weak {
     .ta-wifi-base {
-      fill: #B52808;
+      fill: #b52808;
     }
 
     .ta-wifi-wave * {
-      stroke: #B52808;
+      stroke: #b52808;
     }
 
     .ta-wifi-wave-bow.ta-wifi-wave-outer,
@@ -1086,11 +1099,11 @@ hr {
 
   &.ta-wifi-medium {
     .ta-wifi-base {
-      fill: #EFC411;
+      fill: #efc411;
     }
 
     .ta-wifi-wave * {
-      stroke: #EFC411;
+      stroke: #efc411;
     }
 
     .ta-wifi-wave-outer {
@@ -1101,24 +1114,24 @@ hr {
 
   &.ta-wifi-strong {
     .ta-wifi-base {
-      fill: #569E26;
+      fill: #569e26;
     }
 
     .ta-wifi-wave * {
-      stroke: #569E26;
+      stroke: #569e26;
     }
   }
 }
 
 @-o-keyframes wifianimation {
   0% {
-    opacity: 0.4
+    opacity: 0.4;
   }
   5% {
-    opacity: 1
+    opacity: 1;
   }
   6% {
-    opacity: 0.8
+    opacity: 0.8;
   }
   100% {
     opacity: 0.1;
@@ -1127,13 +1140,13 @@ hr {
 
 @-moz-keyframes wifianimation {
   0% {
-    opacity: 0.4
+    opacity: 0.4;
   }
   5% {
-    opacity: 1
+    opacity: 1;
   }
   6% {
-    opacity: 0.8
+    opacity: 0.8;
   }
   100% {
     opacity: 0.1;
@@ -1142,13 +1155,13 @@ hr {
 
 @-webkit-keyframes wifianimation {
   0% {
-    opacity: 0.4
+    opacity: 0.4;
   }
   5% {
-    opacity: 1
+    opacity: 1;
   }
   10% {
-    opacity: 0.8
+    opacity: 0.8;
   }
   100% {
     opacity: 0.1;
@@ -1156,10 +1169,10 @@ hr {
 }
 
 .ta-wifi.searching {
-
   &.error {
-    .ta-wifi-wave-bow, .ta-wifi-base {
-      stroke: #B52808;
+    .ta-wifi-wave-bow,
+    .ta-wifi-base {
+      stroke: #b52808;
     }
   }
 
@@ -1202,7 +1215,6 @@ hr {
 
 .table-responsive {
   overflow: auto !important;
-
 }
 
 .show-hide-password {

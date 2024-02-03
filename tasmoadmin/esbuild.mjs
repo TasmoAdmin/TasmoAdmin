@@ -1,6 +1,5 @@
 import * as esbuild from "esbuild";
-import {sassPlugin} from 'esbuild-sass-plugin'
-
+import { sassPlugin } from "esbuild-sass-plugin";
 
 const scssPaths = ["resources/scss/all.scss"];
 

@@ -1,29 +1,29 @@
 //colors
 $color_pacific_blue_80_approx: rgba(0, 148, 204, 0.8);
-$white: #FFFFFF;
+$white: #ffffff;
 
-@media(min-width: 576px) {
+@media (min-width: 576px) {
   .startpage .card-holder {
     flex: 0 0 25%;
     max-width: 25%;
   }
 }
 
-@media(min-width: 768px) {
+@media (min-width: 768px) {
   .startpage .card-holder {
     flex: 0 0 16.666667%;
     max-width: 16.666667%;
   }
 }
 
-@media(min-width: 992px) {
+@media (min-width: 992px) {
   .startpage .card-holder {
     flex: 0 0 8.333333%;
     max-width: 8.333333%;
   }
 }
 
-@media(min-width: 1200px) {
+@media (min-width: 1200px) {
   .startpage .card-holder {
     flex: 0 0 8.333333%;
     max-width: 8.333333%;
