@@ -6,8 +6,6 @@ use TasmoAdmin\Config;
 
 class UrlHelper
 {
-    private string $baseUrl;
-
     private string $resourceUrl;
 
     private string $resourceDir;
@@ -16,9 +14,8 @@ class UrlHelper
 
     private ?string $currentGitTag;
 
-    public function __construct(Config $config, string $baseUrl, string $resourceUrl, string $resourceDir)
+    public function __construct(Config $config, string $resourceUrl, string $resourceDir)
     {
-        $this->baseUrl = $baseUrl;
         $this->resourceUrl = $resourceUrl;
         $this->resourceDir = $resourceDir;
         $this->minimizeResources = $config->read("minimize_resources") === "1";
