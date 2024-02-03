@@ -57,16 +57,11 @@ class UrlHelper
         return $filepath;
     }
 
-    public function js(string $filename, ?string $jspath = null): string
+    public function js(string $filename): string
     {
-        if ($jspath === null) {
-            $jspath = $this->resourceUrl . "js/";
-            $jsReal = $this->resourceDir . "js/";
-        } else {
-            $jspath = $this->baseUrl . $jspath;
-            $jsReal = $this->baseUrl . $jspath;
-        }
 
+        $jspath = $this->resourceUrl . "js/";
+        $jsReal = $this->resourceDir . "js/";
         $cacheTag = $this->getCacheTag();
         $min = "";
         if ($this->minimizeResources) {
