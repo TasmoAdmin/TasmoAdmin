@@ -1,13 +1,15 @@
 import * as esbuild from "esbuild";
+import {sassPlugin} from 'esbuild-sass-plugin'
 
-const cssPaths = ["resources/css/all.css"];
+
+const scssPaths = ["resources/scss/all.scss"];
 
 const jsPaths = ["resources/js/*.js"];
 
 async function buildCSS() {
   await esbuild
     .build({
-      entryPoints: cssPaths,
+      entryPoints: scssPaths,
       bundle: true,
       outfile: "resources/css/compiled/all.css",
       loader: {
@@ -18,6 +20,7 @@ async function buildCSS() {
         ".woff": "file",
         ".woff2": "file",
       },
+      plugins: [sassPlugin()],
     })
     .then(() => console.log("⚡ CSS Build complete! ⚡"))
     .catch(() => process.exit(1));

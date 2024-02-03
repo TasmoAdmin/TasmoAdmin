@@ -1,0 +1,1214 @@
+//@extend-elements
+//original selectors
+//footer, .footer
+
+.form-control {
+  &:focus {
+    box-shadow: $inputBoxShadow;
+  }
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.2rem;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+#content {
+  //position : absolute;
+  top: 55px;
+  bottom: 25px;
+  display: inline-block;
+  padding: 0px;
+  @media all and (max-width: 587px) {
+    bottom: 45px;
+  }
+
+  #content-holder {
+    height: 100%;
+    overflow-y: auto;
+    padding: 50px 15px 25px;
+
+    &::after, &::before {
+      content: "\0020";
+      display: table;
+      margin-bottom: 15px;
+    }
+  }
+}
+
+.alert-dismissible .close {
+  top: -5px;
+}
+
+.btn {
+  width: 100%;
+  //Instead of the line below you could use @include user-select($select)
+  user-select: none;
+
+  &.btn-primary.no-hover {
+    &:hover {
+      background-color: $blueBtn;
+      border-color: $blueBtnBorder;
+    }
+
+    &:focus {
+      background-color: $blueBtn;
+      border-color: $blueBtnBorder;
+    }
+
+    &:active {
+      background-color: $blueBtn;
+      border-color: $blueBtnBorder;
+    }
+  }
+
+  &.btn-secondary.no-hover {
+    &:hover {
+      background-color: $greyBtn;
+      border-color: $greyBtnBorder;
+    }
+
+    &:focus {
+      background-color: $greyBtn;
+      border-color: $greyBtnBorder;
+    }
+
+    &:active {
+      background-color: $greyBtn;
+      border-color: $greyBtnBorder;
+    }
+  }
+
+  &.btn-green {
+    background-color: $greenBtn;
+    border-color: $greenBtnBorder;
+
+    &:hover {
+      background-color: $greenBtnHover;
+      border-color: $greenBtnBorderHover;
+    }
+
+    &:focus {
+      background-color: $greenBtnHover;
+      border-color: $greenBtnBorderHover;
+    }
+
+    &:active {
+      background-color: $greenBtnHover;
+      border-color: $greenBtnBorderHover;
+    }
+
+    &.no-hover {
+      &:hover {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+
+      &:focus {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+
+      &:active {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+    }
+  }
+
+  &.btn-primary {
+    background-color: $blueBtn;
+    border-color: $blueBtnBorder;
+
+    &:hover {
+      background-color: $blueBtnHover;
+      border-color: $blueBtnBorderHover;
+    }
+
+    &:focus {
+      background-color: $blueBtnHover;
+      border-color: $blueBtnBorderHover;
+    }
+
+    &:active {
+      background-color: $blueBtnHover;
+      border-color: $blueBtnBorderHover;
+    }
+
+    &.no-hover {
+      &:hover {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+
+      &:focus {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+
+      &:active {
+        background-color: $greenBtn;
+        border-color: $greenBtnBorder;
+      }
+    }
+  }
+
+  &:not(:disabled):not(.disabled) {
+    &.no-hover {
+      cursor: default;
+
+      &:hover {
+        cursor: default;
+        box-shadow: none;
+      }
+
+      &:focus {
+        cursor: default;
+        box-shadow: none;
+      }
+
+      &:active {
+        cursor: default;
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+a .fas, a .fa, th.link a, a {
+
+  color: $lightBlueIcon;
+
+  &:not(.no-hover.btn) {
+    color: $lightBlueIconHover;
+    text-decoration: none;
+  }
+
+  &.error {
+    color: $redError;
+
+    &:hover {
+      color: $redErrorHover;
+    }
+  }
+
+  &.add {
+    color: $greenIcon;
+
+    &:hover {
+      color: $greenIconHover;
+    }
+  }
+
+  &.delete .fas {
+    color: $redError;
+
+    &:hover {
+      color: $redErrorHover;
+    }
+  }
+
+  &.error .fas {
+    color: $redError;
+
+    &:hover {
+      color: $redErrorHover;
+    }
+  }
+
+  &.add .fas {
+    color: $greenBtn;
+
+    &:hover {
+      color: $greenBtnHover;
+    }
+  }
+}
+
+nav img {
+  padding: 2px;
+}
+
+.navbar {
+  .navbar-nav .nav-link {
+    @media all and(max-width: 767px) {
+      padding: 7px;
+    }
+  }
+
+  .dropdown {
+    .dropdown-toggle::after {
+      top: 2px;
+      position: relative;
+      @media all and(max-width: 767px) {
+        margin-left: 0px;
+      }
+    }
+  }
+
+  &.navbar-dark {
+
+    color: $greyFont;
+
+    i {
+      color: $greyFont;
+    }
+
+    a {
+      &:hover, &:focus {
+        color: $greyFontHover;
+
+        i {
+          color: $greyFontHover;
+        }
+      }
+
+      &.error {
+        color: $redError;
+
+        i {
+          color: $redError;
+        }
+
+        &:hover, &:focus {
+          color: $redErrorHover;
+
+          i {
+            color: $redErrorHover;
+          }
+        }
+
+      }
+    }
+  }
+}
+
+.tablesaw-stack {
+  td {
+    &.more {
+      display: none;
+    }
+
+    &.actions {
+      display: table-cell;
+      min-width: 210px;
+      width: auto;
+      @media all and (max-width: 641px) {
+        width: 100%;
+      }
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  th {
+    &.more {
+      display: none;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  thead {
+    td {
+      &.more {
+        display: none;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+
+    th {
+      &.more {
+        display: none;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+  }
+}
+
+.dontselect {
+  //Instead of the line below you could use @include user-select($select)
+  user-select: none;
+}
+
+.table {
+  th {
+    border: 0 none;
+  }
+
+  td {
+    border: 0 none;
+  }
+
+  tfoot th {
+    border-top: 2px solid $whiteThBorder;
+  }
+}
+
+td {
+  &.actions {
+    span {
+      text-align: center;
+    }
+
+    a {
+      text-align: center;
+
+      i {
+        padding: 10px;
+        @media all and(max-width: 641px) {
+          padding: 7px;
+        }
+      }
+    }
+  }
+
+  &.status {
+    cursor: pointer;
+  }
+
+  &.runtime {
+    white-space: nowrap;
+  }
+}
+
+.form-switch {
+  display: inline-block;
+  cursor: pointer;
+
+  i {
+    position: relative;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 46px;
+    height: 26px;
+    background-color: $whiteGrey;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 23px;
+    vertical-align: text-bottom;
+    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all 0.3s linear;
+  }
+
+  i::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 42px;
+    height: 22px;
+    background-color: $white;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 11px;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: translate3d(2px, 2px, 0) scale3d(1, 1, 1);
+    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all 0.25s linear;
+  }
+
+  i::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background-color: $white;
+    //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
+    border-radius: 11px;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 2px 2px $black_24;
+    //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+    transform: translate3d(2px, 2px, 0);
+    //Instead of the line below you could use @include transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:active {
+    i::after {
+      width: 28px;
+      //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+      transform: translate3d(2px, 2px, 0);
+    }
+
+    input:checked + i::after {
+      //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+      transform: translate3d(16px, 2px, 0);
+    }
+  }
+
+  input {
+    display: none;
+
+    &:checked {
+      + i {
+        background-color: $lightBlueIcon;
+      }
+
+      + i::before {
+        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+        transform: translate3d(18px, 2px, 0) scale3d(0, 0, 0);
+      }
+
+      + i::after {
+        //Instead of the line below you could use @include transform($scale, $rotate, $transx, $transy, $skewx, $skewy, $originx, $originy)
+        transform: translate3d(22px, 2px, 0);
+      }
+    }
+  }
+
+  &.error {
+    i::before {
+      background-color: $red;
+    }
+
+    input:checked + i {
+      background-color: $red;
+    }
+  }
+
+  &.disabled {
+    i {
+      background-color: $greyBtn;
+    }
+
+    i::before {
+      background-color: $greyBtn;
+    }
+
+    i::after {
+      background-color: $greyDark;
+    }
+
+    input:checked + i {
+      background-color: $greyBtn;
+    }
+  }
+}
+
+.custom-control {
+  &.custom-checkbox {
+    position: relative;
+    top: 8px;
+  }
+
+  .custom-control-label::before {
+    border: 1px solid;
+    background-color: $white;
+    top: 0.18rem;
+  }
+}
+
+#device-list {
+  .custom-control {
+    &.custom-checkbox {
+      top: 2px;
+    }
+
+    .custom-control-label::before {
+    }
+  }
+}
+
+
+.table-responsive {
+  width: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+hr {
+  border-color: $color_tuna_approx;
+}
+
+#commandInputError {
+  color: $color_japanese_laurel_approx;
+}
+
+#update-icon {
+  font-size: 0.7rem;
+  position: relative;
+  top: -1px;
+  cursor: pointer;
+}
+
+#versionHolder {
+  cursor: pointer;
+}
+
+.nightmode {
+  background-color: $color_mako_approx;
+  color: $whiteNightMode;
+
+  .table-hover tbody tr:hover {
+    color: $whiteNightMode;
+  }
+
+  .table {
+    color: $whiteNightMode;
+
+    &:hover {
+      color: $whiteNightMode;
+    }
+  }
+
+  .form-switch {
+    i::before {
+      background-color: $color_bay_of_many_approx;
+    }
+
+    i::after {
+      background-color: $color_gulf_blue_approx;
+    }
+
+    i {
+      background-color: $color_bay_of_many_approx;
+    }
+
+    &.error {
+      i::before {
+        background-color: $nmRedError;
+      }
+
+      input:checked + i {
+        background-color: $nmRedError;
+      }
+    }
+
+    input:checked + i {
+      background-color: $color_deep_cerulean_approx;
+    }
+
+    &.disabled {
+      i {
+        background-color: $greyBtn;
+      }
+
+      i::before {
+        background-color: $greyBtn;
+      }
+
+      i::after {
+        background-color: $greyDark;
+      }
+
+      input:checked + i {
+        background-color: $greyBtn;
+      }
+    }
+  }
+
+  a .fas, a .fa, th.link a, a, a i {
+
+    color: $nmLightBlueIcon;
+
+    &:not(.no-hover):not(.btn) {
+      &:hover {
+        color: $nmLightBlueIconHover;
+        text-decoration: none;
+      }
+
+      &.error, &.error i {
+        color: $nmRedError;
+
+        &:hover, &:hover i {
+          color: $nmRedErrorHover;
+        }
+      }
+
+      &.add, &.add i {
+        color: $nmGreenIcon;
+
+        &:hover, &:hover i {
+          color: $nmGreenIconHover;
+        }
+      }
+
+      &.delete, &.delete i {
+        color: $nmRedError;
+
+        &:hover, &:hover i {
+          color: $nmRedErrorHover;
+        }
+      }
+    }
+  }
+
+  .nav-tabs {
+    border-color: $whiteNightMode;
+
+    .nav-link {
+      border: 1px solid $whiteNightMode;
+      //Instead of the line below you could use @include border-top-left-radius($radius)
+      border-top-left-radius: 0.25rem;
+      //Instead of the line below you could use @include border-top-right-radius($radius)
+      border-top-right-radius: 0.25rem;
+      color: $whiteNightMode;
+
+      &.active {
+        background-color: transparent;
+        color: $white;
+      }
+
+      &:hover {
+        border: 1px solid $white_75;
+        //Instead of the line below you could use @include border-top-left-radius($radius)
+        border-top-left-radius: 0.25rem;
+        //Instead of the line below you could use @include border-top-right-radius($radius)
+        border-top-right-radius: 0.25rem;
+        color: $white_75;
+      }
+    }
+
+    .nav-item.show .nav-link {
+      background-color: transparent;
+      color: $white;
+    }
+  }
+
+  input {
+    background-color: $color_tuna_approx !important;
+    color: $whiteNightMode;
+  }
+
+  select {
+    background-color: $color_tuna_approx !important;
+    color: $whiteNightMode;
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.5\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+
+    &:focus {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23ffffff\' fill-opacity=\"0.75\" d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E");
+    }
+  }
+
+  .custom-control-label {
+    &::before {
+      background-color: $color_tuna_approx !important;
+      border-color: $white_75;
+      color: $white_75;
+      //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+      box-shadow: 0 0 0 0.1rem $white_10;
+    }
+  }
+
+  .custom-file-label, .input-group-prepend, .input-group-append, .input-group-text {
+    background-color: $color_tuna_approx !important;
+    color: $whiteNightMode;
+
+    &::after {
+      background-color: $color_tuna_approx !important;
+      color: $whiteNightMode;
+    }
+  }
+
+
+  hr {
+    border-color: $whiteNightMode;
+  }
+
+  .form-control:focus {
+    border-color: $white_75;
+    color: $white_75;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 0 0 0.1rem $white_10;
+  }
+
+  .custom-select:focus {
+    border-color: $white_75;
+    color: $white_75;
+    //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 0 0 0 0.1rem $white_10;
+  }
+
+  .navbar {
+    .navbar-nav .nav-link {
+      @media all and(max-width: 767px) {
+        padding: 7px;
+      }
+    }
+
+    .dropdown {
+      .dropdown-toggle::after {
+        top: 2px;
+        position: relative;
+        @media all and(max-width: 767px) {
+          margin-left: 0px;
+        }
+      }
+    }
+
+    &.navbar-dark {
+
+      &:not(.no-hover):not(.btn) {
+        color: $greyFont;
+
+        i {
+          color: $greyFont;
+        }
+
+        .navbar-text a, a {
+          color: $greyLinkFont;
+
+          &.active {
+            color: $greyLinkActiveFont;
+
+            i {
+              color: $greyLinkActiveFont;
+            }
+          }
+
+          &:hover, &:focus {
+            color: $greyFontHover;
+
+            i {
+              color: $greyFontHover;
+            }
+          }
+
+          &.error {
+            color: $nmRedError;
+
+            i {
+              color: $nmRedError;
+            }
+
+            &:hover, &:focus {
+              color: $nmRedErrorHover;
+
+              i {
+                color: $nmRedErrorHover;
+              }
+            }
+
+          }
+        }
+      }
+    }
+  }
+
+  .btn {
+    color: $nmGreyFont;
+
+    &.btn-primary.no-hover {
+      &:hover {
+        background-color: $nmBlueBtn;
+        border-color: $nmBlueBtnBorder;
+      }
+
+      &:focus {
+        background-color: $nmBlueBtn;
+        border-color: $nmBlueBtnBorder;
+      }
+
+      &:active {
+        background-color: $nmBlueBtn;
+        border-color: $nmBlueBtnBorder;
+      }
+    }
+
+    &.btn-secondary.no-hover {
+      &:hover {
+        background-color: $greyBtn;
+        border-color: $greyBtnBorder;
+      }
+
+      &:focus {
+        background-color: $greyBtn;
+        border-color: $greyBtnBorder;
+      }
+
+      &:active {
+        background-color: $greyBtn;
+        border-color: $greyBtnBorder;
+      }
+    }
+
+    &.btn-green {
+      background-color: $greenBtn;
+      border-color: $greenBtnBorder;
+
+      &:hover {
+        background-color: $greenBtnHover;
+        border-color: $greenBtnBorderHover;
+      }
+
+      &:focus {
+        background-color: $greenBtnHover;
+        border-color: $greenBtnBorderHover;
+      }
+
+      &:active {
+        background-color: $greenBtnHover;
+        border-color: $greenBtnBorderHover;
+      }
+
+      &.no-hover {
+        &:hover {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+
+        &:focus {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+
+        &:active {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+      }
+    }
+
+    &.btn-primary {
+      background-color: $nmBlueBtn;
+      border-color: $nmBlueBtnBorder;
+
+      &:hover {
+        background-color: $nmBlueBtnHover;
+        border-color: $nmBlueBtnBorderHover;
+      }
+
+      &:focus {
+        background-color: $nmBlueBtnHover;
+        border-color: $nmBlueBtnBorderHover;
+      }
+
+      &:active {
+        background-color: $nmBlueBtnHover;
+        border-color: $nmBlueBtnBorderHover;
+      }
+
+      &.no-hover {
+        &:hover {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+
+        &:focus {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+
+        &:active {
+          background-color: $greenBtn;
+          border-color: $greenBtnBorder;
+        }
+      }
+    }
+
+    &:not(:disabled):not(.disabled) {
+      &.no-hover {
+        cursor: default;
+
+        &:hover {
+          cursor: default;
+          box-shadow: none;
+        }
+
+        &:focus {
+          cursor: default;
+          box-shadow: none;
+        }
+
+        &:active {
+          cursor: default;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+
+  code {
+    color: $whiteNightMode;
+    background-color: $black;
+  }
+}
+
+.navbar-dark .navbar-nav .show .nav-link {
+  color: $whiteNightMode;
+
+  &:hover {
+    color: $white_75;
+    background-color: transparent;
+  }
+
+  &:focus {
+    color: $white_75;
+    background-color: transparent;
+  }
+
+  &.active {
+    color: $white;
+    background-color: transparent;
+  }
+}
+
+.table-striped tbody tr:nth-of-type(2n + 1) td {
+  background-color: $black_5;
+}
+
+.changelog {
+  img {
+    max-width: 100%;
+    height: auto;
+
+    &:first-child {
+      max-height: 76px;
+    }
+  }
+
+  .emojione {
+    height: 26px;
+    position: relative;
+    top: -6px;
+  }
+}
+
+#progressbox span, #logGlobal {
+  width: 100%;
+  display: block;
+  font-size: 0.8rem;
+  line-height: 1rem;
+
+  &.error {
+    color: $red;
+  }
+
+  &.success {
+    color: $color_japanese_laurel_approx;
+  }
+
+  &.warning {
+    color: $color_pizazz_approx;
+  }
+}
+
+.modal-header > h3:nth-child(1) {
+  color: $color_gravel_approx;
+}
+
+.has-error #commandInputError {
+  color: $red;
+}
+
+.update-now #update-icon {
+  color: $color_pirate_gold_approx !important;
+}
+
+.devices {
+  &.details {
+    #devices-accordion {
+
+      .card {
+        .card-header {
+          cursor: pointer;
+          padding: 5px;
+
+          .card-img-top {
+            max-width: 30px;
+            max-height: 30px;
+            width: auto;
+            height: auto;
+          }
+        }
+      }
+
+    }
+
+    //devices-accordion
+  }
+
+  //&.details
+}
+
+.ta-wifi {
+  &.ta-wifi-none {
+    .ta-wifi-base {
+      fill: #848484;
+    }
+
+    .ta-wifi-wave * {
+      stroke: #848484;
+      opacity: .3;
+      stroke-width: .5;
+    }
+  }
+
+  &.ta-wifi-bad {
+    .ta-wifi-wave * {
+      stroke: #B52808;
+      opacity: 0.3;
+      stroke-width: 0.5;
+    }
+
+    .ta-wifi-wave-bow.ta-wifi-wave-base {
+      fill: #B52808;
+      stroke: none;
+      opacity: 1;
+    }
+  }
+
+  &.ta-wifi-weak {
+    .ta-wifi-base {
+      fill: #B52808;
+    }
+
+    .ta-wifi-wave * {
+      stroke: #B52808;
+    }
+
+    .ta-wifi-wave-bow.ta-wifi-wave-outer,
+    .ta-wifi-wave-bow.ta-wifi-wave-middle {
+      opacity: 0.3;
+      stroke-width: 0.5;
+    }
+  }
+
+  &.ta-wifi-medium {
+    .ta-wifi-base {
+      fill: #EFC411;
+    }
+
+    .ta-wifi-wave * {
+      stroke: #EFC411;
+    }
+
+    .ta-wifi-wave-outer {
+      opacity: 0.3;
+      stroke-width: 0.5;
+    }
+  }
+
+  &.ta-wifi-strong {
+    .ta-wifi-base {
+      fill: #569E26;
+    }
+
+    .ta-wifi-wave * {
+      stroke: #569E26;
+    }
+  }
+}
+
+@-o-keyframes wifianimation {
+  0% {
+    opacity: 0.4
+  }
+  5% {
+    opacity: 1
+  }
+  6% {
+    opacity: 0.8
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@-moz-keyframes wifianimation {
+  0% {
+    opacity: 0.4
+  }
+  5% {
+    opacity: 1
+  }
+  6% {
+    opacity: 0.8
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+@-webkit-keyframes wifianimation {
+  0% {
+    opacity: 0.4
+  }
+  5% {
+    opacity: 1
+  }
+  10% {
+    opacity: 0.8
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
+
+.ta-wifi.searching {
+
+  &.error {
+    .ta-wifi-wave-bow, .ta-wifi-base {
+      stroke: #B52808;
+    }
+  }
+
+  .ta-wifi-wave-bow {
+    -o-animation: wifianimation 2s infinite;
+    -moz-animation: wifianimation 2s infinite;
+    -webkit-animation: wifianimation 2s infinite;
+    animation: wifianimation 2s infinite;
+    opacity: 0.1;
+
+    &.ta-wifi-wave-outer {
+      -o-animation-delay: 600ms;
+      -moz-animation-delay: 600ms;
+      -webkit-animation-delay: 600ms;
+      animation-delay: 600ms;
+    }
+
+    &.ta-wifi-wave-middle {
+      -o-animation-delay: 400ms;
+      -moz-animation-delay: 400ms;
+      -webkit-animation-delay: 400ms;
+      animation-delay: 400ms;
+    }
+
+    &.ta-wifi-wave-inner {
+      -o-animation-delay: 200ms;
+      -moz-animation-delay: 200ms;
+      -webkit-animation-delay: 200ms;
+      animation-delay: 200ms;
+    }
+
+    &.ta-wifi-wave-base {
+      -o-animation-delay: 0ms;
+      -moz-animation-delay: 0ms;
+      -webkit-animation-delay: 0ms;
+      animation-delay: 0ms;
+    }
+  }
+}
+
+.table-responsive {
+  overflow: auto !important;
+
+}
+
+.show-hide-password {
+  cursor: pointer;
+
+  i {
+    min-width: 20px;
+  }
+}
