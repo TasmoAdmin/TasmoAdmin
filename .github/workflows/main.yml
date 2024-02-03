@@ -69,6 +69,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: 'tasmoadmin/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'tasmoadmin/'
       - name: Install dependencies
         run: |
           cd tasmoadmin
