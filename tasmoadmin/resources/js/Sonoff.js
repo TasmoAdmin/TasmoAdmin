@@ -182,11 +182,14 @@ class Sonoff {
   parseDeviceStatus(data, device_relais) {
     let device_status = "NONE";
     if (data.StatusSTS !== undefined) {
-      if (device_relais !== undefined && data.StatusSTS[`POWER${device_relais}`] !== undefined) {
+      if (
+        device_relais !== undefined &&
+        data.StatusSTS[`POWER${device_relais}`] !== undefined
+      ) {
         if (data.StatusSTS[`POWER${device_relais}`].STATE !== undefined) {
-          device_status = data.StatusSTS[`POWER${device_relais}`].STATE
+          device_status = data.StatusSTS[`POWER${device_relais}`].STATE;
         } else {
-          device_status = data.StatusSTS[`POWER${device_relais}`]
+          device_status = data.StatusSTS[`POWER${device_relais}`];
         }
       } else {
         if (data.StatusSTS.POWER !== undefined) {
@@ -198,7 +201,10 @@ class Sonoff {
         }
       }
     } else {
-      if (device_relais !== undefined && data[`POWER${device_relais}`] !== undefined) {
+      if (
+        device_relais !== undefined &&
+        data[`POWER${device_relais}`] !== undefined
+      ) {
         if (data[`POWER${device_relais}`].STATE !== undefined) {
           device_status = data[`POWER${device_relais}`].STATE;
         } else {
