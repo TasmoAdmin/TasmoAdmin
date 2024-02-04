@@ -171,7 +171,6 @@ function initCommandHelper() {
       .html("");
 
     let selectedDevices = getSelectedDevices();
-    //console.log( selectedDevices );
     if (selectedDevices.length === 0) {
       $(this)
         .parent()
@@ -184,8 +183,6 @@ function initCommandHelper() {
     }
 
     let cmnd = $(this).parent().parent().find(".commandInput").val();
-
-    //console.log( cmnd );
     if (cmnd === "") {
       $(this)
         .parent()
@@ -198,9 +195,7 @@ function initCommandHelper() {
     }
 
     $.each(selectedDevices, function (idx, device_id) {
-      console.log(device_id);
       sonoff.generic(device_id, cmnd, undefined, function (result) {
-        console.log(result);
         let device_name = $("[data-device_id=" + device_id + "]:first")
           .find(".device_name a")
           .text()
@@ -277,8 +272,6 @@ function updateStatus() {
             });
           } else {
             let device_status = sonoff.parseDeviceStatus(data, device_relais);
-
-            console.log(device_status);
             updateRow($(tr), data, device_status);
           }
         } else {
@@ -292,18 +285,11 @@ function updateStatus() {
               $(grouptr)
                 .find(".status")
                 .find("input")
-                //.removeProp( "checked" )
                 .parent()
                 .addClass("error");
-              //$( grouptr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
-              //$( grouptr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
-              //$( grouptr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
-
               $(grouptr)
                 .find("td")
                 .each(function (key, td) {
-                  //console.log( key );
-                  //console.log( td );
                   if ($(td).find(".loader").length > 0) {
                     $(td).find("span").html("-");
                   }
@@ -315,12 +301,8 @@ function updateStatus() {
             $(tr)
               .find(".status")
               .find("input")
-              //.removeProp( "checked" )
               .parent()
               .addClass("error");
-            //$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
-            //$( tr ).find( ".runtime span" ).html( $.i18n( 'ERROR' ) );
-            //$( tr ).find( ".version span" ).html( $.i18n( 'ERROR' ) );
             $(tr).removeClass("updating");
           }
         }
@@ -468,7 +450,6 @@ function deviceTools() {
       }
 
       let device_status = sonoff.parseDeviceStatus(data, device_relais);
-      console.log("device_status", device_status);
       if (device_status === "ON") {
         if (device_protect_off === 1) {
           input.prop("disabled", "disabled").parent().addClass("disabled");
@@ -493,10 +474,7 @@ function deviceTools() {
 
   $("#deleteDeviceModal").on("show.bs.modal", function (event) {
     let modal = $(this);
-
     let button = $(event.relatedTarget); // Button that triggered the modal
-
-    console.log(modal.find(".btn-ok"));
     modal.find(".btn-ok").attr("href", button.attr("href"));
 
     let body = button.data("dialog-text");
@@ -551,8 +529,6 @@ function deviceTools() {
 
 function updateRow(row, data, device_status) {
   const id = $(row).data("device_id");
-  console.log(`Updating ${id} with ${device_status}`);
-  let device_all_off = $(row).data("device_all_off");
   let device_protect_on = $(row).data("device_protect_on");
   let device_protect_off = $(row).data("device_protect_off");
 
@@ -700,17 +676,9 @@ function updateRow(row, data, device_status) {
       : data.StatusPRM.StartupUTC !== undefined
         ? data.StatusPRM.StartupUTC
         : "";
-  //console.log( startup );
   if (startup !== "") {
-    //let startupdatetime = startup.replace( 'T', ' ' );
     let startupdatetime = startup + "Z".replace(/-/g, "/");
-    //console.log( startupdatetime );
     startupdatetime = new Date(startupdatetime);
-    //console.log( startupdatetime );
-    //startupdatetime.setTime( startupdatetime.getTime() + (
-    //	startupdatetime.getTimezoneOffset()
-    //) * -1 * 60 * 1000 );
-    //console.log( startupdatetime );
     let now = new Date();
     let sec_num = (now - startupdatetime) / 1000;
     let days = Math.floor(sec_num / (3600 * 24));
@@ -753,7 +721,6 @@ function updateRow(row, data, device_status) {
         delay: 700,
       });
   } else {
-    console.log(uptime);
     $(row)
       .find(".runtime span")
       .html(uptime + "h");
@@ -874,7 +841,6 @@ function initDeviceFilter() {
         let deviceRow = $(elem);
 
         if (key === 0 || key === deviceRows.length - 1) {
-          // console.log("skip header and footer row", key);
           return; //skip header and footer row
         }
         let keywords = deviceRow.data("keywords");

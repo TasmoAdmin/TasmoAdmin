@@ -35,7 +35,6 @@ function submitForm(e) {
         felem = $(felem);
 
         if (itemsToSubmit[felem.attr("name")] === undefined) {
-          //console.log( "[DEVICE_CONFIG] Disable => " + felem.attr( "name" ) + " => " + felem.val() );
           felem.attr("disabled", "disabled");
         }
       },

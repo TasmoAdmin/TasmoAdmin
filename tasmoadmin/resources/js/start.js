@@ -73,8 +73,6 @@ function updateStatus() {
 
               let device_relais = $(groupbox).data("device_relais");
               let device_status = sonoff.parseDeviceStatus(data, device_relais);
-
-              console.log(device_status.toLowerCase());
               src = src.replace("%pw", device_status.toLowerCase());
               img.attr("src", src).parent().removeClass("animated");
               updateBox($(groupbox), data, device_status);
@@ -94,7 +92,6 @@ function updateStatus() {
 
             let device_status = sonoff.parseDeviceStatus(data, 1);
 
-            console.log("device_status", device_status);
             if (device_status !== undefined) {
               $(box).data("device_state", device_status.toLowerCase());
 
@@ -147,7 +144,6 @@ function updateStatus() {
             img.attr("src", src);
           }
         }
-        //console.log( result );
       });
     }
   });
