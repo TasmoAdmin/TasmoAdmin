@@ -120,11 +120,7 @@ $(document).ready(function () {
   });
 
   $("body").on("click", ".show-hide-password", function (e) {
-    //console.log("CLICKED show-hide-password", $(this));
-
     let pwInput = $(this).closest(".input-group").find("input");
-
-    //console.log("pwInput", pwInput);
     if (pwInput.attr("type") === "password") {
       pwInput.attr("type", "text");
       $(this).find("i").addClass("fa-eye-slash");
@@ -388,9 +384,6 @@ export function getTemp(data, joinString) {
     temp.push(
       data.StatusSNS.MAX31855.ProbeTemperature + "°" + data.StatusSNS.TempUnit,
     );
-    //temp.push( (
-    //	           data.StatusSNS.MAX31855.ReferenceTemperature + "°" + data.StatusSNS.TempUnit
-    //           ) );
   }
 
   if (data.StatusSNS.AHT1X !== undefined) {
@@ -406,9 +399,6 @@ export function getTemp(data, joinString) {
       data.StatusSNS["AHT1X-0x39"].Temperature + "°" + data.StatusSNS.TempUnit,
     );
   }
-
-  //console.log( temp );
-
   return temp.join(joinString);
 }
 
@@ -468,8 +458,6 @@ export function getHumidity(data, joinString) {
     }
   }
 
-  //console.log( humi );
-
   return humi.join(joinString);
 }
 
@@ -508,8 +496,6 @@ export function getPressure(data, joinString) {
     }
   }
 
-  //console.log( press );
-
   return press.join(joinString);
 }
 
@@ -543,7 +529,6 @@ export function getSeaPressure(data, joinString) {
     }
   }
 
-  //console.log( press );
 
   return press.join(joinString);
 }
@@ -557,8 +542,6 @@ export function getDistance(data, joinString) {
       dist.push(data.StatusSNS.SR04.Distance + "cm");
     }
   }
-
-  //console.log( press );
 
   return dist.join(joinString);
 }
@@ -605,8 +588,6 @@ export function getGas(data, joinString) {
       gas.push(data.StatusSNS.BME680.Gas + "kOhm");
     }
   }
-
-  //console.log( press );
 
   return gas.join(joinString);
 }

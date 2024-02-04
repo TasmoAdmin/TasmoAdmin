@@ -461,7 +461,6 @@ if (!empty($_POST)) {
         $(".default-name").on("click", function (e)
         {
             e.preventDefault();
-            // console.log( $( this ).parent().parent().find( "input" ) );
             $(this).parent().parent().find("input").val($(this).html().trim());
         });
     });
