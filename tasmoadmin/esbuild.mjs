@@ -5,7 +5,7 @@ const scssPaths = ["resources/scss/all.scss"];
 
 const jsPaths = ["resources/js/*.js"];
 
-const watch = false;
+const watch = process.env.WATCH_MODE || false;
 
 async function buildCSS() {
   const options = {

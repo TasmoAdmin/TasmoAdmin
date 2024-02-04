@@ -26,6 +26,7 @@
   },
   "scripts": {
     "build": "node esbuild.mjs && node minify.js",
-    "build:dev": "node esbuild.mjs --watch=true"
+    "build:dev": "WATCH_MODE=true node esbuild.mjs --watch=true",
+    "format": "prettier . --write"
   }
 }

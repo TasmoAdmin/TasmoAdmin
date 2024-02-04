@@ -32,4 +32,6 @@ async function main() {
   }
 }
 
+console.log("Minifying resources");
+
 main();
