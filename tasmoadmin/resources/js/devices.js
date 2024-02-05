@@ -298,11 +298,7 @@ function updateStatus() {
               $(grouptr).removeClass("updating");
             });
           } else {
-            $(tr)
-              .find(".status")
-              .find("input")
-              .parent()
-              .addClass("error");
+            $(tr).find(".status").find("input").parent().addClass("error");
             $(tr).removeClass("updating");
           }
         }
