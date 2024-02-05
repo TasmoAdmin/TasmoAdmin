@@ -79,6 +79,26 @@ jobs:
         run: |
           cd tasmoadmin
           npm run build
+  prettier-check:
+    name: Run npm build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'tasmoadmin/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'tasmoadmin/'
+      - name: Install dependencies
+        run: |
+          cd tasmoadmin
+          npm ci
+      - name: Run prettier:check
+        run: |
+          cd tasmoadmin
+          npm run prettier:check
 
   docker-test:
     name: Run Docker tests
