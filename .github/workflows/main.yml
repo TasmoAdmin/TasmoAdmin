@@ -80,7 +80,7 @@ jobs:
           cd tasmoadmin
           npm run build
   prettier-check:
-    name: Run npm build
+    name: Run prettier:check
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout the repository
