@@ -26,7 +26,7 @@ package: clean
 	mkdir _releases
 	mkdir _tmp
 	composer install --no-dev -o -d tasmoadmin
-	cd tasmoadmin; npm ci; npm run build
+	cd tasmoadmin; npm ci; npm run build; rm -rf node_modules
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
