@@ -206,7 +206,7 @@ $scanToIp = $Config->read('scan_to_ip');
                             name='search'
                             value='search'
                             class='btn btn-primary col-12 col-sm-auto'
-                            data-toggle="modal" data-target="#exampleModal"
+                            data-toggle="modal" data-target="#deviceScanModal"
                     >
                         <?php echo __("BTN_START_AUTOSCAN", "DEVICES_AUTOSCAN"); ?>
                     </button>
@@ -448,7 +448,7 @@ $scanToIp = $Config->read('scan_to_ip');
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="deviceScanModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
