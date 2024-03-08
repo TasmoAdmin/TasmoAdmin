@@ -112,23 +112,14 @@ class Sonoff {
         cmnd: encodeURIComponent(cmnd),
       },
       success: function (data) {
-        // var data = data || { ERROR : "NO DATA" };
-
-        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
-        //   data ) );
         console.log("[Sonoff][doAjax][" + ip + "] Got response from: " + cmnd);
-
         if (data.WARNING) {
           alert(ip + ": " + data.WARNING);
         }
-        if (callback !== undefined) {
-          callback(data);
-        }
+        callback(data);
       },
       error: function (data, xmlhttprequest, textstatus, message) {
-        if (callback !== undefined) {
-          callback(data);
-        }
+        callback(data);
       },
     });
   }
@@ -152,23 +143,14 @@ class Sonoff {
         cmnd: encodeURIComponent(cmnd),
       },
       success: function (data) {
-        // var data = data || { ERROR : "NO DATA" };
-
-        //console.log( "[Sonoff][doAjax][" + ip + "] Response from: " + cmnd + " => " + JSON.stringify(
-        //   data ) );
         console.log("[Sonoff][doAjaxAll] Got response from: " + cmnd);
-
         if (data.WARNING) {
           alert(ip + ": " + data.WARNING);
         }
-        if (callback !== undefined) {
-          callback(data);
-        }
+        callback(data);
       },
       error: function (data, xmlhttprequest, textstatus, message) {
-        if (callback !== undefined) {
-          callback(data);
-        }
+        callback(data);
       },
     });
   }
