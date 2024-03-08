@@ -484,10 +484,10 @@ function deviceTools() {
   });
 
   $(document).on("dblclick", ".dblcEdit span", function () {
-    oriVal = $(this).text().toString().trim();
+    let oriVal = $(this).text().toString().trim();
     $(this).text("").addClass("dont-update");
     let w = oriVal.toString().length * 10 + 20;
-    input = $(
+    let input = $(
       "<input class='dblEdit-Input form-control' type='text' style='width: " +
         w +
         "px; padding: 3px;'>",
@@ -686,7 +686,7 @@ function updateRow(row, data, device_status) {
       sec_num - days * (3600 * 24) - hours * 3600 - minutes * 60,
     );
 
-    uptime =
+    let uptime =
       (days !== 0 ? days + $.i18n("UPTIME_SHORT_DAY") : "") +
       " " +
       (hours !== 0 || days !== 0 ? hours + $.i18n("UPTIME_SHORT_HOUR") : "") +
