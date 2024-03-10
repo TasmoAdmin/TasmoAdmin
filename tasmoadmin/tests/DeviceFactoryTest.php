@@ -2,7 +2,6 @@
 
 namespace Tests\TasmoAdmin;
 
-use TasmoAdmin\Device;
 use PHPUnit\Framework\TestCase;
 use TasmoAdmin\DeviceFactory;
 

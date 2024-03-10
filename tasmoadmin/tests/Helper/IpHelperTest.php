@@ -2,9 +2,8 @@
 
 namespace Tests\TasmoAdmin\Helper;
 
-use InvalidArgumentException;
-use TasmoAdmin\Helper\IpHelper;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Helper\IpHelper;
 
 class IpHelperTest extends TestCase
 {
@@ -28,7 +27,7 @@ class IpHelperTest extends TestCase
 
     public function testFetchIpsTooLargeRange(): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $ipHelper = new IpHelper();
         $ipHelper->fetchIps('127.0.0.1', '127.255.8.2');
     }
@@ -56,7 +55,7 @@ class IpHelperTest extends TestCase
      */
     public function testFetchIpsInvalidFromIp(string $invalidIp): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $ipHelper = new IpHelper();
         $ipHelper->fetchIps($invalidIp, '127.0.0.4');
     }
@@ -66,7 +65,7 @@ class IpHelperTest extends TestCase
      */
     public function testFetchIpsInvalidToIp(string $invalidIp): void
     {
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $ipHelper = new IpHelper();
         $ipHelper->fetchIps('127.0.0.1', $invalidIp);
     }
@@ -75,7 +74,7 @@ class IpHelperTest extends TestCase
     {
         return [
             ['foo'],
-           ['127.0.0,1'],
+            ['127.0.0,1'],
         ];
     }
 }

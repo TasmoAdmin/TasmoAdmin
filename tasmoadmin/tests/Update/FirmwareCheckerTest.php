@@ -4,14 +4,13 @@ namespace Tests\TasmoAdmin\Update;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Promise\RejectedPromise;
 use GuzzleHttp\Psr7\Response;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use TasmoAdmin\Update\FirmwareChecker;
-use PHPUnit\Framework\TestCase;
 
 class FirmwareCheckerTest extends TestCase
 {
@@ -42,16 +41,17 @@ class FirmwareCheckerTest extends TestCase
         if ($response) {
             $responses[] = $response;
         }
+
         return $this->getClient(new MockHandler($responses));
     }
 
     private function getClient(callable $mock): Client
     {
         $handlerStack = HandlerStack::create($mock);
+
         return new Client(['handler' => $handlerStack]);
     }
 }
-
 
 class GuzzleRejectMock
 {

@@ -4,8 +4,8 @@ namespace Tests\TasmoAdmin;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use TasmoAdmin\Config;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Config;
 
 class ConfigTest extends TestCase
 {
@@ -76,6 +76,6 @@ class ConfigTest extends TestCase
 
     private function getConfig(): Config
     {
-        return new Config($this->root->url() . '/', $this->root->url() . '/');
+        return new Config($this->root->url().'/', $this->root->url().'/');
     }
 }

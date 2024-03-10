@@ -6,7 +6,6 @@ use GuzzleHttp\Exception\ConnectException;
 use Symfony\Component\Filesystem\Filesystem;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
-use ZipArchive;
 
 class BackupHelper
 {
@@ -32,14 +31,14 @@ class BackupHelper
         $results = [];
         foreach ($deviceIds as $deviceId) {
             $device = $this->deviceRepository->getDeviceById($deviceId);
-            if ($device === null) {
+            if (null === $device) {
                 continue;
             }
 
             try {
                 $files[] = $this->sonoff->backup($device, $this->backupPath);
                 $results[] = new BackupResult($device, true);
-            } catch(ConnectException $exception) {
+            } catch (ConnectException $exception) {
                 // Failed to download
                 $results[] = new BackupResult($device, false, $exception->getMessage());
             }
@@ -52,7 +51,7 @@ class BackupHelper
 
     public function getBackupZipPath(): string
     {
-        return $this->backupPath . 'backup.zip';
+        return $this->backupPath.'backup.zip';
     }
 
     private function createZip(array $files): string
@@ -62,8 +61,8 @@ class BackupHelper
             unlink($zipFilePath);
         }
 
-        $zip = new ZipArchive();
-        $zip->open($zipFilePath, ZipArchive::CREATE);
+        $zip = new \ZipArchive();
+        $zip->open($zipFilePath, \ZipArchive::CREATE);
         foreach ($files as $file) {
             $zip->addFile($file, basename($file));
         }
@@ -72,7 +71,6 @@ class BackupHelper
 
         return $zipFilePath;
     }
-
 
     private function createCleanBackupDir(): void
     {

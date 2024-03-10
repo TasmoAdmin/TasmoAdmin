@@ -2,8 +2,6 @@
 
 namespace TasmoAdmin\Helper;
 
-use InvalidArgumentException;
-
 class IpHelper
 {
     public const MAX_IPS = 1024;
@@ -11,18 +9,17 @@ class IpHelper
     public function fetchIps(string $fromIp, string $toIp, array $excludedIps = []): array
     {
         if (!$this->isIpValid($fromIp)) {
-            throw new InvalidArgumentException(sprintf('%s is an invalid IPv4 address', $fromIp));
+            throw new \InvalidArgumentException(sprintf('%s is an invalid IPv4 address', $fromIp));
         }
         if (!$this->isIpValid($toIp)) {
-            throw new InvalidArgumentException(sprintf('%s is an invalid IPv4 address', $toIp));
+            throw new \InvalidArgumentException(sprintf('%s is an invalid IPv4 address', $toIp));
         }
 
         $fromIpLong = ip2long($fromIp);
         $toIpLong = ip2long($toIp);
 
-
         if (abs($fromIpLong - $toIpLong) > self::MAX_IPS) {
-            throw new InvalidArgumentException('The defined IP range is too large, please specify a smaller range');
+            throw new \InvalidArgumentException('The defined IP range is too large, please specify a smaller range');
         }
 
         $ips = [];
@@ -38,9 +35,8 @@ class IpHelper
         return $ips;
     }
 
-
     private function isIpValid(string $ip): bool
     {
-        return ip2long($ip) !== false;
+        return false !== ip2long($ip);
     }
 }

@@ -6,7 +6,7 @@ class TestUtils
 {
     public static function getFixturePath(string $path): string
     {
-        return FIXTURE_PATH . $path;
+        return FIXTURE_PATH.$path;
     }
 
     public static function loadFixture(string $path): string

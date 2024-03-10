@@ -15,7 +15,7 @@ class LoginHelper
 
     public function login(string $password, string $storedPassword): bool
     {
-        //update hashing
+        // update hashing
         if (!str_starts_with($storedPassword, '$2y$')) {
             if ($storedPassword !== md5($password)) {
                 return false;
@@ -23,7 +23,7 @@ class LoginHelper
 
             $upgradedPassword = self::hashPassword($password);
 
-            $this->config->write("password", $upgradedPassword);
+            $this->config->write('password', $upgradedPassword);
 
             return true;
         }
@@ -33,8 +33,8 @@ class LoginHelper
 
     public function register(string $username, string $password): void
     {
-        $this->config->write("username", $username);
-        $this->config->write("password", self::hashPassword($password));
+        $this->config->write('username', $username);
+        $this->config->write('password', self::hashPassword($password));
     }
 
     public static function hashPassword(string $password): string

@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use TasmoAdmin\Update\UpdateChecker;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Update\UpdateChecker;
 use Tests\TasmoAdmin\TestUtils;
 
 class UpdateCheckerTest extends TestCase
@@ -70,6 +70,7 @@ class UpdateCheckerTest extends TestCase
         }
         $mock = new MockHandler($responses);
         $handlerStack = HandlerStack::create($mock);
+
         return new Client(['handler' => $handlerStack]);
     }
 }

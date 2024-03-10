@@ -2,8 +2,6 @@
 
 namespace TasmoAdmin\Helper;
 
-use JsonException;
-
 class JsonLanguageHelper
 {
     private string $language;
@@ -31,7 +29,7 @@ class JsonLanguageHelper
     }
 
     /**
-     * @throws JsonException
+     * @throws \JsonException
      */
     public function dumpJson(): void
     {
@@ -45,9 +43,7 @@ class JsonLanguageHelper
     }
 
     /**
-     * @param string $cacheFile
-     * @return void
-     * @throws JsonException
+     * @throws \JsonException
      */
     private function writeFile(string $cacheFile): void
     {
@@ -61,6 +57,7 @@ class JsonLanguageHelper
     private function loadLanguage(string $languageFile): array
     {
         $config = parse_ini_file($languageFile);
+
         return $this->removeBlocks($config);
     }
 
@@ -93,7 +90,7 @@ class JsonLanguageHelper
     private function isCacheModifiedNewerThenLanguageFile(string $cacheFile): bool
     {
         return
-            filemtime($cacheFile) > filemtime($this->languageFile) ||
-            filemtime($cacheFile) > filemtime($this->fallbackLanguageFile);
+            filemtime($cacheFile) > filemtime($this->languageFile)
+            || filemtime($cacheFile) > filemtime($this->fallbackLanguageFile);
     }
 }

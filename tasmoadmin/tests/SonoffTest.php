@@ -8,12 +8,11 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use TasmoAdmin\Config;
+use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
-use PHPUnit\Framework\TestCase;
 
 class SonoffTest extends TestCase
 {
@@ -44,7 +43,7 @@ class SonoffTest extends TestCase
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
-            new Response(200, [], TestUtils::loadFixture('response-valid.json'))
+            new Response(200, [], TestUtils::loadFixture('response-valid.json')),
         ]));
         $result = $sonoff->getAllStatus($device);
         self::assertEquals('socket-1', $result->Status->DeviceName);
@@ -54,7 +53,7 @@ class SonoffTest extends TestCase
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
-            new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
+            new Response(401, [], TestUtils::loadFixture('response-unauthorized.json')),
         ]));
         $result = $sonoff->getAllStatus($device);
         self::assertStringContainsString('401 Unauthorized', $result->ERROR);
@@ -64,7 +63,7 @@ class SonoffTest extends TestCase
     {
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json')),
-            new Response(401, [], TestUtils::loadFixture('response-unauthorized.json'))
+            new Response(401, [], TestUtils::loadFixture('response-unauthorized.json')),
         ]));
 
         $devices = [];
@@ -108,7 +107,6 @@ class SonoffTest extends TestCase
         self::assertEquals(2, $devices[2]->position);
         self::assertEquals(['socket-2'], $devices[2]->names);
     }
-
 
     public function testGetDevicesOverlapPositionBasic(): void
     {
@@ -155,17 +153,18 @@ class SonoffTest extends TestCase
     {
         $mock = new MockHandler($responses);
         $handlerStack = HandlerStack::create($mock);
+
         return new Client(['handler' => $handlerStack]);
     }
 
     private function getTestDeviceRepository(): DeviceRepository
     {
-        $deviceFile = $this->root->url() . '/devices.csv';
+        $deviceFile = $this->root->url().'/devices.csv';
         touch($deviceFile);
 
-
-        $tmpDir = $this->root->url() . '/tmp/';
+        $tmpDir = $this->root->url().'/tmp/';
         mkdir($tmpDir);
+
         return new DeviceRepository($deviceFile, $tmpDir);
     }
 }

@@ -3,8 +3,8 @@
 namespace Tests\TasmoAdmin\Helper;
 
 use PHPUnit\Framework\Attributes\DataProvider;
-use TasmoAdmin\Helper\RedirectHelper;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Helper\RedirectHelper;
 
 class RedirectHelperTest extends TestCase
 {
@@ -18,7 +18,7 @@ class RedirectHelperTest extends TestCase
     public static function validDataProvider(): array
     {
         return [
-          ['/', '/foo/bar', '/'],
+            ['/', '/foo/bar', '/'],
         ];
     }
 

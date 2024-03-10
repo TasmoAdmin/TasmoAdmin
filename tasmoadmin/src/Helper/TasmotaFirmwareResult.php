@@ -2,18 +2,15 @@
 
 namespace TasmoAdmin\Helper;
 
-use DateTime;
-
 class TasmotaFirmwareResult
 {
     private string $version;
 
-    private DateTime $publishDate;
+    private \DateTime $publishDate;
 
     private array $firmwares;
 
-
-    public function __construct(string $version, DateTime $publishDate, array $firmwares)
+    public function __construct(string $version, \DateTime $publishDate, array $firmwares)
     {
         $this->version = $version;
         $this->publishDate = $publishDate;
@@ -25,7 +22,7 @@ class TasmotaFirmwareResult
         return $this->version;
     }
 
-    public function getPublishDate(): DateTime
+    public function getPublishDate(): \DateTime
     {
         return $this->publishDate;
     }

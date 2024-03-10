@@ -64,5 +64,4 @@ $routes->add('actions', new Route('actions', [
     '_controller' => 'render_raw',
 ]));
 
-
 return $routes;

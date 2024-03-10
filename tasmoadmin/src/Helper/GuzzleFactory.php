@@ -10,7 +10,7 @@ class GuzzleFactory
     public static function getClient(Config $config): Client
     {
         return new Client(['headers' => [
-            'User-Agent' => "TasmoAdmin/{$config->read('current_git_tag')}"
+            'User-Agent' => "TasmoAdmin/{$config->read('current_git_tag')}",
         ]]);
     }
 }

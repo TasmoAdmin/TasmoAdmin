@@ -56,6 +56,7 @@ class Device
     {
         $pathSafeName = $this->getName();
         $pathSafeName = str_replace('/', '_', $pathSafeName);
+
         return sprintf('%s-%s.dmp', $this->id, $pathSafeName);
     }
 

@@ -4,8 +4,8 @@ namespace Tests\TasmoAdmin;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use TasmoAdmin\DeviceRepository;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\DeviceRepository;
 
 class DeviceRepositoryTest extends TestCase
 {
@@ -72,7 +72,6 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(3, $device2->id);
     }
 
-
     public function testAddDevicesEmptyDevices(): void
     {
         $repo = $this->getVirtualRepo();
@@ -90,7 +89,7 @@ class DeviceRepositoryTest extends TestCase
                 'device_ip' => '127.0.0.1',
                 'device_img' => 'orange',
                 'device_position' => 1,
-            ]
+            ],
         ];
         $repo->addDevices($devices, 'user', 'pass');
         self::assertCount(1, $repo->getDevices());
@@ -147,8 +146,8 @@ class DeviceRepositoryTest extends TestCase
         $repo = $this->getVirtualRepo();
         $devices = [
             [
-                'device_name' => ['socket-1']
-            ]
+                'device_name' => ['socket-1'],
+            ],
         ];
         $repo->addDevices($devices, 'user', 'pass');
         $repo->setDeviceValue(1, 'names', ['socket-2']);
@@ -186,7 +185,7 @@ class DeviceRepositoryTest extends TestCase
     {
         $repo = $this->getVirtualRepo();
         $devices = [];
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = 1; $i <= $count; ++$i) {
             $devices[] = [
                 'device_name' => [sprintf('socket-%d', $i)],
                 'device_ip' => sprintf('127.0.0.%d', $i),
@@ -202,27 +201,30 @@ class DeviceRepositoryTest extends TestCase
 
     private function getVirtualRepo(bool $withFile = true): DeviceRepository
     {
-        $deviceFile = $this->root->url() . '/devices.csv';
+        $deviceFile = $this->root->url().'/devices.csv';
         if ($withFile) {
             touch($deviceFile);
         }
 
-        $tmpDir = $this->root->url() . '/tmp/';
+        $tmpDir = $this->root->url().'/tmp/';
         mkdir($tmpDir);
+
         return new DeviceRepository($deviceFile, $tmpDir);
     }
 
     private function getValidRepo(): DeviceRepository
     {
-        $tmpDir = $this->root->url() . '/tmp/';
+        $tmpDir = $this->root->url().'/tmp/';
         mkdir($tmpDir);
+
         return new DeviceRepository(TestUtils::getFixturePath('devices.csv'), $tmpDir);
     }
 
     private function getEmptyRepo(): DeviceRepository
     {
-        $tmpDir = $this->root->url() . '/tmp/';
+        $tmpDir = $this->root->url().'/tmp/';
         mkdir($tmpDir);
+
         return new DeviceRepository(TestUtils::getFixturePath('empty_devices.csv'), $tmpDir);
     }
 }

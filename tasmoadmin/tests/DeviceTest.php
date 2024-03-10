@@ -2,8 +2,8 @@
 
 namespace Tests\TasmoAdmin;
 
-use TasmoAdmin\Device;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Device;
 
 class DeviceTest extends TestCase
 {
@@ -23,9 +23,6 @@ class DeviceTest extends TestCase
 
     /**
      * @dataProvider backupNameProvider
-     * @param string $expected
-     * @param array $names
-     * @return void
      */
     public function testGetBackupName(string $expected, array $names): void
     {
@@ -39,15 +36,15 @@ class DeviceTest extends TestCase
         return [
             [
                 '1-socket-1.dmp',
-                ['socket-1']
+                ['socket-1'],
             ],
             [
                 '1-socket-1-kitchen.dmp',
-                ['socket-1', 'kitchen']
+                ['socket-1', 'kitchen'],
             ],
             [
                 '1-socket-1_foo.dmp',
-                ['socket-1/foo']
+                ['socket-1/foo'],
             ],
         ];
     }

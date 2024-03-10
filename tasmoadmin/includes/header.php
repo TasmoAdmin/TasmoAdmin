@@ -32,34 +32,34 @@ $urlHelper = $container->get(UrlHelper::class);
 		<meta name="theme-color" content="#ffffff">
 		
 		
-		<title><?php echo isset($title) ? $title . " - " : ""; ?>TasmoAdmin</title>
+		<title><?php echo isset($title) ? $title.' - ' : ''; ?>TasmoAdmin</title>
 		<script type="application/javascript">
             const config = {
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
-                nightmodeconfig: '<?php echo $Config->read("nightmode"); ?>',
-                update_fe_check: <?php echo $Config->read("update_fe_check"); ?> === 1,
-                force_upgrade: <?php echo $Config->read("force_upgrade"); ?> === 1,
-                update_newer_only: <?php echo $Config->read("update_newer_only"); ?> === 1,
+                nightmodeconfig: '<?php echo $Config->read('nightmode'); ?>',
+                update_fe_check: <?php echo $Config->read('update_fe_check'); ?> === 1,
+                force_upgrade: <?php echo $Config->read('force_upgrade'); ?> === 1,
+                update_newer_only: <?php echo $Config->read('update_newer_only'); ?> === 1,
             };
 		</script>
-		<script src="<?php echo $urlHelper->js("compiled/vendor"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("compiled/Sonoff"); ?>"></script>
-		<script src="<?php echo $urlHelper->js("compiled/app"); ?>"></script>
+		<script src="<?php echo $urlHelper->js('compiled/vendor'); ?>"></script>
+		<script src="<?php echo $urlHelper->js('compiled/Sonoff'); ?>"></script>
+		<script src="<?php echo $urlHelper->js('compiled/app'); ?>"></script>
 
 		
-		<link href="<?php echo $urlHelper->style("compiled/all"); ?>" rel="stylesheet">
+		<link href="<?php echo $urlHelper->style('compiled/all'); ?>" rel="stylesheet">
 		
-		<?php if (@file_exists(_RESOURCESDIR_ . "css/custom.css")): ?>
-			<link href="<?php echo $urlHelper->style("custom"); ?>" rel="stylesheet">
-		<?php endif; ?>
+		<?php if (@file_exists(_RESOURCESDIR_.'css/custom.css')) { ?>
+			<link href="<?php echo $urlHelper->style('custom'); ?>" rel="stylesheet">
+		<?php } ?>
 	
 	</head>
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
-				<?php //var_dump( $page );?>
-				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_ . $Config->read("homepage"); ?>'>
+				<?php // var_dump( $page );?>
+				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
 					<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
 				</a>
 				<button class="navbar-toggler"
@@ -75,90 +75,90 @@ $urlHelper = $container->get(UrlHelper::class);
 				
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
-						<?php if ($loggedin): ?>
-							<li class="nav-item <?php echo $page == "start" ? "active" : ""; ?>">
+						<?php if ($loggedin) { ?>
+							<li class="nav-item <?php echo 'start' == $page ? 'active' : ''; ?>">
 								<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
-								    "STARTPAGE",
-								    "NAVI"
+								    'STARTPAGE',
+								    'NAVI'
 								); ?></a>
 							</li>
-						<?php endif; ?>
+						<?php } ?>
 						
-						<?php if ($loggedin): ?>
+						<?php if ($loggedin) { ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle <?php echo in_array(
 								    $page,
 								    [
-								    "upload_form",
-								    "upload",
-								    "device_update",
-								    "devices",
-								    "device_config",
-								    "device_action",
-								    "devices_autoscan",
-								    "backup"
+								        'upload_form',
+								        'upload',
+								        'device_update',
+								        'devices',
+								        'device_config',
+								        'device_action',
+								        'devices_autoscan',
+								        'backup',
 								    ]
-								) ? "active" : ""; ?>"
+								) ? 'active' : ''; ?>"
 								   href="#"
 								   id="devicesDropdown"
 								   data-toggle="dropdown"
 								   aria-haspopup="false"
 								   aria-expanded="false"
 								>
-									<?php echo __("DEVICES", "NAVI"); ?>
+									<?php echo __('DEVICES', 'NAVI'); ?>
 								</a>
 								<div class="dropdown-menu bg-dark" aria-labelledby="devicesDropdown">
-									<a class="dropdown-item nav-link <?php echo $page == "devices" ? "active" : ""; ?>"
+									<a class="dropdown-item nav-link <?php echo 'devices' == $page ? 'active' : ''; ?>"
 									   href="<?php echo _BASEURL_; ?>devices"
 									>
-										<?php echo __("DEVICE_LIST", "NAVI"); ?>
+										<?php echo __('DEVICE_LIST', 'NAVI'); ?>
 									</a>
 									<a href='<?php echo _BASEURL_; ?>upload_form'
-									   class='dropdown-item nav-link <?php echo in_array($page, ["upload_form", "upload", "device_update"]) ? "active" : ""; ?>'
+									   class='dropdown-item nav-link <?php echo in_array($page, ['upload_form', 'upload', 'device_update']) ? 'active' : ''; ?>'
 									>
-										<?php echo __("UPDATE", "NAVI"); ?>
+										<?php echo __('UPDATE', 'NAVI'); ?>
 									</a>
 
-                                    <a class="dropdown-item nav-link <?php echo $page == "backup" ? "active" : ""; ?>"
+                                    <a class="dropdown-item nav-link <?php echo 'backup' == $page ? 'active' : ''; ?>"
                                        href="<?php echo _BASEURL_; ?>backup"
-                                    ><?php echo __("DEVICES_BACKUP", "NAVI"); ?>
+                                    ><?php echo __('DEVICES_BACKUP', 'NAVI'); ?>
                                     </a>
 									
-									<a class="dropdown-item nav-link <?php echo $page == "devices_autoscan" ? "active" : ""; ?>"
+									<a class="dropdown-item nav-link <?php echo 'devices_autoscan' == $page ? 'active' : ''; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"
 									>
-										<?php echo __("DEVICES_AUTOSCAN", "NAVI"); ?>
+										<?php echo __('DEVICES_AUTOSCAN', 'NAVI'); ?>
 									</a>
 								</div>
 							</li>
-						<?php endif; ?>
-						<?php if ($loggedin): ?>
+						<?php } ?>
+						<?php if ($loggedin) { ?>
 							<li class="nav-item">
-								<a class="nav-link <?php echo $page == "site_config" ? "active" : ""; ?>"
+								<a class="nav-link <?php echo 'site_config' == $page ? 'active' : ''; ?>"
 								   href='<?php echo _BASEURL_; ?>site_config'
 								>
-									<?php echo __("SETTINGS", "NAVI"); ?>
+									<?php echo __('SETTINGS', 'NAVI'); ?>
 								</a>
 							</li>
-						<?php endif; ?>
+						<?php } ?>
 						
-						<?php if ($loggedin && !$docker): ?>
+						<?php if ($loggedin && !$docker) { ?>
 							<li class="nav-item">
-								<a class="nav-link <?php echo $page == "selfupdate" ? "active" : ""; ?>"
+								<a class="nav-link <?php echo 'selfupdate' == $page ? 'active' : ''; ?>"
 								   href='<?php echo _BASEURL_; ?>selfupdate'
 								>
-									<?php echo __("SELFUPDATE", "NAVI"); ?>
+									<?php echo __('SELFUPDATE', 'NAVI'); ?>
 								</a>
 							</li>
-						<?php endif; ?>
+						<?php } ?>
 						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle <?php echo in_array(
 							    $page,
 							    [
-                                "chat",
-                                ($docker ? "selfupdate" : null),
-                                ]
-							) ? "active" : ""; ?>"
+							        'chat',
+							        $docker ? 'selfupdate' : null,
+							    ]
+							) ? 'active' : ''; ?>"
 							   href="#"
 							   id="helpDropdown"
 							   data-toggle="dropdown"
@@ -168,62 +168,62 @@ $urlHelper = $container->get(UrlHelper::class);
 								<i class='fa fa-question-circle'></i>
 							</a>
 							<div class="dropdown-menu bg-dark" aria-labelledby="helpDropdown">
-								<?php if ($docker): ?>
-									<a class="dropdown-item nav-link <?php echo $page == "selfupdate" ? "active"
-                            : ""; ?>"
+								<?php if ($docker) { ?>
+									<a class="dropdown-item nav-link <?php echo 'selfupdate' == $page ? 'active'
+                            : ''; ?>"
 									   href="<?php echo _BASEURL_; ?>selfupdate"
 									>
-										<?php echo __("HELP_CHANGELOG", "NAVI"); ?>
+										<?php echo __('HELP_CHANGELOG', 'NAVI'); ?>
 									</a>
-								<?php endif; ?>
+								<?php } ?>
 								<a href='https://tasmota.github.io/docs/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_TASDOCS", "NAVI"); ?>
+									<?php echo __('HELP_TASDOCS', 'NAVI'); ?>
 								</a>
 								<a href='https://tasmota.github.io/docs/Commands/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_TASCOMMANDS", "NAVI"); ?>
+									<?php echo __('HELP_TASCOMMANDS', 'NAVI'); ?>
 								</a>
 								<a href='https://templates.blakadder.com/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_TASTEMPLATES", "NAVI"); ?>
+									<?php echo __('HELP_TASTEMPLATES', 'NAVI'); ?>
 								</a>
 								<a href='https://tasmota.github.io/docs/Troubleshooting/' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_TASTROUBLESHOOTING", "NAVI"); ?>
+									<?php echo __('HELP_TASTROUBLESHOOTING', 'NAVI'); ?>
 								</a>
 								
 								<a href='https://discord.gg/Ks2Kzd4' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_DISCORD_TASMOTA", "NAVI"); ?>
+									<?php echo __('HELP_DISCORD_TASMOTA', 'NAVI'); ?>
 								</a>
 								<a href='https://discord.gg/Q6zPX3C' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
 								       []
-								   ) ? "active" : ""; ?>'
+								   ) ? 'active' : ''; ?>'
 								>
-									<?php echo __("HELP_DISCORD_TASMOADMIN", "NAVI"); ?>
+									<?php echo __('HELP_DISCORD_TASMOADMIN', 'NAVI'); ?>
 								</a>
 							
 							</div>
@@ -231,32 +231,32 @@ $urlHelper = $container->get(UrlHelper::class);
 					</ul>
 					<div class='my-2 my-sm-0 language-switch-holder'>
 						<select name='language-switch' id='language-switch' class='custom-select'>
-							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name): ?>
+							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
 								<option value='<?php echo $l; ?>'
-									<?php echo $lang === $l ? "selected=\"selected\"" : ""; ?>
+									<?php echo $lang === $l ? 'selected="selected"' : ''; ?>
 								>
 									<?php echo $name; ?>
 								</option>
-							<?php endforeach; ?>
+							<?php } ?>
 						</select>
 					</div>
-					<?php if ($loggedin): ?>
-						<?php if ($Config->read("login") == "1"): ?>
+					<?php if ($loggedin) { ?>
+						<?php if ('1' == $Config->read('login')) { ?>
 							<div class="my-2 my-lg-0 ml-0 ml-sm-3 ">
 								<a class="error"
 								   href='<?php echo _BASEURL_; ?>logout'
-								   title='<?php echo __("LOGOUT", "NAVI"); ?>'
+								   title='<?php echo __('LOGOUT', 'NAVI'); ?>'
 								>
 									<i class='fas fa-sign-out-alt fa-lg'></i>
 									<span class='d-inline d-sm-none'>
-										<?php echo __("LOGOUT", "NAVI"); ?>
+										<?php echo __('LOGOUT', 'NAVI'); ?>
 									</span>
 								</a>
 							</div>
-						<?php endif; ?>
-					<?php endif; ?>
+						<?php } ?>
+					<?php } ?>
 				</div>
 			</nav>
 		</header>
-        <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read("refreshtime"); ?>'>
+        <main class='container-fluid' id='content' data-refreshtime='<?php echo $Config->read('refreshtime'); ?>'>
             <div id='content-holder'>
