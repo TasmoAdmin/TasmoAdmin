@@ -32,4 +32,11 @@ class ResponseParserTest extends TestCase
         $result = $parser->processResult(TestUtils::loadFixture('response-invalid-v8500.json'));
         self::assertFalse(property_exists($result, 'ERROR'));
     }
+
+    public function testProcessResultv5100(): void
+    {
+        $parser = new ResponseParser();
+        $result = $parser->processResult(TestUtils::loadFixture('response-invalid-v5100.json'));
+        self::assertFalse(property_exists($result, 'ERROR'));
+    }
 }
