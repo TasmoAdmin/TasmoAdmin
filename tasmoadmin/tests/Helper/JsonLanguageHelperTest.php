@@ -4,8 +4,8 @@ namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
-use TasmoAdmin\Helper\JsonLanguageHelper;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Helper\JsonLanguageHelper;
 use Tests\TasmoAdmin\TestUtils;
 
 class JsonLanguageHelperTest extends TestCase

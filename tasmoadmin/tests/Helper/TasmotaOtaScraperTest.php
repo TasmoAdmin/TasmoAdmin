@@ -2,12 +2,12 @@
 
 namespace Tests\TasmoAdmin\Helper;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\HttpClient\MockHttpClient;
 use Symfony\Component\HttpClient\Response\MockResponse;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
-use PHPUnit\Framework\TestCase;
 use Tests\TasmoAdmin\TestUtils;
 
 class TasmotaOtaScraperTest extends TestCase
@@ -50,7 +50,6 @@ class TasmotaOtaScraperTest extends TestCase
     }
 }
 
-
 class MockClient extends MockHttpClient
 {
     private string $baseUri = 'https://ota.tasmota.com';
@@ -64,24 +63,23 @@ class MockClient extends MockHttpClient
 
     private function handleRequests(string $method, string $url): MockResponse
     {
-        if ($method === 'GET' && $url === 'https://ota.tasmota.com/tasmota/release/') {
+        if ('GET' === $method && 'https://ota.tasmota.com/tasmota/release/' === $url) {
             return $this->getFixtureResponse('stable.html');
         }
 
-        if ($method === 'GET' && $url === 'https://ota.tasmota.com/tasmota/') {
+        if ('GET' === $method && 'https://ota.tasmota.com/tasmota/' === $url) {
             return $this->getFixtureResponse('dev.html');
         }
 
-        if ($method === 'GET' && $url === 'https://ota.tasmota.com/tasmota32/release/') {
+        if ('GET' === $method && 'https://ota.tasmota.com/tasmota32/release/' === $url) {
             return $this->getFixtureResponse('stable_esp32.html');
         }
 
-        if ($method === 'GET' && $url === 'https://ota.tasmota.com/tasmota32/') {
+        if ('GET' === $method && 'https://ota.tasmota.com/tasmota32/' === $url) {
             return $this->getFixtureResponse('dev_esp32.html');
         }
 
-
-        throw new \UnexpectedValueException("Mock not implemented: $method $url");
+        throw new \UnexpectedValueException("Mock not implemented: {$method} {$url}");
     }
 
     private function getFixtureResponse(string $fixture): MockResponse

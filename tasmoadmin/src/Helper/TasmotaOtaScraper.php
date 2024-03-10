@@ -2,7 +2,6 @@
 
 namespace TasmoAdmin\Helper;
 
-use DateTime;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -15,7 +14,7 @@ class TasmotaOtaScraper
         'stable' => [
             self::ESP8266 => 'https://ota.tasmota.com/tasmota/release/',
             self::ESP32 => 'https://ota.tasmota.com/tasmota32/release/',
-            ],
+        ],
         'dev' => [
             self::ESP8266 => 'https://ota.tasmota.com/tasmota/',
             self::ESP32 => 'https://ota.tasmota.com/tasmota32/',
@@ -23,9 +22,9 @@ class TasmotaOtaScraper
     ];
 
     private const RULES = [
-      self::ESP8266 => [
-          'date_column' => 6,
-      ],
+        self::ESP8266 => [
+            'date_column' => 6,
+        ],
         self::ESP32 => [
             'date_column' => 4,
         ],
@@ -55,7 +54,7 @@ class TasmotaOtaScraper
     {
         $crawler = $this->client->request('GET', self::OTA_URLS[$this->updateChannel][$type]);
 
-        $firmwares =  $crawler->filter('table tr td:nth-child(2)')->each(function ($node) {
+        $firmwares = $crawler->filter('table tr td:nth-child(2)')->each(function ($node) {
             return new TasmotaFirmware(basename($node->text()), $node->text());
         });
 
@@ -66,12 +65,12 @@ class TasmotaOtaScraper
         }
 
         $version = $this->getVersion($crawler);
-        $publishDate =  $this->getPublishDate($crawler, $type);
+        $publishDate = $this->getPublishDate($crawler, $type);
 
         return new TasmotaFirmwareResult($version, $publishDate, $firmwares);
     }
 
-    private function getVersion(Crawler  $crawler): string
+    private function getVersion(Crawler $crawler): string
     {
         $text = $crawler->filter('h2')->innerText();
 
@@ -80,14 +79,14 @@ class TasmotaOtaScraper
         return $matches[1];
     }
 
-    private function getPublishDate(Crawler $crawler, string $type): DateTime
+    private function getPublishDate(Crawler $crawler, string $type): \DateTime
     {
         $dateColumn = self::RULES[$type]['date_column'];
 
-        $dates = $crawler->filter("table tr td:nth-child($dateColumn)")->each(function ($node) {
+        $dates = $crawler->filter("table tr td:nth-child({$dateColumn})")->each(function ($node) {
             return $node->text();
         });
 
-        return DateTime::createFromFormat('Ymd H:i', $dates[0]);
+        return \DateTime::createFromFormat('Ymd H:i', $dates[0]);
     }
 }

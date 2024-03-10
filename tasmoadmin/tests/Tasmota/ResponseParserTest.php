@@ -2,8 +2,8 @@
 
 namespace Tests\TasmoAdmin\Tasmota;
 
-use TasmoAdmin\Tasmota\ResponseParser;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Tasmota\ResponseParser;
 use Tests\TasmoAdmin\TestUtils;
 
 class ResponseParserTest extends TestCase
@@ -14,7 +14,7 @@ class ResponseParserTest extends TestCase
 
         $result = $parser->processResult('{"StatusNET":{"IP": "IP_ADDRESS"}}');
 
-        self::assertEquals("IP_ADDRESS", $result->StatusNET->IPAddress);
+        self::assertEquals('IP_ADDRESS', $result->StatusNET->IPAddress);
     }
 
     public function testProcessResultInvalid(): void

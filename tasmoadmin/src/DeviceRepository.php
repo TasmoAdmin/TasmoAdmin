@@ -36,27 +36,27 @@ class DeviceRepository
 
     public function addDevice(array $request): void
     {
-        $deviceUsername = $request["device_username"] ?? "";
-        $devicePassword = $request["device_password"] ?? "";
+        $deviceUsername = $request['device_username'] ?? '';
+        $devicePassword = $request['device_password'] ?? '';
         $this->addDevices([$request], $deviceUsername, $devicePassword);
     }
 
     public function addDevices(array $devices, string $deviceUsername, string $devicePassword): void
     {
-        $handle = fopen($this->file, "a");
+        $handle = fopen($this->file, 'a');
         $nextId = $this->getNextId();
         foreach ($devices as $device) {
             $deviceHolder = [];
             $deviceHolder[0] = $nextId++;
-            $deviceHolder[1] = implode("|", $device["device_name"] ?? []);
-            $deviceHolder[2] = $device["device_ip"] ?? "";
+            $deviceHolder[1] = implode('|', $device['device_name'] ?? []);
+            $deviceHolder[2] = $device['device_ip'] ?? '';
             $deviceHolder[3] = $deviceUsername;
             $deviceHolder[4] = $devicePassword;
-            $deviceHolder[5] = $device["device_img"] ?? "bulb_1";
-            $deviceHolder[6] = $device["device_position"] ?? "";
-            $deviceHolder[7] = $device["device_all_off"] ?? 1;
-            $deviceHolder[8] = $device["device_protect_on"] ?? 0;
-            $deviceHolder[9] = $device["device_protect_off"] ?? 0;
+            $deviceHolder[5] = $device['device_img'] ?? 'bulb_1';
+            $deviceHolder[6] = $device['device_position'] ?? '';
+            $deviceHolder[7] = $device['device_all_off'] ?? 1;
+            $deviceHolder[8] = $device['device_protect_on'] ?? 0;
+            $deviceHolder[9] = $device['device_protect_off'] ?? 0;
 
             fputcsv($handle, $deviceHolder);
         }
@@ -71,6 +71,7 @@ class DeviceRepository
         while (($line = fgetcsv($file)) !== false) {
             if ($line[0] == $id) {
                 $device = $this->createDeviceObject($line);
+
                 break;
             }
         }
@@ -111,16 +112,15 @@ class DeviceRepository
     public function setDeviceValue(int $id, string $field, $value = null): ?Device
     {
         $device = $this->getDeviceById($id);
-        if ($device === null) {
+        if (null === $device) {
             return null;
         }
-
 
         if (!in_array($field, $this->allowedUpdateFields, true)) {
             return null;
         }
 
-        $device->$field = $value;
+        $device->{$field} = $value;
 
         return $this->updateDevice($device);
     }
@@ -130,10 +130,10 @@ class DeviceRepository
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {
-            die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
+            exit(__('ERROR_CANNOT_READ_CSV_FILE', 'DEVICE_ACTIONS', ['csvFilePath' => _CSVFILE_]));
         }
         if (!$output = fopen($tempFile, 'w')) {
-            die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempFile]));
+            exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
         while (($data = fgetcsv($input)) !== false) {
@@ -154,12 +154,12 @@ class DeviceRepository
             return null;
         }
         $deviceArr[0] = $device->id;
-        $deviceArr[1] = implode("|", !empty($device->names) ? $device->names : []);
-        $deviceArr[2] = !empty($device->ip) ? $device->ip : "";
-        $deviceArr[3] = !empty($device->username) ? $device->username : "";
-        $deviceArr[4] = !empty($device->password) ? $device->password : "";
-        $deviceArr[5] = !empty($device->img) ? $device->img : "";
-        $deviceArr[6] = !empty($device->position) ? $device->position : "";
+        $deviceArr[1] = implode('|', !empty($device->names) ? $device->names : []);
+        $deviceArr[2] = !empty($device->ip) ? $device->ip : '';
+        $deviceArr[3] = !empty($device->username) ? $device->username : '';
+        $deviceArr[4] = !empty($device->password) ? $device->password : '';
+        $deviceArr[5] = !empty($device->img) ? $device->img : '';
+        $deviceArr[6] = !empty($device->position) ? $device->position : '';
         $deviceArr[7] = !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
         $deviceArr[8] = !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
         $deviceArr[9] = !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
@@ -172,10 +172,10 @@ class DeviceRepository
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {
-            die(__("ERROR_CANNOT_READ_CSV_FILE", "DEVICE_ACTIONS", ["csvFilePath" => _CSVFILE_]));
+            exit(__('ERROR_CANNOT_READ_CSV_FILE', 'DEVICE_ACTIONS', ['csvFilePath' => _CSVFILE_]));
         }
         if (!$output = fopen($tempFile, 'w')) {
-            die(__("ERROR_CANNOT_CREATE_TMP_FILE", "DEVICE_ACTIONS", ["tmpFilePath" => $tempFile]));
+            exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
         while (($data = fgetcsv($input)) !== false) {

@@ -24,18 +24,18 @@ class DeviceFactory
 
     public static function fromRequest(array $request): Device
     {
-        $device  = [];
-        $device[0] = $request["device_id"];
-        $device[1] = implode("|", $request["device_name"]);
-        $device[2] = $request["device_ip"];
-        $device[3] = $request["device_username"];
-        $device[4] = $request["device_password"];
-        $device[5] = $request["device_img"] ?? Device::DEFAULT_IMAGE;
-        $device[6] = $request["device_position"] ?? 0;
-        $device[7] = $request["device_all_off"] ?? 1;
-        $device[8] = $request["device_protect_on"] ?? 0;
-        $device[9] = $request["device_protect_off"] ?? 0;
-        $device[10] = $request["is_updatable"] ?? true;
+        $device = [];
+        $device[0] = $request['device_id'];
+        $device[1] = implode('|', $request['device_name']);
+        $device[2] = $request['device_ip'];
+        $device[3] = $request['device_username'];
+        $device[4] = $request['device_password'];
+        $device[5] = $request['device_img'] ?? Device::DEFAULT_IMAGE;
+        $device[6] = $request['device_position'] ?? 0;
+        $device[7] = $request['device_all_off'] ?? 1;
+        $device[8] = $request['device_protect_on'] ?? 0;
+        $device[9] = $request['device_protect_off'] ?? 0;
+        $device[10] = $request['is_updatable'] ?? true;
 
         return self::fromArray($device);
     }
@@ -46,7 +46,7 @@ class DeviceFactory
             return null;
         }
 
-        $array[1] = explode("|", $array[1] ?? '');
+        $array[1] = explode('|', $array[1] ?? '');
 
         $id = $array[0] ?? null;
         $names = $array[1];
@@ -61,11 +61,10 @@ class DeviceFactory
         $is_updatable = $array[10] ?? true;
 
         $keywords = [];
-        $keywords[] = count($names) > 1 ? "multi" : "single";
-        $keywords[] = "IP#" . $ip;
-        $keywords[] = "ID#" . $id;
-        $keywords[] = "POS#" . $position;
-
+        $keywords[] = count($names) > 1 ? 'multi' : 'single';
+        $keywords[] = 'IP#'.$ip;
+        $keywords[] = 'ID#'.$id;
+        $keywords[] = 'POS#'.$position;
 
         return new Device(
             $id,

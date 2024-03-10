@@ -18,7 +18,7 @@ class FirmwareDownloader
 
     public function download(string $url): string
     {
-        $downloadedPath = $this->path . basename($url);
+        $downloadedPath = $this->path.basename($url);
         $this->client->get($url, ['sink' => $downloadedPath]);
 
         return $downloadedPath;

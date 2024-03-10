@@ -1,12 +1,10 @@
 <?php
 
-
 class Result
 {
     private bool $isValid = true;
 
     private array $errors = [];
-
 
     public function addError(string $error): void
     {
@@ -18,7 +16,6 @@ class Result
     {
         return $this->isValid;
     }
-
 
     public function getErrors(): array
     {
@@ -32,16 +29,16 @@ class PreInstallChecks
     {
         $result = new Result();
 
-        if(!function_exists("curl_init")) {
-            $result->addError("ERROR: PHP cURL is missing.");
+        if (!function_exists('curl_init')) {
+            $result->addError('ERROR: PHP cURL is missing.');
         }
 
-        if(!class_exists("ZipArchive")) {
-            $result->addError("ERROR: PHP Zip is missing.");
+        if (!class_exists('ZipArchive')) {
+            $result->addError('ERROR: PHP Zip is missing.');
         }
 
-        if(!class_exists("DOMElement")) {
-            $result->addError("ERROR: PHP XML is missing.");
+        if (!class_exists('DOMElement')) {
+            $result->addError('ERROR: PHP XML is missing.');
         }
 
         if (PHP_VERSION_ID < 80100) {
@@ -51,6 +48,5 @@ class PreInstallChecks
         return $result;
     }
 }
-
 
 return new PreInstallChecks();

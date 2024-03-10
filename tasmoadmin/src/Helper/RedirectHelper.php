@@ -6,7 +6,6 @@ class RedirectHelper
 {
     private string $basePath;
 
-
     public function __construct(string $basePath)
     {
         $this->basePath = $basePath;

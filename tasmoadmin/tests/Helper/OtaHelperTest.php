@@ -4,9 +4,9 @@ namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\OtaHelper;
-use PHPUnit\Framework\TestCase;
 
 class OtaHelperTest extends TestCase
 {
@@ -19,7 +19,7 @@ class OtaHelperTest extends TestCase
 
     public function testGetFirmwareUrl(): void
     {
-        $config = new Config($this->root->url() . '/', $this->root->url() . '/');
+        $config = new Config($this->root->url().'/', $this->root->url().'/');
         $config->write('ota_server_ip', '192.168.1.1');
         $config->write('ota_server_port', '8080');
 

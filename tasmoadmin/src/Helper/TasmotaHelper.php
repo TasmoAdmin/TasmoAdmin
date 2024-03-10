@@ -4,18 +4,16 @@ namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use InvalidArgumentException;
-use Parsedown;
 use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
 {
     private const CHANGELOG_URLS = [
-      'dev' =>  'https://raw.githubusercontent.com/arendst/Tasmota/development/CHANGELOG.md',
-      'stable' =>  'https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md',
+        'dev' => 'https://raw.githubusercontent.com/arendst/Tasmota/development/CHANGELOG.md',
+        'stable' => 'https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md',
     ];
 
-    private Parsedown $markDownParser;
+    private \Parsedown $markDownParser;
 
     private Client $client;
 
@@ -24,7 +22,7 @@ class TasmotaHelper
     private string $channel;
 
     public function __construct(
-        Parsedown $markDownParser,
+        \Parsedown $markDownParser,
         Client $client,
         TasmotaOtaScraper $tasmotaOtaScraper,
         string $channel
@@ -38,31 +36,28 @@ class TasmotaHelper
     public function getReleaseNotes(): string
     {
         $releaseLog = $this->getContents('https://raw.githubusercontent.com/arendst/Tasmota/development/RELEASENOTES.md');
-        $releaseLog = str_replace(["*/", "/*", " *\n"], ["", "", ""], $releaseLog);
+        $releaseLog = str_replace(['*/', '/*', " *\n"], ['', '', ''], $releaseLog);
         $releaseLog = str_replace(
-            "https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
-            "https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
+            'https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg',
+            'https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg',
             $releaseLog
         );
         $releaseLog = $this->markDownParser->parse($releaseLog);
         $releaseLog = $this->replaceIssuesWithUrls($releaseLog);
-        $releaseLog = str_replace(
-            "https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
-            "https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg",
+
+        return str_replace(
+            'https://github.com/arendst/Tasmota/blob/master/tools/logo/TASMOTA_FullLogo_Vector.svg',
+            'https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg',
             $releaseLog
         );
-
-        return $releaseLog;
     }
-
 
     public function getChangelog(): string
     {
         $changeLog = $this->getContents(self::CHANGELOG_URLS[$this->channel]);
         $changeLog = $this->markDownParser->parse($changeLog);
-        $changeLog = $this->replaceIssuesWithUrls($changeLog);
 
-        return $changeLog;
+        return $this->replaceIssuesWithUrls($changeLog);
     }
 
     public function getReleases(): array
@@ -72,11 +67,11 @@ class TasmotaHelper
         $tasmotaReleases = [];
         foreach ($firmwareResults as $firmwareResult) {
             foreach ($firmwareResult->getFirmwares() as $asset) {
-                if (str_contains($asset->getName(), "-minimal.bin")) {
+                if (str_contains($asset->getName(), '-minimal.bin')) {
                     continue;
                 }
 
-                $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), "."));
+                $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), '.'));
             }
         }
 
@@ -101,13 +96,13 @@ class TasmotaHelper
     {
         $firmwareResult = $this->tasmotaOtaScraper->getEsp32Firmware();
         foreach ($firmwareResult->getFirmwares() as $asset) {
-            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin") {
+            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME).'.bin') {
                 $fwUrl = $asset->getUrl();
             }
         }
 
         if (!isset($fwUrl)) {
-            throw new InvalidArgumentException('Failed to resolve firmware');
+            throw new \InvalidArgumentException('Failed to resolve firmware');
         }
 
         return new AutoFirmwareResult($fwUrl, null, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
@@ -117,16 +112,16 @@ class TasmotaHelper
     {
         $firmwareResult = $this->tasmotaOtaScraper->getEsp8266Firmware();
         foreach ($firmwareResult->getFirmwares() as $asset) {
-            if ($asset->getName() === "tasmota-minimal.bin.gz") {
+            if ('tasmota-minimal.bin.gz' === $asset->getName()) {
                 $fwMinimalUrl = $asset->getUrl();
             }
-            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME) . ".bin.gz") {
+            if ($asset->getName() === pathinfo($configuredFirmware, PATHINFO_FILENAME).'.bin.gz') {
                 $fwUrl = $asset->getUrl();
             }
         }
 
         if (!isset($fwUrl, $fwMinimalUrl)) {
-            throw new InvalidArgumentException('Failed to resolve firmware');
+            throw new \InvalidArgumentException('Failed to resolve firmware');
         }
 
         return new AutoFirmwareResult($fwUrl, $fwMinimalUrl, $firmwareResult->getVersion(), $firmwareResult->getPublishDate());
@@ -135,7 +130,8 @@ class TasmotaHelper
     private function getContents(string $url): string
     {
         try {
-            $url = "{$url}?r=" . time();
+            $url = "{$url}?r=".time();
+
             return $this->client->get($url)->getBody()->getContents();
         } catch (GuzzleException $exception) {
             return sprintf('Failed to load %s - %s', $url, $exception->getMessage());
@@ -144,10 +140,11 @@ class TasmotaHelper
 
     private function replaceIssuesWithUrls(string $content): string
     {
-        $tasmotaIssueUrl = "https://github.com/arendst/Tasmota/issues/";
+        $tasmotaIssueUrl = 'https://github.com/arendst/Tasmota/issues/';
+
         return preg_replace(
-            "/\B#([\d]+)/",
-            "<a href='$tasmotaIssueUrl$1' target='_blank'>#$1</a>",
+            '/\\B#([\\d]+)/',
+            "<a href='{$tasmotaIssueUrl}$1' target='_blank'>#$1</a>",
             $content
         );
     }

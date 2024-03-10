@@ -2,8 +2,6 @@
 
 namespace TasmoAdmin\Backup;
 
-use Generator;
-
 class BackupResults
 {
     /**
@@ -15,12 +13,14 @@ class BackupResults
     {
         $this->results = $results;
     }
+
     public function successful(): bool
     {
         $successful = true;
         foreach ($this->results as $result) {
             if (!$result->isSuccessful()) {
                 $successful = false;
+
                 break;
             }
         }
