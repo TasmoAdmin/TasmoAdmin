@@ -7,6 +7,14 @@ use TasmoAdmin\DeviceFactory;
 
 class DeviceFactoryTest extends TestCase
 {
+    public function testFakeDevice(): void
+    {
+        $device = DeviceFactory::fakeDevice('192.168.1.1', 'user', 'pass');
+        self::assertEquals('192.168.1.1', $device->ip);
+        self::assertEquals('user', $device->username);
+        self::assertEquals('pass', $device->password);
+    }
+
     public function testFromArrayEmpty(): void
     {
         self::assertNull(DeviceFactory::fromArray([]));
@@ -38,9 +46,31 @@ class DeviceFactoryTest extends TestCase
         $device = DeviceFactory::fromRequest($request);
         self::assertEquals(1, $device->id);
         self::assertEquals(['socket-1'], $device->names);
+        self::assertEquals('socket-1', $device->getName());
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
         self::assertEquals('single', $device->keywords[0]);
+    }
+
+    public function testFromRequestMultipleNames(): void
+    {
+        $request = [
+            'device_id' => 1,
+            'device_name' => ['socket-1', 'socket-2'],
+            'device_ip' => '192.168.1.1',
+            'device_username' => 'user',
+            'device_password' => 'pass',
+            'device_position' => '',
+        ];
+
+        $device = DeviceFactory::fromRequest($request);
+        self::assertEquals(1, $device->id);
+        self::assertEquals(['socket-1', 'socket-2'], $device->names);
+        self::assertEquals('socket-1-socket-2', $device->getName());
+        self::assertEquals('192.168.1.1', $device->ip);
+        self::assertEquals('user', $device->username);
+        self::assertEquals('pass', $device->password);
+        self::assertEquals('multi', $device->keywords[0]);
     }
 }

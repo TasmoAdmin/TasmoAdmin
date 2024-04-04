@@ -12,13 +12,6 @@ class DeviceFactory
             $ip,
             $username,
             $password,
-            Device::DEFAULT_IMAGE,
-            1,
-            1,
-            0,
-            0,
-            [],
-            true
         );
     }
 
