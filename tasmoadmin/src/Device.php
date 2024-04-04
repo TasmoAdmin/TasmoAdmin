@@ -25,12 +25,12 @@ class Device
         string $ip,
         string $username,
         string $password,
-        string $img,
-        int $position,
-        int $deviceAllOff,
-        int $deviceProtectionOn,
-        int $deviceProtectionOff,
-        array $keywords,
+        string $img = self::DEFAULT_IMAGE,
+        int $position = 1,
+        int $deviceAllOff = 1,
+        int $deviceProtectionOn = 0,
+        int $deviceProtectionOff = 0,
+        array $keywords = [],
         bool $isUpdatable = true
     ) {
         $this->id = $id;
