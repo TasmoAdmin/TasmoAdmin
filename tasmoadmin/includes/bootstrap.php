@@ -71,9 +71,7 @@ if (file_exists(_APPROOT_.'.dockerenv')) {
 }
 
 $Config = $container->get(Config::class);
-$Sonoff = $container->get(Sonoff::class);
 $i18n = $container->get(i18n::class);
-
 $i18n->setCachePath(_TMPDIR_.'cache/i18n/');
 $i18n->setFilePath(_LANGDIR_.'{LANGUAGE}/lang.ini'); // language file path
 $i18n->setFallbackLang('en');
@@ -97,7 +95,7 @@ if ((isset($_SESSION['login']) && '1' == $_SESSION['login']) || '0' == $Config->
     $loggedin = true;
 }
 
-function __($string, $category = null, $args = null)
+function __(string $string, ?string $category = null, array $args = null)
 {
     $cat = '';
     if (isset($category) && !empty($category)) {
