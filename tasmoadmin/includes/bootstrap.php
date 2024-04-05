@@ -52,7 +52,6 @@ require_once _APPROOT_.'vendor/autoload.php';
 use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\JsonLanguageHelper;
-use TasmoAdmin\Sonoff;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
