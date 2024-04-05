@@ -95,7 +95,7 @@ if ((isset($_SESSION['login']) && '1' == $_SESSION['login']) || '0' == $Config->
     $loggedin = true;
 }
 
-function __(string $string, ?string $category = null, array $args = null)
+function __(string $string, ?string $category = null, ?array $args = null)
 {
     $cat = '';
     if (isset($category) && !empty($category)) {
