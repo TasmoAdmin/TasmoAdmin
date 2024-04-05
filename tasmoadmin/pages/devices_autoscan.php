@@ -1,12 +1,13 @@
 <?php
 
+use TasmoAdmin\Config;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
-
+$Config = $container->get(Config::class);
 
 $status       = false;
 $devices      = null;
@@ -71,7 +72,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
 
         } elseif (isset($_REQUEST["save_all"])) {
-            $deviceRepository = new DeviceRepository(_CSVFILE_, _TMPDIR_);
+            $deviceRepository = $container->get(DeviceRepository::class);
             $deviceUsername = $_REQUEST["device_username"] ?? "";
             $devicePassword = $_REQUEST["device_password"] ?? "";
             $deviceRepository->addDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
