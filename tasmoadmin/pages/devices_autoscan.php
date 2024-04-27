@@ -16,8 +16,6 @@ $msg          = null;
 $action       = "";
 $error        = false;
 
-var_dump($_REQUEST);
-
 if (isset($_REQUEST) && !empty($_REQUEST)) {
     try {
         if (isset($_REQUEST["search"])) {
