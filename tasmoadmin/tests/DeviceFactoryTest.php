@@ -9,10 +9,11 @@ class DeviceFactoryTest extends TestCase
 {
     public function testFakeDevice(): void
     {
-        $device = DeviceFactory::fakeDevice('192.168.1.1', 'user', 'pass');
+        $device = DeviceFactory::fakeDevice('192.168.1.1', 5000, 'user', 'pass');
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
+        self::assertEquals(5000, $device->port);
     }
 
     public function testFromArrayEmpty(): void
