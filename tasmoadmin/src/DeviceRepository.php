@@ -58,7 +58,7 @@ class DeviceRepository
             $deviceHolder[8] = $device['device_protect_on'] ?? 0;
             $deviceHolder[9] = $device['device_protect_off'] ?? 0;
             $deviceHolder[10] = true;
-            $deviceHolder[11] = $device['port'] ?? Device::DEFAULT_PORT;
+            $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
 
             fputcsv($handle, $deviceHolder);
         }

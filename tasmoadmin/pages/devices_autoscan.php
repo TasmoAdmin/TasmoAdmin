@@ -275,13 +275,13 @@ $port = $Config->read('port');
                             <input type="text"
                                    class="form-control disabled"
                                    id="device_port_fake"
-                                   name='devices[<?php echo $idx; ?>][port]'
+                                   name='devices[<?php echo $idx; ?>][device_port]'
                                    placeholder="<?php echo __("PLEASE_ENTER"); ?>"
                                    value='<?php echo $port; ?>'
                                    disabled required
                             >
                             <input type='hidden'
-                                   name='devices[<?php echo $idx; ?>][port]'
+                                   name='devices[<?php echo $idx; ?>][device_port]'
                                    value='<?php echo $port; ?>'
                             >
                             <small id="device_portHelp" class="form-text text-muted">

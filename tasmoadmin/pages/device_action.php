@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
@@ -142,7 +143,7 @@ if (!empty($_POST)) {
                                placeholder="<?php echo __("PLEASE_ENTER"); ?>"
                                value='<?php echo(isset($device->port) && !isset($_REQUEST['device_port'])
                                        ? $device->port : (isset($_REQUEST['device_port']) ? $_REQUEST['device_port']
-                                               : "")); ?>'
+                                               : Device::DEFAULT_PORT)); ?>'
                                required
                         >
                         <small id="device_portHelp" class="form-text text-muted">
