@@ -165,7 +165,8 @@ class DeviceRepository
         $deviceArr[7] = !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
         $deviceArr[8] = !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
         $deviceArr[9] = !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
-        $deviceArr[10] = $device->isUpdatable;
+        $deviceArr[10] = !empty($device->isUpdatable) ? $device->isUpdatable : 0;
+        $deviceArr[11] = $device->port;
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);

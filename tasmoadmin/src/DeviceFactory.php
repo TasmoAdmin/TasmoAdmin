@@ -30,7 +30,7 @@ class DeviceFactory
         $device[8] = $request['device_protect_on'] ?? 0;
         $device[9] = $request['device_protect_off'] ?? 0;
         $device[10] = $request['is_updatable'] ?? true;
-        $device[11] = $request['port'] ?? Device::DEFAULT_PORT;
+        $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
 
         return self::fromArray($device);
     }
