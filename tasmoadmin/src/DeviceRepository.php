@@ -57,6 +57,8 @@ class DeviceRepository
             $deviceHolder[7] = $device['device_all_off'] ?? 1;
             $deviceHolder[8] = $device['device_protect_on'] ?? 0;
             $deviceHolder[9] = $device['device_protect_off'] ?? 0;
+            $deviceHolder[10] = $device['is_updatable'] ?? 1;
+            $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
 
             fputcsv($handle, $deviceHolder);
         }
@@ -163,7 +165,8 @@ class DeviceRepository
         $deviceArr[7] = !empty($device->deviceAllOff) ? $device->deviceAllOff : 0;
         $deviceArr[8] = !empty($device->deviceProtectionOn) ? $device->deviceProtectionOn : 0;
         $deviceArr[9] = !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
-        $deviceArr[10] = $device->isUpdatable;
+        $deviceArr[10] = !empty($device->isUpdatable) ? $device->isUpdatable : 0;
+        $deviceArr[11] = $device->port;
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);

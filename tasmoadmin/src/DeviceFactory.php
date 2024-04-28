@@ -4,7 +4,7 @@ namespace TasmoAdmin;
 
 class DeviceFactory
 {
-    public static function fakeDevice(string $ip, string $username, string $password): Device
+    public static function fakeDevice(string $ip, int $port, string $username, string $password): Device
     {
         return new Device(
             null,
@@ -12,6 +12,7 @@ class DeviceFactory
             $ip,
             $username,
             $password,
+            port: $port
         );
     }
 
@@ -29,6 +30,7 @@ class DeviceFactory
         $device[8] = $request['device_protect_on'] ?? 0;
         $device[9] = $request['device_protect_off'] ?? 0;
         $device[10] = $request['is_updatable'] ?? true;
+        $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
 
         return self::fromArray($device);
     }
@@ -52,6 +54,7 @@ class DeviceFactory
         $device_protect_on = $array[8] ?? 0;
         $device_protect_off = $array[9] ?? 0;
         $is_updatable = $array[10] ?? true;
+        $port = $array[11] ?? Device::DEFAULT_PORT;
 
         $keywords = [];
         $keywords[] = count($names) > 1 ? 'multi' : 'single';
@@ -67,11 +70,12 @@ class DeviceFactory
             $password,
             $img,
             (int) $position,
-            $device_all_off,
-            $device_protect_on,
-            $device_protect_off,
+            (int) $device_all_off,
+            (int) $device_protect_on,
+            (int) $device_protect_off,
             $keywords,
-            $is_updatable
+            (bool) $is_updatable,
+            (int) $port,
         );
     }
 }

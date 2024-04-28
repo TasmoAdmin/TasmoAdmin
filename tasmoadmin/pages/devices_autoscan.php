@@ -16,12 +16,12 @@ $msg          = null;
 $action       = "";
 $error        = false;
 
-
 if (isset($_REQUEST) && !empty($_REQUEST)) {
     try {
         if (isset($_REQUEST["search"])) {
             $fromip = $_REQUEST["from_ip"];
             $toip = $_REQUEST["to_ip"];
+            $port = $_REQUEST["port"];
 
 
             $ipHelper = new IpHelper();
@@ -34,11 +34,13 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
             $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
             $Config->write("scan_from_ip", $fromip);
             $Config->write("scan_to_ip", $toip);
+            $Config->write("port", $port);
 
             $urls = [];
             foreach ($ips as $ip) {
                 $fakeDevice = DeviceFactory::fakeDevice(
                     $ip,
+                    $port,
                     $_REQUEST["device_username"] ?? "",
                     $_REQUEST["device_password"] ?? ""
                 );
@@ -87,6 +89,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
 $scanFromIp = $Config->read('scan_from_ip');
 $scanToIp = $Config->read('scan_to_ip');
+$port = $Config->read('port');
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -127,7 +130,7 @@ $scanToIp = $Config->read('scan_to_ip');
         >
 
             <div class="form-row">
-                <div class="form-group col col-12 col-sm-6">
+                <div class="form-group col col-12 col-sm-4">
                     <label for="from_ip">
                         <?php echo __("FROM_IP", "DEVICES_AUTOSCAN"); ?>
                     </label>
@@ -144,7 +147,7 @@ $scanToIp = $Config->read('scan_to_ip');
                         <?php echo __("FROM_IP_HELP", "DEVICES_AUTOSCAN"); ?>
                     </small>
                 </div>
-                <div class="form-group col col-12 col-sm-6">
+                <div class="form-group col col-12 col-sm-4">
                     <label for="to_ip">
                         <?php echo __("TO_IP", "DEVICES_AUTOSCAN"); ?>
                     </label>
@@ -158,6 +161,22 @@ $scanToIp = $Config->read('scan_to_ip');
                     >
                     <small id="from_ipHelp" class="form-text text-muted">
                         <?php echo __("TO_IP_HELP", "DEVICES_AUTOSCAN"); ?>
+                    </small>
+                </div>
+                <div class="form-group col col-12 col-sm-4">
+                    <label for="port">
+                        <?php echo __("PORT", "DEVICES_AUTOSCAN"); ?>
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           id="port"
+                           name='port'
+                           placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                           value='<?php echo $port; ?>'
+                           required
+                    >
+                    <small id="from_ipHelp" class="form-text text-muted">
+                        <?php echo __("PORT_HELP", "DEVICES_AUTOSCAN"); ?>
                     </small>
                 </div>
             </div>
@@ -227,7 +246,7 @@ $scanToIp = $Config->read('scan_to_ip');
                     </h3>
                     <div class="form-row">
                         <div class="form-group col col-12 col-sm-12">
-                            <label for="device_ip">
+                            <label for="device_ip_fake">
                                 <?php echo __("DEVICE_IP", "DEVICE_ACTIONS"); ?>
                             </label>
                             <input type="text"
@@ -244,6 +263,29 @@ $scanToIp = $Config->read('scan_to_ip');
                             >
                             <small id="device_ipHelp" class="form-text text-muted">
                                 <?php echo __("DEVICE_IP_HELP", "DEVICE_ACTIONS"); ?>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col col-12 col-sm-12">
+                            <label for="device_port">
+                                <?php echo __("DEVICE_PORT", "DEVICE_ACTIONS"); ?>
+                            </label>
+                            <input type="text"
+                                   class="form-control disabled"
+                                   id="device_port_fake"
+                                   name='devices[<?php echo $idx; ?>][device_port]'
+                                   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                                   value='<?php echo $port; ?>'
+                                   disabled required
+                            >
+                            <input type='hidden'
+                                   name='devices[<?php echo $idx; ?>][device_port]'
+                                   value='<?php echo $port; ?>'
+                            >
+                            <small id="device_portHelp" class="form-text text-muted">
+                                <?php echo __("DEVICE_PORT_HELP", "DEVICE_ACTIONS"); ?>
                             </small>
                         </div>
                     </div>

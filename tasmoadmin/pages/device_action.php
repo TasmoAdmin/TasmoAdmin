@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 
@@ -33,11 +34,13 @@ if (!empty($_POST)) {
             if (!isset($device)) {
                 $device = DeviceFactory::fakeDevice(
                     $_REQUEST['device_ip'],
+                    $_REQUEST['device_port'],
                     $_REQUEST['device_username'],
                     $_REQUEST['device_password']
                 );
             }
-            $device->ip       = $_REQUEST['device_ip'];
+            $device->ip = $_REQUEST['device_ip'];
+            $device->port = $_REQUEST['device_port'];
             $device->username = $_REQUEST['device_username'];
             $device->password = $_REQUEST['device_password'];
 
@@ -109,7 +112,7 @@ if (!empty($_POST)) {
 				
 				
 				<div class="form-row">
-					<div class="form-group col col-12 col-sm-9">
+					<div class="form-group col col-12 col-sm-6">
 						<label for="device_ip">
 							<?php echo __("DEVICE_IP", "DEVICE_ACTIONS"); ?>
 						</label>
@@ -128,6 +131,25 @@ if (!empty($_POST)) {
 							<?php echo __("DEVICE_IP_HELP", "DEVICE_ACTIONS"); ?>
 						</small>
 					</div>
+                    <div class="form-group col col-12 col-sm-3">
+                        <label for="device_port">
+                            <?php echo __("DEVICE_PORT", "DEVICE_ACTIONS"); ?>
+                        </label>
+                        <input type="text"
+                               autofocus="autofocus"
+                               class="form-control"
+                               id="device_port"
+                               name='device_port'
+                               placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                               value='<?php echo(isset($device->port) && !isset($_REQUEST['device_port'])
+                                       ? $device->port : (isset($_REQUEST['device_port']) ? $_REQUEST['device_port']
+                                               : Device::DEFAULT_PORT)); ?>'
+                               required
+                        >
+                        <small id="device_portHelp" class="form-text text-muted">
+                            <?php echo __("DEVICE_PORT_HELP", "DEVICE_ACTIONS"); ?>
+                        </small>
+                    </div>
 					<div class="form-group col col-12 col-sm-3">
 						<label class="d-none d-sm-block">&nbsp;</label>
 						<button type='submit'

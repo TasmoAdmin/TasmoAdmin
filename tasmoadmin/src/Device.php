@@ -5,10 +5,12 @@ namespace TasmoAdmin;
 class Device
 {
     public const DEFAULT_IMAGE = 'bulb_1';
+    public const DEFAULT_PORT = 80;
 
     public ?int $id;
     public array $names;
     public string $ip;
+    public int $port;
     public string $username;
     public string $password;
     public string $img;
@@ -31,11 +33,13 @@ class Device
         int $deviceProtectionOn = 0,
         int $deviceProtectionOff = 0,
         array $keywords = [],
-        bool $isUpdatable = true
+        bool $isUpdatable = true,
+        int $port = self::DEFAULT_PORT
     ) {
         $this->id = $id;
         $this->names = $names;
         $this->ip = $ip;
+        $this->port = $port;
         $this->username = $username;
         $this->password = $password;
         $this->img = $img;

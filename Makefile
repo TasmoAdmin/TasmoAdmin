@@ -30,6 +30,11 @@ package: clean
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
+quality:
+	cd tasmoadmin; ./vendor/bin/php-cs-fixer fix
+	cd tasmoadmin; ./vendor/bin/phpunit
+	cd tasmoadmin; php -d memory_limit=4G ./vendor/bin/phpstan
+
 dev:
 	./.docker/docker.sh prepare
 	composer install -d tasmoadmin

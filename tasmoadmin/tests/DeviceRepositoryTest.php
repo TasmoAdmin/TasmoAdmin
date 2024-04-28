@@ -95,6 +95,8 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(1, $repo->getDevices());
         $device = $repo->getDevices()[0];
         self::assertEquals(['socket-1'], $device->names);
+        self::assertTrue($device->isUpdatable);
+        self::assertEquals(80, $device->port);
     }
 
     public function testGetDeviceByIdValid(): void
@@ -109,6 +111,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals('password', $device->password);
         self::assertEquals('bulb_1', $device->img);
         self::assertEquals(2, $device->position);
+        self::assertEquals(5000, $device->port);
     }
 
     public function testGetDeviceByIdInvalidId(): void

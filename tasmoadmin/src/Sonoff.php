@@ -440,7 +440,7 @@ class Sonoff
         $queryParams += $args;
         $queryString = '?'.http_build_query($queryParams);
 
-        return sprintf('http://%s/%s%s', $device->ip, $endpoint, $queryString);
+        return sprintf('http://%s:%s/%s%s', $device->ip, $device->port, $endpoint, $queryString);
     }
 
     private function buildBasicAuthUrl(Device $device, string $endpoint, array $args = []): string

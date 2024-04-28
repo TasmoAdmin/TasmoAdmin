@@ -28,7 +28,15 @@ class SonoffTest extends TestCase
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
         $sonoff = new Sonoff($this->getTestDeviceRepository());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
-        self::assertEquals('http://192.168.1.1/cm?user=user&password=pass&cmnd=status+0', $url);
+        self::assertEquals('http://192.168.1.1:80/cm?user=user&password=pass&cmnd=status+0', $url);
+    }
+
+    public function testbuildCmndUrlNonStandardPort(): void
+    {
+        $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass', null, null, null, null, null, null, 5000]);
+        $sonoff = new Sonoff($this->getTestDeviceRepository());
+        $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
+        self::assertEquals('http://192.168.1.1:5000/cm?user=user&password=pass&cmnd=status+0', $url);
     }
 
     public function testbuildCmndUrlNoCredentials(): void
@@ -36,7 +44,7 @@ class SonoffTest extends TestCase
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1']);
         $sonoff = new Sonoff($this->getTestDeviceRepository());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
-        self::assertEquals('http://192.168.1.1/cm?cmnd=status+0', $url);
+        self::assertEquals('http://192.168.1.1:80/cm?cmnd=status+0', $url);
     }
 
     public function testGetAllStatusValid(): void
