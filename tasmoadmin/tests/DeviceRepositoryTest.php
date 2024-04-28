@@ -109,6 +109,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals('password', $device->password);
         self::assertEquals('bulb_1', $device->img);
         self::assertEquals(2, $device->position);
+        self::assertEquals(5000, $device->port);
     }
 
     public function testGetDeviceByIdInvalidId(): void

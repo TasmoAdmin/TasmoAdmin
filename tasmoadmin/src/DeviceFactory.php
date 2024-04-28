@@ -30,6 +30,7 @@ class DeviceFactory
         $device[8] = $request['device_protect_on'] ?? 0;
         $device[9] = $request['device_protect_off'] ?? 0;
         $device[10] = $request['is_updatable'] ?? true;
+        $device[11] = $request['port'] ?? Device::DEFAULT_PORT;
 
         return self::fromArray($device);
     }
@@ -69,12 +70,12 @@ class DeviceFactory
             $password,
             $img,
             (int) $position,
-            $device_all_off,
-            $device_protect_on,
-            $device_protect_off,
+            (int) $device_all_off,
+            (int) $device_protect_on,
+            (int) $device_protect_off,
             $keywords,
-            $is_updatable,
-            $port,
+            (bool) $is_updatable,
+            (int) $port,
         );
     }
 }

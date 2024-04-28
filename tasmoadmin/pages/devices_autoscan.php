@@ -89,7 +89,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
 $scanFromIp = $Config->read('scan_from_ip');
 $scanToIp = $Config->read('scan_to_ip');
-$port = $Config->read('port');;
+$port = $Config->read('port');
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -246,7 +246,7 @@ $port = $Config->read('port');;
                     </h3>
                     <div class="form-row">
                         <div class="form-group col col-12 col-sm-12">
-                            <label for="device_ip">
+                            <label for="device_ip_fake">
                                 <?php echo __("DEVICE_IP", "DEVICE_ACTIONS"); ?>
                             </label>
                             <input type="text"
@@ -263,6 +263,29 @@ $port = $Config->read('port');;
                             >
                             <small id="device_ipHelp" class="form-text text-muted">
                                 <?php echo __("DEVICE_IP_HELP", "DEVICE_ACTIONS"); ?>
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col col-12 col-sm-12">
+                            <label for="device_port">
+                                <?php echo __("DEVICE_PORT", "DEVICE_ACTIONS"); ?>
+                            </label>
+                            <input type="text"
+                                   class="form-control disabled"
+                                   id="device_port_fake"
+                                   name='devices[<?php echo $idx; ?>][port]'
+                                   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                                   value='<?php echo $port; ?>'
+                                   disabled required
+                            >
+                            <input type='hidden'
+                                   name='devices[<?php echo $idx; ?>][port]'
+                                   value='<?php echo $port; ?>'
+                            >
+                            <small id="device_portHelp" class="form-text text-muted">
+                                <?php echo __("DEVICE_PORT_HELP", "DEVICE_ACTIONS"); ?>
                             </small>
                         </div>
                     </div>
