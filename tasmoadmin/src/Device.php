@@ -15,9 +15,9 @@ class Device
     public string $password;
     public string $img;
     public int $position;
-    public int $deviceAllOff;
-    public int $deviceProtectionOn;
-    public int $deviceProtectionOff;
+    public bool $deviceAllOff;
+    public bool $deviceProtectionOn;
+    public bool $deviceProtectionOff;
     public array $keywords;
     public bool $isUpdatable;
 
@@ -29,9 +29,9 @@ class Device
         string $password,
         string $img = self::DEFAULT_IMAGE,
         int $position = 1,
-        int $deviceAllOff = 1,
-        int $deviceProtectionOn = 0,
-        int $deviceProtectionOff = 0,
+        bool $deviceAllOff = true,
+        bool $deviceProtectionOn = false,
+        bool $deviceProtectionOff = false,
         array $keywords = [],
         bool $isUpdatable = true,
         int $port = self::DEFAULT_PORT
@@ -71,6 +71,6 @@ class Device
             $auth = sprintf('%s:%s@', $this->username, $this->password);
         }
 
-        return sprintf('http://%s%s', $auth, $this->ip);
+        return sprintf('http://%s%s:%s', $auth, $this->ip, $this->port);
     }
 }
