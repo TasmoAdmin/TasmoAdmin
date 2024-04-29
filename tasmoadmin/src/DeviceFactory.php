@@ -26,9 +26,9 @@ class DeviceFactory
         $device[4] = $request['device_password'];
         $device[5] = $request['device_img'] ?? Device::DEFAULT_IMAGE;
         $device[6] = $request['device_position'] ?? 0;
-        $device[7] = $request['device_all_off'] ?? 1;
-        $device[8] = $request['device_protect_on'] ?? 0;
-        $device[9] = $request['device_protect_off'] ?? 0;
+        $device[7] = $request['device_all_off'] ?? true;
+        $device[8] = $request['device_protect_on'] ?? false;
+        $device[9] = $request['device_protect_off'] ?? false;
         $device[10] = $request['is_updatable'] ?? true;
         $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
 
@@ -50,9 +50,9 @@ class DeviceFactory
         $password = $array[4] ?? false;
         $img = $array[5] ?? Device::DEFAULT_IMAGE;
         $position = $array[6] ?? 0;
-        $device_all_off = $array[7] ?? 1;
-        $device_protect_on = $array[8] ?? 0;
-        $device_protect_off = $array[9] ?? 0;
+        $device_all_off = $array[7] ?? true;
+        $device_protect_on = $array[8] ?? false;
+        $device_protect_off = $array[9] ?? false;
         $is_updatable = $array[10] ?? true;
         $port = $array[11] ?? Device::DEFAULT_PORT;
 
@@ -70,9 +70,9 @@ class DeviceFactory
             $password,
             $img,
             (int) $position,
-            (int) $device_all_off,
-            (int) $device_protect_on,
-            (int) $device_protect_off,
+            (bool) $device_all_off,
+            (bool) $device_protect_on,
+            (bool) $device_protect_off,
             $keywords,
             (bool) $is_updatable,
             (int) $port,

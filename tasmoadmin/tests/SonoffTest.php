@@ -88,9 +88,9 @@ class SonoffTest extends TestCase
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
-            new Device(3, ['socket-3'], '192.168.1.3', 'user', 'pass', 'img', 3, 0, 0, 0, []),
-            new Device(2, ['socket-2'], '192.168.1.2', 'user', 'pass', 'img', 2, 0, 0, 0, []),
-            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(3, ['socket-3'], '192.168.1.3', 'user', 'pass', 'img', 3, false, false, false, []),
+            new Device(2, ['socket-2'], '192.168.1.2', 'user', 'pass', 'img', 2, false, false, false, []),
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
         $sonoff = new Sonoff($mockRepository);
@@ -104,8 +104,8 @@ class SonoffTest extends TestCase
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
-            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
-            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 0, 0, 0, 0, []),
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 0, false, false, false, []),
         ]);
 
         $sonoff = new Sonoff($mockRepository);
@@ -120,9 +120,9 @@ class SonoffTest extends TestCase
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
-            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
-            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
-            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
+            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
         $sonoff = new Sonoff($mockRepository);
@@ -139,10 +139,10 @@ class SonoffTest extends TestCase
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
         $mockRepository->method('getDevices')->willReturn([
-            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
-            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
-            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 2, 0, 0, 0, []),
-            new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, 0, 0, 0, []),
+            new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 2, false, false, false, []),
+            new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
+            new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 2, false, false, false, []),
+            new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
         $sonoff = new Sonoff($mockRepository);
