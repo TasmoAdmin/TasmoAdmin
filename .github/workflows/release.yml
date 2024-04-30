@@ -5,24 +5,16 @@ on:
     tags:
       - '*'
 
+env:
+  BUILD_REF: ${{ github.sha }}
+  BUILD_VERSION: ${{ github.ref_name }}
+
 jobs:
-  release:
+  release-docker:
     name: Release new version
     runs-on: ubuntu-20.04
-    env:
-      BUILD_REF: ${{ github.sha }}
-      BUILD_VERSION: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@v4
-    - uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-    - name: Read .nvmrc
-      run: echo ::set-output name=NODE_VERSION::$(cat tasmoadmin/.nvmrc)
-      id: nvm
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
     - name: Prepare
       run: |
         ./.docker/docker.sh prepare
@@ -44,6 +36,20 @@ jobs:
       run: ./.docker/docker.sh push
     - name: Create and push manifest list
       run: ./.docker/docker.sh manifest-list
+  release-artifact:
+    name: Release new version
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: 'tasmoadmin/.nvmrc'
+        cache: 'npm'
+        cache-dependency-path: 'tasmoadmin/'
     - name: Generate .version
       run: echo "${{ github.ref_name }}" > tasmoadmin/.version
     - name: Package
