@@ -45,6 +45,9 @@ $routes->add('backup', new Route('/backup', [
 $routes->add('devices_autoscan', new Route('/devices_autoscan', [
     '_controller' => 'render_template',
 ]));
+$routes->add('devices_autoscan_mqtt', new Route('/devices_autoscan_mqtt', [
+    '_controller' => 'render_template',
+]));
 $routes->add('login', new Route('/login', [
     '_controller' => 'render_template',
 ]));

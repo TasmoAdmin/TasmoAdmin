@@ -96,6 +96,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								        'device_config',
 								        'device_action',
 								        'devices_autoscan',
+								        'devices_autoscan_mqtt',
 								        'backup',
 								    ]
 								) ? 'active' : ''; ?>"
@@ -129,6 +130,12 @@ $urlHelper = $container->get(UrlHelper::class);
 									>
 										<?php echo __('DEVICES_AUTOSCAN', 'NAVI'); ?>
 									</a>
+
+                                    <a class="dropdown-item nav-link <?php echo 'devices_autoscan_mqtt' == $page ? 'active' : ''; ?>"
+                                       href="<?php echo _BASEURL_; ?>devices_autoscan_mqtt"
+                                    >
+                                        <?php echo __('DEVICES_AUTOSCAN_MQTT', 'NAVI'); ?>
+                                    </a>
 								</div>
 							</li>
 						<?php } ?>
