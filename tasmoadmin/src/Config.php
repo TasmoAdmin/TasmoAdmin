@@ -38,6 +38,8 @@ class Config
         'update_newer_only' => '1',
         'auto_update_channel' => 'stable',
         'force_upgrade' => '0',
+        'mqtt_ip' => '192.168.178.2',
+        'mqtt_port' => '8883',
     ];
 
     private array $cachedConfig = [];
@@ -55,6 +57,7 @@ class Config
         $this->defaults['ota_server_port'] = !empty($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : '';
 
         if (!empty($_SERVER['SERVER_ADDR'])) {
+            $this->defaults['mqtt_ip'] = $_SERVER['SERVER_ADDR'];
             $ipBlocks = explode('.', $_SERVER['SERVER_ADDR']);
             $ipBlocks[3] = 2;
             $this->defaults['scan_from_ip'] = implode('.', $ipBlocks);
