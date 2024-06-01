@@ -1,10 +1,8 @@
 <?php
 
+use PhpMqtt\Client\ConnectionSettings;
+use PhpMqtt\Client\MqttClient;
 use TasmoAdmin\Config;
-use TasmoAdmin\DeviceFactory;
-use TasmoAdmin\DeviceRepository;
-use TasmoAdmin\Helper\IpHelper;
-use TasmoAdmin\Sonoff;
 
 $Config = $container->get(Config::class);
 
@@ -14,6 +12,35 @@ $mqttClientId = $Config->read('mqtt_client_id');
 $mqttUsername = $Config->read('mqtt_username');
 $mqttPassword = $Config->read('mqtt_password');
 
+
+if (isset($_REQUEST["search"])) {
+    $mqttIp = $_REQUEST["mqtt_ip"];
+    $mqttPort = $_REQUEST["mqtt_port"];
+    $mqttClientId = $_REQUEST["mqtt_client_id"];
+    $mqttUsername = $_REQUEST['mqtt_username'];
+    $mqttPassword = $_REQUEST['mqtt_password'];
+
+    $connectionSettings = (new ConnectionSettings)
+    ->setUsername($mqttUsername)
+    ->setPassword($mqttPassword);
+
+
+    $mqtt = new MqttClient($mqttIp, $mqttPort, $mqttClientId);
+    $mqtt->connect($connectionSettings, true);
+    $mqtt->subscribe('php-mqtt/client/test', function ($topic, $message, $retained, $matchedWildcards) {
+        echo sprintf("Received message on topic [%s]: %s\n", $topic, $message);
+    }, 0);
+
+    $mqtt->loop(true, true, 5);
+    $mqtt->disconnect();
+
+
+    $Config->write('mqtt_ip', $mqttIp);
+    $Config->write('mqtt_port', $mqttPort);
+    $Config->write('mqtt_client_id', $mqttClientId);
+    $Config->write('mqtt_username', $mqttUsername);
+    $Config->write('mqtt_password', $mqttPassword);
+}
 
 ?>
 <div class='row justify-content-sm-center'>
