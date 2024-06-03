@@ -10,7 +10,7 @@ import {
 } from "./app";
 const refreshtime = getRefreshTime();
 
-var ignoreProtectionsTimer;
+let ignoreProtectionsTimer;
 $(document).ready(function () {
   deviceTools();
   updateAllStatus();
@@ -99,7 +99,6 @@ $(document).ready(function () {
     console.log("[Global][Refreshtime]" + refreshtime + "ms");
     setInterval(function () {
       console.log("[Global][Refreshtime] updateStatus now");
-      //updateStatus();
       updateStatus();
     }, refreshtime);
   } else {
@@ -499,6 +498,8 @@ function deviceTools() {
     if (e.type === "keypress" && e.which !== 13) {
       return;
     }
+
+    let input = $(this);
     if (input.val() !== "") {
       let newvalue = input.val();
       let device_id = $(this).closest("tr").data("device_id");
@@ -824,7 +825,6 @@ function updateRow(row, data, device_status) {
 
 function initDeviceFilter() {
   $(".device-search").on("keyup", function (e) {
-    // var input, filter, table, tr, td, i, txtValue;
     let input = $(this);
     let searchterm = input.val().trim();
 
