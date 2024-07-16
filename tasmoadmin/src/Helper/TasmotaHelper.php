@@ -143,7 +143,7 @@ class TasmotaHelper
         $tasmotaIssueUrl = 'https://github.com/arendst/Tasmota/issues/';
 
         return preg_replace(
-            '/\\B#([\\d]+)/',
+            '/\B#([\d]+)/',
             "<a href='{$tasmotaIssueUrl}$1' target='_blank'>#$1</a>",
             $content
         );
