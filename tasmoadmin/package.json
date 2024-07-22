@@ -8,7 +8,7 @@
     "@fortawesome/fontawesome-free": "^6.5.2",
     "@wikimedia/jquery.i18n": "^1.0.9",
     "bootstrap": "^4.6.2",
-    "compare-versions": "^6.1.0",
+    "compare-versions": "^6.1.1",
     "jqdoublescroll": "^1.0.0",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
