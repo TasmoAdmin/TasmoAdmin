@@ -8,10 +8,6 @@ clean:
 	rm -rf _tmp
 	rm -rf .docker/_tmp
 
-docker-dev: clean
-	./.docker/docker.sh prepare
-	docker build -t tasmoadmin:loca -f .docker/Dockerfile.alpine-tmpl  .
-
 docker-build: clean
 	./.docker/docker.sh prepare
 	./.docker/docker.sh build
