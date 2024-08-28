@@ -122,9 +122,4 @@ try {
     }
 }
 
-$maxMb =5;
-
-throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE", [sprintf('%sMB', $maxMb)]));
-
-
 $response->send();
