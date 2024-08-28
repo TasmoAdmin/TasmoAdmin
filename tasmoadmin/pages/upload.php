@@ -130,7 +130,7 @@ if (isset($_REQUEST["upload"])) {
             $ext = "bin";
         } else {
             throw new RuntimeException(
-                __("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", $_FILES['new_firmware']["type"])
+                __("UPLOAD_FIRMWARE_FULL_WRONG_FORMAT", "DEVICE_UPDATE", [$_FILES['new_firmware']["type"]])
             );
         }
 
