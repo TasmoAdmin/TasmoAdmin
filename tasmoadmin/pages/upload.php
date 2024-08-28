@@ -22,6 +22,9 @@ $minimal_firmware_path = "";
 $new_firmware_path     = "";
 $targetVersion     = "";
 
+$maxMb = 5;
+$maxFileSize = $maxMb * 1024 * 1024;
+
 FirmwareFolderHelper::clean($firmwarefolder);
 
 if (isset($_REQUEST["upload"])) {
@@ -118,8 +121,8 @@ if (isset($_REQUEST["upload"])) {
         }
 
         // You should also check filesize here.
-        if ($_FILES['new_firmware']['size'] > 1000000) {
-            throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE"));
+        if ($_FILES['new_firmware']['size'] > $maxFileSize) {
+            throw new RuntimeException(__("UPLOAD_FIRMWARE_FULL_TOO_BIG", "DEVICE_UPDATE", [sprintf('%sMB', $maxMb)]));
         }
         if (in_array($_FILES['new_firmware']["type"], ["application/gzip", "application/x-gzip"])) {
             $ext = "bin.gz";
