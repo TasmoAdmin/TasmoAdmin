@@ -7,6 +7,7 @@ use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\RedirectHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
+use TasmoAdmin\Http\HttpClientFactory;
 use TasmoAdmin\Sonoff;
 
 $container = new Container();
@@ -20,8 +21,12 @@ $container->set(
         _RESOURCESDIR_
     )
 );
+$container->set(HttpClientFactory::class, new HttpClientFactory($container->get(Config::class)));
 $container->set(DeviceRepository::class, new DeviceRepository(_CSVFILE_, _TMPDIR_));
-$container->set(Sonoff::class, new Sonoff($container->get(DeviceRepository::class)));
+$container->set(Sonoff::class, new Sonoff(
+    $container->get(DeviceRepository::class),
+    $container->get(HttpClientFactory::class)->getClient()
+));
 $container->set(i18n::class, new i18n());
 $container->set(BackupHelper::class, new BackupHelper(
     $container->get(DeviceRepository::class),

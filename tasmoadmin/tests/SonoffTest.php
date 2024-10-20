@@ -26,7 +26,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
-        $sonoff = new Sonoff($this->getTestDeviceRepository());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:80/cm?user=user&password=pass&cmnd=status+0', $url);
     }
@@ -34,7 +34,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlNonStandardPort(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass', null, null, null, null, null, null, 5000]);
-        $sonoff = new Sonoff($this->getTestDeviceRepository());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:5000/cm?user=user&password=pass&cmnd=status+0', $url);
     }
@@ -42,7 +42,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlNoCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1']);
-        $sonoff = new Sonoff($this->getTestDeviceRepository());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:80/cm?cmnd=status+0', $url);
     }
@@ -93,7 +93,7 @@ class SonoffTest extends TestCase
             new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository);
+        $sonoff = new Sonoff($mockRepository, $this->getClient());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(2, $devices[2]->position);
@@ -108,7 +108,7 @@ class SonoffTest extends TestCase
             new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 0, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository);
+        $sonoff = new Sonoff($mockRepository, $this->getClient());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-1'], $devices[1]->names);
@@ -125,7 +125,7 @@ class SonoffTest extends TestCase
             new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository);
+        $sonoff = new Sonoff($mockRepository, $this->getClient());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-1'], $devices[1]->names);
@@ -145,7 +145,7 @@ class SonoffTest extends TestCase
             new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository);
+        $sonoff = new Sonoff($mockRepository, $this->getClient());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-2'], $devices[1]->names);

@@ -20,14 +20,11 @@ class Sonoff
 
     private Client $client;
 
-    public function __construct(DeviceRepository $deviceRepository, ?Client $client = null)
+    public function __construct(DeviceRepository $deviceRepository, Client $client)
     {
         $this->deviceRepository = $deviceRepository;
         $this->responseParser = new ResponseParser();
-        $this->client = $client ?? new Client([
-            'connect_timeout' => 5,
-            'timeout' => 5,
-        ]);
+        $this->client = $client;
     }
 
     public function getAllStatus(Device $device): \stdClass
@@ -252,11 +249,10 @@ class Sonoff
         ini_set('max_execution_time', Constants::EXTENDED_MAX_EXECUTION_TIME);
 
         $devices = $this->getDevices();
-        $cmnd = 'status 0';
 
         $promises = [];
         foreach ($devices as $device) {
-            $url = $this->buildCmndUrl($device, $cmnd);
+            $url = $this->buildCmndUrl($device, self::COMMAND_INFO_STATUS_ALL);
             $promises[$device->id] = $this->client->getAsync($url);
         }
 

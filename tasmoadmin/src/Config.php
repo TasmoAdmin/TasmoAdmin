@@ -38,6 +38,8 @@ class Config
         'update_newer_only' => '1',
         'auto_update_channel' => 'stable',
         'force_upgrade' => '0',
+        'connect_timeout' => '5',
+        'timeout' => '5',
     ];
 
     private array $cachedConfig = [];
@@ -182,6 +184,16 @@ class Config
         }
 
         $this->writeAll($config);
+    }
+
+    public function getConnectTimeout(): int
+    {
+        return (int) $this->read('connect_timeout');
+    }
+
+    public function getTimeout(): int
+    {
+        return (int) $this->read('timeout');
     }
 
     private function cleanConfig(): array

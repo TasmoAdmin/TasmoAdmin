@@ -414,6 +414,43 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     </p>
                 </div>
             </div>
+
+
+            <div class="form-row">
+                <div class="form-group col col-12">
+                    <h2><?php echo __("CONFIG_ADVANCED", "USER_CONFIG"); ?></h2>
+                </div>
+                <div class="form-group col col-12 col-sm-6">
+                    <label for="connect_timeout">
+                        <?php echo __("CONFIG_CONNECT_TIMEOUT", "USER_CONFIG"); ?>
+                    </label>
+                    <input type="number"
+                           class="form-control"
+                           id="connect_timeout"
+                           name='connect_timeout'
+                           placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                           value='<?php echo $config["connect_timeout"]; ?>'
+                    >
+                    <small id="connect_timeoutHelp" class="form-text text-muted">
+                        <?php echo __("CONFIG_CONNECT_TIMEOUT_HELP", "USER_CONFIG"); ?>
+                    </small>
+                </div>
+                <div class="form-group col col-12 col-sm-6">
+                    <label for="timeout">
+                        <?php echo __("CONFIG_TIMEOUT", "USER_CONFIG"); ?>
+                    </label>
+                    <input type="number"
+                           class="form-control"
+                           id="timeout"
+                           name='timeout'
+                           placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                           value='<?php echo $config["timeout"]; ?>'
+                    >
+                    <small id="timeoutHelp" class="form-text text-muted">
+                        <?php echo __("CONFIG_TIMEOUT_HELP", "USER_CONFIG"); ?>
+                    </small>
+                </div>
+            </div>
 			
 			<div class="form-row  mt-5">
 				<div class='d-none d-sm-inline-flex col flex-column'></div>
