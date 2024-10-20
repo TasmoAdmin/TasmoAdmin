@@ -188,7 +188,6 @@ class Config
 
     public function getConnectTimeout(): int
     {
-
         return (int) $this->read('connect_timeout');
     }
 
