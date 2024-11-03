@@ -1,6 +1,6 @@
 ARG BUILD_FROM=amd64/alpine:3.19
 
-FROM node:20.16.0-alpine AS node-builder
+FROM node:20.18.0-alpine AS node-builder
 
 COPY tasmoadmin /tasmoadmin
 RUN \
