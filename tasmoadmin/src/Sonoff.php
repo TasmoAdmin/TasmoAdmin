@@ -4,7 +4,9 @@ namespace TasmoAdmin;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Promise;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use TasmoAdmin\Tasmota\ResponseParser;
 
 class Sonoff
@@ -17,11 +19,14 @@ class Sonoff
 
     private Client $client;
 
-    public function __construct(DeviceRepository $deviceRepository, Client $client)
+    private Config $config;
+
+    public function __construct(DeviceRepository $deviceRepository, Client $client, Config $config)
     {
         $this->deviceRepository = $deviceRepository;
         $this->responseParser = new ResponseParser();
         $this->client = $client;
+        $this->config = $config;
     }
 
     public function getAllStatus(Device $device): \stdClass
@@ -247,22 +252,31 @@ class Sonoff
 
         $devices = $this->getDevices();
 
-        $promises = [];
+        $urlData = [];
         foreach ($devices as $device) {
             $url = $this->buildCmndUrl($device, self::COMMAND_INFO_STATUS_ALL);
-            $promises[$device->id] = $this->client->getAsync($url);
+            $urlData[] = [
+                'id' => $device->id,
+                'url' => $url,
+            ];
         }
 
-        $responses = Promise\Utils::settle($promises)->wait();
+        $requests = function ($urls) {
+            foreach ($urls as $url) {
+                yield new Request('GET', $url['url']);
+            }
+        };
 
         $results = [];
-        foreach ($responses as $deviceId => $response) {
-            if ('rejected' === $response['state']) {
-                continue;
-            }
+        $pool = new Pool($this->client, $requests($urlData), [
+            'concurrency' => $this->config->getRequestConcurrency(),
+            'fulfilled' => function (Response $response, $index) use (&$results, $urlData) {
+                $results[$urlData[$index]['id']] = $this->responseParser->processResult($response->getBody()->getContents());
+            },
+        ]);
 
-            $results[$deviceId] = $this->responseParser->processResult($response['value']->getBody()->getContents());
-        }
+        $promise = $pool->promise();
+        $promise->wait();
 
         ini_set('max_execution_time', Constants::DEFAULT_MAX_EXECUTION_TIME);
 
@@ -305,25 +319,22 @@ class Sonoff
     {
         ini_set('max_execution_time', Constants::EXTENDED_MAX_EXECUTION_TIME);
 
-        $promises = [];
-        foreach ($urls as $url) {
-            $promises[$url] = $this->client->getAsync($url);
-        }
-
-        $responses = Promise\Utils::settle($promises)->wait();
+        $requests = function ($urls) {
+            foreach ($urls as $url) {
+                yield new Request('GET', $url);
+            }
+        };
 
         $results = [];
-        foreach ($responses as $response) {
-            if ('rejected' === $response['state']) {
-                continue;
-            }
+        $pool = new Pool($this->client, $requests($urls), [
+            'concurrency' => $this->config->getRequestConcurrency(),
+            'fulfilled' => function (Response $response, $index) use (&$results) {
+                $results[] = $this->responseParser->processResult($response->getBody()->getContents());
+            },
+        ]);
 
-            if (200 !== $response['value']->getStatusCode()) {
-                continue;
-            }
-
-            $results[] = $this->responseParser->processResult($response['value']->getBody()->getContents());
-        }
+        $promise = $pool->promise();
+        $promise->wait();
 
         ini_set('max_execution_time', Constants::DEFAULT_MAX_EXECUTION_TIME);
 

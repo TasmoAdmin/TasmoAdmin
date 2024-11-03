@@ -25,7 +25,8 @@ $container->set(HttpClientFactory::class, new HttpClientFactory($container->get(
 $container->set(DeviceRepository::class, new DeviceRepository(_CSVFILE_, _TMPDIR_));
 $container->set(Sonoff::class, new Sonoff(
     $container->get(DeviceRepository::class),
-    $container->get(HttpClientFactory::class)->getClient()
+    $container->get(HttpClientFactory::class)->getClient(),
+    $container->get(Config::class)
 ));
 $container->set(i18n::class, new i18n());
 $container->set(BackupHelper::class, new BackupHelper(

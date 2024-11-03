@@ -40,6 +40,7 @@ class Config
         'force_upgrade' => '0',
         'connect_timeout' => '5',
         'timeout' => '5',
+        'request_concurrency' => '50',
     ];
 
     private array $cachedConfig = [];
@@ -194,6 +195,11 @@ class Config
     public function getTimeout(): int
     {
         return (int) $this->read('timeout');
+    }
+
+    public function getRequestConcurrency(): int
+    {
+        return (int) $this->read('request_concurrency');
     }
 
     private function cleanConfig(): array
