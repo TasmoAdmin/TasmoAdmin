@@ -9,6 +9,7 @@ use GuzzleHttp\Psr7\Response;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Config;
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
@@ -26,7 +27,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass']);
-        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:80/cm?user=user&password=pass&cmnd=status+0', $url);
     }
@@ -34,7 +35,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlNonStandardPort(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1', 'user', 'pass', null, null, null, null, null, null, 5000]);
-        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:5000/cm?user=user&password=pass&cmnd=status+0', $url);
     }
@@ -42,7 +43,7 @@ class SonoffTest extends TestCase
     public function testbuildCmndUrlNoCredentials(): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.1']);
-        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient());
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());
         $url = $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL);
         self::assertEquals('http://192.168.1.1:80/cm?cmnd=status+0', $url);
     }
@@ -52,7 +53,7 @@ class SonoffTest extends TestCase
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json')),
-        ]));
+        ]), $this->getTestConfig());
         $result = $sonoff->getAllStatus($device);
         self::assertEquals('socket-1', $result->Status->DeviceName);
     }
@@ -62,7 +63,7 @@ class SonoffTest extends TestCase
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
             new Response(401, [], TestUtils::loadFixture('response-unauthorized.json')),
-        ]));
+        ]), $this->getTestConfig());
         $result = $sonoff->getAllStatus($device);
         self::assertStringContainsString('401 Unauthorized', $result->ERROR);
     }
@@ -72,7 +73,7 @@ class SonoffTest extends TestCase
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
             new Response(200, [], TestUtils::loadFixture('response-valid.json')),
             new Response(401, [], TestUtils::loadFixture('response-unauthorized.json')),
-        ]));
+        ]), $this->getTestConfig());
 
         $devices = [];
         foreach (range(1, 2) as $count) {
@@ -93,7 +94,7 @@ class SonoffTest extends TestCase
             new Device(1, ['socket-1'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository, $this->getClient());
+        $sonoff = new Sonoff($mockRepository, $this->getClient(), $this->getTestConfig());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(2, $devices[2]->position);
@@ -108,7 +109,7 @@ class SonoffTest extends TestCase
             new Device(2, ['socket-2'], '192.168.1.1', 'user', 'pass', 'img', 0, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository, $this->getClient());
+        $sonoff = new Sonoff($mockRepository, $this->getClient(), $this->getTestConfig());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-1'], $devices[1]->names);
@@ -125,7 +126,7 @@ class SonoffTest extends TestCase
             new Device(3, ['socket-3'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository, $this->getClient());
+        $sonoff = new Sonoff($mockRepository, $this->getClient(), $this->getTestConfig());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-1'], $devices[1]->names);
@@ -145,7 +146,7 @@ class SonoffTest extends TestCase
             new Device(4, ['socket-4'], '192.168.1.1', 'user', 'pass', 'img', 1, false, false, false, []),
         ]);
 
-        $sonoff = new Sonoff($mockRepository, $this->getClient());
+        $sonoff = new Sonoff($mockRepository, $this->getClient(), $this->getTestConfig());
         $devices = $sonoff->getDevices();
         self::assertEquals(1, $devices[1]->position);
         self::assertEquals(['socket-2'], $devices[1]->names);
@@ -174,5 +175,10 @@ class SonoffTest extends TestCase
         mkdir($tmpDir);
 
         return new DeviceRepository($deviceFile, $tmpDir);
+    }
+
+    private function getTestConfig(): Config
+    {
+        return new Config($this->root->url().'/', $this->root->url().'/');
     }
 }
