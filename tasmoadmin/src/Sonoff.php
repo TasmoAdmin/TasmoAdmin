@@ -7,9 +7,6 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Promise;
 use TasmoAdmin\Tasmota\ResponseParser;
 
-/**
- * Class Sonoff.
- */
 class Sonoff
 {
     public const COMMAND_INFO_STATUS_ALL = 'status 0';
@@ -408,15 +405,15 @@ class Sonoff
         $data = $this->responseParser->processResult($result->getContents());
 
         $skipWarning = false;
-        if (false !== strpos($cmnd, 'Backlog')) {
+        if (str_contains($cmnd, 'Backlog')) {
             $skipWarning = true;
         }
 
-        if (!$skipWarning && isset($data->WARNING) && !empty($data->WARNING) && 1 === $try) {
+        if (!$skipWarning && !empty($data->WARNING) && 1 === $try) {
             ++$try;
             // set web log level 2 and try again
             $webLog = $this->setWebLog($device, 2, $try);
-            if (!isset($webLog->WARNING) && empty($webLog->WARNING)) {
+            if (!isset($webLog->WARNING)) {
                 $data = $this->doRequest($device, $cmnd, $try);
             }
         }
@@ -439,16 +436,14 @@ class Sonoff
         return sprintf('http://%s:%s/%s%s', $device->ip, $device->port, $endpoint, $queryString);
     }
 
-    private function buildBasicAuthUrl(Device $device, string $endpoint, array $args = []): string
+    private function buildBasicAuthUrl(Device $device, string $endpoint): string
     {
         $basicAuth = '';
         if (!empty($device->password)) {
             $basicAuth = rawurlencode($device->username).':'.rawurlencode($device->password).'@';
         }
 
-        $queryString = '?'.http_build_query($args);
-
-        return sprintf('http://%s%s/%s%s', $basicAuth, $device->ip, $endpoint, $queryString);
+        return sprintf('http://%s%s/%s', $basicAuth, $device->ip, $endpoint);
     }
 
     private function setWebLog(Device $device, int $level = 2, int $try = 1): \stdClass
