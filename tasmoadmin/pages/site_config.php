@@ -420,7 +420,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                 <div class="form-group col col-12">
                     <h2><?php echo __("CONFIG_ADVANCED", "USER_CONFIG"); ?></h2>
                 </div>
-                <div class="form-group col col-12 col-sm-6">
+                <div class="form-group col col-12 col-sm-4">
                     <label for="connect_timeout">
                         <?php echo __("CONFIG_CONNECT_TIMEOUT", "USER_CONFIG"); ?>
                     </label>
@@ -435,7 +435,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         <?php echo __("CONFIG_CONNECT_TIMEOUT_HELP", "USER_CONFIG"); ?>
                     </small>
                 </div>
-                <div class="form-group col col-12 col-sm-6">
+                <div class="form-group col col-12 col-sm-4">
                     <label for="timeout">
                         <?php echo __("CONFIG_TIMEOUT", "USER_CONFIG"); ?>
                     </label>
@@ -448,6 +448,21 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     >
                     <small id="timeoutHelp" class="form-text text-muted">
                         <?php echo __("CONFIG_TIMEOUT_HELP", "USER_CONFIG"); ?>
+                    </small>
+                </div>
+                <div class="form-group col col-12 col-sm-4">
+                    <label for="request_concurrency">
+                        <?php echo __("CONFIG_REQUEST_CONCURRENCY", "USER_CONFIG"); ?>
+                    </label>
+                    <input type="number"
+                           class="form-control"
+                           id="request_concurrency"
+                           name='request_concurrency'
+                           placeholder="<?php echo __("PLEASE_ENTER"); ?>"
+                           value='<?php echo $config["request_concurrency"]; ?>'
+                    >
+                    <small id="requestConcurrencyHelp" class="form-text text-muted">
+                        <?php echo __("CONFIG_REQUEST_CONCURRENCY_HELP", "USER_CONFIG"); ?>
                     </small>
                 </div>
             </div>

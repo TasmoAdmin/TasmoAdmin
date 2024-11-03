@@ -269,7 +269,7 @@ class Sonoff
 
         $results = [];
         $pool = new Pool($this->client, $requests($urlData), [
-            'concurrency' => $this->config->getConcurrentRequests(),
+            'concurrency' => $this->config->getRequestConcurrency(),
             'fulfilled' => function (Response $response, $index) use (&$results, $urlData) {
                 $results[$urlData[$index]['id']] = $this->responseParser->processResult($response->getBody()->getContents());
             },
@@ -327,7 +327,7 @@ class Sonoff
 
         $results = [];
         $pool = new Pool($this->client, $requests($urls), [
-            'concurrency' => $this->config->getConcurrentRequests(),
+            'concurrency' => $this->config->getRequestConcurrency(),
             'fulfilled' => function (Response $response, $index) use (&$results) {
                 $results[] = $this->responseParser->processResult($response->getBody()->getContents());
             },
