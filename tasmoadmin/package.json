@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@node-minify/clean-css": "^8.0.6",
-    "@node-minify/core": "^8.0.6",
+    "@node-minify/core": "^9.0.0",
     "@node-minify/terser": "^8.0.6",
     "esbuild": "0.24.0",
     "esbuild-sass-plugin": "^3.3.1",
