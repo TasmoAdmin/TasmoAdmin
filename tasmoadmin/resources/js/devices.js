@@ -7,6 +7,7 @@ import {
   getDistance,
   getEnergyPower,
   getRefreshTime,
+  chunkArray,
 } from "./app";
 const refreshtime = getRefreshTime();
 
@@ -229,86 +230,110 @@ function getSelectedDevices() {
     },
   );
 }
+
 function updateStatus() {
-  $("#device-list tbody tr").each(function (key, tr) {
-    let device_ip = $(tr).data("device_ip");
-    let device_id = $(tr).data("device_id");
-    let device_relais = $(tr).data("device_relais");
-    let device_group = $(tr).data("device_group");
-    if (!$(tr).hasClass("updating")) {
-      console.log(
-        "[Devices][updateStatus]get status from " + $(tr).data("device_ip"),
-      );
-      $(tr).addClass("updating");
+    const batchSize = config.request_concurrency;
+    const rows = $("#device-list tbody tr").toArray();
+    const batches = chunkArray(rows, batchSize);
 
-      if (device_group === "multi" && device_relais > 1) {
-        console.log(
-          "[Devices][updateStatus]SKIP multi " + $(tr).data("device_ip"),
-        );
-        return; //relais 1 will update all others
-      }
+    console.log(`[Devices][updateStatus] Processing ${rows.length} in ${batches.length} batches with batch size of ${batchSize}`);
 
-      sonoff.getStatus(device_ip, device_id, function (data) {
-        if (
-          data &&
-          !data.ERROR &&
-          !data.WARNING &&
-          data !== "" &&
-          data !== undefined &&
-          data.statusText === undefined
-        ) {
-          if (device_group === "multi") {
-            $(
-              '#device-list tbody tr[data-device_group="multi"][data-device_ip="' +
-                device_ip +
-                '"]',
-            ).each(function (key, grouptr) {
-              let device_relais = $(grouptr).data("device_relais");
-              let device_status = sonoff.parseDeviceStatus(data, device_relais);
+    processBatchesSequentially(batches);
+}
 
-              updateRow($(grouptr), data, device_status);
-              $(grouptr).removeClass("updating");
+function processBatchesSequentially(batches) {
+    const processBatch = (batch) => {
+        const promises = batch.map((tr) => processRow($(tr)));
+        return Promise.all(promises); // Wait for all AJAX calls in the batch to complete
+    };
+
+    let promiseChain = Promise.resolve(); // Start with an empty promise
+    batches.forEach((batch) => {
+        promiseChain = promiseChain.then(() => processBatch(batch));
+    });
+
+    promiseChain.catch((error) => {
+        console.error("Error processing batches:", error);
+    });
+}
+
+function processRow($tr) {
+    return new Promise((resolve) => {
+        let device_ip = $tr.data("device_ip");
+        let device_id = $tr.data("device_id");
+        let device_relais = $tr.data("device_relais");
+        let device_group = $tr.data("device_group");
+
+        if (!$tr.hasClass("updating")) {
+            console.log("[Devices][updateStatus]get status from " + device_ip);
+            $tr.addClass("updating");
+
+            if (device_group === "multi" && device_relais > 1) {
+                console.log("[Devices][updateStatus]SKIP multi " + device_ip);
+                resolve(); // Skip this row
+                return;
+            }
+
+            sonoff.getStatus(device_ip, device_id, function (data) {
+                if (
+                    data &&
+                    !data.ERROR &&
+                    !data.WARNING &&
+                    data !== "" &&
+                    data !== undefined &&
+                    data.statusText === undefined
+                ) {
+                    if (device_group === "multi") {
+                        $(
+                            '#device-list tbody tr[data-device_group="multi"][data-device_ip="' +
+                            device_ip +
+                            '"]',
+                        ).each(function (key, grouptr) {
+                            let device_relais = $(grouptr).data("device_relais");
+                            let device_status = sonoff.parseDeviceStatus(data, device_relais);
+
+                            updateRow($(grouptr), data, device_status);
+                            $(grouptr).removeClass("updating");
+                        });
+                    } else {
+                        let device_status = sonoff.parseDeviceStatus(data, device_relais);
+                        updateRow($tr, data, device_status);
+                    }
+                } else {
+                    console.log("ERROR => " + JSON.stringify(data));
+                    if (device_group === "multi") {
+                        $(
+                            '#device-list tbody tr[data-device_group="multi"][data-device_ip="' +
+                            device_ip +
+                            '"]',
+                        ).each(function (key, grouptr) {
+                            $(grouptr)
+                                .find(".status")
+                                .find("input")
+                                .parent()
+                                .addClass("error");
+                            $(grouptr)
+                                .find("td")
+                                .each(function (key, td) {
+                                    if ($(td).find(".loader").length > 0) {
+                                        $(td).find("span").html("-");
+                                    }
+                                });
+
+                            $(grouptr).removeClass("updating");
+                        });
+                    } else {
+                        $tr.find(".status").find("input").parent().addClass("error");
+                        $tr.removeClass("updating");
+                    }
+                }
+                resolve(); // Mark this row as processed
             });
-          } else {
-            let device_status = sonoff.parseDeviceStatus(data, device_relais);
-            updateRow($(tr), data, device_status);
-          }
         } else {
-          console.log("ERROR => " + JSON.stringify(data));
-          if (device_group === "multi") {
-            $(
-              '#device-list tbody tr[data-device_group="multi"][data-device_ip="' +
-                device_ip +
-                '"]',
-            ).each(function (key, grouptr) {
-              $(grouptr)
-                .find(".status")
-                .find("input")
-                .parent()
-                .addClass("error");
-              $(grouptr)
-                .find("td")
-                .each(function (key, td) {
-                  if ($(td).find(".loader").length > 0) {
-                    $(td).find("span").html("-");
-                  }
-                });
-
-              $(grouptr).removeClass("updating");
-            });
-          } else {
-            $(tr).find(".status").find("input").parent().addClass("error");
-            $(tr).removeClass("updating");
-          }
+            console.log("[Devices][updateStatus]SKIP get status from " + device_ip);
+            resolve(); // Already updating, skip
         }
-      });
-    } else {
-      console.log(
-        "[Devices][updateStatus]SKIP get status from " +
-          $(tr).data("device_ip"),
-      );
-    }
-  });
+    });
 }
 
 function updateAllStatus() {

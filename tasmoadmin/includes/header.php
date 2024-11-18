@@ -41,6 +41,7 @@ $urlHelper = $container->get(UrlHelper::class);
                 update_fe_check: <?php echo $Config->read('update_fe_check'); ?> === 1,
                 force_upgrade: <?php echo $Config->read('force_upgrade'); ?> === 1,
                 update_newer_only: <?php echo $Config->read('update_newer_only'); ?> === 1,
+                request_concurrency: <?php echo $Config->getRequestConcurrency(); ?>,
             };
 		</script>
 		<script src="<?php echo $urlHelper->js('compiled/vendor'); ?>"></script>
