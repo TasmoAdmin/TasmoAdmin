@@ -7,6 +7,7 @@ import {
   getDistance,
   getEnergyPower,
   getRefreshTime,
+  chunkArray,
 } from "./app";
 const refreshtime = getRefreshTime();
 
@@ -229,23 +230,50 @@ function getSelectedDevices() {
     },
   );
 }
+
 function updateStatus() {
-  $("#device-list tbody tr").each(function (key, tr) {
-    let device_ip = $(tr).data("device_ip");
-    let device_id = $(tr).data("device_id");
-    let device_relais = $(tr).data("device_relais");
-    let device_group = $(tr).data("device_group");
-    if (!$(tr).hasClass("updating")) {
-      console.log(
-        "[Devices][updateStatus]get status from " + $(tr).data("device_ip"),
-      );
-      $(tr).addClass("updating");
+  const batchSize = config.request_concurrency;
+  const rows = $("#device-list tbody tr").toArray();
+  const batches = chunkArray(rows, batchSize);
+
+  console.log(
+    `[Devices][updateStatus] Processing ${rows.length} in ${batches.length} batches with batch size of ${batchSize}`,
+  );
+
+  processBatchesSequentially(batches);
+}
+
+function processBatchesSequentially(batches) {
+  const processBatch = (batch) => {
+    const promises = batch.map((tr) => processRow($(tr)));
+    return Promise.all(promises); // Wait for all AJAX calls in the batch to complete
+  };
+
+  let promiseChain = Promise.resolve(); // Start with an empty promise
+  batches.forEach((batch) => {
+    promiseChain = promiseChain.then(() => processBatch(batch));
+  });
+
+  promiseChain.catch((error) => {
+    console.error("Error processing batches:", error);
+  });
+}
+
+function processRow($tr) {
+  return new Promise((resolve) => {
+    let device_ip = $tr.data("device_ip");
+    let device_id = $tr.data("device_id");
+    let device_relais = $tr.data("device_relais");
+    let device_group = $tr.data("device_group");
+
+    if (!$tr.hasClass("updating")) {
+      console.log("[Devices][updateStatus]get status from " + device_ip);
+      $tr.addClass("updating");
 
       if (device_group === "multi" && device_relais > 1) {
-        console.log(
-          "[Devices][updateStatus]SKIP multi " + $(tr).data("device_ip"),
-        );
-        return; //relais 1 will update all others
+        console.log("[Devices][updateStatus]SKIP multi " + device_ip);
+        resolve(); // Skip this row
+        return;
       }
 
       sonoff.getStatus(device_ip, device_id, function (data) {
@@ -271,7 +299,7 @@ function updateStatus() {
             });
           } else {
             let device_status = sonoff.parseDeviceStatus(data, device_relais);
-            updateRow($(tr), data, device_status);
+            updateRow($tr, data, device_status);
           }
         } else {
           console.log("ERROR => " + JSON.stringify(data));
@@ -297,16 +325,15 @@ function updateStatus() {
               $(grouptr).removeClass("updating");
             });
           } else {
-            $(tr).find(".status").find("input").parent().addClass("error");
-            $(tr).removeClass("updating");
+            $tr.find(".status").find("input").parent().addClass("error");
+            $tr.removeClass("updating");
           }
         }
+        resolve(); // Mark this row as processed
       });
     } else {
-      console.log(
-        "[Devices][updateStatus]SKIP get status from " +
-          $(tr).data("device_ip"),
-      );
+      console.log("[Devices][updateStatus]SKIP get status from " + device_ip);
+      resolve(); // Already updating, skip
     }
   });
 }

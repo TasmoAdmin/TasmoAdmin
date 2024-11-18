@@ -7,6 +7,7 @@ import {
   getDistance,
   getEnergyPower,
   getRefreshTime,
+  chunkArray,
 } from "./app";
 
 var longPressTimer;
@@ -28,25 +29,50 @@ $(document).ready(function () {
 });
 
 function updateStatus() {
-  $("#content .box_device:not(#all_off)").each(function (key, box) {
-    let device_ip = $(box).data("device_ip");
-    let device_id = $(box).data("device_id");
-    let device_relais = $(box).data("device_relais");
-    let device_group = $(box).data("device_group");
+  const batchSize = config.request_concurrency;
+  const boxes = $("#content .box_device:not(#all_off)").toArray();
+  const batches = chunkArray(boxes, batchSize);
 
-    if (!$(box).hasClass("updating")) {
-      console.log(
-        "[Start][updateStatus]get status from " + $(box).data("device_ip"),
-      );
+  console.log(
+    `[Devices][updateStatus] Processing ${boxes.length} in ${batches.length} batches with batch size of ${batchSize}`,
+  );
+
+  processBatchesSequentially(batches);
+}
+
+function processBatchesSequentially(batches) {
+  const processBatch = (batch) => {
+    const promises = batch.map((box) => processBox($(box)));
+    return Promise.all(promises); // Wait for all AJAX calls in the batch to complete
+  };
+
+  let promiseChain = Promise.resolve(); // Start with an empty promise
+  batches.forEach((batch) => {
+    promiseChain = promiseChain.then(() => processBatch(batch));
+  });
+
+  promiseChain.catch((error) => {
+    console.error("Error processing batches:", error);
+  });
+}
+
+function processBox($box) {
+  return new Promise((resolve) => {
+    let device_ip = $box.data("device_ip");
+    let device_id = $box.data("device_id");
+    let device_relais = $box.data("device_relais");
+    let device_group = $box.data("device_group");
+
+    if (!$box.hasClass("updating")) {
+      console.log("[Start][updateStatus]get status from " + device_ip);
 
       if (device_group === "multi" && device_relais > 1) {
-        console.log(
-          "[Start][updateStatus]skip multi " + $(box).data("device_ip"),
-        );
-        return; //relais 1 will update all others
+        console.log("[Start][updateStatus]skip multi " + device_ip);
+        resolve(); // Skip this box
+        return;
       }
 
-      $(box).addClass("updating");
+      $box.addClass("updating");
 
       sonoff.getStatus(device_ip, device_id, function (data) {
         if (
@@ -63,7 +89,6 @@ function updateStatus() {
                 device_ip +
                 '"]',
             ).each(function (key, groupbox) {
-              //TODO: make function to set image
               let img = $(groupbox).find("img");
               let src =
                 config.resource_url +
@@ -83,7 +108,7 @@ function updateStatus() {
               $(groupbox).removeClass("updating");
             });
           } else {
-            let img = $(box).find("img");
+            let img = $box.find("img");
             let src =
               config.resource_url +
               "img/device_icons/" +
@@ -93,29 +118,24 @@ function updateStatus() {
             let device_status = sonoff.parseDeviceStatus(data, 1);
 
             if (device_status !== undefined) {
-              $(box).data("device_state", device_status.toLowerCase());
-
+              $box.data("device_state", device_status.toLowerCase());
               src = src.replace("%pw", device_status.toLowerCase());
               img.attr("src", src).parent().removeClass("animated");
 
               if (device_status === "NONE") {
-                //$( box ).attr( "data-device_group", "sensor" );
-                $(box).data("device_group", "sensor");
+                $box.data("device_group", "sensor");
               }
             }
-            updateBox($(box), data, device_status);
-            $(box)
-              .removeClass("error")
-              .find(".animated")
-              .removeClass("animated");
-            $(box).removeClass("updating");
+            updateBox($box, data, device_status);
+            $box.removeClass("error").find(".animated").removeClass("animated");
+            $box.removeClass("updating");
           }
         } else {
           console.log("ERROR => " + JSON.stringify(data));
 
           if (device_group === "multi") {
             $(
-              '#device-list tbody tr[data-device_group="multi"][data-device_ip="' +
+              '#content .box_device[data-device_group="multi"][data-device_ip="' +
                 device_ip +
                 '"]',
             ).each(function (key, groupbox) {
@@ -133,9 +153,9 @@ function updateStatus() {
               img.attr("src", src);
             });
           } else {
-            $(box).addClass("error").find(".animated").removeClass("animated");
-            $(box).removeClass("updating");
-            let img = $(box).find("img");
+            $box.addClass("error").find(".animated").removeClass("animated");
+            $box.removeClass("updating");
+            let img = $box.find("img");
             let src =
               config.resource_url +
               "img/device_icons/" +
@@ -144,7 +164,11 @@ function updateStatus() {
             img.attr("src", src);
           }
         }
+        resolve(); // Mark this box as processed
       });
+    } else {
+      console.log("[Start][updateStatus]skip get status from " + device_ip);
+      resolve(); // Already updating, skip
     }
   });
 }
