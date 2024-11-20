@@ -1,8 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-
-
 TARGET=ghcr.io/tasmoadmin/tasmoadmin
 QEMU_VERSION=v6.1.0-8
 ALPINE_VERSION=3.20
@@ -34,7 +32,6 @@ main() {
             exit 1
     esac
 }
-
 
 docker_prepare() {
     # Prepare qemu to build images other then x86_64 on travis
