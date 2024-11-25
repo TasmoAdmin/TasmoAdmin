@@ -40,9 +40,9 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v6/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=arm32v6 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v6 .
-    docker build --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
+    docker build --progress=plain --platform linux/amd64 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
+    docker build --progress=plain --platform linux/arm/v7 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v7/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=arm32v7 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v7 .
+    docker build --progress=plain --platform linux/arm64 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
 }
 
 docker_test() {
@@ -57,15 +57,15 @@ docker_test() {
 
     docker kill test-alpine-amd64
 
-    docker run -d --rm --name=test-alpine-arm32v6 ${TARGET}:build-alpine-arm32v6
+    docker run -d --rm --name=test-alpine-arm32v7 ${TARGET}:build-alpine-arm32v7
     if [ $? -ne 0 ]; then
-       echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm32v6."
+       echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm32v7."
        exit 1
     else
-       echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-arm32v6."
+       echo "DOCKER TEST: PASSED - Docker container succeeded to start build-alpine-arm32v7."
     fi
 
-    docker kill test-alpine-arm32v6
+    docker kill test-alpine-arm32v7
 
     docker run -d --rm --name=test-alpine-arm64v8 ${TARGET}:build-alpine-arm64v8
     if [ $? -ne 0 ]; then
@@ -81,14 +81,14 @@ docker_test() {
 docker_tag() {
     echo "DOCKER TAG: Tag all docker images."
     docker tag $TARGET:build-alpine-amd64 $TARGET:$BUILD_VERSION-alpine-amd64
-    docker tag $TARGET:build-alpine-arm32v6 ${TARGET}:${BUILD_VERSION}-alpine-arm32v6
+    docker tag $TARGET:build-alpine-arm32v7 ${TARGET}:${BUILD_VERSION}-alpine-arm32v7
     docker tag $TARGET:build-alpine-arm64v8 $TARGET:$BUILD_VERSION-alpine-arm64v8
 }
 
 docker_push() {
     echo "DOCKER PUSH: Push all docker images."
     docker push $TARGET:${BUILD_VERSION}-alpine-amd64
-    docker push $TARGET:${BUILD_VERSION}-alpine-arm32v6
+    docker push $TARGET:${BUILD_VERSION}-alpine-arm32v7
     docker push $TARGET:${BUILD_VERSION}-alpine-arm64v8
 }
 
@@ -114,11 +114,11 @@ docker_manifest_list_version() {
   echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION."
   docker manifest create $TARGET:$BUILD_VERSION \
       $TARGET:$BUILD_VERSION-alpine-amd64 \
-      $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v7 \
       $TARGET:$BUILD_VERSION-alpine-arm64v8
 
   # Manifest Annotate BUILD_VERSION
-  docker manifest annotate $TARGET:$BUILD_VERSION $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  docker manifest annotate $TARGET:$BUILD_VERSION $TARGET:$BUILD_VERSION-alpine-arm32v7 --os=linux --arch=arm --variant=v6
   docker manifest annotate $TARGET:$BUILD_VERSION $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
   # Manifest Push BUILD_VERSION
@@ -130,11 +130,11 @@ docker_manifest_list_latest() {
   echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:latest."
   docker manifest create $TARGET:latest \
       $TARGET:$BUILD_VERSION-alpine-amd64 \
-      $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v7 \
       $TARGET:$BUILD_VERSION-alpine-arm64v8
 
   # Manifest Annotate BUILD_VERSION
-  docker manifest annotate $TARGET:latest $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  docker manifest annotate $TARGET:latest $TARGET:$BUILD_VERSION-alpine-arm32v7 --os=linux --arch=arm --variant=v6
   docker manifest annotate $TARGET:latest $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
   # Manifest Push BUILD_VERSION
@@ -146,11 +146,11 @@ docker_manifest_list_beta() {
   echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:beta."
   docker manifest create $TARGET:beta \
       $TARGET:$BUILD_VERSION-alpine-amd64 \
-      $TARGET:$BUILD_VERSION-alpine-arm32v6 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v7 \
       $TARGET:$BUILD_VERSION-alpine-arm64v8
 
   # Manifest Annotate BUILD_VERSION
-  docker manifest annotate $TARGET:beta $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  docker manifest annotate $TARGET:beta $TARGET:$BUILD_VERSION-alpine-arm32v7 --os=linux --arch=arm --variant=v6
   docker manifest annotate $TARGET:beta $TARGET:$BUILD_VERSION-alpine-arm64v8 --os=linux --arch=arm64 --variant=v8
 
   # Manifest Push BUILD_VERSION
@@ -166,16 +166,16 @@ docker_manifest_list_version_os_arch() {
   # Manifest Push alpine-amd64
   docker manifest push $TARGET:$BUILD_VERSION-alpine-amd64
 
-  # Manifest Create alpine-arm32v6
-  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-arm32v6."
-  docker manifest create $TARGET:$BUILD_VERSION-alpine-arm32v6 \
-      $TARGET:$BUILD_VERSION-alpine-arm32v6
+  # Manifest Create alpine-arm32v7
+  echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-arm32v7."
+  docker manifest create $TARGET:$BUILD_VERSION-alpine-arm32v7 \
+      $TARGET:$BUILD_VERSION-alpine-arm32v7
 
-  # Manifest Annotate alpine-arm32v6
-  docker manifest annotate $TARGET:$BUILD_VERSION-alpine-arm32v6 $TARGET:$BUILD_VERSION-alpine-arm32v6 --os=linux --arch=arm --variant=v6
+  # Manifest Annotate alpine-arm32v7
+  docker manifest annotate $TARGET:$BUILD_VERSION-alpine-arm32v7 $TARGET:$BUILD_VERSION-alpine-arm32v7 --os=linux --arch=arm --variant=v6
 
-  # Manifest Push alpine-arm32v6
-  docker manifest push $TARGET:$BUILD_VERSION-alpine-arm32v6
+  # Manifest Push alpine-arm32v7
+  docker manifest push $TARGET:$BUILD_VERSION-alpine-arm32v7
 
   # Manifest Create alpine-arm64v8
   echo "DOCKER MANIFEST: Create and Push docker manifest list - $TARGET:$BUILD_VERSION-alpine-arm64v8."
@@ -194,7 +194,7 @@ prepare_qemu(){
     echo "PREPARE: Qemu"
     # Prepare qemu to build non amd64 / x86_64 images
     mkdir -p .docker/_tmp
-    docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
     pushd .docker/_tmp &&
     curl -L -o qemu-x86_64-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-x86_64-static.tar.gz && tar xzf qemu-x86_64-static.tar.gz &&
     curl -L -o qemu-arm-static.tar.gz https://github.com/multiarch/qemu-user-static/releases/download/$QEMU_VERSION/qemu-arm-static.tar.gz && tar xzf qemu-arm-static.tar.gz &&
