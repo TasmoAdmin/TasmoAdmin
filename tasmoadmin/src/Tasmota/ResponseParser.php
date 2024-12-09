@@ -49,7 +49,7 @@ class ResponseParser
          * https://github.com/TasmoAdmin/TasmoAdmin/issues/107.
          */
         if (!empty($status->StatusNET->IP)) {
-            $status->StatusNET->IPAddress = $status->StatusNET->IP; // @phpstan-ignore-line
+            $status->StatusNET->IPAddress = $status->StatusNET->IP;
         }
 
         return $status;
