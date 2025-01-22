@@ -53,7 +53,7 @@
 			       id="MqttPort"
 			       name='MqttPort'
 			       min='2'
-			       max='32766'
+			       max='65535'
 			       placeholder="<?php echo __("PLEASE_ENTER"); ?>"
 			       value='<?php echo isset($status->StatusMQT->MqttPort)
 	                                 && !empty($status->StatusMQT->MqttPort) ? $status->StatusMQT->MqttPort : ""; ?>'
