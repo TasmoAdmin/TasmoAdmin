@@ -28,12 +28,12 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
+        "roave/security-advisories": "dev-latest",
         "phpunit/phpunit": "^10.0",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan": "^2.0",
-        "friendsofphp/php-cs-fixer": "^3.11"
+        "friendsofphp/php-cs-fixer": "^3.11",
+        "phpstan/phpstan-deprecation-rules": "^2.0"
     },
     "autoload-dev": {
         "psr-4": {
@@ -44,5 +44,8 @@
         "platform": {
             "php": "8.1.16"
         }
+    },
+    "scripts": {
+      "phpstan": "phpstan --memory-limit=-1"
     }
 }

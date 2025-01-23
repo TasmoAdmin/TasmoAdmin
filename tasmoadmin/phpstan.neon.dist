@@ -1,8 +1,11 @@
+includes:
+    - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
 parameters:
-	paths:
-		- %currentWorkingDirectory%/src
-		- %currentWorkingDirectory%/tests
-	level: 5
-	scanFiles:
-		- %currentWorkingDirectory%/includes/bootstrap.php
-		- %currentWorkingDirectory%/tests/bootstrap.php
+    paths:
+        - %currentWorkingDirectory%/src
+        - %currentWorkingDirectory%/tests
+    level: 5
+    scanFiles:
+        - %currentWorkingDirectory%/includes/bootstrap.php
+        - %currentWorkingDirectory%/tests/bootstrap.php
