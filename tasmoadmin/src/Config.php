@@ -124,7 +124,11 @@ class Config
     {
         $config = $this->readAll();
 
-        return $config[$key] ?? null;
+        if (!array_key_exists($key, $config)) {
+            return null;
+        }
+
+        return htmlspecialchars($config[$key]);
     }
 
     public function write(string $key, $value): void

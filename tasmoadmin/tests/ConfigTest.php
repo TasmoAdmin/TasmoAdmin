@@ -34,6 +34,13 @@ class ConfigTest extends TestCase
         self::assertEquals('1', $config->read('hide_copyright'));
     }
 
+    public function testReadEscaped(): void
+    {
+        $config = $this->getConfig();
+        $config->write('escaped', "alert('XSS')");
+        self::assertEquals('alert(&#039;XSS&#039;)', $config->read('escaped'));
+    }
+
     public function testWrite(): void
     {
         $config = $this->getConfig();
