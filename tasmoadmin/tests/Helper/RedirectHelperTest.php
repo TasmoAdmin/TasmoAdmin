@@ -23,18 +23,20 @@ class RedirectHelperTest extends TestCase
     }
 
     #[DataProvider('invalidDataProvider')]
-    public function testGetValidRedirectUrlInvalid(string $basePath, string $url, string $fallbackUrl): void
+    public function testGetValidRedirectUrlInvalid(string $url): void
     {
-        $redirectHelper = new RedirectHelper($basePath);
+        $fallbackUrl = '/';
+        $redirectHelper = new RedirectHelper('/');
         self::assertEquals($fallbackUrl, $redirectHelper->getValidRedirectUrl($url, $fallbackUrl));
     }
 
     public static function invalidDataProvider(): array
     {
         return [
-            ['/', 'http://bad.com/foo/bar', '/'],
-            ['/', '//bad.com/foo/bar', '/'],
-            ['/', '://bad.com/foo/bar', '/'],
+            ['http://bad.com/foo/bar'],
+            ['//bad.com/foo/bar'],
+            ['/\bad.com/foo/bar'],
+            ['://bad.com/foo/bar'],
         ];
     }
 }

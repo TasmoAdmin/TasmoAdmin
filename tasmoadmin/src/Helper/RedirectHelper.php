@@ -21,6 +21,10 @@ class RedirectHelper
             return $fallbackUrl;
         }
 
+        if (str_starts_with($url, '/\\')) {
+            return $fallbackUrl;
+        }
+
         if (!str_starts_with($url, $this->basePath)) {
             return $fallbackUrl;
         }
