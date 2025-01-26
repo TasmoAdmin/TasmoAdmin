@@ -34,7 +34,7 @@ class RedirectHelperTest extends TestCase
         return [
             ['/', 'http://bad.com/foo/bar', '/'],
             ['/', '//bad.com/foo/bar', '/'],
-            ['/', '/\\bad.com/foo/bar', '/'],
+            ['/', '/\bad.com/foo/bar', '/'],
             ['/', '://bad.com/foo/bar', '/'],
         ];
     }
