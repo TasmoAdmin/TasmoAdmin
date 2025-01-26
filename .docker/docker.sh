@@ -15,8 +15,26 @@ main() {
         "build")
             docker_build
             ;;
+        "build_amd64")
+            docker_build_amd64
+            ;;
+        "build_arm")
+            docker_build_arm
+            ;;
+        "build_arm64")
+            docker_build_arm64
+            ;;
         "test")
             docker_test
+            ;;
+        "test_amd64")
+            docker_test_amd64
+            ;;
+        "test_arm")
+            docker_test_arm
+            ;;
+        "test_arm64")
+            docker_test_arm64
             ;;
         "tag")
             docker_tag
@@ -40,13 +58,35 @@ docker_prepare() {
 
 docker_build() {
     echo "DOCKER BUILD: Build all docker images."
+    docker_build_amd64
+    docker_build_arm
+    docker_build_arm64
+}
+
+docker_build_amd64() {
+    echo "DOCKER BUILD: Build amd64."
     docker build --progress=plain --platform linux/amd64 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=amd64/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=amd64 --build-arg QEMU_ARCH=x86_64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-amd64 .
+}
+
+docker_build_arm() {
+    echo "DOCKER BUILD: Build arm."
     docker build --progress=plain --platform linux/arm/v7 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm32v7/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=arm32v7 --build-arg QEMU_ARCH=arm --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm32v7 .
+}
+
+docker_build_arm64()  {
+    echo "DOCKER BUILD: Build arm64."
     docker build --progress=plain --platform linux/arm64 --build-arg BUILD_REF=${BUILD_REF} --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") --build-arg BUILD_VERSION=${BUILD_VERSION} --build-arg BUILD_FROM=arm64v8/alpine:${ALPINE_VERSION} --build-arg BUILD_ARCH=aarch64 --build-arg QEMU_ARCH=aarch64 --file ./.docker/Dockerfile.alpine-tmpl --tag ${TARGET}:build-alpine-arm64v8 .
 }
 
 docker_test() {
     echo "DOCKER TEST: Test all docker images."
+    docker_test_amd64
+    docker_test_arm
+    docker_test_docker_build_arm64
+}
+
+docker_test_amd64() {
+    echo "DOCKER TEST: Test amd64."
     docker run -d --rm --name=test-alpine-amd64 ${TARGET}:build-alpine-amd64
     if [ $? -ne 0 ]; then
        echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-amd64."
@@ -56,7 +96,10 @@ docker_test() {
     fi
 
     docker kill test-alpine-amd64
+}
 
+docker_test_arm() {
+    echo "DOCKER TEST: Test arm."
     docker run -d --rm --name=test-alpine-arm32v7 ${TARGET}:build-alpine-arm32v7
     if [ $? -ne 0 ]; then
        echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm32v7."
@@ -67,6 +110,10 @@ docker_test() {
 
     docker kill test-alpine-arm32v7
 
+}
+
+docker_test_arm64() {
+    echo "DOCKER TEST: Test arm64."
     docker run -d --rm --name=test-alpine-arm64v8 ${TARGET}:build-alpine-arm64v8
     if [ $? -ne 0 ]; then
        echo "DOCKER TEST: FAILED - Docker container failed to start build-alpine-arm64v8."
