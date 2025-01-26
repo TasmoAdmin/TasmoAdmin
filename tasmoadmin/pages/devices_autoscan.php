@@ -19,9 +19,9 @@ $error        = false;
 if (isset($_REQUEST) && !empty($_REQUEST)) {
     try {
         if (isset($_REQUEST["search"])) {
-            $fromip = $_REQUEST["from_ip"];
-            $toip = $_REQUEST["to_ip"];
-            $port = $_REQUEST["port"];
+            $fromIp = htmlspecialchars($_REQUEST["from_ip"]);
+            $toIp = htmlspecialchars($_REQUEST["to_ip"]);
+            $port = htmlspecialchars($_REQUEST["port"]);
 
 
             $ipHelper = new IpHelper();
@@ -31,9 +31,9 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                 $skipIps[] = $device->ip;
             }
 
-            $ips = $ipHelper->fetchIps($fromip, $toip, $skipIps);
-            $Config->write("scan_from_ip", $fromip);
-            $Config->write("scan_to_ip", $toip);
+            $ips = $ipHelper->fetchIps($fromIp, $toIp, $skipIps);
+            $Config->write("scan_from_ip", $fromIp);
+            $Config->write("scan_to_ip", $toIp);
             $Config->write("port", $port);
 
             $urls = [];
@@ -41,8 +41,8 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                 $fakeDevice = DeviceFactory::fakeDevice(
                     $ip,
                     $port,
-                    $_REQUEST["device_username"] ?? "",
-                    $_REQUEST["device_password"] ?? ""
+                        htmlspecialchars($_REQUEST["device_username"] ?? ""),
+                        htmlspecialchars($_REQUEST["device_password"] ?? "")
                 );
                 $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
                 unset($fakeDevice);
@@ -75,8 +75,8 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
         } elseif (isset($_REQUEST["save_all"])) {
             $deviceRepository = $container->get(DeviceRepository::class);
-            $deviceUsername = $_REQUEST["device_username"] ?? "";
-            $devicePassword = $_REQUEST["device_password"] ?? "";
+            $deviceUsername = htmlspecialchars($_REQUEST["device_username"] ?? "");
+            $devicePassword = htmlspecialchars($_REQUEST["device_password"] ?? "");
             $deviceRepository->addDevices($_REQUEST["devices"], $deviceUsername, $devicePassword);
             $msg = __("MSG_DEVICES_ADD_DONE", "DEVICES_AUTOSCAN");
             $action = "done";

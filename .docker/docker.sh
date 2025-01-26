@@ -82,7 +82,7 @@ docker_test() {
     echo "DOCKER TEST: Test all docker images."
     docker_test_amd64
     docker_test_arm
-    docker_test_docker_build_arm64
+    docker_test_arm64
 }
 
 docker_test_amd64() {
