@@ -35,6 +35,7 @@ package: clean
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
 quality:
+	composer install -d tasmoadmin
 	cd tasmoadmin; ./vendor/bin/php-cs-fixer fix
 	cd tasmoadmin; ./vendor/bin/phpunit
 	cd tasmoadmin; php -d memory_limit=4G ./vendor/bin/phpstan
