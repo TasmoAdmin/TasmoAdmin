@@ -3,34 +3,36 @@
 use TasmoAdmin\Helper\LoginHelper;
 
 $register = false;
-$msg      = false;
-$user     = $Config->read("username");
-$password = $Config->read("password");
-$title    = __("LOGIN", "PAGE_TITLES");
-$page     = "login";
+$msg = false;
+$user = $Config->read('username');
+$password = $Config->read('password');
+$title = __('LOGIN', 'PAGE_TITLES');
+$page = 'login';
 
-if ($Config->read("login") == 0) {
-    header("Location: " . _BASEURL_);
+if (0 == $Config->read('login')) {
+    header('Location: '._BASEURL_);
 }
 
 $loginHelper = new LoginHelper($Config);
 
 if (!empty($_POST)) {
-    $home = $Config->read("homepage");
-    if (isset($_REQUEST["register"]) && ($user === "" || $password === "")) {
-        $loginHelper->register($_REQUEST["username"], $_REQUEST["password"]);
-        $_SESSION['login'] = "1";
-        header("Location: " . _BASEURL_ . $home);
-        exit();
+    $home = $Config->read('homepage');
+    if (isset($_REQUEST['register']) && ('' === $user || '' === $password)) {
+        $loginHelper->register($_REQUEST['username'], $_REQUEST['password']);
+        $_SESSION['login'] = '1';
+        header('Location: '._BASEURL_.$home);
+
+        exit;
     }
-    if (isset($_REQUEST["login"])) {
-        if ($user === $_REQUEST["username"] && $loginHelper->login($_REQUEST["password"], $password)) {
-            $_SESSION['login'] = "1";
-            header("Location: " . _BASEURL_ . $home);
-            exit();
+    if (isset($_REQUEST['login'])) {
+        if ($user === $_REQUEST['username'] && $loginHelper->login($_REQUEST['password'], $password)) {
+            $_SESSION['login'] = '1';
+            header('Location: '._BASEURL_.$home);
+
+            exit;
         }
 
-        $msg = __("LOGIN_INCORRECT", "LOGIN");
+        $msg = __('LOGIN_INCORRECT', 'LOGIN');
     }
 }
 
@@ -49,7 +51,7 @@ if (empty($user) || empty($password)) {
 				<div class="row">
 					<div class="col col-md-6 mx-auto">
 						<span class="anchor" id="formLogin"></span>
-						<?php if (isset($msg) && $msg != ""): ?>
+						<?php if (isset($msg) && '' != $msg) { ?>
 							<div class="alert alert-danger alert-dismissible fade show mb-5"
 								 data-dismiss="alert"
 								 role="alert"
@@ -59,44 +61,44 @@ if (empty($user) || empty($password)) {
 									<span aria-hidden="true">&times;</span>
 								</button>
 							</div>
-						<?php endif; ?>
+						<?php } ?>
 						<!-- form card login -->
 						<div class="card rounded-0 bg-dark text-white">
 							<div class="card-body">
 								<form class="form" name='loginform' method='POST'>
 									<div class="form-group col">
-										<label for="username"><?php echo __("LOGIN_USERNAME_PLACEHOLDER", "LOGIN"); ?></label>
+										<label for="username"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="text"
 											   autofocus="autofocus"
 											   class="form-control form-control-lg rounded-0"
 											   name="username"
 											   id="username"
-											   placeholder='<?php echo __("LOGIN_USERNAME_PLACEHOLDER", "LOGIN"); ?>'
+											   placeholder='<?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?>'
 											   required=""
 										>
 									
 									
 									</div>
 									<div class="form-group col">
-										<label><?php echo __("LOGIN_PASSWORD_PLACEHOLDER", "LOGIN"); ?></label>
+										<label><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="password"
 											   class="form-control form-control-lg rounded-0"
 											   id="password"
 											   name="password"
 											   required=""
-											   placeholder='<?php echo __("LOGIN_PASSWORD_PLACEHOLDER", "LOGIN"); ?>'
+											   placeholder='<?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?>'
 										>
 									</div>
 									<div class='col col-12'>
 										<button type='submit'
-												name='<?php echo $register ? "register" : "login"; ?>'
+												name='<?php echo $register ? 'register' : 'login'; ?>'
 												class='btn btn-success btn-lg float-right'
 										>
 											<?php echo $register
-                                                ? __("BTN_REGISTER", "LOGIN")
+                                                ? __('BTN_REGISTER', 'LOGIN')
                                                 : __(
-                                                    "BTN_LOGIN",
-                                                    "LOGIN"
+                                                    'BTN_LOGIN',
+                                                    'LOGIN'
                                                 ); ?>
 										</button>
 									</div>

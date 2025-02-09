@@ -12,10 +12,10 @@ if (!empty($_REQUEST['new_firmware_path'])) {
     $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']);
 }
 if (!empty($_REQUEST['target_version'])) {
-    $target_version = ($_REQUEST['target_version']);
+    $target_version = $_REQUEST['target_version'];
 }
 
-$deviceIds = $_REQUEST["device_ids"] ?? [];
+$deviceIds = $_REQUEST['device_ids'] ?? [];
 
 $deviceRepository = $container->get(DeviceRepository::class);
 $devices = $deviceRepository->getDevicesByIds($deviceIds);
@@ -23,8 +23,8 @@ $devices = $deviceRepository->getDevicesByIds($deviceIds);
 $devicesJson = [];
 foreach ($devices as $device) {
     $devicesJson[] = [
-            'id' => $device->id,
-            'name' => $device->getName(),
+        'id' => $device->id,
+        'name' => $device->getName(),
     ];
 }
 ?>
@@ -37,14 +37,14 @@ foreach ($devices as $device) {
 </div>
 <div class='row justify-content-center'>
     <div class='col col-12 col-md-10'>
-        <?php if (empty($deviceIds)): ?>
+        <?php if (empty($deviceIds)) { ?>
             <div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
-                <?php echo __("NO_DEVICES_SELECTED", "DEVICE_UPDATE"); ?>
+                <?php echo __('NO_DEVICES_SELECTED', 'DEVICE_UPDATE'); ?>
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-        <?php else: ?>
+        <?php } else { ?>
             <div id='logGlobal' class='mt-3 border p-3'>
 
             </div>
@@ -58,7 +58,7 @@ foreach ($devices as $device) {
             <script>
                 const devices = <?php echo json_encode($devicesJson); ?>;
             </script>
-            <script src="<?php echo $urlHelper->js("compiled/device_update"); ?>"></script>
-        <?php endif; ?>
+            <script src="<?php echo $urlHelper->js('compiled/device_update'); ?>"></script>
+        <?php } ?>
     </div>
 </div>

@@ -7,5 +7,6 @@ if (isset($_COOKIE['MyConfig'])) {
     setcookie('MyConfig', '', time() - 3600, '/'); // empty value and old timestamp
 }
 
-header("Location: " . _BASEURL_ . "login");
-exit();
+header('Location: '._BASEURL_.'login');
+
+exit;

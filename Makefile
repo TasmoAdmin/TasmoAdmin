@@ -7,6 +7,8 @@ clean:
 	rm -rf _releases
 	rm -rf _tmp
 	rm -rf .docker/_tmp
+	rm -f tasmoadmin/.php-cs-fixer.cache
+	rm -f tasmoadmin/.phpunit.result.cache
 
 docker-dev: clean
 	./.docker/docker.sh prepare
@@ -34,7 +36,7 @@ package: clean
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
-quality:
+quality: clean
 	composer install -d tasmoadmin
 	cd tasmoadmin; ./vendor/bin/php-cs-fixer fix
 	cd tasmoadmin; ./vendor/bin/phpunit
