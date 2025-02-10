@@ -19,7 +19,7 @@
     "@node-minify/clean-css": "^9.0.1",
     "@node-minify/core": "^9.0.2",
     "@node-minify/terser": "^9.0.1",
-    "esbuild": "0.24.2",
+    "esbuild": "0.25.0",
     "esbuild-sass-plugin": "^3.3.1",
     "glob": "^11.0.1",
     "prettier": "3.4.2"
