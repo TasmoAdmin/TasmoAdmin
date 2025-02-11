@@ -3,12 +3,11 @@
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Sonoff;
 
 $status = false;
 $device = null;
 $msg = null;
-
-use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
 $deviceRepository = $container->get(DeviceRepository::class);

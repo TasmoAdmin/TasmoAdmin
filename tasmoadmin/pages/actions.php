@@ -1,10 +1,19 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
+
+if (isset($_GET['removeDevices'], $_GET['ids'])) {
+    $deviceRepository = $container->get(DeviceRepository::class);
+    $ids = array_map('intval', explode(',', $_GET['ids']));
+    $deviceRepository->removeDevices($ids);
+
+    exit;
+}
 
 if (isset($_GET['doAjax'])) {
     session_write_close(); // stop blocking other ajax batch
