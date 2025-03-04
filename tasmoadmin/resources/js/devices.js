@@ -154,9 +154,10 @@ function initCommandHelper() {
 
   $(".sendDelete").on("click", function (e) {
     const selectedDevices = getSelectedDevices();
-    $.each(selectedDevices, function (_idx, deviceId) {
-      $.get(`${config.base_url}device_action/delete/${deviceId}`);
-    });
+    if (selectedDevices.length > 0) {
+      const idsParam = selectedDevices.join(",");
+      $.get(`${config.base_url}actions?removeDevices&ids=${idsParam}`);
+    }
 
     location.reload();
   });

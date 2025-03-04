@@ -9,13 +9,13 @@ $tasmotaHelper = new TasmotaHelper(
     new Parsedown(),
     GuzzleFactory::getClient($Config),
     new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
-    $Config->read("auto_update_channel")
+    $Config->read('auto_update_channel')
 );
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
 $releases = $tasmotaHelper->getReleases();
 
-$fwAsset = $Config->read("update_automatic_lang");
+$fwAsset = $Config->read('update_automatic_lang');
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -24,7 +24,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 			<?php echo $title; ?>
 		</h2>
 		<div class='text-center mb-3'>
-			<?php echo __("UPLOAD_DESCRIPTION", "DEVICE_UPDATE"); ?>
+			<?php echo __('UPLOAD_DESCRIPTION', 'DEVICE_UPDATE'); ?>
 			<br/>
 			<a href='https://github.com/arendst/Tasmota/releases' target='_blank'>Tasmota Releases</a>
 		</div>
@@ -37,30 +37,30 @@ $fwAsset = $Config->read("update_automatic_lang");
 
 				<div class="form-group col col-12 col-sm-9">
 					<label for="ota_server_ip">
-						<?php echo __("CONFIG_SERVER_IP", "USER_CONFIG"); ?>
+						<?php echo __('CONFIG_SERVER_IP', 'USER_CONFIG'); ?>
 					</label>
 					<input type="text"
 						   class="form-control"
 						   id="ota_server_ip"
 						   name='ota_server_ip'
 						   required
-						   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-						   value='<?php echo $Config->read("ota_server_ip"); ?>'
+						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
+						   value='<?php echo $Config->read('ota_server_ip'); ?>'
 					>
 				</div>
 				<div class="form-group col col-12 col-sm-3">
 					<label for="ota_server_ip">
-						<?php echo __("CONFIG_SERVER_PORT", "USER_CONFIG"); ?>
+						<?php echo __('CONFIG_SERVER_PORT', 'USER_CONFIG'); ?>
 					</label>
 					<input type="text"
 						   class="form-control"
 						   id="ota_server_port"
 						   name='ota_server_port'
 						   required
-						   placeholder="<?php echo __("PLEASE_ENTER"); ?>"
-						   value='<?php echo !empty($Config->read("ota_server_port")) ? $Config->read(
-						       "ota_server_port"
-						   ) : $_SERVER["SERVER_PORT"]; ?>'
+						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
+						   value='<?php echo !empty($Config->read('ota_server_port')) ? $Config->read(
+						       'ota_server_port'
+						   ) : $_SERVER['SERVER_PORT']; ?>'
 					>
 				</div>
 			</div>
@@ -68,7 +68,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 			<div class='form-row'>
 				<div class="form-group col">
 					<label for="minimal_firmware">
-						<?php echo __("FORM_CHOOSE_MINIMAL_FIRMWARE", "DEVICE_UPDATE"); ?>
+						<?php echo __('FORM_CHOOSE_MINIMAL_FIRMWARE', 'DEVICE_UPDATE'); ?>
 					</label>
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" id="minimal_firmware" name='minimal_firmware'>
@@ -83,7 +83,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 				
 				<div class="form-group col">
 					<label for="new_firmware">
-						<?php echo __("UPLOAD_FIRMWARE_FULL_LABEL", "DEVICE_UPDATE"); ?>
+						<?php echo __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'); ?>
 					</label>
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" id="new_firmware" name='new_firmware' required>
@@ -96,21 +96,21 @@ $fwAsset = $Config->read("update_automatic_lang");
 			<div class="form-row">
 				<div class="form-group col col-12 col-sm-6">
 					<label for="update_automatic_lang">
-						<?php echo __("CONFIG_AUTOMATIC_FW", "USER_CONFIG"); ?>
+						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
 					</label>
 					
 					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
-						<?php if ($fwAsset === ""): ?>
-							<option><?php echo __("PLEASE_SELECT"); ?></option>
-						<?php endif; ?>
+						<?php if ('' === $fwAsset) { ?>
+							<option><?php echo __('PLEASE_SELECT'); ?></option>
+						<?php } ?>
 						
-						<?php foreach ($releases as $tr): ?>
+						<?php foreach ($releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
-								<?php echo $fwAsset === $tr ? "selected=\selected\"" : ""; ?>
+								<?php echo $fwAsset === $tr ? 'selected=\selected"' : ''; ?>
 							>
 								<?php echo $tr; ?>
 							</option>
-						<?php endforeach; ?>
+						<?php } ?>
 					
 					
 					</select>
@@ -119,9 +119,9 @@ $fwAsset = $Config->read("update_automatic_lang");
 			<div class='form-row'>
 				<div class="col col-12 col-sm-3">
 					<button type='submit' class='btn btn-primary' id="automatic" name='auto' value='submit'
-							title='<?php echo __("BTN_UPLOAD_AUTOMATIC_HELP", "DEVICE_UPDATE"); ?>'
+							title='<?php echo __('BTN_UPLOAD_AUTOMATIC_HELP', 'DEVICE_UPDATE'); ?>'
 					>
-						<?php echo __("BTN_UPLOAD_AUTOMATIC", "DEVICE_UPDATE"); ?>
+						<?php echo __('BTN_UPLOAD_AUTOMATIC', 'DEVICE_UPDATE'); ?>
 					</button>
 				</div>
 				
@@ -129,7 +129,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 				
 				<div class='col col-12 col-sm-3 text-sm-right'>
 					<button type='submit' class='btn btn-primary' name='upload' value='submit'>
-						<?php echo __("BTN_UPLOAD_NEXT", "DEVICE_UPDATE"); ?>
+						<?php echo __('BTN_UPLOAD_NEXT', 'DEVICE_UPDATE'); ?>
 					</button>
 				</div>
 			</div>
@@ -150,7 +150,7 @@ $fwAsset = $Config->read("update_automatic_lang");
 			<div class='col col-12 col-md-6'>
 				<div class='changelog'>
 					<h1 class='text-uppercase'>
-						<?php echo __("TASMOTA_CHANGELOG", "DEVICE_UPDATE"); ?>
+						<?php echo __('TASMOTA_CHANGELOG', 'DEVICE_UPDATE'); ?>
 					</h1>
 					<?php echo $changelog; ?>
 				</div>

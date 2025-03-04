@@ -131,6 +131,11 @@ class DeviceRepository
 
     public function removeDevice(int $id): void
     {
+        $this->removeDevices([$id]);
+    }
+
+    public function removeDevices(array $ids): void
+    {
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {

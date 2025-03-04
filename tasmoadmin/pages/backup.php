@@ -1,7 +1,6 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
-
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
@@ -14,33 +13,33 @@ if (isset($_POST['device_ids'])) {
 }
 ?>
 
-<?php if (isset($backupResults, $backupAction)): ?>
+<?php if (isset($backupResults, $backupAction)) { ?>
 <div class='row justify-content-sm-center'>
     <div class='col col-12 col-md-6 '>
         <div class="alert alert-<?php echo $backupAction; ?> fade show mb-3" role="alert">
             <div class="col col-12">
-                <?php echo __("BACKUP_FINISHED", "BACKUP"); ?> - <a href="/actions?downloadBackup"><?php echo __("DOWNLOAD_BACKUP", "BACKUP"); ?></a>
-                <?php if (!$backupResults->successful()): ?>
+                <?php echo __('BACKUP_FINISHED', 'BACKUP'); ?> - <a href="/actions?downloadBackup"><?php echo __('DOWNLOAD_BACKUP', 'BACKUP'); ?></a>
+                <?php if (!$backupResults->successful()) { ?>
                     </br>
                     </br>
-                    <?php echo __("BACKUP_FAILED", "BACKUP"); ?>
+                    <?php echo __('BACKUP_FAILED', 'BACKUP'); ?>
                     <ul>
-                    <?php foreach ($backupResults->getFailures() as $failure): ?>
-                        <li><?php echo $failure->getDevice()->getName() . ': ' . $failure->getFailureReason(); ?></li>
-                    <?php endforeach; ?>
+                    <?php foreach ($backupResults->getFailures() as $failure) { ?>
+                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                    <?php } ?>
                     </ul>
-                <?php endif; ?>
+                <?php } ?>
             </div>
         </div>
     </div>
 </div>
-<?php endif; ?>
+<?php } ?>
 
 <div class='row justify-content-center'>
     <div class='col'>
         <div class='mb-3 text-center '>
             <h3>
-                <?php echo __("CHOOSE_DEVICES_TO_BACKUP", "BACKUP"); ?>
+                <?php echo __('CHOOSE_DEVICES_TO_BACKUP', 'BACKUP'); ?>
             </h3>
         </div>
         <form name='backup'
@@ -52,7 +51,7 @@ if (isset($_POST['device_ids'])) {
         <div class='form-row mb-3'>
             <div class='offset-1 col-auto col col-auto'>
                 <button type='submit' class='btn btn-success' name='submit' value='submit'>
-                    <?php echo __("BTN_START_BACKUP", "BACKUP"); ?>
+                    <?php echo __('BTN_START_BACKUP', 'BACKUP'); ?>
                 </button>
             </div>
             <div class='col col-auto'>
@@ -63,18 +62,18 @@ if (isset($_POST['device_ids'])) {
                            name='showmore'
                     >
                     <label class="form-check-label  btn btn-secondary" for="showmore">
-                        <?php echo __("SHOW_MORE", "DEVICES"); ?>
+                        <?php echo __('SHOW_MORE', 'DEVICES'); ?>
                     </label>
                 </div>
             </div>
-            <?php if ($Config->read("show_search") == 1): ?>
+            <?php if (1 == $Config->read('show_search')) { ?>
                 <div class="col col-auto">
                     <div class="form-group">
                         <div class="input-group">
                             <input type="text"
                                    name="searchterm"
                                    class='form-control device-search has-clearer'
-                                   placeholder="<?php echo __("FILTER", "DEVICES"); ?>"
+                                   placeholder="<?php echo __('FILTER', 'DEVICES'); ?>"
                             >
                             <div class="input-group-append">
 										<span class="input-group-text">
@@ -84,16 +83,17 @@ if (isset($_POST['device_ids'])) {
                         </div>
                     </div>
                 </div>
-            <?php endif; ?>
+            <?php } ?>
         </div>
         <div class='table-responsive double-scroll'>
             <?php
             $deviceLinks = true;
-$deviceLinkActionText = __("BACKUP", "BACKUP");
-include "elements/devices_table.php";
+$deviceLinkActionText = __('BACKUP', 'BACKUP');
+
+include 'elements/devices_table.php';
 ?>
         </div>
         </form>
     </div>
 </div>
-<script src="<?php echo $urlHelper->js("compiled/devices"); ?>"></script>
+<script src="<?php echo $urlHelper->js('compiled/devices'); ?>"></script>

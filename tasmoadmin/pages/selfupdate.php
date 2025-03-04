@@ -5,20 +5,20 @@ use TasmoAdmin\Helper\TasmoAdminHelper;
 use TasmoAdmin\SelfUpdate;
 use TasmoAdmin\Update\UpdateChecker;
 
-$msg        = "";
+$msg = '';
 
-$currentGitTag = $Config->read("current_git_tag");
+$currentGitTag = $Config->read('current_git_tag');
 
 $updateChecker = new UpdateChecker(
-    $Config->read("update_channel"),
+    $Config->read('update_channel'),
     $currentGitTag,
     GuzzleFactory::getClient($Config)
 );
 
-if (isset($_REQUEST["selfupdate"]) || isset($_GET["selfupdate"])) {
+if (isset($_REQUEST['selfupdate']) || isset($_GET['selfupdate'])) {
     $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
     $result = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
-    $msg  = implode("<br/>", $result['logs']);
+    $msg = implode('<br/>', $result['logs']);
     $msgClass = $result['success'] ? 'success' : 'danger';
 }
 
@@ -32,42 +32,42 @@ $changelog = $tasmoAdminHelper->getChangelog();
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 col-md-10 col-lg-8 col-xl-6'>
 		<h2 class='text-sm-center mb-5'>
-			<?php if (!$docker): ?>
+			<?php if (!$docker) { ?>
 				<?php echo $title; ?>
-			<?php else: ?>
-				<?php echo __("HELP_CHANGELOG", "NAVI"); ?>
-			<?php endif; ?>
+			<?php } else { ?>
+				<?php echo __('HELP_CHANGELOG', 'NAVI'); ?>
+			<?php } ?>
 		</h2>
 
-		<?php if (!empty($msg)): ?>
+		<?php if (!empty($msg)) { ?>
 			<div class="alert alert-<?php echo $msgClass; ?> alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-		<?php endif; ?>
-		<?php if (isset($newUpdate["error"]) && $newUpdate["error"] != ""): ?>
+		<?php } ?>
+		<?php if (isset($newUpdate['error']) && '' != $newUpdate['error']) { ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
-				<?php echo $newUpdate["msg"]; ?>
+				<?php echo $newUpdate['msg']; ?>
 				<br/>
-				<?php echo __("ERROR_CHECK_CONNECTION", "SELFUPDATE"); ?>
+				<?php echo __('ERROR_CHECK_CONNECTION', 'SELFUPDATE'); ?>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-		<?php endif; ?>
+		<?php } ?>
 		
-		<?php if ($newUpdate["update"]): ?>
+		<?php if ($newUpdate['update']) { ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
-				<?php echo __("UPDATE_FOUND", "SELFUPDATE"); ?>!
+				<?php echo __('UPDATE_FOUND', 'SELFUPDATE'); ?>!
 			</div>
 			<div class='mt-3 row'>
 				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-secondary w-100'
-					   <?php if (!empty($currentGitTag)): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
-					   target='_blank' <?php endif; ?>>
-						<?php echo __("OLD_TAG_VERSION", "SELFUPDATE", [$currentGitTag ?: __("UNKNOWN", "SELFUPDATE"),]); ?>
+					   <?php if (!empty($currentGitTag)) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
+					   target='_blank' <?php } ?>>
+						<?php echo __('OLD_TAG_VERSION', 'SELFUPDATE', [$currentGitTag ?: __('UNKNOWN', 'SELFUPDATE')]); ?>
 					</a>
 				</div>
 				<div class='col col-12 col-sm-2 text-center align-text-top'>
@@ -78,45 +78,45 @@ $changelog = $tasmoAdminHelper->getChangelog();
 				</div>
 				<div class='col col-12 col-sm-5'>
 					<a class='btn btn-primary w-100 btn-green'
-					   <?php if (!empty($newUpdate["latest_tag"])): ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $newUpdate["latest_tag"]; ?>'
-					   target='_blank' <?php endif; ?>>
-						<?php echo __("NEW_TAG_VERSION", "SELFUPDATE", [$newUpdate["latest_tag"]]); ?>
+					   <?php if (!empty($newUpdate['latest_tag'])) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $newUpdate['latest_tag']; ?>'
+					   target='_blank' <?php } ?>>
+						<?php echo __('NEW_TAG_VERSION', 'SELFUPDATE', [$newUpdate['latest_tag']]); ?>
 					</a>
 				
 				</div>
 			</div>
-			<?php if (in_array($Config->read("update_channel"), ["dev", "beta", "stable"])): ?>
+			<?php if (in_array($Config->read('update_channel'), ['dev', 'beta', 'stable'])) { ?>
 				<div class='row justify-content-sm-center mt-5'>
 					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
 						<form name='selfupdateform' method='post'>
-                            <input type="hidden" name="latest_tag" value="<?php echo $newUpdate["latest_tag"]; ?>" />
-                            <input type="hidden" name="release_url" value="<?php echo $newUpdate["release_url"]; ?>" />
+                            <input type="hidden" name="latest_tag" value="<?php echo $newUpdate['latest_tag']; ?>" />
+                            <input type="hidden" name="release_url" value="<?php echo $newUpdate['release_url']; ?>" />
                             <button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
-								<?php echo __("BTN_START_SELFUPDATE", "SELFUPDATE"); ?>
+								<?php echo __('BTN_START_SELFUPDATE', 'SELFUPDATE'); ?>
 							</button>
 						</form>
 					</div>
 				</div>
-			<?php endif; ?>
-		<?php else: ?>
+			<?php } ?>
+		<?php } else { ?>
 			<div class="alert alert-info fade show mb-5" role="alert">
-				<?php echo __("NO_UPDATE_FOUND", "SELFUPDATE"); ?>
+				<?php echo __('NO_UPDATE_FOUND', 'SELFUPDATE'); ?>
 			</div>
-		<?php endif; ?>
+		<?php } ?>
 
-		<?php if (!empty($changelog)): ?>
+		<?php if (!empty($changelog)) { ?>
 			<h1>
 				Changelog
 			</h1>
-			<?php foreach ($changelog as $entry): ?>
-				<?php if ($Config->read("update_channel") != "stable" OR ($Config->read("update_channel") == "stable" AND !$entry->prerelease)): ?>
+			<?php foreach ($changelog as $entry) { ?>
+				<?php if ('stable' != $Config->read('update_channel') or ('stable' == $Config->read('update_channel') and !$entry->prerelease)) { ?>
 					<hr/>
 					<h2 class='mb-3'>
 						<a target="blank" href="<?php echo $entry->html_url; ?>"><?php echo $entry->name; ?></a>
 					</h2>
 					<?php echo $entry->body; ?>
-				<?php endif; ?>	
-			<?php endforeach; ?>
-		<?php endif; ?>	
+				<?php } ?>	
+			<?php } ?>
+		<?php } ?>	
 	</div>
 </div>

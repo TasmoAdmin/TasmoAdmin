@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(['src', 'tests', 'includes'])
+    ->in(['src', 'tests', 'includes', 'pages'])
 ;
 
 $config = new PhpCsFixer\Config();

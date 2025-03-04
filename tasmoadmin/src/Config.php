@@ -120,7 +120,7 @@ class Config
         }
     }
 
-    public function read(string $key)
+    public function read(string $key): ?string
     {
         $config = $this->readAll();
 

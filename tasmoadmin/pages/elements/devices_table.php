@@ -16,7 +16,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
 >
     <thead>
     <tr>
-        <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
+        <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
             <div class="form-check custom-control custom-checkbox">
                 <input class="form-check-input custom-control-input select_all"
@@ -26,55 +26,55 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
                        name='select_all'
                 >
                 <label class="form-check-label custom-control-label" for="select_all">
-                    <?php echo __("TABLE_HEAD_ALL", "DEVICES"); ?>
+                    <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>
         </th>
-        <?php endif; ?>
-        <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
-        <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
-        <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
-        <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
+        <?php } ?>
+        <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_ID', 'DEVICES'); ?></th>
+        <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_POSITION', 'DEVICES'); ?></th>
+        <th data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
+        <th data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
         <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
             <i class="fas fa-signal"
-               title='<?php echo __("TABLE_HEAD_RSSI", "DEVICES"); ?>'
+               title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
             ></i>
         </th>
-        <th data-tablesaw-sortable-col><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
+        <th data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
         <th class='energyPower hidden'><?php echo __(
-            "TABLE_HEAD_ENERGY",
-            "DEVICES"
+            'TABLE_HEAD_ENERGY',
+            'DEVICES'
         ); ?></th>
-        <th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
+        <th class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
         <th class='humidity hidden'><?php echo __(
-            "TABLE_HEAD_HUMIDITY",
-            "DEVICES"
+            'TABLE_HEAD_HUMIDITY',
+            'DEVICES'
         ); ?></th>
-        <th class='more'><?php echo __("HOSTNAME", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("MAC", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("MQTT", "DEVICES"); ?></th>
+        <th class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
         <th class='more idx hidden'><?php echo __(
-            "TABLE_HEAD_IDX",
-            "DEVICES"
+            'TABLE_HEAD_IDX',
+            'DEVICES'
         ); ?></th>
-        <th class='more'><?php echo __("POWERONSTATE", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("LEDSTATE", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SAVEDATA", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SLEEP", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("BOOTCOUNT", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SAVECOUNT", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("LOGSTATES", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("WIFICONFIG", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("VCC", "DEVICES"); ?></th>
+        <th class='more'><?php echo __('POWERONSTATE', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('LEDSTATE', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SAVEDATA', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SLEEP', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('BOOTCOUNT', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SAVECOUNT', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('LOGSTATES', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
 
         <th class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>
                 <i class="fas fa-plus add"
-                   title='<?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>'
+                   title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
                 ></i>
-                <?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>
+                <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
             </a>
         </th>
     </tr>
@@ -82,29 +82,29 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
     <tbody>
     <?php
     $odd = true;
-if (isset($devices) && !empty($devices)):
-    foreach ($devices as $device_group):
-        foreach ($device_group->names as $key => $devicename): ?>
+if (isset($devices) && !empty($devices)) {
+    foreach ($devices as $device_group) {
+        foreach ($device_group->names as $key => $devicename) { ?>
                 <?php
             $device_group->keywords[] = strtolower($devicename);
             ?>
-                <tr class='<?php echo $odd ? "odd" : "even"; ?>'
+                <tr class='<?php echo $odd ? 'odd' : 'even'; ?>'
                     data-device_id='<?php echo $device_group->id; ?>'
                     data-device_group='<?php echo count($device_group->names) > 1
-                    ? "multi" : "single"; ?>'
+                    ? 'multi' : 'single'; ?>'
                     data-device_ip='<?php echo $device_group->ip; ?>'
                     data-device_relais='<?php echo $key + 1; ?>'
-                    data-keywords="<?php echo implode(" ", $device_group->keywords); ?>"
+                    data-keywords="<?php echo implode(' ', $device_group->keywords); ?>"
                 >
-                    <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
+                    <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
                     <td class='cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-                        <?php if ($key == 0): ?>
+                        <?php if (0 == $key) { ?>
                             <div class="form-check custom-control custom-checkbox">
                                 <input class="form-check-input custom-control-input device_checkbox"
                                        type="checkbox"
-                                       <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)): ?>
+                                       <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)) { ?>
                                            disabled="disabled"
-                                       <?php endif ?>
+                                       <?php } ?>
                                        value='<?php echo $device_group->id; ?>'
                                        id="cb_<?php echo $device_group->id; ?>"
                                        name='device_ids[]'
@@ -116,21 +116,21 @@ if (isset($devices) && !empty($devices)):
                             </div>
 
 
-                        <?php endif; ?>
+                        <?php } ?>
                     </td>
-                    <?php endif; ?>
+                    <?php } ?>
                     <td><?php echo $device_group->id; ?></td>
                     <td><?php echo $device_group->position; ?></td>
                     <td>
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
                            title='<?php echo __(
-                               "LINK_OPEN_DEVICE_WEBUI",
-                               "DEVICES"
+                               'LINK_OPEN_DEVICE_WEBUI',
+                               'DEVICES'
                            ); ?>'
                         ><?php echo str_replace(
-                            " ",
-                            "&nbsp;",
+                            ' ',
+                            '&nbsp;',
                             $devicename
                         ); ?></a>
                     </td>
@@ -146,8 +146,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -156,8 +156,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -166,8 +166,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -193,8 +193,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -203,8 +203,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -213,8 +213,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -228,8 +228,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -238,8 +238,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -248,8 +248,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -258,8 +258,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -268,8 +268,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -278,8 +278,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -288,8 +288,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -298,8 +298,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -308,8 +308,8 @@ if (isset($devices) && !empty($devices)):
 														<span>
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __("TEXT_LOADING"); ?>'
-                                                                     title='<?php echo __("TEXT_LOADING"); ?>'
+                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
+                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -320,32 +320,32 @@ if (isset($devices) && !empty($devices)):
                         <a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
                             <i class="fas fa-cogs fa-lg"
                                title='<?php echo __(
-                                   "LINK_DEVICE_CONFIG",
-                                   "DEVICES"
+                                   'LINK_DEVICE_CONFIG',
+                                   'DEVICES'
                                ); ?>'
                             ></i></a>
                         <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
                             <i class="fas fa-edit fa-lg"
                                title='<?php echo __(
-                                   "LINK_DEVICE_EDIT",
-                                   "DEVICES"
+                                   'LINK_DEVICE_EDIT',
+                                   'DEVICES'
                                ); ?>'
                             ></i></a>
                         <a class="delete"
                            data-dialog-btn-cancel-text='<?php echo __(
-                               "CANCEL"
+                               'CANCEL'
                            ); ?>'
                            data-dialog-btn-ok-text='<?php echo __(
-                               "DELETE_DEVICE",
-                               "DEVICES"
+                               'DELETE_DEVICE',
+                               'DEVICES'
                            ); ?>'
                            data-dialog-title='<?php echo __(
-                               "DELETE_DEVICE_CONFIRM_TITLE",
-                               "DEVICES"
+                               'DELETE_DEVICE_CONFIRM_TITLE',
+                               'DEVICES'
                            ); ?>'
                            data-dialog-text='<?php echo __(
-                               "DELETE_DEVICE_CONFIRM_TEXT",
-                               "DEVICES",
+                               'DELETE_DEVICE_CONFIRM_TEXT',
+                               'DEVICES',
                                [
                                    $devicename,
                                    $device_group->ip,
@@ -355,15 +355,15 @@ if (isset($devices) && !empty($devices)):
                         >
                             <i class="fas fa-trash fa-lg"
                                title='<?php echo __(
-                                   "LINK_DEVICE_DELETE",
-                                   "DEVICES"
+                                   'LINK_DEVICE_DELETE',
+                                   'DEVICES'
                                ); ?>'
                             ></i></a>
                         <a href='#' class='restart-device'>
                             <i class="fas fa-sync fa-lg"
                                title='<?php echo __(
-                                   "LINK_DEVICE_RESTART",
-                                   "DEVICES"
+                                   'LINK_DEVICE_RESTART',
+                                   'DEVICES'
                                ); ?>'
                             ></i></a>
                     </td>
@@ -371,13 +371,13 @@ if (isset($devices) && !empty($devices)):
                 </tr>
                 <?php
                 $odd = !$odd;
-        endforeach;
-    endforeach;
-endif; ?>
+        }
+    }
+} ?>
     </tbody>
     <tfoot>
     <tr class='bottom'>
-        <?php if(isset($deviceLinks) && $deviceLinks === true): ?>
+        <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
             <div class="form-check custom-control custom-checkbox">
                 <input class="form-check-input custom-control-input select_all"
@@ -387,54 +387,54 @@ endif; ?>
                        name='select_all'
                 >
                 <label class="form-check-label custom-control-label" for="select_all">
-                    <?php echo __("TABLE_HEAD_ALL", "DEVICES"); ?>
+                    <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>
         </th>
-        <?php endif; ?>
-        <th><?php echo __("TABLE_HEAD_ID", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_POSITION", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_NAME", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_IP", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_STATE", "DEVICES"); ?></th>
+        <?php } ?>
+        <th><?php echo __('TABLE_HEAD_ID', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_POSITION', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
         <th>
             <i class="fas fa-signal"
-               title='<?php echo __("TABLE_HEAD_RSSI", "DEVICES"); ?>'
+               title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
             ></i>
         </th>
-        <th><?php echo __("TABLE_HEAD_VERSION", "DEVICES"); ?></th>
-        <th><?php echo __("TABLE_HEAD_RUNTIME", "DEVICES"); ?></th>
+        <th><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
+        <th><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
         <th class='energyPower hidden'><?php echo __(
-            "TABLE_HEAD_ENERGY",
-            "DEVICES"
+            'TABLE_HEAD_ENERGY',
+            'DEVICES'
         ); ?></th>
-        <th class='temp hidden'><?php echo __("TABLE_HEAD_TEMP", "DEVICES"); ?></th>
+        <th class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
         <th class='humidity hidden'><?php echo __(
-            "TABLE_HEAD_HUMIDITY",
-            "DEVICES"
+            'TABLE_HEAD_HUMIDITY',
+            'DEVICES'
         ); ?></th>
-        <th class='more'><?php echo __("HOSTNAME", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("MAC", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("MQTT", "DEVICES"); ?></th>
+        <th class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
         <th class='more idx hidden'><?php echo __(
-            "TABLE_HEAD_IDX",
-            "DEVICES"
+            'TABLE_HEAD_IDX',
+            'DEVICES'
         ); ?></th>
-        <th class='more'><?php echo __("POWERONSTATE", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("LEDSTATE", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SAVEDATA", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SLEEP", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("BOOTCOUNT", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("SAVECOUNT", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("LOGSTATES", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("WIFICONFIG", "DEVICES"); ?></th>
-        <th class='more'><?php echo __("VCC", "DEVICES"); ?></th>
+        <th class='more'><?php echo __('POWERONSTATE', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('LEDSTATE', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SAVEDATA', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SLEEP', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('BOOTCOUNT', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('SAVECOUNT', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('LOGSTATES', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
+        <th class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
         <th class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>
                 <i class="fas fa-plus add"
-                   title='<?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>'
+                   title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
                 ></i>
-                <?php echo __("TABLE_HEAD_NEW_DEVICE", "DEVICES"); ?>
+                <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
             </a>
         </th>
     </tr>

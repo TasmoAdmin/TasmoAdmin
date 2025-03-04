@@ -176,6 +176,28 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(5, $repo->getDevices());
     }
 
+    public function testRemoveDevicesValid(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(5);
+        $repo->removeDevices([1, 2, 3]);
+        self::assertNull($repo->getDeviceById(2));
+        $devices = $repo->getDevices();
+        self::assertCount(2, $devices);
+        self::assertEquals(4, $devices[0]->position);
+        self::assertEquals(5, $devices[1]->position);
+    }
+
+    public function testRemoveDevicesWrongOrder(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(5);
+        $repo->removeDevices([3, 2, 1]);
+        self::assertNull($repo->getDeviceById(2));
+        $devices = $repo->getDevices();
+        self::assertCount(2, $devices);
+        self::assertEquals(4, $devices[0]->position);
+        self::assertEquals(5, $devices[1]->position);
+    }
+
     public function testGetDevicesByIds(): void
     {
         $repo = $this->getVirtualRepoWithDevices(5);
