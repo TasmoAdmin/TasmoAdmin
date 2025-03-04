@@ -11,6 +11,7 @@ $config = new PhpCsFixer\Config();
 $config
     ->setRiskyAllowed(false)
     ->setRules([
+        '@PHP84Migration' => true,
         '@PSR2' => true,
         '@PSR12' => true,
         '@PhpCsFixer' => true,

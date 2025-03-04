@@ -6,6 +6,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DeviceRepository
 {
+    private const CSV_ESCAPE_PARAM = '\\';
+
     private string $file;
 
     private string $tmpDir;
@@ -70,7 +72,7 @@ class DeviceRepository
     {
         $device = null;
         $file = fopen($this->file, 'r');
-        while (($line = fgetcsv($file)) !== false) {
+        while (($line = fgetcsv($file, escape: self::CSV_ESCAPE_PARAM)) !== false) {
             if ($line[0] == $id) {
                 $device = $this->createDeviceObject($line);
 
@@ -90,7 +92,7 @@ class DeviceRepository
     {
         $devices = [];
         $file = fopen($this->file, 'r');
-        while (($line = fgetcsv($file)) !== false) {
+        while (($line = fgetcsv($file, escape: self::CSV_ESCAPE_PARAM)) !== false) {
             $devices[] = $this->createDeviceObject($line);
         }
         fclose($file);
@@ -143,8 +145,8 @@ class DeviceRepository
             exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
-        while (($data = fgetcsv($input)) !== false) {
-            if (in_array($data[0], $ids)) {
+        while (($data = fgetcsv($input, escape: self::CSV_ESCAPE_PARAM)) !== false) {
+            if ($data[0] == $id) {
                 continue;
             }
             fputcsv($output, $data);
@@ -186,7 +188,7 @@ class DeviceRepository
             exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
-        while (($data = fgetcsv($input)) !== false) {
+        while (($data = fgetcsv($input, escape: self::CSV_ESCAPE_PARAM)) !== false) {
             if ($data[0] == $deviceArr[0]) {
                 $data = $deviceArr;
             }
