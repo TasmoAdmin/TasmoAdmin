@@ -22,7 +22,7 @@
     "esbuild": "0.25.1",
     "esbuild-sass-plugin": "^3.3.1",
     "glob": "^11.0.1",
-    "prettier": "3.5.1"
+    "prettier": "3.5.3"
   },
   "scripts": {
     "build": "node esbuild.mjs && node minify.js",
