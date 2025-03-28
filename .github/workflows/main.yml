@@ -53,7 +53,7 @@ jobs:
     - name: Run tests
       run: |
         cd tasmoadmin
-        XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover coverage.xml --display-deprecations"
+        XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover coverage.xml --display-deprecations
     - uses: codecov/codecov-action@v5
       if: matrix.php-version == '8.3'
       with:
