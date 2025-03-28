@@ -39,6 +39,27 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['socket-1'], $device->names);
     }
 
+    public function testAddDeviceWithEscapeCharacter(): void
+    {
+        $repo = $this->getVirtualRepo();
+
+        $request = [
+            'device_name' => ['socket-\\\1'],
+            'device_ip' => '127.0.0.1',
+            'device_img' => 'orange',
+            'device_position' => 1,
+        ];
+
+        // Add the device
+        $repo->addDevice($request);
+
+        self::assertCount(1, $repo->getDevices());
+
+        $device = $repo->getDevices()[0];
+
+        self::assertEquals('socket-\\\1', $device->names[0]);
+    }
+
     public function testAddDeviceId(): void
     {
         $repo = $this->getVirtualRepo();

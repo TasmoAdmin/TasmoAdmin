@@ -6,12 +6,9 @@
          bootstrap="tests/bootstrap.php"
          displayDetailsOnTestsThatTriggerWarnings="true"
 >
-  <php>
-    <ini name="error_reporting" value="-1"/>
-  </php>
   <coverage/>
   <testsuites>
-    <testsuite name="Project Test Suite">
+    <testsuite name="TasmoAdmin Test Suite">
       <directory>tests</directory>
     </testsuite>
   </testsuites>

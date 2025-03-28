@@ -6,6 +6,8 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DeviceRepository
 {
+    private const CSV_ESCAPE = '\\';
+
     private string $file;
 
     private string $tmpDir;
@@ -60,7 +62,7 @@ class DeviceRepository
             $deviceHolder[10] = $device['is_updatable'] ?? 1;
             $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
 
-            fputcsv($handle, $deviceHolder);
+            fputcsv($handle, $deviceHolder, escape: self::CSV_ESCAPE);
         }
 
         fclose($handle);
@@ -70,7 +72,7 @@ class DeviceRepository
     {
         $device = null;
         $file = fopen($this->file, 'r');
-        while (($line = fgetcsv($file)) !== false) {
+        while (($line = fgetcsv($file, escape: self::CSV_ESCAPE)) !== false) {
             if ($line[0] == $id) {
                 $device = $this->createDeviceObject($line);
 
@@ -90,7 +92,7 @@ class DeviceRepository
     {
         $devices = [];
         $file = fopen($this->file, 'r');
-        while (($line = fgetcsv($file)) !== false) {
+        while (($line = fgetcsv($file, escape: self::CSV_ESCAPE)) !== false) {
             $devices[] = $this->createDeviceObject($line);
         }
         fclose($file);
@@ -143,11 +145,11 @@ class DeviceRepository
             exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
-        while (($data = fgetcsv($input)) !== false) {
+        while (($data = fgetcsv($input, escape: self::CSV_ESCAPE)) !== false) {
             if (in_array($data[0], $ids)) {
                 continue;
             }
-            fputcsv($output, $data);
+            fputcsv($output, $data, escape: self::CSV_ESCAPE);
         }
 
         fclose($input);
@@ -186,11 +188,11 @@ class DeviceRepository
             exit(__('ERROR_CANNOT_CREATE_TMP_FILE', 'DEVICE_ACTIONS', ['tmpFilePath' => $tempFile]));
         }
 
-        while (($data = fgetcsv($input)) !== false) {
+        while (($data = fgetcsv($input, escape: self::CSV_ESCAPE)) !== false) {
             if ($data[0] == $deviceArr[0]) {
                 $data = $deviceArr;
             }
-            fputcsv($output, $data);
+            fputcsv($output, $data, escape: self::CSV_ESCAPE);
         }
 
         fclose($input);
