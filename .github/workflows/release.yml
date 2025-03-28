@@ -12,7 +12,7 @@ env:
 jobs:
   release-docker:
     name: Release new version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - name: Prepare
@@ -38,7 +38,7 @@ jobs:
       run: ./.docker/docker.sh manifest-list
   release-artifact:
     name: Release new version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - uses: shivammathur/setup-php@v2
