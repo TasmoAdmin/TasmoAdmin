@@ -171,7 +171,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							<div class="dropdown-menu bg-dark" aria-labelledby="helpDropdown">
 								<?php if ($docker) { ?>
 									<a class="dropdown-item nav-link <?php echo 'selfupdate' == $page ? 'active'
-                            : ''; ?>"
+							: ''; ?>"
 									   href="<?php echo _BASEURL_; ?>selfupdate"
 									>
 										<?php echo __('HELP_CHANGELOG', 'NAVI'); ?>

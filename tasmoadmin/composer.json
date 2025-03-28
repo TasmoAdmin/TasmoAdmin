@@ -46,6 +46,13 @@
         }
     },
     "scripts": {
-      "phpstan": "phpstan --memory-limit=-1"
+      "cs-fix": "PHP_CS_FIXER_IGNORE_ENV=1 php-cs-fixer fix",
+      "phpstan": "phpstan --memory-limit=1g",
+      "phpunit": "phpunit --display-deprecations",
+      "quality": [
+        "@cs-fix",
+        "@phpstan",
+        "@phpunit"
+      ]
     }
 }
