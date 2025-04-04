@@ -101,9 +101,9 @@ Here are steps to translate the extension to a specific language.
 1. Join [our team][transifex-team] on Transifex.
 2. Translate resources using Transifex web interface.
 
-## Support
+## Powered by
 
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="150" >
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
 
 This project supported by JetBrains through their [Licenses for Open Source](https://www.jetbrains.com/community/opensource/) program.
 
