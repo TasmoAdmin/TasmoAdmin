@@ -10,7 +10,7 @@ RUN npm ci \
     && npm run build \
     && rm -rf node_modules/
 
-FROM composer AS builder
+FROM composer:2.8.6 AS builder
 
 COPY --from=node-builder /tasmoadmin  /tasmoadmin
 
