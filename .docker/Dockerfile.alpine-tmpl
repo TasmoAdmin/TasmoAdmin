@@ -1,6 +1,15 @@
 ARG BUILD_FROM=amd64/alpine:3.21
 
-FROM node:20.18.0-slim AS node-builder
+# Build arguments
+ARG BUILD_DATE
+ARG BUILD_REF=dev
+ARG BUILD_VERSION=dev
+
+# Container versions
+ARG COMPOSER_VERSION=2.8.6
+ARG NODE_VERSION=20.18.0
+
+FROM node:${NODE_VERSION}-slim AS node-builder
 
 COPY tasmoadmin /tasmoadmin
 
@@ -10,7 +19,7 @@ RUN npm ci \
     && npm run build \
     && rm -rf node_modules/
 
-FROM composer:2.8.6 AS builder
+FROM composer:${COMPOSER_VERSION} AS builder
 
 COPY --from=node-builder /tasmoadmin  /tasmoadmin
 
@@ -20,10 +29,7 @@ RUN composer install --optimize-autoloader --no-dev
 
 FROM ${BUILD_FROM}
 
-# Build arguments
-ARG BUILD_DATE
-ARG BUILD_REF=dev
-ARG BUILD_VERSION=dev
+# Dependency versions
 ARG S6_OVERLAY_VERSION=3.1.6.2
 
 # Setup Qemu
