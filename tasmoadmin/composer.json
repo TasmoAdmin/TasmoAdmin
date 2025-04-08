@@ -29,7 +29,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "phpunit/phpunit": "^10.0",
+        "phpunit/phpunit": "^12.0",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.11",
