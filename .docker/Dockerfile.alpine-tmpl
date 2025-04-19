@@ -59,14 +59,14 @@ RUN apk add --no-cache --virtual .build-dependencies \
         musl \
         tzdata \
         nginx \
-        php83-curl \
-        php83-fpm \
-        php83-dom \
-        php83-json \
-        php83-session \
-        php83-zip \
-        php83-mbstring \
-        php83 \
+        php84-curl \
+        php84-fpm \
+        php84-dom \
+        php84-json \
+        php84-session \
+        php84-zip \
+        php84-mbstring \
+        php84 \
     \
     && S6_ARCH="${BUILD_ARCH}" \
     && if [ "${BUILD_ARCH}" = "amd64" ]; then S6_ARCH="x86_64"; \
