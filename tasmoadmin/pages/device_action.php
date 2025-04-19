@@ -106,7 +106,7 @@ if (!empty($_POST)) {
 				  action='<?php echo _BASEURL_; ?>device_action/<?php echo $action; ?><?php echo isset($device->id)
                       ? '/'.$device->id : ''; ?>'
 			>
-				<input type='hidden' name='device_id' value='<?php echo isset($device->id) ? $device->id : ''; ?>'>
+				<input type='hidden' name='device_id' value='<?php echo $device->id ?? ''; ?>'>
 				
 				
 				<div class="form-row">
@@ -121,8 +121,8 @@ if (!empty($_POST)) {
 							   name='device_ip'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
                                value='<?php echo isset($device->id) && !isset($_REQUEST['device_ip'])
-                                   ? $device->ip : (isset($_REQUEST['device_ip']) ? $_REQUEST['device_ip']
-                                       : ''); ?>'
+                                   ? $device->ip : ($_REQUEST['device_ip']
+                                       ?? ''); ?>'
                                required
 						>
 						<small id="device_ipHelp" class="form-text text-muted">
@@ -140,8 +140,8 @@ if (!empty($_POST)) {
                                name='device_port'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
                                value='<?php echo isset($device->port) && !isset($_REQUEST['device_port'])
-                                       ? $device->port : (isset($_REQUEST['device_port']) ? $_REQUEST['device_port']
-                                               : Device::DEFAULT_PORT); ?>'
+                                       ? $device->port : ($_REQUEST['device_port']
+                                               ?? Device::DEFAULT_PORT); ?>'
                                required
                         >
                         <small id="device_portHelp" class="form-text text-muted">
@@ -177,9 +177,8 @@ if (!empty($_POST)) {
 						   id="device_username"
 						   name='device_username'
 						   value='<?php echo isset($device->id) && !isset($_REQUEST['device_username'])
-                               ? $device->username : (isset($_REQUEST['device_username'])
-                                   ? $_REQUEST['device_username']
-                                   : 'admin'); ?>'
+                               ? $device->username : ($_REQUEST['device_username']
+                                   ?? 'admin'); ?>'
 					>
 					<small id="device_usernameHelp" class="form-text text-muted">
 						<?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
@@ -196,9 +195,8 @@ if (!empty($_POST)) {
 						   id="device_password"
 						   name='device_password'
 						   value='<?php echo isset($device->id) && !isset($_REQUEST['device_password'])
-                               ? $device->password : (isset($_REQUEST['device_password'])
-                                   ? $_REQUEST['device_password']
-                                   : ''); ?>'
+                               ? $device->password : ($_REQUEST['device_password']
+                                   ?? ''); ?>'
 					>
 					<small id="device_passwordHelp" class="form-text text-muted">
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
@@ -237,9 +235,8 @@ if (!empty($_POST)) {
 								   name='device_position'
 								   value='<?php echo isset($device->position)
                                    && !isset($_REQUEST['device_position'])
-                                       ? $device->position : (isset($_REQUEST['device_position'])
-                                           ? $_REQUEST['device_position']
-                                           : ''); ?>'
+                                       ? $device->position : ($_REQUEST['device_position']
+                                           ?? ''); ?>'
 							>
 							<small id="device_positionHelp" class="form-text text-muted">
 								<?php echo __('DEVICE_POSITION_HELP', 'DEVICE_ACTIONS'); ?>
@@ -261,8 +258,7 @@ if (!empty($_POST)) {
 										   name='device_name[]'
 										   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 										   value='<?php echo isset($device->id)
-						                       ? $device->names[0] : (isset($_REQUEST['device_name'][1])
-						                           ? $_REQUEST['device_name'][1] : $friendlyName); ?>'
+						                       ? $device->names[0] : ($_REQUEST['device_name'][1] ?? $friendlyName); ?>'
 										   required
 									>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">
@@ -310,8 +306,7 @@ if (!empty($_POST)) {
 					                       && !empty(
 					                           $device->names[$i - 1]
 					                       )
-					                           ? $device->names[$i - 1] : (isset($_REQUEST['device_name'][$i])
-					                               ? $_REQUEST['device_name'][$i] : $friendlyName); ?>'
+					                           ? $device->names[$i - 1] : ($_REQUEST['device_name'][$i] ?? $friendlyName); ?>'
 										   required
 									>
 									<small id="device_name_<?php echo $i; ?>Help"
@@ -362,8 +357,7 @@ if (!empty($_POST)) {
 										   name='device_name[]'
 										   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 										   value='<?php echo isset($device->id)
-						                       ? $device->names[0] : (isset($_REQUEST['device_name'][1])
-						                           ? $_REQUEST['device_name'][1] : $friendlyName); ?>'
+						                       ? $device->names[0] : ($_REQUEST['device_name'][1] ?? $friendlyName); ?>'
 										   required
 									>
 									<small id="device_nameHelp" class="form-text text-muted d-none d-sm-block">

@@ -1,5 +1,6 @@
 <?php
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmoAdminHelper;
 use TasmoAdmin\SelfUpdate;
@@ -24,7 +25,7 @@ if (isset($_REQUEST['selfupdate']) || isset($_GET['selfupdate'])) {
 
 $newUpdate = $updateChecker->checkForUpdate();
 
-$tasmoAdminHelper = new TasmoAdminHelper(new Parsedown(), GuzzleFactory::getClient($Config));
+$tasmoAdminHelper = new TasmoAdminHelper(new GithubFlavoredMarkdownConverter(), GuzzleFactory::getClient($Config));
 $changelog = $tasmoAdminHelper->getChangelog();
 
 ?>

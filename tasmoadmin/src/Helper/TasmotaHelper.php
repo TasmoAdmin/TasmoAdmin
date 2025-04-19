@@ -4,6 +4,7 @@ namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use TasmoAdmin\Update\AutoFirmwareResult;
 
 class TasmotaHelper
@@ -13,7 +14,7 @@ class TasmotaHelper
         'stable' => 'https://raw.githubusercontent.com/arendst/Tasmota/master/CHANGELOG.md',
     ];
 
-    private \Parsedown $markDownParser;
+    private GithubFlavoredMarkdownConverter $markDownParser;
 
     private Client $client;
 
@@ -22,7 +23,7 @@ class TasmotaHelper
     private string $channel;
 
     public function __construct(
-        \Parsedown $markDownParser,
+        GithubFlavoredMarkdownConverter $markDownParser,
         Client $client,
         TasmotaOtaScraper $tasmotaOtaScraper,
         string $channel
@@ -42,7 +43,7 @@ class TasmotaHelper
             'https://raw.githubusercontent.com/arendst/Tasmota/master/tools/logo/TASMOTA_FullLogo_Vector.svg',
             $releaseLog
         );
-        $releaseLog = $this->markDownParser->parse($releaseLog);
+        $releaseLog = $this->markDownParser->convert($releaseLog);
         $releaseLog = $this->replaceIssuesWithUrls($releaseLog);
 
         return str_replace(
@@ -55,7 +56,7 @@ class TasmotaHelper
     public function getChangelog(): string
     {
         $changeLog = $this->getContents(self::CHANGELOG_URLS[$this->channel]);
-        $changeLog = $this->markDownParser->parse($changeLog);
+        $changeLog = $this->markDownParser->convert($changeLog);
 
         return $this->replaceIssuesWithUrls($changeLog);
     }

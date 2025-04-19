@@ -3,14 +3,15 @@
 namespace TasmoAdmin\Helper;
 
 use GuzzleHttp\Client;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 
 class TasmoAdminHelper
 {
-    private \Parsedown $markDownParser;
+    private GithubFlavoredMarkdownConverter $markDownParser;
 
     private Client $client;
 
-    public function __construct(\Parsedown $markDownParser, Client $client)
+    public function __construct(GithubFlavoredMarkdownConverter $markDownParser, Client $client)
     {
         $this->markDownParser = $markDownParser;
         $this->client = $client;
@@ -24,7 +25,7 @@ class TasmoAdminHelper
         $changelog = json_decode($changelogContent);
 
         foreach ($changelog as $key => $value) {
-            $changelog[$key]->body = $this->markDownParser->parse($value->body);
+            $changelog[$key]->body = $this->markDownParser->convert($value->body);
         }
 
         return $changelog;

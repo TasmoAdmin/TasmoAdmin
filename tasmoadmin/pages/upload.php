@@ -1,5 +1,6 @@
 <?php
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
@@ -153,7 +154,7 @@ if (isset($_REQUEST['upload'])) {
 } elseif (isset($_REQUEST['auto'])) {
     $client = GuzzleFactory::getClient($Config);
     $tasmotaHelper = new TasmotaHelper(
-        new Parsedown(),
+        new GithubFlavoredMarkdownConverter(),
         $client,
         new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
         $Config->read('auto_update_channel')
@@ -192,8 +193,8 @@ if (isset($_REQUEST['upload'])) {
     $errors[] = __('UPLOAD_PLEASE_UPLOAD_FIRMWARE', 'DEVICE_UPDATE').'<br/>';
 }
 
-$ota_server_ip = isset($_REQUEST['ota_server_ip']) ? $_REQUEST['ota_server_ip'] : '';
-$ota_server_port = isset($_REQUEST['ota_server_port']) ? $_REQUEST['ota_server_port'] : '';
+$ota_server_ip = $_REQUEST['ota_server_ip'] ?? '';
+$ota_server_port = $_REQUEST['ota_server_port'] ?? '';
 
 $Config->write('ota_server_ip', $ota_server_ip);
 $Config->write('ota_server_port', $ota_server_port);
