@@ -1,5 +1,6 @@
 <?php
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
@@ -153,7 +154,7 @@ if (isset($_REQUEST['upload'])) {
 } elseif (isset($_REQUEST['auto'])) {
     $client = GuzzleFactory::getClient($Config);
     $tasmotaHelper = new TasmotaHelper(
-        new Parsedown(),
+        new GithubFlavoredMarkdownConverter(),
         $client,
         new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
         $Config->read('auto_update_channel')

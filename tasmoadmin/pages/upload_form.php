@@ -1,12 +1,13 @@
 <?php
 
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
 $tasmotaHelper = new TasmotaHelper(
-    new Parsedown(),
+    new GithubFlavoredMarkdownConverter(),
     GuzzleFactory::getClient($Config),
     new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
     $Config->read('auto_update_channel')
