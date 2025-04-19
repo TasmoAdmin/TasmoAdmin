@@ -359,8 +359,8 @@ $port = $Config->read('port');
                         <?php $channelFound = true; ?>
                         <?php
                         $friendlyName = is_array($device->Status->FriendlyName) // array since 5.12.0h
-                            ? (isset($device->Status->FriendlyName[$i - 1]) ? $device->Status->FriendlyName[$i - 1]
-                                : '') : $device->Status->FriendlyName.' '.$i;
+                            ? ($device->Status->FriendlyName[$i - 1]
+                                ?? '') : $device->Status->FriendlyName.' '.$i;
                         ?>
                         <div class="form-row">
                             <div class="form-group col col-12 col-sm-6">
