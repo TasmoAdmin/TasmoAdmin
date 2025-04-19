@@ -3,6 +3,19 @@
   "extends": [
     "config:recommended"
   ],
+  "packageRules": [
+    {
+      "matchPackagePrefixes": [
+        "symfony/",
+        "phpunit/phpunit"
+      ],
+      "groupName": "symfony",
+      "versioning": "composer",
+      "major": {
+        "enabled": false
+      }
+    }
+  ],
   "customManagers": [
     {
       "customType": "regex",
