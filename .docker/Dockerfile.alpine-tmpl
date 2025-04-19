@@ -1,9 +1,5 @@
 ARG BUILD_FROM=amd64/alpine:3.21
 
-# Build arguments
-ARG BUILD_DATE
-ARG BUILD_REF=dev
-ARG BUILD_VERSION=dev
 
 # Container versions
 ARG COMPOSER_VERSION=2.8.8
@@ -28,6 +24,11 @@ WORKDIR /tasmoadmin
 RUN composer install --optimize-autoloader --no-dev
 
 FROM ${BUILD_FROM}
+
+# Build arguments
+ARG BUILD_DATE
+ARG BUILD_REF=dev
+ARG BUILD_VERSION=dev
 
 # Dependency versions
 ARG S6_OVERLAY_VERSION=3.1.6.2
