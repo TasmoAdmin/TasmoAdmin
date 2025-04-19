@@ -12,6 +12,24 @@
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "just-containers/s6-overlay"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["/.docker/Dockerfile.alpine-tmpl"],
+      "matchStrings": [
+        "ARG COMPOSER_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "composer"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["/.docker/Dockerfile.alpine-tmpl"],
+      "matchStrings": [
+        "ARG NODE_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "node"
     }
   ]
 }
