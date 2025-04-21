@@ -15,7 +15,7 @@
 [![Github all releases](https://img.shields.io/github/downloads/TasmoAdmin/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
 [![GitHub license](https://img.shields.io/github/license/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
 [![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
-[![php](https://img.shields.io/badge/php-8.2.x-%238892BF.svg)](https://secure.php.net/)
+[![php](https://img.shields.io/badge/php-8.4.x-%238892BF.svg)](https://secure.php.net/)
 
 </div>
 
