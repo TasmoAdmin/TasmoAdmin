@@ -1,0 +1,11 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    - id: trailing-whitespace
+      exclude: '^tasmoadmin/tmp/'
+    - id: end-of-file-fixer
+      exclude: '^tasmoadmin/tmp/'
+    - id: check-yaml
+    - id: check-toml
+    - id: check-added-large-files

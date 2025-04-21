@@ -5,14 +5,32 @@ on:
     branches: [master]
   pull_request: ~
 
+env:
+  FORCE_COLOR: 1
+
 jobs:
+  pre-commit:
+    name: Run pre-commit checks
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: jdx/mise-action@v2
+      - name: Cache pre-commit environment
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            pre-commit-${{ runner.os }}-
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure --color=always
   phpstan:
     name: Run PHPStan
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v4
     - name: Install PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
     - name: Install dependencies
@@ -27,7 +45,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install PHP
-        uses: shivammathur/setup-php@master
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
       - name: Install dependencies
@@ -45,7 +63,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install PHP
-      uses: shivammathur/setup-php@master
+      uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
     - name: Install dependencies

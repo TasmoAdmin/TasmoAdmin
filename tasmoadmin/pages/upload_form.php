@@ -29,8 +29,8 @@ $fwAsset = $Config->read('update_automatic_lang');
 			<br/>
 			<a href='https://github.com/arendst/Tasmota/releases' target='_blank'>Tasmota Releases</a>
 		</div>
-		
-		
+
+
 		<form class='' name='update_form' method='post' enctype='multipart/form-data'
 			  action='<?php echo _BASEURL_; ?>upload'
 		>
@@ -65,7 +65,7 @@ $fwAsset = $Config->read('update_automatic_lang');
 					>
 				</div>
 			</div>
-			
+
 			<div class='form-row'>
 				<div class="form-group col">
 					<label for="minimal_firmware">
@@ -74,14 +74,14 @@ $fwAsset = $Config->read('update_automatic_lang');
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" id="minimal_firmware" name='minimal_firmware'>
 						<label class="custom-file-label" for="minimal_firmware">
-						
+
 						</label>
 					</div>
 				</div>
 			</div>
-			
+
 			<div class='form-row'>
-				
+
 				<div class="form-group col">
 					<label for="new_firmware">
 						<?php echo __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'); ?>
@@ -89,7 +89,7 @@ $fwAsset = $Config->read('update_automatic_lang');
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" id="new_firmware" name='new_firmware' required>
 						<label class="custom-file-label" for="new_firmware">
-						
+
 						</label>
 					</div>
 				</div>
@@ -99,12 +99,12 @@ $fwAsset = $Config->read('update_automatic_lang');
 					<label for="update_automatic_lang">
 						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
 					</label>
-					
+
 					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
 						<?php if ('' === $fwAsset) { ?>
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
-						
+
 						<?php foreach ($releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
 								<?php echo $fwAsset === $tr ? 'selected=\selected"' : ''; ?>
@@ -112,8 +112,8 @@ $fwAsset = $Config->read('update_automatic_lang');
 								<?php echo $tr; ?>
 							</option>
 						<?php } ?>
-					
-					
+
+
 					</select>
 				</div>
 			</div>
@@ -125,21 +125,21 @@ $fwAsset = $Config->read('update_automatic_lang');
 						<?php echo __('BTN_UPLOAD_AUTOMATIC', 'DEVICE_UPDATE'); ?>
 					</button>
 				</div>
-				
+
 				<div class='col flex-column mb-3 mb-sm-0'></div>
-				
+
 				<div class='col col-12 col-sm-3 text-sm-right'>
 					<button type='submit' class='btn btn-primary' name='upload' value='submit'>
 						<?php echo __('BTN_UPLOAD_NEXT', 'DEVICE_UPDATE'); ?>
 					</button>
 				</div>
 			</div>
-		
-		
+
+
 		</form>
-	
+
 	</div>
-	
+
 	<div class='col-12'>
 		<hr class='my-5'>
 		<div class='row'>

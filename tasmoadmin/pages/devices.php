@@ -7,7 +7,7 @@ $devices = $Sonoff->getDevices();
 ?>
 <div class='row'>
 	<div class='col col-12'>
-		
+
 		<?php if (!empty($devices)) { ?>
 			<div class='row mb-1 mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
@@ -133,10 +133,10 @@ $devices = $Sonoff->getDevices();
 					</a>
 				</div>
 			</div>
-		
+
 		<?php } ?>
-	
-	
+
+
 	</div>
 </div>
 <?php include 'elements/modal_delete_device.php'; ?>

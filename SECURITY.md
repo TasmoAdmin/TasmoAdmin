@@ -9,4 +9,3 @@ Please report any security vulnerabilities to me@malachisoord.com. Please includ
 - What version(s) are affected if known
 - Technical details of how to repoduce
 - Proposals of how the solution could be tackled
-

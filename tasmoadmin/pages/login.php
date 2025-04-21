@@ -76,8 +76,8 @@ if (empty($user) || empty($password)) {
 											   placeholder='<?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?>'
 											   required=""
 										>
-									
-									
+
+
 									</div>
 									<div class="form-group col">
 										<label><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
@@ -107,13 +107,13 @@ if (empty($user) || empty($password)) {
 							<!--/card-block-->
 						</div>
 						<!-- /form card login -->
-					
+
 					</div>
-				
-				
+
+
 				</div>
 				<!--/row-->
-			
+
 			</div>
 			<!--/col-->
 		</div>
@@ -121,4 +121,3 @@ if (empty($user) || empty($password)) {
 	</div>
 </div>
 <!--/container-->
-

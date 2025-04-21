@@ -7,4 +7,3 @@ source_file   = tasmoadmin/lang/en/lang.ini
 type          = PHP_INI
 minimum_perc  = 0
 resource_name = lang.ini
-
