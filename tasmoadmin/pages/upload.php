@@ -246,7 +246,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
         </div>
     </div>
     <?php } ?>
-	
+
 	<?php
 
     $devices = $Sonoff->getDevices();
@@ -257,8 +257,8 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
     }));
 
     ?>
-	
-	
+
+
 	<?php if (isset($_REQUEST['auto'])) { ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col col-12 col-md-6 '>
@@ -333,7 +333,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 						</div>
 					</div>
 				</div>
-				
+
 				<div class='form-row mt-3'>
 					<div class='col col-auto offset-1'>
 						<button type='submit' class='btn btn-success' name='submit' value='submit'>
@@ -354,9 +354,8 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 					</div>
 				</div>
 			</form>
-		
+
 		</div>
 	</div>
 	<script src="<?php echo $urlHelper->js('compiled/devices'); ?>"></script>
 <?php } ?>
-

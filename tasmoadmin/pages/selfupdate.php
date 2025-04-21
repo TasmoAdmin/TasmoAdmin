@@ -58,7 +58,7 @@ $changelog = $tasmoAdminHelper->getChangelog();
 				</button>
 			</div>
 		<?php } ?>
-		
+
 		<?php if ($newUpdate['update']) { ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
 				<?php echo __('UPDATE_FOUND', 'SELFUPDATE'); ?>!
@@ -83,7 +83,7 @@ $changelog = $tasmoAdminHelper->getChangelog();
 					   target='_blank' <?php } ?>>
 						<?php echo __('NEW_TAG_VERSION', 'SELFUPDATE', [$newUpdate['latest_tag']]); ?>
 					</a>
-				
+
 				</div>
 			</div>
 			<?php if (in_array($Config->read('update_channel'), ['dev', 'beta', 'stable'])) { ?>
@@ -116,8 +116,8 @@ $changelog = $tasmoAdminHelper->getChangelog();
 						<a target="blank" href="<?php echo $entry->html_url; ?>"><?php echo $entry->name; ?></a>
 					</h2>
 					<?php echo $entry->body; ?>
-				<?php } ?>	
+				<?php } ?>
 			<?php } ?>
-		<?php } ?>	
+		<?php } ?>
 	</div>
 </div>

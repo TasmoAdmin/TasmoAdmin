@@ -76,7 +76,7 @@ if (!empty($_POST)) {
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-		
+
 		<?php } ?>
 		<?php if ('done' == $action) { ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
@@ -98,8 +98,8 @@ if (!empty($_POST)) {
 					<small>( ID: <?php echo $device->id; ?> )</small>
 				</h3>
 			<?php } ?>
-			
-			
+
+
 			<form class='form'
 				  name='save_device'
 				  method='post'
@@ -107,8 +107,8 @@ if (!empty($_POST)) {
                       ? '/'.$device->id : ''; ?>'
 			>
 				<input type='hidden' name='device_id' value='<?php echo $device->id ?? ''; ?>'>
-				
-				
+
+
 				<div class="form-row">
 					<div class="form-group col col-12 col-sm-6">
 						<label for="device_ip">
@@ -169,7 +169,7 @@ if (!empty($_POST)) {
 					-->
 					<input id="username" style="display: none;" type="text" name="username"/>
 					<input id="password" style="display: none;" type="password" name="password"/>
-					
+
 					<input type="text"
 						   autocomplete='off'
 						   autofill='off'
@@ -202,8 +202,8 @@ if (!empty($_POST)) {
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
 					</small>
 				</div>
-				
-				
+
+
 				<?php if (isset($status) && !empty($status) && !isset($status->ERROR)) { ?>
 					<?php if (isset($status->WARNING) && !empty($status->WARNING)) { ?>
 						<div class="alert alert-warning alert-dismissible fade show mb-5" data-dismiss="alert"
@@ -220,7 +220,7 @@ if (!empty($_POST)) {
 							 role="alert"
 						>
 							<?php echo __('MSG_DEVICE_FOUND', 'DEVICE_ACTIONS'); ?>
-							
+
 							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -275,13 +275,13 @@ if (!empty($_POST)) {
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __('DEVICE_NAME_TOOLTIP', 'DEVICE_ACTIONS'); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
 						<?php } ?>
-						
-						
+
+
 						<?php
                         $i = 1;
 					    $power = 'POWER'.$i;
@@ -326,20 +326,20 @@ if (!empty($_POST)) {
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __('DEVICE_NAME_TOOLTIP', 'DEVICE_ACTIONS'); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
-							
-							
+
+
 							<?php
 
                             ++$i;
 					        $power = 'POWER'.$i;
 					        ?>
-						
+
 						<?php } ?>
-						
+
 						<?php if (!isset($status->StatusSTS->POWER) && !$channelFound) {
 						    // no channel found?>
 							<?php
@@ -374,16 +374,16 @@ if (!empty($_POST)) {
 									<small id="default_nameHelp" class="form-text text-muted">
 										<?php echo __('DEVICE_NAME_TOOLTIP', 'DEVICE_ACTIONS'); ?>
 									</small>
-								
-								
+
+
 								</div>
 							</div>
 						<?php } ?>
-						
+
 						<div class="form-row">
 							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
-									
+
 									<input type='hidden' name='device_all_off' value='0'>
 									<input class="form-check-input custom-control-input"
 										   type="checkbox"
@@ -397,7 +397,7 @@ if (!empty($_POST)) {
 							</div>
 							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
-									
+
 									<input type='hidden' name='device_protect_on' value='0'>
 									<input class="form-check-input custom-control-input"
 										   type="checkbox"
@@ -411,7 +411,7 @@ if (!empty($_POST)) {
 							</div>
 							<div class="form-group col col-12 col-sm-3">
 								<div class="form-check custom-control custom-checkbox mb-5">
-									
+
 									<input type='hidden' name='device_protect_off' value='0'>
 									<input class="form-check-input custom-control-input"
 										   type="checkbox"
@@ -439,7 +439,7 @@ if (!empty($_POST)) {
                             </div>
 						</div>
 					<?php } ?>
-				
+
 				<?php } ?>
 				<div class="row">
 					<div class="col col-12 col-sm-6 text-left">
@@ -460,13 +460,13 @@ if (!empty($_POST)) {
 						</button>
 					</div>
 				</div>
-				
+
 				</table>
 			</form>
-		
-		
+
+
 		<?php } ?>
-	
+
 	</div>
 </div>
 <script>

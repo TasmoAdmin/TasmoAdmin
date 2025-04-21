@@ -11,8 +11,8 @@
 
                 $updateCheck = $Config->read('check_for_updates');
 				?>
-				
-				
+
+
 				<div id="versionHolder" class='d-inline-block' data-update-check='<?php echo $updateCheck; ?>'>
 					<?php echo substr($Config->read('current_git_tag'), 0, 15); ?>
 					<i id='update-icon'
@@ -39,7 +39,7 @@
 				>
 					Tasmota GitHub<?php // echo __( "VIEW_ON_GITHUB" );?>
 				</a>
-			
+
 			</span>
 		</div>
 	</div>

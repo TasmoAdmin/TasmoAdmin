@@ -81,7 +81,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				</h2>
 			</div>
 		</div>
-		
+
 		<?php if (isset($msg) && '' != $msg) { ?>
 			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
@@ -178,12 +178,12 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						>
 							<?php echo __('CONFIG_HOMEPAGE_DEVICES', 'USER_CONFIG'); ?>
 						</option>
-					
+
 					</select>
 				</div>
 			</div>
-			
-			
+
+
 			<div class="form-row  mt-5">
 				<div class="form-group col col-12 col-sm-9">
 					<label for="ota_server_ip">
@@ -217,8 +217,8 @@ $autoFirmwareChannels = ['stable', 'dev'];
 					</small>
 				</div>
 			</div>
-			
-			
+
+
 			<div class="form-row">
                 <div class="form-group col col-12">
                     <h2><?php echo __('CONFIG_AUTO_FIRMWARE_TITLE', 'USER_CONFIG'); ?></h2>
@@ -231,7 +231,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<?php if ('' == $config['update_automatic_lang']) { ?>
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
-						
+
 						<?php foreach ($tasmotaReleases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
 								<?php echo $config['update_automatic_lang'] == $tr ? 'selected="selected"' : ''; ?>
@@ -364,7 +364,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 					</select>
 				</div>
 			</div>
-			
+
 			<div class="form-row">
 				<div class="form-group col col-12 col-sm-4">
 					<div class="form-check custom-control custom-checkbox mb-5">
@@ -466,7 +466,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     </small>
                 </div>
             </div>
-			
+
 			<div class="form-row  mt-5">
 				<div class='d-none d-sm-inline-flex col flex-column'></div>
 				<div class="col col-12 col-sm-6 text-sm-right">

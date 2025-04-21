@@ -30,8 +30,8 @@ $urlHelper = $container->get(UrlHelper::class);
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
 		<meta name="theme-color" content="#ffffff">
-		
-		
+
+
 		<title><?php echo isset($title) ? $title.' - ' : ''; ?>TasmoAdmin</title>
 		<script type="application/javascript">
             const config = {
@@ -48,13 +48,13 @@ $urlHelper = $container->get(UrlHelper::class);
 		<script src="<?php echo $urlHelper->js('compiled/Sonoff'); ?>"></script>
 		<script src="<?php echo $urlHelper->js('compiled/app'); ?>"></script>
 
-		
+
 		<link href="<?php echo $urlHelper->style('compiled/all'); ?>" rel="stylesheet">
-		
+
 		<?php if (@file_exists(_RESOURCESDIR_.'css/custom.css')) { ?>
 			<link href="<?php echo $urlHelper->style('custom'); ?>" rel="stylesheet">
 		<?php } ?>
-	
+
 	</head>
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
@@ -73,7 +73,7 @@ $urlHelper = $container->get(UrlHelper::class);
 				>
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				
+
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav mr-auto">
 						<?php if ($loggedin) { ?>
@@ -84,7 +84,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								); ?></a>
 							</li>
 						<?php } ?>
-						
+
 						<?php if ($loggedin) { ?>
 							<li class="nav-item dropdown">
 								<a class="nav-link dropdown-toggle <?php echo in_array(
@@ -124,7 +124,7 @@ $urlHelper = $container->get(UrlHelper::class);
                                        href="<?php echo _BASEURL_; ?>backup"
                                     ><?php echo __('DEVICES_BACKUP', 'NAVI'); ?>
                                     </a>
-									
+
 									<a class="dropdown-item nav-link <?php echo 'devices_autoscan' == $page ? 'active' : ''; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"
 									>
@@ -142,7 +142,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								</a>
 							</li>
 						<?php } ?>
-						
+
 						<?php if ($loggedin && !$docker) { ?>
 							<li class="nav-item">
 								<a class="nav-link <?php echo 'selfupdate' == $page ? 'active' : ''; ?>"
@@ -209,7 +209,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								>
 									<?php echo __('HELP_TASTROUBLESHOOTING', 'NAVI'); ?>
 								</a>
-								
+
 								<a href='https://discord.gg/Ks2Kzd4' target='_blank'
 								   class='dropdown-item nav-link <?php echo in_array(
 								       $page,
@@ -226,7 +226,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								>
 									<?php echo __('HELP_DISCORD_TASMOADMIN', 'NAVI'); ?>
 								</a>
-							
+
 							</div>
 						</li>
 					</ul>

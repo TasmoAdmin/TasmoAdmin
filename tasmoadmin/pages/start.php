@@ -8,7 +8,7 @@ $devices = $Sonoff->getDevices();
 
 ?>
 <div class='container-fluid'>
-	
+
 	<?php if (!empty($devices)) {
 	    $nightmode = '';   // todo: make function
 	    $h = date('H');
@@ -56,7 +56,7 @@ $devices = $Sonoff->getDevices();
 					</div>
 				</div>
 			</div>
-			
+
 			<?php foreach ($devices as $device_group) { ?>
 				<?php foreach ($device_group->names as $key => $devicename) { ?>
 					<?php
@@ -130,7 +130,7 @@ $devices = $Sonoff->getDevices();
 				</a>
 			</div>
 		</div>
-	
+
 	<?php } ?>
 </div>
 
