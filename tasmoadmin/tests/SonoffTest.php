@@ -158,6 +158,18 @@ class SonoffTest extends TestCase
         self::assertEquals(['socket-4'], $devices[4]->names);
     }
 
+    public function testBackup(): void
+    {
+        $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
+        $fileContent = 'fake-backup';
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
+            new Response(200, [], $fileContent),
+        ]), $this->getTestConfig());
+        $location = $sonoff->backup($device, $this->getBackupDir());
+        $this->assertTrue($this->root->hasChild('backups/'.$device->getBackupName()));
+        $this->assertEquals($fileContent, file_get_contents($location));
+    }
+
     private function getClient(array $responses = []): Client
     {
         $mock = new MockHandler($responses);
@@ -180,5 +192,13 @@ class SonoffTest extends TestCase
     private function getTestConfig(): Config
     {
         return new Config($this->root->url().'/', $this->root->url().'/');
+    }
+
+    private function getBackupDir(): string
+    {
+        $backupDir = $this->root->url().'/backups/';
+        mkdir($backupDir);
+
+        return $backupDir;
     }
 }
