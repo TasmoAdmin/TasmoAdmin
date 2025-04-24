@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "rebaseWhen": "behind-base-branch",
   "extends": [
     "config:recommended"
   ],
