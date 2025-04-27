@@ -11,3 +11,7 @@ services:
     volumes:
       - ./tasmoadmin:/var/www/tasmoadmin
       - ./.storage:/data/tasmoadmin
+      - web_tmp:/var/www/tasmoadmin/tmp
+
+volumes:
+  web_tmp:
