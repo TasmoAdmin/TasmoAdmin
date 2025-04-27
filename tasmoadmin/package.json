@@ -7,7 +7,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@wikimedia/jquery.i18n": "^1.0.9",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.0.0",
     "compare-versions": "^6.1.1",
     "jqdoublescroll": "^1.0.0",
     "jquery": "^3.7.1",
