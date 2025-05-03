@@ -10,10 +10,19 @@
   "packageRules": [
     {
       "matchPackagePrefixes": [
-        "symfony/",
-        "phpunit/phpunit"
+        "symfony/"
       ],
       "groupName": "symfony",
+      "versioning": "composer",
+      "major": {
+        "enabled": false
+      }
+    },
+    {
+      "matchPackagePrefixes": [
+        "phpunit/phpunit"
+      ],
+      "groupName": "phpunit",
       "versioning": "composer",
       "major": {
         "enabled": false
