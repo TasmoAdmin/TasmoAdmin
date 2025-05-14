@@ -32,7 +32,9 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["/.docker/Dockerfile.alpine-tmpl"],
+      "fileMatch": [
+        "/.docker/Dockerfile.alpine-tmpl"
+      ],
       "matchStrings": [
         "ARG S6_OVERLAY_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
       ],
@@ -41,7 +43,9 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["/.docker/Dockerfile.alpine-tmpl"],
+      "fileMatch": [
+        "/.docker/Dockerfile.alpine-tmpl"
+      ],
       "matchStrings": [
         "ARG COMPOSER_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
       ],
@@ -50,21 +54,25 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["/.docker/Dockerfile.alpine-tmpl"],
+      "fileMatch": [
+        "/.docker/Dockerfile.alpine-tmpl"
+      ],
       "matchStrings": [
         "ARG NODE_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "node",
-      "groupName": "Node.js Updates",
-      "groupSlug": "nodejs"
+      "group": "nodejs"
     },
     {
-      "matchFileNames": ["/tasmoadmin/.nvmrc"],
-      "datasources": ["node"],
+      "matchFileNames": [
+        "/tasmoadmin/.nvmrc"
+      ],
+      "datasources": [
+        "node"
+      ],
       "depName": "node",
-      "groupName": "Node.js Updates",
-      "groupSlug": "nodejs"
-    },
+      "group": "nodejs"
+    }
   ]
 }
