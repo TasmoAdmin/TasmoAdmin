@@ -55,7 +55,16 @@
         "ARG NODE_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
       ],
       "datasourceTemplate": "docker",
-      "depNameTemplate": "node"
-    }
+      "depNameTemplate": "node",
+      "groupName": "Node.js Updates",
+      "groupSlug": "nodejs"
+    },
+    {
+      "matchFileNames": ["/tasmoadmin/.nvmrc"],
+      "datasources": ["node"],
+      "depName": "node",
+      "groupName": "Node.js Updates",
+      "groupSlug": "nodejs"
+    },
   ]
 }
