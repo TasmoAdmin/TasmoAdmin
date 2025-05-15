@@ -9,31 +9,31 @@
   },
   "packageRules": [
     {
-      "matchPackagePrefixes": [
-        "symfony/"
-      ],
       "groupName": "symfony",
       "versioning": "composer",
       "major": {
         "enabled": false
-      }
+      },
+      "matchPackageNames": [
+        "/^symfony/.+$/"
+      ]
     },
     {
-      "matchPackagePrefixes": [
-        "phpunit/phpunit"
-      ],
       "groupName": "phpunit",
       "versioning": "composer",
       "major": {
         "enabled": false
-      }
+      },
+      "matchPackageNames": [
+        "/^phpunit\/phpunit$/"
+      ]
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": [
-        "/.docker/Dockerfile.alpine-tmpl"
+      "managerFilePatterns": [
+        "//.docker/Dockerfile.alpine-tmpl/"
       ],
       "matchStrings": [
         "ARG S6_OVERLAY_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
@@ -43,8 +43,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "/.docker/Dockerfile.alpine-tmpl"
+      "managerFilePatterns": [
+        "//.docker/Dockerfile.alpine-tmpl/"
       ],
       "matchStrings": [
         "ARG COMPOSER_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
@@ -54,8 +54,8 @@
     },
     {
       "customType": "regex",
-      "fileMatch": [
-        "/.docker/Dockerfile.alpine-tmpl"
+      "managerFilePatterns": [
+        "//.docker/Dockerfile.alpine-tmpl/"
       ],
       "matchStrings": [
         "ARG NODE_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
