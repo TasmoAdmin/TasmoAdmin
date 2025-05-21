@@ -3,7 +3,7 @@ ARG BUILD_FROM=amd64/alpine:3.21
 
 # Container versions
 ARG COMPOSER_VERSION=2.8.9
-ARG NODE_VERSION=22.15.0-slim
+ARG NODE_VERSION=22.16.0-slim
 
 FROM node:${NODE_VERSION} AS node-builder
 
