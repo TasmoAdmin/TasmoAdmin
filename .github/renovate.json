@@ -72,7 +72,18 @@
         "ALPINE_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
       ],
       "datasourceTemplate": "docker",
-      "depNameTemplate": "alpine"
+      "depNameTemplate": "alpine:{{currentValue}}"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "//.docker/docker.sh/"
+      ],
+      "matchStrings": [
+        "QEMU_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "multiarch/qemu-user-static"
     }
   ]
 }
