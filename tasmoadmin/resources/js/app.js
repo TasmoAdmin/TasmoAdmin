@@ -181,7 +181,7 @@ $.fn.attachDragger = function () {
       e.type === "mousedown" &&
       !$(e.target).hasClass("tablesaw-cell-content")
     ) {
-      (attachment = true), (lastPosition = [e.clientX, e.clientY]);
+      ((attachment = true), (lastPosition = [e.clientX, e.clientY]));
       $(".tablesaw-cell-content").addClass("dontselect");
     }
     if (e.type === "mouseup") {
