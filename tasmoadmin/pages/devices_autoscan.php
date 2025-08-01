@@ -97,7 +97,7 @@ $port = $Config->read('port');
         <?php if (isset($error) && $error) { ?>
             <div class='row justify-content-sm-center'>
                 <div class='col col-12'>
-                    <div class="alert alert-danger fade show mb-5" data-dismiss="alert" role="alert">
+                    					<div class="alert alert-danger fade show mb-5" data-bs-dismiss="alert" role="alert">
                         <?php echo $msg; ?>
                     </div>
                 </div>
@@ -108,7 +108,7 @@ $port = $Config->read('port');
                     <div class="alert alert-success fade show mb-5" role="alert">
                         <?php echo $msg; ?>
                         <?php if ('done' == $action) { ?>
-                            <div class="text-left mt-3">
+                            <div class="text-start mt-3">
                                 <a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
                                     <?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
                                 </a>
@@ -126,9 +126,9 @@ $port = $Config->read('port');
               autocomplete="off"
         >
 
-            <div class="form-row">
-                <div class="form-group col col-12 col-sm-4">
-                    <label for="from_ip">
+            <div class="row mb-3">
+                <div class="col col-12 col-sm-4">
+                    <label for="from_ip" class="form-label">
                         <?php echo __('FROM_IP', 'DEVICES_AUTOSCAN'); ?>
                     </label>
                     <input type="text"
@@ -140,12 +140,12 @@ $port = $Config->read('port');
                            required
                            autofocus="autofocus"
                     >
-                    <small id="from_ipHelp" class="form-text text-muted">
+                    <small id="from_ipHelp" class="text-muted">
                         <?php echo __('FROM_IP_HELP', 'DEVICES_AUTOSCAN'); ?>
                     </small>
                 </div>
-                <div class="form-group col col-12 col-sm-4">
-                    <label for="to_ip">
+                <div class="col col-12 col-sm-4">
+                    <label for="to_ip" class="form-label">
                         <?php echo __('TO_IP', 'DEVICES_AUTOSCAN'); ?>
                     </label>
                     <input type="text"
@@ -156,12 +156,12 @@ $port = $Config->read('port');
                            value='<?php echo $scanToIp; ?>'
                            required
                     >
-                    <small id="from_ipHelp" class="form-text text-muted">
+                    <small id="to_ipHelp" class="text-muted">
                         <?php echo __('TO_IP_HELP', 'DEVICES_AUTOSCAN'); ?>
                     </small>
                 </div>
-                <div class="form-group col col-12 col-sm-4">
-                    <label for="port">
+                <div class="col col-12 col-sm-4">
+                    <label for="port" class="form-label">
                         <?php echo __('PORT', 'DEVICES_AUTOSCAN'); ?>
                     </label>
                     <input type="text"
@@ -172,14 +172,14 @@ $port = $Config->read('port');
                            value='<?php echo $port; ?>'
                            required
                     >
-                    <small id="from_ipHelp" class="form-text text-muted">
+                    <small id="portHelp" class="text-muted">
                         <?php echo __('PORT_HELP', 'DEVICES_AUTOSCAN'); ?>
                     </small>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col">
-                    <label for="device_username">
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="device_username" class="form-label">
                         <?php echo __('DEVICE_USERNAME', 'DEVICE_ACTIONS'); ?>
                     </label>
                     <input type="text"
@@ -188,17 +188,17 @@ $port = $Config->read('port');
                            name='device_username'
                            value='<?php echo $_REQUEST['device_username'] ?? 'admin'; ?>'
                     >
-                    <small id="device_usernameHelp" class="form-text text-muted">
+                    <small id="device_usernameHelp" class="text-muted">
                         <?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
                     </small>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col">
-                    <label for="device_password">
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="device_password" class="form-label">
                         <?php echo __('DEVICE_PASSWORD', 'DEVICE_ACTIONS'); ?>
                     </label>
-                    <div class="input-group mb-3">
+                    <div class="input-group">
                         <input type="password"
                                class="form-control"
                                id="device_password"
@@ -207,11 +207,11 @@ $port = $Config->read('port');
                                aria-autocomplete="none"
                                value='<?php echo $_REQUEST['device_password'] ?? ''; ?>'
                         >
-                        <div class="input-group-append">
+                        <div class="input-group-text">
                             <span class="input-group-text show-hide-password" id=""><i class="far fa-eye"></i></span>
                         </div>
                     </div>
-                    <small id="device_passwordHelp" class="form-text text-muted">
+                    <small id="device_passwordHelp" class="text-muted">
                         <?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
                     </small>
                 </div>
@@ -223,7 +223,7 @@ $port = $Config->read('port');
                             name='search'
                             value='search'
                             class='btn btn-primary col-12 col-sm-auto'
-                            data-toggle="modal" data-target="#deviceScanModal"
+                            data-bs-toggle="modal" data-bs-target="#deviceScanModal"
                     >
                         <?php echo __('BTN_START_AUTOSCAN', 'DEVICES_AUTOSCAN'); ?>
                     </button>
@@ -459,12 +459,12 @@ $port = $Config->read('port');
 
                 <?php } ?>
                 <div class="row">
-                    <div class="col col-12 col-sm-6 text-left">
+                    				<div class="col col-12 col-sm-6 text-start">
                         <a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
                             <?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
                         </a>
                     </div>
-                    <div class="col col-12 col-sm-6 text-right">
+                    					<div class="col col-12 col-sm-6 text-end">
                         <button type='submit'
                                 name='save_all'
                                 value='save_all'
@@ -491,7 +491,7 @@ $port = $Config->read('port');
         <div class="modal-content">
             <div class="modal-header">
                 <h5><?php echo __('MSG_SCANNING', 'DEVICES_AUTOSCAN'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>

@@ -262,7 +262,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 	<?php if (isset($_REQUEST['auto'])) { ?>
 		<div class='row justify-content-sm-center'>
 			<div class='col col-12 col-md-6 '>
-				<div class="alert alert-warning fade show mb-5" data-dismiss="alert" role="alert">
+				<div class="alert alert-warning fade show mb-5" data-bs-dismiss="alert" role="alert">
 					<?php echo __('AUTO_WARNING_CFG_HOLDER', 'DEVICE_UPDATE'); ?>
 				</div>
 			</div>
@@ -284,7 +284,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
 				<input type='hidden' name='target_version' value='<?php echo $targetVersion; ?>'>
 
-				<div class='form-row mb-3'>
+				<div class='row mb-3'>
 					<div class='offset-1 col-auto col col-auto'>
 						<button type='submit' class='btn btn-success' name='submit' value='submit'>
 							<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>
@@ -304,14 +304,14 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 					</div>
 					<?php if (1 == $Config->read('show_search')) { ?>
 						<div class="col col-auto">
-							<div class="form-group">
+							<div class="col">
 								<div class="input-group">
 									<input type="text"
 										   name="searchterm"
 										   class='form-control device-search has-clearer'
 										   placeholder="<?php echo __('FILTER', 'DEVICES'); ?>"
 									>
-									<div class="input-group-append">
+									<div class="input-group-text">
 										<span class="input-group-text">
 											<i class="fas fa-search"></i>
 										</span>
@@ -334,7 +334,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 					</div>
 				</div>
 
-				<div class='form-row mt-3'>
+				<div class='row mt-3'>
 					<div class='col col-auto offset-1'>
 						<button type='submit' class='btn btn-success' name='submit' value='submit'>
 							<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>

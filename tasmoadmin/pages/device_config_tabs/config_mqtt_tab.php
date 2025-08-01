@@ -10,17 +10,17 @@
 
 	<!-- SetOption3 MQTT enabled -->
 	<div class="form-group col">
-		<div class="form-check custom-control custom-checkbox">
-			<input id='SetOption3h' type='hidden' value='0' name='SetOption3'>
-			<input class="form-check-input custom-control-input"
-			       type="checkbox"
-			       value='1'
-			       id="SetOption3"
-			       name='SetOption3'
-				<?php echo 1 == $o->SetOption3->value ? 'checked="checked"' : ''; ?>
-			>
-			<label class="form-check-label custom-control-label"
-			       for="SetOption3">
+			<div class="form-check">
+		<input id='SetOption3h' type='hidden' value='0' name='SetOption3'>
+		<input class="form-check-input"
+		       type="checkbox"
+		       value='1'
+		       id="SetOption3"
+		       name='SetOption3'
+			<?php echo 1 == $o->SetOption3->value ? 'checked="checked"' : ''; ?>
+		>
+		<label class="form-check-label"
+		       for="SetOption3">
 				<?php echo __('MQTT_ENABLED', 'DEVICE_CONFIG'); ?>
 			</label>
 		</div>
@@ -408,16 +408,16 @@
 
 	<div class="form-row">
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
+			<div class="form-check">
 				<input id='ButtonRetainh' type='hidden' value='0' name='ButtonRetain'>
-				<input class="form-check-input custom-control-input"
+				<input class="form-check-input"
 				       type="checkbox"
 				       value='1'
 				       id="ButtonRetain"
 				       name='ButtonRetain'
 					<?php echo 1 == $status->Status->ButtonRetain ? 'checked="checked"' : ''; ?>
 				>
-				<label class="form-check-label custom-control-label"
+				<label class="form-check-label"
 				       for="ButtonRetain">
 					<?php echo __('BUTTONRETAIN', 'DEVICE_CONFIG'); ?>
 				</label>
@@ -427,16 +427,16 @@
 			</div>
 		</div>
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
+			<div class="form-check">
 				<input id='PowerRetainh' type='hidden' value='0' name='PowerRetain'>
-				<input class="form-check-input custom-control-input"
+				<input class="form-check-input"
 				       type="checkbox"
 				       value='1'
 				       id="PowerRetain"
 				       name='PowerRetain'
 					<?php echo 1 == $status->Status->PowerRetain ? 'checked="checked"' : ''; ?>
 				>
-				<label class="form-check-label custom-control-label"
+				<label class="form-check-label"
 				       for="PowerRetain">
 					<?php echo __('POWERRETAIN', 'DEVICE_CONFIG'); ?>
 				</label>
@@ -446,16 +446,16 @@
 			</div>
 		</div>
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
+			<div class="form-check">
 				<input id='SensorRetainh' type='hidden' value='0' name='SensorRetain'>
-				<input class="form-check-input custom-control-input"
+				<input class="form-check-input"
 				       type="checkbox"
 				       value='1'
 				       id="SensorRetain"
 				       name='SensorRetain'
 					<?php echo 'ON' == $status->StatusMQT->SensorRetain ? 'checked="checked"' : ''; ?>
 				>
-				<label class="form-check-label custom-control-label"
+				<label class="form-check-label"
 				       for="SensorRetain">
 					<?php echo __('SENSORRETAIN', 'DEVICE_CONFIG'); ?>
 				</label>
@@ -469,16 +469,16 @@
 
 	<div class="form-row">
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
+			<div class="form-check">
 				<input id='SetOption2h' type='hidden' value='0' name='SetOption2'>
-				<input class="form-check-input custom-control-input"
+				<input class="form-check-input"
 				       type="checkbox"
 				       value='1'
 				       id="SetOption2"
 				       name='SetOption2'
 					<?php echo 1 == $o->SetOption2->value ? 'checked="checked"' : ''; ?>
 				>
-				<label class="form-check-label custom-control-label"
+				<label class="form-check-label"
 				       for="SetOption2">
 					<?php echo __('SETOPTION2', 'DEVICE_CONFIG'); ?>
 				</label>
@@ -488,16 +488,16 @@
 			</div>
 		</div>
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
+			<div class="form-check">
 				<input id='SetOption4h' type='hidden' value='0' name='SetOption4'>
-				<input class="form-check-input custom-control-input"
+				<input class="form-check-input"
 				       type="checkbox"
 				       value='1'
 				       id="SetOption4"
 				       name='SetOption4'
 					<?php echo 1 == $o->SetOption4->value ? 'checked="checked"' : ''; ?>
 				>
-				<label class="form-check-label custom-control-label"
+				<label class="form-check-label"
 				       for="SetOption4">
 					<?php echo __('SETOPTION4', 'DEVICE_CONFIG'); ?>
 				</label>
@@ -507,17 +507,17 @@
 			</div>
 		</div>
 		<div class="form-group col col-12 col-sm-4">
-			<div class="form-check custom-control custom-checkbox">
-				<input id='SetOption10h' type='hidden' value='0' name='SetOption10'>
-				<input class="form-check-input custom-control-input"
-				       type="checkbox"
-				       value='1'
-				       id="SetOption10"
-				       name='SetOption10'
-					<?php echo 1 == $o->SetOption10->value ? 'checked="checked"' : ''; ?>
-				>
-				<label class="form-check-label custom-control-label"
-				       for="SetOption10">
+					<div class="form-check">
+			<input id='SetOption10h' type='hidden' value='0' name='SetOption10'>
+			<input class="form-check-input"
+			       type="checkbox"
+			       value='1'
+			       id="SetOption10"
+			       name='SetOption10'
+				<?php echo 1 == $o->SetOption10->value ? 'checked="checked"' : ''; ?>
+			>
+			<label class="form-check-label"
+			       for="SetOption10">
 					<?php echo __('SETOPTION10', 'DEVICE_CONFIG'); ?>
 				</label>
 				<small id="SetOption10Help" class="form-text text-muted">
@@ -530,7 +530,7 @@
 
 	<div class="row mt-5">
 		<div class="col col-12">
-			<div class="text-right">
+			<div class="text-end">
 				<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 					<?php echo __('BTN_SAVE_DEVICE_CONFIG', 'DEVICE_CONFIG'); ?>
 				</button>

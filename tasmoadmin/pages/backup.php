@@ -48,7 +48,7 @@ if (isset($_POST['device_ids'])) {
               method='post'
               action='<?php echo _BASEURL_; ?>backup'
         >
-        <div class='form-row mb-3'>
+        			<div class='row mb-3'>
             <div class='offset-1 col-auto col col-auto'>
                 <button type='submit' class='btn btn-success' name='submit' value='submit'>
                     <?php echo __('BTN_START_BACKUP', 'BACKUP'); ?>
@@ -68,14 +68,14 @@ if (isset($_POST['device_ids'])) {
             </div>
             <?php if (1 == $Config->read('show_search')) { ?>
                 <div class="col col-auto">
-                    <div class="form-group">
+                    		<div class="col">
                         <div class="input-group">
                             <input type="text"
                                    name="searchterm"
                                    class='form-control device-search has-clearer'
                                    placeholder="<?php echo __('FILTER', 'DEVICES'); ?>"
                             >
-                            <div class="input-group-append">
+                            <div class="input-group-text">
 										<span class="input-group-text">
 											<i class="fas fa-search"></i>
 										</span>
