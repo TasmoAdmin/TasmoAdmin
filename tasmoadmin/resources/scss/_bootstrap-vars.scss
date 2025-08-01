@@ -1,0 +1,8 @@
+// Bootstrap 5 CSS Variables for proper table styling
+:root {
+  --bs-body-color: #{$black};
+  --bs-body-bg: #{$white};
+  --bs-border-color: #{$whiteBorder};
+  --bs-light: #{$grey}; // Use darker gray for table headers
+  --bs-secondary-color: #{$grey};
+}

@@ -38,11 +38,9 @@ foreach ($devices as $device) {
 <div class='row justify-content-center'>
     <div class='col col-12 col-md-10'>
         <?php if (empty($deviceIds)) { ?>
-            <div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+            			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
                 <?php echo __('NO_DEVICES_SELECTED', 'DEVICE_UPDATE'); ?>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } else { ?>
             <div id='logGlobal' class='mt-3 border p-3'>

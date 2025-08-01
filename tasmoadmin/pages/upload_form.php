@@ -34,10 +34,10 @@ $fwAsset = $Config->read('update_automatic_lang');
 		<form class='' name='update_form' method='post' enctype='multipart/form-data'
 			  action='<?php echo _BASEURL_; ?>upload'
 		>
-			<div class='form-row'>
+			<div class='row mb-3'>
 
-				<div class="form-group col col-12 col-sm-9">
-					<label for="ota_server_ip">
+				<div class="col col-12 col-sm-9">
+					<label for="ota_server_ip" class="form-label">
 						<?php echo __('CONFIG_SERVER_IP', 'USER_CONFIG'); ?>
 					</label>
 					<input type="text"
@@ -49,8 +49,8 @@ $fwAsset = $Config->read('update_automatic_lang');
 						   value='<?php echo $Config->read('ota_server_ip'); ?>'
 					>
 				</div>
-				<div class="form-group col col-12 col-sm-3">
-					<label for="ota_server_ip">
+				<div class="col col-12 col-sm-3">
+					<label for="ota_server_port" class="form-label">
 						<?php echo __('CONFIG_SERVER_PORT', 'USER_CONFIG'); ?>
 					</label>
 					<input type="text"
@@ -66,41 +66,31 @@ $fwAsset = $Config->read('update_automatic_lang');
 				</div>
 			</div>
 
-			<div class='form-row'>
-				<div class="form-group col">
-					<label for="minimal_firmware">
+			<div class='row mb-3'>
+				<div class="col">
+					<label for="minimal_firmware" class="form-label">
 						<?php echo __('FORM_CHOOSE_MINIMAL_FIRMWARE', 'DEVICE_UPDATE'); ?>
 					</label>
-					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="minimal_firmware" name='minimal_firmware'>
-						<label class="custom-file-label" for="minimal_firmware">
-
-						</label>
-					</div>
+					<input type="file" class="form-control" id="minimal_firmware" name='minimal_firmware'>
 				</div>
 			</div>
 
-			<div class='form-row'>
+			<div class='row mb-3'>
 
-				<div class="form-group col">
-					<label for="new_firmware">
+				<div class="col">
+					<label for="new_firmware" class="form-label">
 						<?php echo __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'); ?>
 					</label>
-					<div class="custom-file">
-						<input type="file" class="custom-file-input" id="new_firmware" name='new_firmware' required>
-						<label class="custom-file-label" for="new_firmware">
-
-						</label>
-					</div>
+					<input type="file" class="form-control" id="new_firmware" name='new_firmware' required>
 				</div>
 			</div>
-			<div class="form-row">
-				<div class="form-group col col-12 col-sm-6">
-					<label for="update_automatic_lang">
+			<div class="row mb-3">
+				<div class="col col-12 col-sm-6">
+					<label for="update_automatic_lang" class="form-label">
 						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
 					</label>
 
-					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
+					<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
 						<?php if ('' === $fwAsset) { ?>
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
@@ -117,7 +107,7 @@ $fwAsset = $Config->read('update_automatic_lang');
 					</select>
 				</div>
 			</div>
-			<div class='form-row'>
+			<div class='row mb-3'>
 				<div class="col col-12 col-sm-3">
 					<button type='submit' class='btn btn-primary' id="automatic" name='auto' value='submit'
 							title='<?php echo __('BTN_UPLOAD_AUTOMATIC_HELP', 'DEVICE_UPDATE'); ?>'
@@ -126,9 +116,9 @@ $fwAsset = $Config->read('update_automatic_lang');
 					</button>
 				</div>
 
-				<div class='col flex-column mb-3 mb-sm-0'></div>
+				<div class='col'></div>
 
-				<div class='col col-12 col-sm-3 text-sm-right'>
+				<div class='col col-12 col-sm-3 text-sm-end'>
 					<button type='submit' class='btn btn-primary' name='upload' value='submit'>
 						<?php echo __('BTN_UPLOAD_NEXT', 'DEVICE_UPDATE'); ?>
 					</button>

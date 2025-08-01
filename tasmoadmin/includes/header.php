@@ -65,8 +65,8 @@ $urlHelper = $container->get(UrlHelper::class);
 				</a>
 				<button class="navbar-toggler"
 						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarSupportedContent"
 						aria-controls="navbarSupportedContent"
 						aria-expanded="false"
 						aria-label="Toggle navigation"
@@ -75,7 +75,7 @@ $urlHelper = $container->get(UrlHelper::class);
 				</button>
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
+					<ul class="navbar-nav me-auto">
 						<?php if ($loggedin) { ?>
 							<li class="nav-item <?php echo 'start' == $page ? 'active' : ''; ?>">
 								<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
@@ -102,7 +102,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								) ? 'active' : ''; ?>"
 								   href="#"
 								   id="devicesDropdown"
-								   data-toggle="dropdown"
+								   data-bs-toggle="dropdown"
 								   aria-haspopup="false"
 								   aria-expanded="false"
 								>
@@ -162,7 +162,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							) ? 'active' : ''; ?>"
 							   href="#"
 							   id="helpDropdown"
-							   data-toggle="dropdown"
+							   data-bs-toggle="dropdown"
 							   aria-haspopup="false"
 							   aria-expanded="false"
 							>
@@ -230,8 +230,8 @@ $urlHelper = $container->get(UrlHelper::class);
 							</div>
 						</li>
 					</ul>
-					<div class='my-2 my-sm-0 language-switch-holder'>
-						<select name='language-switch' id='language-switch' class='custom-select'>
+					<div class='my-2 my-sm-0 language-switch-holder ms-auto'>
+						<select name='language-switch' id='language-switch' class='form-select'>
 							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
 								<option value='<?php echo $l; ?>'
 									<?php echo $lang === $l ? 'selected="selected"' : ''; ?>
@@ -243,7 +243,7 @@ $urlHelper = $container->get(UrlHelper::class);
 					</div>
 					<?php if ($loggedin) { ?>
 						<?php if ('1' == $Config->read('login')) { ?>
-							<div class="my-2 my-lg-0 ml-0 ml-sm-3 ">
+							<div class="my-2 my-lg-0 ms-3">
 								<a class="error"
 								   href='<?php echo _BASEURL_; ?>logout'
 								   title='<?php echo __('LOGOUT', 'NAVI'); ?>'

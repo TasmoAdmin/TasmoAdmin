@@ -1,5 +1,3 @@
-//colors
-
 $green: #02a030;
 $greenBtn: $green;
 $greenBtnBorder: $green;
@@ -87,10 +85,55 @@ $white_80: rgba(255, 255, 255, 0.8);
 $black: #212529;
 $whiteNightMode: rgba(255, 255, 255, 0.5); //$white_50
 
+//colors
+
+$primary: $blue;
+$secondary: $grey;
+$success: $green;
+$danger: $red;
+$warning: $color_pirate_gold_approx;
+$info: $lightBlue;
+$light: $whiteGrey;
+$dark: $color_tuna_approx;
+
+// Body colors
+$body-color: $black;
+$body-bg: $white;
+
+// Text colors
+$text-muted: $grey;
+
+// Link colors
+$link-color: $blue;
+$link-hover-color: darken($blue, 15%);
+
+// Border colors
+$border-color: $whiteBorder;
+
+// Form colors
+$input-border-color: $whiteBorder;
+$input-focus-border-color: $blue;
+$input-focus-box-shadow: 0 0 0 0.2rem rgba($blue, 0.25);
+
+// Button colors
+$btn-primary-bg: $blue;
+$btn-primary-border: $blue;
+$btn-success-bg: $green;
+$btn-success-border: $green;
+$btn-danger-bg: $red;
+
 @media (max-width: 340px) and (min-width: 0px) {
   .col-xs-6 {
     -ms-flex: 0 0 50%;
     flex: 0 0 50%;
     max-width: 50%;
   }
+}
+
+:root {
+  --bs-body-color: #{$black};
+  --bs-body-bg: #{$white};
+  --bs-border-color: #{$whiteBorder};
+  --bs-light: #{$whiteGrey};
+  --bs-secondary-color: #{$grey};
 }

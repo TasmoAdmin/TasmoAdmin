@@ -76,51 +76,49 @@ $autoFirmwareChannels = ['stable', 'dev'];
 	<div class='col col-12 col-md-8 col-xl-6'>
 		<div class='row'>
 			<div class='col col-12'>
-				<h2 class='text-left text-sm-center mb-5'>
+				<h2 class='text-start text-sm-center mb-5'>
 					<?php echo $title; ?>
 				</h2>
 			</div>
 		</div>
 
 		<?php if (isset($msg) && '' != $msg) { ?>
-			<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
-				<?php echo $msg; ?>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
+								<div class="alert alert-success alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
+						<?php echo $msg; ?>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
 		<?php } ?>
 		<form name='web_config' method='post'>
-			<div class="form-row">
-				<div class="form-group col col-12 col-sm-3">
-					<div class="form-check custom-control custom-checkbox mb-5">
-						<input class="form-check-input custom-control-input"
+			<div class="row">
+				<div class="col col-12 col-sm-3">
+					<div class="form-check mb-5">
+						<input class="form-check-input"
 							   autofocus="autofocus"
 							   type="checkbox"
 							   value="1"
 							   id="cb_login"
 							   name='login' <?php echo '1' == $config['login'] ? 'checked="checked"' : ''; ?>>
-						<label class="form-check-label custom-control-label" for="cb_login">
+						<label class="form-check-label" for="cb_login">
 							<?php echo __('CONFIG_LOGIN_ENABLE', 'USER_CONFIG'); ?>
 						</label>
 					</div>
 				</div>
-				<div class="form-group col col-12 col-sm-4">
-					<div class="form-check custom-control custom-checkbox mb-5">
-						<input class="form-check-input custom-control-input"
+				<div class="col col-12 col-sm-4">
+					<div class="form-check mb-5">
+						<input class="form-check-input"
 							   type="checkbox"
 							   value="1"
 							   id="cb_check_for_updates"
 							   name='check_for_updates' <?php echo '1' == $config['check_for_updates']
                             ? 'checked="checked"' : ''; ?>>
-						<label class="form-check-label custom-control-label" for="cb_check_for_updates">
+						<label class="form-check-label" for="cb_check_for_updates">
 							<?php echo __('CONFIG_UPDATE_CHECK_ENABLE', 'USER_CONFIG'); ?>
 						</label>
 					</div>
 				</div>
 				<?php if (empty($config['update_channel']) || 'docker' !== $config['update_channel']) { ?>
-					<div class="form-group col col-12 col-sm-2">
-						<select class="form-control custom-select" id="update_channel" name='update_channel'>
+					<div class="col col-12 col-sm-2">
+						<select class="form-control form-select" id="update_channel" name='update_channel'>
 							<option value='stable'
 								<?php echo empty($config['update_channel']) || 'stable' == $config['update_channel'] ? 'selected="selected"' : ''; ?>
 							>
@@ -135,8 +133,8 @@ $autoFirmwareChannels = ['stable', 'dev'];
 					</div>
 				<?php } ?>
 			</div>
-			<div class='form-row'>
-				<div class="form-group col col-12 col-sm-6">
+			<div class='row'>
+				<div class="col col-12 col-sm-6">
 					<label for="username">
 						<?php echo __('CONFIG_USERNAME', 'USER_CONFIG'); ?>
 					</label>
@@ -148,7 +146,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   value='<?php echo $config['username']; ?>'
 					>
 				</div>
-				<div class="form-group col col-12 col-sm-6">
+				<div class="col col-12 col-sm-6">
 					<label for="password">
 						<?php echo __('CONFIG_PASSWORD', 'USER_CONFIG'); ?>
 					</label>
@@ -162,12 +160,12 @@ $autoFirmwareChannels = ['stable', 'dev'];
 					>
 				</div>
 			</div>
-			<div class='form-row'>
-				<div class="form-group col col-12 col-sm-6">
+			<div class='row'>
+				<div class="col col-12 col-sm-6">
 					<label for="homepage">
 						<?php echo __('CONFIG_HOMEPAGE', 'USER_CONFIG'); ?>
 					</label>
-					<select class="form-control custom-select" id="homepage" name='homepage'>
+					<select class="form-control form-select" id="homepage" name='homepage'>
 						<option value='start'
 							<?php echo 'start' == $config['homepage'] ? 'selected="selected"' : ''; ?>
 						>
@@ -184,8 +182,8 @@ $autoFirmwareChannels = ['stable', 'dev'];
 			</div>
 
 
-			<div class="form-row  mt-5">
-				<div class="form-group col col-12 col-sm-9">
+			<div class="row  mt-5">
+				<div class="col col-12 col-sm-9">
 					<label for="ota_server_ip">
 						<?php echo __('CONFIG_SERVER_IP', 'USER_CONFIG'); ?>
 					</label>
@@ -196,11 +194,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 						   value='<?php echo $config['ota_server_ip']; ?>'
 					>
-					<small id="from_ipHelp" class="form-text text-muted">
+					<small id="from_ipHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_SERVER_IP_HELP', 'USER_CONFIG'); ?>
 					</small>
 				</div>
-				<div class="form-group col col-12 col-sm-3">
+				<div class="col col-12 col-sm-3">
 					<label for="ota_server_port">
 						<?php echo __('CONFIG_SERVER_PORT', 'USER_CONFIG'); ?>
 					</label>
@@ -212,22 +210,22 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   value='<?php echo !empty($config['ota_server_port']) ? $config['ota_server_port']
                                : $_SERVER['SERVER_PORT']; ?>'
 					>
-					<small id="from_ipHelp" class="form-text text-muted">
+					<small id="from_ipHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_SERVER_PORT_HELP', 'USER_CONFIG'); ?>
 					</small>
 				</div>
 			</div>
 
 
-			<div class="form-row">
-                <div class="form-group col col-12">
+			<div class="row">
+                <div class="col col-12">
                     <h2><?php echo __('CONFIG_AUTO_FIRMWARE_TITLE', 'USER_CONFIG'); ?></h2>
                 </div>
-				<div class="form-group col col-12 col-sm-3">
+				<div class="col col-12 col-sm-3">
 					<label for="update_automatic_lang">
 						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
 					</label>
-					<select class="form-control custom-select" id="update_automatic_lang" name='update_automatic_lang'>
+					<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
 						<?php if ('' == $config['update_automatic_lang']) { ?>
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
@@ -241,11 +239,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<?php } ?>
 					</select>
 				</div>
-                <div class="form-group col col-12 col-sm-3">
+                				<div class="col col-12 col-sm-3">
                     <label for="auto_update_channel">
                         <?php echo __('CONFIG_AUTO_FIRMWARE_CHANNEL_HELP', 'USER_CONFIG'); ?>
                     </label>
-                    <select class="form-control custom-select" id="auto_update_channel" name='auto_update_channel'>
+                    						<select class="form-control form-select" id="auto_update_channel" name='auto_update_channel'>
                         <?php foreach ($autoFirmwareChannels as $channel) { ?>
                             <option value="<?php echo $channel; ?>"
                                 <?php echo $config['auto_update_channel'] === $channel ? 'selected="selected"' : ''; ?>
@@ -255,16 +253,16 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         </option>
                     </select>
                 </div>
-                <div class="form-group col col-12 col-sm-3">
+                <div class="col col-12 col-sm-3">
                     <label>&nbsp;</label>
-                    <div class="form-check custom-control custom-checkbox mb-5">
-                        <input class="form-check-input custom-control-input"
+                    <div class="form-check mb-5">
+                        <input class="form-check-input"
                                type="checkbox"
                                value="1"
                                id="force_upgrade"
                                name='force_upgrade' <?php echo '1' == $config['force_upgrade']
                             ? 'checked="checked"' : ''; ?>>
-                        <label class="form-check-label custom-control-label" for="force_upgrade" style='top:3px;'>
+                        <label class="form-check-label" for="force_upgrade" style='top:3px;'>
                             <?php echo __('CONFIG_FORCE_UPGRADE', 'USER_CONFIG'); ?>
                         </label>
                         <p class="small" style="padding-top:15px;">
@@ -273,16 +271,16 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         </p>
                     </div>
                 </div>
-                <div class="form-group col col-12 col-sm-3">
+                <div class="col col-12 col-sm-3">
                     <label>&nbsp;</label>
-                    <div class="form-check custom-control custom-checkbox mb-5">
-                        <input class="form-check-input custom-control-input"
+                    <div class="form-check mb-5">
+                        <input class="form-check-input"
                                type="checkbox"
                                value="1"
                                id="update_newer_only"
                                name='update_newer_only' <?php echo '1' == $config['update_newer_only']
                             ? 'checked="checked"' : ''; ?>>
-                        <label class="form-check-label custom-control-label" for="update_newer_only" style='top:3px;'>
+                        <label class="form-check-label" for="update_newer_only" style='top:3px;'>
                             <?php echo __('CONFIG_UPDATE_NEWER_ONLY', 'USER_CONFIG'); ?>
                         </label>
                         <p class="small" style="padding-top:15px;">
@@ -291,10 +289,10 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     </div>
                 </div>
 			</div>
-			<div class="form-row mt-5">
-				<div class="form-group col col-12 col-sm-6">
+			<div class="row mt-5">
+				<div class="col col-12 col-sm-6">
 					<label for="refreshtime"><?php echo __('CONFIG_REFRESHTIME', 'USER_CONFIG'); ?></label>
-					<select class="form-control custom-select" id="refreshtime" name='refreshtime'>
+					<select class="form-control form-select" id="refreshtime" name='refreshtime'>
 						<option value='none' <?php echo 'none' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?>>
 							<?php echo __('CONFIG_REFRESHTIME_NONE', 'USER_CONFIG'); ?>
 						</option>
@@ -342,11 +340,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						</option>
 					</select>
 				</div>
-				<div class="form-group col col-12 col-sm-6">
+				<div class="col col-12 col-sm-6">
 					<label for="nightmode">
 						<?php echo __('CONFIG_NIGHTMODE', 'USER_CONFIG'); ?>
 					</label>
-					<select class="form-control custom-select" id="nightmode" name='nightmode'>
+					<select class="form-control form-select" id="nightmode" name='nightmode'>
 						<option value='disable' <?php echo 'disable' == $config['nightmode'] ? 'selected="selected"'
                             : ''; ?>><?php echo __(
                                 'CONFIG_NIGHTMODE_DISABLE',
@@ -365,48 +363,48 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				</div>
 			</div>
 
-			<div class="form-row">
-				<div class="form-group col col-12 col-sm-4">
-					<div class="form-check custom-control custom-checkbox mb-5">
-						<input class="form-check-input custom-control-input"
+			<div class="row">
+				<div class="col col-12 col-sm-4">
+					<div class="form-check mb-5">
+						<input class="form-check-input"
 							   type="checkbox"
 							   value="1"
 							   id="cb_show_search"
 							   name='show_search' <?php echo '1' == $config['show_search']
                             ? 'checked="checked"' : ''; ?>>
-						<label class="form-check-label custom-control-label" for="cb_show_search">
+						<label class="form-check-label" for="cb_show_search">
 							<?php echo __('CONFIG_SHOW_SEARCH', 'USER_CONFIG'); ?>
 						</label>
 					</div>
 				</div>
 			</div>
 
-            <div class="form-row">
-                <div class="form-group col col-12">
+            <div class="row">
+                <div class="col col-12">
                     <h2><?php echo __('CONFIG_UPDATE_CHECK', 'USER_CONFIG'); ?></h2>
                 </div>
-                <div class="form-check custom-control custom-checkbox mb-5"">
-                    <input class="form-check-input custom-control-input"
+                <div class="form-check mb-5">
+                    <input class="form-check-input"
                            type="checkbox"
                            value="1"
                            id="cb_update_fe_check"
                            name='update_fe_check' <?php echo '1' == $config['update_fe_check']
                         ? 'checked="checked"' : ''; ?>>
-                    <label class="form-check-label custom-control-label" for="cb_update_fe_check">
+                    <label class="form-check-label" for="cb_update_fe_check">
                         <?php echo __('CONFIG_UPDATE_FE_CHECK', 'USER_CONFIG'); ?>
                     </label>
                     <p class="small">
                         <?php echo __('CONFIG_UPDATE_FE_CHECK_HELP', 'USER_CONFIG'); ?>
                     </p>
                 </div>
-                <div class="form-check custom-control custom-checkbox mb-5"">
-                    <input class="form-check-input custom-control-input"
+                <div class="form-check mb-5">
+                    <input class="form-check-input"
                            type="checkbox"
                            value="1"
                            id="cb_update_be_check"
                            name='update_be_check' <?php echo '1' == $config['update_be_check']
                         ? 'checked="checked"' : ''; ?>>
-                    <label class="form-check-label custom-control-label" for="cb_update_be_check">
+                    <label class="form-check-label" for="cb_update_be_check">
                         <?php echo __('CONFIG_UPDATE_BE_CHECK', 'USER_CONFIG'); ?>
                     </label>
                     <p class="small">
@@ -416,11 +414,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
             </div>
 
 
-            <div class="form-row">
-                <div class="form-group col col-12">
+            <div class="row">
+                <div class="col col-12">
                     <h2><?php echo __('CONFIG_ADVANCED', 'USER_CONFIG'); ?></h2>
                 </div>
-                <div class="form-group col col-12 col-sm-4">
+                <div class="col col-12 col-sm-4">
                     <label for="connect_timeout">
                         <?php echo __('CONFIG_CONNECT_TIMEOUT', 'USER_CONFIG'); ?>
                     </label>
@@ -431,11 +429,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
                            value='<?php echo $config['connect_timeout']; ?>'
                     >
-                    <small id="connect_timeoutHelp" class="form-text text-muted">
-                        <?php echo __('CONFIG_CONNECT_TIMEOUT_HELP', 'USER_CONFIG'); ?>
-                    </small>
+                    					<small id="connect_timeoutHelp" class="text-body-secondary">
+						<?php echo __('CONFIG_CONNECT_TIMEOUT_HELP', 'USER_CONFIG'); ?>
+					</small>
                 </div>
-                <div class="form-group col col-12 col-sm-4">
+                <div class="col col-12 col-sm-4">
                     <label for="timeout">
                         <?php echo __('CONFIG_TIMEOUT', 'USER_CONFIG'); ?>
                     </label>
@@ -446,11 +444,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
                            value='<?php echo $config['timeout']; ?>'
                     >
-                    <small id="timeoutHelp" class="form-text text-muted">
-                        <?php echo __('CONFIG_TIMEOUT_HELP', 'USER_CONFIG'); ?>
-                    </small>
+                    					<small id="timeoutHelp" class="text-body-secondary">
+						<?php echo __('CONFIG_TIMEOUT_HELP', 'USER_CONFIG'); ?>
+					</small>
                 </div>
-                <div class="form-group col col-12 col-sm-4">
+                <div class="col col-12 col-sm-4">
                     <label for="request_concurrency">
                         <?php echo __('CONFIG_REQUEST_CONCURRENCY', 'USER_CONFIG'); ?>
                     </label>
@@ -461,16 +459,16 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
                            value='<?php echo $config['request_concurrency']; ?>'
                     >
-                    <small id="requestConcurrencyHelp" class="form-text text-muted">
-                        <?php echo __('CONFIG_REQUEST_CONCURRENCY_HELP', 'USER_CONFIG'); ?>
-                    </small>
+                    					<small id="requestConcurrencyHelp" class="text-body-secondary">
+						<?php echo __('CONFIG_REQUEST_CONCURRENCY_HELP', 'USER_CONFIG'); ?>
+					</small>
                 </div>
             </div>
 
-			<div class="form-row  mt-5">
+			<div class="row mt-5">
 				<div class='d-none d-sm-inline-flex col flex-column'></div>
 				<div class="col col-12 col-sm-6 text-sm-right">
-					<div class="text-right">
+					<div class="text-end">
 						<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 							<?php echo __('BTN_SAVE_USER_CONFIG', 'USER_CONFIG'); ?>
 						</button>

@@ -41,21 +41,17 @@ $changelog = $tasmoAdminHelper->getChangelog();
 		</h2>
 
 		<?php if (!empty($msg)) { ?>
-			<div class="alert alert-<?php echo $msgClass; ?> alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+			<div class="alert alert-<?php echo $msgClass; ?> alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<?php echo $msg; ?>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		<?php } ?>
 		<?php if (isset($newUpdate['error']) && '' != $newUpdate['error']) { ?>
-			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<?php echo $newUpdate['msg']; ?>
 				<br/>
 				<?php echo __('ERROR_CHECK_CONNECTION', 'SELFUPDATE'); ?>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		<?php } ?>
 
