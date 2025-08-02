@@ -11,6 +11,9 @@ import {
 } from "./app";
 const refreshtime = getRefreshTime();
 
+import { Tooltip } from "bootstrap";
+
+
 let ignoreProtectionsTimer;
 $(document).ready(function () {
   deviceTools();
@@ -418,7 +421,7 @@ function updateAllStatus() {
           );
           const tooltipList = tooltipTriggerList.map(
             function (tooltipTriggerEl) {
-              return new bootstrap.Tooltip(tooltipTriggerEl, {
+              return new Tooltip(tooltipTriggerEl, {
                 html: true,
                 delay: 700,
               });
@@ -581,7 +584,7 @@ function updateRow(row, data, device_status) {
     // Initialize Bootstrap 5 tooltip for RSSI
     const rssiElement = $(row).find(".rssi span")[0];
     if (rssiElement) {
-      new bootstrap.Tooltip(rssiElement, {
+      new Tooltip(rssiElement, {
         html: true,
         delay: 700,
       });

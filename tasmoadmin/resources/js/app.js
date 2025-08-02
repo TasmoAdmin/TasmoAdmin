@@ -1,5 +1,7 @@
 import { Sonoff } from "./Sonoff";
 
+import { Tooltip } from "bootstrap";
+
 const sonoff = new Sonoff({
   base_url: config.base_url,
   timeout: 15,
@@ -47,16 +49,12 @@ $(document).ready(function () {
     timeToWaitForResize: 1,
   });
 
-  // Initialize Bootstrap 5 tooltips
-  var tooltipTriggerList = [].slice.call(
-    document.querySelectorAll('[title][title!=""]'),
-  );
-  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-    return new bootstrap.Tooltip(tooltipTriggerEl, {
-      html: true,
-      delay: 300,
-    });
-  });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl, {
+        html: true,
+        delay: 300,
+    }))
 
   $(".custom-file-input").on("change", function () {
     var filename = $(this).val();
