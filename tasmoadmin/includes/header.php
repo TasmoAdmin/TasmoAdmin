@@ -59,22 +59,23 @@ $urlHelper = $container->get(UrlHelper::class);
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
-				<?php // var_dump( $page );?>
-				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
-					<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
-				</a>
-				<button class="navbar-toggler"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
+				<div class="container-fluid">
+					<?php // var_dump( $page );?>
+					<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
+						<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
+					</a>
+					<button class="navbar-toggler"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#navbarSupportedContent"
+							aria-controls="navbarSupportedContent"
+							aria-expanded="false"
+							aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto">
 						<?php if ($loggedin) { ?>
 							<li class="nav-item <?php echo 'start' == $page ? 'active' : ''; ?>">
@@ -256,6 +257,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							</div>
 						<?php } ?>
 					<?php } ?>
+				</div>
 				</div>
 			</nav>
 		</header>

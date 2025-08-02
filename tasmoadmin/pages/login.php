@@ -64,8 +64,8 @@ if (empty($user) || empty($password)) {
 						<div class="card rounded-0 bg-dark text-white">
 							<div class="card-body">
 								<form class="form" name='loginform' method='POST'>
-									<div class="form-group col">
-										<label for="username"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
+									<div class="form-group col mb-3">
+										<label for="username" class="form-label"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="text"
 											   autofocus="autofocus"
 											   class="form-control form-control-lg rounded-0"
@@ -74,11 +74,9 @@ if (empty($user) || empty($password)) {
 											   placeholder='<?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?>'
 											   required=""
 										>
-
-
 									</div>
-									<div class="form-group col">
-										<label><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
+									<div class="form-group col mb-4">
+										<label for="password" class="form-label"><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="password"
 											   class="form-control form-control-lg rounded-0"
 											   id="password"

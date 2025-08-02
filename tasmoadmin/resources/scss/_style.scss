@@ -6,6 +6,16 @@
   &:focus {
     box-shadow: $inputBoxShadow;
   }
+  
+  // Lighter placeholder text for better visibility
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1;
+  }
+
+  &:focus::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
 }
 
 body {
