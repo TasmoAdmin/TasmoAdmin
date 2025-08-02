@@ -10,7 +10,7 @@
 				<h5 class="modal-title text-dark" id="deleteDeviceModalLabel">
 					<?php echo __('DELETE_DEVICE_CONFIRM_TITLE', 'DEVICES'); ?>
 				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="<?php echo __('CLOSE'); ?>">
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo __('CLOSE'); ?>">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
@@ -18,7 +18,7 @@
 
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
 					<?php echo __('CANCEL'); ?>
 				</button>
 				<a type="button" class="btn btn-ok btn-primary text-white">

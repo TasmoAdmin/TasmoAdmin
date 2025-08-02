@@ -6,6 +6,16 @@
   &:focus {
     box-shadow: $inputBoxShadow;
   }
+  
+  // Lighter placeholder text for better visibility
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+    opacity: 1;
+  }
+
+  &:focus::placeholder {
+    color: rgba(255, 255, 255, 0.4) !important;
+  }
 }
 
 body {
@@ -353,17 +363,29 @@ nav img {
   user-select: none;
 }
 
+// Bootstrap 5 compatible table styling
 .table {
-  th {
-    border: 0 none;
-  }
-
+  // Remove all borders by default
+  th,
   td {
-    border: 0 none;
+    border: none;
   }
 
+  // Add bottom border only to thead
+  thead th {
+    border-bottom: 2px solid var(--bs-border-color);
+    background-color: #{$grey}; // Use darker gray for better visibility
+    color: #{$white}; // White text for contrast
+  }
+
+  // Add top border only to tfoot
   tfoot th {
-    border-top: 2px solid $whiteThBorder;
+    border-top: 2px solid var(--bs-border-color);
+  }
+
+  // Make table body text lighter with more specific selector
+  tbody td {
+    color: #{$greyFont} !important; // Use lighter gray for table body text
   }
 }
 
@@ -506,13 +528,13 @@ td {
   }
 }
 
-.custom-control {
-  &.custom-checkbox {
+.form-check {
+  &.form-checkbox {
     position: relative;
     top: 8px;
   }
 
-  .custom-control-label::before {
+  .form-check-label::before {
     border: 1px solid;
     background-color: $white;
     top: 0.18rem;
@@ -520,12 +542,12 @@ td {
 }
 
 #device-list {
-  .custom-control {
-    &.custom-checkbox {
+  .form-check {
+    &.form-checkbox {
       top: 2px;
     }
 
-    .custom-control-label::before {
+    .form-check-label::before {
     }
   }
 }
@@ -561,12 +583,22 @@ hr {
   background-color: $color_mako_approx;
   color: $whiteNightMode;
 
-  .table-hover tbody tr:hover {
-    color: $whiteNightMode;
+  // Bootstrap 5 compatible table hover
+  .table-hover {
+    > tbody > tr:hover {
+      color: $whiteNightMode;
+      background-color: rgba(255, 255, 255, 0.075);
+    }
   }
 
   .table {
     color: $whiteNightMode;
+    background-color: transparent;
+
+    th {
+      background-color: $color_tuna_approx; // Dark background for night mode
+      color: $whiteNightMode;
+    }
 
     &:hover {
       color: $whiteNightMode;
@@ -711,7 +743,7 @@ hr {
     }
   }
 
-  .custom-control-label {
+  .form-check-label {
     &::before {
       background-color: $color_tuna_approx !important;
       border-color: $white_75;
@@ -721,9 +753,7 @@ hr {
     }
   }
 
-  .custom-file-label,
-  .input-group-prepend,
-  .input-group-append,
+  .form-control-file,
   .input-group-text {
     background-color: $color_tuna_approx !important;
     color: $whiteNightMode;
@@ -982,8 +1012,33 @@ hr {
   }
 }
 
-.table-striped tbody tr:nth-of-type(2n + 1) td {
-  background-color: $black_5;
+// Bootstrap 5 table styling
+.table {
+  // Ensure proper table styling
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+
+  th {
+    background-color: var(--bs-light);
+    border-color: var(--bs-border-color);
+  }
+
+  td {
+    border-color: var(--bs-border-color);
+  }
+}
+
+// Custom striped styling that works with Bootstrap 5
+.table-striped {
+  > tbody > tr:nth-of-type(odd) > td,
+  > tbody > tr:nth-of-type(odd) > th {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  > tbody > tr:nth-of-type(even) > td,
+  > tbody > tr:nth-of-type(even) > th {
+    background-color: transparent;
+  }
 }
 
 .changelog {

@@ -95,11 +95,9 @@ if (empty($status->ERROR)) {
 		<div class='row'>
 			<div class='col col-12'>
 				<?php if (isset($msg) && '' != $msg) { ?>
-					<div class="alert alert-success alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+					<div class="alert alert-success alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 						<?php echo $msg; ?>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 					</div>
 				<?php } ?>
 
@@ -122,7 +120,7 @@ if (empty($status->ERROR)) {
 						<li class="nav-item">
 							<a class="nav-link <?php echo 0 == $activeTabIndex ? 'active' : ''; ?>"
 							   id="config_general_tab-tab"
-							   data-toggle="tab"
+							   data-bs-toggle="tab"
 							   href="#config_general_tab"
 							   role="tab"
 							   aria-controls="home"
@@ -133,7 +131,7 @@ if (empty($status->ERROR)) {
 						<li class="nav-item">
 							<a class="nav-link <?php echo 1 == $activeTabIndex ? 'active' : ''; ?>"
 							   id="config_network_tab-tab"
-							   data-toggle="tab"
+							   data-bs-toggle="tab"
 							   href="#config_network_tab"
 							   role="tab"
 							   aria-controls="profile"
@@ -144,7 +142,7 @@ if (empty($status->ERROR)) {
 						<li class="nav-item">
 							<a class="nav-link <?php echo 2 == $activeTabIndex ? 'active' : ''; ?>"
 							   id="config_mqtt_tab-tab"
-							   data-toggle="tab"
+							   data-bs-toggle="tab"
 							   href="#config_mqtt_tab"
 							   role="tab"
 							   aria-controls="profile"
