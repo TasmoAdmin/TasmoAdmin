@@ -29,6 +29,38 @@ class DeviceTest extends TestCase
     }
 
     /**
+     * @dataProvider nameProvider
+     */
+    public function testGetName(string $expected, array $names): void
+    {
+        $device = new Device(1, $names, '192.168.1.1', '', '', 'img', 1, false, false, false, []);
+
+        $this->assertEquals($expected, $device->getName());
+    }
+
+    public static function nameProvider(): array
+    {
+        return [
+            [
+                'socket-1',
+                ['socket-1'],
+            ],
+            [
+                'socket-1-socket-1',
+                ['socket-1', 'socket-1'],
+            ],
+            [
+                'socket-1-kitchen',
+                ['socket-1', 'kitchen'],
+            ],
+            [
+                'socket-1_foo',
+                ['socket-1_foo'],
+            ],
+        ];
+    }
+
+    /**
      * @dataProvider backupNameProvider
      */
     public function testGetBackupName(string $expected, array $names): void
@@ -44,6 +76,10 @@ class DeviceTest extends TestCase
             [
                 '1-socket-1.dmp',
                 ['socket-1'],
+            ],
+            [
+                '1-socket-1-socket-1.dmp',
+                ['socket-1', 'socket-1'],
             ],
             [
                 '1-socket-1-kitchen.dmp',
