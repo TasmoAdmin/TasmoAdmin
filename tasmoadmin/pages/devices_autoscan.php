@@ -25,12 +25,12 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
             $ipHelper = new IpHelper();
             $devices = $Sonoff->getDevices();
-            $skipIps = [];
+            $skippedAddresses = [];
             foreach ($devices as $device) {
-                $skipIps[] = $device->ip;
+                $skippedAddresses[] = $device->getAddress();
             }
 
-            $ips = $ipHelper->fetchIps($fromIp, $toIp, $skipIps);
+            $ips = $ipHelper->fetchIps($fromIp, $toIp);
             $Config->write('scan_from_ip', $fromIp);
             $Config->write('scan_to_ip', $toIp);
             $Config->write('port', $port);
@@ -43,6 +43,11 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                     htmlspecialchars($_REQUEST['device_username'] ?? ''),
                     htmlspecialchars($_REQUEST['device_password'] ?? '')
                 );
+
+                if (in_array($fakeDevice->getAddress(), $skippedAddresses, true)) {
+                    continue;
+                }
+
                 $urls[] = $Sonoff->buildCmndUrl($fakeDevice, Sonoff::COMMAND_INFO_STATUS_ALL);
                 unset($fakeDevice);
             }

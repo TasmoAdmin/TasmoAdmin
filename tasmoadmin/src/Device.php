@@ -51,6 +51,11 @@ class Device
         $this->isUpdatable = $isUpdatable;
     }
 
+    public function getAddress(): string
+    {
+        return $this->ip.':'.$this->port;
+    }
+
     public function getName(): string
     {
         return implode('-', $this->names);
@@ -71,6 +76,6 @@ class Device
             $auth = sprintf('%s:%s@', $this->username, $this->password);
         }
 
-        return sprintf('http://%s%s:%s', $auth, $this->ip, $this->port);
+        return sprintf('http://%s%s', $auth, $this->getAddress());
     }
 }
