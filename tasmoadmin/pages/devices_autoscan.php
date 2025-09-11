@@ -5,6 +5,7 @@ use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
 use TasmoAdmin\Sonoff;
+use TasmoAdmin\Tasmota\ResponseHelper;
 
 $Sonoff = $container->get(Sonoff::class);
 $Config = $container->get(Config::class);
@@ -240,6 +241,7 @@ $port = $Config->read('port');
                 <?php foreach (
                     $devicesFound as $idx => $device
                 ) { ?>
+                        <?php $deviceHelper = new ResponseHelper($device); ?>
                     <hr class='my-5'/>
                     <h3 class='text-sm-center mb-5'>
                         <?php echo __('DEVICE', 'DEVICES_AUTOSCAN').' '.($idx + 1); ?>
@@ -309,8 +311,7 @@ $port = $Config->read('port');
                     </div>
                     <?php if (isset($device->StatusSTS->POWER)) { ?>
                         <?php
-                        $friendlyName = is_array($device->Status->FriendlyName) // array since 5.12.0h
-                            ? $device->Status->FriendlyName[0] : $device->Status->FriendlyName;
+                        $friendlyName = $deviceHelper->getFriendlyName();
                         ?>
                         <div class="form-row">
                             <div class="form-group col col-12 col-sm-6">
@@ -360,17 +361,18 @@ $port = $Config->read('port');
                     $power = 'POWER'.$i;
                     $channelFound = false;
 
+                    $friendlyName = '';
+
                     while (isset($device->StatusSTS->{$power})) { ?>
                         <?php $channelFound = true; ?>
                         <?php
-                        $friendlyName = is_array($device->Status->FriendlyName) // array since 5.12.0h
-                            ? ($device->Status->FriendlyName[$i - 1]
-                                ?? '') : $device->Status->FriendlyName.' '.$i;
+
+                        $friendlyName = $deviceHelper->getFriendlyName($i - 1);
                         ?>
                         <div class="form-row">
                             <div class="form-group col col-12 col-sm-6">
                                 <label for="device_name_<?php echo $i; ?>">
-                                    <?php echo __('LABEL_NAME', 'DEVICE_ACTIONS'); ?><?php echo $i; ?>
+                                    <?php echo __('LABEL_NAME', 'DEVICE_ACTIONS'); ?> <?php echo $i; ?>
                                 </label>
                                 <input type="text"
                                        class="form-control"
