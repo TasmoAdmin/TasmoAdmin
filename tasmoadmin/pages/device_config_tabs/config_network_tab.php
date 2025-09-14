@@ -12,7 +12,7 @@
 		       value='<?php echo isset($status->StatusNET->Hostname)
                                  && !empty($status->StatusNET->Hostname) ? $status->StatusNET->Hostname : ''; ?>'
 		>
-		<small id="HostnameHelp" class="form-text text-muted">
+		<small id="HostnameHelp" class="text-muted">
 			<?php echo __('CONFIG_HOSTNAME_HELP', 'DEVICE_CONFIG'); ?>
 		</small>
 	</div>
@@ -120,23 +120,23 @@
 		</label>
 	</div>
 	<div class="form-group mt-0">
-		<div class="form-check form-check-inline custom-control-inline custom-radio">
-			<input class="form-check-input custom-control-input" type="radio" name="AP" id="AP1" value="1"
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="AP" id="AP1" value="1"
 				<?php echo isset($status->StatusSTS->Wifi->AP)
                            && !empty($status->StatusSTS->Wifi->AP)
                            && 1 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>
 			>
-			<label class="form-check-label custom-control-label" for="AP1">
+			<label class="form-check-label" for="AP1">
 				<?php echo __('CONFIG_AP1', 'DEVICE_CONFIG'); ?>
 			</label>
 		</div>
-		<div class="form-check form-check-inline custom-control-inline custom-radio">
-			<input class="form-check-input custom-control-input" type="radio" name="AP" id="AP2" value="2"
+		<div class="form-check form-check-inline">
+			<input class="form-check-input" type="radio" name="AP" id="AP2" value="2"
 				<?php echo isset($status->StatusSTS->Wifi->AP)
                            && !empty($status->StatusSTS->Wifi->AP)
                            && 2 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>
 			>
-			<label class="form-check-label custom-control-label" for="AP2">
+			<label class="form-check-label" for="AP2">
 				<?php echo __('CONFIG_AP2', 'DEVICE_CONFIG'); ?>
 			</label>
 		</div>
@@ -210,7 +210,7 @@
 		<label for="WifiConfig">
 			<?php echo __('CONFIG_WIFICONFIG', 'DEVICE_CONFIG'); ?>
 		</label>
-		<select class="form-control custom-select" id="WifiConfig" name='WifiConfig'>
+		<select class="form-control form-select" id="WifiConfig" name='WifiConfig'>
 			<option value='0' <?php echo isset($status->StatusNET->WifiConfig)
                                          && 0 == $status->StatusNET->WifiConfig ? 'selected=\selected"' : ''; ?>>
 				<?php echo __('CONFIG_WIFICONFIG_OPTION_0', 'DEVICE_CONFIG'); ?>
@@ -243,7 +243,7 @@
 
 	<div class="row mt-5">
 		<div class="col col-12">
-			<div class="text-right">
+			<div class="text-end">
 				<button type='submit' class='btn btn-primary ' name='save' value='submit'>
 					<?php echo __('BTN_SAVE_DEVICE_CONFIG', 'DEVICE_CONFIG'); ?>
 				</button>

@@ -7,12 +7,11 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@wikimedia/jquery.i18n": "^1.0.9",
-    "bootstrap": "^4.6.2",
+    "bootstrap": "^5.3.6",
     "compare-versions": "^6.1.1",
     "jqdoublescroll": "^1.0.0",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
-    "popper.js": "^1.16.1",
     "tablesaw": "^3.1.2"
   },
   "devDependencies": {
