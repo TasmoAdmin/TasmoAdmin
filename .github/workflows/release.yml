@@ -14,7 +14,7 @@ jobs:
     name: Release new version
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Prepare
       run: |
         ./.docker/docker.sh prepare
@@ -40,7 +40,7 @@ jobs:
     name: Release new version
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: shivammathur/setup-php@v2
       with:
         php-version: '8.3'
