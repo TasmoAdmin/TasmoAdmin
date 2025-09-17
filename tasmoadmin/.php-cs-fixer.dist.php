@@ -9,6 +9,7 @@ $finder = PhpCsFixer\Finder::create()
 $config = new PhpCsFixer\Config();
 
 $config
+    ->setUnsupportedPhpVersionAllowed(true)
     ->setRiskyAllowed(false)
     ->setRules([
         '@PHP84Migration' => true,
