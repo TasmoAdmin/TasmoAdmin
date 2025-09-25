@@ -18,14 +18,14 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
     <tr>
         <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-            <div class="form-check custom-control custom-checkbox">
-                <input class="form-check-input custom-control-input select_all"
+            <div class="form-check">
+                <input class="form-check-input select_all"
                        type="checkbox"
                        value='select_all'
                        id="select_all"
                        name='select_all'
                 >
-                <label class="form-check-label custom-control-label" for="select_all">
+                <label class="form-check-label" for="select_all">
                     <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>
@@ -99,8 +99,8 @@ if (isset($devices) && !empty($devices)) {
                     <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
                     <td class='cmd_cb <?php echo $deviceLinksHideClass; ?>'>
                         <?php if (0 == $key) { ?>
-                            <div class="form-check custom-control custom-checkbox">
-                                <input class="form-check-input custom-control-input device_checkbox"
+                            <div class="form-check">
+                                <input class="form-check-input device_checkbox"
                                        type="checkbox"
                                        <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)) { ?>
                                            disabled="disabled"
@@ -109,7 +109,7 @@ if (isset($devices) && !empty($devices)) {
                                        id="cb_<?php echo $device_group->id; ?>"
                                        name='device_ids[]'
                                 >
-                                <label class="form-check-label custom-control-label"
+                                <label class="form-check-label"
                                        for="cb_<?php echo $device_group->id; ?>"
                                 >
                                 </label>
@@ -379,14 +379,14 @@ if (isset($devices) && !empty($devices)) {
     <tr class='bottom'>
         <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-            <div class="form-check custom-control custom-checkbox">
-                <input class="form-check-input custom-control-input select_all"
+            <div class="form-check">
+                <input class="form-check-input select_all"
                        type="checkbox"
                        value='select_all'
                        id="select_all"
                        name='select_all'
                 >
-                <label class="form-check-label custom-control-label" for="select_all">
+                <label class="form-check-label" for="select_all">
                     <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>

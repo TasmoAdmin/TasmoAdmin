@@ -410,11 +410,20 @@ function updateAllStatus() {
 
           $(tr)
             .attr("data-original-title", msg)
-            .attr("data-toggle", "tooltip")
-            .tooltip({
-              html: true,
-              delay: 700,
-            });
+            .attr("data-bs-toggle", "tooltip");
+
+          // Initialize Bootstrap 5 tooltip
+          const tooltipTriggerList = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+          );
+          const tooltipList = tooltipTriggerList.map(
+            function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl, {
+                html: true,
+                delay: 700,
+              });
+            },
+          );
 
           //$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
           //$( tr ).find( ".runtime span" ).html( "-" );
@@ -567,11 +576,16 @@ function updateRow(row, data, device_status) {
       .find(".rssi span")
       .html(rssi + "%")
       .attr("data-original-title", ssid)
-      .attr("data-toggle", "tooltip")
-      .tooltip({
+      .attr("data-bs-toggle", "tooltip");
+
+    // Initialize Bootstrap 5 tooltip for RSSI
+    const rssiElement = $(row).find(".rssi span")[0];
+    if (rssiElement) {
+      new bootstrap.Tooltip(rssiElement, {
         html: true,
         delay: 700,
       });
+    }
   }
 
   let energyPower = getEnergyPower(data);

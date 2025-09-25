@@ -47,9 +47,15 @@ $(document).ready(function () {
     timeToWaitForResize: 1,
   });
 
-  $('[title][title!=""]').tooltip({
-    html: true,
-    delay: 300,
+  // Initialize Bootstrap 5 tooltips
+  var tooltipTriggerList = [].slice.call(
+    document.querySelectorAll('[title][title!=""]'),
+  );
+  var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    return new bootstrap.Tooltip(tooltipTriggerEl, {
+      html: true,
+      delay: 300,
+    });
   });
 
   $(".custom-file-input").on("change", function () {
