@@ -24,7 +24,7 @@ $devices = $Sonoff->getDevices();
 				</div>
 				<?php if (1 == $Config->read('show_search')) { ?>
 					<div class="col col-auto">
-						<div class="form-group">
+						<div class="col">
 							<div class="input-group">
 								<input type="text"
 									   name="searchterm"
@@ -32,7 +32,7 @@ $devices = $Sonoff->getDevices();
 									   autocomplete="off"
 									   placeholder="<?php echo __('FILTER', 'DEVICES'); // (Name, IP#123, ID#321, POS#1)?>"
 								>
-								<div class="input-group-append">
+								<div class="input-group-text">
 									<span class="input-group-text">
 										<i class="fas fa-search"></i>
 									</span>

@@ -69,21 +69,19 @@ if (!empty($_POST)) {
 			<?php echo $title; ?>
 		</h2>
 		<?php if (isset($status->ERROR) && '' != $status->ERROR) { ?>
-			<div class="alert alert-danger alert-dismissible fade show mb-5" data-dismiss="alert" role="alert">
+			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<p><?php echo __('MSG_DEVICE_NOT_FOUND', 'DEVICE_ACTIONS'); ?></p>
 				<p><?php echo $status->ERROR; ?></p>
-				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 
 		<?php } ?>
 		<?php if ('done' == $action) { ?>
 			<div class="alert alert-success fade show mb-5" role="alert">
-				<div class="col col-12 text-left">
+				<div class="col col-12 text-start">
 					<?php echo $msg; ?>
 				</div>
-				<div class="col col-12 text-left mt-3">
+				<div class="col col-12 text-start mt-3">
 					<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 						<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
 					</a>
@@ -125,9 +123,9 @@ if (!empty($_POST)) {
                                        ?? ''); ?>'
                                required
 						>
-						<small id="device_ipHelp" class="form-text text-muted">
-							<?php echo __('DEVICE_IP_HELP', 'DEVICE_ACTIONS'); ?>
-						</small>
+											<small id="device_ipHelp" class="text-muted">
+						<?php echo __('DEVICE_IP_HELP', 'DEVICE_ACTIONS'); ?>
+					</small>
 					</div>
                     <div class="form-group col col-12 col-sm-3">
                         <label for="device_port">
@@ -144,9 +142,9 @@ if (!empty($_POST)) {
                                                ?? Device::DEFAULT_PORT); ?>'
                                required
                         >
-                        <small id="device_portHelp" class="form-text text-muted">
-                            <?php echo __('DEVICE_PORT_HELP', 'DEVICE_ACTIONS'); ?>
-                        </small>
+                        					<small id="device_portHelp" class="text-muted">
+						<?php echo __('DEVICE_PORT_HELP', 'DEVICE_ACTIONS'); ?>
+					</small>
                     </div>
 					<div class="form-group col col-12 col-sm-3">
 						<label class="d-none d-sm-block">&nbsp;</label>
@@ -180,7 +178,7 @@ if (!empty($_POST)) {
                                ? $device->username : ($_REQUEST['device_username']
                                    ?? 'admin'); ?>'
 					>
-					<small id="device_usernameHelp" class="form-text text-muted">
+					<small id="device_usernameHelp" class="text-muted">
 						<?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
 					</small>
 				</div>
@@ -198,7 +196,7 @@ if (!empty($_POST)) {
                                ? $device->password : ($_REQUEST['device_password']
                                    ?? ''); ?>'
 					>
-					<small id="device_passwordHelp" class="form-text text-muted">
+					<small id="device_passwordHelp" class="text-muted">
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
 					</small>
 				</div>
@@ -206,24 +204,20 @@ if (!empty($_POST)) {
 
 				<?php if (isset($status) && !empty($status) && !isset($status->ERROR)) { ?>
 					<?php if (isset($status->WARNING) && !empty($status->WARNING)) { ?>
-						<div class="alert alert-warning alert-dismissible fade show mb-5" data-dismiss="alert"
+						<div class="alert alert-warning alert-dismissible fade show mb-5" data-bs-dismiss="alert"
 							 role="alert"
 						>
 							<p><?php echo __('MSG_DEVICE_FOUND', 'DEVICE_ACTIONS'); ?></p>
 							<p><?php echo $status->WARNING; ?></p>
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 					<?php } else { ?>
-						<div class="alert alert-success alert-dismissible fade show my-5" data-dismiss="alert"
+						<div class="alert alert-success alert-dismissible fade show my-5" data-bs-dismiss="alert"
 							 role="alert"
 						>
 							<?php echo __('MSG_DEVICE_FOUND', 'DEVICE_ACTIONS'); ?>
 
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 						</div>
 						<div class="form-group col">
 							<label for="device_position">
@@ -382,57 +376,57 @@ if (!empty($_POST)) {
 
 						<div class="form-row">
 							<div class="form-group col col-12 col-sm-3">
-								<div class="form-check custom-control custom-checkbox mb-5">
+								<div class="form-check mb-5">
 
 									<input type='hidden' name='device_all_off' value='0'>
-									<input class="form-check-input custom-control-input"
+									<input class="form-check-input"
 										   type="checkbox"
 										   value="1"
 										   id="device_all_off"
 										   name='device_all_off' <?php echo $device->deviceAllOff ? 'checked="checked"' : ''; ?>>
-									<label class="form-check-label custom-control-label" for="device_all_off">
+									<label class="form-check-label" for="device_all_off">
 										<?php echo __('LABEL_ALL_OFF', 'DEVICE_ACTIONS'); ?>
 									</label>
 								</div>
 							</div>
 							<div class="form-group col col-12 col-sm-3">
-								<div class="form-check custom-control custom-checkbox mb-5">
+								<div class="form-check mb-5">
 
 									<input type='hidden' name='device_protect_on' value='0'>
-									<input class="form-check-input custom-control-input"
+									<input class="form-check-input"
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_on"
 										   name='device_protect_on' <?php echo $device->deviceProtectionOn ? 'checked="checked"' : ''; ?>>
-									<label class="form-check-label custom-control-label" for="device_protect_on">
+									<label class="form-check-label" for="device_protect_on">
 										<?php echo __('LABEL_PROTECT_ON', 'DEVICE_ACTIONS'); ?>
 									</label>
 								</div>
 							</div>
 							<div class="form-group col col-12 col-sm-3">
-								<div class="form-check custom-control custom-checkbox mb-5">
+								<div class="form-check mb-5">
 
 									<input type='hidden' name='device_protect_off' value='0'>
-									<input class="form-check-input custom-control-input"
+									<input class="form-check-input"
 										   type="checkbox"
 										   value="1"
 										   id="device_protect_off"
 										   name='device_protect_off'  <?php echo $device->deviceProtectionOff ? 'checked="checked"' : ''; ?>>
-									<label class="form-check-label custom-control-label" for="device_protect_off">
+									<label class="form-check-label" for="device_protect_off">
 										<?php echo __('LABEL_PROTECT_OFF', 'DEVICE_ACTIONS'); ?>
 									</label>
 								</div>
 							</div>
                             <div class="form-group col col-12 col-sm-3">
-                                <div class="form-check custom-control custom-checkbox mb-5">
+                                <div class="form-check mb-5">
 
                                     <input type='hidden' name='is_updatable' value='0'>
-                                    <input class="form-check-input custom-control-input"
+                                    <input class="form-check-input"
                                            type="checkbox"
                                            value="1"
                                            id="is_updatable"
                                            name='is_updatable' <?php echo $device->isUpdatable ? 'checked="checked"' : ''; ?>>
-                                    <label class="form-check-label custom-control-label" for="is_updatable">
+                                    <label class="form-check-label" for="is_updatable">
                                         <?php echo __('LABEL_IS_UPDATABLE', 'DEVICE_ACTIONS'); ?>
                                     </label>
                                 </div>
@@ -442,12 +436,12 @@ if (!empty($_POST)) {
 
 				<?php } ?>
 				<div class="row">
-					<div class="col col-12 col-sm-6 text-left">
+					<div class="col col-12 col-sm-6 text-start">
 						<a class="btn btn-secondary  col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
 							<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
 						</a>
 					</div>
-					<div class="col col-12 col-sm-6 text-right">
+					<div class="col col-12 col-sm-6 text-end">
 						<button type='submit'
 								name='submit'
 								value='<?php echo isset($device->id) ? 'edit' : 'add'; ?>'

@@ -6,6 +6,7 @@ use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
 
 $urlHelper = $container->get(UrlHelper::class);
+$viewHelper = $container->get(ViewHelper::class);
 
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
@@ -38,9 +39,9 @@ $urlHelper = $container->get(UrlHelper::class);
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read('nightmode'); ?>',
-                update_fe_check: <?php echo $Config->read('update_fe_check'); ?> === 1,
-                force_upgrade: <?php echo $Config->read('force_upgrade'); ?> === 1,
-                update_newer_only: <?php echo $Config->read('update_newer_only'); ?> === 1,
+                update_fe_check: <?php echo $viewHelper->getValue(1 == $Config->read('update_fe_check')); ?>,
+                force_upgrade: <?php echo $viewHelper->getValue(1 == $Config->read('force_upgrade')); ?>,
+                update_newer_only: <?php echo $viewHelper->getValue(1 == $Config->read('update_newer_only')); ?>,
                 request_concurrency: <?php echo $Config->getRequestConcurrency(); ?>,
             };
 		</script>
@@ -59,23 +60,24 @@ $urlHelper = $container->get(UrlHelper::class);
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
 			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
-				<?php // var_dump( $page );?>
-				<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
-					<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
-				</a>
-				<button class="navbar-toggler"
-						type="button"
-						data-toggle="collapse"
-						data-target="#navbarSupportedContent"
-						aria-controls="navbarSupportedContent"
-						aria-expanded="false"
-						aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
+				<div class="container-fluid">
+					<?php // var_dump( $page );?>
+					<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
+						<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
+					</a>
+					<button class="navbar-toggler"
+							type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#navbarSupportedContent"
+							aria-controls="navbarSupportedContent"
+							aria-expanded="false"
+							aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav mr-auto">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav me-auto">
 						<?php if ($loggedin) { ?>
 							<li class="nav-item <?php echo 'start' == $page ? 'active' : ''; ?>">
 								<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
@@ -102,7 +104,7 @@ $urlHelper = $container->get(UrlHelper::class);
 								) ? 'active' : ''; ?>"
 								   href="#"
 								   id="devicesDropdown"
-								   data-toggle="dropdown"
+								   data-bs-toggle="dropdown"
 								   aria-haspopup="false"
 								   aria-expanded="false"
 								>
@@ -162,7 +164,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							) ? 'active' : ''; ?>"
 							   href="#"
 							   id="helpDropdown"
-							   data-toggle="dropdown"
+							   data-bs-toggle="dropdown"
 							   aria-haspopup="false"
 							   aria-expanded="false"
 							>
@@ -230,8 +232,8 @@ $urlHelper = $container->get(UrlHelper::class);
 							</div>
 						</li>
 					</ul>
-					<div class='my-2 my-sm-0 language-switch-holder'>
-						<select name='language-switch' id='language-switch' class='custom-select'>
+					<div class='my-2 my-sm-0 language-switch-holder ms-auto'>
+						<select name='language-switch' id='language-switch' class='form-select'>
 							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
 								<option value='<?php echo $l; ?>'
 									<?php echo $lang === $l ? 'selected="selected"' : ''; ?>
@@ -243,7 +245,7 @@ $urlHelper = $container->get(UrlHelper::class);
 					</div>
 					<?php if ($loggedin) { ?>
 						<?php if ('1' == $Config->read('login')) { ?>
-							<div class="my-2 my-lg-0 ml-0 ml-sm-3 ">
+							<div class="my-2 my-lg-0 ms-3">
 								<a class="error"
 								   href='<?php echo _BASEURL_; ?>logout'
 								   title='<?php echo __('LOGOUT', 'NAVI'); ?>'
@@ -256,6 +258,7 @@ $urlHelper = $container->get(UrlHelper::class);
 							</div>
 						<?php } ?>
 					<?php } ?>
+				</div>
 				</div>
 			</nav>
 		</header>

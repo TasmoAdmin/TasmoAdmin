@@ -18,14 +18,14 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
     <tr>
         <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-            <div class="form-check custom-control custom-checkbox">
-                <input class="form-check-input custom-control-input select_all"
+            <div class="form-check">
+                <input class="form-check-input select_all"
                        type="checkbox"
                        value='select_all'
                        id="select_all"
                        name='select_all'
                 >
-                <label class="form-check-label custom-control-label" for="select_all">
+                <label class="form-check-label" for="select_all">
                     <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>
@@ -38,7 +38,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
         <th><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
         <th data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
             <i class="fas fa-signal"
-               title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
+               data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
             ></i>
         </th>
         <th data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
@@ -72,7 +72,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
         <th class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>
                 <i class="fas fa-plus add"
-                   title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
+                  data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
                 ></i>
                 <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
             </a>
@@ -99,8 +99,8 @@ if (isset($devices) && !empty($devices)) {
                     <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
                     <td class='cmd_cb <?php echo $deviceLinksHideClass; ?>'>
                         <?php if (0 == $key) { ?>
-                            <div class="form-check custom-control custom-checkbox">
-                                <input class="form-check-input custom-control-input device_checkbox"
+                            <div class="form-check">
+                                <input class="form-check-input device_checkbox"
                                        type="checkbox"
                                        <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)) { ?>
                                            disabled="disabled"
@@ -109,7 +109,7 @@ if (isset($devices) && !empty($devices)) {
                                        id="cb_<?php echo $device_group->id; ?>"
                                        name='device_ids[]'
                                 >
-                                <label class="form-check-label custom-control-label"
+                                <label class="form-check-label"
                                        for="cb_<?php echo $device_group->id; ?>"
                                 >
                                 </label>
@@ -124,10 +124,10 @@ if (isset($devices) && !empty($devices)) {
                     <td>
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
-                           title='<?php echo __(
-                               'LINK_OPEN_DEVICE_WEBUI',
-                               'DEVICES'
-                           ); ?>'
+                          data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                              'LINK_OPEN_DEVICE_WEBUI',
+                              'DEVICES'
+                          ); ?>'
                         ><?php echo str_replace(
                             ' ',
                             '&nbsp;',
@@ -147,7 +147,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -157,7 +157,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -167,7 +167,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -194,7 +194,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -204,7 +204,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -214,7 +214,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -229,7 +229,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -239,7 +239,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -249,7 +249,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -259,7 +259,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -269,7 +269,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -279,7 +279,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -289,7 +289,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -299,7 +299,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -309,7 +309,7 @@ if (isset($devices) && !empty($devices)) {
 															<div class='loader'>
 																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
                                                                      alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                     title='<?php echo __('TEXT_LOADING'); ?>'
+                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
                                                                 >
 															</div>
 														</span>
@@ -319,17 +319,17 @@ if (isset($devices) && !empty($devices)) {
                     <td class='col actions text-sm-right'>
                         <a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
                             <i class="fas fa-cogs fa-lg"
-                               title='<?php echo __(
+                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
                                    'LINK_DEVICE_CONFIG',
                                    'DEVICES'
                                ); ?>'
                             ></i></a>
                         <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
                             <i class="fas fa-edit fa-lg"
-                               title='<?php echo __(
-                                   'LINK_DEVICE_EDIT',
-                                   'DEVICES'
-                               ); ?>'
+                              data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                                  'LINK_DEVICE_EDIT',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                         <a class="delete"
                            data-dialog-btn-cancel-text='<?php echo __(
@@ -354,17 +354,17 @@ if (isset($devices) && !empty($devices)) {
                            href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
                         >
                             <i class="fas fa-trash fa-lg"
-                               title='<?php echo __(
-                                   'LINK_DEVICE_DELETE',
-                                   'DEVICES'
-                               ); ?>'
+                              data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                                  'LINK_DEVICE_DELETE',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                         <a href='#' class='restart-device'>
                             <i class="fas fa-sync fa-lg"
-                               title='<?php echo __(
-                                   'LINK_DEVICE_RESTART',
-                                   'DEVICES'
-                               ); ?>'
+                              data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                                  'LINK_DEVICE_RESTART',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                     </td>
 
@@ -379,14 +379,14 @@ if (isset($devices) && !empty($devices)) {
     <tr class='bottom'>
         <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
         <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-            <div class="form-check custom-control custom-checkbox">
-                <input class="form-check-input custom-control-input select_all"
+            <div class="form-check">
+                <input class="form-check-input select_all"
                        type="checkbox"
                        value='select_all'
                        id="select_all"
                        name='select_all'
                 >
-                <label class="form-check-label custom-control-label" for="select_all">
+                <label class="form-check-label" for="select_all">
                     <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
                 </label>
             </div>
@@ -399,7 +399,7 @@ if (isset($devices) && !empty($devices)) {
         <th><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
         <th>
             <i class="fas fa-signal"
-               title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
+              data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
             ></i>
         </th>
         <th><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
@@ -432,7 +432,7 @@ if (isset($devices) && !empty($devices)) {
         <th class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>
                 <i class="fas fa-plus add"
-                   title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
+                  data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
                 ></i>
                 <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
             </a>

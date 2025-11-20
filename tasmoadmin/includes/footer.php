@@ -7,10 +7,7 @@
 				<?php if ('0' == $Config->read('hide_copyright')) { ?>
 					&copy; <?php echo date('Y'); ?>&nbsp;<?php echo __('BY'); ?> reloxx13 -
 				<?php } ?>
-				<?php // if( $Config->read( "current_git_tag" ) != "" ) :
-
-                $updateCheck = $Config->read('check_for_updates');
-				?>
+				<?php $updateCheck = $Config->read('check_for_updates'); ?>
 
 
 				<div id="versionHolder" class='d-inline-block' data-update-check='<?php echo $updateCheck; ?>'>
@@ -26,20 +23,10 @@
 					   style=''
 					></i>
 				</div><?php // endif;?>
-				<span class=''> -</span>
-				<a class=''
-				   href='https://github.com/TasmoAdmin/TasmoAdmin'
-				   target='_blank'
-				>
-					TasmoAdmin GitHub<?php // echo __( "VIEW_ON_GITHUB" );?>
-				</a>
 				-
-				<a class='' href='https://github.com/arendst/Tasmota'
-				   target='_blank'
-				>
-					Tasmota GitHub<?php // echo __( "VIEW_ON_GITHUB" );?>
-				</a>
-
+				<a href='https://github.com/TasmoAdmin/TasmoAdmin' target='_blank'>TasmoAdmin GitHub</a>
+				-
+				<a href='https://github.com/arendst/Tasmota' target='_blank'>Tasmota GitHub</a>
 			</span>
 		</div>
 	</div>

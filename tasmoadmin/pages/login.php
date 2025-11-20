@@ -53,21 +53,19 @@ if (empty($user) || empty($password)) {
 						<span class="anchor" id="formLogin"></span>
 						<?php if (isset($msg) && '' != $msg) { ?>
 							<div class="alert alert-danger alert-dismissible fade show mb-5"
-								 data-dismiss="alert"
+								 data-bs-dismiss="alert"
 								 role="alert"
 							>
 								<?php echo $msg; ?>
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 							</div>
 						<?php } ?>
 						<!-- form card login -->
 						<div class="card rounded-0 bg-dark text-white">
 							<div class="card-body">
 								<form class="form" name='loginform' method='POST'>
-									<div class="form-group col">
-										<label for="username"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
+									<div class="form-group col mb-3">
+										<label for="username" class="form-label"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="text"
 											   autofocus="autofocus"
 											   class="form-control form-control-lg rounded-0"
@@ -76,11 +74,9 @@ if (empty($user) || empty($password)) {
 											   placeholder='<?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?>'
 											   required=""
 										>
-
-
 									</div>
-									<div class="form-group col">
-										<label><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
+									<div class="form-group col mb-4">
+										<label for="password" class="form-label"><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="password"
 											   class="form-control form-control-lg rounded-0"
 											   id="password"
@@ -92,7 +88,7 @@ if (empty($user) || empty($password)) {
 									<div class='col col-12'>
 										<button type='submit'
 												name='<?php echo $register ? 'register' : 'login'; ?>'
-												class='btn btn-success btn-lg float-right'
+												class='btn btn-success btn-lg float-end'
 										>
 											<?php echo $register
                                                 ? __('BTN_REGISTER', 'LOGIN')

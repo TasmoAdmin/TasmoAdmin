@@ -47,10 +47,12 @@ $(document).ready(function () {
     timeToWaitForResize: 1,
   });
 
-  $('[title][title!=""]').tooltip({
-    html: true,
-    delay: 300,
-  });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl, {
+        html: true,
+        delay: 300,
+    }))
 
   $(".custom-file-input").on("change", function () {
     var filename = $(this).val();
@@ -131,45 +133,6 @@ $(document).ready(function () {
   });
 });
 
-function notifyMe(msg, title) {
-  var title = title || "";
-  if (title !== "") {
-    title = " - " + title;
-  }
-
-  var icon = "./resources/img/favicons/apple-icon-180x180.png";
-
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    return;
-  }
-
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var notification = new Notification("TasmoAdmin" + title, {
-      body: msg,
-      icon: icon,
-    });
-    setTimeout(notification.close.bind(notification), 3000);
-  }
-
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== "denied") {
-    Notification.requestPermission(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification("TasmoAdmin" + title, {
-          body: msg,
-        });
-        setTimeout(notification.close.bind(notification), 3000);
-      }
-    });
-  }
-
-  // Finally, if the user has denied notifications and you
-  // want to be respectful there is no need to bother them any more.
-}
 
 $.fn.attachDragger = function () {
   var attachment = false,
@@ -205,23 +168,6 @@ $.fn.attachDragger = function () {
   });
 };
 
-var parseVersion = function (versionString) {
-  versionString = versionString.replace("-minimal", "").replace(/\./g, "");
-
-  var last = versionString.slice(-1);
-  if (isNaN(last)) {
-    versionString = versionString.replace(
-      last,
-      last.charCodeAt(0) - 97 < 10
-        ? "0" + (last.charCodeAt(0) - 97)
-        : last.charCodeAt(0) - 97,
-    );
-  } else {
-    versionString = versionString + "00";
-  }
-
-  return versionString;
-};
 
 export function getTemp(data, joinString) {
   var temp = [];
