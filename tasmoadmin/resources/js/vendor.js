@@ -1,6 +1,7 @@
 import "./src/jquery";
 
-import "bootstrap";
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 import "./../../node_modules/@wikimedia/jquery.i18n/src/jquery.i18n";
 import "./../../node_modules/@wikimedia/jquery.i18n/src/jquery.i18n.messagestore";

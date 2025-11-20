@@ -125,9 +125,9 @@ if (isset($devices) && !empty($devices)) {
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
                           data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                               'LINK_OPEN_DEVICE_WEBUI',
-                               'DEVICES'
-                           ); ?>'
+                              'LINK_OPEN_DEVICE_WEBUI',
+                              'DEVICES'
+                          ); ?>'
                         ><?php echo str_replace(
                             ' ',
                             '&nbsp;',
@@ -327,9 +327,9 @@ if (isset($devices) && !empty($devices)) {
                         <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
                             <i class="fas fa-edit fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                                   'LINK_DEVICE_EDIT',
-                                   'DEVICES'
-                               ); ?>'
+                                  'LINK_DEVICE_EDIT',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                         <a class="delete"
                            data-dialog-btn-cancel-text='<?php echo __(
@@ -355,16 +355,16 @@ if (isset($devices) && !empty($devices)) {
                         >
                             <i class="fas fa-trash fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                                   'LINK_DEVICE_DELETE',
-                                   'DEVICES'
-                               ); ?>'
+                                  'LINK_DEVICE_DELETE',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                         <a href='#' class='restart-device'>
                             <i class="fas fa-sync fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                                   'LINK_DEVICE_RESTART',
-                                   'DEVICES'
-                               ); ?>'
+                                  'LINK_DEVICE_RESTART',
+                                  'DEVICES'
+                              ); ?>'
                             ></i></a>
                     </td>
 

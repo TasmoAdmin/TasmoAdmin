@@ -11,8 +11,6 @@ import {
 } from "./app";
 const refreshtime = getRefreshTime();
 
-import { Tooltip } from "bootstrap";
-
 
 let ignoreProtectionsTimer;
 $(document).ready(function () {
@@ -421,7 +419,7 @@ function updateAllStatus() {
           );
           const tooltipList = tooltipTriggerList.map(
             function (tooltipTriggerEl) {
-              return new Tooltip(tooltipTriggerEl, {
+              return new window.bootstrap.Tooltip(tooltipTriggerEl, {
                 html: true,
                 delay: 700,
               });

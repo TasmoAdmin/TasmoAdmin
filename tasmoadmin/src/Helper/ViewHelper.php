@@ -32,4 +32,13 @@ class ViewHelper
 
         return $nightMode;
     }
+
+    public function getValue($value): string
+    {
+        if (is_bool($value)) {
+            return $value ? 'true' : 'false';
+        }
+
+        return (string) $value;
+    }
 }

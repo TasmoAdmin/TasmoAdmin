@@ -6,6 +6,7 @@ use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
 
 $urlHelper = $container->get(UrlHelper::class);
+$viewHelper = $container->get(ViewHelper::class);
 
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
@@ -38,9 +39,9 @@ $urlHelper = $container->get(UrlHelper::class);
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read('nightmode'); ?>',
-                update_fe_check: <?php echo $Config->read('update_fe_check'); ?> === 1,
-                force_upgrade: <?php echo $Config->read('force_upgrade'); ?> === 1,
-                update_newer_only: <?php echo $Config->read('update_newer_only'); ?> === 1,
+                update_fe_check: <?php echo $viewHelper->getValue(1 == $Config->read('update_fe_check')); ?>,
+                force_upgrade: <?php echo $viewHelper->getValue(1 == $Config->read('force_upgrade')); ?>,
+                update_newer_only: <?php echo $viewHelper->getValue(1 == $Config->read('update_newer_only')); ?>,
                 request_concurrency: <?php echo $Config->getRequestConcurrency(); ?>,
             };
 		</script>
