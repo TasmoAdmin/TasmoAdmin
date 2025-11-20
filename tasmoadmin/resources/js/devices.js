@@ -11,7 +11,6 @@ import {
 } from "./app";
 const refreshtime = getRefreshTime();
 
-
 let ignoreProtectionsTimer;
 $(document).ready(function () {
   deviceTools();

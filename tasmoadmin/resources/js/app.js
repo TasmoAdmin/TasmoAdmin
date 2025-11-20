@@ -47,12 +47,16 @@ $(document).ready(function () {
     timeToWaitForResize: 1,
   });
 
-
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new window.bootstrap.Tooltip(tooltipTriggerEl, {
+  const tooltipTriggerList = document.querySelectorAll(
+    '[data-bs-toggle="tooltip"]',
+  );
+  const tooltipList = [...tooltipTriggerList].map(
+    (tooltipTriggerEl) =>
+      new window.bootstrap.Tooltip(tooltipTriggerEl, {
         html: true,
         delay: 300,
-    }))
+      }),
+  );
 
   $(".custom-file-input").on("change", function () {
     var filename = $(this).val();
@@ -133,7 +137,6 @@ $(document).ready(function () {
   });
 });
 
-
 $.fn.attachDragger = function () {
   var attachment = false,
     lastPosition,
@@ -167,7 +170,6 @@ $.fn.attachDragger = function () {
     $(".tablesaw-cell-content").removeClass("dontselect");
   });
 };
-
 
 export function getTemp(data, joinString) {
   var temp = [];
