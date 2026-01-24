@@ -583,6 +583,10 @@ hr {
   background-color: $color_mako_approx;
   color: $whiteNightMode;
 
+  .text-body-secondary {
+    color: $whiteSubNightMode !important;
+  }
+
   // Bootstrap 5 compatible table hover
   .table-hover {
     > tbody > tr:hover {
