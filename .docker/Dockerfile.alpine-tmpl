@@ -1,4 +1,4 @@
-ARG BUILD_FROM=amd64/alpine:3.22
+ARG BUILD_FROM=amd64/alpine:3.23
 
 
 # Container versions
