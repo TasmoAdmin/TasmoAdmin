@@ -265,10 +265,10 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         <label class="form-check-label" for="force_upgrade" style='top:3px;'>
                             <?php echo __('CONFIG_FORCE_UPGRADE', 'USER_CONFIG'); ?>
                         </label>
-                        <p class="small" style="padding-top:15px;">
+                        <small class="text-body-secondary" style="padding-top:15px;">
                             <?php echo __('CONFIG_FORCE_UPGRADE_HELP', 'USER_CONFIG'); ?>
 
-                        </p>
+                        </small>
                     </div>
                 </div>
                 <div class="col col-12 col-sm-3">
@@ -283,9 +283,9 @@ $autoFirmwareChannels = ['stable', 'dev'];
                         <label class="form-check-label" for="update_newer_only" style='top:3px;'>
                             <?php echo __('CONFIG_UPDATE_NEWER_ONLY', 'USER_CONFIG'); ?>
                         </label>
-                        <p class="small" style="padding-top:15px;">
+                        <small class="text-body-secondary" style="padding-top:15px;">
                             <?php echo __('CONFIG_UPDATE_NEWER_ONLY_HELP', 'USER_CONFIG'); ?>
-                        </p>
+                        </small>
                     </div>
                 </div>
 			</div>
@@ -383,7 +383,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                 <div class="col col-12">
                     <h2><?php echo __('CONFIG_UPDATE_CHECK', 'USER_CONFIG'); ?></h2>
                 </div>
-                <div class="form-check mb-5">
+                <div class="col col-12 col-sm-6">
                     <input class="form-check-input"
                            type="checkbox"
                            value="1"
@@ -393,11 +393,11 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     <label class="form-check-label" for="cb_update_fe_check">
                         <?php echo __('CONFIG_UPDATE_FE_CHECK', 'USER_CONFIG'); ?>
                     </label>
-                    <p class="small">
+                    <small class="text-body-secondary">
                         <?php echo __('CONFIG_UPDATE_FE_CHECK_HELP', 'USER_CONFIG'); ?>
-                    </p>
+                    </small>
                 </div>
-                <div class="form-check mb-5">
+                <div class="col col-12 col-sm-6">
                     <input class="form-check-input"
                            type="checkbox"
                            value="1"
@@ -407,9 +407,9 @@ $autoFirmwareChannels = ['stable', 'dev'];
                     <label class="form-check-label" for="cb_update_be_check">
                         <?php echo __('CONFIG_UPDATE_BE_CHECK', 'USER_CONFIG'); ?>
                     </label>
-                    <p class="small">
+                    <small class="text-body-secondary">
                         <?php echo __('CONFIG_UPDATE_BE_CHECK_HELP', 'USER_CONFIG'); ?>
-                    </p>
+                    </small>
                 </div>
             </div>
 
