@@ -65,6 +65,7 @@
     },
     {
       "customType": "regex",
+      "groupName": "alpine",
       "managerFilePatterns": [
         "//.docker/docker.sh/"
       ],
@@ -73,6 +74,18 @@
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "alpine:{{currentValue}}"
+    },
+    {
+      "customType": "regex",
+      "groupName": "alpine",
+      "managerFilePatterns": [
+        "//.docker/Dockerfile.alpine-tmpl/"
+      ],
+      "matchStrings": [
+        "ARG BUILD_FROM=(?:[a-z0-9]+/)?alpine:(?<currentValue>.+?)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "alpine"
     },
     {
       "customType": "regex",
