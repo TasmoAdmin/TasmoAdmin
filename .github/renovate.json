@@ -77,6 +77,17 @@
     {
       "customType": "regex",
       "managerFilePatterns": [
+        "//.docker/Dockerfile.alpine-tmpl/"
+      ],
+      "matchStrings": [
+        "ARG BUILD_FROM=(?:[a-z0-9]+/)?alpine:(?<currentValue>.+?)\\s+"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "alpine"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
         "//.docker/docker.sh/"
       ],
       "matchStrings": [
