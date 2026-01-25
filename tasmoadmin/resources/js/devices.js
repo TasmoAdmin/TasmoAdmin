@@ -372,7 +372,7 @@ function updateAllStatus() {
 
           let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
-          $(tr).removeAttr("data-original-title").removeAttr("data-toggle");
+          $(tr).removeAttr("data-bs-title").removeAttr("data-bs-toggle");
 
           updateRow($(tr), data, device_status);
           $(tr).find(".status").find("input").parent().removeClass("error");
@@ -408,22 +408,18 @@ function updateAllStatus() {
             msg = "data is empty";
           }
 
-          $(tr)
-            .attr("data-original-title", msg)
-            .attr("data-bs-toggle", "tooltip");
+          $(tr).attr("data-bs-title", msg).attr("data-bs-toggle", "tooltip");
 
-          // Initialize Bootstrap 5 tooltip
           const tooltipTriggerList = [].slice.call(
             document.querySelectorAll('[data-bs-toggle="tooltip"]'),
           );
-          const tooltipList = tooltipTriggerList.map(
-            function (tooltipTriggerEl) {
-              return new window.bootstrap.Tooltip(tooltipTriggerEl, {
-                html: true,
-                delay: 700,
-              });
-            },
-          );
+
+          tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new window.bootstrap.Tooltip(tooltipTriggerEl, {
+              html: true,
+              delay: 700,
+            });
+          });
 
           //$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
           //$( tr ).find( ".runtime span" ).html( "-" );
@@ -575,17 +571,19 @@ function updateRow(row, data, device_status) {
     $(row)
       .find(".rssi span")
       .html(rssi + "%")
-      .attr("data-original-title", ssid)
+      .attr("data-bs-title", ssid)
       .attr("data-bs-toggle", "tooltip");
 
-    // Initialize Bootstrap 5 tooltip for RSSI
-    const rssiElement = $(row).find(".rssi span")[0];
-    if (rssiElement) {
-      new Tooltip(rssiElement, {
+    const tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+    );
+
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new window.bootstrap.Tooltip(tooltipTriggerEl, {
         html: true,
         delay: 700,
       });
-    }
+    });
   }
 
   let energyPower = getEnergyPower(data);
@@ -748,17 +746,24 @@ function updateRow(row, data, device_status) {
       .find(".runtime span")
       .html(uptime)
       .attr(
-        "data-original-title",
+        "data-bs-title",
         startupdatetime.toLocaleString(
           $("html").attr("lang") + "-" + $("html").attr("lang").toUpperCase(),
           { hour12: false },
         ),
       )
-      .attr("data-toggle", "tooltip")
-      .tooltip({
+      .attr("data-bs-toggle", "tooltip");
+
+    const tooltipTriggerList = [].slice.call(
+      document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+    );
+
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new window.bootstrap.Tooltip(tooltipTriggerEl, {
         html: true,
         delay: 700,
       });
+    });
   } else {
     $(row)
       .find(".runtime span")
