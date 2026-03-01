@@ -1,5 +1,10 @@
 # Upgrade
 
+## From 4 -> 5
+
+ - Minimum PHP version bumped to 8.2 due to 8.1 becoming EOL.
+
+
 ## From 3 -> 4
 
 - Frontend asset changes - if you're using the zip or docker images no issues should occur
