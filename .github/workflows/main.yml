@@ -32,7 +32,7 @@ jobs:
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.3'
+        php-version: '8.5'
     - name: Install dependencies
       run: composer install -d tasmoadmin/
     - name: Run PHPStan
@@ -47,7 +47,7 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.5'
       - name: Install dependencies
         run: composer install -d tasmoadmin/
       - name: Run php-cs-fixer
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        php-version: ['8.4', '8.3', '8.2', '8.1']
+        php-version: ['8.5', '8.4', '8.3', '8.2', '8.1']
     steps:
     - uses: actions/checkout@v6
     - name: Install PHP
