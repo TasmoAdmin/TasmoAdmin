@@ -740,7 +740,7 @@ function updateRow(row, data, device_status) {
         ? seconds + $.i18n("UPTIME_SHORT_SEC")
         : "-");
 
-    uptime = $.trim(uptime);
+    uptime = uptime.trim();
 
     $(row)
       .find(".runtime span")
