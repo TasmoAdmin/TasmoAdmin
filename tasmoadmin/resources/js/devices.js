@@ -794,21 +794,19 @@ function updateRow(row, data, device_status) {
   if (!$(row).find(".poweronstate span").hasClass("dont-update")) {
     $(row)
       .find(".poweronstate span")
-      .html(
-        data.Status.PowerOnState !== undefined ? data.Status.PowerOnState : "?",
-      );
+      .html(data?.Status?.PowerOnState ?? "?");
   }
 
   if (!$(row).find(".ledstate span").hasClass("dont-update")) {
     $(row)
       .find(".ledstate span")
-      .html(data.Status.LedState !== undefined ? data.Status.LedState : "?");
+      .html(data?.Status?.LedState ?? "?");
   }
 
   if (!$(row).find(".savedata span").hasClass("dont-update")) {
     $(row)
       .find(".savedata span")
-      .html(data.Status.SaveData !== undefined ? data.Status.SaveData : "?");
+      .html(data?.Status?.SaveData ?? "?");
   }
 
   if (!$(row).find(".sleep span").hasClass("dont-update")) {

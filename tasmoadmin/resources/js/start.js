@@ -488,19 +488,17 @@ function updateBox(row, data, device_status) {
     .html(data.StatusMQT !== undefined ? "1" : "0");
   $(row)
     .find(".poweronstate span")
-    .html(
-      data.Status.PowerOnState !== undefined ? data.Status.PowerOnState : "?",
-    );
+    .html(data?.Status?.PowerOnState ?? "?");
   $(row)
     .find(".ledstate span")
-    .html(data.Status.LedState !== undefined ? data.Status.LedState : "?");
+    .html(data?.Status?.LedState ?? "?");
   $(row)
     .find(".savedata span")
-    .html(data.Status.SaveData !== undefined ? data.Status.SaveData : "?");
+    .html(data?.Status?.SaveData ?? "?");
   $(row)
     .find(".sleep span")
     .html(
-      data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
+          data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
     );
   $(row)
     .find(".bootcount span")
