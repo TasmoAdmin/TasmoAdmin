@@ -498,7 +498,7 @@ function updateBox(row, data, device_status) {
   $(row)
     .find(".sleep span")
     .html(
-          data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
+      data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
     );
   $(row)
     .find(".bootcount span")
