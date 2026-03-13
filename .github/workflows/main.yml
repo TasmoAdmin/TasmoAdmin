@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v6
-      - uses: jdx/mise-action@v3
+      - uses: jdx/mise-action@v4
       - name: Cache pre-commit environment
         uses: actions/cache@v5
         with:
