@@ -72,7 +72,7 @@ jobs:
       run: |
         cd tasmoadmin
         XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover coverage.xml --display-deprecations
-    - uses: codecov/codecov-action@v5
+    - uses: codecov/codecov-action@v6
       if: matrix.php-version == '8.4'
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
