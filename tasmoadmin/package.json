@@ -15,7 +15,7 @@
     "tablesaw": "^3.1.2"
   },
   "devDependencies": {
-    "@node-minify/clean-css": "^9.0.1",
+    "@node-minify/clean-css": "^10.0.0",
     "@node-minify/core": "^9.0.2",
     "@node-minify/terser": "^9.0.1",
     "esbuild": "0.27.4",
