@@ -9,8 +9,7 @@ window.sonoff = sonoff;
 let nightmode = false;
 
 const lang = $("html").attr("lang");
-const i18nfile =
-  config.base_url + "tmp/cache/i18n/json_i18n_" + lang + ".cache.json";
+const i18nfile = `${config.base_url}actions?i18n=1&lang=${encodeURIComponent(lang)}`;
 $.ajax({
   dataType: "json",
   url: i18nfile,

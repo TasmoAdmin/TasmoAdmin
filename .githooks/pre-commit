@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+mapfile -d '' staged_files < <(git diff --cached --name-only --diff-filter=ACMR -z)
+
+if [ ${#staged_files[@]} -eq 0 ]; then
+    exit 0
+fi
+
+if command -v pre-commit >/dev/null 2>&1; then
+    pre-commit run --files "${staged_files[@]}"
+else
+    echo "[pre-commit] 'pre-commit' is not installed; skipping .pre-commit-config.yaml hooks."
+fi
+
+"$repo_root/scripts/run-pre-commit-checks.sh"

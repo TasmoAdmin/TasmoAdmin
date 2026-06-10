@@ -3,6 +3,7 @@
 use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
+use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
@@ -34,6 +35,26 @@ if (isset($_GET['doAjaxAll'])) {
 
     header('Content-Type: application/json');
     echo json_encode($data);
+
+    exit;
+}
+
+if (isset($_GET['i18n'])) {
+    $requestedLang = $_GET['lang'] ?? $lang;
+    $supportedLanguages = SupportedLanguageHelper::getSupportedLanguages();
+    $language = array_key_exists($requestedLang, $supportedLanguages) ? $requestedLang : $lang;
+    $cacheFile = _TMPDIR_.'cache/i18n/json_i18n_'.$language.'.cache.json';
+
+    if (!is_file($cacheFile)) {
+        http_response_code(404);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Language cache not found']);
+
+        exit;
+    }
+
+    header('Content-Type: application/json');
+    readfile($cacheFile);
 
     exit;
 }
