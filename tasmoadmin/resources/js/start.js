@@ -8,13 +8,14 @@ import {
   getEnergyPower,
   getRefreshTime,
   chunkArray,
+  onI18nReady,
 } from "./app";
 
 var longPressTimer;
 
 const refreshtime = getRefreshTime();
 
-$(document).ready(function () {
+onI18nReady(function () {
   deviceTools();
   updateStatus();
 

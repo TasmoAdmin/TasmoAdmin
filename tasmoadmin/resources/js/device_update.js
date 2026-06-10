@@ -4,6 +4,7 @@ import {
   shouldTreatStatusAsSuccessful,
   getFailureDetails,
 } from "./device_update_logic.js";
+import { waitForI18n } from "./app";
 
 const deviceContainerId = "progressbox";
 
@@ -264,6 +265,7 @@ async function updateDevice(device) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  await waitForI18n();
   if (config.update_fe_check && !(await checkOtaUrlAccessible(otaUrl))) {
     return;
   }

@@ -13,12 +13,33 @@ let nightmode = false;
 
 const lang = $("html").attr("lang");
 const i18nfile = `${config.base_url}actions?i18n=1&lang=${encodeURIComponent(lang)}`;
-$.ajax({
-  dataType: "json",
-  url: i18nfile,
-  async: false,
-  success: (data) => $.i18n().load(data),
+const i18nReady = new Promise((resolve) => {
+  $.ajax({
+    dataType: "json",
+    url: i18nfile,
+    success: (data) => {
+      Promise.resolve($.i18n().load(data))
+        .catch((error) => {
+          console.error("[i18n] Failed to load translations", error);
+        })
+        .finally(resolve);
+    },
+    error: (xhr, status, error) => {
+      console.error("[i18n] Failed to fetch translations", status, error);
+      resolve();
+    },
+  });
 });
+
+export function waitForI18n() {
+  return i18nReady;
+}
+
+export function onI18nReady(callback) {
+  $(document).ready(function () {
+    void i18nReady.then(() => callback());
+  });
+}
 
 export function getRefreshTime() {
   let refreshtime = false;
@@ -30,7 +51,7 @@ export function getRefreshTime() {
   return refreshtime;
 }
 
-$(document).ready(function () {
+onI18nReady(function () {
   checkNightmode(config.nightmodeconfig || "auto");
   checkForUpdate(true);
 

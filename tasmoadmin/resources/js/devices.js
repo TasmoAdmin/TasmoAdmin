@@ -9,6 +9,7 @@ import {
   getEnergyPower,
   getRefreshTime,
   chunkArray,
+  onI18nReady,
 } from "./app";
 import statusHelpers from "./status_helpers";
 
@@ -16,7 +17,7 @@ const { getRuntimeInfo } = statusHelpers;
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
-$(document).ready(function () {
+onI18nReady(function () {
   deviceTools();
   updateAllStatus();
 
