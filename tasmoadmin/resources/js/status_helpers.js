@@ -6,7 +6,7 @@ function ensureStatusSections(data = {}) {
     StatusFWR: data.StatusFWR ?? {},
     StatusLOG: data.StatusLOG ?? {},
     StatusNET: data.StatusNET ?? {},
-    StatusMQT: data.StatusMQT ?? {},
+    StatusMQT: data.StatusMQT,
     StatusSNS: data.StatusSNS ?? {},
     StatusSTS: data.StatusSTS ?? {},
   };

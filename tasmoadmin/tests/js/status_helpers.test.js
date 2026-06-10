@@ -28,6 +28,7 @@ test("normalizeStatusData fills missing sections for ethernet payloads", () => {
 
   assert.deepEqual(data.StatusLOG, {});
   assert.deepEqual(data.StatusSTS, {});
+  assert.equal(data.StatusMQT, undefined);
   assert.equal(data.hasWifi, false);
   assert.equal(
     getRuntimeInfo(data, {
