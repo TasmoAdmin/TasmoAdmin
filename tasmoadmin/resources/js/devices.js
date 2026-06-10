@@ -11,9 +11,11 @@ import {
   chunkArray,
   onI18nReady,
 } from "./app";
+import batchActions from "./device_batch_actions";
 import statusHelpers from "./status_helpers";
 
 const { getRuntimeInfo } = statusHelpers;
+const { getBatchActionConfig, validateBatchAction } = batchActions;
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
@@ -113,128 +115,148 @@ onI18nReady(function () {
 });
 
 function initCommandHelper() {
-  $(".showCommandInput").on("click", function (e) {
-    $(this).toggleClass("btn-secondary").toggleClass("btn-primary");
-    $(".command-hidden").toggleClass("d-none");
-    $(".delete-hidden").addClass("d-none");
-    $(".showDelete").toggleClass("btn-primary").toggleClass("btn-secondary");
-    $(".cmd_cb").toggleClass("d-none").find("input").prop("checked", false);
-    $(".cmdContainer ").removeClass("has-error");
-    $(".cmdContainer ").find("input").val("");
-    $(".cmdContainer ").find("#commandInputError").html("");
+  $(".batchActionSelect").on("change", function () {
+    if ($(this).val() !== "command") {
+      $(".batchActionCommandInput").val("");
+    }
+    resetBatchActionFeedback();
+    updateBatchActionUi();
   });
 
-  $(".showDelete").on("click", function (e) {
-    $(this).toggleClass("btn-secondary").toggleClass("btn-primary");
-    $(".delete-hidden").toggleClass("d-none");
-    $(".command-hidden").addClass("d-none");
-    $(".showCommand").toggleClass("btn-primary").toggleClass("btn-secondary");
-    $(".cmd_cb").toggleClass("d-none").find("input").prop("checked", false);
-    $(".deleteContainer ").removeClass("has-error");
-    $(".deleteContainer ").find("input").val("");
-    $(".cmdContainer ").find("#commandInputError").html("");
+  $(".batchActionCommandInput").on("keypress", function (e) {
+    if (e.which === 13) {
+      e.preventDefault();
+      $(".applyBatchAction").trigger("click");
+    }
   });
-
-  $(".cmdContainer ")
-    .find("input")
-    .keypress(function (e) {
-      if (e.which == 13) {
-        //Enter key pressed
-        $(".sendCommand").click(); //Trigger search button click event
-      }
-    });
 
   $(".select_all").change(function () {
     let status = this.checked;
-    $("#device-list tr:not(.d-none) .device_checkbox:not(:disabled)").each(
-      function () {
-        this.checked = status;
-      },
-    );
+    $(
+      "#device-list tbody tr:not(.d-none) .device_checkbox:not(:disabled)",
+    ).each(function () {
+      this.checked = status;
+    });
 
     $(".select_all").each(function () {
       this.checked = status;
     });
+
+    updateBatchActionUi();
   });
 
-  $(".sendDelete").on("click", function (e) {
+  $(".device_checkbox").on("change", function () {
+    syncSelectAllState();
+    updateBatchActionUi();
+  });
+
+  $(".applyBatchAction").on("click", function () {
+    const action = $(".batchActionSelect").val();
     const selectedDevices = getSelectedDevices();
-    if (selectedDevices.length > 0) {
+    const command = $(".batchActionCommandInput").val().trim();
+    const validationError = validateBatchAction({
+      action,
+      selectedDeviceIds: selectedDevices,
+      command,
+    });
+
+    resetBatchActionFeedback();
+
+    if (validationError !== null) {
+      showBatchActionFeedback($.i18n(validationError), "text-danger");
+      return false;
+    }
+
+    if (action === "delete") {
+      if (!window.confirm(`${$.i18n("DELETE_SELECTED")}?`)) {
+        return false;
+      }
+
       const idsParam = selectedDevices.join(",");
-      $.get(`${config.base_url}actions?removeDevices&ids=${idsParam}`);
-    }
+      $.get(`${config.base_url}actions?removeDevices&ids=${idsParam}`)
+        .done(() => window.location.reload())
+        .fail(() => showBatchActionFeedback($.i18n("ERROR"), "text-danger"));
 
-    location.reload();
-  });
-
-  $(".sendCommand").on("click", function (e) {
-    $(this)
-      .parent()
-      .parent()
-      .removeClass("has-error")
-      .find("#commandInputError")
-      .addClass("d-none")
-      .html("");
-
-    let selectedDevices = getSelectedDevices();
-    if (selectedDevices.length === 0) {
-      $(this)
-        .parent()
-        .parent()
-        .addClass("has-error")
-        .find("#commandInputError")
-        .removeClass("d-none")
-        .html($.i18n("ERROR_COMMAND_NO_DEVICE_SELECTED"));
       return false;
     }
 
-    let cmnd = $(this).parent().parent().find(".commandInput").val();
-    if (cmnd === "") {
-      $(this)
-        .parent()
-        .parent()
-        .addClass("has-error")
-        .find("#commandInputError")
-        .removeClass("d-none")
-        .html($.i18n("ERROR_PLS_ENTER_COMMAND"));
-      return false;
-    }
+    showBatchActionFeedback($.i18n("SUCCESS_COMMAND_SEND"), "text-success");
 
     $.each(selectedDevices, function (idx, device_id) {
-      sonoff.generic(device_id, cmnd, undefined, function (result) {
+      sonoff.generic(device_id, command, undefined, function (result) {
         let device_name = $("[data-device_id=" + device_id + "]:first")
           .find(".device_name a")
           .text()
           .trim();
-        $("#commandInputError").append(
+        appendBatchActionFeedback(
           "ID " +
             device_id +
             " (" +
             device_name +
             ") => " +
-            JSON.stringify(result) +
-            "<br/>",
+            JSON.stringify(result),
         );
       });
     });
-
-    $(this)
-      .parent()
-      .parent()
-      .find("#commandInputError")
-      .removeClass("d-none")
-      .append($.i18n("SUCCESS_COMMAND_SEND") + "</br>");
   });
+
+  updateBatchActionUi();
 }
 
 function getSelectedDevices() {
-  return $.map(
-    $(".cmd_cb:not(.link ) input:not(.select_all):checked"),
-    function (elem, idx) {
-      let d = new Array($(elem).val());
-      return d;
-    },
+  return $.map($(".device_checkbox:checked"), function (elem) {
+    return [$(elem).val()];
+  });
+}
+
+function syncSelectAllState() {
+  const selectableDevices = $(".device_checkbox:not(:disabled):visible");
+  const selectedDevices = selectableDevices.filter(":checked");
+  const isAllSelected =
+    selectableDevices.length > 0 &&
+    selectedDevices.length === selectableDevices.length;
+
+  $(".select_all").prop("checked", isAllSelected);
+}
+
+function updateBatchActionUi() {
+  const actionConfig = getBatchActionConfig($(".batchActionSelect").val());
+  const hasSelection = getSelectedDevices().length > 0;
+
+  $(".batchActionCommandWrapper").toggleClass(
+    "d-none",
+    !actionConfig || !actionConfig.requiresCommand,
   );
+
+  $(".applyBatchAction")
+    .prop("disabled", !actionConfig || !hasSelection)
+    .text(
+      actionConfig
+        ? $.i18n(actionConfig.submitLabelKey)
+        : $.i18n("PLEASE_SELECT"),
+    );
+}
+
+function resetBatchActionFeedback() {
+  $(".batchActionFeedback")
+    .removeClass("text-danger text-success")
+    .addClass("d-none")
+    .html("");
+}
+
+function showBatchActionFeedback(message, className) {
+  $(".batchActionFeedback")
+    .removeClass("d-none text-danger text-success")
+    .addClass(className)
+    .html(message);
+}
+
+function appendBatchActionFeedback(message) {
+  const feedback = $(".batchActionFeedback");
+  const currentContent = feedback.html();
+  const nextContent =
+    currentContent === "" ? message : `${currentContent}<br/>${message}`;
+  feedback.removeClass("d-none").html(nextContent);
 }
 
 function updateStatus() {
@@ -894,5 +916,8 @@ function initDeviceFilter() {
     } else {
       deviceRows.removeClass("d-none");
     }
+
+    syncSelectAllState();
+    updateBatchActionUi();
   });
 }

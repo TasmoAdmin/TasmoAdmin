@@ -125,7 +125,7 @@ if (isset($devices) && !empty($devices)) {
                     <?php } ?>
                     <td><?php echo $device_group->id; ?></td>
                     <td><?php echo $device_group->position; ?></td>
-                    <td>
+                    <td class='device_name'>
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
                            target='_blank'
                           data-bs-toggle="tooltip" data-bs-title='<?php echo __(
