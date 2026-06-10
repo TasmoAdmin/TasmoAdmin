@@ -18,6 +18,12 @@ Changelog information was migrated to GitHub releases. Check the [releases](http
 * Update the repo Node.js runtime to `v24`
 * Migrate Docker CI and release jobs to `docker/setup-qemu-action` and `docker/setup-buildx-action`
 * Remove the legacy manual QEMU bootstrap from the Docker build pipeline
+* Restore public i18n loading while keeping language redirects and `/actions` authentication behavior aligned
+* Rework bootstrap and frontend i18n loading so translation requests and page rendering use the correct initialization order
+* Encrypt device passwords at rest in `devices.csv` with key resolution, migration, and repository-layer decryption for existing workflows
+* Harden encrypted password migration and single-device lookups to avoid legacy prefix breakage and unrelated-row credential failures
+* Show git fallback version and branch details in the footer when release metadata is unavailable
+* Stabilize Docker builder dependency installation by preferring source installs during Composer package resolution
 
 ## PUBLISHED
 
