@@ -96,7 +96,7 @@ The repository also includes a DDEV setup for local development. It uses:
 
 * `apache-fpm`
 * PHP `8.5`
-* Node.js `22`
+* Node.js `24`
 * no database container
 
 Start the environment with:

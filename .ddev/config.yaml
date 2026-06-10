@@ -9,7 +9,7 @@ omit_containers:
 use_dns_when_possible: true
 composer_version: "2"
 composer_root: tasmoadmin
-nodejs_version: "22"
+nodejs_version: "24"
 web_environment:
   - TASMO_DEBUG=1
   - TASMO_TMPDIR=/tmp/tasmoadmin/
