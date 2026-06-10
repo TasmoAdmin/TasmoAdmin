@@ -1,7 +1,8 @@
+const { readFile, writeFile } = require("node:fs/promises");
 const glob = require("glob");
-const minify = require("@node-minify/core");
-const terser = require("@node-minify/terser");
-const cleanCSS = require("@node-minify/clean-css");
+const { minify } = require("@node-minify/core");
+const { terser } = require("@node-minify/terser");
+const { cleanCss } = require("@node-minify/clean-css");
 
 async function main() {
   const jsFiles = await glob.glob("resources/js/compiled/*.js");
@@ -10,11 +11,12 @@ async function main() {
       continue;
     }
     console.log(`processing ${file}`);
-    minify({
+    const content = await readFile(file, "utf8");
+    const minified = await minify({
       compressor: terser,
-      input: file,
-      output: file.slice(0, -3) + ".min.js",
+      content,
     });
+    await writeFile(file.slice(0, -3) + ".min.js", minified);
   }
 
   const cssFiles = await glob.glob("resources/css/compiled/*.css");
@@ -24,11 +26,12 @@ async function main() {
     }
 
     console.log(`processing ${file}`);
-    minify({
-      compressor: cleanCSS,
-      input: file,
-      output: file.slice(0, -4) + ".min.css",
+    const content = await readFile(file, "utf8");
+    const minified = await minify({
+      compressor: cleanCss,
+      content,
     });
+    await writeFile(file.slice(0, -4) + ".min.css", minified);
   }
 }
 
