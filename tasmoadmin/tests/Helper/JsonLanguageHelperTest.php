@@ -21,7 +21,7 @@ class JsonLanguageHelperTest extends TestCase
 
     public function tearDown(): void
     {
-        if ($this->tempDir !== null && is_dir($this->tempDir)) {
+        if (null !== $this->tempDir && is_dir($this->tempDir)) {
             $this->removeDirectory($this->tempDir);
         }
     }
@@ -100,12 +100,12 @@ class JsonLanguageHelperTest extends TestCase
     private function removeDirectory(string $directory): void
     {
         $entries = scandir($directory);
-        if ($entries === false) {
+        if (false === $entries) {
             return;
         }
 
         foreach ($entries as $entry) {
-            if ($entry === '.' || $entry === '..') {
+            if ('.' === $entry || '..' === $entry) {
                 continue;
             }
 
