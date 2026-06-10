@@ -12,7 +12,7 @@ function ensureStatusSections(data = {}) {
   };
 }
 
-export function normalizeStatusData(data = {}) {
+function normalizeStatusData(data = {}) {
   const normalized = ensureStatusSections(data);
   const wifiStatus = normalized.StatusSTS.WLAN ?? normalized.StatusSTS.Wifi;
 
@@ -33,7 +33,7 @@ export function normalizeStatusData(data = {}) {
   return normalized;
 }
 
-export function getRuntimeInfo(data, labels, now = new Date()) {
+function getRuntimeInfo(data, labels, now = new Date()) {
   const normalized = ensureStatusSections(data);
   const startup =
     normalized.StatusPRM.StartupDateTimeUtc ??
@@ -81,7 +81,7 @@ export function getRuntimeInfo(data, labels, now = new Date()) {
   };
 }
 
-export function getIlluminance(data, joinString = "<br/>") {
+function getIlluminance(data, joinString = "<br/>") {
   const normalized = ensureStatusSections(data);
   const illuminance = [];
 
@@ -97,3 +97,9 @@ export function getIlluminance(data, joinString = "<br/>") {
 
   return illuminance.join(joinString);
 }
+
+module.exports = {
+  normalizeStatusData,
+  getRuntimeInfo,
+  getIlluminance,
+};

@@ -10,7 +10,9 @@ import {
   getRefreshTime,
   chunkArray,
 } from "./app";
-import { getRuntimeInfo } from "./status_helpers.mjs";
+import statusHelpers from "./status_helpers";
+
+const { getRuntimeInfo } = statusHelpers;
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;

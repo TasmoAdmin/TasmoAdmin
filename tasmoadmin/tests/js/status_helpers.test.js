@@ -1,14 +1,12 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
-const path = require("node:path");
-const { pathToFileURL } = require("node:url");
+const {
+  normalizeStatusData,
+  getRuntimeInfo,
+  getIlluminance,
+} = require("../../resources/js/status_helpers.js");
 
-const helpersModule = pathToFileURL(
-  path.resolve(__dirname, "../../resources/js/status_helpers.mjs"),
-).href;
-
-test("normalizeStatusData fills missing sections for ethernet payloads", async () => {
-  const { normalizeStatusData, getRuntimeInfo } = await import(helpersModule);
+test("normalizeStatusData fills missing sections for ethernet payloads", () => {
   const payload = {
     StatusPRM: {
       Uptime: "87T15:29:29",
@@ -42,8 +40,7 @@ test("normalizeStatusData fills missing sections for ethernet payloads", async (
   );
 });
 
-test("normalizeStatusData keeps wifi details when wifi status is present", async () => {
-  const { normalizeStatusData } = await import(helpersModule);
+test("normalizeStatusData keeps wifi details when wifi status is present", () => {
   const data = normalizeStatusData({
     StatusPRM: {
       Uptime: "2T00:00:00",
@@ -64,9 +61,7 @@ test("normalizeStatusData keeps wifi details when wifi status is present", async
   });
 });
 
-test("getIlluminance extracts illuminance readings from sensor payloads", async () => {
-  const { getIlluminance } = await import(helpersModule);
-
+test("getIlluminance extracts illuminance readings from sensor payloads", () => {
   assert.equal(
     getIlluminance(
       {

@@ -1,4 +1,6 @@
-import { normalizeStatusData } from "./status_helpers.mjs";
+import statusHelpers from "./status_helpers";
+
+const { normalizeStatusData } = statusHelpers;
 
 /**
  * Your classic Sonoff
