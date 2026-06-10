@@ -5,14 +5,17 @@ use TasmoAdmin\Helper\OtaHelper;
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
-$ota_new_firmware_url = '';
-$target_version = '';
+$updateTargets = [];
 
-if (!empty($_REQUEST['new_firmware_path'])) {
-    $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']);
+if (!empty($_REQUEST['update_targets'])) {
+    $updateTargets = json_decode($_REQUEST['update_targets'], true) ?? [];
 }
-if (!empty($_REQUEST['target_version'])) {
-    $target_version = $_REQUEST['target_version'];
+
+if (empty($updateTargets) && !empty($_REQUEST['new_firmware_path'])) {
+    $updateTargets['default'] = [
+        'otaUrl' => $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']),
+        'targetVersion' => $_REQUEST['target_version'] ?? '',
+    ];
 }
 
 $deviceIds = $_REQUEST['device_ids'] ?? [];
@@ -51,8 +54,7 @@ foreach ($devices as $device) {
 
             </div>
 
-        <input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url; ?>'>
-        <input type='hidden' id='target_version' value='<?php echo $target_version; ?>'>
+        <input type='hidden' id='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
             <script>
                 const devices = <?php echo json_encode($devicesJson); ?>;
             </script>

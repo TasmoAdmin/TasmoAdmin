@@ -21,6 +21,7 @@ $firmwarefolder = _DATADIR_.'firmwares/';
 $minimal_firmware_path = '';
 $new_firmware_path = '';
 $targetVersion = '';
+$updateTargets = [];
 
 $maxMb = 5;
 $maxFileSize = $maxMb * 1024 * 1024;
@@ -162,34 +163,49 @@ if (isset($_REQUEST['upload'])) {
         $Config->read('auto_update_channel')
     );
 
-    // File to save the contents to
-    if (!empty($_REQUEST['update_automatic_lang'])) {
-        $Config->write('update_automatic_lang', $_REQUEST['update_automatic_lang']);
+    foreach ([
+        'esp8266' => 'update_automatic_lang',
+        'esp32' => 'update_automatic_lang_esp32',
+    ] as $configKey) {
+        if (!empty($_REQUEST[$configKey])) {
+            $Config->write($configKey, $_REQUEST[$configKey]);
+        }
     }
-    $fwAsset = $Config->read('update_automatic_lang');
 
-    if ('' !== $fwAsset) {
-        $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
+    $firmwareDownloader = new FirmwareDownloader(GuzzleFactory::getClient($Config), $firmwarefolder);
 
-        try {
+    try {
+        foreach ([
+            'esp8266' => 'update_automatic_lang',
+            'esp32' => 'update_automatic_lang_esp32',
+        ] as $platform => $configKey) {
+            $fwAsset = $Config->read($configKey);
+            if ('' === $fwAsset) {
+                throw new RuntimeException(__('MSG_SET_AUTOMATIC_LANG_FIRST', 'DEVICE_UPDATE'));
+            }
+
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
 
             if ($result->hasMinimalFirmware()) {
-                // We need minimal firmware downloaded for upgrade to work for esp8266
                 $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
             }
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
-            $messages[] = __('AUTO_SUCCESSFULL_DOWNLOADED', 'DEVICE_UPDATE').'<br/>';
+            $updateTargets[$platform] = [
+                'newFirmwarePath' => $new_firmware_path,
+                'targetVersion' => $targetVersion,
+            ];
             $messages[] = __('ASSET', 'DEVICE_UPDATE').': '.$fwAsset.' | '.__(
                 'VERSION',
                 'DEVICE_UPDATE'
             ).': '.$result->getTagName().' | '.__('DATE', 'DEVICE_UPDATE').' '.$result->getPublishedAt()->format('Y-m-d');
-        } catch (Throwable $e) {
-            $errors[] = __('AUTO_ERROR_DOWNLOAD', 'DEVICE_UPDATE').'<br/>'.$e->getMessage();
         }
-    } else {
-        $errors[] = __('MSG_SET_AUTOMATIC_LANG_FIRST', 'DEVICE_UPDATE');
+
+        if (!empty($updateTargets)) {
+            $messages[] = __('AUTO_SUCCESSFULL_DOWNLOADED', 'DEVICE_UPDATE').'<br/>';
+        }
+    } catch (Throwable $e) {
+        $errors[] = __('AUTO_ERROR_DOWNLOAD', 'DEVICE_UPDATE').'<br/>'.$e->getMessage();
     }
 } else {
     $errors[] = __('UPLOAD_PLEASE_UPLOAD_FIRMWARE', 'DEVICE_UPDATE').'<br/>';
@@ -203,6 +219,24 @@ $Config->write('ota_server_port', $ota_server_port);
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
+if (!isset($_REQUEST['auto']) && !empty($new_firmware_path)) {
+    $updateTargets['default'] = [
+        'otaUrl' => $otaHelper->getFirmwareUrl($new_firmware_path),
+        'targetVersion' => $targetVersion,
+    ];
+}
+
+foreach ($updateTargets as $platform => $updateTarget) {
+    if (!isset($updateTarget['newFirmwarePath'])) {
+        continue;
+    }
+
+    $updateTargets[$platform] = [
+        'otaUrl' => $otaHelper->getFirmwareUrl($updateTarget['newFirmwarePath']),
+        'targetVersion' => $updateTarget['targetVersion'],
+    ];
+}
+
 $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 
 $checkForFirmware = '1' === $Config->read('update_be_check');
@@ -214,11 +248,22 @@ if ($checkForFirmware && !empty($minimal_firmware_path) && !$firmwareChecker->is
     ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
 }
 
-if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($new_firmware_path))) {
-    $errors[] = __('FIRMWARE_NOT_ACCESSIBLE', 'DEVICE_UPDATE', [
-        __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'),
-        $otaHelper->getFirmwareUrl($new_firmware_path),
-    ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
+if ($checkForFirmware) {
+    $validatedUrls = [];
+    foreach ($updateTargets as $updateTarget) {
+        $otaUrl = $updateTarget['otaUrl'] ?? '';
+        if ('' === $otaUrl || in_array($otaUrl, $validatedUrls, true)) {
+            continue;
+        }
+
+        $validatedUrls[] = $otaUrl;
+        if (!$firmwareChecker->isValid($otaUrl)) {
+            $errors[] = __('FIRMWARE_NOT_ACCESSIBLE', 'DEVICE_UPDATE', [
+                __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'),
+                $otaUrl,
+            ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
+        }
+    }
 }
 
 ?>
@@ -283,8 +328,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 				  method='post'
 				  action='<?php echo _BASEURL_; ?>device_update'
 			>
-				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
-				<input type='hidden' name='target_version' value='<?php echo $targetVersion; ?>'>
+				<input type='hidden' name='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
 
 				<div class='row mb-3'>
 					<div class='offset-1 col-auto col col-auto'>

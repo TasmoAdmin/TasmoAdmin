@@ -65,7 +65,8 @@ $tasmotaHelper = new TasmotaHelper(
     new TasmotaOtaScraper($Config->read('auto_update_channel'), new HttpBrowser()),
     $Config->read('auto_update_channel')
 );
-$tasmotaReleases = $tasmotaHelper->getReleases();
+$tasmotaEsp8266Releases = $tasmotaHelper->getEsp8266Releases();
+$tasmotaEsp32Releases = $tasmotaHelper->getEsp32Releases();
 
 $autoFirmwareChannels = ['stable', 'dev'];
 
@@ -223,14 +224,14 @@ $autoFirmwareChannels = ['stable', 'dev'];
                 </div>
 				<div class="col col-12 col-sm-3">
 					<label for="update_automatic_lang">
-						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
+						<?php echo __('CONFIG_AUTOMATIC_FW_ESP8266', 'USER_CONFIG'); ?>
 					</label>
 					<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
 						<?php if ('' == $config['update_automatic_lang']) { ?>
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
 
-						<?php foreach ($tasmotaReleases as $tr) { ?>
+						<?php foreach ($tasmotaEsp8266Releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
 								<?php echo $config['update_automatic_lang'] == $tr ? 'selected="selected"' : ''; ?>
 							>
@@ -239,11 +240,29 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<?php } ?>
 					</select>
 				</div>
-                				<div class="col col-12 col-sm-3">
+				<div class="col col-12 col-sm-3">
+					<label for="update_automatic_lang_esp32">
+						<?php echo __('CONFIG_AUTOMATIC_FW_ESP32', 'USER_CONFIG'); ?>
+					</label>
+					<select class="form-control form-select" id="update_automatic_lang_esp32" name='update_automatic_lang_esp32'>
+						<?php if ('' == $config['update_automatic_lang_esp32']) { ?>
+							<option><?php echo __('PLEASE_SELECT'); ?></option>
+						<?php } ?>
+
+						<?php foreach ($tasmotaEsp32Releases as $tr) { ?>
+							<option value='<?php echo $tr; ?>'
+								<?php echo $config['update_automatic_lang_esp32'] == $tr ? 'selected="selected"' : ''; ?>
+							>
+								<?php echo $tr; ?>
+							</option>
+						<?php } ?>
+					</select>
+				</div>
+				<div class="col col-12 col-sm-3">
                     <label for="auto_update_channel">
                         <?php echo __('CONFIG_AUTO_FIRMWARE_CHANNEL_HELP', 'USER_CONFIG'); ?>
                     </label>
-                    						<select class="form-control form-select" id="auto_update_channel" name='auto_update_channel'>
+					<select class="form-control form-select" id="auto_update_channel" name='auto_update_channel'>
                         <?php foreach ($autoFirmwareChannels as $channel) { ?>
                             <option value="<?php echo $channel; ?>"
                                 <?php echo $config['auto_update_channel'] === $channel ? 'selected="selected"' : ''; ?>
