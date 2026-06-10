@@ -4,6 +4,7 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Device;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
+use TasmoAdmin\Helper\FirmwareVersionExtractor;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\OtaHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
@@ -148,6 +149,7 @@ if (isset($_REQUEST['upload'])) {
             'UPLOAD_FIRMWARE_FULL_SUCCESSFULLY',
             'DEVICE_UPDATE'
         );
+        $targetVersion = FirmwareVersionExtractor::fromFilename($_FILES['new_firmware']['name']) ?? '';
     } catch (RuntimeException $e) {
         $errors[] = __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE').': '.$e->getMessage().'!';
     }

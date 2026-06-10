@@ -1,4 +1,9 @@
-import { compareVersions } from "compare-versions";
+import {
+  versionsEqual,
+  versionUpgrade,
+  shouldTreatStatusAsSuccessful,
+  getFailureDetails,
+} from "./device_update_logic.js";
 
 const deviceContainerId = "progressbox";
 
@@ -160,29 +165,6 @@ function createDeviceElement(device) {
   return deviceContainer;
 }
 
-function extractVersionFromResponse(response) {
-  let actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(response);
-  if (actualMatch === null) {
-    throw Error($.i18n("BLOCK_UPDATE_ERROR_VERSION_COMPARE", response));
-  }
-
-  return actualMatch[1];
-}
-
-function versionsEqual(target, actual) {
-  const actualMatch = extractVersionFromResponse(actual);
-  const targetMatch = extractVersionFromResponse(target);
-
-  return targetMatch === actualMatch;
-}
-
-function versionUpgrade(target, action) {
-  const actualMatch = extractVersionFromResponse(action);
-  const targetMatch = extractVersionFromResponse(target);
-
-  return compareVersions(targetMatch, actualMatch) === 1;
-}
-
 async function updateDevice(device) {
   const deviceContainer = document.getElementById(deviceContainerId);
   deviceContainer.appendChild(createDeviceElement(device));
@@ -236,17 +218,21 @@ async function updateDevice(device) {
     for (let i = 0; i < defaultTries; i++) {
       response = await checkStatus(device.id);
 
-      if (!targetVersion) {
+      if (
+        shouldTreatStatusAsSuccessful({
+          targetVersion,
+          beforeVersion,
+          currentVersion: response.StatusFWR.Version,
+        })
+      ) {
         upgradeSuccessful = true;
         break;
       }
 
-      if (versionsEqual(targetVersion, response.StatusFWR.Version)) {
-        upgradeSuccessful = true;
-        break;
-      }
-
-      log(device.id, $.i18n("BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION"));
+      const statusMessageKey = targetVersion
+        ? "BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION"
+        : "BLOCK_UPDATE_VERSION_NOT_CHANGED";
+      log(device.id, $.i18n(statusMessageKey));
       log(
         device.id,
         $.i18n("BLOCK_UPDATE_SLEEPING", defaultSleepDuration / 1000),
@@ -255,13 +241,14 @@ async function updateDevice(device) {
     }
 
     if (!upgradeSuccessful) {
+      const failure = getFailureDetails({
+        targetVersion,
+        beforeVersion,
+        currentVersion: response.StatusFWR.Version,
+      });
       log(
         device.id,
-        $.i18n(
-          "BLOCK_UPDATE_ERROR_VERSION_COMPARE_MISMATCH",
-          targetVersion,
-          response.StatusFWR.Version,
-        ),
+        $.i18n(failure.key, ...failure.values),
         Level.error,
       );
       return false;
