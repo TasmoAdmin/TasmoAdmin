@@ -75,6 +75,19 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                 unset($devicesFoundTmp);
                 $msg = __('MSG_DEVICES_FOUND_COUNT', 'DEVICES_AUTOSCAN').': '.count($devicesFound);
             }
+        } elseif (isset($_REQUEST['save_device'])) {
+            $deviceRepository = $container->get(DeviceRepository::class);
+            $deviceUsername = htmlspecialchars($_REQUEST['device_username'] ?? '');
+            $devicePassword = htmlspecialchars($_REQUEST['device_password'] ?? '');
+            $deviceIndex = filter_var($_REQUEST['save_device'], FILTER_VALIDATE_INT);
+
+            if (false === $deviceIndex || !isset($_REQUEST['devices'][$deviceIndex])) {
+                throw new InvalidArgumentException(__('MSG_NO_DEVICES_FOUND', 'DEVICES_AUTOSCAN'));
+            }
+
+            $deviceRepository->addDevices([$_REQUEST['devices'][$deviceIndex]], $deviceUsername, $devicePassword);
+            $msg = __('MSG_DEVICES_ADD_DONE', 'DEVICES_AUTOSCAN');
+            $action = 'done';
         } elseif (isset($_REQUEST['save_all'])) {
             $deviceRepository = $container->get(DeviceRepository::class);
             $deviceUsername = htmlspecialchars($_REQUEST['device_username'] ?? '');
@@ -460,6 +473,18 @@ $port = $Config->read('port');
                             </div>
                         </div>
                     <?php } ?>
+
+                    <div class="row mt-4">
+                        <div class="col col-12 text-end">
+                            <button type='submit'
+                                    name='save_device'
+                                    value='<?php echo $idx; ?>'
+                                    class='btn btn-outline-primary col-12 col-sm-auto'
+                            >
+                                <?php echo __('BTN_SAVE_DEVICE_CONFIG'); ?>
+                            </button>
+                        </div>
+                    </div>
 
 
                 <?php } ?>
