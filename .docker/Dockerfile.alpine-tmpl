@@ -21,7 +21,7 @@ COPY --from=node-builder /tasmoadmin  /tasmoadmin
 
 WORKDIR /tasmoadmin
 
-RUN composer install --optimize-autoloader --no-dev
+RUN composer install --prefer-install=source --optimize-autoloader --no-dev
 
 FROM ${BUILD_FROM}
 
