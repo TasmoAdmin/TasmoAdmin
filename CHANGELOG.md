@@ -10,11 +10,14 @@ Changelog information was migrated to GitHub releases. Check the [releases](http
 
 #### What's Changed
 
-* Resolve current security dependency alerts
-* Update `symfony/routing` and `symfony/http-foundation` to patched `7.4.13` releases
-* Update `@node-minify/core`, `@node-minify/clean-css`, and `@node-minify/terser` to `10.5.0`
-* Refresh npm lock resolution to remove vulnerable `glob` and `brace-expansion` paths
-* Update `minify.js` for the current `@node-minify` API while preserving generated minified assets
+* Restore i18n loading for public pages and fix language change redirects
+* Add repo-managed pre-commit hooks for PHP and frontend validation checks
+* Harden device status payload parsing to preserve uptime and MQTT state across payload variants
+* Add shared JavaScript status helpers with regression coverage for device table rendering
+* Replace broken README GitHub stat badges
+* Update the repo Node.js runtime to `v24`
+* Migrate Docker CI and release jobs to `docker/setup-qemu-action` and `docker/setup-buildx-action`
+* Remove the legacy manual QEMU bootstrap from the Docker build pipeline
 
 ## PUBLISHED
 
