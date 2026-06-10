@@ -246,11 +246,7 @@ async function updateDevice(device) {
         beforeVersion,
         currentVersion: response.StatusFWR.Version,
       });
-      log(
-        device.id,
-        $.i18n(failure.key, ...failure.values),
-        Level.error,
-      );
+      log(device.id, $.i18n(failure.key, ...failure.values), Level.error);
       return false;
     }
 
