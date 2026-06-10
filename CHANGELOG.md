@@ -4,6 +4,18 @@ Changelog information was migrated to GitHub releases. Check the [releases](http
 
 **Important when upgrading major versions for breaking changes**
 
+## WIP
+
+### Unreleased
+
+#### What's Changed
+
+* Resolve current security dependency alerts
+* Update `symfony/routing` and `symfony/http-foundation` to patched `7.4.13` releases
+* Update `@node-minify/core`, `@node-minify/clean-css`, and `@node-minify/terser` to `10.5.0`
+* Refresh npm lock resolution to remove vulnerable `glob` and `brace-expansion` paths
+* Update `minify.js` for the current `@node-minify` API while preserving generated minified assets
+
 ## PUBLISHED
 
 ### v2.1.0
