@@ -5,7 +5,7 @@ ARG BUILD_FROM=amd64/alpine:3.24
 ARG COMPOSER_VERSION=2.10.1
 ARG NODE_VERSION=22.22.3-slim
 
-FROM node:${NODE_VERSION} AS node-builder
+FROM --platform=$BUILDPLATFORM node:${NODE_VERSION} AS node-builder
 
 COPY tasmoadmin /tasmoadmin
 
@@ -15,7 +15,7 @@ RUN npm ci \
     && npm run build \
     && rm -rf node_modules/
 
-FROM composer:${COMPOSER_VERSION} AS builder
+FROM --platform=$BUILDPLATFORM composer:${COMPOSER_VERSION} AS builder
 
 COPY --from=node-builder /tasmoadmin  /tasmoadmin
 
