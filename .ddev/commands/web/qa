@@ -1,0 +1,5 @@
+#!/bin/bash
+## Description: Run the PHP quality checks defined by composer
+set -eu
+
+composer run quality

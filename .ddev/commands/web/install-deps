@@ -1,0 +1,6 @@
+#!/bin/bash
+## Description: Install PHP and Node dependencies for TasmoAdmin
+set -eu
+
+composer install
+npm ci
