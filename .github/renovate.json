@@ -1,6 +1,12 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "rebaseWhen": "conflicted",
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 1,
+  "minimumReleaseAge": "7 days",
+  "vulnerabilityAlerts": {
+    "enabled": false
+  },
   "extends": [
     "config:recommended"
   ],
@@ -8,6 +14,70 @@
     "enabled": true
   },
   "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "groupName": "npm non-major dependencies",
+      "matchManagers": [
+        "npm"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "groupName": "composer non-major dependencies",
+      "matchManagers": [
+        "composer"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "groupName": "github-actions non-major dependencies",
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "groupName": "docker non-major dependencies",
+      "matchManagers": [
+        "dockerfile",
+        "docker-compose",
+        "regex"
+      ],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ]
+    },
+    {
+      "groupName": "node-minify packages",
+      "matchPackageNames": [
+        "@node-minify/core",
+        "@node-minify/clean-css",
+        "@node-minify/terser"
+      ]
+    },
     {
       "groupName": "symfony",
       "versioning": "composer",
