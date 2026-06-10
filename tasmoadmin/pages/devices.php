@@ -11,15 +11,18 @@ $devices = $Sonoff->getDevices();
 		<?php if (!empty($devices)) { ?>
 			<div class='row mb-1 mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
-					<div class="form-check pl-0">
-						<input type="checkbox"
-							   class="form-check-input showmore d-none"
-							   id="showmore"
-							   name='showmore'
+					<div class="dropdown" data-bs-auto-close="outside">
+						<button class="btn btn-secondary dropdown-toggle"
+								type="button"
+								id="deviceColumnsMenuButton"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
 						>
-						<label class="form-check-label  btn btn-secondary" for="showmore">
-							<?php echo __('SHOW_MORE', 'DEVICES'); ?>
-						</label>
+							<?php echo __('VISIBLE_COLUMNS', 'DEVICES'); ?>
+						</button>
+						<div class="dropdown-menu p-3 device-columns-menu"
+							 aria-labelledby="deviceColumnsMenuButton"
+						></div>
 					</div>
 				</div>
 				<?php if (1 == $Config->read('show_search')) { ?>
@@ -57,18 +60,6 @@ $devices = $Sonoff->getDevices();
 			</div>
 			<div class='row mt-3'>
 				<div class="col col-auto offset-0 offset-xl-1">
-					<div class="form-check pl-0">
-						<input type="checkbox"
-							   class="form-check-input showmore d-none"
-							   id="showmore"
-							   name='showmore'
-						>
-						<label class="form-check-label  btn btn-secondary" for="showmore">
-							<?php echo __('SHOW_MORE', 'DEVICES'); ?>
-						</label>
-					</div>
-				</div>
-				<div class="col col-auto ">
 					<button class='btn btn-secondary showCommandInput'>
 						<?php echo __('BTN_COMMAND', 'DEVICES'); ?>
 					</button>

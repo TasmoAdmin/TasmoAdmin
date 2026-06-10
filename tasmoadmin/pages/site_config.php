@@ -30,6 +30,10 @@ if (isset($_POST['save'])) {
         $settings['show_search'] = '0';
     }
 
+    if (!isset($settings['confirm_device_toggles'])) {
+        $settings['confirm_device_toggles'] = '0';
+    }
+
     if (!isset($settings['update_fe_check'])) {
         $settings['update_fe_check'] = '0';
     }
@@ -374,6 +378,19 @@ $autoFirmwareChannels = ['stable', 'dev'];
                             ? 'checked="checked"' : ''; ?>>
 						<label class="form-check-label" for="cb_show_search">
 							<?php echo __('CONFIG_SHOW_SEARCH', 'USER_CONFIG'); ?>
+						</label>
+					</div>
+				</div>
+				<div class="col col-12 col-sm-4">
+					<div class="form-check mb-5">
+						<input class="form-check-input"
+							   type="checkbox"
+							   value="1"
+							   id="cb_confirm_device_toggles"
+							   name='confirm_device_toggles' <?php echo '1' == $config['confirm_device_toggles']
+                            ? 'checked="checked"' : ''; ?>>
+						<label class="form-check-label" for="cb_confirm_device_toggles">
+							<?php echo __('CONFIG_CONFIRM_DEVICE_TOGGLES', 'USER_CONFIG'); ?>
 						</label>
 					</div>
 				</div>

@@ -11,45 +11,30 @@ import {
   chunkArray,
   onI18nReady,
 } from "./app";
+import deviceListPreferences from "./device_list_preferences";
 import statusHelpers from "./status_helpers";
 
 const { getRuntimeInfo } = statusHelpers;
+const {
+  DEVICE_LIST_PREFERENCE_COOKIES,
+  parseHiddenColumns,
+  serializeHiddenColumns,
+} = deviceListPreferences;
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
+let hiddenDeviceColumns = new Set();
 onI18nReady(function () {
   deviceTools();
-  updateAllStatus();
-
-  initCommandHelper();
+  initDeviceListPreferences();
 
   if ($(".device-search").length > 0) {
     initDeviceFilter();
   }
 
-  $(".showmore").on("change", function (e) {
-    if ($(this).prop("checked")) {
-      $(".showmore").prop("checked", true);
-      Cookies.set("devices_show_more", "1");
-      $("#device-list .more:not(.hidden)").show();
-      $("label[for=" + $(".showmore").attr("id") + "]")
-        .removeClass("btn-secondary")
-        .addClass("btn-primary");
-    } else {
-      $(".showmore").prop("checked", false);
-      Cookies.set("devices_show_more", "0");
-      $("#device-list .more").hide();
-      $("label[for=" + $(".showmore").attr("id") + "]")
-        .removeClass("btn-primary")
-        .addClass("btn-secondary");
-    }
-    $(".doubleScroll-scroll")
-      .css({
-        width: $("#device-list").width(),
-      })
-      .parent()
-      .trigger("resize");
-  });
+  updateAllStatus();
+
+  initCommandHelper();
 
   $(".ignoreProtections").on("change", function (e) {
     clearTimeout(ignoreProtectionsTimer);
@@ -83,23 +68,6 @@ onI18nReady(function () {
     }
   });
 
-  if (
-    Cookies.get("devices_show_more") !== undefined &&
-    Cookies.get("devices_show_more") == "1"
-  ) {
-    $(".showmore").prop("checked", true);
-    $("#device-list .more:not(.hidden)").show();
-    $("label[for=" + $(".showmore").attr("id") + "]")
-      .removeClass("btn-secondary")
-      .addClass("btn-primary");
-    $(".doubleScroll-scroll")
-      .css({
-        width: $("#device-list").width(),
-      })
-      .parent()
-      .trigger("resize");
-  }
-
   $(".table-responsive").attachDragger();
   if (refreshtime) {
     console.log("[Global][Refreshtime]" + refreshtime + "ms");
@@ -111,6 +79,116 @@ onI18nReady(function () {
     console.log("[Global][Refreshtime] " + $.i18n("NO_REFRESH") + "");
   }
 });
+
+function resizeDeviceListScroller() {
+  $(".doubleScroll-scroll")
+    .css({
+      width: $("#device-list").width(),
+    })
+    .parent()
+    .trigger("resize");
+}
+
+function getToggleableDeviceColumns() {
+  return $("#device-list thead th[data-column-toggle='true']")
+    .map(function () {
+      return {
+        id: $(this).data("columnId"),
+        label: $(this).data("columnLabel"),
+        hiddenByDefault: $(this).hasClass("hidden") || $(this).hasClass("more"),
+      };
+    })
+    .get();
+}
+
+function getDefaultHiddenDeviceColumns() {
+  return getToggleableDeviceColumns()
+    .filter((column) => column.hiddenByDefault)
+    .map((column) => column.id);
+}
+
+function renderDeviceColumnMenu() {
+  const menu = $(".device-columns-menu");
+  if (menu.length === 0) {
+    return;
+  }
+
+  menu.empty();
+  getToggleableDeviceColumns().forEach((column) => {
+    const optionId = `device-column-${column.id}`;
+    menu.append(`
+      <div class="form-check device-column-option">
+        <input class="form-check-input column-toggle-input" type="checkbox" id="${optionId}" value="${column.id}">
+        <label class="form-check-label" for="${optionId}">${column.label}</label>
+      </div>
+    `);
+  });
+}
+
+function updateColumnToggleInputs() {
+  $(".column-toggle-input").each(function () {
+    const columnId = $(this).val();
+    $(this).prop("checked", !hiddenDeviceColumns.has(columnId));
+  });
+
+  $("#deviceColumnsMenuButton")
+    .toggleClass("btn-primary", hiddenDeviceColumns.size > 0)
+    .toggleClass("btn-secondary", hiddenDeviceColumns.size === 0);
+}
+
+function refreshDeviceListLayout() {
+  $("#device-list [data-column-id]").each(function () {
+    const cell = $(this);
+    const columnId = cell.data("columnId");
+    const shouldShow = !hiddenDeviceColumns.has(columnId);
+
+    cell.toggle(shouldShow);
+  });
+
+  $("#device-list").toggleClass("short-list", true);
+
+  updateColumnToggleInputs();
+  resizeDeviceListScroller();
+}
+
+function initDeviceListPreferences() {
+  const availableColumns = getToggleableDeviceColumns().map(
+    (column) => column.id,
+  );
+  const hiddenColumnCookie = Cookies.get(
+    DEVICE_LIST_PREFERENCE_COOKIES.hiddenColumns,
+  );
+  const defaultHiddenColumns = getDefaultHiddenDeviceColumns();
+  const initialHiddenColumns =
+    typeof hiddenColumnCookie === "string"
+      ? parseHiddenColumns(hiddenColumnCookie, availableColumns)
+      : defaultHiddenColumns;
+
+  hiddenDeviceColumns = new Set(initialHiddenColumns);
+
+  renderDeviceColumnMenu();
+  refreshDeviceListLayout();
+
+  $(".device-columns-menu").on("change", ".column-toggle-input", function () {
+    const columnId = $(this).val();
+
+    if ($(this).prop("checked")) {
+      hiddenDeviceColumns.delete(columnId);
+    } else {
+      hiddenDeviceColumns.add(columnId);
+    }
+
+    Cookies.set(
+      DEVICE_LIST_PREFERENCE_COOKIES.hiddenColumns,
+      serializeHiddenColumns(Array.from(hiddenDeviceColumns)),
+    );
+    refreshDeviceListLayout();
+  });
+
+  $(".device-columns-menu").on("click", function (e) {
+    e.stopPropagation();
+  });
+}
 
 function initCommandHelper() {
   $(".showCommandInput").on("click", function (e) {
@@ -457,6 +535,25 @@ function deviceTools() {
     let device_protect_off = $(this).closest("tr").data("device_protect_off");
 
     const input = statusField.find("input");
+    const nextStatus = input.prop("checked")
+      ? $.i18n("SWITCH_STATE_OFF")
+      : $.i18n("SWITCH_STATE_ON");
+
+    if (input.prop("disabled")) {
+      return;
+    }
+
+    if (config.confirm_device_toggles) {
+      const deviceName =
+        statusField.closest("tr").find(".device_name a").text().trim() ||
+        `#${device_id}`;
+
+      if (
+        !window.confirm($.i18n("CONFIRM_DEVICE_TOGGLE", deviceName, nextStatus))
+      ) {
+        return;
+      }
+    }
 
     if (input.prop("checked")) {
       if (
@@ -597,7 +694,7 @@ function updateRow(row, data, device_status) {
       .removeAttr("data-bs-toggle");
   }
 
-  let energyPower = getEnergyPower(data);
+  let energyPower = getEnergyPower(data, " / ");
   if (energyPower !== "") {
     $(row).find(".energyPower span").html(energyPower);
     $("#device-list .energyPower").removeClass("hidden");
@@ -852,12 +949,7 @@ function updateRow(row, data, device_status) {
     $(row).data("keywords", $(row).data("keywords") + " " + device_hostname);
   }
 
-  $(".doubleScroll-scroll")
-    .css({
-      width: $("#device-list").width(),
-    })
-    .parent()
-    .trigger("resize");
+  refreshDeviceListLayout();
 
   $(row).removeClass("updating");
 }

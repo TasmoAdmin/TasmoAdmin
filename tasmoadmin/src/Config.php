@@ -37,6 +37,7 @@ class Config
         'update_channel' => 'stable',
         'hide_copyright' => '1',
         'show_search' => '1',
+        'confirm_device_toggles' => '0',
         'update_fe_check' => '0',
         'update_be_check' => '1',
         'update_newer_only' => '1',
