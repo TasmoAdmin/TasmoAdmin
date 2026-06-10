@@ -74,6 +74,7 @@ Some environment variables are configured to allow easier customisation of the a
 
 - `TASMO_DATADIR` - Path where to store data. If not provided defaults to `./tasmoadmin/data`
 - `TASMO_BASEURL` - Customise the base URL for the application
+- `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
 
 ## Development
 

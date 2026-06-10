@@ -51,6 +51,7 @@ require_once _APPROOT_.'vendor/autoload.php';
 
 use Selective\Container\Container;
 use TasmoAdmin\Config;
+use TasmoAdmin\Helper\EnvironmentHelper;
 use TasmoAdmin\Helper\JsonLanguageHelper;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
@@ -90,7 +91,10 @@ $langHelper = new JsonLanguageHelper(
 );
 $langHelper->dumpJson();
 
-if ((isset($_SESSION['login']) && '1' == $_SESSION['login']) || '0' == $Config->read('login') || getenv('NO_AUTH')) {
+if ((isset($_SESSION['login']) && '1' == $_SESSION['login'])
+    || '0' == $Config->read('login')
+    || EnvironmentHelper::isEnabled('NO_AUTH')
+) {
     $loggedin = true;
 }
 
