@@ -1,3 +1,5 @@
+import { normalizeStatusData } from "./status_helpers.mjs";
+
 /**
  * Your classic Sonoff
  * @typedef {Object} Sonoff
@@ -279,39 +281,7 @@ class Sonoff {
   }
 
   parseStatusData(data) {
-    data.hasWifi = false;
-
-    if (Object.hasOwn(data, "StatusSTS")) {
-      data.hasWifi = true;
-
-      let version = this._parseVersion(data.StatusFWR.Version);
-      let wifi;
-      if (version >= 510009) {
-        //no json translations since 5.10.0j
-        wifi = {
-          rssi: data.StatusSTS.Wifi.RSSI,
-          ssid: data.StatusSTS.Wifi.SSId,
-          uptime: data.StatusSTS.Wifi.Uptime,
-        };
-      } else {
-        //try german else use english
-        wifi = {
-          rssi: data.StatusSTS.WLAN
-            ? data.StatusSTS.WLAN.RSSI
-            : data.StatusSTS.Wifi.RSSI,
-          ssid: data.StatusSTS.WLAN
-            ? data.StatusSTS.WLAN.SSID
-            : data.StatusSTS.Wifi.SSId,
-          uptime: data.StatusSTS.Laufzeit
-            ? data.StatusSTS.Laufzeit
-            : data.StatusSTS.Uptime,
-        };
-      }
-
-      data.wifi = wifi;
-    }
-
-    return data;
+    return normalizeStatusData(data);
   }
 
   _parseVersion(versionString) {

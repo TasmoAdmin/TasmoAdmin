@@ -52,6 +52,10 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
             'TABLE_HEAD_HUMIDITY',
             'DEVICES'
         ); ?></th>
+        <th class='illuminance hidden'><?php echo __(
+            'TABLE_HEAD_ILLUMINANCE',
+            'DEVICES'
+        ); ?></th>
         <th class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
         <th class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
         <th class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
@@ -186,6 +190,11 @@ if (isset($devices) && !empty($devices)) {
 														<span>
 															-
 														</span>
+                    </td>
+                    <td class='illuminance hidden'>
+													<span>
+														-
+													</span>
                     </td>
 
 
@@ -411,6 +420,10 @@ if (isset($devices) && !empty($devices)) {
         <th class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
         <th class='humidity hidden'><?php echo __(
             'TABLE_HEAD_HUMIDITY',
+            'DEVICES'
+        ); ?></th>
+        <th class='illuminance hidden'><?php echo __(
+            'TABLE_HEAD_ILLUMINANCE',
             'DEVICES'
         ); ?></th>
         <th class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>

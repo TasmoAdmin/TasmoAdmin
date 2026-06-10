@@ -1,5 +1,6 @@
 import {
   getHumidity,
+  getIlluminance,
   getTemp,
   getPressure,
   getSeaPressure,
@@ -9,6 +10,7 @@ import {
   getRefreshTime,
   chunkArray,
 } from "./app";
+import { getRuntimeInfo } from "./status_helpers.mjs";
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
@@ -584,6 +586,12 @@ function updateRow(row, data, device_status) {
         delay: 700,
       });
     });
+  } else {
+    $(row)
+      .find(".rssi span")
+      .html("-")
+      .removeAttr("data-bs-title")
+      .removeAttr("data-bs-toggle");
   }
 
   let energyPower = getEnergyPower(data);
@@ -604,6 +612,13 @@ function updateRow(row, data, device_status) {
   if (humidity !== "") {
     $(row).find(".humidity span").html(humidity);
     $("#device-list .humidity").removeClass("hidden");
+  }
+
+  let illuminance = getIlluminance(data);
+
+  if (illuminance !== "") {
+    $(row).find(".illuminance span").html(illuminance);
+    $("#device-list .illuminance").removeClass("hidden");
   }
 
   let pressure = getPressure(data);
@@ -707,50 +722,24 @@ function updateRow(row, data, device_status) {
     }
   }
 
-  let startup =
-    data.StatusPRM.StartupDateTimeUtc !== undefined
-      ? data.StatusPRM.StartupDateTimeUtc
-      : data.StatusPRM.StartupUTC !== undefined
-        ? data.StatusPRM.StartupUTC
-        : "";
-  if (startup !== "") {
-    let startupdatetime = startup + "Z".replace(/-/g, "/");
-    startupdatetime = new Date(startupdatetime);
-    let now = new Date();
-    let sec_num = (now - startupdatetime) / 1000;
-    let days = Math.floor(sec_num / (3600 * 24));
-    let hours = Math.floor((sec_num - days * (3600 * 24)) / 3600);
-    let minutes = Math.floor(
-      (sec_num - days * (3600 * 24) - hours * 3600) / 60,
-    );
-    let seconds = Math.floor(
-      sec_num - days * (3600 * 24) - hours * 3600 - minutes * 60,
-    );
+  const runtime = getRuntimeInfo(data, {
+    day: $.i18n("UPTIME_SHORT_DAY"),
+    hour: $.i18n("UPTIME_SHORT_HOUR"),
+    minute: $.i18n("UPTIME_SHORT_MIN"),
+    second: $.i18n("UPTIME_SHORT_SEC"),
+  });
 
-    let uptime =
-      (days !== 0 ? days + $.i18n("UPTIME_SHORT_DAY") : "") +
-      " " +
-      (hours !== 0 || days !== 0 ? hours + $.i18n("UPTIME_SHORT_HOUR") : "") +
-      " " +
-      (minutes !== 0 || hours !== 0 || days !== 0
-        ? minutes + $.i18n("UPTIME_SHORT_MIN")
-        : "") +
-      " " +
-      (seconds !== 0 || minutes !== 0 || hours !== 0
-        ? seconds + $.i18n("UPTIME_SHORT_SEC")
-        : "-");
-
-    uptime = uptime.trim();
+  if (runtime.startupDateTime !== null) {
+    const locale = `${$("html").attr("lang")}-${$("html")
+      .attr("lang")
+      .toUpperCase()}`;
 
     $(row)
       .find(".runtime span")
-      .html(uptime)
+      .html(runtime.text)
       .attr(
         "data-bs-title",
-        startupdatetime.toLocaleString(
-          $("html").attr("lang") + "-" + $("html").attr("lang").toUpperCase(),
-          { hour12: false },
-        ),
+        runtime.startupDateTime.toLocaleString(locale, { hour12: false }),
       )
       .attr("data-bs-toggle", "tooltip");
 
@@ -767,7 +756,9 @@ function updateRow(row, data, device_status) {
   } else {
     $(row)
       .find(".runtime span")
-      .html(uptime + "h");
+      .html(runtime.text)
+      .removeAttr("data-bs-title")
+      .removeAttr("data-bs-toggle");
   }
 
   //MORE
