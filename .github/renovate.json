@@ -154,17 +154,6 @@
       ],
       "datasourceTemplate": "docker",
       "depNameTemplate": "alpine"
-    },
-    {
-      "customType": "regex",
-      "managerFilePatterns": [
-        "//.docker/docker.sh/"
-      ],
-      "matchStrings": [
-        "QEMU_VERSION=[\"']?(?<currentValue>.+?)[\"']?\\s+"
-      ],
-      "datasourceTemplate": "github-releases",
-      "depNameTemplate": "multiarch/qemu-user-static"
     }
   ]
 }

@@ -33,10 +33,6 @@ ARG BUILD_VERSION=dev
 # Dependency versions
 ARG S6_OVERLAY_VERSION=3.1.6.2
 
-# Setup Qemu
-ARG QEMU_ARCH=x86_64
-COPY .docker/_tmp/qemu-${QEMU_ARCH}-static /usr/bin/qemu-${QEMU_ARCH}-static
-
 # Install base system
 ARG BUILD_ARCH=amd64
 
