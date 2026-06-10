@@ -1,0 +1,5 @@
+#!/bin/bash
+## Description: Build frontend assets for TasmoAdmin
+set -eu
+
+npm run build

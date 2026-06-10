@@ -89,6 +89,51 @@ Then visit http://localhost:8000
 
 Persistent storage within this setup is located in the `.storage` folder.
 
+### DDEV
+
+The repository also includes a DDEV setup for local development. It uses:
+
+* `apache-fpm`
+* PHP `8.5`
+* Node.js `22`
+* no database container
+
+Start the environment with:
+
+```bash
+ddev start
+```
+
+Install PHP and Node.js dependencies:
+
+```bash
+ddev install-deps
+```
+
+Build the frontend assets:
+
+```bash
+ddev build-assets
+```
+
+Then visit `https://tasmoadmin.ddev.site`.
+
+Common development commands:
+
+```bash
+ddev ssh
+ddev exec phpunit
+ddev qa
+ddev restart
+ddev stop
+```
+
+Notes:
+
+* `ddev install-deps` runs `composer install` and `npm ci` in `tasmoadmin/`
+* `ddev build-assets` runs the frontend build
+* `ddev qa` runs the Composer quality checks
+
 
 ## Translations
 

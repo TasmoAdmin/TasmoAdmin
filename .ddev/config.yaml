@@ -1,0 +1,21 @@
+name: tasmoadmin
+type: php
+docroot: tasmoadmin
+php_version: "8.5"
+webserver_type: apache-fpm
+xdebug_enabled: false
+omit_containers:
+  - db
+use_dns_when_possible: true
+composer_version: "2"
+composer_root: tasmoadmin
+nodejs_version: "22"
+web_environment:
+  - TASMO_DEBUG=1
+  - TASMO_TMPDIR=/tmp/tasmoadmin/
+corepack_enable: false
+working_dir:
+  web: /var/www/html/tasmoadmin
+hooks:
+  post-start:
+    - exec: "mkdir -p /tmp/tasmoadmin/sessions /tmp/tasmoadmin/cache/i18n /var/www/html/tasmoadmin/tmp /var/www/html/tasmoadmin/data/firmwares /var/www/html/tasmoadmin/data/updates && touch /var/www/html/tasmoadmin/.dockerenv"
