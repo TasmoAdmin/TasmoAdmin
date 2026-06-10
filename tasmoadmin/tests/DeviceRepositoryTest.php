@@ -48,6 +48,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(1, $repo->getDevices());
         $device = $repo->getDevices()[0];
         self::assertEquals(['socket-1'], $device->names);
+        self::assertEquals(['socket-1'], $device->friendlyNames);
     }
 
     public function testAddDeviceWithEscapeCharacter(): void
@@ -124,6 +125,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(1, $repo->getDevices());
         $device = $repo->getDevices()[0];
         self::assertEquals(['socket-1'], $device->names);
+        self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertTrue($device->isUpdatable);
         self::assertEquals(80, $device->port);
     }
@@ -141,6 +143,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals('bulb_1', $device->img);
         self::assertEquals(2, $device->position);
         self::assertEquals(5000, $device->port);
+        self::assertEquals(['socket-1'], $device->friendlyNames);
     }
 
     public function testGetDeviceByIdInvalidId(): void
@@ -256,6 +259,35 @@ class DeviceRepositoryTest extends TestCase
         $repo->setDeviceValue(1, 'names', ['socket-2']);
         $device = $repo->getDeviceById(1);
         self::assertEquals(['socket-2'], $device->names);
+    }
+
+    public function testSetDeviceValueFriendlyNames(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'friendlyNames', ['webui-socket-1']);
+
+        $device = $repo->getDeviceById(1);
+        self::assertEquals(['webui-socket-1'], $device->friendlyNames);
+    }
+
+    public function testAddDevicesStoresFriendlyNamesSeparately(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices(
+            [[
+                'device_name' => ['office-lamp'],
+                'device_friendly_name' => ['lamp-webui'],
+                'device_ip' => '127.0.0.1',
+            ]],
+            'user',
+            'pass'
+        );
+
+        $device = $repo->getDeviceById(1);
+        self::assertSame(['office-lamp'], $device->names);
+        self::assertSame(['lamp-webui'], $device->friendlyNames);
     }
 
     public function testSetDeviceValuePasswordNeverWritesPlaintextBackToDisk(): void

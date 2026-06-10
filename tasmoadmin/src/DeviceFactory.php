@@ -18,9 +18,11 @@ class DeviceFactory
 
     public static function fromRequest(array $request): Device
     {
+        $deviceNames = array_values($request['device_name'] ?? []);
+        $friendlyNames = array_values($request['device_friendly_name'] ?? $deviceNames);
         $device = [];
         $device[0] = $request['device_id'];
-        $device[1] = implode('|', $request['device_name']);
+        $device[1] = implode('|', $deviceNames);
         $device[2] = $request['device_ip'];
         $device[3] = $request['device_username'];
         $device[4] = $request['device_password'];
@@ -31,6 +33,7 @@ class DeviceFactory
         $device[9] = $request['device_protect_off'] ?? false;
         $device[10] = $request['is_updatable'] ?? true;
         $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
+        $device[12] = implode('|', $friendlyNames);
 
         return self::fromArray($device);
     }
@@ -41,10 +44,12 @@ class DeviceFactory
             return null;
         }
 
-        $array[1] = explode('|', $array[1] ?? '');
+        $array[1] = array_values(array_filter(explode('|', $array[1] ?? ''), static fn ($value) => '' !== $value));
+        $array[12] = array_values(array_filter(explode('|', $array[12] ?? ''), static fn ($value) => '' !== $value));
 
         $id = $array[0] ?? null;
         $names = $array[1];
+        $friendlyNames = !empty($array[12]) ? $array[12] : $names;
         $ip = $array[2] ?? false;
         $username = $array[3] ?? false;
         $password = $array[4] ?? false;
@@ -76,6 +81,7 @@ class DeviceFactory
             $keywords,
             (bool) $is_updatable,
             (int) $port,
+            $friendlyNames,
         );
     }
 }

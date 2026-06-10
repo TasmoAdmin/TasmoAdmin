@@ -91,4 +91,33 @@ class DeviceTest extends TestCase
             ],
         ];
     }
+
+    public function testGetFriendlyNamesFallsBackToAdminNames(): void
+    {
+        $device = new Device(1, ['socket-1'], '192.168.1.1', '', '', 'img', 1, false, false, false, []);
+
+        $this->assertSame(['socket-1'], $device->getFriendlyNames());
+    }
+
+    public function testGetFriendlyNamesUsesStoredFriendlyNames(): void
+    {
+        $device = new Device(
+            1,
+            ['office-lamp'],
+            '192.168.1.1',
+            '',
+            '',
+            'img',
+            1,
+            false,
+            false,
+            false,
+            [],
+            true,
+            80,
+            ['lamp-webui']
+        );
+
+        $this->assertSame(['lamp-webui'], $device->getFriendlyNames());
+    }
 }

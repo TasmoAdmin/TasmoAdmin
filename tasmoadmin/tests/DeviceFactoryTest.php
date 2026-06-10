@@ -14,6 +14,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
         self::assertEquals(5000, $device->port);
+        self::assertSame([], $device->friendlyNames);
     }
 
     public function testFromArrayEmpty(): void
@@ -43,6 +44,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals(0, $device->deviceProtectionOff);
         self::assertEquals(1, $device->deviceAllOff);
         self::assertTrue($device->isUpdatable);
+        self::assertEquals(['socket-1'], $device->friendlyNames);
     }
 
     public function testFromArrayComplete(): void
@@ -60,6 +62,7 @@ class DeviceFactoryTest extends TestCase
             1,
             false,
             5000,
+            'friendly-1',
         ]);
 
         self::assertEquals(1, $device->position);
@@ -74,6 +77,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals(0, $device->deviceAllOff);
         self::assertFalse($device->isUpdatable);
         self::assertEquals(5000, $device->port);
+        self::assertEquals(['friendly-1'], $device->friendlyNames);
     }
 
     public function testFromRequest(): void
@@ -85,12 +89,14 @@ class DeviceFactoryTest extends TestCase
             'device_username' => 'user',
             'device_password' => 'pass',
             'device_position' => '',
+            'device_friendly_name' => ['webui-socket-1'],
         ];
 
         $device = DeviceFactory::fromRequest($request);
         self::assertEquals(1, $device->id);
         self::assertEquals(['socket-1'], $device->names);
         self::assertEquals('socket-1', $device->getName());
+        self::assertEquals(['webui-socket-1'], $device->friendlyNames);
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
@@ -106,11 +112,13 @@ class DeviceFactoryTest extends TestCase
             'device_username' => 'user',
             'device_password' => 'pass',
             'device_position' => '',
+            'device_friendly_name' => ['webui-socket-1', 'webui-socket-2'],
         ];
 
         $device = DeviceFactory::fromRequest($request);
         self::assertEquals(1, $device->id);
         self::assertEquals(['socket-1', 'socket-2'], $device->names);
+        self::assertEquals(['webui-socket-1', 'webui-socket-2'], $device->friendlyNames);
         self::assertEquals('socket-1-socket-2', $device->getName());
         self::assertEquals('192.168.1.1', $device->ip);
         self::assertEquals('user', $device->username);
