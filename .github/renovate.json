@@ -61,7 +61,7 @@
       "matchManagers": [
         "dockerfile",
         "docker-compose",
-        "regex"
+        "custom.regex"
       ],
       "matchUpdateTypes": [
         "minor",
