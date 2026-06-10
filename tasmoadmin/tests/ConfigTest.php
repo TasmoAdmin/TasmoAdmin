@@ -11,9 +11,18 @@ class ConfigTest extends TestCase
 {
     private vfsStreamDirectory $root;
 
+    private string $originalPath;
+
     protected function setUp(): void
     {
         $this->root = vfsStream::setup('config');
+        $this->originalPath = getenv('PATH') ?: '';
+    }
+
+    protected function tearDown(): void
+    {
+        putenv('PATH='.$this->originalPath);
+        putenv('BUILD_VERSION');
     }
 
     public function testConstructor(): void
@@ -79,6 +88,36 @@ class ConfigTest extends TestCase
         self::assertEquals('123', $config->read('random_key'));
         $config->clean();
         self::assertNull($config->read('random_key'));
+    }
+
+    public function testConstructorFallsBackToGitDescribeWhenVersionSourcesAreMissing(): void
+    {
+        putenv('BUILD_VERSION');
+
+        $appRoot = sys_get_temp_dir().'/tasmoadmin-config-'.bin2hex(random_bytes(6));
+        $binDir = $appRoot.'/bin';
+        $dataDir = $appRoot.'/data';
+        mkdir($appRoot);
+        mkdir($binDir);
+        mkdir($dataDir);
+        file_put_contents($binDir.'/git', "#!/bin/sh\nif [ \"$3\" = \"describe\" ]; then\n  echo test-dev-version\nelif [ \"$3\" = \"rev-parse\" ]; then\n  echo test-branch\nfi\n");
+        chmod($binDir.'/git', 0o755);
+        putenv('PATH='.$binDir.':'.$this->originalPath);
+
+        try {
+            $config = new Config($dataDir.'/', $appRoot.'/');
+
+            self::assertEquals('test-dev-version', $config->read('current_git_tag'));
+            self::assertEquals('test-branch', $config->read('current_git_branch'));
+        } finally {
+            if (file_exists($dataDir.'/MyConfig.json')) {
+                unlink($dataDir.'/MyConfig.json');
+            }
+            unlink($binDir.'/git');
+            rmdir($binDir);
+            rmdir($dataDir);
+            rmdir($appRoot);
+        }
     }
 
     private function getConfig(): Config

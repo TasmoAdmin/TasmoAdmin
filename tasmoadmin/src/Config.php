@@ -6,6 +6,9 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Config
 {
+    private const GIT_DESCRIBE_COMMAND = 'git -C %s describe --tags --always --dirty 2>/dev/null';
+    private const GIT_BRANCH_COMMAND = 'git -C %s rev-parse --abbrev-ref HEAD 2>/dev/null';
+
     private string $dataDir;
 
     private string $appRoot;
@@ -21,6 +24,7 @@ class Config
         'password' => '',
         'refreshtime' => '8',
         'current_git_tag' => '',
+        'current_git_branch' => '',
         'update_automatic_lang' => 'tasmota-sensors',
         'nightmode' => 'auto',
         'login' => '1',
@@ -107,16 +111,16 @@ class Config
             }
         }
 
-        if (file_exists($this->appRoot.'.version')) {
-            $version = trim(file_get_contents($this->appRoot.'.version'));
-            if ($config['current_git_tag'] !== $version) {
-                $this->write('current_git_tag', $version);
-            }
-        } elseif (!empty(getenv('BUILD_VERSION'))
-            && ($config['current_git_tag'] != getenv(
-                'BUILD_VERSION'
-            ))) {
-            $this->write('current_git_tag', getenv('BUILD_VERSION'));
+        $currentGitTag = $this->resolveCurrentGitTag();
+        if (null !== $currentGitTag && $config['current_git_tag'] !== $currentGitTag) {
+            $this->write('current_git_tag', $currentGitTag);
+        }
+
+        $currentGitBranch = $this->resolveCurrentGitBranch();
+        if (null !== $currentGitBranch && $config['current_git_branch'] !== $currentGitBranch) {
+            $this->write('current_git_branch', $currentGitBranch);
+        } elseif (null === $currentGitBranch && '' !== $config['current_git_branch']) {
+            $this->write('current_git_branch', '');
         }
     }
 
@@ -228,6 +232,59 @@ class Config
         }
 
         return $config;
+    }
+
+    private function resolveCurrentGitTag(): ?string
+    {
+        if (file_exists($this->appRoot.'.version')) {
+            $version = trim(file_get_contents($this->appRoot.'.version'));
+
+            return '' !== $version ? $version : null;
+        }
+
+        $buildVersion = getenv('BUILD_VERSION');
+        if (false !== $buildVersion && '' !== trim($buildVersion)) {
+            return trim($buildVersion);
+        }
+
+        $gitVersion = $this->runGitCommand(self::GIT_DESCRIBE_COMMAND);
+        if (null === $gitVersion) {
+            return null;
+        }
+
+        return $gitVersion;
+    }
+
+    private function resolveCurrentGitBranch(): ?string
+    {
+        if (file_exists($this->appRoot.'.version')) {
+            return null;
+        }
+
+        $buildVersion = getenv('BUILD_VERSION');
+        if (false !== $buildVersion && '' !== trim($buildVersion)) {
+            return null;
+        }
+
+        $gitBranch = $this->runGitCommand(self::GIT_BRANCH_COMMAND);
+        if (null === $gitBranch || 'HEAD' === $gitBranch) {
+            return null;
+        }
+
+        return $gitBranch;
+    }
+
+    private function runGitCommand(string $commandTemplate): ?string
+    {
+        $command = sprintf($commandTemplate, escapeshellarg(rtrim($this->appRoot, '/')));
+        $output = shell_exec($command);
+        if (null === $output) {
+            return null;
+        }
+
+        $output = trim($output);
+
+        return '' !== $output ? $output : null;
     }
 
     private function writeFile(array $config): void

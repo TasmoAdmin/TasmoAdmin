@@ -8,17 +8,19 @@
 					&copy; <?php echo date('Y'); ?>&nbsp;<?php echo __('BY'); ?> reloxx13 -
 				<?php } ?>
 				<?php $updateCheck = $Config->read('check_for_updates'); ?>
+				<?php $currentGitTag = $Config->read('current_git_tag'); ?>
+				<?php $currentGitBranch = $Config->read('current_git_branch'); ?>
+				<?php $footerVersion = substr($currentGitTag, 0, 15); ?>
+				<?php if (!empty($currentGitBranch)) {
+				    $footerVersion .= ' @'.substr($currentGitBranch, 0, 20);
+				} ?>
 
 
 				<div id="versionHolder" class='d-inline-block' data-update-check='<?php echo $updateCheck; ?>'>
-					<?php echo substr($Config->read('current_git_tag'), 0, 15); ?>
+					<?php echo $footerVersion; ?>
 					<i id='update-icon'
 					   class='fa fa-question <?php echo '0' == $updateCheck ? 'd-none' : ''; ?> '
-					   data-current_git_tag='<?php echo substr(
-					       $Config->read('current_git_tag'),
-					       0,
-					       15
-					   ); ?>'
+					   data-current_git_tag='<?php echo substr($currentGitTag, 0, 15); ?>'
 					   data-update_channel='<?php echo $Config->read('update_channel'); ?>'
 					   style=''
 					></i>
