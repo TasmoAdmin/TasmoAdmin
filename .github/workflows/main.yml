@@ -97,6 +97,26 @@ jobs:
         run: |
           cd tasmoadmin
           npm run build
+  js-tests:
+    name: Run JS tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v6
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: 'tasmoadmin/.nvmrc'
+          cache: 'npm'
+          cache-dependency-path: 'tasmoadmin/'
+      - name: Install dependencies
+        run: |
+          cd tasmoadmin
+          npm ci
+      - name: Run JS tests
+        run: |
+          cd tasmoadmin
+          npm run test:js
   prettier-check:
     name: Run prettier:check
     runs-on: ubuntu-24.04

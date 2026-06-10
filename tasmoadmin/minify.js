@@ -1,8 +1,8 @@
 const { readFile, writeFile } = require("node:fs/promises");
 const glob = require("glob");
-const { minify } = require("@node-minify/core");
-const { terser } = require("@node-minify/terser");
-const { cleanCss } = require("@node-minify/clean-css");
+const minify = require("@node-minify/core");
+const terser = require("@node-minify/terser");
+const cleanCss = require("@node-minify/clean-css");
 
 async function main() {
   const jsFiles = await glob.glob("resources/js/compiled/*.js");
