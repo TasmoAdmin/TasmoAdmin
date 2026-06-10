@@ -10,6 +10,8 @@ use TasmoAdmin\Helper\RequestHelper;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
+include_once './includes/bootstrap.php';
+
 function getTitle(string $page, ?string $action = null): string
 {
     switch ($page) {
@@ -144,7 +146,6 @@ $matched = null;
 $authByPassedPages = ['login', 'change_language'];
 
 try {
-    include_once './includes/bootstrap.php';
     $routes = include './includes/routes.php';
     $context = new RequestContext();
     $context->fromRequest($request);
