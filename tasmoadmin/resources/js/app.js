@@ -1,4 +1,7 @@
 import { Sonoff } from "./Sonoff";
+import statusHelpers from "./status_helpers";
+
+export const { getIlluminance } = statusHelpers;
 
 const sonoff = new Sonoff({
   base_url: config.base_url,

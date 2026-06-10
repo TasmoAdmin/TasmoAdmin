@@ -8,12 +8,12 @@
 [![codecov](https://codecov.io/gh/TasmoAdmin/TasmoAdmin/branch/master/graph/badge.svg?token=8CWi1DIIjP)](https://codecov.io/gh/TasmoAdmin/TasmoAdmin)
 [![Discord](https://img.shields.io/discord/401474444914196490)](https://discord.gg/gG2VDsSKWt)
 
-[![GitHub release](https://img.shields.io/github/release/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
-[![GitHub contributors](https://img.shields.io/github/contributors/TasmoAdmin/TasmoAdmin.svg)](https://GitHub.com/TasmoAdmin/TasmoAdmin/graphs/contributors/)
+[![GitHub release](https://badgen.net/github/release/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
+[![GitHub contributors](https://badgen.net/github/contributors/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/graphs/contributors/)
 [![GitHub stars](https://img.shields.io/github/stars/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/network)
-[![Github all releases](https://img.shields.io/github/downloads/TasmoAdmin/TasmoAdmin/total.svg?label=gh%20downloads)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
-[![GitHub license](https://img.shields.io/github/license/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
+[![GitHub forks](https://badgen.net/github/forks/TasmoAdmin/TasmoAdmin)](https://github.com/TasmoAdmin/TasmoAdmin/network)
+[![Github all releases](https://badgen.net/github/dt/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
+[![GitHub license](https://badgen.net/github/license/TasmoAdmin/TasmoAdmin)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
 [![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
 [![php](https://img.shields.io/badge/php-8.5.x-%238892BF.svg)](https://secure.php.net/)
 
