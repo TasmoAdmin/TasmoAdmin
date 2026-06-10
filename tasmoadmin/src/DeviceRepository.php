@@ -73,13 +73,26 @@ class DeviceRepository
 
     public function getDeviceById(int $id): ?Device
     {
-        foreach ($this->getDevices() as $device) {
-            if ($device->id == $id) {
-                return $device;
+        $device = null;
+        $storageRows = [];
+        $needsRewrite = false;
+        $file = $this->openInputFile();
+        while (($line = fgetcsv($file, escape: self::CSV_ESCAPE)) !== false) {
+            [$storageRow, $rowNeedsRewrite] = $this->prepareStorageRow($line);
+            $storageRows[] = $storageRow;
+            $needsRewrite = $needsRewrite || $rowNeedsRewrite;
+
+            if ($line[0] == $id) {
+                $device = $this->createDeviceObject($storageRow);
             }
         }
+        fclose($file);
 
-        return null;
+        if ($needsRewrite) {
+            $this->rewriteRows($storageRows);
+        }
+
+        return $device;
     }
 
     /**
@@ -95,7 +108,7 @@ class DeviceRepository
             [$storageRow, $rowNeedsRewrite] = $this->prepareStorageRow($line);
             $storageRows[] = $storageRow;
             $needsRewrite = $needsRewrite || $rowNeedsRewrite;
-            $devices[] = $this->createDeviceObject($line);
+            $devices[] = $this->createDeviceObject($storageRow);
         }
         fclose($file);
 
@@ -213,7 +226,7 @@ class DeviceRepository
     private function prepareStorageRow(array $deviceLine): array
     {
         $password = (string) ($deviceLine[4] ?? '');
-        if ('' === $password || $this->devicePasswordCipher->isEncrypted($password)) {
+        if ('' === $password || $this->devicePasswordCipher->isRecognizedEncryptedPayload($password)) {
             return [$deviceLine, false];
         }
 

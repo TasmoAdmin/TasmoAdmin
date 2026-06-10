@@ -149,6 +149,28 @@ class DeviceRepositoryTest extends TestCase
         self::assertNull($repo->getDeviceById(9));
     }
 
+    public function testGetDeviceByIdIgnoresUnreadableLaterRows(): void
+    {
+        $deviceFile = $this->root->url().'/devices-get-by-id.csv';
+        file_put_contents(
+            $deviceFile,
+            implode(
+                PHP_EOL,
+                [
+                    '1,socket-1,192.168.1.2,user,password,bulb_1,2',
+                    '2,socket-2,192.168.1.3,user,'.DevicePasswordCipher::STORAGE_PREFIX.'%%%,bulb_1,3',
+                ]
+            ).PHP_EOL
+        );
+
+        $repo = $this->createRepository($deviceFile);
+        $device = $repo->getDeviceById(1);
+
+        self::assertSame(1, $device->id);
+        self::assertSame('password', $device->password);
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, (string) file_get_contents($deviceFile));
+    }
+
     public function testGetDevices(): void
     {
         $devices = $this->getValidRepo()->getDevices();
@@ -190,6 +212,23 @@ class DeviceRepositoryTest extends TestCase
         self::assertSame('password', $devices[1]->password);
         self::assertSame(2, substr_count((string) file_get_contents($deviceFile), DevicePasswordCipher::STORAGE_PREFIX));
         self::assertStringNotContainsString(',password,', (string) file_get_contents($deviceFile));
+    }
+
+    public function testLegacyPlaintextPasswordWithStoragePrefixIsMigrated(): void
+    {
+        $deviceFile = $this->root->url().'/devices-legacy-prefix.csv';
+        file_put_contents(
+            $deviceFile,
+            '1,socket-1,192.168.1.2,user,enc:v1:plain-password,bulb_1,2'.PHP_EOL
+        );
+
+        $repo = $this->createRepository($deviceFile);
+        $device = $repo->getDeviceById(1);
+
+        self::assertSame('enc:v1:plain-password', $device->password);
+        $storedContents = (string) file_get_contents($deviceFile);
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $storedContents);
+        self::assertStringNotContainsString(',enc:v1:plain-password,', $storedContents);
     }
 
     public function testGetDevicesEmptyRepo(): void

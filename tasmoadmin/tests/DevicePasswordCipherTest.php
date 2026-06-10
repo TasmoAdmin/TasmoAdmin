@@ -41,6 +41,19 @@ class DevicePasswordCipherTest extends TestCase
         self::assertSame('', $cipher->decrypt(''));
     }
 
+    public function testEncryptsPasswordsThatStartWithStoragePrefix(): void
+    {
+        $cipher = $this->getCipher();
+
+        $encryptedPassword = $cipher->encrypt(DevicePasswordCipher::STORAGE_PREFIX.'plain-password');
+
+        self::assertNotSame(DevicePasswordCipher::STORAGE_PREFIX.'plain-password', $encryptedPassword);
+        self::assertSame(
+            DevicePasswordCipher::STORAGE_PREFIX.'plain-password',
+            $cipher->decrypt($encryptedPassword)
+        );
+    }
+
     public function testRejectsMalformedPayload(): void
     {
         $cipher = $this->getCipher();
@@ -58,6 +71,14 @@ class DevicePasswordCipherTest extends TestCase
 
         $this->expectException(DeviceCredentialException::class);
         $cipherB->decrypt($encryptedPassword);
+    }
+
+    public function testRecognizesEncryptedPayloadShape(): void
+    {
+        $cipher = $this->getCipher();
+
+        self::assertTrue($cipher->isRecognizedEncryptedPayload($cipher->encrypt('secret-password')));
+        self::assertFalse($cipher->isRecognizedEncryptedPayload(DevicePasswordCipher::STORAGE_PREFIX.'plain-password'));
     }
 
     private function getCipher(?string $encodedKey = null): DevicePasswordCipher

@@ -25,10 +25,6 @@ class DevicePasswordCipher
             return '';
         }
 
-        if ($this->isEncrypted($password)) {
-            return $password;
-        }
-
         $iv = random_bytes($this->ivLength);
         $tag = '';
         $ciphertext = openssl_encrypt(
@@ -88,5 +84,20 @@ class DevicePasswordCipher
     public function isEncrypted(string $password): bool
     {
         return str_starts_with($password, self::STORAGE_PREFIX);
+    }
+
+    public function isRecognizedEncryptedPayload(string $password): bool
+    {
+        if (!$this->isEncrypted($password)) {
+            return false;
+        }
+
+        $payload = substr($password, strlen(self::STORAGE_PREFIX));
+        $decodedPayload = base64_decode($payload, true);
+        if (false === $decodedPayload) {
+            return false;
+        }
+
+        return strlen($decodedPayload) > $this->ivLength + self::TAG_LENGTH;
     }
 }

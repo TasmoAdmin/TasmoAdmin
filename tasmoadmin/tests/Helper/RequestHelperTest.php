@@ -28,4 +28,11 @@ class RequestHelperTest extends TestCase
 
         self::assertFalse(RequestHelper::isPublicI18nRequest($request));
     }
+
+    public function testIsPublicI18nRequestReturnsFalseWhenPrivilegedQueryParamsArePresent(): void
+    {
+        $request = Request::create('/actions?i18n=1&doAjax=1&id=1');
+
+        self::assertFalse(RequestHelper::isPublicI18nRequest($request));
+    }
 }
