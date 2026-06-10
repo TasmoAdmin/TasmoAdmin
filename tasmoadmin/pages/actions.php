@@ -38,6 +38,26 @@ if (isset($_GET['doAjaxAll'])) {
     exit;
 }
 
+if (isset($_GET['i18n'])) {
+    $requestedLang = $_GET['lang'] ?? $lang;
+    $supportedLanguages = \TasmoAdmin\Helper\SupportedLanguageHelper::getSupportedLanguages();
+    $language = array_key_exists($requestedLang, $supportedLanguages) ? $requestedLang : $lang;
+    $cacheFile = _TMPDIR_.'cache/i18n/json_i18n_'.$language.'.cache.json';
+
+    if (!is_file($cacheFile)) {
+        http_response_code(404);
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Language cache not found']);
+
+        exit;
+    }
+
+    header('Content-Type: application/json');
+    readfile($cacheFile);
+
+    exit;
+}
+
 if (isset($_GET['downloadBackup'])) {
     $backup = $container->get(BackupHelper::class);
 

@@ -91,6 +91,6 @@ class JsonLanguageHelper
     {
         return
             filemtime($cacheFile) > filemtime($this->languageFile)
-            || filemtime($cacheFile) > filemtime($this->fallbackLanguageFile);
+            && filemtime($cacheFile) > filemtime($this->fallbackLanguageFile);
     }
 }

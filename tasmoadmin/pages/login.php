@@ -10,7 +10,9 @@ $title = __('LOGIN', 'PAGE_TITLES');
 $page = 'login';
 
 if (0 == $Config->read('login')) {
-    header('Location: '._BASEURL_);
+    header('Location: '._BASEURL_, true, 302);
+
+    exit;
 }
 
 $loginHelper = new LoginHelper($Config);
@@ -20,14 +22,14 @@ if (!empty($_POST)) {
     if (isset($_REQUEST['register']) && ('' === $user || '' === $password)) {
         $loginHelper->register($_REQUEST['username'], $_REQUEST['password']);
         $_SESSION['login'] = '1';
-        header('Location: '._BASEURL_.$home);
+        header('Location: '._BASEURL_.$home, true, 302);
 
         exit;
     }
     if (isset($_REQUEST['login'])) {
         if ($user === $_REQUEST['username'] && $loginHelper->login($_REQUEST['password'], $password)) {
             $_SESSION['login'] = '1';
-            header('Location: '._BASEURL_.$home);
+            header('Location: '._BASEURL_.$home, true, 302);
 
             exit;
         }

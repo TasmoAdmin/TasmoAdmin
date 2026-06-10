@@ -98,10 +98,16 @@ $context->fromRequest($request);
 $matcher = new UrlMatcher($routes, $context);
 
 $authByPassedPages = ['login', 'change_language'];
+$isPublicI18nRequest = 'actions' === $request->getPathInfo()
+    && $request->query->has('i18n');
 
 try {
     $matched = $matcher->match($request->getPathInfo());
-    if (!$loggedin && !in_array($matched['_route'], $authByPassedPages)) {
+    if (
+        !$loggedin
+        && !$isPublicI18nRequest
+        && !in_array($matched['_route'], $authByPassedPages)
+    ) {
         if ('render_template' === $matched['_controller']) {
             header('Location: '._BASEURL_.'login');
 
