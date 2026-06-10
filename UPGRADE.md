@@ -1,5 +1,15 @@
 # Upgrade
 
+## Password Encryption Migration
+
+- Device passwords in `devices.csv` are now encrypted at rest as `enc:v1:...`
+- The first read after upgrading rewrites legacy plaintext password cells in place
+- TasmoAdmin resolves the encryption key in this order:
+  1. `_DATADIR_/.device-password.key`
+  2. `TASMO_DEVICE_PASSWORD_KEY` as a base64-encoded 32-byte secret
+  3. A newly generated key persisted to `.device-password.key`
+- If both the sidecar file and environment variable exist, they must match exactly or TasmoAdmin returns a hard error until the mismatch is fixed
+
 ## From 4 -> 5
 
  - Minimum PHP version bumped to 8.2 due to 8.1 becoming EOL.

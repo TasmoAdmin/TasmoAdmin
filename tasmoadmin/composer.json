@@ -6,6 +6,7 @@
         "php": ">=8.2",
         "ext-json": "*",
         "ext-curl": "*",
+        "ext-openssl": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
         "ext-dom": "*",

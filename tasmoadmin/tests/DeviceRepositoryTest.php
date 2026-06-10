@@ -5,15 +5,26 @@ namespace Tests\TasmoAdmin;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\DeviceCredentialException;
+use TasmoAdmin\DevicePasswordCipher;
+use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
 
 class DeviceRepositoryTest extends TestCase
 {
+    private const TEST_KEY = 'MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=';
+
     private vfsStreamDirectory $root;
 
     protected function setUp(): void
     {
         $this->root = vfsStream::setup('config');
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'='.self::TEST_KEY);
+    }
+
+    protected function tearDown(): void
+    {
+        putenv(DevicePasswordKeyProvider::ENV_NAME);
     }
 
     public function testConstructorCreateFile(): void
@@ -50,11 +61,9 @@ class DeviceRepositoryTest extends TestCase
             'device_position' => 1,
         ];
 
-        // Add the device
         $repo->addDevice($request);
 
         self::assertCount(1, $repo->getDevices());
-
         $device = $repo->getDevices()[0];
 
         self::assertEquals('socket-\\\1', $device->names[0]);
@@ -96,8 +105,7 @@ class DeviceRepositoryTest extends TestCase
     public function testAddDevicesEmptyDevices(): void
     {
         $repo = $this->getVirtualRepo();
-        $devices = [];
-        $repo->addDevices($devices, 'user', 'pass');
+        $repo->addDevices([], 'user', 'pass');
         self::assertCount(0, $repo->getDevices());
     }
 
@@ -147,6 +155,43 @@ class DeviceRepositoryTest extends TestCase
         self::assertCount(3, $devices);
     }
 
+    public function testGetDevicesRewritesPlaintextFixtureToEncryptedCells(): void
+    {
+        $deviceFile = $this->copyFixtureToVirtualFile('devices.csv');
+        $repo = $this->createRepository($deviceFile);
+
+        $devices = $repo->getDevices();
+
+        self::assertCount(3, $devices);
+        self::assertSame('password', $devices[0]->password);
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, (string) file_get_contents($deviceFile));
+        self::assertStringNotContainsString(',password,', (string) file_get_contents($deviceFile));
+    }
+
+    public function testMixedPlaintextAndEncryptedRowsConvergeToEncryptedStorage(): void
+    {
+        $cipher = $this->getCipher();
+        $deviceFile = $this->root->url().'/devices-mixed.csv';
+        file_put_contents(
+            $deviceFile,
+            implode(
+                PHP_EOL,
+                [
+                    '1,socket-1,192.168.1.2,user,password,bulb_1,2',
+                    sprintf('2,socket-2,192.168.1.3,user,%s,bulb_1,3', $cipher->encrypt('password')),
+                ]
+            ).PHP_EOL
+        );
+
+        $repo = $this->createRepository($deviceFile);
+        $devices = $repo->getDevices();
+
+        self::assertSame('password', $devices[0]->password);
+        self::assertSame('password', $devices[1]->password);
+        self::assertSame(2, substr_count((string) file_get_contents($deviceFile), DevicePasswordCipher::STORAGE_PREFIX));
+        self::assertStringNotContainsString(',password,', (string) file_get_contents($deviceFile));
+    }
+
     public function testGetDevicesEmptyRepo(): void
     {
         $devices = $this->getEmptyRepo()->getDevices();
@@ -168,15 +213,23 @@ class DeviceRepositoryTest extends TestCase
     public function testSetDeviceValueValid(): void
     {
         $repo = $this->getVirtualRepo();
-        $devices = [
-            [
-                'device_name' => ['socket-1'],
-            ],
-        ];
-        $repo->addDevices($devices, 'user', 'pass');
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
         $repo->setDeviceValue(1, 'names', ['socket-2']);
         $device = $repo->getDeviceById(1);
         self::assertEquals(['socket-2'], $device->names);
+    }
+
+    public function testSetDeviceValuePasswordNeverWritesPlaintextBackToDisk(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'password', 'new-secret');
+
+        $contents = (string) file_get_contents($this->getVirtualDeviceFilePath());
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $contents);
+        self::assertStringNotContainsString(',new-secret,', $contents);
+        self::assertSame('new-secret', $repo->getDeviceById(1)->password);
     }
 
     public function testRemoveDeviceValid(): void
@@ -219,6 +272,52 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(5, $devices[1]->position);
     }
 
+    public function testUpdateDeviceNeverWritesPlaintextBackToDisk(): void
+    {
+        $repo = $this->getValidRepo();
+        $device = $repo->getDeviceById(1);
+        $device->password = 'updated-secret';
+
+        $repo->updateDevice($device);
+
+        $contents = (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv'));
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $contents);
+        self::assertStringNotContainsString(',updated-secret,', $contents);
+        self::assertSame('updated-secret', $repo->getDeviceById(1)->password);
+    }
+
+    public function testAddDeviceNeverWritesPlaintextBackToDisk(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices(
+            [['device_name' => ['socket-1'], 'device_ip' => '127.0.0.1']],
+            'user',
+            'secret'
+        );
+
+        $contents = (string) file_get_contents($this->getVirtualDeviceFilePath());
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $contents);
+        self::assertStringNotContainsString(',secret,', $contents);
+        self::assertSame('secret', $repo->getDeviceById(1)->password);
+    }
+
+    public function testDecryptFailureThrowsDeviceCredentialException(): void
+    {
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'='.base64_encode(random_bytes(DevicePasswordKeyProvider::KEY_LENGTH)));
+        $cipher = $this->getCipher();
+        $deviceFile = $this->root->url().'/devices-bad-key.csv';
+        file_put_contents(
+            $deviceFile,
+            sprintf('1,socket-1,192.168.1.2,user,%s,bulb_1,2', $cipher->encrypt('password')).PHP_EOL
+        );
+
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'='.base64_encode(random_bytes(DevicePasswordKeyProvider::KEY_LENGTH)));
+        $repo = $this->createRepository($deviceFile);
+
+        $this->expectException(DeviceCredentialException::class);
+        $repo->getDevices();
+    }
+
     public function testGetDevicesByIds(): void
     {
         $repo = $this->getVirtualRepoWithDevices(5);
@@ -247,30 +346,64 @@ class DeviceRepositoryTest extends TestCase
 
     private function getVirtualRepo(bool $withFile = true): DeviceRepository
     {
-        $deviceFile = $this->root->url().'/devices.csv';
-        if ($withFile) {
+        $deviceFile = $this->getVirtualDeviceFilePath();
+        if ($withFile && !file_exists($deviceFile)) {
             touch($deviceFile);
         }
 
-        $tmpDir = $this->root->url().'/tmp/';
-        mkdir($tmpDir);
-
-        return new DeviceRepository($deviceFile, $tmpDir);
+        return $this->createRepository($deviceFile);
     }
 
     private function getValidRepo(): DeviceRepository
     {
-        $tmpDir = $this->root->url().'/tmp/';
-        mkdir($tmpDir);
-
-        return new DeviceRepository(TestUtils::getFixturePath('devices.csv'), $tmpDir);
+        return $this->createRepository($this->copyFixtureToVirtualFile('devices.csv'));
     }
 
     private function getEmptyRepo(): DeviceRepository
     {
-        $tmpDir = $this->root->url().'/tmp/';
-        mkdir($tmpDir);
+        return $this->createRepository($this->copyFixtureToVirtualFile('empty_devices.csv'));
+    }
 
-        return new DeviceRepository(TestUtils::getFixturePath('empty_devices.csv'), $tmpDir);
+    private function createRepository(string $deviceFile): DeviceRepository
+    {
+        return new DeviceRepository($deviceFile, $this->getTmpDir(), $this->getCipher());
+    }
+
+    private function getCipher(): DevicePasswordCipher
+    {
+        return new DevicePasswordCipher(new DevicePasswordKeyProvider($this->getDataDir()));
+    }
+
+    private function copyFixtureToVirtualFile(string $fixtureName): string
+    {
+        $path = $this->getVirtualDeviceFilePath($fixtureName);
+        file_put_contents($path, TestUtils::loadFixture($fixtureName));
+
+        return $path;
+    }
+
+    private function getVirtualDeviceFilePath(string $fileName = 'devices.csv'): string
+    {
+        return $this->root->url().'/'.$fileName;
+    }
+
+    private function getTmpDir(): string
+    {
+        $tmpDir = $this->root->url().'/tmp/';
+        if (!is_dir($tmpDir)) {
+            mkdir($tmpDir);
+        }
+
+        return $tmpDir;
+    }
+
+    private function getDataDir(): string
+    {
+        $dataDir = $this->root->url().'/data/';
+        if (!is_dir($dataDir)) {
+            mkdir($dataDir);
+        }
+
+        return $dataDir;
     }
 }

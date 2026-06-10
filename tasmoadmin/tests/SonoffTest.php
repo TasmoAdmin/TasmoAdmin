@@ -5,6 +5,7 @@ namespace Tests\TasmoAdmin;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
@@ -12,16 +13,26 @@ use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Config;
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
+use TasmoAdmin\DevicePasswordCipher;
+use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
 
 class SonoffTest extends TestCase
 {
+    private const TEST_KEY = 'MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=';
+
     private vfsStreamDirectory $root;
 
     protected function setUp(): void
     {
         $this->root = vfsStream::setup('config');
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'='.self::TEST_KEY);
+    }
+
+    protected function tearDown(): void
+    {
+        putenv(DevicePasswordKeyProvider::ENV_NAME);
     }
 
     public function testbuildCmndUrlCredentials(): void
@@ -170,6 +181,36 @@ class SonoffTest extends TestCase
         $this->assertEquals($fileContent, file_get_contents($location));
     }
 
+    public function testRepositoryBackedEncryptedPasswordsStillWorkForUrlsAndBackup(): void
+    {
+        $repository = $this->getTestDeviceRepository();
+        $repository->addDevices(
+            [['device_name' => ['socket-1'], 'device_ip' => '192.168.1.8']],
+            'user',
+            'pass'
+        );
+
+        $device = $repository->getDeviceById(1);
+        $transactions = [];
+        $history = Middleware::history($transactions);
+        $mock = new MockHandler([new Response(200, [], 'fake-backup')]);
+        $handlerStack = HandlerStack::create($mock);
+        $handlerStack->push($history);
+        $client = new Client(['handler' => $handlerStack]);
+
+        $sonoff = new Sonoff($repository, $client, $this->getTestConfig());
+
+        self::assertSame(
+            'http://192.168.1.8:80/cm?user=user&password=pass&cmnd=status+0',
+            $sonoff->buildCmndUrl($device, Sonoff::COMMAND_INFO_STATUS_ALL)
+        );
+
+        $sonoff->backup($device, $this->getBackupDir());
+
+        self::assertCount(1, $transactions);
+        self::assertSame('http://user:pass@192.168.1.8/dl', (string) $transactions[0]['request']->getUri());
+    }
+
     private function getClient(array $responses = []): Client
     {
         $mock = new MockHandler($responses);
@@ -186,7 +227,12 @@ class SonoffTest extends TestCase
         $tmpDir = $this->root->url().'/tmp/';
         mkdir($tmpDir);
 
-        return new DeviceRepository($deviceFile, $tmpDir);
+        return new DeviceRepository($deviceFile, $tmpDir, $this->getCipher());
+    }
+
+    private function getCipher(): DevicePasswordCipher
+    {
+        return new DevicePasswordCipher(new DevicePasswordKeyProvider($this->getDataDir()));
     }
 
     private function getTestConfig(): Config
@@ -200,5 +246,15 @@ class SonoffTest extends TestCase
         mkdir($backupDir);
 
         return $backupDir;
+    }
+
+    private function getDataDir(): string
+    {
+        $dataDir = $this->root->url().'/data/';
+        if (!is_dir($dataDir)) {
+            mkdir($dataDir);
+        }
+
+        return $dataDir;
     }
 }

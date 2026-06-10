@@ -75,6 +75,20 @@ Some environment variables are configured to allow easier customisation of the a
 - `TASMO_DATADIR` - Path where to store data. If not provided defaults to `./tasmoadmin/data`
 - `TASMO_BASEURL` - Customise the base URL for the application
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
+- `TASMO_DEVICE_PASSWORD_KEY` - Base64-encoded 32-byte secret for device password encryption at rest
+
+### Device Password Encryption
+
+TasmoAdmin encrypts only the `password` column in `devices.csv`. Usernames, column order, and in-memory `Device` objects remain unchanged.
+
+1. If `_DATADIR_/.device-password.key` exists, TasmoAdmin uses it.
+2. Otherwise, if `TASMO_DEVICE_PASSWORD_KEY` exists, TasmoAdmin uses it.
+3. Otherwise, TasmoAdmin lazily generates a 32-byte key, persists it to `.device-password.key`, and uses it.
+4. If both sources exist, they must match exactly or TasmoAdmin fails closed.
+
+Encrypted password cells are stored as `enc:v1:<base64(iv||tag||ciphertext)>`.
+
+On the first read after upgrading, legacy plaintext password cells are migrated in place to the encrypted format. Running `clean=devices` removes both `devices.csv` and `.device-password.key` for file-backed installs.
 
 ## Development
 

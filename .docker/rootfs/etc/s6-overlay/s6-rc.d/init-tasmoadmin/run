@@ -63,6 +63,9 @@ fi
 chown -R nginx:nginx /data/tasmoadmin
 find /data/tasmoadmin -not -perm 0644 -type f -exec chmod 0644 {} \;
 find /data/tasmoadmin -not -perm 0755 -type d -exec chmod 0755 {} \;
+if [ -f "/data/tasmoadmin/.device-password.key" ]; then
+    chmod 0600 /data/tasmoadmin/.device-password.key
+fi
 
 if [ ! -f "/var/www/tasmoadmin/.dockerenv" ]; then
     echo 'Docker env does not exist, doing that now...'

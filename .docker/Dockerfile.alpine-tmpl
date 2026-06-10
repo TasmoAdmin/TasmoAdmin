@@ -59,6 +59,7 @@ RUN apk add --no-cache --virtual .build-dependencies \
         php85-fpm \
         php85-dom \
         php85-json \
+        php85-openssl \
         php85-session \
         php85-zip \
         php85-mbstring \

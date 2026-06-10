@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\SupportedLanguageHelper;
@@ -113,6 +114,11 @@ if (isset($_GET['clean'])) {
             if (is_file($file) && strpos($file, 'devices.csv')) {
                 @unlink($file);
             } // delete file
+        }
+
+        $devicePasswordKeyFile = _DATADIR_.DevicePasswordKeyProvider::SIDECAR_FILENAME;
+        if (is_file($devicePasswordKeyFile)) {
+            @unlink($devicePasswordKeyFile);
         }
     }
 

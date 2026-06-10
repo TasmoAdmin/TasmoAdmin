@@ -3,6 +3,8 @@
 use Selective\Container\Container;
 use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Config;
+use TasmoAdmin\DevicePasswordCipher;
+use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\RedirectHelper;
 use TasmoAdmin\Helper\UrlHelper;
@@ -22,7 +24,13 @@ $container->set(
     )
 );
 $container->set(HttpClientFactory::class, new HttpClientFactory($container->get(Config::class)));
-$container->set(DeviceRepository::class, new DeviceRepository(_CSVFILE_, _TMPDIR_));
+$container->set(DevicePasswordKeyProvider::class, new DevicePasswordKeyProvider(_DATADIR_));
+$container->set(DevicePasswordCipher::class, new DevicePasswordCipher($container->get(DevicePasswordKeyProvider::class)));
+$container->set(DeviceRepository::class, new DeviceRepository(
+    _CSVFILE_,
+    _TMPDIR_,
+    $container->get(DevicePasswordCipher::class)
+));
 $container->set(Sonoff::class, new Sonoff(
     $container->get(DeviceRepository::class),
     $container->get(HttpClientFactory::class)->getClient(),
