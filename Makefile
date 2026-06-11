@@ -31,19 +31,19 @@ docker-publish: docker-tag
 package: clean
 	mkdir _releases
 	mkdir _tmp
-	composer install --no-dev -o -d tasmoadmin
+	composer install --prefer-dist --no-dev -o -d tasmoadmin
 	cd tasmoadmin; npm ci; npm run build; rm -rf node_modules
 	tar -zcf ./_releases/tasmoadmin_${BUILD_VERSION}.tar.gz tasmoadmin
 	zip -q -r ./_releases/tasmoadmin_${BUILD_VERSION}.zip tasmoadmin
 
 quality: clean
-	composer install -d tasmoadmin
+	composer install --prefer-dist -d tasmoadmin
 	cd tasmoadmin; ./vendor/bin/php-cs-fixer fix
 	cd tasmoadmin; ./vendor/bin/phpunit
 	cd tasmoadmin; php -d memory_limit=4G ./vendor/bin/phpstan
 
 dev:
 	./.docker/docker.sh prepare
-	composer install -d tasmoadmin
+	composer install --prefer-dist -d tasmoadmin
 	cd tasmoadmin; npm ci; npm run build
 	docker-compose build  --no-cache && docker-compose up
