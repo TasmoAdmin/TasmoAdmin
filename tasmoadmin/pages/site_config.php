@@ -4,6 +4,7 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Helper\CacheCleanupHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\LoginHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
@@ -320,49 +321,43 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				<div class="col col-12 col-sm-6">
 					<label for="refreshtime"><?php echo __('CONFIG_REFRESHTIME', 'USER_CONFIG'); ?></label>
 					<select class="form-control form-select" id="refreshtime" name='refreshtime'>
-						<option value='none' <?php echo 'none' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?>>
+						<option value='none' <?php echo HtmlAttributeHelper::selected('none' == $config['refreshtime']); ?>>
 							<?php echo __('CONFIG_REFRESHTIME_NONE', 'USER_CONFIG'); ?>
 						</option>
-						<option value='1' <?php echo '1' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='1' <?php echo HtmlAttributeHelper::selected('1' == $config['refreshtime']); ?> >
 							1 <?php echo __('CONFIG_REFRESHTIME_SECOND', 'USER_CONFIG'); ?>
 						</option>
-						<option value='2' <?php echo '2' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='2' <?php echo HtmlAttributeHelper::selected('2' == $config['refreshtime']); ?> >
 							2 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='3' <?php echo '3' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='3' <?php echo HtmlAttributeHelper::selected('3' == $config['refreshtime']); ?> >
 							3 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='4' <?php echo '4' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='4' <?php echo HtmlAttributeHelper::selected('4' == $config['refreshtime']); ?> >
 							4 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='5' <?php echo '5' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='5' <?php echo HtmlAttributeHelper::selected('5' == $config['refreshtime']); ?> >
 							5 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='8' <?php echo '8' == $config['refreshtime'] ? 'selected=\selected"' : ''; ?> >
+						<option value='8' <?php echo HtmlAttributeHelper::selected('8' == $config['refreshtime']); ?> >
 							8 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='10' <?php echo '10' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='10' <?php echo HtmlAttributeHelper::selected('10' == $config['refreshtime']); ?> >
 							10 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='15' <?php echo '15' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='15' <?php echo HtmlAttributeHelper::selected('15' == $config['refreshtime']); ?> >
 							15 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='30' <?php echo '30' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='30' <?php echo HtmlAttributeHelper::selected('30' == $config['refreshtime']); ?> >
 							30 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='60' <?php echo '60' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='60' <?php echo HtmlAttributeHelper::selected('60' == $config['refreshtime']); ?> >
 							60 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='120' <?php echo '120' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='120' <?php echo HtmlAttributeHelper::selected('120' == $config['refreshtime']); ?> >
 							120 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
-						<option value='300' <?php echo '300' == $config['refreshtime'] ? 'selected=\selected"'
-                            : ''; ?> >
+						<option value='300' <?php echo HtmlAttributeHelper::selected('300' == $config['refreshtime']); ?> >
 							300 <?php echo __('CONFIG_REFRESHTIME_SECONDS', 'USER_CONFIG'); ?>
 						</option>
 					</select>

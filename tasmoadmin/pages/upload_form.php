@@ -3,6 +3,7 @@
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
@@ -99,7 +100,7 @@ $fwAssetEsp32 = $Config->read('update_automatic_lang_esp32');
 
 						<?php foreach ($esp8266Releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
-								<?php echo $fwAsset === $tr ? 'selected=\selected"' : ''; ?>
+								<?php echo HtmlAttributeHelper::selected($fwAsset === $tr); ?>
 							>
 								<?php echo $tr; ?>
 							</option>
@@ -120,7 +121,7 @@ $fwAssetEsp32 = $Config->read('update_automatic_lang_esp32');
 
 						<?php foreach ($esp32Releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
-								<?php echo $fwAssetEsp32 === $tr ? 'selected=\selected"' : ''; ?>
+								<?php echo HtmlAttributeHelper::selected($fwAssetEsp32 === $tr); ?>
 							>
 								<?php echo $tr; ?>
 							</option>
