@@ -9,6 +9,7 @@ class Device
 
     public ?int $id;
     public array $names;
+    public array $friendlyNames;
     public string $ip;
     public int $port;
     public string $username;
@@ -34,10 +35,12 @@ class Device
         bool $deviceProtectionOff = false,
         array $keywords = [],
         bool $isUpdatable = true,
-        int $port = self::DEFAULT_PORT
+        int $port = self::DEFAULT_PORT,
+        array $friendlyNames = []
     ) {
         $this->id = $id;
         $this->names = $names;
+        $this->friendlyNames = !empty($friendlyNames) ? $friendlyNames : $names;
         $this->ip = $ip;
         $this->port = $port;
         $this->username = $username;
@@ -59,6 +62,11 @@ class Device
     public function getName(): string
     {
         return implode('-', $this->names);
+    }
+
+    public function getFriendlyNames(): array
+    {
+        return !empty($this->friendlyNames) ? $this->friendlyNames : $this->names;
     }
 
     public function getBackupName(): string

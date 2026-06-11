@@ -19,6 +19,7 @@ class DeviceRepository
     private array $allowedUpdateFields = [
         'id',
         'names',
+        'friendlyNames',
         'position',
         'ip',
         'username',
@@ -64,6 +65,7 @@ class DeviceRepository
             $deviceHolder[9] = $device['device_protect_off'] ?? 0;
             $deviceHolder[10] = $device['is_updatable'] ?? 1;
             $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
+            $deviceHolder[12] = implode('|', $device['device_friendly_name'] ?? ($device['device_name'] ?? []));
 
             fputcsv($handle, $deviceHolder, escape: self::CSV_ESCAPE);
         }
@@ -193,6 +195,7 @@ class DeviceRepository
         $deviceArr[9] = !empty($device->deviceProtectionOff) ? $device->deviceProtectionOff : 0;
         $deviceArr[10] = !empty($device->isUpdatable) ? $device->isUpdatable : 0;
         $deviceArr[11] = $device->port;
+        $deviceArr[12] = implode('|', !empty($device->friendlyNames) ? $device->friendlyNames : $device->names);
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);
