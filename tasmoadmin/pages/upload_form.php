@@ -14,9 +14,11 @@ $tasmotaHelper = new TasmotaHelper(
 );
 $releaseNotes = $tasmotaHelper->getReleaseNotes();
 $changelog = $tasmotaHelper->getChangelog();
-$releases = $tasmotaHelper->getReleases();
+$esp8266Releases = $tasmotaHelper->getEsp8266Releases();
+$esp32Releases = $tasmotaHelper->getEsp32Releases();
 
 $fwAsset = $Config->read('update_automatic_lang');
+$fwAssetEsp32 = $Config->read('update_automatic_lang_esp32');
 
 ?>
 <div class='row justify-content-sm-center'>
@@ -87,7 +89,7 @@ $fwAsset = $Config->read('update_automatic_lang');
 			<div class="row mb-3">
 				<div class="col col-12 col-sm-6">
 					<label for="update_automatic_lang" class="form-label">
-						<?php echo __('CONFIG_AUTOMATIC_FW', 'USER_CONFIG'); ?>
+						<?php echo __('CONFIG_AUTOMATIC_FW_ESP8266', 'USER_CONFIG'); ?>
 					</label>
 
 					<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
@@ -95,7 +97,7 @@ $fwAsset = $Config->read('update_automatic_lang');
 							<option><?php echo __('PLEASE_SELECT'); ?></option>
 						<?php } ?>
 
-						<?php foreach ($releases as $tr) { ?>
+						<?php foreach ($esp8266Releases as $tr) { ?>
 							<option value='<?php echo $tr; ?>'
 								<?php echo $fwAsset === $tr ? 'selected=\selected"' : ''; ?>
 							>
@@ -104,6 +106,25 @@ $fwAsset = $Config->read('update_automatic_lang');
 						<?php } ?>
 
 
+					</select>
+				</div>
+				<div class="col col-12 col-sm-6">
+					<label for="update_automatic_lang_esp32" class="form-label">
+						<?php echo __('CONFIG_AUTOMATIC_FW_ESP32', 'USER_CONFIG'); ?>
+					</label>
+
+					<select class="form-control form-select" id="update_automatic_lang_esp32" name='update_automatic_lang_esp32'>
+						<?php if ('' === $fwAssetEsp32) { ?>
+							<option><?php echo __('PLEASE_SELECT'); ?></option>
+						<?php } ?>
+
+						<?php foreach ($esp32Releases as $tr) { ?>
+							<option value='<?php echo $tr; ?>'
+								<?php echo $fwAssetEsp32 === $tr ? 'selected=\selected"' : ''; ?>
+							>
+								<?php echo $tr; ?>
+							</option>
+						<?php } ?>
 					</select>
 				</div>
 			</div>
