@@ -1306,6 +1306,13 @@ hr {
     color: $whiteSubNightMode !important;
   }
 
+  small.text-body-secondary,
+  small.text-muted,
+  .form-text,
+  .form-text.text-muted {
+    color: rgba(255, 255, 255, 0.72) !important;
+  }
+
   .cache-cleanup-panel {
     color: $whiteNightMode !important;
 
@@ -1508,7 +1515,8 @@ hr {
     }
   }
 
-  input {
+  input,
+  textarea {
     background-color: $color_tuna_approx !important;
     color: $whiteNightMode;
   }
