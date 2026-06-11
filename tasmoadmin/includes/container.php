@@ -29,7 +29,8 @@ $container->set(DevicePasswordCipher::class, new DevicePasswordCipher($container
 $container->set(DeviceRepository::class, new DeviceRepository(
     _CSVFILE_,
     _TMPDIR_,
-    $container->get(DevicePasswordCipher::class)
+    $container->get(DevicePasswordCipher::class),
+    '1' === $container->get(Config::class)->read('confirm_device_toggles')
 ));
 $container->set(Sonoff::class, new Sonoff(
     $container->get(DeviceRepository::class),

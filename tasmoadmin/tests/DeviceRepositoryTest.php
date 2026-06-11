@@ -144,6 +144,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(2, $device->position);
         self::assertEquals(5000, $device->port);
         self::assertEquals(['socket-1'], $device->friendlyNames);
+        self::assertFalse($device->deviceConfirmToggle);
     }
 
     public function testGetDeviceByIdInvalidId(): void
@@ -272,6 +273,17 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['webui-socket-1'], $device->friendlyNames);
     }
 
+    public function testSetDeviceValueDeviceConfirmToggle(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'deviceConfirmToggle', true);
+
+        $device = $repo->getDeviceById(1);
+        self::assertTrue($device->deviceConfirmToggle);
+    }
+
     public function testAddDevicesStoresFriendlyNamesSeparately(): void
     {
         $repo = $this->getVirtualRepo();
@@ -288,6 +300,36 @@ class DeviceRepositoryTest extends TestCase
         $device = $repo->getDeviceById(1);
         self::assertSame(['office-lamp'], $device->names);
         self::assertSame(['lamp-webui'], $device->friendlyNames);
+    }
+
+    public function testAddDevicesUsesGlobalConfirmSettingAsDefault(): void
+    {
+        $repo = $this->getVirtualRepo(defaultConfirmDeviceToggles: true);
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        self::assertTrue($repo->getDeviceById(1)->deviceConfirmToggle);
+    }
+
+    public function testGetDevicesMigratesLegacyRowsUsingGlobalConfirmFallback(): void
+    {
+        $repo = $this->getValidRepo(defaultConfirmDeviceToggles: true);
+
+        $devices = $repo->getDevices();
+
+        self::assertCount(3, $devices);
+        self::assertTrue($devices[0]->deviceConfirmToggle);
+        self::assertStringEndsWith(',1'.PHP_EOL, (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv')));
+    }
+
+    public function testSetDeviceConfirmToggleForAll(): void
+    {
+        $repo = $this->getValidRepo();
+
+        $repo->setDeviceConfirmToggleForAll(true);
+
+        foreach ($repo->getDevices() as $device) {
+            self::assertTrue($device->deviceConfirmToggle);
+        }
     }
 
     public function testSetDeviceValuePasswordNeverWritesPlaintextBackToDisk(): void
@@ -415,19 +457,19 @@ class DeviceRepositoryTest extends TestCase
         return $repo;
     }
 
-    private function getVirtualRepo(bool $withFile = true): DeviceRepository
+    private function getVirtualRepo(bool $withFile = true, bool $defaultConfirmDeviceToggles = false): DeviceRepository
     {
         $deviceFile = $this->getVirtualDeviceFilePath();
         if ($withFile && !file_exists($deviceFile)) {
             touch($deviceFile);
         }
 
-        return $this->createRepository($deviceFile);
+        return $this->createRepository($deviceFile, $defaultConfirmDeviceToggles);
     }
 
-    private function getValidRepo(): DeviceRepository
+    private function getValidRepo(bool $defaultConfirmDeviceToggles = false): DeviceRepository
     {
-        return $this->createRepository($this->copyFixtureToVirtualFile('devices.csv'));
+        return $this->createRepository($this->copyFixtureToVirtualFile('devices.csv'), $defaultConfirmDeviceToggles);
     }
 
     private function getEmptyRepo(): DeviceRepository
@@ -435,9 +477,9 @@ class DeviceRepositoryTest extends TestCase
         return $this->createRepository($this->copyFixtureToVirtualFile('empty_devices.csv'));
     }
 
-    private function createRepository(string $deviceFile): DeviceRepository
+    private function createRepository(string $deviceFile, bool $defaultConfirmDeviceToggles = false): DeviceRepository
     {
-        return new DeviceRepository($deviceFile, $this->getTmpDir(), $this->getCipher());
+        return new DeviceRepository($deviceFile, $this->getTmpDir(), $this->getCipher(), $defaultConfirmDeviceToggles);
     }
 
     private function getCipher(): DevicePasswordCipher

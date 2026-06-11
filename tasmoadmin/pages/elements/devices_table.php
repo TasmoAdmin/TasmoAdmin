@@ -98,6 +98,7 @@ if (isset($devices) && !empty($devices)) {
                     ? 'multi' : 'single'; ?>'
                     data-device_ip='<?php echo $device_group->ip; ?>'
                     data-device_relais='<?php echo $key + 1; ?>'
+                    data-device_confirm_toggle='<?php echo $device_group->deviceConfirmToggle ? '1' : '0'; ?>'
                     data-keywords="<?php echo implode(' ', $device_group->keywords); ?>"
                 >
                     <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>

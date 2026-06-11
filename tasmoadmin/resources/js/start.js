@@ -10,8 +10,15 @@ import {
   chunkArray,
   onI18nReady,
 } from "./app";
+import toggleConfirmation from "./toggle_confirmation";
 
 var longPressTimer;
+const {
+  confirmAction,
+  createTouchConfirmController,
+  getToggleConfirmationOptions,
+  resolveToggleConfirmationSetting,
+} = toggleConfirmation;
 
 const refreshtime = getRefreshTime();
 
@@ -175,6 +182,8 @@ function processBox($box) {
 }
 
 function deviceTools() {
+  const toggleConfirmationController = createTouchConfirmController();
+
   $("#content .box_device:not(#all_off)")
     .on("mousedown touchstart", function () {
       clearTimeout(longPressTimer);
@@ -203,6 +212,10 @@ function deviceTools() {
     let device_relais = device_box.data("device_relais");
     let device_group = device_box.data("device_group");
     let device_state = device_box.data("device_state");
+    let confirmationEnabled = resolveToggleConfirmationSetting(
+      device_box.data("device_confirm_toggle"),
+      config.confirm_device_toggles,
+    );
 
     let device_protect_on = device_box.data("device_protect_on");
     let device_protect_off = device_box.data("device_protect_off");
@@ -236,121 +249,152 @@ function deviceTools() {
       return;
     }
 
-    $(this).addClass("toggled");
-    device_box.find("img").shake(3, 5, 500);
+    const nextStatusLabel =
+      device_state === "on"
+        ? $.i18n("SWITCH_STATE_OFF")
+        : $.i18n("SWITCH_STATE_ON");
+    const deviceName =
+      device_box.find(".box_device_name").text().trim() || `#${device_id}`;
 
-    sonoff.toggle(device_ip, device_id, device_relais, function (data) {
-      if (data && !data.ERROR && !data.WARNING) {
-        let img = device_box.find("img");
-        let src =
-          config.resource_url +
-          "img/device_icons/" +
-          img.data("icon") +
-          "_%pw.png?v=160";
+    void confirmAction({
+      requiresConfirmation: confirmationEnabled,
+      confirm: toggleConfirmationController.confirm,
+      modalOptions: getToggleConfirmationOptions({
+        i18n: $.i18n,
+        deviceName,
+        nextStatusLabel,
+      }),
+      onConfirm: function () {
+        device_box.addClass("toggled");
+        device_box.find("img").shake(3, 5, 500);
 
-        let device_status = sonoff.parseDeviceStatus(data, device_relais);
+        sonoff.toggle(device_ip, device_id, device_relais, function (data) {
+          if (data && !data.ERROR && !data.WARNING) {
+            let img = device_box.find("img");
+            let src =
+              config.resource_url +
+              "img/device_icons/" +
+              img.data("icon") +
+              "_%pw.png?v=160";
 
-        if (device_status !== undefined) {
-          device_box.data("device_state", device_status.toLowerCase());
+            let device_status = sonoff.parseDeviceStatus(data, device_relais);
 
-          src = src.replace("%pw", device_status.toLowerCase());
-          img.attr("src", src);
+            if (device_status !== undefined) {
+              device_box.data("device_state", device_status.toLowerCase());
 
-          //updateBox(device_box, data, device_status);
+              src = src.replace("%pw", device_status.toLowerCase());
+              img.attr("src", src);
 
-          updateStatus();
-        }
+              updateStatus();
+            }
 
-        img.parent().removeClass("animated");
-        device_box.removeClass("error");
-      } else {
-        device_box.addClass("error");
-        let img = device_box.find("img");
-        let src =
-          config.resource_url +
-          "img/device_icons/" +
-          img.data("icon") +
-          "_error.png?v=160";
-        img.attr("src", src).parent().removeClass("animated");
-        console.log(
-          "[Start][toggle]ERROR " + device_ip + " => " + data.ERROR ||
-            "Unknown Error",
-        );
-      }
-      $("#content .box_device").removeClass("toggled");
+            img.parent().removeClass("animated");
+            device_box.removeClass("error");
+          } else {
+            device_box.addClass("error");
+            let img = device_box.find("img");
+            let src =
+              config.resource_url +
+              "img/device_icons/" +
+              img.data("icon") +
+              "_error.png?v=160";
+            img.attr("src", src).parent().removeClass("animated");
+            console.log(
+              "[Start][toggle]ERROR " + device_ip + " => " + data.ERROR ||
+                "Unknown Error",
+            );
+          }
+          $("#content .box_device").removeClass("toggled");
+        });
+      },
     });
   });
 
   $("#all_off").on("click", function (e) {
     e.preventDefault();
-    $("#content .box_device:not(#all_off)").each(function (key, box) {
-      let device_ip = $(box).data("device_ip");
-      let device_id = $(box).data("device_id");
-      let device_relais = $(box).data("device_relais");
-      let device_group = $(box).data("device_group");
+    const boxes = $("#content .box_device:not(#all_off)")
+      .toArray()
+      .filter(function (box) {
+        const boxElement = $(box);
+        let device_group = boxElement.data("device_group");
+        let device_relais = boxElement.data("device_relais");
+        let device_all_off = boxElement.data("device_all_off");
 
-      let device_all_off = $(box).data("device_all_off");
-      let device_protect_on = $(box).data("device_protect_on");
-      let device_protect_off = $(box).data("device_protect_off");
-
-      console.log(
-        "[Start][updateStatus]get status from " + $(box).data("device_ip"),
-      );
-
-      if (device_group === "multi" && device_relais > 1) {
-        console.log(
-          "[Start][updateStatus]skip multi " + $(box).data("device_ip"),
-        );
-        return; //relais 1 will update all others
-      }
-      if (device_group === "sensor") {
-        console.log(
-          "[Start][updateStatus]skip sensor " + $(box).data("device_ip"),
-        );
-        return;
-      }
-
-      if (device_all_off !== 1) {
-        console.log(
-          "[Start][updateStatus]skip excluded " + $(box).data("device_ip"),
-        );
-        return;
-      }
-
-      sonoff.off(device_ip, device_id, device_relais, function (data) {
-        if (data && !data.ERROR && !data.WARNING) {
-          let img = $(box).find("img");
-          let src =
-            config.resource_url +
-            "img/device_icons/" +
-            img.data("icon") +
-            "_%pw.png?v=160";
-
-          let device_status = sonoff.parseDeviceStatus(data, device_relais);
-
-          if (device_status !== undefined) {
-            $(box).data("state", device_status);
-
-            src = src.replace("%pw", device_status.toLowerCase());
-            img.attr("src", src);
-          }
-          img.parent().removeClass("animated");
-          $(box).removeClass("error");
-        } else {
-          $(box).addClass("error");
-          let img = device_box.find("img");
-          let src =
-            config.resource_url +
-            "img/device_icons/" +
-            img.data("icon") +
-            "_error.png?v=160";
-          img.attr("src", src).parent().removeClass("animated");
-          console.log(
-            "[Start][toggle]ERROR " + device_ip + " => " + data.ERROR ||
-              "Unknown Error",
-          );
+        if (device_group === "multi" && device_relais > 1) {
+          return false;
         }
+
+        if (device_group === "sensor") {
+          return false;
+        }
+
+        return device_all_off === 1;
       });
+
+    if (boxes.length === 0) {
+      return;
+    }
+
+    const requiresConfirmation = boxes.some((box) =>
+      resolveToggleConfirmationSetting(
+        $(box).data("device_confirm_toggle"),
+        config.confirm_device_toggles,
+      ),
+    );
+
+    void confirmAction({
+      requiresConfirmation,
+      confirm: toggleConfirmationController.confirm,
+      modalOptions: getToggleConfirmationOptions({
+        i18n: $.i18n,
+        allOff: true,
+      }),
+      onConfirm: function () {
+        boxes.forEach(function (box) {
+          let device_ip = $(box).data("device_ip");
+          let device_id = $(box).data("device_id");
+          let device_relais = $(box).data("device_relais");
+
+          console.log(
+            "[Start][updateStatus]get status from " + $(box).data("device_ip"),
+          );
+
+          sonoff.off(device_ip, device_id, device_relais, function (data) {
+            if (data && !data.ERROR && !data.WARNING) {
+              let img = $(box).find("img");
+              let src =
+                config.resource_url +
+                "img/device_icons/" +
+                img.data("icon") +
+                "_%pw.png?v=160";
+
+              let device_status = sonoff.parseDeviceStatus(data, device_relais);
+
+              if (device_status !== undefined) {
+                $(box).data("device_state", device_status.toLowerCase());
+
+                src = src.replace("%pw", device_status.toLowerCase());
+                img.attr("src", src);
+              }
+              img.parent().removeClass("animated");
+              $(box).removeClass("error");
+            } else {
+              $(box).addClass("error");
+              let img = $(box).find("img");
+              let src =
+                config.resource_url +
+                "img/device_icons/" +
+                img.data("icon") +
+                "_error.png?v=160";
+              img.attr("src", src).parent().removeClass("animated");
+              console.log(
+                "[Start][toggle]ERROR " + device_ip + " => " + data.ERROR ||
+                  "Unknown Error",
+              );
+            }
+          });
+        });
+      },
     });
   });
 }

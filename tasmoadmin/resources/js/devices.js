@@ -15,8 +15,15 @@ import deviceListPreferences from "./device_list_preferences";
 import batchActions from "./device_batch_actions";
 import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
+import toggleConfirmation from "./toggle_confirmation";
 
 const { getRuntimeInfo } = statusHelpers;
+const {
+  confirmAction,
+  createTouchConfirmController,
+  getToggleConfirmationOptions,
+  resolveToggleConfirmationSetting,
+} = toggleConfirmation;
 const {
   DEVICE_LIST_PREFERENCE_COOKIES,
   parseHiddenColumns,
@@ -579,6 +586,8 @@ function updateAllStatus() {
   }
 }
 function deviceTools() {
+  const toggleConfirmationController = createTouchConfirmController();
+
   $("#device-list tbody tr td.status").on("click", function (e) {
     e.preventDefault();
     let statusField = $(this);
@@ -592,67 +601,77 @@ function deviceTools() {
     const nextStatus = input.prop("checked")
       ? $.i18n("SWITCH_STATE_OFF")
       : $.i18n("SWITCH_STATE_ON");
+    const confirmationEnabled = resolveToggleConfirmationSetting(
+      statusField.closest("tr").data("device_confirm_toggle"),
+      config.confirm_device_toggles,
+    );
 
     if (input.prop("disabled")) {
       return;
     }
 
-    if (config.confirm_device_toggles) {
-      const deviceName =
-        statusField.closest("tr").find(".device_name a").text().trim() ||
-        `#${device_id}`;
+    const deviceName =
+      statusField.closest("tr").find(".device_name a").text().trim() ||
+      `#${device_id}`;
 
-      if (
-        !window.confirm($.i18n("CONFIRM_DEVICE_TOGGLE", deviceName, nextStatus))
-      ) {
-        return;
-      }
-    }
-
-    if (input.prop("checked")) {
-      if (
-        device_protect_off === 1 &&
-        !$(".ignoreProtections").prop("checked")
-      ) {
-        return;
-      }
-      input.prop("checked", false);
-    } else {
-      if (device_protect_on === 1 && !$(".ignoreProtections").prop("checked")) {
-        return;
-      }
-
-      input.prop("checked", true);
-    }
-
-    statusField.closest("tr").addClass("toggled");
-
-    sonoff.toggle(device_ip, device_id, device_relais, function (data) {
-      if (!data || data.ERROR || data.WARNING) {
-        statusField.find("input").parent().addClass("error");
-        return;
-      }
-
-      let device_status = sonoff.parseDeviceStatus(data, device_relais);
-      if (device_status === "ON") {
-        if (device_protect_off === 1) {
-          input.prop("disabled", "disabled").parent().addClass("disabled");
+    void confirmAction({
+      requiresConfirmation: confirmationEnabled,
+      confirm: toggleConfirmationController.confirm,
+      modalOptions: getToggleConfirmationOptions({
+        i18n: $.i18n,
+        deviceName,
+        nextStatusLabel: nextStatus,
+      }),
+      onConfirm: function () {
+        if (input.prop("checked")) {
+          if (
+            device_protect_off === 1 &&
+            !$(".ignoreProtections").prop("checked")
+          ) {
+            return;
+          }
+          input.prop("checked", false);
         } else {
-          input
-            .removeProp("disabled", "disabled")
-            .parent()
-            .removeClass("disabled");
+          if (
+            device_protect_on === 1 &&
+            !$(".ignoreProtections").prop("checked")
+          ) {
+            return;
+          }
+
+          input.prop("checked", true);
         }
-      } else if (device_status === "OFF") {
-        if (device_protect_on === 1) {
-          input.prop("disabled", "disabled").parent().addClass("disabled");
-        } else {
-          input
-            .removeProp("disabled", "disabled")
-            .parent()
-            .removeClass("disabled");
-        }
-      }
+
+        statusField.closest("tr").addClass("toggled");
+
+        sonoff.toggle(device_ip, device_id, device_relais, function (data) {
+          if (!data || data.ERROR || data.WARNING) {
+            statusField.find("input").parent().addClass("error");
+            return;
+          }
+
+          let device_status = sonoff.parseDeviceStatus(data, device_relais);
+          if (device_status === "ON") {
+            if (device_protect_off === 1) {
+              input.prop("disabled", "disabled").parent().addClass("disabled");
+            } else {
+              input
+                .removeProp("disabled", "disabled")
+                .parent()
+                .removeClass("disabled");
+            }
+          } else if (device_status === "OFF") {
+            if (device_protect_on === 1) {
+              input.prop("disabled", "disabled").parent().addClass("disabled");
+            } else {
+              input
+                .removeProp("disabled", "disabled")
+                .parent()
+                .removeClass("disabled");
+            }
+          }
+        });
+      },
     });
   });
 
