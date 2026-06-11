@@ -470,6 +470,25 @@
 	<div class="form-row">
 		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check">
+				<input id='SetOption19h' type='hidden' value='0' name='SetOption19'>
+				<input class="form-check-input"
+				       type="checkbox"
+				       value='1'
+				       id="SetOption19"
+				       name='SetOption19'
+					<?php echo 1 == $o->SetOption19->value ? 'checked="checked"' : ''; ?>
+				>
+				<label class="form-check-label"
+				       for="SetOption19">
+					<?php echo __('MQTT_DISCOVERY', 'DEVICE_CONFIG'); ?>
+				</label>
+				<small id="SetOption19Help" class="form-text text-muted">
+					<?php echo __('MQTT_DISCOVERY_HELP', 'DEVICE_CONFIG'); ?>
+				</small>
+			</div>
+		</div>
+		<div class="form-group col col-12 col-sm-4">
+			<div class="form-check">
 				<input id='SetOption2h' type='hidden' value='0' name='SetOption2'>
 				<input class="form-check-input"
 				       type="checkbox"
@@ -507,7 +526,7 @@
 			</div>
 		</div>
 		<div class="form-group col col-12 col-sm-4">
-					<div class="form-check">
+			<div class="form-check">
 			<input id='SetOption10h' type='hidden' value='0' name='SetOption10'>
 			<input class="form-check-input"
 			       type="checkbox"
