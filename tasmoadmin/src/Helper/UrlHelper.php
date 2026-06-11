@@ -26,7 +26,6 @@ class UrlHelper
     {
         $csspath = $this->resourceUrl.'css/';
         $cssReal = $this->resourceDir.'css/';
-        $cacheTag = $this->getCacheTag();
         $min = '';
         if ($this->minimizeResources) {
             $min = '.min';
@@ -34,9 +33,9 @@ class UrlHelper
 
         $path = $filename.$min.'.css';
         if (file_exists($cssReal.$path)) {
-            $filepath = $csspath.$path.$cacheTag;
+            $filepath = $csspath.$path.$this->getCacheTag($cssReal.$path);
         } else {
-            $filepath = $csspath.$filename.'.css'.$cacheTag;
+            $filepath = $csspath.$filename.'.css'.$this->getCacheTag($cssReal.$filename.'.css');
         }
 
         return $filepath;
@@ -46,7 +45,6 @@ class UrlHelper
     {
         $jspath = $this->resourceUrl.'js/';
         $jsReal = $this->resourceDir.'js/';
-        $cacheTag = $this->getCacheTag();
         $min = '';
         if ($this->minimizeResources) {
             $min = '.min';
@@ -54,21 +52,24 @@ class UrlHelper
 
         $path = $filename.$min.'.js';
         if (file_exists($jsReal.$path)) {
-            $filepath = $jspath.$path.$cacheTag;
+            $filepath = $jspath.$path.$this->getCacheTag($jsReal.$path);
         } else {
-            $filepath = $jspath.$filename.'.js'.$cacheTag;
+            $filepath = $jspath.$filename.'.js'.$this->getCacheTag($jsReal.$filename.'.js');
         }
 
         return $filepath;
     }
 
-    private function getCacheTag(): string
+    private function getCacheTag(?string $assetPath = null): string
     {
+        if (null !== $assetPath && file_exists($assetPath)) {
+            return '?_='.filemtime($assetPath);
+        }
+
         $cacheTag = $this->currentGitTag;
         if (empty($cacheTag)) {
             $cacheTag = time();
         }
-
         $cacheTag = str_replace('.', '', $cacheTag);
 
         return '?_='.$cacheTag;

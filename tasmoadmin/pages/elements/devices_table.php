@@ -34,7 +34,7 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
         <th data-column-id='id' data-column-label='<?php echo __('TABLE_HEAD_ID', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_ID', 'DEVICES'); ?></th>
         <th data-column-id='position' data-column-label='<?php echo __('TABLE_HEAD_POSITION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_POSITION', 'DEVICES'); ?></th>
         <th data-column-id='name' data-column-label='<?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
-        <th data-column-id='ip' data-column-label='<?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
+        <th data-column-id='ip' data-column-label='<?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
         <th data-column-id='status'><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
         <th data-column-id='rssi' data-column-label='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
             <i class="fas fa-signal"
@@ -138,7 +138,10 @@ if (isset($devices) && !empty($devices)) {
                             $devicename
                         ); ?></a>
                     </td>
-                    <td data-column-id='ip'><?php echo $device_group->ip; ?></td>
+                    <td data-column-id='ip'>
+                        <span class="tablesaw-sort-value"><?php echo sprintf('%u', ip2long($device_group->ip)); ?></span>
+                        <span class="device-ip-text"><?php echo $device_group->ip; ?></span>
+                    </td>
                     <td class='status' data-column-id='status'>
                         <label class="form-switch">
                             <input type="checkbox">

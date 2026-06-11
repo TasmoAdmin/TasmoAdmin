@@ -1,4 +1,10 @@
 import { Sonoff } from "./Sonoff";
+import {
+  NIGHTMODE_OVERRIDE_KEY,
+  getNextNightmodeOverride,
+  normalizeNightmodeOverride,
+  resolveNightmodeEnabled,
+} from "./nightmode";
 import statusHelpers from "./status_helpers";
 
 export const { getIlluminance } = statusHelpers;
@@ -10,6 +16,7 @@ const sonoff = new Sonoff({
 window.sonoff = sonoff;
 
 let nightmode = false;
+let nightmodeTimer;
 
 const lang = $("html").attr("lang");
 const i18nfile = `${config.base_url}actions?i18n=1&lang=${encodeURIComponent(lang)}`;
@@ -51,114 +58,119 @@ export function getRefreshTime() {
   return refreshtime;
 }
 
-onI18nReady(function () {
-  checkNightmode(config.nightmodeconfig || "auto");
-  checkForUpdate(true);
+if (!window.__tasmoAppInitialized) {
+  window.__tasmoAppInitialized = true;
 
-  $(".double-scroll").doubleScroll({
-    contentElement: "#device-list", // Widest element, if not specified first child element will be used
-    scrollCss: {
-      "overflow-x": "auto",
-      "overflow-y": "hidden",
-    },
-    contentCss: {
-      "overflow-x": "auto",
-      "overflow-y": "hidden",
-    },
-    onlyIfScroll: true, // top scrollbar is not shown if the bottom one is not present
-    resetOnWindowResize: true, // recompute the top ScrollBar requirements when the window is resized
-    timeToWaitForResize: 1,
-  });
+  onI18nReady(function () {
+    checkNightmode(config.nightmodeconfig || "auto");
+    initNightmodeToggle();
+    checkForUpdate(true);
 
-  const tooltipTriggerList = document.querySelectorAll(
-    '[data-bs-toggle="tooltip"]',
-  );
-  const tooltipList = [...tooltipTriggerList].map(
-    (tooltipTriggerEl) =>
-      new window.bootstrap.Tooltip(tooltipTriggerEl, {
-        html: true,
-        delay: 300,
-      }),
-  );
+    $(".double-scroll").doubleScroll({
+      contentElement: "#device-list", // Widest element, if not specified first child element will be used
+      scrollCss: {
+        "overflow-x": "auto",
+        "overflow-y": "hidden",
+      },
+      contentCss: {
+        "overflow-x": "auto",
+        "overflow-y": "hidden",
+      },
+      onlyIfScroll: true, // top scrollbar is not shown if the bottom one is not present
+      resetOnWindowResize: true, // recompute the top ScrollBar requirements when the window is resized
+      timeToWaitForResize: 1,
+    });
 
-  $(".custom-file-input").on("change", function () {
-    var filename = $(this).val();
-    filename = filename.replace(/^.*\\/, "");
-    filename = filename.match(/[^\\/]*$/)[0];
-    $(this).next().html(filename);
-  });
-
-  $("a.reload").on("click", function (e) {
-    e.preventDefault();
-    window.location.href = window.location.href;
-  });
-
-  $("#versionHolder").on("click", function (e) {
-    e.preventDefault();
-    if (
-      $(this).hasClass("update-now") ||
-      $("#versionHolder").data("update-check") === "0"
-    ) {
-      window.location.href = config.base_url + "selfupdate";
-    } else {
-      checkForUpdate(false);
-    }
-  });
-
-  //$( "select#language-switch" ).selectmenu( "option", "width", "80px" );
-
-  var appendLoading = function (elem, replace) {
-    var replace = replace || false;
-    var loader = $("<div>", { class: "loader" }).append(
-      $("img", { src: config.resource_url + "img/loading.gif" }),
+    const tooltipTriggerList = document.querySelectorAll(
+      '[data-bs-toggle="tooltip"]',
+    );
+    const tooltipList = [...tooltipTriggerList].map(
+      (tooltipTriggerEl) =>
+        new window.bootstrap.Tooltip(tooltipTriggerEl, {
+          html: true,
+          delay: 300,
+        }),
     );
 
-    if (replace) {
-      $(elem).html(loader);
-    } else {
-      $(elem).append(loader);
-    }
-  };
+    $(".custom-file-input").on("change", function () {
+      var filename = $(this).val();
+      filename = filename.replace(/^.*\\/, "");
+      filename = filename.match(/[^\\/]*$/)[0];
+      $(this).next().html(filename);
+    });
 
-  $('input[type="number"]').keydown(function (e) {
-    // Allow: backspace, delete, tab, escape, enter and .
-    if (
-      $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-      // Allow: Ctrl+A, Command+A
-      (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-      // Allow: home, end, left, right, down, up
-      (e.keyCode >= 35 && e.keyCode <= 40)
-    ) {
-      // var it happen, don't do anything
-      return;
-    }
-    // Ensure that it is a number and stop the keypress
-    if (
-      (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
-      (e.keyCode < 96 || e.keyCode > 105)
-    ) {
+    $("a.reload").on("click", function (e) {
       e.preventDefault();
-    }
-  });
+      window.location.href = window.location.href;
+    });
 
-  $("select#language-switch").on("change", function (event, ui) {
-    const valueSelected = this.value;
-    let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.pathname}`;
-    curUrl = curUrl.replace(/([^:]\/)\/+/g, "$1");
-    window.location.href = curUrl;
-  });
+    $("#versionHolder").on("click", function (e) {
+      e.preventDefault();
+      if (
+        $(this).hasClass("update-now") ||
+        $("#versionHolder").data("update-check") === "0"
+      ) {
+        window.location.href = config.base_url + "selfupdate";
+      } else {
+        checkForUpdate(false);
+      }
+    });
 
-  $("body").on("click", ".show-hide-password", function (e) {
-    let pwInput = $(this).closest(".input-group").find("input");
-    if (pwInput.attr("type") === "password") {
-      pwInput.attr("type", "text");
-      $(this).find("i").addClass("fa-eye-slash");
-    } else {
-      $(this).find("i").removeClass("fa-eye-slash");
-      pwInput.attr("type", "password");
-    }
+    //$( "select#language-switch" ).selectmenu( "option", "width", "80px" );
+
+    var appendLoading = function (elem, replace) {
+      var replace = replace || false;
+      var loader = $("<div>", { class: "loader" }).append(
+        $("img", { src: config.resource_url + "img/loading.gif" }),
+      );
+
+      if (replace) {
+        $(elem).html(loader);
+      } else {
+        $(elem).append(loader);
+      }
+    };
+
+    $('input[type="number"]').keydown(function (e) {
+      // Allow: backspace, delete, tab, escape, enter and .
+      if (
+        $.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        // Allow: Ctrl+A, Command+A
+        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        // Allow: home, end, left, right, down, up
+        (e.keyCode >= 35 && e.keyCode <= 40)
+      ) {
+        // var it happen, don't do anything
+        return;
+      }
+      // Ensure that it is a number and stop the keypress
+      if (
+        (e.shiftKey || e.keyCode < 48 || e.keyCode > 57) &&
+        (e.keyCode < 96 || e.keyCode > 105)
+      ) {
+        e.preventDefault();
+      }
+    });
+
+    $("select#language-switch").on("change", function (event, ui) {
+      const valueSelected = this.value;
+      let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.pathname}`;
+      curUrl = curUrl.replace(/([^:]\/)\/+/g, "$1");
+      window.location.href = curUrl;
+    });
+
+    $("body").on("click", ".show-hide-password", function (e) {
+      let pwInput = $(this).closest(".input-group").find("input");
+      if (pwInput.attr("type") === "password") {
+        pwInput.attr("type", "text");
+        $(this).find("i").addClass("fa-eye-slash");
+      } else {
+        $(this).find("i").removeClass("fa-eye-slash");
+        pwInput.attr("type", "password");
+      }
+    });
   });
-});
+}
 
 $.fn.attachDragger = function () {
   var attachment = false,
@@ -564,24 +576,28 @@ export function getGas(data, joinString) {
 
 function checkNightmode(config) {
   console.log("[APP][checkNightmode] Start");
-  const currentTime = new Date();
-  const hour = currentTime.getHours();
-  if (config === "disable") {
-    $("body").removeClass("nightmode");
+  const override = normalizeNightmodeOverride(
+    window.localStorage.getItem(NIGHTMODE_OVERRIDE_KEY),
+  );
+  const isNightmodeEnabled = resolveNightmodeEnabled(config, override);
+
+  clearTimeout(nightmodeTimer);
+
+  $("body").toggleClass("nightmode", isNightmodeEnabled);
+  syncNightmodeToggle(isNightmodeEnabled);
+
+  if (config === "disable" && override === null) {
     console.log("[APP][checkNightmode] disabled");
   } else {
-    if (config === "auto") {
+    if (override !== null) {
+      console.log(`[APP][checkNightmode] override => ${override}`);
+    } else if (config === "auto") {
       console.log("[APP][checkNightmode] check time");
-      if (hour >= 18 || hour <= 8) {
-        //@TODO: get sunrise by geo
-        $("body").addClass("nightmode");
-        console.log("[APP][checkNightmode] its night");
-      } else {
-        $("body").removeClass("nightmode");
-        console.log("[APP][checkNightmode] its day");
-      }
+      console.log(
+        `[APP][checkNightmode] its ${isNightmodeEnabled ? "night" : "day"}`,
+      );
 
-      setTimeout(
+      nightmodeTimer = setTimeout(
         function () {
           checkNightmode(config);
         },
@@ -589,12 +605,30 @@ function checkNightmode(config) {
       );
     } else if (config === "always") {
       console.log("[APP][checkNightmode] always");
-      $("body").addClass("nightmode");
     }
   }
-  if ($("body").hasClass("nightmode")) {
-    nightmode = true;
+  nightmode = isNightmodeEnabled;
+}
+
+function syncNightmodeToggle(isNightmodeEnabled) {
+  const toggle = $("#theme-toggle");
+  if (toggle.length === 0) {
+    return;
   }
+
+  toggle.attr("aria-pressed", isNightmodeEnabled ? "true" : "false");
+  toggle.toggleClass("is-nightmode", isNightmodeEnabled);
+}
+
+function initNightmodeToggle() {
+  $("#theme-toggle").on("click", function () {
+    const nextOverride = getNextNightmodeOverride(
+      $("body").hasClass("nightmode"),
+    );
+
+    window.localStorage.setItem(NIGHTMODE_OVERRIDE_KEY, nextOverride);
+    checkNightmode(config.nightmodeconfig || "auto");
+  });
 }
 
 function checkForUpdate(timer) {

@@ -60,6 +60,446 @@ body {
   top: -5px;
 }
 
+.site-config-page {
+  --settings-section-gap: 1.5rem;
+  --settings-row-gap-x: 1.25rem;
+  --settings-row-gap-y: 1rem;
+}
+
+.site-config-page .settings-page-title {
+  margin-bottom: 1.75rem;
+}
+
+.site-config-page .settings-page-alert {
+  margin-bottom: 1.5rem;
+}
+
+.site-config-page .settings-page {
+  display: block;
+  margin-bottom: var(--settings-section-gap);
+}
+
+.site-config-page .settings-form {
+  display: grid;
+  gap: var(--settings-section-gap);
+}
+
+.site-config-page .settings-section {
+  margin: 0;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(17, 24, 39, 0.14);
+  border-radius: 1rem;
+  background: #ffffff;
+  padding: 1.35rem;
+}
+
+.site-config-page .cache-cleanup-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.95rem;
+}
+
+.site-config-page .cache-cleanup-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.55rem;
+  min-width: 0;
+}
+
+.site-config-page .cache-cleanup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.95rem;
+}
+
+.site-config-page .cache-cleanup-row + .cache-cleanup-row {
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.site-config-page .cache-cleanup-row-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.site-config-page .cache-cleanup-lead {
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.site-config-page .cache-cleanup-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.site-config-page .cache-cleanup-form {
+  margin: 0;
+}
+
+.site-config-page .cache-cleanup-actions .btn,
+.site-config-page .cache-cleanup-form {
+  width: auto;
+}
+
+.site-config-page .cache-cleanup-actions .btn {
+  min-width: 11rem;
+  white-space: nowrap;
+}
+
+.site-config-page .cache-cleanup-actions .btn-outline-secondary {
+  color: #495057;
+}
+
+.site-config-page .cache-cleanup-actions .btn-outline-primary {
+  color: $blueBtn;
+}
+
+.site-config-page .settings-section-title {
+  margin-bottom: 0;
+  font-size: 1.15rem;
+  line-height: 1.35;
+}
+
+.site-config-page .settings-row {
+  --bs-gutter-x: var(--settings-row-gap-x);
+  --bs-gutter-y: var(--settings-row-gap-y);
+  align-items: stretch;
+}
+
+.site-config-page .settings-row + .settings-row {
+  margin-top: 0.15rem;
+}
+
+.site-config-page .settings-actions-row {
+  margin-top: 0.35rem;
+}
+
+.site-config-page .settings-section .settings-row > [class*="col"] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  height: 100%;
+}
+
+.site-config-page .settings-section label:not(.form-check-label) {
+  display: flex;
+  align-items: flex-end;
+  min-height: 2.45rem;
+  margin-bottom: 0;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.site-config-page .settings-label-spacer {
+  visibility: hidden;
+}
+
+.site-config-page .settings-option {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  height: 100%;
+  border: 1px solid rgba(17, 24, 39, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: #f8fafc;
+}
+
+.site-config-page .settings-option-title {
+  display: block;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.site-config-page .settings-option-copy {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.site-config-page .settings-option-toggle {
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.site-config-page .settings-option-toggle .form-switch {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.site-config-page .settings-option-toggle small {
+  margin-top: 0 !important;
+}
+
+.site-config-page .settings-option .form-check {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: 0.75rem;
+  row-gap: 0.4rem;
+  align-items: start;
+  width: 100%;
+}
+
+.site-config-page .settings-option .form-check-input {
+  margin-top: 0.2rem;
+}
+
+.site-config-page .settings-option .form-check-label {
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.site-config-page .settings-option small {
+  grid-column: 2;
+  margin-top: 0 !important;
+  line-height: 1.45;
+}
+
+.site-config-page .settings-section .form-control,
+.site-config-page .settings-section .form-select {
+  min-height: calc(1.5em + 0.75rem + 2px);
+}
+
+.site-config-page .settings-section .text-body-secondary {
+  display: block;
+  line-height: 1.45;
+}
+
+.site-config-page .settings-actions {
+  max-width: 14rem;
+  margin-left: auto;
+}
+
+.devices-page {
+  --devices-panel-gap: 1.25rem;
+}
+
+.devices-page .devices-panel + .devices-panel {
+  margin-top: var(--devices-panel-gap);
+}
+
+.devices-page .devices-panel {
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+  padding: 1rem 1.1rem;
+}
+
+.devices-page .devices-toolbar-row,
+.devices-page .devices-batch-row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.65rem;
+}
+
+.devices-page .devices-batch-row {
+  --bs-gutter-y: 0.45rem;
+}
+
+.devices-page .devices-toolbar-row > [class*="col"],
+.devices-page .devices-batch-row > [class*="col"] {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.devices-page .devices-toolbar .dropdown,
+.devices-page .devices-toolbar .dropdown-toggle {
+  width: auto;
+}
+
+.devices-page .devices-toolbar,
+.devices-page .devices-batch-panel {
+  padding-top: 0.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.devices-page .devices-toolbar-search,
+.devices-page .devices-toolbar-lock-col,
+.devices-page .devices-batch-select-col,
+.devices-page .devices-batch-command-col,
+.devices-page .devices-batch-submit-col,
+.devices-page .devices-batch-lock-col {
+  align-items: flex-start;
+}
+
+.devices-page .device-search-group {
+  width: min(100%, 26rem);
+  flex-wrap: nowrap;
+}
+
+.devices-page .devices-toolbar-lock-col {
+  margin-left: auto;
+}
+
+.devices-page .device-search {
+  width: 100%;
+  min-width: 0;
+}
+
+.devices-page .devices-toolbar .dropdown-toggle,
+.devices-page .device-search,
+.devices-page .device-search-group .input-group-text,
+.devices-page .batchActionSelect,
+.devices-page .batchActionCommandInput,
+.devices-page .applyBatchAction {
+  min-height: 2.25rem;
+  padding-top: 0.35rem;
+  padding-bottom: 0.35rem;
+}
+
+.devices-page .device-search,
+.devices-page .batchActionSelect,
+.devices-page .batchActionCommandInput,
+.devices-page .applyBatchAction,
+.devices-page .devices-toolbar .dropdown-toggle {
+  font-size: 0.95rem;
+}
+
+.devices-page .device-search-group .input-group-text {
+  padding-inline: 0.75rem;
+}
+
+.devices-page .batchActionSelect {
+  width: min(100%, 13rem);
+}
+
+.devices-page .batchActionCommandInput {
+  width: min(100%, 30rem);
+}
+
+.devices-page .applyBatchAction {
+  width: auto;
+  min-width: 8.5rem;
+}
+
+.devices-page .devices-protection-toggle,
+.devices-page .devices-protection-toggle .btn {
+  width: auto;
+  min-width: 3.25rem;
+}
+
+.devices-page .devices-table-panel {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.devices-page .devices-batch-panel {
+  padding-bottom: 0.75rem;
+}
+
+.devices-page .devices-table-panel .table-responsive {
+  margin: 0;
+}
+
+.devices-page .devices-table-panel .doubleScroll-scroll-wrapper {
+  margin-bottom: 0.65rem;
+}
+
+.devices-page #device-list {
+  margin-bottom: 0;
+}
+
+.devices-page .batchActionFeedback {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.devices-page .devices-empty-state {
+  padding-block: 2rem;
+}
+
+.devices-page .devices-empty-copy {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.devices-page .devices-empty-actions {
+  margin-top: 1.25rem;
+}
+
+@media all and (max-width: 767px) {
+  .site-config-page {
+    --settings-section-gap: 1.25rem;
+    --settings-row-gap-x: 1rem;
+    --settings-row-gap-y: 0.9rem;
+  }
+
+  .site-config-page .settings-page-title,
+  .site-config-page .settings-page-alert {
+    margin-bottom: 1.25rem;
+  }
+
+  .site-config-page .settings-section {
+    padding: 1.1rem;
+  }
+
+  .site-config-page .settings-section label:not(.form-check-label) {
+    min-height: auto;
+  }
+
+  .site-config-page .settings-actions {
+    max-width: none;
+  }
+
+  .site-config-page .cache-cleanup-actions {
+    width: 100%;
+  }
+
+  .site-config-page .cache-cleanup-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-config-page .cache-cleanup-actions .btn,
+  .site-config-page .cache-cleanup-form {
+    width: 100%;
+  }
+
+  .devices-page {
+    --devices-panel-gap: 1rem;
+  }
+
+  .devices-page .devices-panel {
+    border-radius: 0.9rem;
+    padding: 0.95rem;
+  }
+
+  .devices-page .devices-toolbar .dropdown,
+  .devices-page .devices-toolbar .dropdown-toggle,
+  .devices-page .device-search-group,
+  .devices-page .devices-toolbar-lock-col,
+  .devices-page .batchActionSelect,
+  .devices-page .batchActionCommandInput,
+  .devices-page .applyBatchAction,
+  .devices-page .devices-protection-toggle,
+  .devices-page .devices-protection-toggle .btn {
+    width: 100%;
+  }
+
+  .devices-page .devices-table-panel {
+    padding: 0.8rem 0.85rem 0.9rem;
+  }
+
+  .devices-page .devices-toolbar-lock-col {
+    margin-left: 0;
+  }
+
+  .devices-page .devices-empty-state {
+    padding-block: 1.5rem;
+  }
+}
+
 .btn {
   width: 100%;
   //Instead of the line below you could use @include user-select($select)
@@ -99,23 +539,46 @@ body {
     }
   }
 
+  &.btn-secondary,
+  &.btn-outline-secondary {
+    color: #ffffff;
+
+    i {
+      color: inherit;
+    }
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: #ffffff;
+    }
+  }
+
   &.btn-green {
     background-color: $greenBtn;
     border-color: $greenBtnBorder;
+    color: #ffffff;
+
+    i {
+      color: inherit;
+    }
 
     &:hover {
       background-color: $greenBtnHover;
       border-color: $greenBtnBorderHover;
+      color: #ffffff;
     }
 
     &:focus {
       background-color: $greenBtnHover;
       border-color: $greenBtnBorderHover;
+      color: #ffffff;
     }
 
     &:active {
       background-color: $greenBtnHover;
       border-color: $greenBtnBorderHover;
+      color: #ffffff;
     }
 
     &.no-hover {
@@ -252,6 +715,34 @@ nav img {
 }
 
 .navbar {
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-left: auto;
+    min-height: 2.5rem;
+
+    @media all and (max-width: 767px) {
+      width: 100%;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      padding-top: 0.5rem;
+    }
+  }
+
+  .language-switch-holder {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    min-width: 8.5rem;
+    margin: 0;
+  }
+
+  .navbar-theme-toggle {
+    flex: 0 0 auto;
+  }
+
   .navbar-nav .nav-link {
     @media all and (max-width: 767px) {
       padding: 7px;
@@ -303,6 +794,86 @@ nav img {
       }
     }
   }
+}
+
+.theme-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: 0 0 auto;
+}
+
+.theme-toggle-side {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.35rem;
+  min-width: 3.35rem;
+  height: 1.95rem;
+  padding: 0.18rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: $greyFont;
+  line-height: 1;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+
+  .theme-toggle-track {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+  }
+
+  .theme-toggle-thumb {
+    display: inline-flex;
+    width: 1.35rem;
+    height: 1.35rem;
+    border-radius: 50%;
+    background: #f8fafc;
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.28);
+    transform: translateX(0);
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  &:hover,
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.14);
+    color: $greyFontHover;
+  }
+
+  &.is-nightmode {
+    background: rgba(59, 130, 246, 0.18);
+    border-color: rgba(96, 165, 250, 0.45);
+
+    .theme-toggle-thumb {
+      transform: translateX(1.35rem);
+      background: #dbeafe;
+      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.35);
+    }
+  }
+}
+
+.navbar-theme-toggle {
+  margin: 0;
 }
 
 .tablesaw-stack {
@@ -381,11 +952,111 @@ nav img {
   // Add top border only to tfoot
   tfoot th {
     border-top: 2px solid var(--bs-border-color);
+    background-color: #{$grey};
+    color: #{$white};
   }
 
   // Make table body text lighter with more specific selector
   tbody td {
     color: #{$greyFont} !important; // Use lighter gray for table body text
+  }
+}
+
+.table thead th a,
+.table tfoot th a,
+.table th.link a {
+  color: rgba(255, 255, 255, 0.92) !important;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.16em;
+
+  &:hover,
+  &:focus {
+    color: #ffffff !important;
+    text-decoration-thickness: 0.11em;
+  }
+}
+
+.table thead th a i,
+.table tfoot th a i,
+.table th.link a i {
+  color: inherit !important;
+}
+
+.bg-dark a:not(.btn),
+.bg-dark a:not(.btn) i,
+.navbar-dark .navbar-text a,
+.navbar-dark .navbar-text a i,
+.navbar-dark .navbar-nav .nav-link,
+.navbar-dark .navbar-nav .nav-link i,
+.navbar-dark .dropdown-item,
+.navbar-dark .dropdown-item i,
+.footer .navbar-dark a,
+.footer .navbar-dark a i {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.bg-dark a:not(.btn):hover,
+.bg-dark a:not(.btn):focus,
+.bg-dark a:not(.btn):hover i,
+.bg-dark a:not(.btn):focus i,
+.navbar-dark .navbar-text a:hover,
+.navbar-dark .navbar-text a:focus,
+.navbar-dark .navbar-text a:hover i,
+.navbar-dark .navbar-text a:focus i,
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus,
+.navbar-dark .navbar-nav .nav-link:hover i,
+.navbar-dark .navbar-nav .nav-link:focus i,
+.navbar-dark .dropdown-item:hover,
+.navbar-dark .dropdown-item:focus,
+.navbar-dark .dropdown-item:hover i,
+.navbar-dark .dropdown-item:focus i,
+.footer .navbar-dark a:hover,
+.footer .navbar-dark a:focus,
+.footer .navbar-dark a:hover i,
+.footer .navbar-dark a:focus i {
+  color: #ffffff !important;
+}
+
+a.btn.btn-secondary,
+a.btn.btn-secondary:hover,
+a.btn.btn-secondary:focus,
+a.btn.btn-secondary:active,
+a.btn.btn-outline-secondary,
+a.btn.btn-outline-secondary:hover,
+a.btn.btn-outline-secondary:focus,
+a.btn.btn-outline-secondary:active {
+  color: #ffffff !important;
+  text-decoration: none !important;
+
+  i {
+    color: inherit !important;
+  }
+}
+
+.btn.btn-success,
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active,
+a.btn.btn-success,
+a.btn.btn-success:hover,
+a.btn.btn-success:focus,
+a.btn.btn-success:active,
+.btn.btn-green,
+.btn.btn-green:hover,
+.btn.btn-green:focus,
+.btn.btn-green:active,
+a.btn.btn-green,
+a.btn.btn-green:hover,
+a.btn.btn-green:focus,
+a.btn.btn-green:active {
+  color: #ffffff !important;
+  text-decoration: none !important;
+
+  i {
+    color: inherit !important;
   }
 }
 
@@ -542,6 +1213,18 @@ td {
 }
 
 #device-list {
+  .tablesaw-sort-value {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   .device_name a {
     display: inline-block;
     max-width: 16rem;
@@ -621,6 +1304,63 @@ hr {
 
   .text-body-secondary {
     color: $whiteSubNightMode !important;
+  }
+
+  .cache-cleanup-panel {
+    color: $whiteNightMode !important;
+
+    .btn-outline-secondary {
+      color: $whiteNightMode;
+      border-color: $white_75;
+
+      &:hover,
+      &:focus {
+        background-color: $white_10;
+        color: $whiteNightMode;
+        border-color: $whiteNightMode;
+      }
+    }
+
+    .btn-outline-primary {
+      color: $whiteNightMode;
+      border-color: rgba(255, 255, 255, 0.45);
+
+      &:hover,
+      &:focus {
+        background-color: rgba(255, 255, 255, 0.08);
+        color: $whiteNightMode;
+        border-color: $whiteNightMode;
+      }
+    }
+  }
+
+  .site-config-page .settings-section {
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+    background: #374151 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .site-config-page .settings-option {
+    background: rgba(17, 24, 39, 0.56) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .devices-page .devices-panel {
+    background-color: rgba(31, 37, 43, 0.9);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
+  }
+
+  .devices-page .device-search-group .input-group-text,
+  .devices-page .device-columns-menu {
+    background-color: $color_tuna_approx !important;
+    border-color: $white_10;
+    color: $whiteNightMode;
+  }
+
+  .devices-page .devices-empty-copy,
+  .devices-page .batchActionFeedback {
+    color: $whiteNightMode;
   }
 
   // Bootstrap 5 compatible table hover
@@ -823,6 +1563,11 @@ hr {
   }
 
   .navbar {
+    .navbar-theme-toggle {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
     .navbar-nav .nav-link {
       @media all and (max-width: 767px) {
         padding: 7px;
@@ -926,23 +1671,46 @@ hr {
       }
     }
 
+    &.btn-secondary,
+    &.btn-outline-secondary {
+      color: #ffffff;
+
+      i {
+        color: inherit;
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: #ffffff;
+      }
+    }
+
     &.btn-green {
       background-color: $greenBtn;
       border-color: $greenBtnBorder;
+      color: #ffffff;
+
+      i {
+        color: inherit;
+      }
 
       &:hover {
         background-color: $greenBtnHover;
         border-color: $greenBtnBorderHover;
+        color: #ffffff;
       }
 
       &:focus {
         background-color: $greenBtnHover;
         border-color: $greenBtnBorderHover;
+        color: #ffffff;
       }
 
       &:active {
         background-color: $greenBtnHover;
         border-color: $greenBtnBorderHover;
+        color: #ffffff;
       }
 
       &.no-hover {

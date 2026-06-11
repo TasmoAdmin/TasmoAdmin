@@ -13,6 +13,7 @@ import {
 } from "./app";
 import deviceListPreferences from "./device_list_preferences";
 import batchActions from "./device_batch_actions";
+import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
 
 const { getRuntimeInfo } = statusHelpers;
@@ -27,6 +28,7 @@ const refreshtime = getRefreshTime();
 let ignoreProtectionsTimer;
 let hiddenDeviceColumns = new Set();
 onI18nReady(function () {
+  initIpSorting();
   deviceTools();
   initDeviceListPreferences();
 
@@ -81,6 +83,36 @@ onI18nReady(function () {
     console.log("[Global][Refreshtime] " + $.i18n("NO_REFRESH") + "");
   }
 });
+
+function initIpSorting() {
+  const ipHeader = $("#device-list thead th[data-column-id='ip']");
+  if (ipHeader.length === 0) {
+    return;
+  }
+
+  ipHeader.data("tablesaw-sort", function (ascending) {
+    return function (a, b) {
+      const ipA = getSortableIpCellValue(a.cell, a.element);
+      const ipB = getSortableIpCellValue(b.cell, b.element);
+
+      if (ipA !== null && ipB !== null) {
+        return ascending ? ipA - ipB : ipB - ipA;
+      }
+
+      const textA = (a.cell || "").toLowerCase();
+      const textB = (b.cell || "").toLowerCase();
+      if (textA === textB) {
+        return 0;
+      }
+
+      if (ascending) {
+        return textA > textB ? 1 : -1;
+      }
+
+      return textA < textB ? 1 : -1;
+    };
+  });
+}
 
 function resizeDeviceListScroller() {
   $(".doubleScroll-scroll")

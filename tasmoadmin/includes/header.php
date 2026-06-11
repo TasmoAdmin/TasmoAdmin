@@ -233,16 +233,37 @@ $viewHelper = $container->get(ViewHelper::class);
 							</div>
 						</li>
 					</ul>
-					<div class='my-2 my-sm-0 language-switch-holder ms-auto'>
-						<select name='language-switch' id='language-switch' class='form-select'>
-							<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
-								<option value='<?php echo $l; ?>'
-									<?php echo $lang === $l ? 'selected="selected"' : ''; ?>
-								>
-									<?php echo $name; ?>
-								</option>
-							<?php } ?>
-						</select>
+					<div class="header-actions ms-auto">
+						<div class="theme-toggle-group">
+							<span class="theme-toggle-side theme-toggle-side-sun" aria-hidden="true">
+								<i class="fas fa-sun"></i>
+							</span>
+							<button type="button"
+									class="theme-toggle navbar-theme-toggle"
+									id="theme-toggle"
+									aria-label="Toggle day and night mode"
+									aria-pressed="false"
+									title="Toggle day and night mode"
+							>
+								<span class="theme-toggle-track" aria-hidden="true">
+									<span class="theme-toggle-thumb"></span>
+								</span>
+							</button>
+							<span class="theme-toggle-side theme-toggle-side-moon" aria-hidden="true">
+								<i class="fas fa-moon"></i>
+							</span>
+						</div>
+						<div class='my-2 my-sm-0 language-switch-holder'>
+							<select name='language-switch' id='language-switch' class='form-select'>
+								<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
+									<option value='<?php echo $l; ?>'
+										<?php echo $lang === $l ? 'selected="selected"' : ''; ?>
+									>
+										<?php echo $name; ?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
 					</div>
 					<?php if ($loggedin) { ?>
 						<?php if ('1' == $Config->read('login')) { ?>
