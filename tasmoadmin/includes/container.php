@@ -10,7 +10,11 @@ use TasmoAdmin\Helper\RedirectHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
 use TasmoAdmin\Http\HttpClientFactory;
+use TasmoAdmin\Mqtt\MqttDiscoveryService;
+use TasmoAdmin\Mqtt\PhpMqttClientFactory;
+use TasmoAdmin\Mqtt\SystemTimeProvider;
 use TasmoAdmin\Sonoff;
+use TasmoAdmin\Tasmota\ResponseParser;
 
 $container = new Container();
 
@@ -26,6 +30,7 @@ $container->set(
 $container->set(HttpClientFactory::class, new HttpClientFactory($container->get(Config::class)));
 $container->set(DevicePasswordKeyProvider::class, new DevicePasswordKeyProvider(_DATADIR_));
 $container->set(DevicePasswordCipher::class, new DevicePasswordCipher($container->get(DevicePasswordKeyProvider::class)));
+$container->set(ResponseParser::class, new ResponseParser());
 $container->set(DeviceRepository::class, new DeviceRepository(
     _CSVFILE_,
     _TMPDIR_,
@@ -36,6 +41,12 @@ $container->set(Sonoff::class, new Sonoff(
     $container->get(DeviceRepository::class),
     $container->get(HttpClientFactory::class)->getClient(),
     $container->get(Config::class)
+));
+$container->set(MqttDiscoveryService::class, new MqttDiscoveryService(
+    $container->get(DeviceRepository::class),
+    $container->get(ResponseParser::class),
+    new PhpMqttClientFactory(),
+    new SystemTimeProvider()
 ));
 $container->set(i18n::class, new i18n());
 $container->set(BackupHelper::class, new BackupHelper(

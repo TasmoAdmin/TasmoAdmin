@@ -19,6 +19,9 @@ if (isset($_POST['clean_temp_cache'])) {
 } elseif (isset($_POST['save'])) {
     $settings = $_POST;
     unset($settings['save']);
+    $clearMqttDiscoveryPassword = isset($settings['clear_mqtt_discovery_password'])
+        && '1' === $settings['clear_mqtt_discovery_password'];
+    unset($settings['clear_mqtt_discovery_password']);
     $confirmDeviceTogglesChanged = $Config->read('confirm_device_toggles') !== ($settings['confirm_device_toggles'] ?? '0');
 
     if (!isset($settings['login'])) {
@@ -67,6 +70,12 @@ if (isset($_POST['clean_temp_cache'])) {
         unset($settings['password'], $settings['username']);
     }
 
+    if ($clearMqttDiscoveryPassword) {
+        $settings['mqtt_discovery_password'] = null;
+    } elseif (empty($settings['mqtt_discovery_password'])) {
+        unset($settings['mqtt_discovery_password']);
+    }
+
     $Config->writeAll($settings);
     if ($confirmDeviceTogglesChanged) {
         $container->get(DeviceRepository::class)->setDeviceConfirmToggleForAll('1' === $settings['confirm_device_toggles']);
@@ -76,6 +85,8 @@ if (isset($_POST['clean_temp_cache'])) {
 
 $config = array_merge($Config->readAll(), $settings);
 unset($config['password']);
+$mqttDiscoveryPasswordStored = '' !== $Config->read('mqtt_discovery_password');
+$config['mqtt_discovery_password'] = '';
 
 $tasmotaHelper = new TasmotaHelper(
     new GithubFlavoredMarkdownConverter(),
@@ -490,6 +501,8 @@ $autoFirmwareChannels = ['stable', 'dev'];
                 </div>
             </div>
             </div>
+
+            <?php include __DIR__.'/elements/site_config_mqtt_discovery_panel.php'; ?>
 
 
             <div class="settings-section">

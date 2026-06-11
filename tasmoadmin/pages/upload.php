@@ -268,30 +268,20 @@ if ($checkForFirmware) {
 
 ?>
 
-<div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-6 '>
-		<h2 class='text-sm-center mb-3'>
+<div class='row justify-content-sm-center update-page firmware-upload-page'>
+	<div class='col col-12 col-xl-10'>
+		<h2 class='text-sm-center mb-4'>
 			<?php echo $title; ?>
 		</h2>
-	</div>
-</div>
 <?php if (!empty($errors)) { ?>
-<div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-6 '>
-		<div class="alert alert-danger fade show mb-3" role="alert">
+		<div class="alert alert-danger fade show mb-4" role="alert">
 			<?php echo implode('<br/>', $errors); ?>
 		</div>
-	</div>
-</div>
 <?php } else { ?>
     <?php if (!empty($messages)) { ?>
-    <div class='row justify-content-sm-center'>
-        <div class='col col-12 col-md-6 '>
-            <div class="alert alert-success fade show mb-3" role="alert">
-                <?php echo implode('<br/>', $messages); ?>
-            </div>
-        </div>
-    </div>
+		<div class="alert alert-success fade show mb-4" role="alert">
+			<?php echo implode('<br/>', $messages); ?>
+		</div>
     <?php } ?>
 
 	<?php
@@ -304,54 +294,47 @@ if ($checkForFirmware) {
     }));
 
     ?>
-
-
 	<?php if (isset($_REQUEST['auto'])) { ?>
-		<div class='row justify-content-sm-center'>
-			<div class='col col-12 col-md-6 '>
-				<div class="alert alert-warning fade show mb-5" data-bs-dismiss="alert" role="alert">
-					<?php echo __('AUTO_WARNING_CFG_HOLDER', 'DEVICE_UPDATE'); ?>
-				</div>
-			</div>
+		<div class="alert alert-warning fade show mb-4" data-bs-dismiss="alert" role="alert">
+			<?php echo __('AUTO_WARNING_CFG_HOLDER', 'DEVICE_UPDATE'); ?>
 		</div>
 	<?php } ?>
-	<div class='row'>
-		<div class='col col-12'>
-			<div class='mb-3 text-center '>
-				<h3>
-					<?php echo __('CHOOSE_DEVICES_TO_UPDATE', 'DEVICE_UPDATE'); ?>
-				</h3>
-			</div>
-			<form name='update_devices'
-				  class=''
-				  id='update_devices'
-				  method='post'
-				  action='<?php echo _BASEURL_; ?>device_update'
-			>
-				<input type='hidden' name='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
+		<div class='card update-card update-selection-card mb-4'>
+			<div class='card-body'>
+				<div class='mb-4 text-center'>
+					<h3 class='mb-0'>
+						<?php echo __('CHOOSE_DEVICES_TO_UPDATE', 'DEVICE_UPDATE'); ?>
+					</h3>
+				</div>
+				<form name='update_devices'
+					  class='update-device-form'
+					  id='update_devices'
+					  method='post'
+					  action='<?php echo _BASEURL_; ?>device_update'
+				>
+					<input type='hidden' name='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
 
-				<div class='row mb-3'>
-					<div class='offset-1 col-auto col col-auto'>
-						<button type='submit' class='btn btn-success' name='submit' value='submit'>
-							<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>
-						</button>
-					</div>
-					<div class='col col-auto'>
-						<div class="form-check pl-0">
-							<input type="checkbox"
-								   class="form-check-input showmore d-none"
-								   id="showmore"
-								   name='showmore'
-							>
-							<label class="form-check-label  btn btn-secondary" for="showmore">
-								<?php echo __('SHOW_MORE', 'DEVICES'); ?>
-							</label>
+					<div class='row g-3 update-toolbar mb-4'>
+						<div class='col col-12 col-md-auto'>
+							<button type='submit' class='btn btn-success w-100' name='submit' value='submit'>
+								<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>
+							</button>
 						</div>
-					</div>
-					<?php if (1 == $Config->read('show_search')) { ?>
-						<div class="col col-auto">
-							<div class="col">
-								<div class="input-group">
+						<div class='col col-12 col-md-auto'>
+							<div class="form-check ps-0 mb-0">
+								<input type="checkbox"
+									   class="form-check-input showmore d-none"
+									   id="showmore_top"
+									   name='showmore'
+								>
+								<label class="form-check-label btn btn-secondary w-100" for="showmore_top">
+									<?php echo __('SHOW_MORE', 'DEVICES'); ?>
+								</label>
+							</div>
+						</div>
+						<?php if (1 == $Config->read('show_search')) { ?>
+							<div class="col col-12 col-lg">
+								<div class="input-group device-search-group">
 									<input type="text"
 										   name="searchterm"
 										   class='form-control device-search has-clearer'
@@ -364,44 +347,43 @@ if ($checkForFirmware) {
 									</div>
 								</div>
 							</div>
-						</div>
-					<?php } ?>
-				</div>
-				<div class='row justify-content-center'>
-					<div class='col'>
-						<div class='table-responsive double-scroll'>
+						<?php } ?>
+					</div>
+					<div class='row justify-content-center'>
+						<div class='col'>
+							<div class='table-responsive double-scroll update-table-wrap'>
                             <?php
                             $deviceLinks = true;
     $deviceLinkActionText = __('UPDATE', 'DEVICE_UPDATE');
 
     include 'elements/devices_table.php';
     ?>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class='row mt-3'>
-					<div class='col col-auto offset-1'>
-						<button type='submit' class='btn btn-success' name='submit' value='submit'>
-							<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>
-						</button>
-					</div>
-					<div class='col col-auto'>
-						<div class="form-check pl-0">
-							<input type="checkbox"
-								   class="form-check-input showmore d-none"
-								   id="showmore"
-								   name='showmore'
-							>
-							<label class="form-check-label  btn btn-secondary" for="showmore">
-								<?php echo __('SHOW_MORE', 'DEVICES'); ?>
-							</label>
+					<div class='row g-3 update-actions-row mt-2'>
+						<div class='col col-12 col-md-auto'>
+							<button type='submit' class='btn btn-success w-100' name='submit' value='submit'>
+								<?php echo __('BTN_START_UPDATE', 'DEVICE_UPDATE'); ?>
+							</button>
+						</div>
+						<div class='col col-12 col-md-auto'>
+							<div class="form-check ps-0 mb-0">
+								<input type="checkbox"
+									   class="form-check-input showmore d-none"
+									   id="showmore_bottom"
+									   name='showmore'
+								>
+								<label class="form-check-label btn btn-secondary w-100" for="showmore_bottom">
+									<?php echo __('SHOW_MORE', 'DEVICES'); ?>
+								</label>
+							</div>
 						</div>
 					</div>
-				</div>
-			</form>
-
+				</form>
+			</div>
 		</div>
-	</div>
 	<script src="<?php echo $urlHelper->js('compiled/devices'); ?>"></script>
 <?php } ?>
+</div>

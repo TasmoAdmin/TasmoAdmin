@@ -306,6 +306,22 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
 					</small>
 				</div>
+				<div class="form-group col">
+					<label for="device_mqtt_topic">
+						<?php echo __('TOPIC', 'DEVICE_CONFIG'); ?>
+					</label>
+					<input type="text"
+						   class="form-control"
+						   id="device_mqtt_topic"
+						   name='device_mqtt_topic'
+						   value='<?php echo isset($device->mqttTopic) && !isset($_REQUEST['device_mqtt_topic'])
+                               ? htmlspecialchars($device->mqttTopic, ENT_QUOTES)
+                               : htmlspecialchars((string) ($_REQUEST['device_mqtt_topic'] ?? ''), ENT_QUOTES); ?>'
+					>
+					<small id="device_mqtt_topicHelp" class="text-muted">
+						<?php echo __('MQTT_DEVICE_TOPIC_HELP', 'DEVICE_ACTIONS'); ?>
+					</small>
+				</div>
 
 				<?php if ($showDeviceFields) { ?>
 					<div class="form-group col">

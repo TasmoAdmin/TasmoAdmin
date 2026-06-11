@@ -30,9 +30,9 @@ $changelog = $tasmoAdminHelper->getChangelog();
 
 ?>
 
-<div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-10 col-lg-8 col-xl-6'>
-		<h2 class='text-sm-center mb-5'>
+<div class='row justify-content-sm-center update-page selfupdate-page'>
+	<div class='col col-12 col-xl-8'>
+		<h2 class='text-sm-center mb-4'>
 			<?php if (!$docker) { ?>
 				<?php echo $title; ?>
 			<?php } else { ?>
@@ -59,38 +59,45 @@ $changelog = $tasmoAdminHelper->getChangelog();
 			<div class="alert alert-success fade show mb-5" role="alert">
 				<?php echo __('UPDATE_FOUND', 'SELFUPDATE'); ?>!
 			</div>
-			<div class='mt-3 row'>
-				<div class='col col-12 col-sm-5'>
-					<a class='btn btn-secondary w-100'
-					   <?php if (!empty($currentGitTag)) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
-					   target='_blank' <?php } ?>>
-						<?php echo __('OLD_TAG_VERSION', 'SELFUPDATE', [$currentGitTag ?: __('UNKNOWN', 'SELFUPDATE')]); ?>
-					</a>
-				</div>
-				<div class='col col-12 col-sm-2 text-center align-text-top'>
-					<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i> <i
-						class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x my-3"
-						style='font-size:2.5rem;'
-					></i>
-				</div>
-				<div class='col col-12 col-sm-5'>
-					<a class='btn btn-primary w-100 btn-green'
-					   <?php if (!empty($newUpdate['latest_tag'])) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $newUpdate['latest_tag']; ?>'
-					   target='_blank' <?php } ?>>
-						<?php echo __('NEW_TAG_VERSION', 'SELFUPDATE', [$newUpdate['latest_tag']]); ?>
-					</a>
-
+			<div class='card update-card update-version-card mb-4'>
+				<div class='card-body'>
+					<div class='row g-4 align-items-center update-version-row'>
+						<div class='col col-12 col-sm-5'>
+							<a class='btn btn-secondary w-100'
+							   <?php if (!empty($currentGitTag)) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $currentGitTag; ?>'
+							   target='_blank' <?php } ?>>
+								<?php echo __('OLD_TAG_VERSION', 'SELFUPDATE', [$currentGitTag ?: __('UNKNOWN', 'SELFUPDATE')]); ?>
+							</a>
+						</div>
+						<div class='col col-12 col-sm-2 text-center update-version-arrow'>
+							<i class="fas fa-angle-double-right fa-3x d-none d-sm-inline-block" style='font-size:2.5rem;'></i> <i
+								class="fas fa-angle-double-down d-inline-block d-sm-none fa-3x"
+								style='font-size:2.5rem;'
+							></i>
+						</div>
+						<div class='col col-12 col-sm-5'>
+							<a class='btn btn-primary w-100 btn-green'
+							   <?php if (!empty($newUpdate['latest_tag'])) { ?>href='https://github.com/TasmoAdmin/TasmoAdmin/releases/tag/<?php echo $newUpdate['latest_tag']; ?>'
+							   target='_blank' <?php } ?>>
+								<?php echo __('NEW_TAG_VERSION', 'SELFUPDATE', [$newUpdate['latest_tag']]); ?>
+							</a>
+						</div>
+					</div>
 				</div>
 			</div>
 			<?php if (in_array($Config->read('update_channel'), ['dev', 'beta', 'stable'])) { ?>
-				<div class='row justify-content-sm-center mt-5'>
-					<div class="col col-12 col-sm-6 col-md-3 col-lg-4 text-center">
+				<div class='card update-card mb-5'>
+					<div class='card-body'>
 						<form name='selfupdateform' method='post'>
-                            <input type="hidden" name="latest_tag" value="<?php echo $newUpdate['latest_tag']; ?>" />
-                            <input type="hidden" name="release_url" value="<?php echo $newUpdate['release_url']; ?>" />
-                            <button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary'>
-								<?php echo __('BTN_START_SELFUPDATE', 'SELFUPDATE'); ?>
-							</button>
+							<div class='row justify-content-sm-center'>
+								<div class="col col-12 col-sm-8 col-lg-5 text-center">
+									<input type="hidden" name="latest_tag" value="<?php echo $newUpdate['latest_tag']; ?>" />
+									<input type="hidden" name="release_url" value="<?php echo $newUpdate['release_url']; ?>" />
+									<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary w-100'>
+										<?php echo __('BTN_START_SELFUPDATE', 'SELFUPDATE'); ?>
+									</button>
+								</div>
+							</div>
 						</form>
 					</div>
 				</div>
@@ -102,18 +109,22 @@ $changelog = $tasmoAdminHelper->getChangelog();
 		<?php } ?>
 
 		<?php if (!empty($changelog)) { ?>
-			<h1>
-				Changelog
-			</h1>
-			<?php foreach ($changelog as $entry) { ?>
-				<?php if ('stable' != $Config->read('update_channel') or ('stable' == $Config->read('update_channel') and !$entry->prerelease)) { ?>
-					<hr/>
-					<h2 class='mb-3'>
-						<a target="blank" href="<?php echo $entry->html_url; ?>"><?php echo $entry->name; ?></a>
-					</h2>
-					<?php echo $entry->body; ?>
-				<?php } ?>
-			<?php } ?>
+			<div class='card update-card update-changelog-card'>
+				<div class='card-body changelog'>
+					<h1>
+						Changelog
+					</h1>
+					<?php foreach ($changelog as $entry) { ?>
+						<?php if ('stable' != $Config->read('update_channel') or ('stable' == $Config->read('update_channel') and !$entry->prerelease)) { ?>
+							<hr/>
+							<h2 class='mb-3'>
+								<a target="blank" href="<?php echo $entry->html_url; ?>"><?php echo $entry->name; ?></a>
+							</h2>
+							<?php echo $entry->body; ?>
+						<?php } ?>
+					<?php } ?>
+				</div>
+			</div>
 		<?php } ?>
 	</div>
 </div>

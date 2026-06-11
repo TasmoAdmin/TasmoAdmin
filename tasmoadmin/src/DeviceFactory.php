@@ -35,6 +35,7 @@ class DeviceFactory
         $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
         $device[12] = implode('|', $friendlyNames);
         $device[13] = $request['device_confirm_toggle'] ?? false;
+        $device[14] = trim((string) ($request['device_mqtt_topic'] ?? ''));
 
         return self::fromArray($device);
     }
@@ -62,12 +63,16 @@ class DeviceFactory
         $is_updatable = $array[10] ?? true;
         $port = $array[11] ?? Device::DEFAULT_PORT;
         $device_confirm_toggle = $array[13] ?? false;
+        $mqttTopic = trim((string) ($array[14] ?? ''));
 
         $keywords = [];
         $keywords[] = count($names) > 1 ? 'multi' : 'single';
         $keywords[] = 'IP#'.$ip;
         $keywords[] = 'ID#'.$id;
         $keywords[] = 'POS#'.$position;
+        if ('' !== $mqttTopic) {
+            $keywords[] = 'TOPIC#'.$mqttTopic;
+        }
 
         return new Device(
             $id,
@@ -85,6 +90,7 @@ class DeviceFactory
             (int) $port,
             $friendlyNames,
             (bool) $device_confirm_toggle,
+            $mqttTopic,
         );
     }
 }
