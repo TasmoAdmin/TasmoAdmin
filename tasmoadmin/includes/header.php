@@ -39,6 +39,7 @@ $viewHelper = $container->get(ViewHelper::class);
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
                 nightmodeconfig: '<?php echo $Config->read('nightmode'); ?>',
+                confirm_device_toggles: <?php echo $viewHelper->getValue(1 == $Config->read('confirm_device_toggles')); ?>,
                 update_fe_check: <?php echo $viewHelper->getValue(1 == $Config->read('update_fe_check')); ?>,
                 force_upgrade: <?php echo $viewHelper->getValue(1 == $Config->read('force_upgrade')); ?>,
                 update_newer_only: <?php echo $viewHelper->getValue(1 == $Config->read('update_newer_only')); ?>,
