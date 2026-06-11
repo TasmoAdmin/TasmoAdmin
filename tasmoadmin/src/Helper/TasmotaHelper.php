@@ -63,23 +63,24 @@ class TasmotaHelper
 
     public function getReleases(): array
     {
-        $firmwareResults[] = $this->tasmotaOtaScraper->getEsp8266Firmware();
-        $firmwareResults[] = $this->tasmotaOtaScraper->getEsp32Firmware();
-        $tasmotaReleases = [];
-        foreach ($firmwareResults as $firmwareResult) {
-            foreach ($firmwareResult->getFirmwares() as $asset) {
-                if (str_contains($asset->getName(), '-minimal.bin')) {
-                    continue;
-                }
+        $releases = array_values(array_unique(array_merge(
+            $this->getEsp8266Releases(),
+            $this->getEsp32Releases()
+        )));
 
-                $tasmotaReleases[] = substr($asset->getName(), 0, strpos($asset->getName(), '.'));
-            }
-        }
+        asort($releases);
 
-        $tasmotaReleases = array_unique($tasmotaReleases);
-        asort($tasmotaReleases);
+        return $releases;
+    }
 
-        return $tasmotaReleases;
+    public function getEsp8266Releases(): array
+    {
+        return $this->getReleaseNames($this->tasmotaOtaScraper->getEsp8266Firmware(), '.bin.gz', '-minimal.bin');
+    }
+
+    public function getEsp32Releases(): array
+    {
+        return $this->getReleaseNames($this->tasmotaOtaScraper->getEsp32Firmware(), '.bin');
     }
 
     public function getLatestFirmwares(string $configuredFirmware): AutoFirmwareResult
@@ -148,5 +149,25 @@ class TasmotaHelper
             "<a href='{$tasmotaIssueUrl}$1' target='_blank'>#$1</a>",
             $content
         );
+    }
+
+    private function getReleaseNames(TasmotaFirmwareResult $firmwareResult, string $suffix, ?string $excludedPart = null): array
+    {
+        $releases = [];
+        foreach ($firmwareResult->getFirmwares() as $asset) {
+            if (null !== $excludedPart && str_contains($asset->getName(), $excludedPart)) {
+                continue;
+            }
+            if (!str_ends_with($asset->getName(), $suffix)) {
+                continue;
+            }
+
+            $releases[] = substr($asset->getName(), 0, -strlen($suffix));
+        }
+
+        $releases = array_values(array_unique($releases));
+        asort($releases);
+
+        return $releases;
     }
 }

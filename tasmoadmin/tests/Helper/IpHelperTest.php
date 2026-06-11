@@ -50,6 +50,42 @@ class IpHelperTest extends TestCase
         self::assertNotContains('127.0.0.1', $ips);
     }
 
+    public function testFetchIpsForRanges(): void
+    {
+        $ipHelper = new IpHelper();
+        $ips = $ipHelper->fetchIpsForRanges([
+            '127.0.0.1-127.0.0.2',
+            '127.0.1.5',
+        ]);
+
+        self::assertSame([
+            '127.0.0.1',
+            '127.0.0.2',
+            '127.0.1.5',
+        ], $ips);
+    }
+
+    public function testFetchIpsForRangesSkipsExcludedAndDuplicateAddresses(): void
+    {
+        $ipHelper = new IpHelper();
+        $ips = $ipHelper->fetchIpsForRanges([
+            '127.0.0.1-127.0.0.2',
+            '127.0.0.2-127.0.0.3',
+        ], ['127.0.0.1']);
+
+        self::assertSame([
+            '127.0.0.2',
+            '127.0.0.3',
+        ], $ips);
+    }
+
+    public function testFetchIpsForRangesRejectsInvalidSyntax(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $ipHelper = new IpHelper();
+        $ipHelper->fetchIpsForRanges(['127.0.0.1:127.0.0.2']);
+    }
+
     /**
      * @dataProvider provideInvalidIps
      */

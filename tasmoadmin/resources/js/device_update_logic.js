@@ -49,8 +49,39 @@ function getFailureDetails({ targetVersion, beforeVersion, currentVersion }) {
   };
 }
 
+function detectDevicePlatform(response) {
+  const hardware = response?.StatusFWR?.Hardware ?? "";
+  const version = response?.StatusFWR?.Version ?? "";
+
+  if (hardware.toUpperCase().includes("ESP32")) {
+    return "esp32";
+  }
+
+  if (version.toLowerCase().includes("(tasmota32")) {
+    return "esp32";
+  }
+
+  return "esp8266";
+}
+
+function resolveUpdateTarget(updateTargets, response) {
+  const platform = detectDevicePlatform(response);
+
+  if (updateTargets[platform]) {
+    return updateTargets[platform];
+  }
+
+  if (updateTargets.default) {
+    return updateTargets.default;
+  }
+
+  throw Error(`No update target configured for ${platform}`);
+}
+
 module.exports = {
+  detectDevicePlatform,
   extractVersionFromResponse,
+  resolveUpdateTarget,
   versionsEqual,
   versionUpgrade,
   shouldTreatStatusAsSuccessful,

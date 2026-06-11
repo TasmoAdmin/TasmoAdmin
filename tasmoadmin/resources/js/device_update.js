@@ -1,4 +1,5 @@
 import {
+  resolveUpdateTarget,
   versionsEqual,
   versionUpgrade,
   shouldTreatStatusAsSuccessful,
@@ -14,8 +15,9 @@ const Level = {
   success: "success",
 };
 
-const otaUrl = document.getElementById("ota_new_firmware_url").value;
-const targetVersion = document.getElementById("target_version").value;
+const updateTargets = JSON.parse(
+  document.getElementById("update_targets").value || "{}",
+);
 
 const sleep = (milliseconds) => {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -172,10 +174,14 @@ async function updateDevice(device) {
 
   try {
     log(device.id, $.i18n("BLOCK_GLOBAL_START"));
+    let response = await checkStatus(device.id);
+    const { otaUrl, targetVersion } = resolveUpdateTarget(
+      updateTargets,
+      response,
+    );
     if (targetVersion) {
       log(device.id, $.i18n("BLOCK_UPDATE_ATTEMPT_TO_VERSION", targetVersion));
     }
-    let response = await checkStatus(device.id);
     const beforeVersion = response.StatusFWR.Version;
     log(device.id, $.i18n("BLOCK_UPDATE_CURRENT_VERSION_IS", beforeVersion));
     if (
@@ -266,8 +272,20 @@ async function updateDevice(device) {
 
 document.addEventListener("DOMContentLoaded", async () => {
   await waitForI18n();
-  if (config.update_fe_check && !(await checkOtaUrlAccessible(otaUrl))) {
-    return;
+  if (config.update_fe_check) {
+    const otaUrls = [
+      ...new Set(
+        Object.values(updateTargets)
+          .map((target) => target?.otaUrl)
+          .filter(Boolean),
+      ),
+    ];
+
+    for (const otaUrl of otaUrls) {
+      if (!(await checkOtaUrlAccessible(otaUrl))) {
+        return;
+      }
+    }
   }
   const results = await Promise.all(
     devices.map((device) => updateDevice(device)),

@@ -22,6 +22,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
             $fromIp = htmlspecialchars($_REQUEST['from_ip']);
             $toIp = htmlspecialchars($_REQUEST['to_ip']);
             $port = htmlspecialchars($_REQUEST['port']);
+            $additionalScanRanges = trim((string) ($_REQUEST['additional_scan_ranges'] ?? ''));
 
             $ipHelper = new IpHelper();
             $devices = $Sonoff->getDevices();
@@ -30,9 +31,13 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                 $skippedAddresses[] = $device->getAddress();
             }
 
-            $ips = $ipHelper->fetchIps($fromIp, $toIp);
+            $ips = $ipHelper->fetchIpsForRanges(array_merge(
+                [sprintf('%s-%s', $fromIp, $toIp)],
+                preg_split('/\R+/', $additionalScanRanges) ?: []
+            ));
             $Config->write('scan_from_ip', $fromIp);
             $Config->write('scan_to_ip', $toIp);
+            $Config->write('additional_scan_ranges', $additionalScanRanges);
             $Config->write('port', $port);
 
             $urls = [];
@@ -67,10 +72,9 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                     if (empty($device->StatusNET)) {
                         continue; // TODO: show error message per device
                     }
-                    $ip = explode('.', $device->StatusNET->IPAddress);
-                    $devicesFound[$ip[3]] = $device;
+                    $devicesFound[(string) ip2long($device->StatusNET->IPAddress)] = $device;
                 }
-                ksort($devicesFound);
+                ksort($devicesFound, SORT_NUMERIC);
                 $devicesFound = array_values($devicesFound);
                 unset($devicesFoundTmp);
                 $msg = __('MSG_DEVICES_FOUND_COUNT', 'DEVICES_AUTOSCAN').': '.count($devicesFound);
@@ -104,6 +108,7 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 
 $scanFromIp = $Config->read('scan_from_ip');
 $scanToIp = $Config->read('scan_to_ip');
+$additionalScanRanges = $Config->read('additional_scan_ranges');
 $port = $Config->read('port');
 
 ?>
@@ -192,6 +197,22 @@ $port = $Config->read('port');
                     >
                     <small id="portHelp" class="text-muted">
                         <?php echo __('PORT_HELP', 'DEVICES_AUTOSCAN'); ?>
+                    </small>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="additional_scan_ranges" class="form-label">
+                        <?php echo __('ADDITIONAL_SCAN_RANGES', 'DEVICES_AUTOSCAN'); ?>
+                    </label>
+                    <textarea class="form-control"
+                              id="additional_scan_ranges"
+                              name='additional_scan_ranges'
+                              rows="3"
+                              placeholder="192.168.2.2-192.168.2.254&#10;10.0.0.5"
+                    ><?php echo $additionalScanRanges; ?></textarea>
+                    <small id="additionalScanRangesHelp" class="text-muted">
+                        <?php echo __('ADDITIONAL_SCAN_RANGES_HELP', 'DEVICES_AUTOSCAN'); ?>
                     </small>
                 </div>
             </div>
