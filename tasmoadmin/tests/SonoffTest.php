@@ -96,6 +96,16 @@ class SonoffTest extends TestCase
         self::assertCount(1, $result);
     }
 
+    public function testDecodeOptionsIncludesMqttDiscovery(): void
+    {
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());
+
+        $result = $sonoff->decodeOptions('80000');
+
+        self::assertSame('HASS discovery', $result->SetOption19->desc);
+        self::assertSame(1, $result->SetOption19->value);
+    }
+
     public function testGetDevicesBasic(): void
     {
         $mockRepository = $this->createMock(DeviceRepository::class);
