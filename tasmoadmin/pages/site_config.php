@@ -2,6 +2,7 @@
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
+use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\CacheCleanupHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\HtmlAttributeHelper;
@@ -18,6 +19,7 @@ if (isset($_POST['clean_temp_cache'])) {
 } elseif (isset($_POST['save'])) {
     $settings = $_POST;
     unset($settings['save']);
+    $confirmDeviceTogglesChanged = $Config->read('confirm_device_toggles') !== ($settings['confirm_device_toggles'] ?? '0');
 
     if (!isset($settings['login'])) {
         $settings['login'] = '0';
@@ -66,6 +68,9 @@ if (isset($_POST['clean_temp_cache'])) {
     }
 
     $Config->writeAll($settings);
+    if ($confirmDeviceTogglesChanged) {
+        $container->get(DeviceRepository::class)->setDeviceConfirmToggleForAll('1' === $settings['confirm_device_toggles']);
+    }
     $msg = __('MSG_USER_CONFIG_SAVED', 'USER_CONFIG');
 }
 
@@ -433,6 +438,9 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<label class="form-check-label" for="cb_confirm_device_toggles">
 							<?php echo __('CONFIG_CONFIRM_DEVICE_TOGGLES', 'USER_CONFIG'); ?>
 						</label>
+						<small class="d-block text-body-secondary mt-2">
+							<?php echo __('CONFIG_CONFIRM_DEVICE_TOGGLES_HELP', 'USER_CONFIG'); ?>
+						</small>
 					</div>
 					</div>
 				</div>

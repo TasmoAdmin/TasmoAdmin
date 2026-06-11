@@ -34,6 +34,7 @@ class DeviceFactory
         $device[10] = $request['is_updatable'] ?? true;
         $device[11] = $request['device_port'] ?? Device::DEFAULT_PORT;
         $device[12] = implode('|', $friendlyNames);
+        $device[13] = $request['device_confirm_toggle'] ?? false;
 
         return self::fromArray($device);
     }
@@ -60,6 +61,7 @@ class DeviceFactory
         $device_protect_off = $array[9] ?? false;
         $is_updatable = $array[10] ?? true;
         $port = $array[11] ?? Device::DEFAULT_PORT;
+        $device_confirm_toggle = $array[13] ?? false;
 
         $keywords = [];
         $keywords[] = count($names) > 1 ? 'multi' : 'single';
@@ -82,6 +84,7 @@ class DeviceFactory
             (bool) $is_updatable,
             (int) $port,
             $friendlyNames,
+            (bool) $device_confirm_toggle,
         );
     }
 }

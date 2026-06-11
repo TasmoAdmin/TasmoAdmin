@@ -16,6 +16,8 @@ class DeviceRepository
 
     private DevicePasswordCipher $devicePasswordCipher;
 
+    private bool $defaultConfirmDeviceToggles;
+
     private array $allowedUpdateFields = [
         'id',
         'names',
@@ -29,14 +31,20 @@ class DeviceRepository
         'device_all_off',
         'device_protect_on',
         'device_protect_off',
+        'deviceConfirmToggle',
     ];
 
-    public function __construct(string $file, string $tmpDir, DevicePasswordCipher $devicePasswordCipher)
-    {
+    public function __construct(
+        string $file,
+        string $tmpDir,
+        DevicePasswordCipher $devicePasswordCipher,
+        bool $defaultConfirmDeviceToggles = false
+    ) {
         $this->file = $file;
         $this->tmpDir = $tmpDir;
         $this->filesystem = new Filesystem();
         $this->devicePasswordCipher = $devicePasswordCipher;
+        $this->defaultConfirmDeviceToggles = $defaultConfirmDeviceToggles;
         $this->createFile();
     }
 
@@ -66,6 +74,7 @@ class DeviceRepository
             $deviceHolder[10] = $device['is_updatable'] ?? 1;
             $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
             $deviceHolder[12] = implode('|', $device['device_friendly_name'] ?? ($device['device_name'] ?? []));
+            $deviceHolder[13] = $device['device_confirm_toggle'] ?? ($this->defaultConfirmDeviceToggles ? 1 : 0);
 
             fputcsv($handle, $deviceHolder, escape: self::CSV_ESCAPE);
         }
@@ -155,6 +164,20 @@ class DeviceRepository
         $this->removeDevices([$id]);
     }
 
+    public function setDeviceConfirmToggleForAll(bool $enabled): void
+    {
+        $storageRows = [];
+        $input = $this->openInputFile();
+        while (($data = fgetcsv($input, escape: self::CSV_ESCAPE)) !== false) {
+            [$storageRow] = $this->prepareStorageRow($data);
+            $storageRow[13] = $enabled ? 1 : 0;
+            $storageRows[] = $storageRow;
+        }
+        fclose($input);
+
+        $this->rewriteRows($storageRows);
+    }
+
     public function removeDevices(array $ids): void
     {
         $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
@@ -196,6 +219,7 @@ class DeviceRepository
         $deviceArr[10] = !empty($device->isUpdatable) ? $device->isUpdatable : 0;
         $deviceArr[11] = $device->port;
         $deviceArr[12] = implode('|', !empty($device->friendlyNames) ? $device->friendlyNames : $device->names);
+        $deviceArr[13] = !empty($device->deviceConfirmToggle) ? $device->deviceConfirmToggle : 0;
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);
@@ -228,9 +252,36 @@ class DeviceRepository
 
     private function prepareStorageRow(array $deviceLine): array
     {
+        $needsRewrite = false;
+        $defaults = [
+            0 => '',
+            1 => '',
+            2 => '',
+            3 => '',
+            4 => '',
+            5 => Device::DEFAULT_IMAGE,
+            6 => '0',
+            7 => '1',
+            8 => '0',
+            9 => '0',
+            10 => '1',
+            11 => (string) Device::DEFAULT_PORT,
+            12 => '',
+            13 => $this->defaultConfirmDeviceToggles ? '1' : '0',
+        ];
+
+        foreach ($defaults as $index => $defaultValue) {
+            if (!array_key_exists($index, $deviceLine)) {
+                $deviceLine[$index] = $defaultValue;
+                $needsRewrite = true;
+            }
+        }
+
+        ksort($deviceLine);
+
         $password = (string) ($deviceLine[4] ?? '');
         if ('' === $password || $this->devicePasswordCipher->isRecognizedEncryptedPayload($password)) {
-            return [$deviceLine, false];
+            return [$deviceLine, $needsRewrite];
         }
 
         $deviceLine[4] = $this->devicePasswordCipher->encrypt($password);

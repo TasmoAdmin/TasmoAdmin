@@ -72,6 +72,7 @@ $devices = $Sonoff->getDevices();
 							 data-device_all_off='<?php echo $device_group->deviceAllOff; ?>'
 							 data-device_protect_on='<?php echo $device_group->deviceProtectionOn; ?>'
 							 data-device_protect_off='<?php echo $device_group->deviceProtectionOff; ?>'
+							 data-device_confirm_toggle='<?php echo $device_group->deviceConfirmToggle ? '1' : '0'; ?>'
 						>
 							<div class="animated rubberBand">
 								<img class='card-img-top'

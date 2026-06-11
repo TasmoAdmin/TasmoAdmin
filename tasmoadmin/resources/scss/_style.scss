@@ -1844,6 +1844,40 @@ hr {
   }
 }
 
+.touch-confirm-modal .modal-dialog {
+  max-width: 32rem;
+}
+
+.touch-confirm-modal .modal-content {
+  border-radius: 1.25rem;
+}
+
+.touch-confirm-modal .modal-body {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.touch-confirm-modal .modal-footer {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.touch-confirm-modal .modal-footer .btn {
+  flex: 1 1 0;
+  min-height: 3.25rem;
+  font-size: 1.05rem;
+}
+
+@media (max-width: 575.98px) {
+  .touch-confirm-modal .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .touch-confirm-modal .modal-footer .btn {
+    width: 100%;
+  }
+}
+
 // Custom striped styling that works with Bootstrap 5
 .table-striped {
   > tbody > tr:nth-of-type(odd) > td,

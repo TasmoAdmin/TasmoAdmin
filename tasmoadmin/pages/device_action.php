@@ -166,6 +166,9 @@ if (!empty($_POST)) {
 [$deviceNames, $friendlyNames] = getDeviceNameState($device, $status, $_REQUEST);
 $showDeviceFields = ('edit' == $action && $device instanceof Device) || hasReachableStatus($status);
 $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatus($status);
+$deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
+    ? '1' === (string) $_REQUEST['device_confirm_toggle']
+    : (($device instanceof Device) ? $device->deviceConfirmToggle : ('1' === $Config->read('confirm_device_toggles')));
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 col-md-8 col-xl-6'>
@@ -372,7 +375,7 @@ $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatu
 					<?php } ?>
 
 					<div class="form-row">
-						<div class="form-group col col-12 col-sm-3">
+						<div class="form-group col col-12 col-sm-6 col-lg-4">
 							<div class="form-check mb-5">
 								<input type='hidden' name='device_all_off' value='0'>
 								<input class="form-check-input"
@@ -385,7 +388,7 @@ $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatu
 								</label>
 							</div>
 						</div>
-						<div class="form-group col col-12 col-sm-3">
+						<div class="form-group col col-12 col-sm-6 col-lg-4">
 							<div class="form-check mb-5">
 								<input type='hidden' name='device_protect_on' value='0'>
 								<input class="form-check-input"
@@ -398,7 +401,7 @@ $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatu
 								</label>
 							</div>
 						</div>
-						<div class="form-group col col-12 col-sm-3">
+						<div class="form-group col col-12 col-sm-6 col-lg-4">
 							<div class="form-check mb-5">
 								<input type='hidden' name='device_protect_off' value='0'>
 								<input class="form-check-input"
@@ -411,7 +414,20 @@ $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatu
 								</label>
 							</div>
 						</div>
-                        <div class="form-group col col-12 col-sm-3">
+                        <div class="form-group col col-12 col-sm-6 col-lg-4">
+                            <div class="form-check mb-5">
+                                <input type='hidden' name='device_confirm_toggle' value='0'>
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       value="1"
+                                       id="device_confirm_toggle"
+                                       name='device_confirm_toggle' <?php echo $deviceConfirmToggle ? 'checked="checked"' : ''; ?>>
+                                <label class="form-check-label" for="device_confirm_toggle">
+                                    <?php echo __('LABEL_CONFIRM_DEVICE_TOGGLE', 'DEVICE_ACTIONS'); ?>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group col col-12 col-sm-6 col-lg-4">
                             <div class="form-check mb-5">
                                 <input type='hidden' name='is_updatable' value='0'>
                                 <input class="form-check-input"

@@ -21,6 +21,7 @@ class Device
     public bool $deviceProtectionOff;
     public array $keywords;
     public bool $isUpdatable;
+    public bool $deviceConfirmToggle;
 
     public function __construct(
         ?int $id,
@@ -36,7 +37,8 @@ class Device
         array $keywords = [],
         bool $isUpdatable = true,
         int $port = self::DEFAULT_PORT,
-        array $friendlyNames = []
+        array $friendlyNames = [],
+        bool $deviceConfirmToggle = false
     ) {
         $this->id = $id;
         $this->names = $names;
@@ -52,6 +54,7 @@ class Device
         $this->deviceProtectionOff = $deviceProtectionOff;
         $this->keywords = $keywords;
         $this->isUpdatable = $isUpdatable;
+        $this->deviceConfirmToggle = $deviceConfirmToggle;
     }
 
     public function getAddress(): string
