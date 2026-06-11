@@ -42,36 +42,36 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
             ></i>
         </th>
         <th data-column-id='version' data-column-label='<?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
-        <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true'><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
-        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' class='energyPower hidden'><?php echo __(
+        <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
+        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __(
             'TABLE_HEAD_ENERGY',
             'DEVICES'
         ); ?></th>
-        <th data-column-id='temp' data-column-label='<?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?>' data-column-toggle='true' class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
-        <th data-column-id='humidity' data-column-label='<?php echo __('TABLE_HEAD_HUMIDITY', 'DEVICES'); ?>' data-column-toggle='true' class='humidity hidden'><?php echo __(
+        <th data-column-id='temp' data-column-label='<?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
+        <th data-column-id='humidity' data-column-label='<?php echo __('TABLE_HEAD_HUMIDITY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='humidity hidden'><?php echo __(
             'TABLE_HEAD_HUMIDITY',
             'DEVICES'
         ); ?></th>
-        <th data-column-id='illuminance' data-column-label='<?php echo __('TABLE_HEAD_ILLUMINANCE', 'DEVICES'); ?>' data-column-toggle='true' class='illuminance hidden'><?php echo __(
+        <th data-column-id='illuminance' data-column-label='<?php echo __('TABLE_HEAD_ILLUMINANCE', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='illuminance hidden'><?php echo __(
             'TABLE_HEAD_ILLUMINANCE',
             'DEVICES'
         ); ?></th>
-        <th data-column-id='hostname' data-column-label='<?php echo __('HOSTNAME', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
-        <th data-column-id='mac' data-column-label='<?php echo __('MAC', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
-        <th data-column-id='mqtt' data-column-label='<?php echo __('MQTT', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
-        <th data-column-id='idx' data-column-label='<?php echo __('TABLE_HEAD_IDX', 'DEVICES'); ?>' data-column-toggle='true' class='more idx hidden'><?php echo __(
+        <th data-column-id='hostname' data-column-label='<?php echo __('HOSTNAME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
+        <th data-column-id='mac' data-column-label='<?php echo __('MAC', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
+        <th data-column-id='mqtt' data-column-label='<?php echo __('MQTT', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
+        <th data-column-id='idx' data-column-label='<?php echo __('TABLE_HEAD_IDX', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more idx hidden'><?php echo __(
             'TABLE_HEAD_IDX',
             'DEVICES'
         ); ?></th>
-        <th data-column-id='poweronstate' data-column-label='<?php echo __('POWERONSTATE', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('POWERONSTATE', 'DEVICES'); ?></th>
-        <th data-column-id='ledstate' data-column-label='<?php echo __('LEDSTATE', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('LEDSTATE', 'DEVICES'); ?></th>
-        <th data-column-id='savedata' data-column-label='<?php echo __('SAVEDATA', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('SAVEDATA', 'DEVICES'); ?></th>
-        <th data-column-id='sleep' data-column-label='<?php echo __('SLEEP', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('SLEEP', 'DEVICES'); ?></th>
-        <th data-column-id='bootcount' data-column-label='<?php echo __('BOOTCOUNT', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('BOOTCOUNT', 'DEVICES'); ?></th>
-        <th data-column-id='savecount' data-column-label='<?php echo __('SAVECOUNT', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('SAVECOUNT', 'DEVICES'); ?></th>
-        <th data-column-id='log' data-column-label='<?php echo __('LOGSTATES', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('LOGSTATES', 'DEVICES'); ?></th>
-        <th data-column-id='wificonfig' data-column-label='<?php echo __('WIFICONFIG', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
-        <th data-column-id='vcc' data-column-label='<?php echo __('VCC', 'DEVICES'); ?>' data-column-toggle='true' class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
+        <th data-column-id='poweronstate' data-column-label='<?php echo __('POWERONSTATE', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('POWERONSTATE', 'DEVICES'); ?></th>
+        <th data-column-id='ledstate' data-column-label='<?php echo __('LEDSTATE', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('LEDSTATE', 'DEVICES'); ?></th>
+        <th data-column-id='savedata' data-column-label='<?php echo __('SAVEDATA', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('SAVEDATA', 'DEVICES'); ?></th>
+        <th data-column-id='sleep' data-column-label='<?php echo __('SLEEP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('SLEEP', 'DEVICES'); ?></th>
+        <th data-column-id='bootcount' data-column-label='<?php echo __('BOOTCOUNT', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('BOOTCOUNT', 'DEVICES'); ?></th>
+        <th data-column-id='savecount' data-column-label='<?php echo __('SAVECOUNT', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('SAVECOUNT', 'DEVICES'); ?></th>
+        <th data-column-id='log' data-column-label='<?php echo __('LOGSTATES', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('LOGSTATES', 'DEVICES'); ?></th>
+        <th data-column-id='wificonfig' data-column-label='<?php echo __('WIFICONFIG', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
+        <th data-column-id='vcc' data-column-label='<?php echo __('VCC', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
 
         <th data-column-id='actions' class='link text-sm-right'>
             <a href='<?php echo _BASEURL_; ?>device_action/add'>

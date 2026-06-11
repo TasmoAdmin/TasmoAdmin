@@ -2,6 +2,7 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const {
   getBatchActionConfig,
+  shouldSubmitBatchForm,
   validateBatchAction,
 } = require("../../resources/js/device_batch_actions.js");
 
@@ -10,6 +11,14 @@ test("getBatchActionConfig returns command metadata", () => {
     action: "command",
     requiresCommand: true,
     submitLabelKey: "SEND_COMMAND",
+  });
+});
+
+test("getBatchActionConfig returns backup metadata", () => {
+  assert.deepEqual(getBatchActionConfig("backup"), {
+    action: "backup",
+    requiresCommand: false,
+    submitLabelKey: "BTN_START_BACKUP",
   });
 });
 
@@ -60,4 +69,17 @@ test("validateBatchAction accepts valid delete and command actions", () => {
     }),
     null,
   );
+  assert.equal(
+    validateBatchAction({
+      action: "backup",
+      selectedDeviceIds: ["1"],
+    }),
+    null,
+  );
+});
+
+test("only backup submits the batch form", () => {
+  assert.equal(shouldSubmitBatchForm("command"), false);
+  assert.equal(shouldSubmitBatchForm("delete"), false);
+  assert.equal(shouldSubmitBatchForm("backup"), true);
 });

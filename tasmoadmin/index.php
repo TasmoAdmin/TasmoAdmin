@@ -67,6 +67,10 @@ function render_template(Request $request): Response
         $page = $Config->read('homepage');
     }
 
+    if ('backup' === $page) {
+        return new Response('', 302, ['Location' => _BASEURL_.'devices']);
+    }
+
     if (!isset($action)) {
         $action = null;
     }

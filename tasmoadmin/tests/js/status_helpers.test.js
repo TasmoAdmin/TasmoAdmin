@@ -3,7 +3,10 @@ const assert = require("node:assert/strict");
 const {
   normalizeStatusData,
   getRuntimeInfo,
+  parseUptimeToSeconds,
+  extractFirstNumericValue,
   getIlluminance,
+  getSortableVersionValue,
 } = require("../../resources/js/status_helpers.js");
 
 test("normalizeStatusData fills missing sections for ethernet payloads", () => {
@@ -38,6 +41,15 @@ test("normalizeStatusData fills missing sections for ethernet payloads", () => {
       second: "s",
     }).text,
     "87T15:29:29",
+  );
+  assert.equal(
+    getRuntimeInfo(data, {
+      day: "d",
+      hour: "h",
+      minute: "m",
+      second: "s",
+    }).sortValue,
+    7572569,
   );
 });
 
@@ -80,4 +92,51 @@ test("getIlluminance extracts illuminance readings from sensor payloads", () => 
     ),
     "40 lx | 125 lx",
   );
+});
+
+test("getRuntimeInfo returns a numeric sort value for startup-derived runtime", () => {
+  const info = getRuntimeInfo(
+    {
+      StatusPRM: {
+        StartupDateTimeUtc: "2026-06-11T10:00:00",
+      },
+    },
+    {
+      day: "d",
+      hour: "h",
+      minute: "m",
+      second: "s",
+    },
+    new Date("2026-06-11T12:03:04Z"),
+  );
+
+  assert.equal(info.text, "2h 3m 4s");
+  assert.equal(info.sortValue, 7384);
+});
+
+test("parseUptimeToSeconds parses Tasmota uptime strings", () => {
+  assert.equal(parseUptimeToSeconds("87T15:29:29"), 7572569);
+  assert.equal(parseUptimeToSeconds("00:47:59"), 2879);
+  assert.equal(parseUptimeToSeconds("?"), null);
+});
+
+test("extractFirstNumericValue reads the first sortable number from formatted values", () => {
+  assert.equal(extractFirstNumericValue("105 W / 0.329 / 0.513 / 12.345 kWh"), 105);
+  assert.equal(extractFirstNumericValue("-4.5°C<br/>12.3°C"), -4.5);
+  assert.equal(extractFirstNumericValue("3.21V"), 3.21);
+  assert.equal(extractFirstNumericValue("?"), null);
+});
+
+test("getSortableVersionValue normalizes version strings for semantic sorting", () => {
+  assert.equal(
+    getSortableVersionValue("14.4.0.1(tasmota32)") >
+      getSortableVersionValue("9.5.0.4(ethernet)"),
+    true,
+  );
+  assert.equal(
+    getSortableVersionValue("14.4.10(tasmota)") >
+      getSortableVersionValue("14.4.2(tasmota)"),
+    true,
+  );
+  assert.equal(getSortableVersionValue("?"), null);
 });
