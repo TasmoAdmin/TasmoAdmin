@@ -30,6 +30,8 @@ class ConfigTest extends TestCase
         $config = $this->getConfig();
         self::assertEquals('auto', $config->read('nightmode'));
         self::assertEquals('0', $config->read('confirm_device_toggles'));
+        self::assertEquals('tele/+/LWT', $config->read('mqtt_discovery_subscriptions'));
+        self::assertEquals('1883', $config->read('mqtt_discovery_port'));
     }
 
     public function testReadInvalidKey(): void
@@ -80,6 +82,29 @@ class ConfigTest extends TestCase
         $config->writeAll(['hide_copyright' => '0', 'homepage' => 'devices']);
         self::assertEquals('0', $config->read('hide_copyright'));
         self::assertEquals('devices', $config->read('homepage'));
+    }
+
+    public function testWriteAllEncryptsMqttDiscoveryPasswordAtRest(): void
+    {
+        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        $config = $this->getConfig();
+
+        $config->writeAll(['mqtt_discovery_password' => 'broker-secret']);
+
+        self::assertSame('broker-secret', $config->read('mqtt_discovery_password'));
+        $stored = (string) file_get_contents($this->root->url().'/MyConfig.json');
+        self::assertStringContainsString('enc:v1:', $stored);
+        self::assertStringNotContainsString('broker-secret', $stored);
+    }
+
+    public function testReadAllReturnsRawMqttDiscoveryPasswordWithoutHtmlEscaping(): void
+    {
+        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        $config = $this->getConfig();
+        $config->writeAll(['mqtt_discovery_password' => 'broker&"<>\'secret']);
+
+        self::assertSame('broker&"<>\'secret', $config->readAll()['mqtt_discovery_password']);
+        self::assertSame('broker&amp;&quot;&lt;&gt;&#039;secret', $config->read('mqtt_discovery_password'));
     }
 
     public function testClean(): void

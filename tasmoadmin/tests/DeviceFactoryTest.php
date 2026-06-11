@@ -46,6 +46,7 @@ class DeviceFactoryTest extends TestCase
         self::assertTrue($device->isUpdatable);
         self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
+        self::assertSame('', $device->mqttTopic);
     }
 
     public function testFromArrayComplete(): void
@@ -80,6 +81,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals(5000, $device->port);
         self::assertEquals(['friendly-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
+        self::assertSame('', $device->mqttTopic);
     }
 
     public function testFromArrayUsesConfirmToggleColumn(): void
@@ -115,6 +117,7 @@ class DeviceFactoryTest extends TestCase
             'device_position' => '',
             'device_friendly_name' => ['webui-socket-1'],
             'device_confirm_toggle' => '1',
+            'device_mqtt_topic' => 'kitchen-plug',
         ];
 
         $device = DeviceFactory::fromRequest($request);
@@ -127,6 +130,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals('pass', $device->password);
         self::assertEquals('single', $device->keywords[0]);
         self::assertTrue($device->deviceConfirmToggle);
+        self::assertSame('kitchen-plug', $device->mqttTopic);
     }
 
     public function testFromRequestMultipleNames(): void
@@ -150,5 +154,29 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals('user', $device->username);
         self::assertEquals('pass', $device->password);
         self::assertEquals('multi', $device->keywords[0]);
+    }
+
+    public function testFromArrayUsesMqttTopicColumn(): void
+    {
+        $device = DeviceFactory::fromArray([
+            0,
+            'socket-1',
+            '192.168.1.1',
+            'user',
+            'pass',
+            'bulb_2',
+            1,
+            0,
+            1,
+            1,
+            false,
+            5000,
+            'friendly-1',
+            1,
+            'garage-plug',
+        ]);
+
+        self::assertSame('garage-plug', $device->mqttTopic);
+        self::assertContains('TOPIC#garage-plug', $device->keywords);
     }
 }

@@ -21,7 +21,8 @@
         "symfony/browser-kit": "^7.4",
         "symfony/http-client": "^7.4",
         "symfony/css-selector": "^7.4",
-        "league/commonmark": "^2.6"
+        "league/commonmark": "^2.6",
+        "php-mqtt/client": "^2.3"
     },
     "autoload": {
         "psr-4": {

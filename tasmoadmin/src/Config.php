@@ -17,6 +17,8 @@ class Config
 
     private Filesystem $filesystem;
 
+    private ?DevicePasswordCipher $configPasswordCipher = null;
+
     private array $defaults = [
         'ota_server_ip' => '',
         'ota_server_port' => '',
@@ -48,6 +50,15 @@ class Config
         'connect_timeout' => '5',
         'timeout' => '5',
         'request_concurrency' => '50',
+        'mqtt_discovery_host' => '',
+        'mqtt_discovery_port' => '1883',
+        'mqtt_discovery_username' => '',
+        'mqtt_discovery_password' => '',
+        'mqtt_discovery_cmnd_prefix' => 'cmnd',
+        'mqtt_discovery_stat_prefix' => 'stat',
+        'mqtt_discovery_tele_prefix' => 'tele',
+        'mqtt_discovery_subscriptions' => 'tele/+/LWT',
+        'mqtt_discovery_timeout_seconds' => '5',
     ];
 
     private array $cachedConfig = [];
@@ -104,7 +115,7 @@ class Config
             }
 
             $config = array_merge($this->defaults, $config);
-            $this->filesystem->dumpFile($this->cfgFile, json_encode($config, JSON_PRETTY_PRINT));
+            $this->writeFile($config);
         }
 
         $config = $this->cleanConfig();
@@ -180,7 +191,7 @@ class Config
             exit('JSON CONFIG ERROR: '.json_last_error().' => '.json_last_error_msg());
         }
 
-        $this->cachedConfig = $config;
+        $this->cachedConfig = $this->decryptSensitiveValues($config);
 
         return $this->cachedConfig;
     }
@@ -294,7 +305,7 @@ class Config
     {
         $this->cachedConfig = $config;
 
-        $configJson = json_encode($config, JSON_PRETTY_PRINT);
+        $configJson = json_encode($this->encryptSensitiveValues($config), JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
 
@@ -304,6 +315,9 @@ class Config
             var_dump(debug_backtrace());
 
             exit($this->dataDir.' is NOT WRITEABLE! | write()');
+        }
+        if (!file_exists($this->cfgFile)) {
+            $this->filesystem->touch($this->cfgFile);
         }
         if (!is_writable($this->cfgFile)) {
             var_dump(debug_backtrace());
@@ -321,5 +335,52 @@ class Config
         $tempFile = $this->filesystem->tempnam($this->dataDir, 'config');
         $this->filesystem->dumpFile($tempFile, $configJson);
         $this->filesystem->rename($tempFile, $this->cfgFile, true);
+    }
+
+    private function encryptSensitiveValues(array $config): array
+    {
+        foreach ($this->getEncryptedConfigKeys() as $key) {
+            if (!array_key_exists($key, $config)) {
+                continue;
+            }
+
+            $value = trim((string) $config[$key]);
+            if ('' === $value || $this->getConfigPasswordCipher()->isRecognizedEncryptedPayload($value)) {
+                $config[$key] = $value;
+
+                continue;
+            }
+
+            $config[$key] = $this->getConfigPasswordCipher()->encrypt($value);
+        }
+
+        return $config;
+    }
+
+    private function decryptSensitiveValues(array $config): array
+    {
+        foreach ($this->getEncryptedConfigKeys() as $key) {
+            if (!array_key_exists($key, $config)) {
+                continue;
+            }
+
+            $config[$key] = $this->getConfigPasswordCipher()->decrypt((string) $config[$key]);
+        }
+
+        return $config;
+    }
+
+    private function getEncryptedConfigKeys(): array
+    {
+        return ['mqtt_discovery_password'];
+    }
+
+    private function getConfigPasswordCipher(): DevicePasswordCipher
+    {
+        if (null === $this->configPasswordCipher) {
+            $this->configPasswordCipher = new DevicePasswordCipher(new DevicePasswordKeyProvider($this->dataDir));
+        }
+
+        return $this->configPasswordCipher;
     }
 }

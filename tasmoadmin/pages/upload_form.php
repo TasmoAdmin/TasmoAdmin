@@ -22,150 +22,154 @@ $fwAsset = $Config->read('update_automatic_lang');
 $fwAssetEsp32 = $Config->read('update_automatic_lang_esp32');
 
 ?>
-<div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-8 col-xl-6'>
+<div class='row justify-content-sm-center upload-form-page'>
+	<div class='col col-12 col-md-9 col-xl-8'>
 		<h2 class='text-sm-center mb-3'>
 			<?php echo $title; ?>
 		</h2>
-		<div class='text-center mb-3'>
-			<?php echo __('UPLOAD_DESCRIPTION', 'DEVICE_UPDATE'); ?>
-			<br/>
-			<a href='https://github.com/arendst/Tasmota/releases' target='_blank'>Tasmota Releases</a>
+		<div class="card upload-intro-card mb-4">
+			<div class="card-body text-center">
+				<p class="mb-2">
+					<?php echo __('UPLOAD_DESCRIPTION', 'DEVICE_UPDATE'); ?>
+				</p>
+				<a href='https://github.com/arendst/Tasmota/releases' target='_blank'>Tasmota Releases</a>
+			</div>
 		</div>
 
 
-		<form class='' name='update_form' method='post' enctype='multipart/form-data'
+		<form class='upload-form' name='update_form' method='post' enctype='multipart/form-data'
 			  action='<?php echo _BASEURL_; ?>upload'
 		>
-			<div class='row mb-3'>
+			<div class="card upload-form-card mb-4">
+				<div class="card-body">
+					<div class='row g-4 upload-form-row mb-3'>
 
-				<div class="col col-12 col-sm-9">
-					<label for="ota_server_ip" class="form-label">
-						<?php echo __('CONFIG_SERVER_IP', 'USER_CONFIG'); ?>
-					</label>
-					<input type="text"
-						   class="form-control"
-						   id="ota_server_ip"
-						   name='ota_server_ip'
-						   required
-						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						   value='<?php echo $Config->read('ota_server_ip'); ?>'
-					>
-				</div>
-				<div class="col col-12 col-sm-3">
-					<label for="ota_server_port" class="form-label">
-						<?php echo __('CONFIG_SERVER_PORT', 'USER_CONFIG'); ?>
-					</label>
-					<input type="text"
-						   class="form-control"
-						   id="ota_server_port"
-						   name='ota_server_port'
-						   required
-						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						   value='<?php echo !empty($Config->read('ota_server_port')) ? $Config->read(
-						       'ota_server_port'
-						   ) : $_SERVER['SERVER_PORT']; ?>'
-					>
-				</div>
-			</div>
-
-			<div class='row mb-3'>
-				<div class="col">
-					<label for="minimal_firmware" class="form-label">
-						<?php echo __('FORM_CHOOSE_MINIMAL_FIRMWARE', 'DEVICE_UPDATE'); ?>
-					</label>
-					<input type="file" class="form-control" id="minimal_firmware" name='minimal_firmware'>
-				</div>
-			</div>
-
-			<div class='row mb-3'>
-
-				<div class="col">
-					<label for="new_firmware" class="form-label">
-						<?php echo __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'); ?>
-					</label>
-					<input type="file" class="form-control" id="new_firmware" name='new_firmware' required>
-				</div>
-			</div>
-			<div class="row mb-3">
-				<div class="col col-12 col-sm-6">
-					<label for="update_automatic_lang" class="form-label">
-						<?php echo __('CONFIG_AUTOMATIC_FW_ESP8266', 'USER_CONFIG'); ?>
-					</label>
-
-					<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
-						<?php if ('' === $fwAsset) { ?>
-							<option><?php echo __('PLEASE_SELECT'); ?></option>
-						<?php } ?>
-
-						<?php foreach ($esp8266Releases as $tr) { ?>
-							<option value='<?php echo $tr; ?>'
-								<?php echo HtmlAttributeHelper::selected($fwAsset === $tr); ?>
+						<div class="col col-12 col-sm-9">
+							<label for="ota_server_ip" class="form-label">
+								<?php echo __('CONFIG_SERVER_IP', 'USER_CONFIG'); ?>
+							</label>
+							<input type="text"
+								   class="form-control"
+								   id="ota_server_ip"
+								   name='ota_server_ip'
+								   required
+								   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
+								   value='<?php echo $Config->read('ota_server_ip'); ?>'
 							>
-								<?php echo $tr; ?>
-							</option>
-						<?php } ?>
-
-
-					</select>
-				</div>
-				<div class="col col-12 col-sm-6">
-					<label for="update_automatic_lang_esp32" class="form-label">
-						<?php echo __('CONFIG_AUTOMATIC_FW_ESP32', 'USER_CONFIG'); ?>
-					</label>
-
-					<select class="form-control form-select" id="update_automatic_lang_esp32" name='update_automatic_lang_esp32'>
-						<?php if ('' === $fwAssetEsp32) { ?>
-							<option><?php echo __('PLEASE_SELECT'); ?></option>
-						<?php } ?>
-
-						<?php foreach ($esp32Releases as $tr) { ?>
-							<option value='<?php echo $tr; ?>'
-								<?php echo HtmlAttributeHelper::selected($fwAssetEsp32 === $tr); ?>
+						</div>
+						<div class="col col-12 col-sm-3">
+							<label for="ota_server_port" class="form-label">
+								<?php echo __('CONFIG_SERVER_PORT', 'USER_CONFIG'); ?>
+							</label>
+							<input type="text"
+								   class="form-control"
+								   id="ota_server_port"
+								   name='ota_server_port'
+								   required
+								   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
+								   value='<?php echo !empty($Config->read('ota_server_port')) ? $Config->read(
+								       'ota_server_port'
+								   ) : $_SERVER['SERVER_PORT']; ?>'
 							>
-								<?php echo $tr; ?>
-							</option>
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-			<div class='row mb-3'>
-				<div class="col col-12 col-sm-3">
-					<button type='submit' class='btn btn-primary' id="automatic" name='auto' value='submit'
-							title='<?php echo __('BTN_UPLOAD_AUTOMATIC_HELP', 'DEVICE_UPDATE'); ?>'
-					>
-						<?php echo __('BTN_UPLOAD_AUTOMATIC', 'DEVICE_UPDATE'); ?>
-					</button>
-				</div>
+						</div>
+					</div>
 
-				<div class='col'></div>
+					<div class='row g-4 upload-form-row mb-3'>
+						<div class="col">
+							<label for="minimal_firmware" class="form-label">
+								<?php echo __('FORM_CHOOSE_MINIMAL_FIRMWARE', 'DEVICE_UPDATE'); ?>
+							</label>
+							<input type="file" class="form-control" id="minimal_firmware" name='minimal_firmware'>
+						</div>
+					</div>
 
-				<div class='col col-12 col-sm-3 text-sm-end'>
-					<button type='submit' class='btn btn-primary' name='upload' value='submit'>
-						<?php echo __('BTN_UPLOAD_NEXT', 'DEVICE_UPDATE'); ?>
-					</button>
+					<div class='row g-4 upload-form-row mb-3'>
+
+						<div class="col">
+							<label for="new_firmware" class="form-label">
+								<?php echo __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'); ?>
+							</label>
+							<input type="file" class="form-control" id="new_firmware" name='new_firmware' required>
+						</div>
+					</div>
+					<div class="row g-4 upload-form-row mb-3">
+						<div class="col col-12 col-sm-6">
+							<label for="update_automatic_lang" class="form-label">
+								<?php echo __('CONFIG_AUTOMATIC_FW_ESP8266', 'USER_CONFIG'); ?>
+							</label>
+
+							<select class="form-control form-select" id="update_automatic_lang" name='update_automatic_lang'>
+								<?php if ('' === $fwAsset) { ?>
+									<option><?php echo __('PLEASE_SELECT'); ?></option>
+								<?php } ?>
+
+								<?php foreach ($esp8266Releases as $tr) { ?>
+									<option value='<?php echo $tr; ?>'
+										<?php echo HtmlAttributeHelper::selected($fwAsset === $tr); ?>
+									>
+										<?php echo $tr; ?>
+									</option>
+								<?php } ?>
+
+
+							</select>
+						</div>
+						<div class="col col-12 col-sm-6">
+							<label for="update_automatic_lang_esp32" class="form-label">
+								<?php echo __('CONFIG_AUTOMATIC_FW_ESP32', 'USER_CONFIG'); ?>
+							</label>
+
+							<select class="form-control form-select" id="update_automatic_lang_esp32" name='update_automatic_lang_esp32'>
+								<?php if ('' === $fwAssetEsp32) { ?>
+									<option><?php echo __('PLEASE_SELECT'); ?></option>
+								<?php } ?>
+
+								<?php foreach ($esp32Releases as $tr) { ?>
+									<option value='<?php echo $tr; ?>'
+										<?php echo HtmlAttributeHelper::selected($fwAssetEsp32 === $tr); ?>
+									>
+										<?php echo $tr; ?>
+									</option>
+								<?php } ?>
+							</select>
+						</div>
+					</div>
+					<div class='row g-4 upload-actions-row'>
+						<div class="col col-12 col-sm-6">
+							<button type='submit' class='btn btn-primary col-12 col-sm-auto' id="automatic" name='auto' value='submit'
+									title='<?php echo __('BTN_UPLOAD_AUTOMATIC_HELP', 'DEVICE_UPDATE'); ?>'
+							>
+								<?php echo __('BTN_UPLOAD_AUTOMATIC', 'DEVICE_UPDATE'); ?>
+							</button>
+						</div>
+						<div class='col col-12 col-sm-6 text-sm-end'>
+							<button type='submit' class='btn btn-primary col-12 col-sm-auto' name='upload' value='submit'>
+								<?php echo __('BTN_UPLOAD_NEXT', 'DEVICE_UPDATE'); ?>
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
 
 
 		</form>
 
-	</div>
-
-	<div class='col-12'>
-		<hr class='my-5'>
-		<div class='row'>
+		<div class='row g-4 upload-notes-row'>
 			<div class='col col-12 col-md-6'>
-				<div class='changelog'>
+				<div class='card upload-notes-card h-100'>
+					<div class='card-body changelog'>
 					<?php echo $releaseNotes; ?>
+					</div>
 				</div>
 			</div>
 			<div class='col col-12 col-md-6'>
-				<div class='changelog'>
+				<div class='card upload-notes-card h-100'>
+					<div class='card-body changelog'>
 					<h1 class='text-uppercase'>
 						<?php echo __('TASMOTA_CHANGELOG', 'DEVICE_UPDATE'); ?>
 					</h1>
 					<?php echo $changelog; ?>
+					</div>
 				</div>
 			</div>
 		</div>

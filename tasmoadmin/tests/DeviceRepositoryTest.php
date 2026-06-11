@@ -128,6 +128,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertTrue($device->isUpdatable);
         self::assertEquals(80, $device->port);
+        self::assertSame('', $device->mqttTopic);
     }
 
     public function testGetDeviceByIdValid(): void
@@ -145,6 +146,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(5000, $device->port);
         self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
+        self::assertSame('', $device->mqttTopic);
     }
 
     public function testGetDeviceByIdInvalidId(): void
@@ -302,6 +304,22 @@ class DeviceRepositoryTest extends TestCase
         self::assertSame(['lamp-webui'], $device->friendlyNames);
     }
 
+    public function testAddDevicesStoresMqttTopic(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices(
+            [[
+                'device_name' => ['office-lamp'],
+                'device_ip' => '127.0.0.1',
+                'device_mqtt_topic' => 'office-lamp',
+            ]],
+            'user',
+            'pass'
+        );
+
+        self::assertSame('office-lamp', $repo->getDeviceById(1)->mqttTopic);
+    }
+
     public function testAddDevicesUsesGlobalConfirmSettingAsDefault(): void
     {
         $repo = $this->getVirtualRepo(defaultConfirmDeviceToggles: true);
@@ -318,7 +336,7 @@ class DeviceRepositoryTest extends TestCase
 
         self::assertCount(3, $devices);
         self::assertTrue($devices[0]->deviceConfirmToggle);
-        self::assertStringEndsWith(',1'.PHP_EOL, (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv')));
+        self::assertStringEndsWith(',1,'.PHP_EOL, (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv')));
     }
 
     public function testSetDeviceConfirmToggleForAll(): void
@@ -437,6 +455,49 @@ class DeviceRepositoryTest extends TestCase
         $devices = $repo->getDevicesByIds([1, 5]);
         self::assertEquals(1, $devices[0]->id);
         self::assertEquals(5, $devices[1]->id);
+    }
+
+    public function testLegacyRowsRemainReadableWithoutMqttTopicColumn(): void
+    {
+        $repo = $this->getValidRepo();
+
+        $device = $repo->getDeviceById(1);
+
+        self::assertSame('', $device->mqttTopic);
+    }
+
+    public function testGetDeviceByMqttTopicReturnsUniqueMatch(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([[
+            'device_name' => ['socket-1'],
+            'device_ip' => '127.0.0.1',
+            'device_mqtt_topic' => 'socket-1',
+        ]], 'user', 'pass');
+
+        self::assertSame('socket-1', $repo->getDeviceByMqttTopic('socket-1')->mqttTopic);
+        self::assertFalse($repo->isMqttTopicAmbiguous('socket-1'));
+    }
+
+    public function testDuplicateMqttTopicIsMarkedAmbiguous(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([
+            [
+                'device_name' => ['socket-1'],
+                'device_ip' => '127.0.0.1',
+                'device_mqtt_topic' => 'shared-topic',
+            ],
+            [
+                'device_name' => ['socket-2'],
+                'device_ip' => '127.0.0.2',
+                'device_mqtt_topic' => 'shared-topic',
+            ],
+        ], 'user', 'pass');
+
+        self::assertNull($repo->getDeviceByMqttTopic('shared-topic'));
+        self::assertTrue($repo->isMqttTopicAmbiguous('shared-topic'));
+        self::assertCount(2, $repo->getDevicesByMqttTopic('shared-topic'));
     }
 
     private function getVirtualRepoWithDevices(int $count): DeviceRepository

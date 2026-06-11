@@ -276,6 +276,47 @@ body {
   line-height: 1.45;
 }
 
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field {
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field label {
+  min-height: 0;
+  align-items: flex-start;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control {
+  width: 100%;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password .form-check-input {
+  margin-top: 0;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password .form-check-label {
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field-textarea {
+  justify-content: stretch;
+}
+
+.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field-textarea textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
 .site-config-page .settings-actions {
   max-width: 14rem;
   margin-left: auto;
@@ -428,6 +469,193 @@ body {
   margin-top: 1.25rem;
 }
 
+.devices-autoscan-page {
+  --autoscan-panel-border: rgba(17, 24, 39, 0.12);
+  --autoscan-panel-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.devices-autoscan-page .autoscan-form-card,
+.devices-autoscan-page .autoscan-summary-card,
+.devices-autoscan-page .autoscan-device-card {
+  border: 1px solid var(--autoscan-panel-border);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: var(--autoscan-panel-shadow);
+}
+
+.devices-autoscan-page .autoscan-form-card .card-body,
+.devices-autoscan-page .autoscan-summary-card .card-body,
+.devices-autoscan-page .autoscan-device-card .card-body {
+  padding: 1.35rem 1.45rem;
+}
+
+.devices-autoscan-page .autoscan-form .row,
+.devices-autoscan-page .autoscan-summary-card .row,
+.devices-autoscan-page .autoscan-device-name-row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.75rem;
+}
+
+.devices-autoscan-page .autoscan-submit-row {
+  --bs-gutter-x: 1rem;
+}
+
+.devices-autoscan-page .autoscan-submit-row .btn {
+  min-width: 14rem;
+}
+
+.devices-autoscan-page .autoscan-device-card {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1.5rem !important;
+  overflow: hidden;
+}
+
+.devices-autoscan-page .autoscan-device-title {
+  line-height: 1.2;
+}
+
+.devices-autoscan-page .autoscan-device-card .form-row {
+  margin-bottom: 1rem;
+}
+
+.devices-autoscan-page .autoscan-device-card .form-group {
+  margin-bottom: 0;
+}
+
+.devices-autoscan-page .autoscan-device-name-help {
+  margin-top: 0.2rem !important;
+}
+
+.devices-autoscan-page .autoscan-device-name-help .form-text {
+  margin-top: 0;
+  line-height: 1.45;
+}
+
+.devices-autoscan-page .autoscan-device-name-help .default-name {
+  display: inline;
+  overflow-wrap: anywhere;
+}
+
+.devices-autoscan-page .autoscan-device-card .test_device {
+  display: inline-flex;
+  width: 100%;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.devices-autoscan-page .autoscan-device-save-row {
+  padding-top: 0.25rem;
+}
+
+.devices-autoscan-page .autoscan-final-actions {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.85rem;
+  margin-top: 0.5rem;
+}
+
+.upload-form-page {
+  --upload-panel-border: rgba(17, 24, 39, 0.12);
+  --upload-panel-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.upload-form-page .upload-intro-card,
+.upload-form-page .upload-form-card,
+.upload-form-page .upload-notes-card {
+  border: 1px solid var(--upload-panel-border);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: var(--upload-panel-shadow);
+}
+
+.upload-form-page .upload-intro-card .card-body,
+.upload-form-page .upload-form-card .card-body,
+.upload-form-page .upload-notes-card .card-body {
+  padding: 1.35rem 1.45rem;
+}
+
+.upload-form-page .upload-form-row,
+.upload-form-page .upload-actions-row,
+.upload-form-page .upload-notes-row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.9rem;
+}
+
+.upload-form-page .upload-actions-row {
+  margin-top: 0.25rem;
+}
+
+.upload-form-page .upload-form-card label {
+  font-weight: 600;
+}
+
+.upload-form-page .upload-notes-card .changelog {
+  margin-bottom: 0;
+}
+
+.upload-form-page .upload-notes-card .changelog h1:first-child,
+.upload-form-page .upload-notes-card .changelog h2:first-child,
+.upload-form-page .upload-notes-card .changelog h3:first-child {
+  margin-top: 0;
+}
+
+.update-page {
+  margin-bottom: 3rem;
+}
+
+.update-page .update-card,
+.update-page .update-log-card {
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.update-page .update-card .card-body,
+.update-page .update-log-card .card-body {
+  padding: 1.35rem 1.45rem;
+}
+
+.update-page .update-toolbar,
+.update-page .update-actions-row,
+.update-page .update-version-row {
+  --bs-gutter-x: 1rem;
+  --bs-gutter-y: 0.9rem;
+}
+
+.update-page .update-toolbar {
+  align-items: center;
+}
+
+.update-page .update-table-wrap {
+  margin-top: 0.5rem;
+}
+
+.update-page .update-version-arrow {
+  color: #6b7280;
+}
+
+.update-page #logGlobal,
+.update-page #progressbox {
+  min-height: 8rem;
+}
+
+.update-page #progressbox .device + .device {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(17, 24, 39, 0.12);
+}
+
+.update-page #progressbox .device h1 {
+  margin-bottom: 1rem;
+  font-size: 1.35rem;
+}
+
+.update-page .update-log-output span + span,
+.update-page .update-progress-output span + span {
+  margin-top: 0.35rem;
+}
+
 @media all and (max-width: 767px) {
   .site-config-page {
     --settings-section-gap: 1.25rem;
@@ -497,6 +725,39 @@ body {
 
   .devices-page .devices-empty-state {
     padding-block: 1.5rem;
+  }
+
+  .devices-autoscan-page .autoscan-form-card .card-body,
+  .devices-autoscan-page .autoscan-summary-card .card-body,
+  .devices-autoscan-page .autoscan-device-card .card-body {
+    padding: 1rem;
+  }
+
+  .devices-autoscan-page .autoscan-submit-row .btn,
+  .devices-autoscan-page .autoscan-final-actions .btn,
+  .devices-autoscan-page .autoscan-device-save-row .btn {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .upload-form-page .upload-intro-card .card-body,
+  .upload-form-page .upload-form-card .card-body,
+  .upload-form-page .upload-notes-card .card-body {
+    padding: 1rem;
+  }
+
+  .update-page .update-card .card-body,
+  .update-page .update-log-card .card-body {
+    padding: 1rem;
+  }
+
+  .upload-form-page .upload-actions-row .btn {
+    width: 100%;
+  }
+
+  .update-page .update-toolbar .btn,
+  .update-page .update-actions-row .btn {
+    width: 100%;
   }
 }
 
@@ -602,7 +863,6 @@ body {
   &.btn-primary {
     background-color: $blueBtn;
     border-color: $blueBtnBorder;
-
     &:hover {
       background-color: $blueBtnHover;
       border-color: $blueBtnBorderHover;
@@ -664,7 +924,7 @@ th.link a,
 a {
   color: $lightBlueIcon;
 
-  &:not(.no-hover.btn) {
+  &:not(.no-hover.btn):not(.btn) {
     color: $lightBlueIconHover;
     text-decoration: none;
   }
@@ -1352,6 +1612,16 @@ hr {
     border-color: rgba(255, 255, 255, 0.12) !important;
   }
 
+  .site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control {
+    background-color: rgba(17, 24, 39, 0.56);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: $whiteNightMode;
+  }
+
+  .site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
   .devices-page .devices-panel {
     background-color: rgba(31, 37, 43, 0.9);
     border-color: rgba(255, 255, 255, 0.12);
@@ -1368,6 +1638,122 @@ hr {
   .devices-page .devices-empty-copy,
   .devices-page .batchActionFeedback {
     color: $whiteNightMode;
+  }
+
+  .devices-autoscan-page .nav-tabs {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .devices-autoscan-page .nav-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.72);
+    border-color: transparent;
+  }
+
+  .devices-autoscan-page .nav-tabs .nav-link:hover,
+  .devices-autoscan-page .nav-tabs .nav-link:focus {
+    color: $whiteNightMode;
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  .devices-autoscan-page .nav-tabs .nav-link.active {
+    background: #374151;
+    color: $whiteNightMode;
+    border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #374151;
+  }
+
+  .devices-autoscan-page .autoscan-form-card,
+  .devices-autoscan-page .autoscan-summary-card,
+  .devices-autoscan-page .autoscan-device-card {
+    background: #374151 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  }
+
+  .devices-autoscan-page .autoscan-form-card .card-body,
+  .devices-autoscan-page .autoscan-summary-card .card-body,
+  .devices-autoscan-page .autoscan-device-card .card-body,
+  .devices-autoscan-page .autoscan-form-card label,
+  .devices-autoscan-page .autoscan-summary-card strong,
+  .devices-autoscan-page .autoscan-summary-card .h5,
+  .devices-autoscan-page .autoscan-device-card label,
+  .devices-autoscan-page .autoscan-device-title {
+    color: $whiteNightMode;
+  }
+
+  .devices-autoscan-page .autoscan-form-card .form-control,
+  .devices-autoscan-page .autoscan-form-card textarea,
+  .devices-autoscan-page .autoscan-form-card .input-group-text,
+  .devices-autoscan-page .autoscan-device-card .form-control {
+    background-color: rgba(17, 24, 39, 0.56);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: $whiteNightMode;
+  }
+
+  .devices-autoscan-page .autoscan-form-card .form-control::placeholder,
+  .devices-autoscan-page .autoscan-form-card textarea::placeholder,
+  .devices-autoscan-page .autoscan-device-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+  }
+
+  .devices-autoscan-page .autoscan-form-card .form-control:disabled,
+  .devices-autoscan-page .autoscan-device-card .form-control:disabled {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.82);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .devices-autoscan-page .autoscan-device-name-help .default-name,
+  .devices-autoscan-page .autoscan-summary-card a {
+    color: #93c5fd;
+  }
+
+  .devices-autoscan-page .autoscan-summary-card .text-danger {
+    color: #fecdd3 !important;
+  }
+
+  .upload-form-page .upload-intro-card,
+  .upload-form-page .upload-form-card,
+  .upload-form-page .upload-notes-card {
+    background: #374151 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  }
+
+  .upload-form-page .upload-intro-card .card-body,
+  .upload-form-page .upload-form-card .card-body,
+  .upload-form-page .upload-notes-card .card-body,
+  .upload-form-page .upload-form-card label,
+  .upload-form-page .upload-notes-card,
+  .upload-form-page .upload-intro-card {
+    color: $whiteNightMode;
+  }
+
+  .upload-form-page .upload-form-card .form-control,
+  .upload-form-page .upload-form-card .form-select {
+    background-color: rgba(17, 24, 39, 0.56);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: $whiteNightMode;
+  }
+
+  .upload-form-page .upload-form-card .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.45) !important;
+  }
+
+  .update-page .update-card,
+  .update-page .update-log-card {
+    background: #374151 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  }
+
+  .update-page .update-card .card-body,
+  .update-page .update-log-card .card-body,
+  .update-page .update-version-arrow {
+    color: $whiteNightMode;
+  }
+
+  .update-page #progressbox .device + .device {
+    border-top-color: rgba(255, 255, 255, 0.12);
   }
 
   // Bootstrap 5 compatible table hover
@@ -1742,7 +2128,6 @@ hr {
     &.btn-primary {
       background-color: $nmBlueBtn;
       border-color: $nmBlueBtnBorder;
-
       &:hover {
         background-color: $nmBlueBtnHover;
         border-color: $nmBlueBtnBorderHover;

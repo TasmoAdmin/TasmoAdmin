@@ -31,7 +31,10 @@ class DeviceRepository
         'device_all_off',
         'device_protect_on',
         'device_protect_off',
+        'isUpdatable',
+        'port',
         'deviceConfirmToggle',
+        'mqttTopic',
     ];
 
     public function __construct(
@@ -75,6 +78,7 @@ class DeviceRepository
             $deviceHolder[11] = $device['device_port'] ?? Device::DEFAULT_PORT;
             $deviceHolder[12] = implode('|', $device['device_friendly_name'] ?? ($device['device_name'] ?? []));
             $deviceHolder[13] = $device['device_confirm_toggle'] ?? ($this->defaultConfirmDeviceToggles ? 1 : 0);
+            $deviceHolder[14] = trim((string) ($device['device_mqtt_topic'] ?? ''));
 
             fputcsv($handle, $deviceHolder, escape: self::CSV_ESCAPE);
         }
@@ -141,6 +145,38 @@ class DeviceRepository
         }
 
         return array_values($devices);
+    }
+
+    /**
+     * @return Device[]
+     */
+    public function getDevicesByMqttTopic(string $mqttTopic): array
+    {
+        $mqttTopic = trim($mqttTopic);
+        if ('' === $mqttTopic) {
+            return [];
+        }
+
+        $devices = [];
+        foreach ($this->getDevices() as $device) {
+            if ($device->mqttTopic === $mqttTopic) {
+                $devices[] = $device;
+            }
+        }
+
+        return $devices;
+    }
+
+    public function getDeviceByMqttTopic(string $mqttTopic): ?Device
+    {
+        $devices = $this->getDevicesByMqttTopic($mqttTopic);
+
+        return 1 === count($devices) ? $devices[0] : null;
+    }
+
+    public function isMqttTopicAmbiguous(string $mqttTopic): bool
+    {
+        return count($this->getDevicesByMqttTopic($mqttTopic)) > 1;
     }
 
     public function setDeviceValue(int $id, string $field, $value = null): ?Device
@@ -220,6 +256,7 @@ class DeviceRepository
         $deviceArr[11] = $device->port;
         $deviceArr[12] = implode('|', !empty($device->friendlyNames) ? $device->friendlyNames : $device->names);
         $deviceArr[13] = !empty($device->deviceConfirmToggle) ? $device->deviceConfirmToggle : 0;
+        $deviceArr[14] = $device->mqttTopic ?? '';
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);
@@ -268,6 +305,7 @@ class DeviceRepository
             11 => (string) Device::DEFAULT_PORT,
             12 => '',
             13 => $this->defaultConfirmDeviceToggles ? '1' : '0',
+            14 => '',
         ];
 
         foreach ($defaults as $index => $defaultValue) {

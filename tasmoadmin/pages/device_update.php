@@ -31,34 +31,38 @@ foreach ($devices as $device) {
     ];
 }
 ?>
-<div class='row justify-content-sm-center'>
-    <div class='col col-12 col-md-8 '>
-        <h2 class='text-sm-center mb-5'>
+<div class='row justify-content-sm-center update-page device-update-page'>
+    <div class='col col-12 col-xl-10'>
+        <h2 class='text-sm-center mb-4'>
             <?php echo $title; ?>
         </h2>
-    </div>
-</div>
-<div class='row justify-content-center'>
-    <div class='col col-12 col-md-10'>
         <?php if (empty($deviceIds)) { ?>
-            			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show mb-4" data-bs-dismiss="alert" role="alert">
                 <?php echo __('NO_DEVICES_SELECTED', 'DEVICE_UPDATE'); ?>
-                				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php } else { ?>
-            <div id='logGlobal' class='mt-3 border p-3'>
-
+            <div class='row g-4'>
+                <div class='col col-12'>
+                    <div class='card update-log-card'>
+                        <div class='card-body'>
+                            <div id='logGlobal' class='update-log-output'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='col col-12'>
+                    <div class='card update-log-card'>
+                        <div class='card-body'>
+                            <div id='progressbox' class='update-progress-output'></div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div id='progressbox' class='mt-3 border border-dark p-3'>
-
-            </div>
-
-        <input type='hidden' id='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
+            <input type='hidden' id='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
             <script>
                 const devices = <?php echo json_encode($devicesJson); ?>;
             </script>
             <script src="<?php echo $urlHelper->js('compiled/device_update'); ?>"></script>
         <?php } ?>
-    </div>
 </div>
