@@ -2,6 +2,7 @@
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
+use TasmoAdmin\Helper\CacheCleanupHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\LoginHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
@@ -10,7 +11,10 @@ use TasmoAdmin\Helper\TasmotaOtaScraper;
 $msg = false;
 $settings = [];
 
-if (isset($_POST['save'])) {
+if (isset($_POST['clean_temp_cache'])) {
+    CacheCleanupHelper::cleanTargets(_TMPDIR_, ['sessions', 'i18n']);
+    $msg = __('MSG_CACHE_CLEARED', 'USER_CONFIG');
+} elseif (isset($_POST['save'])) {
     $settings = $_POST;
     unset($settings['save']);
 
@@ -476,5 +480,6 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				</div>
 			</div>
 		</form>
+        <?php include __DIR__.'/elements/cache_cleanup_panel.php'; ?>
 	</div>
 </div>
