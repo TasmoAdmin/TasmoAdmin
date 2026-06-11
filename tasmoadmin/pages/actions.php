@@ -3,6 +3,7 @@
 use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\CacheCleanupHelper;
 use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Sonoff;
@@ -76,22 +77,8 @@ if (isset($_GET['downloadBackup'])) {
 if (isset($_GET['clean'])) {
     $what = explode('_', $_GET['clean']);
 
-    if (in_array('sessions', $what)) {
-        $files = glob(_TMPDIR_.'/sessions/*'); // get all file names
-        foreach ($files as $file) { // iterate files
-            if (is_file($file) && false === strpos($file, '.empty')) {
-                @unlink($file);
-            } // delete file
-        }
-    }
-
-    if (in_array('i18n', $what)) {
-        $files = glob(_TMPDIR_.'/cache/i18n/*'); // get all file names present in folder
-        foreach ($files as $file) { // iterate files
-            if (is_file($file)) {
-                @unlink($file);
-            }
-        }
+    if (array_intersect(['sessions', 'i18n'], $what)) {
+        CacheCleanupHelper::cleanTargets(_TMPDIR_, $what);
     }
 
     if (in_array('firmwares', $what)) {
