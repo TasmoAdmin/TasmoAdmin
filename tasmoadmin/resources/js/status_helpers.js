@@ -33,6 +33,71 @@ function normalizeStatusData(data = {}) {
   return normalized;
 }
 
+function parseUptimeToSeconds(uptime) {
+  if (typeof uptime !== "string") {
+    return null;
+  }
+
+  const normalizedUptime = uptime.trim();
+  const match = normalizedUptime.match(
+    /^(?:(?<days>\d+)T)?(?<hours>\d{1,2}):(?<minutes>\d{2}):(?<seconds>\d{2})$/,
+  );
+
+  if (!match || !match.groups) {
+    return null;
+  }
+
+  const days = Number.parseInt(match.groups.days ?? "0", 10);
+  const hours = Number.parseInt(match.groups.hours, 10);
+  const minutes = Number.parseInt(match.groups.minutes, 10);
+  const seconds = Number.parseInt(match.groups.seconds, 10);
+
+  if (
+    Number.isNaN(days) ||
+    Number.isNaN(hours) ||
+    Number.isNaN(minutes) ||
+    Number.isNaN(seconds)
+  ) {
+    return null;
+  }
+
+  return days * 24 * 3600 + hours * 3600 + minutes * 60 + seconds;
+}
+
+function extractFirstNumericValue(value) {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const normalizedValue = value
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&nbsp;/g, " ");
+  const match = normalizedValue.match(/[-+]?\d*\.?\d+/);
+
+  if (match === null) {
+    return null;
+  }
+
+  const parsedValue = Number.parseFloat(match[0]);
+  return Number.isNaN(parsedValue) ? null : parsedValue;
+}
+
+function getSortableVersionValue(version) {
+  if (typeof version !== "string") {
+    return null;
+  }
+
+  const match = version.match(/(\d+(?:\.\d+)+)/);
+  if (match === null) {
+    return null;
+  }
+
+  return match[1]
+    .split(".")
+    .map((part) => part.padStart(6, "0"))
+    .join(".");
+}
+
 function getRuntimeInfo(data, labels, now = new Date()) {
   const normalized = ensureStatusSections(data);
   const startup =
@@ -44,7 +109,7 @@ function getRuntimeInfo(data, labels, now = new Date()) {
     const startupDateTime = new Date(`${startup}Z`);
 
     if (!Number.isNaN(startupDateTime.getTime())) {
-      const secNum = (now - startupDateTime) / 1000;
+      const secNum = Math.max(0, Math.floor((now - startupDateTime) / 1000));
       const days = Math.floor(secNum / (3600 * 24));
       const hours = Math.floor((secNum - days * (3600 * 24)) / 3600);
       const minutes = Math.floor(
@@ -70,13 +135,18 @@ function getRuntimeInfo(data, labels, now = new Date()) {
 
       return {
         text,
+        sortValue: secNum,
         startupDateTime,
       };
     }
   }
 
+  const fallbackText =
+    normalized.StatusSTS.Uptime ?? normalized.StatusPRM.Uptime ?? "?";
+
   return {
-    text: normalized.StatusSTS.Uptime ?? normalized.StatusPRM.Uptime ?? "?",
+    text: fallbackText,
+    sortValue: parseUptimeToSeconds(fallbackText),
     startupDateTime: null,
   };
 }
@@ -99,7 +169,10 @@ function getIlluminance(data, joinString = "<br/>") {
 }
 
 module.exports = {
+  extractFirstNumericValue,
+  getSortableVersionValue,
   normalizeStatusData,
   getRuntimeInfo,
+  parseUptimeToSeconds,
   getIlluminance,
 };

@@ -15,6 +15,14 @@ function getBatchActionConfig(action) {
     };
   }
 
+  if (action === "backup") {
+    return {
+      action,
+      requiresCommand: false,
+      submitLabelKey: "BTN_START_BACKUP",
+    };
+  }
+
   return null;
 }
 
@@ -40,7 +48,12 @@ function validateBatchAction({
   return null;
 }
 
+function shouldSubmitBatchForm(action = "") {
+  return action === "backup";
+}
+
 module.exports = {
   getBatchActionConfig,
+  shouldSubmitBatchForm,
   validateBatchAction,
 };

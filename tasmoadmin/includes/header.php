@@ -100,7 +100,6 @@ $viewHelper = $container->get(ViewHelper::class);
 								        'device_config',
 								        'device_action',
 								        'devices_autoscan',
-								        'backup',
 								    ]
 								) ? 'active' : ''; ?>"
 								   href="#"
@@ -122,11 +121,6 @@ $viewHelper = $container->get(ViewHelper::class);
 									>
 										<?php echo __('UPDATE', 'NAVI'); ?>
 									</a>
-
-                                    <a class="dropdown-item nav-link <?php echo 'backup' == $page ? 'active' : ''; ?>"
-                                       href="<?php echo _BASEURL_; ?>backup"
-                                    ><?php echo __('DEVICES_BACKUP', 'NAVI'); ?>
-                                    </a>
 
 									<a class="dropdown-item nav-link <?php echo 'devices_autoscan' == $page ? 'active' : ''; ?>"
 									   href="<?php echo _BASEURL_; ?>devices_autoscan"

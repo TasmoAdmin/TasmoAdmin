@@ -1,14 +1,41 @@
 <?php
 
+use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
 $devices = $Sonoff->getDevices();
+
+if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isset($_POST['device_ids'])) {
+    $backupHelper = $container->get(BackupHelper::class);
+    $backupResults = $backupHelper->backup($_POST['device_ids']);
+    $backupAction = $backupResults->successful() ? 'success' : 'danger';
+}
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 devices-page'>
 
 		<?php if (!empty($devices)) { ?>
+            <?php if (isset($backupResults, $backupAction)) { ?>
+                <div class="devices-panel">
+                    <div class="alert alert-<?php echo $backupAction; ?> fade show mb-0" role="alert">
+                        <div class="col col-12">
+                            <?php echo __('BACKUP_FINISHED', 'BACKUP'); ?> -
+                            <a href="<?php echo _BASEURL_; ?>actions?downloadBackup"><?php echo __('DOWNLOAD_BACKUP', 'BACKUP'); ?></a>
+                            <?php if (!$backupResults->successful()) { ?>
+                                </br>
+                                </br>
+                                <?php echo __('BACKUP_FAILED', 'BACKUP'); ?>
+                                <ul>
+                                    <?php foreach ($backupResults->getFailures() as $failure) { ?>
+                                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                                    <?php } ?>
+                                </ul>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
 			<div class="devices-panel devices-toolbar">
 				<div class='row g-3 align-items-end devices-toolbar-row'>
 					<div class="col col-12 col-md-auto">
@@ -58,7 +85,9 @@ $devices = $Sonoff->getDevices();
 					</div>
 				</div>
 			</div>
-			<div class="devices-panel devices-table-panel">
+            <form method='post' action='<?php echo _BASEURL_; ?>devices' class='devices-batch-form'>
+                <input type='hidden' name='batch_action' class='batchActionField' value=''>
+                <div class="devices-panel devices-table-panel">
 					<div class='table-responsive double-scroll'>
                         <?php
                         $deviceLinks = true;
@@ -68,33 +97,38 @@ $devices = $Sonoff->getDevices();
 		    include 'elements/devices_table.php';
 		    ?>
 					</div>
-			</div>
-			<div class="devices-panel devices-batch-panel">
-				<div class='row g-3 align-items-end devices-batch-row'>
-					<div class="col col-12 col-lg-auto devices-batch-select-col">
-						<select class='form-select batchActionSelect' aria-label="<?php echo __('PLEASE_SELECT'); ?>">
-							<option value=''><?php echo __('PLEASE_SELECT'); ?></option>
-							<option value='command'><?php echo __('BTN_COMMAND', 'DEVICES'); ?></option>
-							<option value='delete'><?php echo __('DELETE_SELECTED', 'DEVICES'); ?></option>
-						</select>
-					</div>
-					<div class="col col-12 col-lg-auto batchActionCommandWrapper devices-batch-command-col d-none">
-						<input type='text'
-							   name='command'
-							   class='form-control batchActionCommandInput'
-							   placeholder="<?php echo __('CB_COMMAND', 'DEVICES'); ?>"
-						>
-					</div>
-					<div class="col col-12 col-sm-auto devices-batch-submit-col">
-						<button type='button' class='btn btn-primary applyBatchAction w-100' disabled>
-							<?php echo __('PLEASE_SELECT'); ?>
-						</button>
-					</div>
-					<div class="col col-12">
-						<small class="form-text batchActionFeedback d-none"></small>
-					</div>
-				</div>
-			</div>
+                </div>
+                <div class="devices-panel devices-batch-panel">
+                    <div class='row g-3 align-items-end devices-batch-row'>
+                        <div class="col col-12 col-lg-auto devices-batch-select-col">
+                            <select class='form-select batchActionSelect'
+                                    name='batch_action_select'
+                                    aria-label="<?php echo __('PLEASE_SELECT'); ?>"
+                            >
+                                <option value=''><?php echo __('PLEASE_SELECT'); ?></option>
+                                <option value='command'><?php echo __('BTN_COMMAND', 'DEVICES'); ?></option>
+                                <option value='backup'><?php echo __('BACKUP', 'BACKUP'); ?></option>
+                                <option value='delete'><?php echo __('DELETE_SELECTED', 'DEVICES'); ?></option>
+                            </select>
+                        </div>
+                        <div class="col col-12 col-lg-auto batchActionCommandWrapper devices-batch-command-col d-none">
+                            <input type='text'
+                                   name='command'
+                                   class='form-control batchActionCommandInput'
+                                   placeholder="<?php echo __('CB_COMMAND', 'DEVICES'); ?>"
+                            >
+                        </div>
+                        <div class="col col-12 col-sm-auto devices-batch-submit-col">
+                            <button type='button' class='btn btn-primary applyBatchAction w-100' disabled>
+                                <?php echo __('PLEASE_SELECT'); ?>
+                            </button>
+                        </div>
+                        <div class="col col-12">
+                            <small class="form-text batchActionFeedback d-none"></small>
+                        </div>
+                    </div>
+                </div>
+            </form>
 		<?php } else { ?>
 			<div class="devices-panel devices-empty-state text-center">
 				<div class='devices-empty-copy'>

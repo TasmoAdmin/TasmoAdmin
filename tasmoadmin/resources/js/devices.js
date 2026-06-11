@@ -17,7 +17,8 @@ import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
 import toggleConfirmation from "./toggle_confirmation";
 
-const { getRuntimeInfo } = statusHelpers;
+const { extractFirstNumericValue, getRuntimeInfo, getSortableVersionValue } =
+  statusHelpers;
 const {
   confirmAction,
   createTouchConfirmController,
@@ -29,13 +30,33 @@ const {
   parseHiddenColumns,
   serializeHiddenColumns,
 } = deviceListPreferences;
-const { getBatchActionConfig, validateBatchAction } = batchActions;
+const { getBatchActionConfig, shouldSubmitBatchForm, validateBatchAction } =
+  batchActions;
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
 let hiddenDeviceColumns = new Set();
 onI18nReady(function () {
   initIpSorting();
+  initCellDataSorting("rssi", ".rssi span", "data-sort-number", true);
+  initCellDataSorting("version", ".version span", "data-sort-text");
+  initCellDataSorting("runtime", ".runtime span", "data-runtime-seconds", true);
+  initCellDataSorting(
+    "energyPower",
+    ".energyPower span",
+    "data-sort-number",
+    true,
+  );
+  initCellDataSorting("temp", ".temp span", "data-sort-number", true);
+  initCellDataSorting("humidity", ".humidity span", "data-sort-number", true);
+  initCellDataSorting(
+    "illuminance",
+    ".illuminance span",
+    "data-sort-number",
+    true,
+  );
+  initCellDataSorting("sleep", ".sleep span", "data-sort-number", true);
+  initCellDataSorting("vcc", ".vcc span", "data-sort-number", true);
   deviceTools();
   initDeviceListPreferences();
 
@@ -108,17 +129,70 @@ function initIpSorting() {
 
       const textA = (a.cell || "").toLowerCase();
       const textB = (b.cell || "").toLowerCase();
-      if (textA === textB) {
-        return 0;
-      }
-
-      if (ascending) {
-        return textA > textB ? 1 : -1;
-      }
-
-      return textA < textB ? 1 : -1;
+      return compareTextValues(textA, textB, ascending);
     };
   });
+}
+
+function compareTextValues(textA, textB, ascending) {
+  if (textA === textB) {
+    return 0;
+  }
+
+  if (ascending) {
+    return textA > textB ? 1 : -1;
+  }
+
+  return textA < textB ? 1 : -1;
+}
+
+function initCellDataSorting(
+  columnId,
+  selector,
+  attributeName,
+  numeric = false,
+) {
+  const header = $(`#device-list thead th[data-column-id='${columnId}']`);
+  if (header.length === 0) {
+    return;
+  }
+
+  header.data("tablesaw-sort", function (ascending) {
+    return function (a, b) {
+      const rawValueA =
+        a.element?.querySelector?.(selector)?.getAttribute?.(attributeName) ??
+        "";
+      const rawValueB =
+        b.element?.querySelector?.(selector)?.getAttribute?.(attributeName) ??
+        "";
+
+      if (numeric) {
+        const valueA = Number.parseFloat(rawValueA);
+        const valueB = Number.parseFloat(rawValueB);
+
+        if (!Number.isNaN(valueA) && !Number.isNaN(valueB)) {
+          return ascending ? valueA - valueB : valueB - valueA;
+        }
+      } else if (rawValueA !== "" && rawValueB !== "") {
+        return compareTextValues(rawValueA, rawValueB, ascending);
+      }
+
+      const textA = (a.cell || "").toLowerCase();
+      const textB = (b.cell || "").toLowerCase();
+      return compareTextValues(textA, textB, ascending);
+    };
+  });
+}
+
+function setSortAttribute(row, selector, attributeName, value) {
+  const cell = $(row).find(selector);
+
+  if (value === null || value === undefined || value === "") {
+    cell.removeAttr(attributeName);
+    return;
+  }
+
+  cell.attr(attributeName, value);
 }
 
 function resizeDeviceListScroller() {
@@ -236,6 +310,7 @@ function initCommandHelper() {
     if ($(this).val() !== "command") {
       $(".batchActionCommandInput").val("");
     }
+    $(".batchActionField").val("");
     resetBatchActionFeedback();
     updateBatchActionUi();
   });
@@ -284,6 +359,21 @@ function initCommandHelper() {
       return false;
     }
 
+    if (shouldSubmitBatchForm(action)) {
+      $(".batchActionField").val("backup");
+      const form = $(this).closest("form").get(0);
+
+      if (form) {
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.submit();
+        }
+      }
+
+      return false;
+    }
+
     if (action === "delete") {
       if (!window.confirm(`${$.i18n("DELETE_SELECTED")}?`)) {
         return false;
@@ -297,6 +387,7 @@ function initCommandHelper() {
       return false;
     }
 
+    $(".batchActionField").val("");
     showBatchActionFeedback($.i18n("SUCCESS_COMMAND_SEND"), "text-success");
 
     $.each(selectedDevices, function (idx, device_id) {
@@ -315,6 +406,8 @@ function initCommandHelper() {
         );
       });
     });
+
+    return false;
   });
 
   updateBatchActionUi();
@@ -746,6 +839,7 @@ function updateRow(row, data, device_status) {
     $(row)
       .find(".rssi span")
       .html(rssi + "%")
+      .attr("data-sort-number", rssi)
       .attr("data-bs-title", ssid)
       .attr("data-bs-toggle", "tooltip");
 
@@ -763,6 +857,7 @@ function updateRow(row, data, device_status) {
     $(row)
       .find(".rssi span")
       .html("-")
+      .removeAttr("data-sort-number")
       .removeAttr("data-bs-title")
       .removeAttr("data-bs-toggle");
   }
@@ -770,28 +865,60 @@ function updateRow(row, data, device_status) {
   let energyPower = getEnergyPower(data, " / ");
   if (energyPower !== "") {
     $(row).find(".energyPower span").html(energyPower);
+    setSortAttribute(
+      row,
+      ".energyPower span",
+      "data-sort-number",
+      extractFirstNumericValue(energyPower),
+    );
     $("#device-list .energyPower").removeClass("hidden");
+  } else {
+    setSortAttribute(row, ".energyPower span", "data-sort-number", null);
   }
 
   let temp = getTemp(data);
 
   if (temp !== "") {
     $(row).find(".temp span").html(temp);
+    setSortAttribute(
+      row,
+      ".temp span",
+      "data-sort-number",
+      extractFirstNumericValue(temp),
+    );
     $("#device-list .temp").removeClass("hidden");
+  } else {
+    setSortAttribute(row, ".temp span", "data-sort-number", null);
   }
 
   let humidity = getHumidity(data);
 
   if (humidity !== "") {
     $(row).find(".humidity span").html(humidity);
+    setSortAttribute(
+      row,
+      ".humidity span",
+      "data-sort-number",
+      extractFirstNumericValue(humidity),
+    );
     $("#device-list .humidity").removeClass("hidden");
+  } else {
+    setSortAttribute(row, ".humidity span", "data-sort-number", null);
   }
 
   let illuminance = getIlluminance(data);
 
   if (illuminance !== "") {
     $(row).find(".illuminance span").html(illuminance);
+    setSortAttribute(
+      row,
+      ".illuminance span",
+      "data-sort-number",
+      extractFirstNumericValue(illuminance),
+    );
     $("#device-list .illuminance").removeClass("hidden");
+  } else {
+    setSortAttribute(row, ".illuminance span", "data-sort-number", null);
   }
 
   let pressure = getPressure(data);
@@ -828,7 +955,14 @@ function updateRow(row, data, device_status) {
     $("#device-list .idx").removeClass("hidden").show();
   }
 
-  $(row).find(".version span").html(data.StatusFWR.Version);
+  const version = data.StatusFWR.Version ?? "?";
+  $(row).find(".version span").html(version);
+  setSortAttribute(
+    row,
+    ".version span",
+    "data-sort-text",
+    getSortableVersionValue(version),
+  );
 
   if ($(row).hasClass("toggled")) {
     $(row).removeClass("toggled");
@@ -910,6 +1044,7 @@ function updateRow(row, data, device_status) {
     $(row)
       .find(".runtime span")
       .html(runtime.text)
+      .attr("data-runtime-seconds", runtime.sortValue ?? "")
       .attr(
         "data-bs-title",
         runtime.startupDateTime.toLocaleString(locale, { hour12: false }),
@@ -930,6 +1065,7 @@ function updateRow(row, data, device_status) {
     $(row)
       .find(".runtime span")
       .html(runtime.text)
+      .attr("data-runtime-seconds", runtime.sortValue ?? "")
       .removeAttr("data-bs-title")
       .removeAttr("data-bs-toggle");
   }
@@ -979,6 +1115,14 @@ function updateRow(row, data, device_status) {
       .html(
         data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
       );
+    setSortAttribute(
+      row,
+      ".sleep span",
+      "data-sort-number",
+      data.StatusPRM.Sleep ?? null,
+    );
+  } else {
+    setSortAttribute(row, ".sleep span", "data-sort-number", null);
   }
 
   $(row)
@@ -1016,6 +1160,12 @@ function updateRow(row, data, device_status) {
   $(row)
     .find(".vcc span")
     .html(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
+  setSortAttribute(
+    row,
+    ".vcc span",
+    "data-sort-number",
+    data.StatusSTS.Vcc ?? null,
+  );
 
   let device_hostname = sonoff.parseDeviceHostname(data);
   if (device_hostname !== false) {
