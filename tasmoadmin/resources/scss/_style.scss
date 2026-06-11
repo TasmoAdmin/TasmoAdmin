@@ -542,6 +542,32 @@ td {
 }
 
 #device-list {
+  .device_name a {
+    display: inline-block;
+    max-width: 16rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    white-space: nowrap;
+  }
+
+  &.short-list {
+    th,
+    td {
+      padding: 0.15rem 0.35rem;
+      font-size: 0.85rem;
+      vertical-align: middle;
+    }
+
+    td.actions {
+      min-width: 160px;
+    }
+
+    .device_name a {
+      max-width: 12rem;
+    }
+  }
+
   .form-check {
     &.form-checkbox {
       top: 2px;
@@ -549,6 +575,16 @@ td {
 
     .form-check-label::before {
     }
+  }
+}
+
+.device-columns-menu {
+  max-height: 24rem;
+  min-width: 14rem;
+  overflow-y: auto;
+
+  .device-column-option + .device-column-option {
+    margin-top: 0.5rem;
   }
 }
 

@@ -29,6 +29,7 @@ class ConfigTest extends TestCase
     {
         $config = $this->getConfig();
         self::assertEquals('auto', $config->read('nightmode'));
+        self::assertEquals('0', $config->read('confirm_device_toggles'));
     }
 
     public function testReadInvalidKey(): void
