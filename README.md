@@ -10,12 +10,12 @@
 
 [![GitHub release](https://badgen.net/github/release/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
 [![GitHub contributors](https://badgen.net/github/contributors/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/graphs/contributors/)
-[![GitHub stars](https://img.shields.io/github/stars/TasmoAdmin/TasmoAdmin.svg)](https://github.com/TasmoAdmin/TasmoAdmin/stargazers)
+[![GitHub stars](https://badgen.net/github/stars/TasmoAdmin/TasmoAdmin)](https://github.com/TasmoAdmin/TasmoAdmin/stargazers)
 [![GitHub forks](https://badgen.net/github/forks/TasmoAdmin/TasmoAdmin)](https://github.com/TasmoAdmin/TasmoAdmin/network)
 [![Github all releases](https://badgen.net/github/dt/TasmoAdmin/TasmoAdmin)](https://GitHub.com/TasmoAdmin/TasmoAdmin/releases/)
 [![GitHub license](https://badgen.net/github/license/TasmoAdmin/TasmoAdmin)](https://github.com/TasmoAdmin/TasmoAdmin/blob/master/LICENSE)
-[![bootstap](https://img.shields.io/badge/bootstrap-v4.5.x-%23563d7c.svg)](https://getbootstrap.com/)
-[![php](https://img.shields.io/badge/php-8.5.x-%238892BF.svg)](https://secure.php.net/)
+[![bootstrap](https://img.shields.io/badge/bootstrap-v5.3.x-%237952B3.svg)](https://getbootstrap.com/)
+[![php](https://img.shields.io/badge/php-8.2%2B-%238892BF.svg)](https://www.php.net/)
 
 </div>
 
@@ -26,16 +26,22 @@ TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed
 * Login protected
 * Multi update process
   * Select devices to update
-  * Automatic mode downloads latest firmware bin from Tasmota OTA site
-* Show device information
-* Mobile Responsive (Bootstrap4)
-  * SCSS & Minified
-* Config devices
+  * Automatic mode downloads latest firmware bin from the Tasmota OTA site
+* Show device information and sensor data
+* Responsive Bootstrap 5 interface
+  * SCSS-based assets with minified builds
+* Configure devices from the web UI
 * Self-update function for TasmoAdmin (disabled for Docker installs)
-* NightMode (Enable/Disable/Auto) in settings
-* AutoScan to find Tasmota Devices
+* Night mode with `Enable` / `Disable` / `Auto` settings
+* Autoscan to find Tasmota devices
+  * Network range scanning
+  * MQTT broker discovery with configurable topic prefixes, subscriptions, and timeout
+* Optional touch-friendly toggle confirmations
+  * Global default in settings
+  * Per-device override
 * Support for multiple sensors
-* Send Command to selected Devices
+* Send commands to selected devices
+* Encrypt stored device passwords at rest
 
 ### Supported Platforms
 * Apache2 and Nginx
@@ -64,7 +70,7 @@ TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/)
 
 ### Using a Web Server
 
-TasmoAdmin should run on any webserver that supports PHP 8.1+
+TasmoAdmin should run on any webserver that supports PHP 8.2 or newer.
 
 Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki for more information.
 
@@ -89,6 +95,18 @@ TasmoAdmin encrypts only the `password` column in `devices.csv`. Usernames, colu
 Encrypted password cells are stored as `enc:v1:<base64(iv||tag||ciphertext)>`.
 
 On the first read after upgrading, legacy plaintext password cells are migrated in place to the encrypted format. Running `clean=devices` removes both `devices.csv` and `.device-password.key` for file-backed installs.
+
+### MQTT Discovery
+
+TasmoAdmin can discover devices through your MQTT broker in addition to classic network autoscan.
+
+Configure the broker connection in `Settings -> MQTT discovery`, then use the MQTT tab in autoscan to:
+
+* subscribe to one or more discovery topics such as `tele/+/LWT`
+* match existing devices by MQTT topic and refresh their status
+* add newly discovered devices from broker responses
+
+You can also store a device-specific MQTT topic in the device edit form to make MQTT discovery matching more reliable in installations with custom topic layouts.
 
 ## Development
 
@@ -148,6 +166,8 @@ Notes:
 * `ddev install-deps` runs `composer install` and `npm ci` in `tasmoadmin/`
 * `ddev build-assets` runs the frontend build
 * `ddev qa` runs the Composer quality checks
+* `ddev exec npm run test:js` runs the JavaScript test suite
+* `ddev exec npm run prettier:check` verifies formatting for frontend files
 
 
 ## Translations
