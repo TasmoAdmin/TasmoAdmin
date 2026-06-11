@@ -288,31 +288,47 @@ body {
   align-items: flex-start;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-field
+  .form-control {
   width: 100%;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-clear-password {
   display: flex;
   align-items: center;
   gap: 0.55rem;
   margin: 0;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password .form-check-input {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-clear-password
+  .form-check-input {
   margin-top: 0;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-clear-password .form-check-label {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-clear-password
+  .form-check-label {
   margin-bottom: 0;
   line-height: 1.35;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field-textarea {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-field-textarea {
   justify-content: stretch;
 }
 
-.site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field-textarea textarea {
+.site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-field-textarea
+  textarea {
   min-height: 7rem;
   resize: vertical;
 }
@@ -1612,13 +1628,19 @@ hr {
     border-color: rgba(255, 255, 255, 0.12) !important;
   }
 
-  .site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control {
+  .site-config-page
+    .mqtt-discovery-settings-section
+    .mqtt-discovery-field
+    .form-control {
     background-color: rgba(17, 24, 39, 0.56);
     border-color: rgba(255, 255, 255, 0.12);
     color: $whiteNightMode;
   }
 
-  .site-config-page .mqtt-discovery-settings-section .mqtt-discovery-field .form-control::placeholder {
+  .site-config-page
+    .mqtt-discovery-settings-section
+    .mqtt-discovery-field
+    .form-control::placeholder {
     color: rgba(255, 255, 255, 0.45) !important;
   }
 
