@@ -10,20 +10,15 @@ Changelog information was migrated to GitHub releases. Check the [releases](http
 
 #### What's Changed
 
-* Restore i18n loading for public pages and fix language change redirects
-* Add repo-managed pre-commit hooks for PHP and frontend validation checks
-* Harden device status payload parsing to preserve uptime and MQTT state across payload variants
-* Add shared JavaScript status helpers with regression coverage for device table rendering
-* Replace broken README GitHub stat badges
-* Update the repo Node.js runtime to `v24`
-* Migrate Docker CI and release jobs to `docker/setup-qemu-action` and `docker/setup-buildx-action`
-* Remove the legacy manual QEMU bootstrap from the Docker build pipeline
-* Restore public i18n loading while keeping language redirects and `/actions` authentication behavior aligned
-* Rework bootstrap and frontend i18n loading so translation requests and page rendering use the correct initialization order
-* Encrypt device passwords at rest in `devices.csv` with key resolution, migration, and repository-layer decryption for existing workflows
-* Harden encrypted password migration and single-device lookups to avoid legacy prefix breakage and unrelated-row credential failures
+* Add MQTT broker discovery with configurable topic prefixes, subscriptions, timeouts, and device-specific topic matching
+* Restore PHP 8.2-compatible MQTT adapter syntax while keeping the newer MQTT discovery flow covered by tests
+* Encrypt device passwords at rest in `devices.csv`, migrate legacy plaintext values in place, and harden related repository edge cases
+* Improve self-update failure handling for invalid archives, missing release roots, and copy failures
+* Refine the device list and startpage with batch restart, backup, delete, and command actions plus per-device hide-from-startpage and toggle-confirm controls
+* Refresh device-table theming, loading states, responsive header actions, and public-page i18n/bootstrap initialization
 * Show git fallback version and branch details in the footer when release metadata is unavailable
-* Stabilize Docker builder dependency installation by preferring source installs during Composer package resolution
+* Add repo-managed pre-commit hooks, update the repo Node.js runtime to `v24`, and migrate Docker CI jobs to managed QEMU/Buildx actions
+* Expand PHP and JavaScript regression coverage across config, update, MQTT, helper, and device-list workflows
 
 ## PUBLISHED
 
