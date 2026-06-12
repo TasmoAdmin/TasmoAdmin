@@ -110,6 +110,39 @@ class BackupHelperTest extends TestCase
         self::assertSame([$failure], $results->getFailures());
     }
 
+    public function testBackupSkipsUnknownDeviceIdsAndStillCreatesEmptyZip(): void
+    {
+        file_put_contents($this->backupPath.'stale.txt', 'old');
+
+        $repository = $this->createMock(DeviceRepository::class);
+        $repository->expects(self::once())
+            ->method('getDeviceById')
+            ->with(99)
+            ->willReturn(null)
+        ;
+
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->expects(self::never())->method('backup');
+
+        $helper = new BackupHelper($repository, $sonoff, $this->backupPath);
+
+        $results = $helper->backup([99]);
+
+        self::assertTrue($results->successful());
+        self::assertSame([], $results->getFailures());
+        self::assertFileDoesNotExist($this->backupPath.'stale.txt');
+        self::assertDirectoryExists($this->backupPath);
+        self::assertFileDoesNotExist($helper->getBackupZipPath());
+    }
+
+    public function testBackupResultsHelpersTreatEmptyResultSetAsSuccessful(): void
+    {
+        $results = new BackupResults([]);
+
+        self::assertTrue($results->successful());
+        self::assertSame([], $results->getFailures());
+    }
+
     private function removeDirectory(string $directory): void
     {
         if (!is_dir($directory)) {

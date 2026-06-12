@@ -70,4 +70,55 @@ class DevicesTableSortableColumnsTest extends TestCase
             ['vcc'],
         ];
     }
+
+    public function testDevicesTableRendersCurrentFooterControls(): void
+    {
+        if (!defined('_BASEURL_')) {
+            define('_BASEURL_', '/');
+        }
+        if (!defined('_RESOURCESURL_')) {
+            define('_RESOURCESURL_', '/resources/');
+        }
+
+        $devices = [
+            new Device(1, ['Desk Lamp'], '192.168.1.10', '', ''),
+        ];
+        $deviceLinks = true;
+        $deviceLinksHideClass = '';
+
+        ob_start();
+
+        include __DIR__.'/../../pages/elements/devices_table.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertSame(1, substr_count($output, '<tfoot>'));
+        self::assertSame(2, substr_count($output, 'id="select_all"'));
+    }
+
+    public function testDevicesTableDoesNotUseBrokenStackLayout(): void
+    {
+        if (!defined('_BASEURL_')) {
+            define('_BASEURL_', '/');
+        }
+        if (!defined('_RESOURCESURL_')) {
+            define('_RESOURCESURL_', '/resources/');
+        }
+
+        $devices = [
+            new Device(1, ['Desk Lamp'], '192.168.1.10', '', ''),
+        ];
+        $deviceLinks = true;
+        $deviceLinksHideClass = '';
+
+        ob_start();
+
+        include __DIR__.'/../../pages/elements/devices_table.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertStringContainsString('tablesaw tablesaw-stack', $output);
+        self::assertStringContainsString('data-tablesaw-mode="stack"', $output);
+        self::assertStringNotContainsString('data-tablesaw-mode="swipe"', $output);
+    }
 }

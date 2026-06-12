@@ -86,6 +86,39 @@ class IpHelperTest extends TestCase
         $ipHelper->fetchIpsForRanges(['127.0.0.1:127.0.0.2']);
     }
 
+    public function testFetchIpsForRangesTrimsWhitespaceAndSkipsEmptyEntries(): void
+    {
+        $ipHelper = new IpHelper();
+        $ips = $ipHelper->fetchIpsForRanges([
+            ' 127.0.0.1 - 127.0.0.2 ',
+            '   ',
+            "\t127.0.0.3\t",
+        ]);
+
+        self::assertSame([
+            '127.0.0.1',
+            '127.0.0.2',
+            '127.0.0.3',
+        ], $ips);
+    }
+
+    public function testFetchIpsForRangesRejectsRangeExpressionsWithTooManyParts(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $ipHelper = new IpHelper();
+        $ipHelper->fetchIpsForRanges(['127.0.0.1-127.0.0.2-127.0.0.3']);
+    }
+
+    public function testFetchIpsForRangesRejectsCombinedUniqueResultSetAboveLimit(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $ipHelper = new IpHelper();
+        $ipHelper->fetchIpsForRanges([
+            '127.0.0.1-127.0.4.0',
+            '127.0.4.1',
+        ]);
+    }
+
     /**
      * @dataProvider provideInvalidIps
      */

@@ -19,6 +19,7 @@ class RedirectHelperTest extends TestCase
     {
         return [
             ['/', '/foo/bar', '/'],
+            ['/tasmoadmin', '/tasmoadmin/devices', '/tasmoadmin/start'],
         ];
     }
 
@@ -38,5 +39,13 @@ class RedirectHelperTest extends TestCase
             ['/\bad.com/foo/bar'],
             ['://bad.com/foo/bar'],
         ];
+    }
+
+    public function testGetValidRedirectUrlRejectsUrlsOutsideConfiguredBasePath(): void
+    {
+        $fallbackUrl = '/tasmoadmin/start';
+        $redirectHelper = new RedirectHelper('/tasmoadmin');
+
+        self::assertSame($fallbackUrl, $redirectHelper->getValidRedirectUrl('/other/path', $fallbackUrl));
     }
 }

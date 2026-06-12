@@ -70,7 +70,7 @@ class SelfUpdate
 
         $zip = new \ZipArchive();
         $res = $zip->open($file);
-        if (!$res) {
+        if (true !== $res) {
             $this->logs[] = __('ERROR_FILE_EXTRACTED_TO', 'SELFUPDATE', [$file, $temp]);
 
             return false;
@@ -91,35 +91,37 @@ class SelfUpdate
 
         if (empty($firstDir)) {
             $this->logs[] = __('ERROR_EMPTY_FIRST_DIR', 'SELFUPDATE');
-        } else {
-            $firstDir = realpath($temp.'/'.$firstDir);
-            $this->logs[] = __('FIRST_DIRECTORY', 'SELFUPDATE', [$firstDir]);
-            if (is_dir($firstDir)) {
-                if ('dev' === $this->config->read('update_channel')) {
-                    $this->logs[] = __('CONTENT_COPY_SKIP_DEV', 'SELFUPDATE');
-                    if ($this->removeDirectory($firstDir)) {
-                        $this->logs[] = __('TEMP_DIR_DELETED', 'SELFUPDATE');
-                    } else {
-                        echo 'Error deleting temp directory!<br />';
-                        $this->logs[] = __('ERROR_COULD_NOT_DELETE_TEMP_DIR', 'SELFUPDATE');
-                    }
-                } elseif ($this->copyDirectoryContents($firstDir, $path)) {
-                    $this->logs[] = __('CONTENT_COPY_DONE', 'SELFUPDATE');
 
-                    if ($this->removeDirectory($firstDir)) {
-                        $this->logs[] = __('TEMP_DIR_DELETED', 'SELFUPDATE');
-                        $this->logs[] = '<br/><strong>'.__('COPY_DONE', 'SELFUPDATE').'</strong>';
-                    } else {
-                        echo 'Error deleting temp directory!<br />';
-                        $this->logs[] = __('ERROR_COULD_NOT_DELETE_TEMP_DIR', 'SELFUPDATE');
-                    }
+            return false;
+        }
+        $firstDir = realpath($temp.'/'.$firstDir);
+        $this->logs[] = __('FIRST_DIRECTORY', 'SELFUPDATE', [$firstDir]);
+        if (is_dir($firstDir)) {
+            if ('dev' === $this->config->read('update_channel')) {
+                $this->logs[] = __('CONTENT_COPY_SKIP_DEV', 'SELFUPDATE');
+                if ($this->removeDirectory($firstDir)) {
+                    $this->logs[] = __('TEMP_DIR_DELETED', 'SELFUPDATE');
                 } else {
-                    echo 'Error copying directory contents!<br />';
-                    $this->logs[] = __('ERROR_COULD_NOT_COPY_UPDATE', 'SELFUPDATE');
+                    $this->logs[] = __('ERROR_COULD_NOT_DELETE_TEMP_DIR', 'SELFUPDATE');
+                }
+            } elseif ($this->copyDirectoryContents($firstDir, $path)) {
+                $this->logs[] = __('CONTENT_COPY_DONE', 'SELFUPDATE');
+
+                if ($this->removeDirectory($firstDir)) {
+                    $this->logs[] = __('TEMP_DIR_DELETED', 'SELFUPDATE');
+                    $this->logs[] = '<br/><strong>'.__('COPY_DONE', 'SELFUPDATE').'</strong>';
+                } else {
+                    $this->logs[] = __('ERROR_COULD_NOT_DELETE_TEMP_DIR', 'SELFUPDATE');
                 }
             } else {
-                $this->logs[] = __('ERROR_EMPTY_FIRST_DIR', 'SELFUPDATE');
+                $this->logs[] = __('ERROR_COULD_NOT_COPY_UPDATE', 'SELFUPDATE');
+
+                return false;
             }
+        } else {
+            $this->logs[] = __('ERROR_EMPTY_FIRST_DIR', 'SELFUPDATE');
+
+            return false;
         }
 
         return true;
@@ -148,11 +150,19 @@ class SelfUpdate
 
     private function copyDirectoryContents($source, $destination): bool
     {
+        $destination = rtrim((string) $destination, DIRECTORY_SEPARATOR);
+        if ('' === $destination) {
+            $destination = DIRECTORY_SEPARATOR;
+        }
+
         if (!is_dir($source)) {
             return false;
         }
 
         if (!is_dir($destination)) {
+            if (file_exists($destination)) {
+                return false;
+            }
             mkdir($destination);
         }
 

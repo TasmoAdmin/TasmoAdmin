@@ -237,13 +237,82 @@ class MqttDiscoveryServiceTest extends TestCase
         self::assertSame([['home/cmnd/downstairs/lamp/STATUS', '0']], $client->publishedMessages);
     }
 
-    private function createService(DeviceRepository $repository, FakeMqttClient $client): MqttDiscoveryService
+    public function testScanMarksInvalidStatusPayloadAsOffline(): void
+    {
+        $repository = $this->createRepository();
+        $client = new FakeMqttClient([
+            ['tele/broken-device/LWT', 'Online'],
+            ['stat/broken-device/STATUS0', json_encode([
+                'Status' => [
+                    'FriendlyName' => ['Broken Device'],
+                ],
+                'StatusNET' => [],
+            ], JSON_THROW_ON_ERROR)],
+        ]);
+        $service = $this->createService($repository, $client);
+
+        $result = $service->scan($this->createRequest());
+
+        self::assertCount(0, $result->newDevices);
+        self::assertCount(1, $result->offlineTopics);
+        self::assertSame('broken-device', $result->offlineTopics[0]['mqttTopic']);
+        self::assertSame('invalid-status0-response', $result->offlineTopics[0]['reason']);
+    }
+
+    public function testScanMarksAmbiguousLegacyAddressAsConflict(): void
+    {
+        $repository = $this->createRepository();
+        $repository->addDevices([
+            [
+                'device_name' => ['legacy-1'],
+                'device_ip' => '192.168.1.90',
+                'device_port' => 80,
+            ],
+            [
+                'device_name' => ['legacy-2'],
+                'device_ip' => '192.168.1.90',
+                'device_port' => 80,
+            ],
+        ], 'user', 'pass');
+
+        $client = new FakeMqttClient([
+            ['tele/ambiguous-topic/LWT', 'Online'],
+            ['stat/ambiguous-topic/STATUS0', $this->buildStatusPayload('192.168.1.90', ['Ambiguous Device'])],
+        ]);
+        $service = $this->createService($repository, $client);
+
+        $result = $service->scan($this->createRequest());
+
+        self::assertCount(0, $result->updatedDevices);
+        self::assertCount(0, $result->newDevices);
+        self::assertCount(1, $result->conflicts);
+        self::assertSame('ambiguous-topic', $result->conflicts[0]['mqttTopic']);
+        self::assertSame('legacy-address-ambiguous', $result->conflicts[0]['reason']);
+    }
+
+    public function testScanDisconnectsClientWhenLoopFails(): void
+    {
+        $repository = $this->createRepository();
+        $client = new DisconnectTrackingMqttClient();
+        $service = $this->createService($repository, $client);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('loop failed');
+
+        try {
+            $service->scan($this->createRequest());
+        } finally {
+            self::assertTrue($client->disconnected);
+        }
+    }
+
+    private function createService(DeviceRepository $repository, MqttClientInterface $client): MqttDiscoveryService
     {
         return new MqttDiscoveryService(
             $repository,
             new ResponseParser(),
             new class($client) implements MqttClientFactoryInterface {
-                public function __construct(private FakeMqttClient $client) {}
+                public function __construct(private MqttClientInterface $client) {}
 
                 public function create(string $host, int $port): MqttClientInterface
                 {
@@ -400,5 +469,26 @@ class FakeMqttClient implements MqttClientInterface
         }
 
         return count($filterParts) === count($topicParts);
+    }
+}
+
+class DisconnectTrackingMqttClient implements MqttClientInterface
+{
+    public bool $disconnected = false;
+
+    public function connect(?string $username, ?string $password, int $timeoutSeconds): void {}
+
+    public function subscribe(string $topicFilter, callable $callback): void {}
+
+    public function publish(string $topic, string $payload): void {}
+
+    public function loopOnce(float $loopStartedAt): void
+    {
+        throw new \RuntimeException('loop failed');
+    }
+
+    public function disconnect(): void
+    {
+        $this->disconnected = true;
     }
 }

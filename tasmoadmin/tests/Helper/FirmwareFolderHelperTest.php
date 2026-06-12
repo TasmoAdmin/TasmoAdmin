@@ -28,4 +28,22 @@ class FirmwareFolderHelperTest extends TestCase
         FirmwareFolderHelper::clean($filesystem->url().'/');
         self::assertCount(1, $filesystem->getChildren());
     }
+
+    public function testCleanPreservesHtaccessAndNestedDirectories(): void
+    {
+        $filesystem = vfsStream::setup('firmware', null, [
+            'firmware.bin' => 'contents',
+            '.htaccess' => 'deny from all',
+            'nested' => [
+                'keep.txt' => 'keep',
+            ],
+        ]);
+
+        FirmwareFolderHelper::clean($filesystem->url().'/');
+
+        self::assertTrue($filesystem->hasChild('.htaccess'));
+        self::assertTrue($filesystem->hasChild('nested'));
+        self::assertFileExists($filesystem->url().'/nested/keep.txt');
+        self::assertFalse($filesystem->hasChild('firmware.bin'));
+    }
 }

@@ -7,6 +7,11 @@ use Symfony\Component\Filesystem\Filesystem;
 class DeviceRepository
 {
     private const CSV_ESCAPE = '\\';
+    private const UPDATE_FIELD_PROPERTY_MAP = [
+        'device_all_off' => 'deviceAllOff',
+        'device_protect_on' => 'deviceProtectionOn',
+        'device_protect_off' => 'deviceProtectionOff',
+    ];
 
     private string $file;
 
@@ -19,7 +24,6 @@ class DeviceRepository
     private bool $defaultConfirmDeviceToggles;
 
     private array $allowedUpdateFields = [
-        'id',
         'names',
         'friendlyNames',
         'position',
@@ -190,7 +194,8 @@ class DeviceRepository
             return null;
         }
 
-        $device->{$field} = $value;
+        $property = self::UPDATE_FIELD_PROPERTY_MAP[$field] ?? $field;
+        $device->{$property} = $value;
 
         return $this->updateDevice($device);
     }

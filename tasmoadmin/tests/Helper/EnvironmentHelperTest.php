@@ -19,6 +19,9 @@ class EnvironmentHelperTest extends TestCase
 
         putenv('NO_AUTH=1');
         self::assertTrue(EnvironmentHelper::isEnabled('NO_AUTH'));
+
+        putenv('NO_AUTH=yes');
+        self::assertTrue(EnvironmentHelper::isEnabled('NO_AUTH'));
     }
 
     public function testIsEnabledReturnsFalseForFalsyValues(): void
@@ -27,6 +30,9 @@ class EnvironmentHelperTest extends TestCase
         self::assertFalse(EnvironmentHelper::isEnabled('NO_AUTH'));
 
         putenv('NO_AUTH=0');
+        self::assertFalse(EnvironmentHelper::isEnabled('NO_AUTH'));
+
+        putenv('NO_AUTH=off');
         self::assertFalse(EnvironmentHelper::isEnabled('NO_AUTH'));
     }
 

@@ -81,6 +81,22 @@ class DevicePasswordCipherTest extends TestCase
         self::assertFalse($cipher->isRecognizedEncryptedPayload(DevicePasswordCipher::STORAGE_PREFIX.'plain-password'));
     }
 
+    public function testIsEncryptedOnlyChecksStoragePrefix(): void
+    {
+        $cipher = $this->getCipher();
+
+        self::assertTrue($cipher->isEncrypted(DevicePasswordCipher::STORAGE_PREFIX.'anything'));
+        self::assertFalse($cipher->isEncrypted('plain-password'));
+    }
+
+    public function testRejectsTruncatedCiphertextPayload(): void
+    {
+        $cipher = $this->getCipher();
+
+        $this->expectException(DeviceCredentialException::class);
+        $cipher->decrypt(DevicePasswordCipher::STORAGE_PREFIX.base64_encode('short'));
+    }
+
     private function getCipher(?string $encodedKey = null): DevicePasswordCipher
     {
         $encodedKey ??= base64_encode(random_bytes(DevicePasswordKeyProvider::KEY_LENGTH));
