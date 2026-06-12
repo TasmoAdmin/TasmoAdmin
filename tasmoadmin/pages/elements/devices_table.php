@@ -6,6 +6,9 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
     $deviceLinkActionText = '';
 }
 
+$loadingText = htmlspecialchars(__('TEXT_LOADING'), ENT_QUOTES, 'UTF-8');
+$loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingText}' data-bs-toggle='tooltip' data-bs-title='{$loadingText}'></span>";
+
 ?>
 
 
@@ -152,32 +155,17 @@ if (isset($devices) && !empty($devices)) {
                     </td>
                     <td class='rssi' data-column-id='rssi'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='version' data-column-id='version'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='runtime' data-column-id='runtime'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='energyPower hidden' data-column-id='energyPower'>
@@ -204,32 +192,17 @@ if (isset($devices) && !empty($devices)) {
 
                     <td class='more hostname dblcEdit' data-column-id='hostname' data-cmnd='Hostname'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more mac' data-column-id='mac'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more mqtt dblcEdit' data-column-id='mqtt' data-cmnd='Mqtt'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more idx hidden' data-column-id='idx'>
@@ -239,92 +212,47 @@ if (isset($devices) && !empty($devices)) {
                     </td>
                     <td class='more poweronstate dblcEdit' data-column-id='poweronstate' data-cmnd='PowerOnState'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more ledstate dblcEdit' data-column-id='ledstate' data-cmnd='LedState'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more savedata dblcEdit' data-column-id='savedata' data-cmnd='SaveData'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more sleep dblcEdit' data-column-id='sleep' data-cmnd='Sleep'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more bootcount' data-column-id='bootcount'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more savecount' data-column-id='savecount'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more log' data-column-id='log'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more wificonfig dblcEdit' data-column-id='wificonfig' data-cmnd='WifiConfig'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
                     <td class='more vcc' data-column-id='vcc'>
 														<span>
-															<div class='loader'>
-																<img src='<?php echo _RESOURCESURL_; ?>img/loading.gif'
-                                                                     alt='<?php echo __('TEXT_LOADING'); ?>'
-                                                                    data-bs-toggle="tooltip" data-bs-title='<?php echo __('TEXT_LOADING'); ?>'
-                                                                >
-															</div>
+															<?php echo $loadingIndicator; ?>
 														</span>
                     </td>
 
