@@ -5,6 +5,7 @@ const {
   getRuntimeInfo,
   parseUptimeToSeconds,
   extractFirstNumericValue,
+  getEnergyPower,
   getIlluminance,
   getSortableVersionValue,
 } = require("../../resources/js/status_helpers.js");
@@ -91,6 +92,26 @@ test("getIlluminance extracts illuminance readings from sensor payloads", () => 
       " | ",
     ),
     "40 lx | 125 lx",
+  );
+});
+
+test("getEnergyPower keeps the visible energy order stable", () => {
+  assert.equal(
+    getEnergyPower(
+      {
+        StatusSNS: {
+          ENERGY: {
+            Power: 105,
+            Today: 0.329,
+            Yesterday: 0.513,
+            Total: 12.345,
+            Current: 0.456,
+          },
+        },
+      },
+      " | ",
+    ),
+    "105 W | 0.329 / 0.513 / 12.345 kWh | 0.456 A",
   );
 });
 

@@ -168,11 +168,46 @@ function getIlluminance(data, joinString = "<br/>") {
   return illuminance.join(joinString);
 }
 
+function getEnergyPower(data, joinString = "<br/>") {
+  const normalized = ensureStatusSections(data);
+  const energyPower = [];
+  const energy = normalized.StatusSNS.ENERGY;
+
+  if (energy === undefined) {
+    return "";
+  }
+
+  if (energy.Power !== undefined) {
+    energyPower.push(`${energy.Power} W`);
+  }
+
+  if (energy.Today !== undefined) {
+    const totals = [energy.Today];
+
+    if (energy.Yesterday !== undefined) {
+      totals.push(energy.Yesterday);
+    }
+
+    if (energy.Total !== undefined) {
+      totals.push(energy.Total);
+    }
+
+    energyPower.push(`${totals.join(" / ")} kWh`);
+  }
+
+  if (energy.Current !== undefined) {
+    energyPower.push(`${energy.Current} A`);
+  }
+
+  return energyPower.join(joinString);
+}
+
 module.exports = {
   extractFirstNumericValue,
   getSortableVersionValue,
   normalizeStatusData,
   getRuntimeInfo,
   parseUptimeToSeconds,
+  getEnergyPower,
   getIlluminance,
 };

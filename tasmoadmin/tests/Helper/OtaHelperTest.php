@@ -4,6 +4,7 @@ namespace Tests\TasmoAdmin\Helper;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Config;
 use TasmoAdmin\Helper\OtaHelper;
@@ -51,9 +52,7 @@ class OtaHelperTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider firmwarePathProvider
-     */
+    #[DataProvider('firmwarePathProvider')]
     public function testGetFirmwareUrlUsesBasenameForPathVariants(string $firmware, string $expectedFileName): void
     {
         $config = new Config($this->root->url().'/', $this->root->url().'/');

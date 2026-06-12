@@ -1,4 +1,5 @@
 import {
+  disposeTooltip,
   getHumidity,
   getIlluminance,
   getTemp,
@@ -10,6 +11,7 @@ import {
   getRefreshTime,
   chunkArray,
   onI18nReady,
+  refreshTooltip,
 } from "./app";
 import deviceListPreferences from "./device_list_preferences";
 import batchActions from "./device_batch_actions";
@@ -35,6 +37,7 @@ const { getBatchActionConfig, shouldSubmitBatchForm, validateBatchAction } =
 const refreshtime = getRefreshTime();
 
 let ignoreProtectionsTimer;
+let batchActionFeedbackTimer;
 let hiddenDeviceColumns = new Set();
 onI18nReady(function () {
   initIpSorting();
@@ -257,6 +260,7 @@ function refreshDeviceListLayout() {
     const columnId = cell.data("columnId");
     const shouldShow = !hiddenDeviceColumns.has(columnId);
 
+    cell.toggleClass("device-column-hidden", !shouldShow);
     cell.toggle(shouldShow);
   });
 
@@ -387,6 +391,18 @@ function initCommandHelper() {
       return false;
     }
 
+    if (action === "restart") {
+      const modal = $("#deleteDeviceModal");
+      modal.data("dialog-action", "restart-batch");
+      modal.data("dialog-device-ids", selectedDevices.join(","));
+      modal.find(".modal-title").text($.i18n("DELETE_DEVICE_CONFIRM_TITLE"));
+      modal.find(".modal-body").text($.i18n("BATCH_RESTART_CONFIRM_TEXT"));
+      modal.find(".btn-secondary").text($.i18n("CANCEL"));
+      modal.find(".btn-ok").text($.i18n("RESTART_SELECTED"));
+      window.bootstrap.Modal.getOrCreateInstance(modal.get(0)).show();
+      return false;
+    }
+
     $(".batchActionField").val("");
     showBatchActionFeedback($.i18n("SUCCESS_COMMAND_SEND"), "text-success");
 
@@ -448,10 +464,18 @@ function updateBatchActionUi() {
 }
 
 function resetBatchActionFeedback() {
+  clearTimeout(batchActionFeedbackTimer);
   $(".batchActionFeedback")
     .removeClass("text-danger text-success")
     .addClass("d-none")
     .html("");
+}
+
+function scheduleBatchActionFeedbackReset() {
+  clearTimeout(batchActionFeedbackTimer);
+  batchActionFeedbackTimer = setTimeout(() => {
+    resetBatchActionFeedback();
+  }, 5000);
 }
 
 function showBatchActionFeedback(message, className) {
@@ -459,6 +483,7 @@ function showBatchActionFeedback(message, className) {
     .removeClass("d-none text-danger text-success")
     .addClass(className)
     .html(message);
+  scheduleBatchActionFeedbackReset();
 }
 
 function appendBatchActionFeedback(message) {
@@ -467,6 +492,31 @@ function appendBatchActionFeedback(message) {
   const nextContent =
     currentContent === "" ? message : `${currentContent}<br/>${message}`;
   feedback.removeClass("d-none").html(nextContent);
+  scheduleBatchActionFeedbackReset();
+}
+
+function getLoadingIndicatorMarkup() {
+  const loadingText = ($.i18n("TEXT_LOADING") || "").replace(/'/g, "&#39;");
+  return `<span class='loader' role='status' aria-label='${loadingText}'></span>`;
+}
+
+function showRestartPendingState(deviceId) {
+  $(`#device-list tbody tr[data-device_id="${deviceId}"]`).each(function () {
+    const row = $(this);
+    disposeTooltip(this);
+    row.addClass("restarting");
+    row.removeAttr("data-bs-title").removeAttr("data-bs-toggle");
+    row.find(".status input").parent().removeClass("error");
+    row.find(".runtime span, .rssi span").each(function () {
+      disposeTooltip(this);
+    });
+    row
+      .find(".runtime span")
+      .html(getLoadingIndicatorMarkup())
+      .removeAttr("data-runtime-seconds")
+      .removeAttr("data-bs-title")
+      .removeAttr("data-bs-toggle");
+  });
 }
 
 function updateStatus() {
@@ -547,23 +597,29 @@ function processRow($tr) {
                 device_ip +
                 '"]',
             ).each(function (key, grouptr) {
-              $(grouptr)
-                .find(".status")
-                .find("input")
-                .parent()
-                .addClass("error");
-              $(grouptr)
-                .find("td")
-                .each(function (key, td) {
-                  if ($(td).find(".loader").length > 0) {
-                    $(td).find("span").html("-");
-                  }
-                });
+              if (!$(grouptr).hasClass("restarting")) {
+                $(grouptr)
+                  .find(".status")
+                  .find("input")
+                  .parent()
+                  .addClass("error");
+              }
+              if (!$(grouptr).hasClass("restarting")) {
+                $(grouptr)
+                  .find("td")
+                  .each(function (key, td) {
+                    if ($(td).find(".loader").length > 0) {
+                      $(td).find("span").html("-");
+                    }
+                  });
+              }
 
               $(grouptr).removeClass("updating");
             });
           } else {
-            $tr.find(".status").find("input").parent().addClass("error");
+            if (!$tr.hasClass("restarting")) {
+              $tr.find(".status").find("input").parent().addClass("error");
+            }
             $tr.removeClass("updating");
           }
         }
@@ -623,7 +679,7 @@ function updateAllStatus() {
 
           if ($(tr).hasClass("toggled")) {
             $(tr).removeClass("toggled");
-          } else {
+          } else if (!$(tr).hasClass("restarting")) {
             $(tr)
               .find(".status")
               .find("input")
@@ -645,30 +701,30 @@ function updateAllStatus() {
             msg = "data is empty";
           }
 
-          $(tr).attr("data-bs-title", msg).attr("data-bs-toggle", "tooltip");
-
-          const tooltipTriggerList = [].slice.call(
-            document.querySelectorAll('[data-bs-toggle="tooltip"]'),
-          );
-
-          tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new window.bootstrap.Tooltip(tooltipTriggerEl, {
+          if (!$(tr).hasClass("restarting")) {
+            disposeTooltip(tr);
+            $(tr).attr("data-bs-title", msg).attr("data-bs-toggle", "tooltip");
+            refreshTooltip(tr, {
               html: true,
               delay: 700,
             });
-          });
+          } else {
+            disposeTooltip(tr);
+          }
 
           //$( tr ).find( ".rssi span" ).html( $.i18n( 'ERROR' ) );
           //$( tr ).find( ".runtime span" ).html( "-" );
           //$( tr ).find( ".version span" ).html( "-" );
           //$( tr ).find( "td.more:not(.static) span" ).html( "-" );
-          $(tr)
-            .find("td")
-            .each(function (key, td) {
-              if ($(td).find(".loader").length > 0) {
-                $(td).find("span").html("-");
-              }
-            });
+          if (!$(tr).hasClass("restarting")) {
+            $(tr)
+              .find("td")
+              .each(function (key, td) {
+                if ($(td).find(".loader").length > 0) {
+                  $(td).find("span").html("-");
+                }
+              });
+          }
         }
       });
 
@@ -681,21 +737,22 @@ function updateAllStatus() {
 function deviceTools() {
   const toggleConfirmationController = createTouchConfirmController();
 
-  $("#device-list tbody tr td.status").on("click", function (e) {
+  $("#device-list tbody tr td.status .form-switch").on("click", function (e) {
     e.preventDefault();
     let statusField = $(this);
-    let device_ip = $(this).closest("tr").data("device_ip");
-    let device_id = $(this).closest("tr").data("device_id");
-    let device_relais = $(this).closest("tr").data("device_relais");
-    let device_protect_on = $(this).closest("tr").data("device_protect_on");
-    let device_protect_off = $(this).closest("tr").data("device_protect_off");
+    let deviceRow = statusField.closest("tr");
+    let device_ip = deviceRow.data("device_ip");
+    let device_id = deviceRow.data("device_id");
+    let device_relais = deviceRow.data("device_relais");
+    let device_protect_on = deviceRow.data("device_protect_on");
+    let device_protect_off = deviceRow.data("device_protect_off");
 
     const input = statusField.find("input");
     const nextStatus = input.prop("checked")
       ? $.i18n("SWITCH_STATE_OFF")
       : $.i18n("SWITCH_STATE_ON");
     const confirmationEnabled = resolveToggleConfirmationSetting(
-      statusField.closest("tr").data("device_confirm_toggle"),
+      deviceRow.data("device_confirm_toggle"),
       config.confirm_device_toggles,
     );
 
@@ -704,8 +761,7 @@ function deviceTools() {
     }
 
     const deviceName =
-      statusField.closest("tr").find(".device_name a").text().trim() ||
-      `#${device_id}`;
+      deviceRow.find(".device_name a").text().trim() || `#${device_id}`;
 
     void confirmAction({
       requiresConfirmation: confirmationEnabled,
@@ -771,16 +827,54 @@ function deviceTools() {
   $("#deleteDeviceModal").on("show.bs.modal", function (event) {
     let modal = $(this);
     let button = $(event.relatedTarget); // Button that triggered the modal
-    modal.find(".btn-ok").attr("href", button.attr("href"));
+    if (button.length === 0) {
+      return;
+    }
+    modal.data("dialog-action", button.data("dialog-action") || "delete");
+    modal.data("dialog-url", button.data("dialog-url") || button.attr("href"));
+    modal.data("dialog-device-id", button.data("dialog-device-id") || "");
+    modal.data("dialog-device-ids", button.data("dialog-device-ids") || "");
 
-    let body = button.data("dialog-text");
-    modal.find(".modal-body").html(body);
+    modal.find(".modal-title").text(button.data("dialog-title") || "");
+    modal.find(".modal-body").html(button.data("dialog-text") || "");
+    modal
+      .find(".btn-secondary")
+      .text(button.data("dialog-btn-cancel-text") || $.i18n("CANCEL"));
+    modal
+      .find(".btn-ok")
+      .text(button.data("dialog-btn-ok-text") || $.i18n("CONFIRM"));
   });
 
-  $("#device-list tbody tr td a.restart-device").on("click", function (e) {
-    e.preventDefault();
-    let device_id = $(this).closest("tr").data("device_id");
-    sonoff.generic(device_id, "Restart", 1);
+  $("#deleteDeviceModal .btn-ok").on("click", function () {
+    let modal = $("#deleteDeviceModal");
+    let action = modal.data("dialog-action");
+
+    if (action === "restart") {
+      let device_id = modal.data("dialog-device-id");
+      bootstrap.Modal.getInstance(modal.get(0))?.hide();
+      showRestartPendingState(device_id);
+      sonoff.generic(device_id, "Restart", 1);
+      return;
+    }
+
+    if (action === "restart-batch") {
+      const deviceIds = String(modal.data("dialog-device-ids") || "")
+        .split(",")
+        .map((value) => value.trim())
+        .filter((value) => value !== "");
+      bootstrap.Modal.getInstance(modal.get(0))?.hide();
+      $.each(deviceIds, function (idx, device_id) {
+        showRestartPendingState(device_id);
+        sonoff.generic(device_id, "Restart", 1);
+      });
+      showBatchActionFeedback($.i18n("SUCCESS_COMMAND_SEND"), "text-success");
+      return;
+    }
+
+    let url = modal.data("dialog-url");
+    if (url) {
+      window.location.href = url;
+    }
   });
 
   $(document).on("dblclick", ".dblcEdit span", function () {
@@ -842,18 +936,12 @@ function updateRow(row, data, device_status) {
       .attr("data-sort-number", rssi)
       .attr("data-bs-title", ssid)
       .attr("data-bs-toggle", "tooltip");
-
-    const tooltipTriggerList = [].slice.call(
-      document.querySelectorAll('[data-bs-toggle="tooltip"]'),
-    );
-
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new window.bootstrap.Tooltip(tooltipTriggerEl, {
-        html: true,
-        delay: 700,
-      });
+    refreshTooltip($(row).find(".rssi span").get(0), {
+      html: true,
+      delay: 700,
     });
   } else {
+    disposeTooltip($(row).find(".rssi span").get(0));
     $(row)
       .find(".rssi span")
       .html("-")
@@ -1050,18 +1138,12 @@ function updateRow(row, data, device_status) {
         runtime.startupDateTime.toLocaleString(locale, { hour12: false }),
       )
       .attr("data-bs-toggle", "tooltip");
-
-    const tooltipTriggerList = [].slice.call(
-      document.querySelectorAll('[data-bs-toggle="tooltip"]'),
-    );
-
-    tooltipTriggerList.map(function (tooltipTriggerEl) {
-      return new window.bootstrap.Tooltip(tooltipTriggerEl, {
-        html: true,
-        delay: 700,
-      });
+    refreshTooltip($(row).find(".runtime span").get(0), {
+      html: true,
+      delay: 700,
     });
   } else {
+    disposeTooltip($(row).find(".runtime span").get(0));
     $(row)
       .find(".runtime span")
       .html(runtime.text)
@@ -1069,6 +1151,8 @@ function updateRow(row, data, device_status) {
       .removeAttr("data-bs-title")
       .removeAttr("data-bs-toggle");
   }
+
+  $(row).removeClass("restarting");
 
   //MORE
   if (!$(row).find(".hostname span").hasClass("dont-update")) {
@@ -1182,17 +1266,13 @@ function initDeviceFilter() {
     let input = $(this);
     let searchterm = input.val().trim();
 
-    let table = $("#device-list");
-    let deviceRows = table.find("tr");
+    let deviceRows = $("#device-list tbody tr");
 
     if (searchterm !== "") {
       let regex = new RegExp(searchterm, "i");
       $.each(deviceRows, function (key, elem) {
         let deviceRow = $(elem);
 
-        if (key === 0 || key === deviceRows.length - 1) {
-          return; //skip header and footer row
-        }
         let keywords = deviceRow.data("keywords");
 
         if (keywords !== undefined && keywords !== "") {

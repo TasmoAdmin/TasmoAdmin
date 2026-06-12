@@ -23,6 +23,7 @@ class Device
     public bool $isUpdatable;
     public bool $deviceConfirmToggle;
     public string $mqttTopic;
+    public bool $deviceHideFromStartpage;
 
     public function __construct(
         ?int $id,
@@ -40,7 +41,8 @@ class Device
         int $port = self::DEFAULT_PORT,
         array $friendlyNames = [],
         bool $deviceConfirmToggle = false,
-        string $mqttTopic = ''
+        string $mqttTopic = '',
+        bool $deviceHideFromStartpage = false
     ) {
         $this->id = $id;
         $this->names = $names;
@@ -58,6 +60,7 @@ class Device
         $this->isUpdatable = $isUpdatable;
         $this->deviceConfirmToggle = $deviceConfirmToggle;
         $this->mqttTopic = $mqttTopic;
+        $this->deviceHideFromStartpage = $deviceHideFromStartpage;
     }
 
     public function getAddress(): string

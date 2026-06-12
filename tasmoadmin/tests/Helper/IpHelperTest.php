@@ -2,6 +2,7 @@
 
 namespace Tests\TasmoAdmin\Helper;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Helper\IpHelper;
 
@@ -119,9 +120,7 @@ class IpHelperTest extends TestCase
         ]);
     }
 
-    /**
-     * @dataProvider provideInvalidIps
-     */
+    #[DataProvider('provideInvalidIps')]
     public function testFetchIpsInvalidFromIp(string $invalidIp): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -129,9 +128,7 @@ class IpHelperTest extends TestCase
         $ipHelper->fetchIps($invalidIp, '127.0.0.4');
     }
 
-    /**
-     * @dataProvider provideInvalidIps
-     */
+    #[DataProvider('provideInvalidIps')]
     public function testFetchIpsInvalidToIp(string $invalidIp): void
     {
         $this->expectException(\InvalidArgumentException::class);

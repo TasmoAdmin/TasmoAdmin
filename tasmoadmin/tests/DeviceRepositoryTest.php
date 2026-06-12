@@ -130,6 +130,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertTrue($device->isUpdatable);
         self::assertEquals(80, $device->port);
         self::assertSame('', $device->mqttTopic);
+        self::assertFalse($device->deviceHideFromStartpage);
     }
 
     public function testGetDeviceByIdValid(): void
@@ -148,6 +149,7 @@ class DeviceRepositoryTest extends TestCase
         self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
         self::assertSame('', $device->mqttTopic);
+        self::assertFalse($device->deviceHideFromStartpage);
     }
 
     public function testGetDeviceByIdInvalidId(): void
@@ -330,6 +332,17 @@ class DeviceRepositoryTest extends TestCase
         self::assertTrue($device->deviceProtectionOff);
     }
 
+    public function testSetDeviceValueDeviceHideFromStartpagePersistsSnakeCaseField(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'device_hide_from_startpage', 1);
+
+        $device = $repo->getDeviceById(1);
+        self::assertTrue($device->deviceHideFromStartpage);
+    }
+
     public function testAddDevicesStoresFriendlyNamesSeparately(): void
     {
         $repo = $this->getVirtualRepo();
@@ -364,6 +377,22 @@ class DeviceRepositoryTest extends TestCase
         self::assertSame('office-lamp', $repo->getDeviceById(1)->mqttTopic);
     }
 
+    public function testAddDevicesStoresHideFromStartpage(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices(
+            [[
+                'device_name' => ['office-lamp'],
+                'device_ip' => '127.0.0.1',
+                'device_hide_from_startpage' => 1,
+            ]],
+            'user',
+            'pass'
+        );
+
+        self::assertTrue($repo->getDeviceById(1)->deviceHideFromStartpage);
+    }
+
     public function testAddDevicesUsesGlobalConfirmSettingAsDefault(): void
     {
         $repo = $this->getVirtualRepo(defaultConfirmDeviceToggles: true);
@@ -391,7 +420,7 @@ class DeviceRepositoryTest extends TestCase
 
         self::assertCount(3, $devices);
         self::assertTrue($devices[0]->deviceConfirmToggle);
-        self::assertStringEndsWith(',1,'.PHP_EOL, (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv')));
+        self::assertStringEndsWith(',1,,0'.PHP_EOL, (string) file_get_contents($this->getVirtualDeviceFilePath('devices.csv')));
     }
 
     public function testSetDeviceConfirmToggleForAll(): void
@@ -555,12 +584,13 @@ class DeviceRepositoryTest extends TestCase
         self::assertSame(Device::DEFAULT_PORT, $device->port);
         self::assertFalse($device->deviceConfirmToggle);
         self::assertSame('', $device->mqttTopic);
+        self::assertFalse($device->deviceHideFromStartpage);
         self::assertSame('password', $device->password);
 
         $storedContents = (string) file_get_contents($deviceFile);
         self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $storedContents);
         self::assertStringNotContainsString(',password,', $storedContents);
-        self::assertGreaterThanOrEqual(14, substr_count(trim($storedContents), ','));
+        self::assertGreaterThanOrEqual(15, substr_count(trim($storedContents), ','));
     }
 
     public function testGetDeviceByMqttTopicReturnsUniqueMatch(): void

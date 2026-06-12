@@ -26,7 +26,7 @@
 		</div>
 	</div>
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-8">
 			<label for="MqttHost">
 				<?php echo __('MQTT_HOST', 'DEVICE_CONFIG'); ?>
@@ -63,7 +63,7 @@
 			</small>
 		</div>
 	</div>
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttClient">
 				<?php echo __('MQTT_CLIENT', 'DEVICE_CONFIG'); ?>
@@ -100,7 +100,7 @@
 			</small>
 		</div>
 	</div>
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttUser">
 				<?php echo __('MQTT_USER', 'DEVICE_CONFIG'); ?>
@@ -139,7 +139,7 @@
 	</div>
 
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="Topic">
 				<?php echo __('TOPIC', 'DEVICE_CONFIG'); ?>
@@ -178,7 +178,7 @@
 	</div>
 
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-4">
 			<label for="GroupTopic">
 				<?php echo __('GROUPTOPIC', 'DEVICE_CONFIG'); ?>
@@ -235,7 +235,7 @@
 
 	</div>
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-4">
 			<label for="Prefix1">
 				<?php echo __('PREFIX1', 'DEVICE_CONFIG'); ?>
@@ -291,7 +291,7 @@
 	</div>
 
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText1">
 				<?php echo __('STATUSTEXT1', 'DEVICE_CONFIG'); ?>
@@ -327,7 +327,7 @@
 			</small>
 		</div>
 	</div>
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="StateText3">
 				<?php echo __('STATUSTEXT3', 'DEVICE_CONFIG'); ?>
@@ -364,7 +364,7 @@
 		</div>
 	</div>
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-6">
 			<label for="MqttRetry">
 				<?php echo __('MQTTRETRY', 'DEVICE_CONFIG'); ?>
@@ -406,7 +406,7 @@
 	</div>
 
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check">
 				<input id='ButtonRetainh' type='hidden' value='0' name='ButtonRetain'>
@@ -467,7 +467,7 @@
 	</div>
 
 
-	<div class="form-row">
+	<div class="row g-3">
 		<div class="form-group col col-12 col-sm-4">
 			<div class="form-check">
 				<input id='SetOption19h' type='hidden' value='0' name='SetOption19'>

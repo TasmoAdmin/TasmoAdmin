@@ -22,6 +22,14 @@ test("getBatchActionConfig returns backup metadata", () => {
   });
 });
 
+test("getBatchActionConfig returns restart metadata", () => {
+  assert.deepEqual(getBatchActionConfig("restart"), {
+    action: "restart",
+    requiresCommand: false,
+    submitLabelKey: "RESTART_SELECTED",
+  });
+});
+
 test("validateBatchAction requires a known action first", () => {
   assert.equal(
     validateBatchAction({
@@ -53,7 +61,7 @@ test("validateBatchAction requires a command for command batches", () => {
   );
 });
 
-test("validateBatchAction accepts valid delete and command actions", () => {
+test("validateBatchAction accepts valid delete, restart and command actions", () => {
   assert.equal(
     validateBatchAction({
       action: "delete",
@@ -76,10 +84,18 @@ test("validateBatchAction accepts valid delete and command actions", () => {
     }),
     null,
   );
+  assert.equal(
+    validateBatchAction({
+      action: "restart",
+      selectedDeviceIds: ["1"],
+    }),
+    null,
+  );
 });
 
 test("only backup submits the batch form", () => {
   assert.equal(shouldSubmitBatchForm("command"), false);
   assert.equal(shouldSubmitBatchForm("delete"), false);
+  assert.equal(shouldSubmitBatchForm("restart"), false);
   assert.equal(shouldSubmitBatchForm("backup"), true);
 });

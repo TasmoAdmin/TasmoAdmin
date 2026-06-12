@@ -36,6 +36,7 @@ class DeviceFactory
         $device[12] = implode('|', $friendlyNames);
         $device[13] = $request['device_confirm_toggle'] ?? false;
         $device[14] = trim((string) ($request['device_mqtt_topic'] ?? ''));
+        $device[15] = $request['device_hide_from_startpage'] ?? false;
 
         return self::fromArray($device);
     }
@@ -64,6 +65,7 @@ class DeviceFactory
         $port = $array[11] ?? Device::DEFAULT_PORT;
         $device_confirm_toggle = $array[13] ?? false;
         $mqttTopic = trim((string) ($array[14] ?? ''));
+        $device_hide_from_startpage = $array[15] ?? false;
 
         $keywords = [];
         $keywords[] = count($names) > 1 ? 'multi' : 'single';
@@ -91,6 +93,7 @@ class DeviceFactory
             $friendlyNames,
             (bool) $device_confirm_toggle,
             $mqttTopic,
+            (bool) $device_hide_from_startpage,
         );
     }
 }

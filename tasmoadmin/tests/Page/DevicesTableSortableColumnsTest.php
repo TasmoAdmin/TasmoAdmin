@@ -71,7 +71,7 @@ class DevicesTableSortableColumnsTest extends TestCase
         ];
     }
 
-    public function testDevicesTableRendersCurrentFooterControls(): void
+    public function testDevicesTableRendersCurrentHeaderControls(): void
     {
         if (!defined('_BASEURL_')) {
             define('_BASEURL_', '/');
@@ -92,8 +92,8 @@ class DevicesTableSortableColumnsTest extends TestCase
         $output = ob_get_clean();
 
         self::assertIsString($output);
-        self::assertSame(1, substr_count($output, '<tfoot>'));
-        self::assertSame(2, substr_count($output, 'id="select_all"'));
+        self::assertSame(0, substr_count($output, '<tfoot>'));
+        self::assertSame(1, substr_count($output, 'id="select_all"'));
     }
 
     public function testDevicesTableDoesNotUseBrokenStackLayout(): void
@@ -120,5 +120,60 @@ class DevicesTableSortableColumnsTest extends TestCase
         self::assertStringContainsString('tablesaw tablesaw-stack', $output);
         self::assertStringContainsString('data-tablesaw-mode="stack"', $output);
         self::assertStringNotContainsString('data-tablesaw-mode="swipe"', $output);
+    }
+
+    public function testDevicesTableDeleteLinkOpensConfirmationModal(): void
+    {
+        if (!defined('_BASEURL_')) {
+            define('_BASEURL_', '/');
+        }
+        if (!defined('_RESOURCESURL_')) {
+            define('_RESOURCESURL_', '/resources/');
+        }
+
+        $devices = [
+            new Device(1, ['Desk Lamp'], '192.168.1.10', '', ''),
+        ];
+        $deviceLinks = true;
+        $deviceLinksHideClass = '';
+
+        ob_start();
+
+        include __DIR__.'/../../pages/elements/devices_table.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertStringContainsString('data-bs-toggle="modal"', $output);
+        self::assertStringContainsString('data-bs-target="#deleteDeviceModal"', $output);
+        self::assertStringContainsString('data-dialog-action="delete"', $output);
+        self::assertStringContainsString("data-dialog-title='", $output);
+        self::assertStringContainsString('/device_action/delete/1', $output);
+    }
+
+    public function testDevicesTableRestartLinkOpensConfirmationModal(): void
+    {
+        if (!defined('_BASEURL_')) {
+            define('_BASEURL_', '/');
+        }
+        if (!defined('_RESOURCESURL_')) {
+            define('_RESOURCESURL_', '/resources/');
+        }
+
+        $devices = [
+            new Device(1, ['Desk Lamp'], '192.168.1.10', '', ''),
+        ];
+        $deviceLinks = true;
+        $deviceLinksHideClass = '';
+
+        ob_start();
+
+        include __DIR__.'/../../pages/elements/devices_table.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertStringContainsString("class='restart-device'", $output);
+        self::assertStringContainsString('data-bs-target="#deleteDeviceModal"', $output);
+        self::assertStringContainsString('data-dialog-action="restart"', $output);
+        self::assertStringContainsString("data-dialog-device-id='1'", $output);
     }
 }

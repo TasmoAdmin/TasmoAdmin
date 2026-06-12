@@ -11,6 +11,7 @@ class DeviceRepository
         'device_all_off' => 'deviceAllOff',
         'device_protect_on' => 'deviceProtectionOn',
         'device_protect_off' => 'deviceProtectionOff',
+        'device_hide_from_startpage' => 'deviceHideFromStartpage',
     ];
 
     private string $file;
@@ -39,6 +40,7 @@ class DeviceRepository
         'port',
         'deviceConfirmToggle',
         'mqttTopic',
+        'device_hide_from_startpage',
     ];
 
     public function __construct(
@@ -83,6 +85,7 @@ class DeviceRepository
             $deviceHolder[12] = implode('|', $device['device_friendly_name'] ?? ($device['device_name'] ?? []));
             $deviceHolder[13] = $device['device_confirm_toggle'] ?? ($this->defaultConfirmDeviceToggles ? 1 : 0);
             $deviceHolder[14] = trim((string) ($device['device_mqtt_topic'] ?? ''));
+            $deviceHolder[15] = $device['device_hide_from_startpage'] ?? 0;
 
             fputcsv($handle, $deviceHolder, escape: self::CSV_ESCAPE);
         }
@@ -262,6 +265,7 @@ class DeviceRepository
         $deviceArr[12] = implode('|', !empty($device->friendlyNames) ? $device->friendlyNames : $device->names);
         $deviceArr[13] = !empty($device->deviceConfirmToggle) ? $device->deviceConfirmToggle : 0;
         $deviceArr[14] = $device->mqttTopic ?? '';
+        $deviceArr[15] = !empty($device->deviceHideFromStartpage) ? $device->deviceHideFromStartpage : 0;
 
         foreach ($deviceArr as $key => $field) {
             $deviceArr[$key] = trim($field);
@@ -311,6 +315,7 @@ class DeviceRepository
             12 => '',
             13 => $this->defaultConfirmDeviceToggles ? '1' : '0',
             14 => '',
+            15 => '0',
         ];
 
         foreach ($defaults as $index => $defaultValue) {

@@ -11,6 +11,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Config;
 use TasmoAdmin\Device;
@@ -315,9 +316,7 @@ class SonoffTest extends TestCase
         self::assertStringContainsString('timeout', $result->ERROR);
     }
 
-    /**
-     * @dataProvider mqttValueMethodProvider
-     */
+    #[DataProvider('mqttValueMethodProvider')]
     public function testMqttValueReadersReturnParsedValues(string $method, string $field, string $expected): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
@@ -328,9 +327,7 @@ class SonoffTest extends TestCase
         self::assertSame($expected, $sonoff->{$method}($device));
     }
 
-    /**
-     * @dataProvider mqttValueMethodProvider
-     */
+    #[DataProvider('mqttValueMethodProvider')]
     public function testMqttValueReadersReturnEmptyStringForUnknownCommand(string $method): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
@@ -341,9 +338,7 @@ class SonoffTest extends TestCase
         self::assertSame('', $sonoff->{$method}($device));
     }
 
-    /**
-     * @dataProvider mqttValueMethodProvider
-     */
+    #[DataProvider('mqttValueMethodProvider')]
     public function testMqttValueReadersReturnEmptyStringForErrorResponse(string $method): void
     {
         $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
@@ -601,9 +596,7 @@ class SonoffTest extends TestCase
         self::assertSame('http://192.168.1.8/cm?cmnd=Weblog+2', (string) $transactions[1]['request']->getUri());
     }
 
-    /**
-     * @dataProvider mqttWarningMethodProvider
-     */
+    #[DataProvider('mqttWarningMethodProvider')]
     public function testMqttValueReadersReturnEmptyStringWhenWarningPersists(string $method): void
     {
         $device = DeviceFactory::fromArray([1, 'socket-1', '192.168.1.8']);

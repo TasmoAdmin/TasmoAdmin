@@ -226,7 +226,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 			>
 				<input type='hidden' name='device_id' value='<?php echo $device->id ?? ''; ?>'>
 
-				<div class="form-row">
+				<div class="row g-3">
 					<div class="form-group col col-12 col-sm-6">
 						<label for="device_ip">
 							<?php echo __('DEVICE_IP', 'DEVICE_ACTIONS'); ?>
@@ -344,7 +344,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
                         $friendlyName = $friendlyNames[$index] ?? '';
 					    $nameLabel = __('LABEL_NAME', 'DEVICE_ACTIONS').(count($deviceNames) > 1 ? $index + 1 : '');
 					    ?>
-						<div class="form-row">
+						<div class="row g-3 device-name-row">
 							<div class="form-group col col-12 col-sm-7">
 								<label for="device_name_<?php echo $index; ?>">
 									<?php echo $nameLabel; ?>
@@ -390,7 +390,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 						</div>
 					<?php } ?>
 
-					<div class="form-row">
+					<div class="row g-3">
 						<div class="form-group col col-12 col-sm-6 col-lg-4">
 							<div class="form-check mb-5">
 								<input type='hidden' name='device_all_off' value='0'>
@@ -456,6 +456,19 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
                                 </label>
                             </div>
                         </div>
+                        <div class="form-group col col-12 col-sm-6 col-lg-4">
+                            <div class="form-check mb-5">
+                                <input type='hidden' name='device_hide_from_startpage' value='0'>
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       value="1"
+                                       id="device_hide_from_startpage"
+                                       name='device_hide_from_startpage' <?php echo $device->deviceHideFromStartpage ? 'checked="checked"' : ''; ?>>
+                                <label class="form-check-label" for="device_hide_from_startpage">
+                                    <?php echo __('LABEL_HIDE_FROM_STARTPAGE', 'DEVICE_ACTIONS'); ?>
+                                </label>
+                            </div>
+                        </div>
 					</div>
 				<?php } ?>
 
@@ -485,13 +498,24 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 <script>
     $(document).ready(function()
     {
+        const hideFromStartpageField = $("#device_hide_from_startpage");
+        const allOffField = $("#device_all_off");
+
         $(".default-name").on("click", function (e)
         {
             e.preventDefault();
             $(this)
-                .closest(".form-row")
+                .closest(".device-name-row")
                 .find(".tasmoadmin-name-input")
                 .val($(this).data("default-name").trim());
+        });
+
+        hideFromStartpageField.on("change", function ()
+        {
+            if ($(this).prop("checked"))
+            {
+                allOffField.prop("checked", false);
+            }
         });
     });
 </script>

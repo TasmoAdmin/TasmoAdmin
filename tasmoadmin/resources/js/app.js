@@ -7,7 +7,7 @@ import {
 } from "./nightmode";
 import statusHelpers from "./status_helpers";
 
-export const { getIlluminance } = statusHelpers;
+export const { getEnergyPower, getIlluminance } = statusHelpers;
 
 const sonoff = new Sonoff({
   base_url: config.base_url,
@@ -58,6 +58,44 @@ export function getRefreshTime() {
   return refreshtime;
 }
 
+export function disposeTooltip(element) {
+  if (!element || !window.bootstrap?.Tooltip) {
+    return;
+  }
+
+  const instance = window.bootstrap.Tooltip.getInstance(element);
+  if (instance) {
+    instance.hide();
+    instance.dispose();
+  }
+}
+
+export function refreshTooltip(element, options = {}) {
+  if (!element || !window.bootstrap?.Tooltip) {
+    return null;
+  }
+
+  disposeTooltip(element);
+  return window.bootstrap.Tooltip.getOrCreateInstance(element, {
+    html: true,
+    delay: 300,
+    ...options,
+  });
+}
+
+export function refreshTooltips(
+  selector = '[data-bs-toggle="tooltip"]',
+  options = {},
+) {
+  if (!window.bootstrap?.Tooltip) {
+    return [];
+  }
+
+  return [...document.querySelectorAll(selector)].map((element) =>
+    refreshTooltip(element, options),
+  );
+}
+
 if (!window.__tasmoAppInitialized) {
   window.__tasmoAppInitialized = true;
 
@@ -81,23 +119,7 @@ if (!window.__tasmoAppInitialized) {
       timeToWaitForResize: 1,
     });
 
-    const tooltipTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="tooltip"]',
-    );
-    const tooltipList = [...tooltipTriggerList].map(
-      (tooltipTriggerEl) =>
-        new window.bootstrap.Tooltip(tooltipTriggerEl, {
-          html: true,
-          delay: 300,
-        }),
-    );
-
-    $(".custom-file-input").on("change", function () {
-      var filename = $(this).val();
-      filename = filename.replace(/^.*\\/, "");
-      filename = filename.match(/[^\\/]*$/)[0];
-      $(this).next().html(filename);
-    });
+    refreshTooltips();
 
     $("a.reload").on("click", function (e) {
       e.preventDefault();
@@ -532,34 +554,6 @@ export function getDistance(data, joinString) {
   return dist.join(joinString);
 }
 
-export function getEnergyPower(data, joinString = "<br/>") {
-  let energyPower = [];
-  if (data.StatusSNS.ENERGY !== undefined) {
-    if (data.StatusSNS.ENERGY.Power !== undefined) {
-      energyPower.push(data.StatusSNS.ENERGY.Power + " W");
-    }
-
-    if (data.StatusSNS.ENERGY.Today !== undefined) {
-      let tmpString = data.StatusSNS.ENERGY.Today;
-      if (data.StatusSNS.ENERGY.Yesterday !== undefined) {
-        tmpString += " / " + data.StatusSNS.ENERGY.Yesterday;
-      }
-
-      if (data.StatusSNS.ENERGY.Total !== undefined) {
-        tmpString += " / " + data.StatusSNS.ENERGY.Total;
-      }
-
-      energyPower.push(tmpString + " kWh");
-    }
-
-    if (data.StatusSNS.ENERGY.Current !== undefined) {
-      energyPower.push(data.StatusSNS.ENERGY.Current + " A");
-    }
-  }
-
-  return energyPower.join(joinString);
-}
-
 Date.prototype.addHours = function (h) {
   this.setHours(this.getHours() + h);
   return this;
@@ -615,17 +609,17 @@ function checkNightmode(config) {
 }
 
 function syncNightmodeToggle(isNightmodeEnabled) {
-  const toggle = $("#theme-toggle");
-  if (toggle.length === 0) {
+  const toggles = $(".js-theme-toggle");
+  if (toggles.length === 0) {
     return;
   }
 
-  toggle.attr("aria-pressed", isNightmodeEnabled ? "true" : "false");
-  toggle.toggleClass("is-nightmode", isNightmodeEnabled);
+  toggles.attr("aria-pressed", isNightmodeEnabled ? "true" : "false");
+  toggles.toggleClass("is-nightmode", isNightmodeEnabled);
 }
 
 function initNightmodeToggle() {
-  $("#theme-toggle").on("click", function () {
+  $(".js-theme-toggle").on("click", function () {
     const nextOverride = getNextNightmodeOverride(
       $("body").hasClass("nightmode"),
     );

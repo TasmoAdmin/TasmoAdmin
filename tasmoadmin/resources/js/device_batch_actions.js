@@ -15,6 +15,14 @@ function getBatchActionConfig(action) {
     };
   }
 
+  if (action === "restart") {
+    return {
+      action,
+      requiresCommand: false,
+      submitLabelKey: "RESTART_SELECTED",
+    };
+  }
+
   if (action === "backup") {
     return {
       action,

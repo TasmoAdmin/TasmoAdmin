@@ -26,6 +26,10 @@ body {
   line-height: 1.2rem;
 }
 
+:root {
+  --page-panel-gap: 0.8rem;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -61,7 +65,7 @@ body {
 }
 
 .site-config-page {
-  --settings-section-gap: 1.5rem;
+  --settings-section-gap: var(--page-panel-gap);
   --settings-row-gap-x: 1.25rem;
   --settings-row-gap-y: 1rem;
 }
@@ -339,10 +343,18 @@ body {
 }
 
 .devices-page {
-  --devices-panel-gap: 1.25rem;
+  --devices-panel-gap: var(--page-panel-gap);
 }
 
 .devices-page .devices-panel + .devices-panel {
+  margin-top: var(--devices-panel-gap);
+}
+
+.devices-page .devices-batch-form {
+  margin-top: var(--devices-panel-gap);
+}
+
+.devices-page .devices-batch-form .devices-batch-panel {
   margin-top: var(--devices-panel-gap);
 }
 
@@ -392,6 +404,8 @@ body {
 }
 
 .devices-page .device-search-group {
+  --device-search-border-color: rgba(17, 24, 39, 0.16);
+  --device-search-focus-ring: rgba(37, 99, 235, 0.14);
   width: min(100%, 26rem);
   flex-wrap: nowrap;
 }
@@ -403,6 +417,19 @@ body {
 .devices-page .device-search {
   width: 100%;
   min-width: 0;
+
+  &::placeholder {
+    color: rgba(17, 24, 39, 0.62) !important;
+    opacity: 1;
+  }
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:focus::placeholder {
+    color: rgba(17, 24, 39, 0.46) !important;
+  }
 }
 
 .devices-page .devices-toolbar .dropdown-toggle,
@@ -428,12 +455,44 @@ body {
   padding-inline: 0.75rem;
 }
 
+.devices-page .device-search,
+.devices-page .device-search-group .input-group-text {
+  border-color: var(--device-search-border-color);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.devices-page .device-search-group:focus-within {
+  border-radius: 0.375rem;
+  box-shadow: 0 0 0 0.1rem var(--device-search-focus-ring);
+}
+
+.devices-page .device-search-group:focus-within .device-search,
+.devices-page .device-search-group:focus-within .input-group-text {
+  border-color: var(--device-search-border-color);
+}
+
 .devices-page .batchActionSelect {
   width: min(100%, 13rem);
 }
 
+.devices-page .devices-batch-command-col {
+  flex: 1 1 24rem;
+  min-width: 0;
+}
+
 .devices-page .batchActionCommandInput {
-  width: min(100%, 30rem);
+  width: 100%;
+}
+
+.devices-page .devices-batch-add-col {
+  align-items: flex-end;
+}
+
+.devices-page .devices-batch-add-col .btn {
+  width: auto;
+  min-width: 10rem;
 }
 
 .devices-page .applyBatchAction {
@@ -499,6 +558,11 @@ body {
   box-shadow: var(--autoscan-panel-shadow);
 }
 
+.devices-autoscan-page .autoscan-form-card,
+.devices-autoscan-page .autoscan-summary-card {
+  margin-bottom: var(--page-panel-gap) !important;
+}
+
 .devices-autoscan-page .autoscan-form-card .card-body,
 .devices-autoscan-page .autoscan-summary-card .card-body,
 .devices-autoscan-page .autoscan-device-card .card-body {
@@ -521,8 +585,8 @@ body {
 }
 
 .devices-autoscan-page .autoscan-device-card {
-  margin-top: 1.5rem !important;
-  margin-bottom: 1.5rem !important;
+  margin-top: var(--page-panel-gap) !important;
+  margin-bottom: var(--page-panel-gap) !important;
   overflow: hidden;
 }
 
@@ -530,7 +594,7 @@ body {
   line-height: 1.2;
 }
 
-.devices-autoscan-page .autoscan-device-card .form-row {
+.devices-autoscan-page .autoscan-device-card .autoscan-device-field-row {
   margin-bottom: 1rem;
 }
 
@@ -584,6 +648,11 @@ body {
   box-shadow: var(--upload-panel-shadow);
 }
 
+.upload-form-page .upload-intro-card,
+.upload-form-page .upload-form-card {
+  margin-bottom: var(--page-panel-gap) !important;
+}
+
 .upload-form-page .upload-intro-card .card-body,
 .upload-form-page .upload-form-card .card-body,
 .upload-form-page .upload-notes-card .card-body {
@@ -625,6 +694,15 @@ body {
   border-radius: 1rem;
   background: #ffffff;
   box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.update-page .update-card.mb-4,
+.update-page .update-card.mb-5 {
+  margin-bottom: var(--page-panel-gap) !important;
+}
+
+.device-update-page .row.g-4 {
+  --bs-gutter-y: var(--page-panel-gap);
 }
 
 .update-page .update-card .card-body,
@@ -673,8 +751,12 @@ body {
 }
 
 @media all and (max-width: 767px) {
+  :root {
+    --page-panel-gap: 0.4rem;
+  }
+
   .site-config-page {
-    --settings-section-gap: 1.25rem;
+    --settings-section-gap: var(--page-panel-gap);
     --settings-row-gap-x: 1rem;
     --settings-row-gap-y: 0.9rem;
   }
@@ -711,7 +793,7 @@ body {
   }
 
   .devices-page {
-    --devices-panel-gap: 1rem;
+    --devices-panel-gap: var(--page-panel-gap);
   }
 
   .devices-page .devices-panel {
@@ -726,21 +808,241 @@ body {
   .devices-page .batchActionSelect,
   .devices-page .batchActionCommandInput,
   .devices-page .applyBatchAction,
+  .devices-page .devices-batch-add-col,
   .devices-page .devices-protection-toggle,
   .devices-page .devices-protection-toggle .btn {
     width: 100%;
   }
 
   .devices-page .devices-table-panel {
-    padding: 0.8rem 0.85rem 0.9rem;
+    padding: 0.95rem 0.85rem 0.55rem;
   }
 
   .devices-page .devices-toolbar-lock-col {
     margin-left: 0;
   }
 
+  .devices-page .devices-batch-add-col {
+    align-items: flex-end;
+  }
+
+  .devices-page .devices-batch-add-col .btn {
+    min-width: 0;
+  }
+
   .devices-page .devices-empty-state {
     padding-block: 1.5rem;
+  }
+
+  .devices-page .devices-table-panel .doubleScroll-scroll-wrapper {
+    display: none;
+  }
+
+  .devices-page .devices-table-panel .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .devices-page #device-list.tablesaw-stack {
+    display: block !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    table-layout: auto;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody {
+    display: block !important;
+    width: 100%;
+  }
+
+  .devices-page #device-list.tablesaw-stack thead,
+  .devices-page #device-list.tablesaw-stack thead tr,
+  .devices-page #device-list.tablesaw-stack thead th {
+    display: none !important;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody tr {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.32rem 0.8rem;
+    width: 100% !important;
+    padding: 0.7rem 0.75rem;
+    align-items: start;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: transparent;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody tr.odd {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody tr.even {
+    background-color: transparent;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody td,
+  .devices-page #device-list.tablesaw-stack tbody th {
+    display: none !important;
+    float: none !important;
+    clear: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td[data-column-id]:not(.device-column-hidden),
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    th[data-column-id]:not(.device-column-hidden) {
+    display: block !important;
+    width: auto !important;
+    min-width: 0;
+    justify-self: stretch;
+    padding: 0 !important;
+    margin: 0;
+    background: transparent !important;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody td.cmd_cb {
+    display: flex !important;
+    grid-column: 1 / 2;
+    grid-row: 1;
+    width: auto !important;
+    justify-self: start;
+    align-self: center;
+    align-items: center;
+    padding-right: 0.35rem !important;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.cmd_cb
+    .tablesaw-cell-label {
+    display: none;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.cmd_cb
+    .tablesaw-cell-content,
+  .devices-page #device-list.tablesaw-stack tbody td.cmd_cb .form-check {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  .devices-page #device-list.tablesaw-stack .tablesaw-cell-label,
+  .devices-page #device-list.tablesaw-stack .tablesaw-cell-content {
+    display: block;
+    width: auto;
+    max-width: none;
+    padding: 0;
+    line-height: 1.2;
+  }
+
+  .devices-page #device-list.tablesaw-stack .tablesaw-cell-label {
+    margin-bottom: 0;
+    font-weight: 600;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.device_name {
+    grid-column: 1 / 2;
+    grid-row: 1;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .devices-page #device-list.tablesaw-stack .device_name a {
+    display: block;
+    max-width: none;
+    white-space: normal;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td[data-column-id]:not(.device_name):not(.status):not(.actions):not(
+      .device-column-hidden
+    ),
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    th[data-column-id]:not(.device_name):not(.status):not(.actions):not(
+      .device-column-hidden
+    ) {
+    display: grid !important;
+    grid-template-columns: minmax(3.8rem, 5rem) minmax(0, 1fr);
+    column-gap: 0.55rem;
+    align-items: start;
+    min-width: 0;
+    grid-column: 1 / -1;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.ip {
+    grid-column: 1 / 2;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.actions {
+    display: flex !important;
+    grid-column: 1 / -1;
+    width: 100% !important;
+    justify-self: stretch;
+    align-self: end;
+    justify-content: flex-end;
+    margin-top: 0.1rem;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status {
+    display: flex !important;
+    grid-column: 2 / 3;
+    grid-row: 1;
+    width: auto !important;
+    justify-self: end;
+    align-self: center;
+    cursor: default;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.device_name .tablesaw-cell-label,
+  .devices-page #device-list.tablesaw-stack td.status .tablesaw-cell-label,
+  .devices-page #device-list.tablesaw-stack td.actions .tablesaw-cell-label {
+    display: none;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.actions .tablesaw-cell-content {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    min-width: 0;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.4rem;
+    min-height: 2.4rem;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.actions a i {
+    padding: 0.45rem;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status .form-switch {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.ip .tablesaw-sort-value {
+    display: none;
   }
 
   .devices-autoscan-page .autoscan-form-card .card-body,
@@ -991,6 +1293,13 @@ nav img {
 }
 
 .navbar {
+  .mobile-header-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-right: 0.6rem;
+  }
+
   .header-actions {
     display: flex;
     align-items: center;
@@ -1017,6 +1326,36 @@ nav img {
 
   .navbar-theme-toggle {
     flex: 0 0 auto;
+  }
+
+  @media all and (max-width: 575.98px) {
+    .navbar-toggler {
+      margin-left: 0;
+    }
+
+    .theme-toggle-group {
+      gap: 0.35rem;
+    }
+
+    .theme-toggle-side {
+      width: 0.95rem;
+      font-size: 0.8rem;
+    }
+
+    .theme-toggle {
+      width: 3rem;
+      min-width: 3rem;
+      height: 1.8rem;
+    }
+
+    .theme-toggle .theme-toggle-thumb {
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+
+    .theme-toggle.is-nightmode .theme-toggle-thumb {
+      transform: translateX(1.15rem);
+    }
   }
 
   .navbar-nav .nav-link {
@@ -1252,6 +1591,7 @@ nav img {
     border-bottom: 2px solid var(--bs-border-color);
     background-color: #{$grey}; // Use darker gray for better visibility
     color: #{$white}; // White text for contrast
+    vertical-align: middle;
   }
 
   // Add top border only to tfoot
@@ -1518,6 +1858,55 @@ td {
 }
 
 #device-list {
+  td.actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+
+  td.actions a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+
+  td.actions a i {
+    padding: 0.2rem;
+  }
+
+  td.actions a.delete,
+  td.actions a.delete i {
+    color: $redError !important;
+
+    &:hover,
+    &:focus {
+      color: $redErrorHover !important;
+    }
+  }
+
+  thead th.cmd_cb .form-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin: 0;
+    min-height: 1.25rem;
+  }
+
+  thead th.cmd_cb .form-check-input {
+    margin-top: 0;
+    margin-left: 0;
+    flex: 0 0 auto;
+  }
+
+  thead th.cmd_cb .form-check-label {
+    margin-bottom: 0;
+    line-height: 1.2;
+  }
+
   .tablesaw-sort-value {
     position: absolute;
     width: 1px;
@@ -1539,6 +1928,14 @@ td {
     white-space: nowrap;
   }
 
+  &.tablesaw-stack .device_name a {
+    display: block;
+    max-width: none;
+    overflow: visible;
+    text-overflow: clip;
+    white-space: normal;
+  }
+
   &.short-list {
     th,
     td {
@@ -1551,8 +1948,16 @@ td {
       min-width: 160px;
     }
 
+    &.tablesaw-stack td.actions {
+      min-width: 0;
+    }
+
     .device_name a {
       max-width: 12rem;
+    }
+
+    &.tablesaw-stack .device_name a {
+      max-width: none;
     }
   }
 
@@ -1604,6 +2009,7 @@ hr {
 }
 
 .nightmode {
+  --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
   background-color: $color_mako_approx;
   color: $whiteNightMode;
 
@@ -1687,11 +2093,21 @@ hr {
     box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
   }
 
+  .devices-page .device-search,
   .devices-page .device-search-group .input-group-text,
   .devices-page .device-columns-menu {
     background-color: $color_tuna_approx !important;
-    border-color: $white_10;
+    border-color: var(--nightmode-form-border-color);
     color: $whiteNightMode;
+  }
+
+  .devices-page .device-search-group {
+    --device-search-border-color: var(--nightmode-form-border-color);
+    --device-search-focus-ring: rgba(255, 255, 255, 0.08);
+  }
+
+  .devices-page .device-search::placeholder {
+    color: rgba(255, 255, 255, 0.45) !important;
   }
 
   .devices-page .devices-empty-copy,
@@ -1837,7 +2253,39 @@ hr {
     }
   }
 
+  .table-striped {
+    > tbody > tr:nth-of-type(odd) > td,
+    > tbody > tr:nth-of-type(odd) > th {
+      background-color: rgba(255, 255, 255, 0.045);
+    }
+
+    > tbody > tr:nth-of-type(even) > td,
+    > tbody > tr:nth-of-type(even) > th {
+      background-color: transparent;
+    }
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody tr.odd {
+    background-color: rgba(255, 255, 255, 0.045);
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody tr.even {
+    background-color: transparent;
+  }
+
+  .form-control,
+  .form-select,
+  .input-group-text,
+  .form-check-input {
+    border-color: var(--nightmode-form-border-color);
+  }
+
   .form-switch {
+    i,
+    i::before {
+      box-shadow: inset 0 0 0 1px var(--nightmode-form-border-color);
+    }
+
     i::before {
       background-color: $color_bay_of_many_approx;
     }
@@ -1979,16 +2427,16 @@ hr {
   .form-check-label {
     &::before {
       background-color: $color_tuna_approx !important;
-      border-color: $white_75;
+      border-color: var(--nightmode-form-border-color);
       color: $white_75;
       //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
       box-shadow: 0 0 0 0.1rem $white_10;
     }
   }
 
-  .form-control-file,
   .input-group-text {
     background-color: $color_tuna_approx !important;
+    border-color: var(--nightmode-form-border-color);
     color: $whiteNightMode;
 
     &::after {
@@ -2001,21 +2449,36 @@ hr {
     border-color: $whiteNightMode;
   }
 
+  .form-check-input:focus {
+    border-color: var(--nightmode-form-border-color);
+    box-shadow: 0 0 0 0.1rem $white_10;
+  }
+
   .form-control:focus {
-    border-color: $white_75;
-    color: $white_75;
+    border-color: var(--nightmode-form-border-color);
+    color: $whiteNightMode;
     //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow: 0 0 0 0.1rem $white_10;
   }
 
-  .custom-select:focus {
-    border-color: $white_75;
-    color: $white_75;
+  .form-select:focus {
+    border-color: var(--nightmode-form-border-color);
+    color: $whiteNightMode;
     //Instead of the line below you could use @include box-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
     box-shadow: 0 0 0 0.1rem $white_10;
   }
 
   .navbar {
+    .dropdown-menu {
+      background-color: rgba(31, 37, 43, 0.98);
+      border-color: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .dropdown-divider {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
     .navbar-theme-toggle {
       border-color: rgba(255, 255, 255, 0.24);
       background: rgba(255, 255, 255, 0.06);
@@ -2083,6 +2546,37 @@ hr {
             }
           }
         }
+      }
+
+      .navbar-nav .nav-link,
+      .navbar-nav .nav-link i,
+      .navbar-text a,
+      .navbar-text a i,
+      .dropdown-item,
+      .dropdown-item i {
+        color: rgba(255, 255, 255, 0.72) !important;
+      }
+
+      .navbar-nav .nav-link.active,
+      .navbar-nav .nav-link.active i,
+      .dropdown-item.active,
+      .dropdown-item.active i {
+        color: rgba(255, 255, 255, 0.92) !important;
+      }
+
+      .navbar-nav .nav-link:hover,
+      .navbar-nav .nav-link:focus,
+      .navbar-nav .nav-link:hover i,
+      .navbar-nav .nav-link:focus i,
+      .navbar-text a:hover,
+      .navbar-text a:focus,
+      .navbar-text a:hover i,
+      .navbar-text a:focus i,
+      .dropdown-item:hover,
+      .dropdown-item:focus,
+      .dropdown-item:hover i,
+      .dropdown-item:focus i {
+        color: #ffffff !important;
       }
     }
   }
@@ -2251,6 +2745,13 @@ hr {
     color: $whiteNightMode;
     background-color: $black;
   }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer,
+  .modal-title {
+    color: $whiteNightMode;
+  }
 }
 
 .navbar-dark .navbar-nav .show .nav-link {
@@ -2312,13 +2813,23 @@ hr {
   font-size: 1.05rem;
 }
 
-@media (max-width: 575.98px) {
-  .touch-confirm-modal .modal-footer {
-    flex-direction: column-reverse;
-  }
+.modal-footer {
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+}
 
+.modal-footer > * {
+  margin: 0;
+}
+
+.modal-footer .btn {
+  width: auto;
+  flex: 1 1 0;
+}
+
+@media (max-width: 575.98px) {
   .touch-confirm-modal .modal-footer .btn {
-    width: 100%;
+    width: auto;
   }
 }
 
