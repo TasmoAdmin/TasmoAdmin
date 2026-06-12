@@ -77,7 +77,8 @@ class MqttSupportClassesTest extends TestCase
             )
         ;
 
-        new PhpMqttClientAdapter($client)->connect('mqtt-user', 'mqtt-pass', 0);
+        $adapter = new PhpMqttClientAdapter($client);
+        $adapter->connect('mqtt-user', 'mqtt-pass', 0);
     }
 
     public function testAdapterConnectSkipsEmptyCredentials(): void
@@ -98,7 +99,8 @@ class MqttSupportClassesTest extends TestCase
             )
         ;
 
-        new PhpMqttClientAdapter($client)->connect('', '', 4);
+        $adapter = new PhpMqttClientAdapter($client);
+        $adapter->connect('', '', 4);
     }
 
     public function testAdapterDelegatesSubscribePublishAndLoop(): void
@@ -135,8 +137,11 @@ class MqttSupportClassesTest extends TestCase
         $disconnectedClient->expects(self::once())->method('isConnected')->willReturn(false);
         $disconnectedClient->expects(self::never())->method('disconnect');
 
-        new PhpMqttClientAdapter($connectedClient)->disconnect();
-        new PhpMqttClientAdapter($disconnectedClient)->disconnect();
+        $connectedAdapter = new PhpMqttClientAdapter($connectedClient);
+        $connectedAdapter->disconnect();
+
+        $disconnectedAdapter = new PhpMqttClientAdapter($disconnectedClient);
+        $disconnectedAdapter->disconnect();
     }
 
     public function testFactoryCreatesAdapterWithConfiguredBrokerSettings(): void
