@@ -120,9 +120,13 @@ if (!window.__tasmoAppInitialized) {
 
     var appendLoading = function (elem, replace) {
       var replace = replace || false;
-      var loader = $("<div>", { class: "loader" }).append(
-        $("img", { src: config.resource_url + "img/loading.gif" }),
-      );
+      var loadingText =
+        typeof $.i18n === "function" ? $.i18n("TEXT_LOADING") : "Loading...";
+      var loader = $("<span>", {
+        class: "loader",
+        role: "status",
+        "aria-label": loadingText,
+      });
 
       if (replace) {
         $(elem).html(loader);
