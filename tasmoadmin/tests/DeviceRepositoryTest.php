@@ -5,6 +5,7 @@ namespace Tests\TasmoAdmin;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use TasmoAdmin\Device;
 use TasmoAdmin\DeviceCredentialException;
 use TasmoAdmin\DevicePasswordCipher;
 use TasmoAdmin\DevicePasswordKeyProvider;
@@ -255,6 +256,16 @@ class DeviceRepositoryTest extends TestCase
         self::assertNull($repo->setDeviceValue(1, 'random', '1'));
     }
 
+    public function testSetDeviceValueRejectsChangingId(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        self::assertNull($repo->setDeviceValue(1, 'id', 99));
+        self::assertNotNull($repo->getDeviceById(1));
+        self::assertNull($repo->getDeviceById(99));
+    }
+
     public function testSetDeviceValueValid(): void
     {
         $repo = $this->getVirtualRepo();
@@ -284,6 +295,39 @@ class DeviceRepositoryTest extends TestCase
 
         $device = $repo->getDeviceById(1);
         self::assertTrue($device->deviceConfirmToggle);
+    }
+
+    public function testSetDeviceValueDeviceAllOffPersistsSnakeCaseField(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'device_all_off', 0);
+
+        $device = $repo->getDeviceById(1);
+        self::assertFalse($device->deviceAllOff);
+    }
+
+    public function testSetDeviceValueDeviceProtectOnPersistsSnakeCaseField(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'device_protect_on', 1);
+
+        $device = $repo->getDeviceById(1);
+        self::assertTrue($device->deviceProtectionOn);
+    }
+
+    public function testSetDeviceValueDeviceProtectOffPersistsSnakeCaseField(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([['device_name' => ['socket-1']]], 'user', 'pass');
+
+        $repo->setDeviceValue(1, 'device_protect_off', 1);
+
+        $device = $repo->getDeviceById(1);
+        self::assertTrue($device->deviceProtectionOff);
     }
 
     public function testAddDevicesStoresFriendlyNamesSeparately(): void
@@ -328,6 +372,17 @@ class DeviceRepositoryTest extends TestCase
         self::assertTrue($repo->getDeviceById(1)->deviceConfirmToggle);
     }
 
+    public function testAddDevicesExplicitConfirmToggleOverridesGlobalDefault(): void
+    {
+        $repo = $this->getVirtualRepo(defaultConfirmDeviceToggles: true);
+        $repo->addDevices([[
+            'device_name' => ['socket-1'],
+            'device_confirm_toggle' => 0,
+        ]], 'user', 'pass');
+
+        self::assertFalse($repo->getDeviceById(1)->deviceConfirmToggle);
+    }
+
     public function testGetDevicesMigratesLegacyRowsUsingGlobalConfirmFallback(): void
     {
         $repo = $this->getValidRepo(defaultConfirmDeviceToggles: true);
@@ -347,6 +402,17 @@ class DeviceRepositoryTest extends TestCase
 
         foreach ($repo->getDevices() as $device) {
             self::assertTrue($device->deviceConfirmToggle);
+        }
+    }
+
+    public function testSetDeviceConfirmToggleForAllCanDisableToggle(): void
+    {
+        $repo = $this->getValidRepo(defaultConfirmDeviceToggles: true);
+
+        $repo->setDeviceConfirmToggleForAll(false);
+
+        foreach ($repo->getDevices() as $device) {
+            self::assertFalse($device->deviceConfirmToggle);
         }
     }
 
@@ -466,6 +532,37 @@ class DeviceRepositoryTest extends TestCase
         self::assertSame('', $device->mqttTopic);
     }
 
+    public function testShortLegacyRowsAreBackfilledWithDefaultsAndRewritten(): void
+    {
+        $deviceFile = $this->root->url().'/devices-short-legacy.csv';
+        file_put_contents(
+            $deviceFile,
+            '1,socket-1,192.168.1.2,user,password'.PHP_EOL
+        );
+
+        $repo = $this->createRepository($deviceFile);
+        $device = $repo->getDeviceById(1);
+
+        self::assertSame(1, $device->id);
+        self::assertSame(['socket-1'], $device->names);
+        self::assertSame(['socket-1'], $device->friendlyNames);
+        self::assertSame(Device::DEFAULT_IMAGE, $device->img);
+        self::assertSame(0, $device->position);
+        self::assertTrue($device->deviceAllOff);
+        self::assertFalse($device->deviceProtectionOn);
+        self::assertFalse($device->deviceProtectionOff);
+        self::assertTrue($device->isUpdatable);
+        self::assertSame(Device::DEFAULT_PORT, $device->port);
+        self::assertFalse($device->deviceConfirmToggle);
+        self::assertSame('', $device->mqttTopic);
+        self::assertSame('password', $device->password);
+
+        $storedContents = (string) file_get_contents($deviceFile);
+        self::assertStringContainsString(DevicePasswordCipher::STORAGE_PREFIX, $storedContents);
+        self::assertStringNotContainsString(',password,', $storedContents);
+        self::assertGreaterThanOrEqual(14, substr_count(trim($storedContents), ','));
+    }
+
     public function testGetDeviceByMqttTopicReturnsUniqueMatch(): void
     {
         $repo = $this->getVirtualRepo();
@@ -477,6 +574,21 @@ class DeviceRepositoryTest extends TestCase
 
         self::assertSame('socket-1', $repo->getDeviceByMqttTopic('socket-1')->mqttTopic);
         self::assertFalse($repo->isMqttTopicAmbiguous('socket-1'));
+    }
+
+    public function testGetDevicesByMqttTopicTrimsInputAndIgnoresEmptyTopic(): void
+    {
+        $repo = $this->getVirtualRepo();
+        $repo->addDevices([[
+            'device_name' => ['socket-1'],
+            'device_ip' => '127.0.0.1',
+            'device_mqtt_topic' => 'socket-1',
+        ]], 'user', 'pass');
+
+        self::assertCount(1, $repo->getDevicesByMqttTopic('  socket-1  '));
+        self::assertSame([], $repo->getDevicesByMqttTopic('   '));
+        self::assertNull($repo->getDeviceByMqttTopic('   '));
+        self::assertFalse($repo->isMqttTopicAmbiguous('   '));
     }
 
     public function testDuplicateMqttTopicIsMarkedAmbiguous(): void
@@ -498,6 +610,15 @@ class DeviceRepositoryTest extends TestCase
         self::assertNull($repo->getDeviceByMqttTopic('shared-topic'));
         self::assertTrue($repo->isMqttTopicAmbiguous('shared-topic'));
         self::assertCount(2, $repo->getDevicesByMqttTopic('shared-topic'));
+    }
+
+    public function testUpdateDeviceWithoutIdReturnsNull(): void
+    {
+        $repo = $this->getVirtualRepoWithDevices(1);
+        $device = $repo->getDeviceById(1);
+        $device->id = null;
+
+        self::assertNull($repo->updateDevice($device));
     }
 
     private function getVirtualRepoWithDevices(int $count): DeviceRepository

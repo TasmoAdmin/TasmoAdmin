@@ -21,7 +21,9 @@ class ViewHelperTest extends TestCase
         $helper = new ViewHelper($this->getConfig(['nightmode' => 'auto']));
 
         self::assertSame('nightmode', $helper->getNightMode(18));
+        self::assertSame('nightmode', $helper->getNightMode(8));
         self::assertSame('', $helper->getNightMode(12));
+        self::assertSame('', $helper->getNightMode(9));
     }
 
     public function testGetNightModeReturnsNightmodeWhenAlwaysEnabled(): void
@@ -29,6 +31,13 @@ class ViewHelperTest extends TestCase
         $helper = new ViewHelper($this->getConfig(['nightmode' => 'always']));
 
         self::assertSame('nightmode', $helper->getNightMode(12));
+    }
+
+    public function testGetNightModeReturnsEmptyStringForUnknownMode(): void
+    {
+        $helper = new ViewHelper($this->getConfig(['nightmode' => 'custom']));
+
+        self::assertSame('', $helper->getNightMode(22));
     }
 
     public function testGetValueFormatsBooleansAndScalars(): void

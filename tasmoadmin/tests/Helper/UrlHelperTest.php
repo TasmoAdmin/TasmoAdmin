@@ -59,6 +59,23 @@ class UrlHelperTest extends TestCase
         self::assertSame('/assets/css/app.css?_=v510', $helper->style('app'));
     }
 
+    public function testStyleFallsBackToExistingNonMinifiedAssetWhenMinifiedFileIsMissing(): void
+    {
+        $config = $this->getConfig([
+            'minimize_resources' => '1',
+            'current_git_tag' => 'v5.1.0',
+        ]);
+        $assetPath = $this->resourceDir.'css/app.css';
+        file_put_contents($assetPath, 'body{}');
+
+        $helper = new UrlHelper($config, '/assets/', $this->resourceDir);
+
+        self::assertSame(
+            '/assets/css/app.css?_='.filemtime($assetPath),
+            $helper->style('app')
+        );
+    }
+
     public function testJsUsesNonMinifiedAssetAndTimestampCache(): void
     {
         $config = $this->getConfig([
@@ -87,6 +104,23 @@ class UrlHelperTest extends TestCase
         $result = $helper->js('missing');
 
         self::assertMatchesRegularExpression('#^/assets/js/missing\.js\?_=\d+$#', $result);
+    }
+
+    public function testJsUsesMinifiedAssetWhenEnabled(): void
+    {
+        $config = $this->getConfig([
+            'minimize_resources' => '1',
+            'current_git_tag' => 'v5.1.0',
+        ]);
+        $assetPath = $this->resourceDir.'js/app.min.js';
+        file_put_contents($assetPath, 'console.log("min");');
+
+        $helper = new UrlHelper($config, '/assets/', $this->resourceDir);
+
+        self::assertSame(
+            '/assets/js/app.min.js?_='.filemtime($assetPath),
+            $helper->js('app')
+        );
     }
 
     private function getConfig(array $overrides): Config

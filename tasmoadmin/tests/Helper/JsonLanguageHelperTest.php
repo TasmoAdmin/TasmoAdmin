@@ -97,6 +97,115 @@ class JsonLanguageHelperTest extends TestCase
         ], json_decode(file_get_contents($cacheFile), true));
     }
 
+    public function testDumpJsonSkipsRewritingFreshCache(): void
+    {
+        $this->tempDir = sys_get_temp_dir().'/json-language-helper-'.bin2hex(random_bytes(8));
+        mkdir($this->tempDir);
+
+        $languageFile = $this->tempDir.'/language_de.ini';
+        $fallbackLanguageFile = $this->tempDir.'/language_en.ini';
+        $cacheDir = $this->tempDir.'/cache';
+        mkdir($cacheDir);
+
+        file_put_contents($languageFile, "HELLO = \"hallo\"\n");
+        touch($languageFile, time() - 20);
+
+        file_put_contents($fallbackLanguageFile, "HELLO = \"hello\"\n[WORLD]\nWORLD = \"world\"\n");
+        touch($fallbackLanguageFile, time() - 15);
+
+        $cacheFile = $cacheDir.'/json_i18n_de.cache.json';
+        $expectedJson = json_encode([
+            'cached' => true,
+        ], JSON_THROW_ON_ERROR);
+        file_put_contents($cacheFile, $expectedJson);
+        touch($cacheFile, time() - 5);
+        clearstatcache(true, $cacheFile);
+        $modifiedAtBeforeDump = filemtime($cacheFile);
+
+        $jsonLanguageHelper = new JsonLanguageHelper(
+            'de',
+            $languageFile,
+            'en',
+            $fallbackLanguageFile,
+            $cacheDir
+        );
+
+        $jsonLanguageHelper->dumpJson();
+        clearstatcache(true, $cacheFile);
+
+        self::assertSame($expectedJson, file_get_contents($cacheFile));
+        self::assertSame($modifiedAtBeforeDump, filemtime($cacheFile));
+    }
+
+    public function testDumpJsonUsesLanguageSpecificCacheFileAndFlattensBlocks(): void
+    {
+        $this->tempDir = sys_get_temp_dir().'/json-language-helper-'.bin2hex(random_bytes(8));
+        mkdir($this->tempDir);
+
+        $languageFile = $this->tempDir.'/language_fr.ini';
+        $fallbackLanguageFile = $this->tempDir.'/language_en.ini';
+        $cacheDir = $this->tempDir.'/cache';
+        mkdir($cacheDir);
+
+        file_put_contents($languageFile, "BONJOUR = \"bonjour\"\n[GROUP]\nSALUT = \"salut\"\n");
+        file_put_contents($fallbackLanguageFile, "HELLO = \"hello\"\n[WORLD]\nWORLD = \"world\"\n");
+
+        $jsonLanguageHelper = new JsonLanguageHelper(
+            'fr',
+            $languageFile,
+            'en',
+            $fallbackLanguageFile,
+            $cacheDir
+        );
+
+        $jsonLanguageHelper->dumpJson();
+
+        self::assertEquals([
+            'fr' => [
+                'BONJOUR' => 'bonjour',
+                'SALUT' => 'salut',
+            ],
+            'en' => [
+                'HELLO' => 'hello',
+                'WORLD' => 'world',
+            ],
+        ], json_decode(file_get_contents($cacheDir.'/json_i18n_fr.cache.json'), true));
+    }
+
+    public function testDumpJsonFlattensArrayEntriesFromIniFiles(): void
+    {
+        $this->tempDir = sys_get_temp_dir().'/json-language-helper-'.bin2hex(random_bytes(8));
+        mkdir($this->tempDir);
+
+        $languageFile = $this->tempDir.'/language_custom.ini';
+        $fallbackLanguageFile = $this->tempDir.'/language_en.ini';
+        $cacheDir = $this->tempDir.'/cache';
+        mkdir($cacheDir);
+
+        file_put_contents($languageFile, "ITEM[] = \"eins\"\nITEM[] = \"zwei\"\n");
+        file_put_contents($fallbackLanguageFile, "HELLO = \"hello\"\n");
+
+        $jsonLanguageHelper = new JsonLanguageHelper(
+            'custom',
+            $languageFile,
+            'en',
+            $fallbackLanguageFile,
+            $cacheDir
+        );
+
+        $jsonLanguageHelper->dumpJson();
+
+        self::assertEquals([
+            'custom' => [
+                0 => 'eins',
+                1 => 'zwei',
+            ],
+            'en' => [
+                'HELLO' => 'hello',
+            ],
+        ], json_decode(file_get_contents($cacheDir.'/json_i18n_custom.cache.json'), true));
+    }
+
     private function removeDirectory(string $directory): void
     {
         $entries = scandir($directory);

@@ -3,10 +3,12 @@
 namespace Tests\TasmoAdmin\Update;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Promise\RejectedPromise;
+use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
@@ -33,6 +35,35 @@ class FirmwareCheckerTest extends TestCase
         $firmwareChecker = new FirmwareChecker($this->getClient(new GuzzleRejectMock(ConnectException::class, 'Server is down')));
 
         self::assertFalse($firmwareChecker->isValid('https://example.org/firmware.bin'));
+    }
+
+    public function testIsValidClientError(): void
+    {
+        $request = new Request('HEAD', 'https://example.org/firmware.bin');
+        $mock = new MockHandler([
+            new ClientException('Not found', $request, new Response(404)),
+        ]);
+
+        $firmwareChecker = new FirmwareChecker($this->getClient($mock));
+
+        self::assertFalse($firmwareChecker->isValid('https://example.org/firmware.bin'));
+    }
+
+    public function testIsValidBubblesNonGuzzleExceptions(): void
+    {
+        $client = $this->createMock(Client::class);
+        $client->expects(self::once())
+            ->method('head')
+            ->with('https://example.org/firmware.bin')
+            ->willThrowException(new \RuntimeException('unexpected failure'))
+        ;
+
+        $firmwareChecker = new FirmwareChecker($client);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('unexpected failure');
+
+        $firmwareChecker->isValid('https://example.org/firmware.bin');
     }
 
     private function getClientWithResponse(?Response $response = null): Client

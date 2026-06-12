@@ -151,6 +151,98 @@ class SelfUpdateTest extends TestCase
         self::assertSame('v5.0.0', $config->read('current_git_tag'));
     }
 
+    public function testUpdateReturnsFailureWhenDownloadedFileIsNotAZipArchive(): void
+    {
+        $config = $this->getConfig([
+            'current_git_tag' => 'v5.0.0',
+            'update_channel' => 'stable',
+        ]);
+        $updater = new SelfUpdate($config, $this->getDownloadClient(static function (string $sink): void {
+            file_put_contents($sink, 'not-a-zip');
+        }));
+
+        $result = $updater->update('https://example.com/release.zip', 'v5.1.0');
+
+        self::assertFalse($result['success']);
+        self::assertStringContainsString('SELFUPDATE_ERROR_FILE_EXTRACTED_TO:', implode("\n", $result['logs']));
+        self::assertStringContainsString(_DATADIR_.'updates/tasmoadmin.zip', implode("\n", $result['logs']));
+        self::assertSame('v5.0.0', $config->read('current_git_tag'));
+    }
+
+    public function testUpdateContinuesWhenPreInstallChecksThrow(): void
+    {
+        $config = $this->getConfig([
+            'current_git_tag' => 'v5.0.0',
+            'update_channel' => 'stable',
+        ]);
+        $zipPath = $this->createReleaseZip([
+            'tasmoadmin/' => null,
+            'tasmoadmin/marker.txt' => 'fresh release',
+            'tasmoadmin/includes/' => null,
+            'tasmoadmin/includes/preinstallchecks.php' => <<<'PHP'
+                <?php
+                throw new RuntimeException('preinstall boom');
+                PHP,
+        ]);
+
+        $updater = new SelfUpdate($config, $this->getDownloadClient(static function (string $sink) use ($zipPath): void {
+            copy($zipPath, $sink);
+        }));
+
+        $result = $updater->update('https://example.com/release.zip', 'v5.1.0');
+
+        self::assertTrue($result['success']);
+        self::assertContains('Failed to perform pre-install checks', $result['logs']);
+        self::assertContains('preinstall boom', $result['logs']);
+        self::assertSame('v5.1.0', $config->read('current_git_tag'));
+        self::assertFileExists(_APPROOT_.'marker.txt');
+    }
+
+    public function testUpdateFailsWhenArchiveDoesNotContainTopLevelDirectory(): void
+    {
+        $config = $this->getConfig([
+            'current_git_tag' => 'v5.0.0',
+            'update_channel' => 'stable',
+        ]);
+        $zipPath = $this->createReleaseZip([
+            'marker.txt' => 'bad archive layout',
+        ]);
+
+        $updater = $this->getUpdaterWithZip($config, $zipPath);
+
+        $result = $updater->update('https://example.com/release.zip', 'v5.1.0');
+
+        self::assertFalse($result['success']);
+        self::assertContains('SELFUPDATE_ERROR_EMPTY_FIRST_DIR: ', $result['logs']);
+        self::assertSame('v5.0.0', $config->read('current_git_tag'));
+        self::assertFileDoesNotExist(_APPROOT_.'marker.txt');
+    }
+
+    public function testUpdateFailsWhenReleaseCannotBeCopiedIntoAppRoot(): void
+    {
+        $config = $this->getConfig([
+            'current_git_tag' => 'v5.0.0',
+            'update_channel' => 'stable',
+        ]);
+        $zipPath = $this->createReleaseZip([
+            'tasmoadmin/' => null,
+            'tasmoadmin/marker.txt' => 'fresh release',
+        ]);
+
+        $appRootFile = rtrim(_APPROOT_, '/');
+        rmdir($appRootFile);
+        file_put_contents($appRootFile, 'not-a-directory');
+
+        $updater = $this->getUpdaterWithZip($config, $zipPath);
+        $this->expectOutputString('');
+
+        $result = $updater->update('https://example.com/release.zip', 'v5.1.0');
+
+        self::assertFalse($result['success']);
+        self::assertContains('SELFUPDATE_ERROR_COULD_NOT_COPY_UPDATE: ', $result['logs']);
+        self::assertSame('v5.0.0', $config->read('current_git_tag'));
+    }
+
     private function getConfig(array $overrides): Config
     {
         $config = new Config(_DATADIR_, _APPROOT_);
@@ -176,6 +268,13 @@ class SelfUpdateTest extends TestCase
         ;
 
         return $client;
+    }
+
+    private function getUpdaterWithZip(Config $config, string $zipPath): SelfUpdate
+    {
+        return new SelfUpdate($config, $this->getDownloadClient(static function (string $sink) use ($zipPath): void {
+            copy($zipPath, $sink);
+        }));
     }
 
     /**

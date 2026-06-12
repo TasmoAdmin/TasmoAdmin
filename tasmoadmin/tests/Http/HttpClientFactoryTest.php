@@ -27,6 +27,19 @@ class HttpClientFactoryTest extends TestCase
         self::assertSame(9, $clientConfig['timeout']);
     }
 
+    public function testGetClientUsesDefaultTimeoutsWhenConfigIsUnchanged(): void
+    {
+        $root = vfsStream::setup('http-client-factory-defaults-'.bin2hex(random_bytes(4)));
+        $config = new Config($root->url().'/', $root->url().'/');
+
+        $client = new HttpClientFactory($config)->getClient();
+
+        $clientConfig = $this->readClientConfig($client);
+
+        self::assertSame(5, $clientConfig['connect_timeout']);
+        self::assertSame(5, $clientConfig['timeout']);
+    }
+
     /**
      * @return array<string, mixed>
      */

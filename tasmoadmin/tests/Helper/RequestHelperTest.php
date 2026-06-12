@@ -35,4 +35,18 @@ class RequestHelperTest extends TestCase
 
         self::assertFalse(RequestHelper::isPublicI18nRequest($request));
     }
+
+    public function testIsPublicI18nRequestReturnsTrueWithoutOptionalLangParameter(): void
+    {
+        $request = Request::create('/actions?i18n=1');
+
+        self::assertTrue(RequestHelper::isPublicI18nRequest($request));
+    }
+
+    public function testIsPublicI18nRequestReturnsFalseForNonGetMethods(): void
+    {
+        $request = Request::create('/actions?i18n=1', 'POST');
+
+        self::assertFalse(RequestHelper::isPublicI18nRequest($request));
+    }
 }

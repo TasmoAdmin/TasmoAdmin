@@ -156,6 +156,69 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals('multi', $device->keywords[0]);
     }
 
+    public function testFromRequestFallsBackToDeviceNamesWhenFriendlyNamesAreMissing(): void
+    {
+        $request = [
+            'device_id' => 1,
+            'device_name' => ['socket-1'],
+            'device_ip' => '192.168.1.1',
+            'device_username' => 'user',
+            'device_password' => 'pass',
+            'device_friendly_name' => [],
+        ];
+
+        $device = DeviceFactory::fromRequest($request);
+
+        self::assertSame(['socket-1'], $device->friendlyNames);
+    }
+
+    public function testFromRequestTrimsMqttTopicAndFiltersEmptyNames(): void
+    {
+        $request = [
+            'device_id' => 1,
+            'device_name' => ['socket-1', '', 'socket-2'],
+            'device_ip' => '192.168.1.1',
+            'device_username' => 'user',
+            'device_password' => 'pass',
+            'device_friendly_name' => ['friendly-1', '', 'friendly-2'],
+            'device_mqtt_topic' => '  kitchen-plug  ',
+        ];
+
+        $device = DeviceFactory::fromRequest($request);
+
+        self::assertSame(['socket-1', 'socket-2'], $device->names);
+        self::assertSame(['friendly-1', 'friendly-2'], $device->friendlyNames);
+        self::assertSame('kitchen-plug', $device->mqttTopic);
+        self::assertContains('TOPIC#kitchen-plug', $device->keywords);
+    }
+
+    public function testFromArrayFiltersEmptyFriendlyNamesAndFallsBackToNames(): void
+    {
+        $device = DeviceFactory::fromArray([
+            0,
+            'socket-1|socket-2',
+            '192.168.1.1',
+            'user',
+            'pass',
+            'bulb_2',
+            1,
+            0,
+            1,
+            1,
+            false,
+            5000,
+            '|',
+            0,
+            '',
+        ]);
+
+        self::assertSame(['socket-1', 'socket-2'], $device->friendlyNames);
+        self::assertSame([], array_values(array_filter(
+            $device->keywords,
+            static fn (string $keyword): bool => str_starts_with($keyword, 'TOPIC#')
+        )));
+    }
+
     public function testFromArrayUsesMqttTopicColumn(): void
     {
         $device = DeviceFactory::fromArray([

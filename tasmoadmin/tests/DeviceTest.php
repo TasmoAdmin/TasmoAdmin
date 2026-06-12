@@ -21,6 +21,15 @@ class DeviceTest extends TestCase
         $this->assertEquals('http://192.168.1.1:80', $device->getUrlWithAuth());
     }
 
+    public function testGetUrlWithoutAuthWhenCredentialsArePartial(): void
+    {
+        $userOnly = new Device(1, ['socket-1'], '192.168.1.1', 'user', '', 'img', 1, false, false, false, []);
+        $passwordOnly = new Device(1, ['socket-1'], '192.168.1.1', '', 'pass', 'img', 1, false, false, false, []);
+
+        $this->assertEquals('http://192.168.1.1:80', $userOnly->getUrlWithAuth());
+        $this->assertEquals('http://192.168.1.1:80', $passwordOnly->getUrlWithAuth());
+    }
+
     public function testGetUrlWithNonStandardPort(): void
     {
         $device = new Device(1, ['socket-1'], '192.168.1.1', '', '', 'img', 1, false, false, false, [], false, 5000);

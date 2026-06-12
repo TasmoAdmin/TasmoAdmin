@@ -18,6 +18,9 @@ class TasmotaOtaScraperTest extends TestCase
         $result = $scraper->getEsp8266Firmware();
         self::assertEquals('12.1.1', $result->getVersion());
         self::assertEquals('2022-08-25', $result->getPublishDate()->format('Y-m-d'));
+        self::assertNotEmpty($result->getFirmwares());
+        self::assertSame('tasmota-display.bin.gz', $result->getFirmwares()[0]->getName());
+        self::assertStringStartsWith('http', $result->getFirmwares()[0]->getUrl());
     }
 
     public function testGetDevEsp8266Firmware(): void
@@ -34,6 +37,9 @@ class TasmotaOtaScraperTest extends TestCase
         $result = $scraper->getEsp32Firmware();
         self::assertEquals('13.0.0', $result->getVersion());
         self::assertEquals('2023-06-26', $result->getPublishDate()->format('Y-m-d'));
+        self::assertNotEmpty($result->getFirmwares());
+        self::assertSame('tasmota32-bluetooth.bin', $result->getFirmwares()[0]->getName());
+        self::assertStringStartsWith('http', $result->getFirmwares()[0]->getUrl());
     }
 
     public function testGetDevEsp32Firmware(): void

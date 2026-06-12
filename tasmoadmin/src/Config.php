@@ -303,9 +303,10 @@ class Config
 
     private function writeFile(array $config): void
     {
-        $this->cachedConfig = $config;
+        $encryptedConfig = $this->encryptSensitiveValues($config);
+        $this->cachedConfig = $this->decryptSensitiveValues($encryptedConfig);
 
-        $configJson = json_encode($this->encryptSensitiveValues($config), JSON_PRETTY_PRINT);
+        $configJson = json_encode($encryptedConfig, JSON_PRETTY_PRINT);
         if (!is_dir($this->dataDir)) {
             var_dump(debug_backtrace());
 

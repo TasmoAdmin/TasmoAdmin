@@ -77,6 +77,10 @@ class Sonoff
             return '';
         }
 
+        if (!empty($status->WARNING)) {
+            return '';
+        }
+
         return $status->FullTopic;
     }
 
@@ -91,6 +95,10 @@ class Sonoff
         }
 
         if (!empty($status->ERROR)) {
+            return '';
+        }
+
+        if (!empty($status->WARNING)) {
             return '';
         }
 
@@ -110,6 +118,10 @@ class Sonoff
             return '';
         }
 
+        if (!empty($status->WARNING)) {
+            return '';
+        }
+
         return $status->MqttRetry;
     }
 
@@ -123,6 +135,10 @@ class Sonoff
         }
 
         if (!empty($status->ERROR)) {
+            return '';
+        }
+
+        if (!empty($status->WARNING)) {
             return '';
         }
 
@@ -142,6 +158,10 @@ class Sonoff
             return '';
         }
 
+        if (!empty($status->WARNING)) {
+            return '';
+        }
+
         return $status->SensorRetain;
     }
 
@@ -154,6 +174,10 @@ class Sonoff
             return '';
         }
         if (!empty($status->ERROR)) {
+            return '';
+        }
+
+        if (!empty($status->WARNING)) {
             return '';
         }
 
@@ -174,12 +198,10 @@ class Sonoff
 
             if (!empty($tmp->Command) && 'Unknown' === $tmp->Command) {
                 $status->{$cmnd} = '';
+            } elseif (!empty($tmp->ERROR)) {
+                $status->{$cmnd} = '';
             } else {
-                if (!empty($status->ERROR)) {
-                    $status->{$cmnd} = '';
-                } else {
-                    $status->{$cmnd} = $tmp->{$cmnd};
-                }
+                $status->{$cmnd} = $tmp->{$cmnd};
             }
         }
 
@@ -197,12 +219,10 @@ class Sonoff
             $tmp = $this->doRequest($device, $cmnd);
             if (!empty($tmp->Command) && 'Unknown' === $tmp->Command) {
                 $status->{$cmnd} = '';
+            } elseif (!empty($tmp->ERROR)) {
+                $status->{$cmnd} = '';
             } else {
-                if (!empty($status->ERROR)) {
-                    $status->{$cmnd} = '';
-                } else {
-                    $status->{$cmnd} = $tmp->{$cmnd};
-                }
+                $status->{$cmnd} = $tmp->{$cmnd};
             }
         }
 
