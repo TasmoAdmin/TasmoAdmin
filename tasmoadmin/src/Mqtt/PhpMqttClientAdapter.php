@@ -11,10 +11,9 @@ class PhpMqttClientAdapter implements MqttClientInterface
 
     public function connect(?string $username, ?string $password, int $timeoutSeconds): void
     {
-        $settings = new ConnectionSettings()
-            ->setConnectTimeout(max($timeoutSeconds, 1))
-            ->setSocketTimeout(max($timeoutSeconds, 1))
-        ;
+        $settings = new ConnectionSettings();
+        $settings = $settings->setConnectTimeout(max($timeoutSeconds, 1));
+        $settings = $settings->setSocketTimeout(max($timeoutSeconds, 1));
 
         if (null !== $username && '' !== $username) {
             $settings = $settings->setUsername($username);
