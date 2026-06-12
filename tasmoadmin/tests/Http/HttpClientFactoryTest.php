@@ -19,7 +19,8 @@ class HttpClientFactoryTest extends TestCase
             'timeout' => '9',
         ]);
 
-        $client = new HttpClientFactory($config)->getClient();
+        $factory = new HttpClientFactory($config);
+        $client = $factory->getClient();
 
         $clientConfig = $this->readClientConfig($client);
 
@@ -32,7 +33,8 @@ class HttpClientFactoryTest extends TestCase
         $root = vfsStream::setup('http-client-factory-defaults-'.bin2hex(random_bytes(4)));
         $config = new Config($root->url().'/', $root->url().'/');
 
-        $client = new HttpClientFactory($config)->getClient();
+        $factory = new HttpClientFactory($config);
+        $client = $factory->getClient();
 
         $clientConfig = $this->readClientConfig($client);
 
