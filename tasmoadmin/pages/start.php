@@ -4,7 +4,10 @@ use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
 
-$devices = $Sonoff->getDevices();
+$devices = array_values(array_filter(
+    $Sonoff->getDevices(),
+    static fn ($deviceGroup): bool => !$deviceGroup->deviceHideFromStartpage
+));
 
 ?>
 <div class='container-fluid'>

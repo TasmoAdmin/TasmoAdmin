@@ -55,7 +55,7 @@ if (isset($_POST['device_ids'])) {
                 </button>
             </div>
             <div class='col col-auto'>
-                <div class="form-check pl-0">
+                <div class="form-check ps-0">
                     <input type="checkbox"
                            class="form-check-input showmore d-none"
                            id="showmore"

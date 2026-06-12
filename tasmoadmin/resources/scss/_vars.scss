@@ -1,10 +1,12 @@
+@use "sass:color";
+
 $green: #02a030;
 $greenBtn: $green;
 $greenBtnBorder: $green;
-$greenBtnHover: darken($greenBtn, 5%);
-$greenBtnBorderHover: darken($greenBtnBorder, 10%);
+$greenBtnHover: color.adjust($greenBtn, $lightness: -5%);
+$greenBtnBorderHover: color.adjust($greenBtnBorder, $lightness: -10%);
 
-$nmGreenBtn: darken($greenBtn, 5%);
+$nmGreenBtn: color.adjust($greenBtn, $lightness: -5%);
 $nmGreenBtnHover: $greenBtn;
 
 $nmGreenIcon: $nmGreenBtn;
@@ -16,27 +18,27 @@ $greenIconHover: $greenBtnHover;
 $blue: #007bff;
 $blueBtn: $blue;
 $blueBtnBorder: $blue;
-$blueBtnHover: darken($blueBtn, 5%);
-$blueBtnBorderHover: darken($blueBtnBorder, 10%);
+$blueBtnHover: color.adjust($blueBtn, $lightness: -5%);
+$blueBtnBorderHover: color.adjust($blueBtnBorder, $lightness: -10%);
 
 $nmBlueBtn: #005c84;
 $nmBlueBtnHover: #0073a5;
 $nmBlueBtnBorder: $nmBlueBtn;
-$nmBlueBtnBorderHover: darken($nmBlueBtnHover, 5%);
+$nmBlueBtnBorderHover: color.adjust($nmBlueBtnHover, $lightness: -5%);
 
 $grey: #6c757d;
-$greyDark: darken($grey, 20%);
+$greyDark: color.adjust($grey, $lightness: -20%);
 $greyBtn: $grey;
 $greyBtnBorder: $grey;
-$greyBtnHover: darken($greyBtn, 5%);
-$greyBtnBorderHover: darken($greyBtnBorder, 10%);
+$greyBtnHover: color.adjust($greyBtn, $lightness: -5%);
+$greyBtnBorderHover: color.adjust($greyBtnBorder, $lightness: -10%);
 
 $lightBlue: #1c99d2;
 $lightBlueIcon: $lightBlue;
-$lightBlueIconHover: darken($lightBlue, 10%);
+$lightBlueIconHover: color.adjust($lightBlue, $lightness: -10%);
 
 $nmLightBlueIcon: #1c99d2;
-$nmLightBlueIconHover: lighten($nmLightBlueIcon, 15%);
+$nmLightBlueIconHover: color.adjust($nmLightBlueIcon, $lightness: 15%);
 
 $inputBoxShadow: 0 0 0 0.2rem rgba($blue, 0.25);
 
@@ -44,15 +46,15 @@ $red: #ba001a;
 $redError: $red;
 $redErrorHover: #a10016;
 
-$nmRedError: darken($redError, 5%);
+$nmRedError: color.adjust($redError, $lightness: -5%);
 $nmRedErrorHover: $redError;
 
 $white: #ffffff;
 $whiteFont: $white;
-$greyFont: darken($whiteFont, 50%);
-$greyLinkFont: darken($whiteFont, 25%);
-$greyLinkActiveFont: darken($whiteFont, 10%);
-$greyFontHover: darken($whiteFont, 15%);
+$greyFont: color.adjust($whiteFont, $lightness: -50%);
+$greyLinkFont: color.adjust($whiteFont, $lightness: -25%);
+$greyLinkActiveFont: color.adjust($whiteFont, $lightness: -10%);
+$greyFontHover: color.adjust($whiteFont, $lightness: -15%);
 
 $nmGreyFont: #cbcbcb;
 
@@ -107,7 +109,7 @@ $text-muted: $grey;
 
 // Link colors
 $link-color: $blue;
-$link-hover-color: darken($blue, 15%);
+$link-hover-color: color.adjust($blue, $lightness: -15%);
 
 // Border colors
 $border-color: $whiteBorder;

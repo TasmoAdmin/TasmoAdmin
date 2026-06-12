@@ -69,7 +69,7 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
 						</div>
 					<?php } ?>
 						<div class="col col-12 col-lg-auto ms-lg-auto devices-toolbar-lock-col">
-						<div class="form-check pl-0 devices-protection-toggle">
+						<div class="form-check ps-0 devices-protection-toggle">
 							<input type="checkbox"
 								   class="form-check-input ignoreProtections d-none"
 								   id="ignoreProtections"
@@ -108,10 +108,11 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
                                 <option value=''><?php echo __('PLEASE_SELECT'); ?></option>
                                 <option value='command'><?php echo __('BTN_COMMAND', 'DEVICES'); ?></option>
                                 <option value='backup'><?php echo __('BACKUP', 'BACKUP'); ?></option>
+                                <option value='restart'><?php echo __('RESTART_SELECTED', 'DEVICES'); ?></option>
                                 <option value='delete'><?php echo __('DELETE_SELECTED', 'DEVICES'); ?></option>
                             </select>
                         </div>
-                        <div class="col col-12 col-lg-auto batchActionCommandWrapper devices-batch-command-col d-none">
+                        <div class="col col-12 col-lg batchActionCommandWrapper devices-batch-command-col d-none">
                             <input type='text'
                                    name='command'
                                    class='form-control batchActionCommandInput'
@@ -122,6 +123,11 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
                             <button type='button' class='btn btn-primary applyBatchAction w-100' disabled>
                                 <?php echo __('PLEASE_SELECT'); ?>
                             </button>
+                        </div>
+                        <div class="col col-12 col-lg-auto ms-lg-auto devices-batch-add-col">
+                            <a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
+                                <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
+                            </a>
                         </div>
                         <div class="col col-12">
                             <small class="form-text batchActionFeedback d-none"></small>

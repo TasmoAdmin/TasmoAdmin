@@ -47,6 +47,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals(['socket-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
         self::assertSame('', $device->mqttTopic);
+        self::assertFalse($device->deviceHideFromStartpage);
     }
 
     public function testFromArrayComplete(): void
@@ -82,6 +83,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals(['friendly-1'], $device->friendlyNames);
         self::assertFalse($device->deviceConfirmToggle);
         self::assertSame('', $device->mqttTopic);
+        self::assertFalse($device->deviceHideFromStartpage);
     }
 
     public function testFromArrayUsesConfirmToggleColumn(): void
@@ -118,6 +120,7 @@ class DeviceFactoryTest extends TestCase
             'device_friendly_name' => ['webui-socket-1'],
             'device_confirm_toggle' => '1',
             'device_mqtt_topic' => 'kitchen-plug',
+            'device_hide_from_startpage' => '1',
         ];
 
         $device = DeviceFactory::fromRequest($request);
@@ -131,6 +134,7 @@ class DeviceFactoryTest extends TestCase
         self::assertEquals('single', $device->keywords[0]);
         self::assertTrue($device->deviceConfirmToggle);
         self::assertSame('kitchen-plug', $device->mqttTopic);
+        self::assertTrue($device->deviceHideFromStartpage);
     }
 
     public function testFromRequestMultipleNames(): void
@@ -241,5 +245,29 @@ class DeviceFactoryTest extends TestCase
 
         self::assertSame('garage-plug', $device->mqttTopic);
         self::assertContains('TOPIC#garage-plug', $device->keywords);
+    }
+
+    public function testFromArrayUsesHideFromStartpageColumn(): void
+    {
+        $device = DeviceFactory::fromArray([
+            0,
+            'socket-1',
+            '192.168.1.1',
+            'user',
+            'pass',
+            'bulb_2',
+            1,
+            0,
+            1,
+            1,
+            false,
+            5000,
+            'friendly-1',
+            1,
+            'garage-plug',
+            1,
+        ]);
+
+        self::assertTrue($device->deviceHideFromStartpage);
     }
 }

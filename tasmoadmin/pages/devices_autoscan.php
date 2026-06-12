@@ -617,7 +617,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
                             <h3 class='text-sm-center mb-4 autoscan-device-title'>
                                 <?php echo __('DEVICE', 'DEVICES_AUTOSCAN').' '.($idx + 1); ?>
                             </h3>
-                            <div class="form-row">
+                            <div class="row g-3 autoscan-device-field-row">
                                 <div class="form-group col col-12 col-sm-12">
                                     <label for="device_ip_fake_<?php echo $idx; ?>">
                                         <?php echo __('DEVICE_IP', 'DEVICE_ACTIONS'); ?>
@@ -635,7 +635,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
                                 </div>
                             </div>
 
-                            <div class="form-row">
+                            <div class="row g-3 autoscan-device-field-row">
                                 <div class="form-group col col-12 col-sm-12">
                                     <label for="device_port_fake_<?php echo $idx; ?>">
                                         <?php echo __('DEVICE_PORT', 'DEVICE_ACTIONS'); ?>
@@ -657,7 +657,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
                                 </div>
                             </div>
 
-                            <div class="form-row">
+                            <div class="row g-3 autoscan-device-field-row">
                                 <div class="form-group col">
                                     <label for="device_position_<?php echo $idx; ?>">
                                         <?php echo __('DEVICE_POSITION', 'DEVICE_ACTIONS'); ?>

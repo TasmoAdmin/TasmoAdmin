@@ -46,8 +46,8 @@ $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingTex
         </th>
         <th data-column-id='version' data-column-label='<?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
         <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
-        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __(
-            'TABLE_HEAD_ENERGY',
+        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __('TABLE_HEAD_ENERGY', 'DEVICES').' '.__(
+            'TABLE_HEAD_ENERGY_DETAIL',
             'DEVICES'
         ); ?></th>
         <th data-column-id='temp' data-column-label='<?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
@@ -76,14 +76,7 @@ $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingTex
         <th data-column-id='wificonfig' data-column-label='<?php echo __('WIFICONFIG', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
         <th data-column-id='vcc' data-column-label='<?php echo __('VCC', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
 
-        <th data-column-id='actions' class='link text-sm-right'>
-            <a href='<?php echo _BASEURL_; ?>device_action/add'>
-                <i class="fas fa-plus add"
-                  data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
-                ></i>
-                <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
-            </a>
-        </th>
+        <th data-column-id='actions' class='link text-sm-right'></th>
     </tr>
     </thead>
     <tbody>
@@ -273,6 +266,9 @@ if (isset($devices) && !empty($devices)) {
                               ); ?>'
                             ></i></a>
                         <a class="delete"
+                           data-bs-toggle="modal"
+                           data-bs-target="#deleteDeviceModal"
+                           data-dialog-action="delete"
                            data-dialog-btn-cancel-text='<?php echo __(
                                'CANCEL'
                            ); ?>'
@@ -292,6 +288,7 @@ if (isset($devices) && !empty($devices)) {
                                    $device_group->ip,
                                ]
                            ); ?>'
+                           data-dialog-url='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
                            href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
                         >
                             <i class="fas fa-trash fa-lg"
@@ -300,7 +297,24 @@ if (isset($devices) && !empty($devices)) {
                                   'DEVICES'
                               ); ?>'
                             ></i></a>
-                        <a href='#' class='restart-device'>
+                        <a href='#deleteDeviceModal'
+                           class='restart-device'
+                           data-bs-toggle="modal"
+                           data-bs-target="#deleteDeviceModal"
+                           data-dialog-action="restart"
+                           data-dialog-device-id='<?php echo $device_group->id; ?>'
+                           data-dialog-btn-cancel-text='<?php echo __('CANCEL'); ?>'
+                           data-dialog-btn-ok-text='<?php echo __('LINK_DEVICE_RESTART', 'DEVICES'); ?>'
+                           data-dialog-title='<?php echo __('DELETE_DEVICE_CONFIRM_TITLE', 'DEVICES'); ?>'
+                           data-dialog-text='<?php echo __(
+                               'RESTART_DEVICE_CONFIRM_TEXT',
+                               'DEVICES',
+                               [
+                                   $devicename,
+                                   $device_group->ip,
+                               ]
+                           ); ?>'
+                        >
                             <i class="fas fa-sync fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
                                   'LINK_DEVICE_RESTART',
@@ -309,79 +323,11 @@ if (isset($devices) && !empty($devices)) {
                             ></i></a>
                     </td>
 
-                </tr>
+                        </tr>
                 <?php
                 $odd = !$odd;
         }
     }
 } ?>
     </tbody>
-    <tfoot>
-    <tr class='bottom'>
-        <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
-        <th class='link cmd_cb <?php echo $deviceLinksHideClass; ?>'>
-            <div class="form-check">
-                <input class="form-check-input select_all"
-                       type="checkbox"
-                       value='select_all'
-                       id="select_all"
-                       name='select_all'
-                >
-                <label class="form-check-label" for="select_all">
-                    <?php echo __('TABLE_HEAD_ALL', 'DEVICES'); ?>
-                </label>
-            </div>
-        </th>
-        <?php } ?>
-        <th data-column-id='id'><?php echo __('TABLE_HEAD_ID', 'DEVICES'); ?></th>
-        <th data-column-id='position'><?php echo __('TABLE_HEAD_POSITION', 'DEVICES'); ?></th>
-        <th data-column-id='name'><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
-        <th data-column-id='ip'><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
-        <th data-column-id='status'><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
-        <th data-column-id='rssi'>
-            <i class="fas fa-signal"
-              data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
-            ></i>
-        </th>
-        <th data-column-id='version'><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
-        <th data-column-id='runtime'><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
-        <th data-column-id='energyPower' class='energyPower hidden'><?php echo __(
-            'TABLE_HEAD_ENERGY',
-            'DEVICES'
-        ); ?></th>
-        <th data-column-id='temp' class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
-        <th data-column-id='humidity' class='humidity hidden'><?php echo __(
-            'TABLE_HEAD_HUMIDITY',
-            'DEVICES'
-        ); ?></th>
-        <th data-column-id='illuminance' class='illuminance hidden'><?php echo __(
-            'TABLE_HEAD_ILLUMINANCE',
-            'DEVICES'
-        ); ?></th>
-        <th data-column-id='hostname' class='more'><?php echo __('HOSTNAME', 'DEVICES'); ?></th>
-        <th data-column-id='mac' class='more'><?php echo __('MAC', 'DEVICES'); ?></th>
-        <th data-column-id='mqtt' class='more'><?php echo __('MQTT', 'DEVICES'); ?></th>
-        <th data-column-id='idx' class='more idx hidden'><?php echo __(
-            'TABLE_HEAD_IDX',
-            'DEVICES'
-        ); ?></th>
-        <th data-column-id='poweronstate' class='more'><?php echo __('POWERONSTATE', 'DEVICES'); ?></th>
-        <th data-column-id='ledstate' class='more'><?php echo __('LEDSTATE', 'DEVICES'); ?></th>
-        <th data-column-id='savedata' class='more'><?php echo __('SAVEDATA', 'DEVICES'); ?></th>
-        <th data-column-id='sleep' class='more'><?php echo __('SLEEP', 'DEVICES'); ?></th>
-        <th data-column-id='bootcount' class='more'><?php echo __('BOOTCOUNT', 'DEVICES'); ?></th>
-        <th data-column-id='savecount' class='more'><?php echo __('SAVECOUNT', 'DEVICES'); ?></th>
-        <th data-column-id='log' class='more'><?php echo __('LOGSTATES', 'DEVICES'); ?></th>
-        <th data-column-id='wificonfig' class='more'><?php echo __('WIFICONFIG', 'DEVICES'); ?></th>
-        <th data-column-id='vcc' class='more'><?php echo __('VCC', 'DEVICES'); ?></th>
-        <th data-column-id='actions' class='link text-sm-right'>
-            <a href='<?php echo _BASEURL_; ?>device_action/add'>
-                <i class="fas fa-plus add"
-                  data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>'
-                ></i>
-                <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
-            </a>
-        </th>
-    </tr>
-    </tfoot>
 </table>

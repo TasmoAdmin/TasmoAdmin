@@ -2,6 +2,7 @@
 
 namespace Tests\TasmoAdmin;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Device;
 
@@ -37,9 +38,7 @@ class DeviceTest extends TestCase
         $this->assertEquals('http://192.168.1.1:5000', $device->getUrlWithAuth());
     }
 
-    /**
-     * @dataProvider nameProvider
-     */
+    #[DataProvider('nameProvider')]
     public function testGetName(string $expected, array $names): void
     {
         $device = new Device(1, $names, '192.168.1.1', '', '', 'img', 1, false, false, false, []);
@@ -69,9 +68,7 @@ class DeviceTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider backupNameProvider
-     */
+    #[DataProvider('backupNameProvider')]
     public function testGetBackupName(string $expected, array $names): void
     {
         $device = new Device(1, $names, '192.168.1.1', '', '', 'img', 1, false, false, false, []);

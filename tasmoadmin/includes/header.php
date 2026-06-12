@@ -8,6 +8,29 @@ use TasmoAdmin\Helper\ViewHelper;
 $urlHelper = $container->get(UrlHelper::class);
 $viewHelper = $container->get(ViewHelper::class);
 
+ob_start();
+?>
+<div class="theme-toggle-group" aria-label="Theme toggle">
+	<span class="theme-toggle-side theme-toggle-side-sun" aria-hidden="true">
+		<i class="fas fa-sun"></i>
+	</span>
+	<button type="button"
+			class="theme-toggle navbar-theme-toggle js-theme-toggle"
+			aria-label="Toggle day and night mode"
+			aria-pressed="false"
+			title="Toggle day and night mode"
+	>
+		<span class="theme-toggle-track" aria-hidden="true">
+			<span class="theme-toggle-thumb"></span>
+		</span>
+	</button>
+	<span class="theme-toggle-side theme-toggle-side-moon" aria-hidden="true">
+		<i class="fas fa-moon"></i>
+	</span>
+</div>
+<?php
+$themeToggleMarkup = ob_get_clean();
+
 ?>
 <html lang="<?php echo $lang; ?>" xmlns="http://www.w3.org/1999/html">
 	<head>
@@ -66,6 +89,9 @@ $viewHelper = $container->get(ViewHelper::class);
 					<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
 						<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
 					</a>
+					<div class="mobile-header-actions d-sm-none ms-auto">
+						<?php echo $themeToggleMarkup; ?>
+					</div>
 					<button class="navbar-toggler"
 							type="button"
 							data-bs-toggle="collapse"
@@ -228,24 +254,8 @@ $viewHelper = $container->get(ViewHelper::class);
 						</li>
 					</ul>
 					<div class="header-actions ms-auto">
-						<div class="theme-toggle-group">
-							<span class="theme-toggle-side theme-toggle-side-sun" aria-hidden="true">
-								<i class="fas fa-sun"></i>
-							</span>
-							<button type="button"
-									class="theme-toggle navbar-theme-toggle"
-									id="theme-toggle"
-									aria-label="Toggle day and night mode"
-									aria-pressed="false"
-									title="Toggle day and night mode"
-							>
-								<span class="theme-toggle-track" aria-hidden="true">
-									<span class="theme-toggle-thumb"></span>
-								</span>
-							</button>
-							<span class="theme-toggle-side theme-toggle-side-moon" aria-hidden="true">
-								<i class="fas fa-moon"></i>
-							</span>
+						<div class="desktop-theme-toggle d-none d-sm-flex">
+							<?php echo $themeToggleMarkup; ?>
 						</div>
 						<div class='my-2 my-sm-0 language-switch-holder'>
 							<select name='language-switch' id='language-switch' class='form-select'>
