@@ -36,11 +36,15 @@ TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed
 * Autoscan to find Tasmota devices
   * Network range scanning
   * MQTT broker discovery with configurable topic prefixes, subscriptions, and timeout
+  * Device-specific MQTT topic matching for discovery results
 * Optional touch-friendly toggle confirmations
   * Global default in settings
   * Per-device override
+* Device list batch actions
+  * Send commands, create backups, restart devices, and delete devices from the list view
+* Startpage visibility controls
+  * Hide selected devices from the startpage without removing them from the inventory
 * Support for multiple sensors
-* Send commands to selected devices
 * Encrypt stored device passwords at rest
 
 ### Supported Platforms
@@ -143,6 +147,12 @@ Install PHP and Node.js dependencies:
 ddev install-deps
 ```
 
+Install the repository hooks for local staged-file validation:
+
+```bash
+pre-commit install
+```
+
 Build the frontend assets:
 
 ```bash
@@ -166,6 +176,7 @@ Notes:
 * `ddev install-deps` runs `composer install` and `npm ci` in `tasmoadmin/`
 * `ddev build-assets` runs the frontend build
 * `ddev qa` runs the Composer quality checks
+* `pre-commit run --all-files` runs the repository hook set locally
 * `ddev exec npm run test:js` runs the JavaScript test suite
 * `ddev exec npm run prettier:check` verifies formatting for frontend files
 
