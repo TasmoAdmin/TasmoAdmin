@@ -18,10 +18,10 @@ $timerOutputOptions = range(1, 16);
 		</label>
 		<select class="form-control form-select" id="Timers" name='Timers'>
 			<option value='0' <?php echo isset($timersConfig->enabled) && 0 === (int) $timersConfig->enabled ? 'selected="selected"' : ''; ?>>
-				<?php echo __('OFF'); ?>
+				<?php echo __('SWITCH_STATE_OFF', 'DEVICES'); ?>
 			</option>
 			<option value='1' <?php echo isset($timersConfig->enabled) && 1 === (int) $timersConfig->enabled ? 'selected="selected"' : ''; ?>>
-				<?php echo __('ON'); ?>
+				<?php echo __('SWITCH_STATE_ON', 'DEVICES'); ?>
 			</option>
 		</select>
 		<small class="form-text text-muted">
@@ -57,7 +57,7 @@ $timerOutputOptions = range(1, 16);
 								        name='<?php echo $timerKey; ?>[Enable]'>
 									<?php foreach ($timerEnableOptions as $option) { ?>
 										<option value='<?php echo $option; ?>' <?php echo $option === (int) $timer->Enable ? 'selected="selected"' : ''; ?>>
-											<?php echo 1 === $option ? __('ON') : __('OFF'); ?>
+											<?php echo 1 === $option ? __('SWITCH_STATE_ON', 'DEVICES') : __('SWITCH_STATE_OFF', 'DEVICES'); ?>
 										</option>
 									<?php } ?>
 								</select>
@@ -138,7 +138,7 @@ $timerOutputOptions = range(1, 16);
 								        name='<?php echo $timerKey; ?>[Repeat]'>
 									<?php foreach ($timerRepeatOptions as $option) { ?>
 										<option value='<?php echo $option; ?>' <?php echo $option === (int) $timer->Repeat ? 'selected="selected"' : ''; ?>>
-											<?php echo 1 === $option ? __('ON') : __('OFF'); ?>
+											<?php echo 1 === $option ? __('SWITCH_STATE_ON', 'DEVICES') : __('SWITCH_STATE_OFF', 'DEVICES'); ?>
 										</option>
 									<?php } ?>
 								</select>
