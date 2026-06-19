@@ -83,7 +83,7 @@ if (empty($status->ERROR)) {
 
 ?>
 <div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-10 col-lg-10 col-xl-6'>
+	<div class='col col-12 col-md-10 col-lg-10 col-xl-6 device-config-page'>
 		<div class='row'>
 			<div class='col col-12'>
 				<h2 class='text-sm-center'>
