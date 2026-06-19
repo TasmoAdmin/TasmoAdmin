@@ -35,7 +35,7 @@ $devices = array_values(array_filter(
 	    ?>
 		<div class='row justify-content-center startpage'>
 			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
-				<div class='card box_device position-relative' id='all_off' style=''>
+				<div class='box_device position-relative' id='all_off' style=''>
 					<div class=" rubberBand">
 						<?php // col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
 	                    if (!empty($device_group)) {
@@ -46,14 +46,14 @@ $devices = array_values(array_filter(
 	    $img = _RESOURCESURL_.'img/device_icons/'.$imgNight.$type.'_off.png';
 
 	    ?>
-						<img class='card-img-top'
+						<img class='box_device_image'
 							 src='<?php echo $img; ?>'
 							 data-icon='<?php echo $type; ?>'
 							 alt=''
 						>
 					</div>
-					<div class='card-body'>
-						<h5 class="card-title box_device_name">
+					<div class='box_device_body'>
+						<h5 class="box_device_name">
 							<?php echo __('ALL_OFF', 'DEVICES'); ?>
 						</h5>
 					</div>
@@ -66,7 +66,7 @@ $devices = array_values(array_filter(
 	                        $img = _RESOURCESURL_.'img/device_icons/'.$imgNight.$device_group->img.'_off.png';
 				    ?>
 					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
-						<div class='card box_device position-relative' style=''
+						<div class='box_device position-relative' style=''
 							 data-device_id='<?php echo $device_group->id; ?>'
 							 data-device_group='<?php echo count($device_group->names) > 1 ? 'multi' : 'single'; ?>'
 							 data-device_ip='<?php echo $device_group->ip; ?>'
@@ -78,17 +78,17 @@ $devices = array_values(array_filter(
 							 data-device_confirm_toggle='<?php echo $device_group->deviceConfirmToggle ? '1' : '0'; ?>'
 						>
 							<div class="animated rubberBand">
-								<img class='card-img-top'
+								<img class='box_device_image'
 									 data-icon='<?php echo $device_group->img; ?>'
 									 src='<?php echo $img; ?>'
 									 alt=''
 								>
 							</div>
-							<div class='card-body'>
-								<h5 class="card-title box_device_name">
+							<div class='box_device_body'>
+								<h5 class="box_device_name">
 									<?php echo $devicename; ?>
 								</h5>
-								<div class='card-text info-holder'>
+								<div class='info-holder'>
 									<div class='info info-1 hidden'>
 										<span>-</span>
 									</div>
