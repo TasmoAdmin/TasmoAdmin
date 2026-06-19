@@ -142,8 +142,8 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                             >
                                 <option value=''><?php echo __('PLEASE_SELECT'); ?></option>
                                 <option value='command'><?php echo __('BTN_COMMAND', 'DEVICES'); ?></option>
-                                <option value='backup'><?php echo __('BACKUP', 'BACKUP'); ?></option>
-                                <option value='restore'><?php echo __('BTN_START_RESTORE', 'BACKUP'); ?></option>
+                                <option value='backup'><?php echo __('BATCH_BACKUP_CREATE', 'BACKUP'); ?></option>
+                                <option value='restore'><?php echo __('BATCH_BACKUP_RESTORE', 'BACKUP'); ?></option>
                                 <option value='restart'><?php echo __('RESTART_SELECTED', 'DEVICES'); ?></option>
                                 <option value='delete'><?php echo __('DELETE_SELECTED', 'DEVICES'); ?></option>
                             </select>
