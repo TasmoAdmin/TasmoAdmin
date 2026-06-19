@@ -19,8 +19,12 @@ import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
 import toggleConfirmation from "./toggle_confirmation";
 
-const { extractFirstNumericValue, getRuntimeInfo, getSortableVersionValue } =
-  statusHelpers;
+const {
+  extractFirstNumericValue,
+  getRuntimeInfo,
+  getSortableVersionValue,
+  getWifiDisplayInfo,
+} = statusHelpers;
 const {
   confirmAction,
   createTouchConfirmController,
@@ -927,24 +931,38 @@ function updateRow(row, data, device_status) {
   data = sonoff.parseStatusData(data);
 
   if (data.hasWifi) {
-    let rssi = data.wifi.rssi;
-    let ssid = data.wifi.ssid;
+    const wifiDisplay = getWifiDisplayInfo(data);
+    const rssiSpan = $(row).find(".rssi span");
 
-    $(row)
-      .find(".rssi span")
-      .html(rssi + "%")
-      .attr("data-sort-number", rssi)
-      .attr("data-bs-title", ssid)
-      .attr("data-bs-toggle", "tooltip");
-    refreshTooltip($(row).find(".rssi span").get(0), {
-      html: true,
-      delay: 700,
-    });
+    rssiSpan.empty().text(wifiDisplay.summary);
+    if (wifiDisplay.details !== "") {
+      rssiSpan.append("<br>");
+      rssiSpan.append($("<small>").text(wifiDisplay.details));
+    }
+
+    if (data.wifi.rssi !== undefined && data.wifi.rssi !== null) {
+      rssiSpan.attr("data-sort-number", data.wifi.rssi);
+    } else {
+      rssiSpan.removeAttr("data-sort-number");
+    }
+
+    if (wifiDisplay.tooltip !== "") {
+      rssiSpan
+        .attr("data-bs-title", wifiDisplay.tooltip)
+        .attr("data-bs-toggle", "tooltip");
+      refreshTooltip(rssiSpan.get(0), {
+        html: true,
+        delay: 700,
+      });
+    } else {
+      disposeTooltip(rssiSpan.get(0));
+      rssiSpan.removeAttr("data-bs-title").removeAttr("data-bs-toggle");
+    }
   } else {
     disposeTooltip($(row).find(".rssi span").get(0));
     $(row)
       .find(".rssi span")
-      .html("-")
+      .text("-")
       .removeAttr("data-sort-number")
       .removeAttr("data-bs-title")
       .removeAttr("data-bs-toggle");

@@ -39,11 +39,7 @@ $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingTex
         <th data-column-id='name' data-column-label='<?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
         <th data-column-id='ip' data-column-label='<?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
         <th data-column-id='status'><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
-        <th data-column-id='rssi' data-column-label='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric>
-            <i class="fas fa-signal"
-               data-bs-toggle="tooltip" data-bs-title='<?php echo __('TABLE_HEAD_RSSI', 'DEVICES'); ?>'
-            ></i>
-        </th>
+        <th data-column-id='rssi' data-column-label='WIFI' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric>WIFI</th>
         <th data-column-id='version' data-column-label='<?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
         <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
         <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __('TABLE_HEAD_ENERGY', 'DEVICES').' '.__(
