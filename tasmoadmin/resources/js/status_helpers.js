@@ -21,6 +21,7 @@ function normalizeStatusData(data = {}) {
   if (wifiStatus !== undefined) {
     normalized.hasWifi = true;
     normalized.wifi = {
+      channel: wifiStatus.Channel,
       rssi: wifiStatus.RSSI,
       ssid: wifiStatus.SSID ?? wifiStatus.SSId,
       uptime:
@@ -31,6 +32,33 @@ function normalizeStatusData(data = {}) {
   }
 
   return normalized;
+}
+
+function getWifiDisplayInfo(data = {}) {
+  if (!data.hasWifi || data.wifi === undefined) {
+    return {
+      summary: "-",
+      details: "",
+      tooltip: "",
+    };
+  }
+
+  const summary =
+    data.wifi.rssi !== undefined && data.wifi.rssi !== null
+      ? `${data.wifi.rssi}%`
+      : "?";
+  const details = [
+    data.wifi.ssid,
+    data.wifi.channel ? `ch${data.wifi.channel}` : "",
+  ]
+    .filter(Boolean)
+    .join(" / ");
+
+  return {
+    summary,
+    details,
+    tooltip: [details, summary].filter(Boolean).join(" / "),
+  };
 }
 
 function parseUptimeToSeconds(uptime) {
@@ -206,6 +234,7 @@ module.exports = {
   extractFirstNumericValue,
   getSortableVersionValue,
   normalizeStatusData,
+  getWifiDisplayInfo,
   getRuntimeInfo,
   parseUptimeToSeconds,
   getEnergyPower,
