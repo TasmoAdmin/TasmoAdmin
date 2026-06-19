@@ -1,5 +1,7 @@
 const { compareVersions } = require("compare-versions");
 
+const LEGACY_ESP8266_MULTI_HOP_BASELINE = "9.1.3";
+
 function extractVersionFromResponse(response) {
   const actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(response);
   if (actualMatch === null) {
@@ -78,12 +80,69 @@ function resolveUpdateTarget(updateTargets, response) {
   throw Error(`No update target configured for ${platform}`);
 }
 
+function determineUpgradePlan(target, response) {
+  const platform = detectDevicePlatform(response);
+  const currentVersion = response?.StatusFWR?.Version ?? "";
+  const minimalOtaUrl = target?.minimalOtaUrl ?? "";
+  const targetVersion = target?.targetVersion ?? "";
+
+  if (
+    platform === "esp8266" &&
+    minimalOtaUrl &&
+    targetVersion &&
+    compareVersions(
+      extractVersionFromResponse(currentVersion),
+      LEGACY_ESP8266_MULTI_HOP_BASELINE,
+    ) === -1
+  ) {
+    return {
+      type: "blocked",
+      key: "BLOCK_UPDATE_LEGACY_PATH_REQUIRED",
+      values: [
+        currentVersion,
+        targetVersion,
+        LEGACY_ESP8266_MULTI_HOP_BASELINE,
+      ],
+    };
+  }
+
+  if (minimalOtaUrl) {
+    return {
+      type: "staged",
+      steps: [
+        {
+          kind: "minimal",
+          otaUrl: minimalOtaUrl,
+          targetVersion: "",
+        },
+        {
+          kind: "final",
+          otaUrl: target.otaUrl,
+          targetVersion,
+        },
+      ],
+    };
+  }
+
+  return {
+    type: "direct",
+    steps: [
+      {
+        kind: "final",
+        otaUrl: target.otaUrl,
+        targetVersion,
+      },
+    ],
+  };
+}
+
 module.exports = {
   detectDevicePlatform,
+  determineUpgradePlan,
   extractVersionFromResponse,
-  resolveUpdateTarget,
-  versionsEqual,
-  versionUpgrade,
-  shouldTreatStatusAsSuccessful,
   getFailureDetails,
+  resolveUpdateTarget,
+  shouldTreatStatusAsSuccessful,
+  versionUpgrade,
+  versionsEqual,
 };
