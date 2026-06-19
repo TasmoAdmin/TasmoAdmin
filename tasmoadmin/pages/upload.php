@@ -202,7 +202,6 @@ $Config->write('ota_server_ip', $ota_server_ip);
 $Config->write('ota_server_port', $ota_server_port);
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
-
 $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 
 $checkForFirmware = '1' === $Config->read('update_be_check');
@@ -283,6 +282,7 @@ if ($checkForFirmware && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($
 				  method='post'
 				  action='<?php echo _BASEURL_; ?>device_update'
 			>
+				<input type='hidden' name='minimal_firmware_path' value='<?php echo $minimal_firmware_path; ?>'>
 				<input type='hidden' name='new_firmware_path' value='<?php echo $new_firmware_path; ?>'>
 				<input type='hidden' name='target_version' value='<?php echo $targetVersion; ?>'>
 

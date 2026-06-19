@@ -5,9 +5,13 @@ use TasmoAdmin\Helper\OtaHelper;
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
+$ota_minimal_firmware_url = '';
 $ota_new_firmware_url = '';
 $target_version = '';
 
+if (!empty($_REQUEST['minimal_firmware_path'])) {
+    $ota_minimal_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path']);
+}
 if (!empty($_REQUEST['new_firmware_path'])) {
     $ota_new_firmware_url = $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']);
 }
@@ -51,6 +55,7 @@ foreach ($devices as $device) {
 
             </div>
 
+        <input type='hidden' id='ota_minimal_firmware_url' value='<?php echo $ota_minimal_firmware_url; ?>'>
         <input type='hidden' id='ota_new_firmware_url' value='<?php echo $ota_new_firmware_url; ?>'>
         <input type='hidden' id='target_version' value='<?php echo $target_version; ?>'>
             <script>
