@@ -231,9 +231,55 @@ class Sonoff
         return $status;
     }
 
+    public function getTimersConfig(Device $device): ?\stdClass
+    {
+        $timersStatus = $this->doRequest($device, 'Timers');
+        if ($this->isUnsupportedOrInvalidResponse($timersStatus)) {
+            return null;
+        }
+
+        $timersConfig = new \stdClass();
+        $timersConfig->enabled = $this->normalizeTimerToggle($timersStatus->Timers ?? null);
+        $timersConfig->timers = [];
+
+        foreach (range(1, 16) as $timerIndex) {
+            $timerStatus = $this->doRequest($device, 'Timer'.$timerIndex);
+            $timerConfig = null;
+            $timerKey = 'Timer'.$timerIndex;
+
+            if (!$this->isUnsupportedOrInvalidResponse($timerStatus) && isset($timerStatus->{$timerKey})) {
+                $timerConfig = $this->normalizeTimerDefinition($timerStatus->{$timerKey});
+            }
+
+            $timersConfig->timers[$timerIndex] = $timerConfig ?? $this->getDefaultTimerDefinition();
+        }
+
+        return $timersConfig;
+    }
+
     public function saveConfig(Device $device, string $backlog): \stdClass
     {
         return $this->doRequest($device, $backlog);
+    }
+
+    public function saveTimers(Device $device, array $settings): \stdClass
+    {
+        $result = $this->doRequest($device, 'Timers '.($settings['Timers'] ?? '0'));
+
+        foreach (range(1, 16) as $timerIndex) {
+            $timerKey = 'Timer'.$timerIndex;
+            if (!isset($settings[$timerKey]) || !is_array($settings[$timerKey])) {
+                continue;
+            }
+
+            $timerSettings = $this->normalizeTimerSettingsForSave($settings[$timerKey]);
+            $result = $this->doRequest(
+                $device,
+                $timerKey.' '.json_encode($timerSettings, JSON_UNESCAPED_SLASHES)
+            );
+        }
+
+        return $result;
     }
 
     public function doAjax($deviceId, string $cmnd)
@@ -418,6 +464,89 @@ class Sonoff
         }
 
         return $decodedOptopns;
+    }
+
+    private function getDefaultTimerDefinition(): \stdClass
+    {
+        return (object) [
+            'Enable' => 0,
+            'Mode' => 0,
+            'Time' => '00:00',
+            'Window' => 0,
+            'Days' => '-------',
+            'Repeat' => 0,
+            'Output' => 1,
+            'Action' => 0,
+        ];
+    }
+
+    private function isUnsupportedOrInvalidResponse(\stdClass $result): bool
+    {
+        if (!empty($result->ERROR) || !empty($result->WARNING)) {
+            return true;
+        }
+
+        return !empty($result->Command) && 'Unknown' === $result->Command;
+    }
+
+    /**
+     * @param mixed $timerDefinition
+     */
+    private function normalizeTimerDefinition($timerDefinition): \stdClass
+    {
+        if (is_string($timerDefinition)) {
+            $decoded = json_decode($timerDefinition);
+            if ($decoded instanceof \stdClass) {
+                $timerDefinition = $decoded;
+            }
+        } elseif (is_array($timerDefinition)) {
+            $timerDefinition = (object) $timerDefinition;
+        }
+
+        $defaultTimer = $this->getDefaultTimerDefinition();
+        if (!$timerDefinition instanceof \stdClass) {
+            return $defaultTimer;
+        }
+
+        foreach (array_keys(get_object_vars($defaultTimer)) as $property) {
+            if (!property_exists($timerDefinition, $property)) {
+                $timerDefinition->{$property} = $defaultTimer->{$property};
+            }
+        }
+
+        $timerDefinition->Enable = (int) $timerDefinition->Enable;
+        $timerDefinition->Mode = (int) $timerDefinition->Mode;
+        $timerDefinition->Time = trim((string) $timerDefinition->Time);
+        $timerDefinition->Window = (int) $timerDefinition->Window;
+        $timerDefinition->Days = trim((string) $timerDefinition->Days);
+        $timerDefinition->Repeat = (int) $timerDefinition->Repeat;
+        $timerDefinition->Output = (int) $timerDefinition->Output;
+        $timerDefinition->Action = (int) $timerDefinition->Action;
+
+        return $timerDefinition;
+    }
+
+    private function normalizeTimerToggle($value): int
+    {
+        if (is_string($value)) {
+            return 'ON' === strtoupper($value) ? 1 : 0;
+        }
+
+        return (int) ((bool) $value);
+    }
+
+    private function normalizeTimerSettingsForSave(array $settings): array
+    {
+        return [
+            'Enable' => (int) ($settings['Enable'] ?? 0),
+            'Mode' => (int) ($settings['Mode'] ?? 0),
+            'Time' => trim((string) ($settings['Time'] ?? '00:00')),
+            'Window' => (int) ($settings['Window'] ?? 0),
+            'Days' => trim((string) ($settings['Days'] ?? '-------')),
+            'Repeat' => (int) ($settings['Repeat'] ?? 0),
+            'Output' => (int) ($settings['Output'] ?? 1),
+            'Action' => (int) ($settings['Action'] ?? 0),
+        ];
     }
 
     private function doRequest(Device $device, string $cmnd, int $try = 1): \stdClass
