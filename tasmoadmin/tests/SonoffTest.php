@@ -650,6 +650,76 @@ class SonoffTest extends TestCase
         );
     }
 
+    public function testGetTimersConfigLoadsGlobalToggleAndAllTimers(): void
+    {
+        $device = DeviceFactory::fromArray([1, 'socket-1', '192.168.1.8']);
+        $responses = [new Response(200, [], '{"Timers":"ON"}')];
+
+        foreach (range(1, 16) as $index) {
+            $responses[] = new Response(200, [], json_encode([
+                'Timer'.$index => [
+                    'Enable' => 1 === $index ? 1 : 0,
+                    'Mode' => 1 === $index ? 2 : 0,
+                    'Time' => 1 === $index ? '06:30' : '00:00',
+                    'Window' => 1 === $index ? 15 : 0,
+                    'Days' => 1 === $index ? '--TWT--' : '-------',
+                    'Repeat' => 1 === $index ? 1 : 0,
+                    'Output' => 1 === $index ? 2 : 1,
+                    'Action' => 1 === $index ? 3 : 0,
+                ],
+            ], JSON_THROW_ON_ERROR));
+        }
+
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient($responses), $this->getTestConfig());
+        $result = $sonoff->getTimersConfig($device);
+
+        self::assertInstanceOf(\stdClass::class, $result);
+        self::assertSame(1, $result->enabled);
+        self::assertCount(16, $result->timers);
+        self::assertSame('06:30', $result->timers[1]->Time);
+        self::assertSame('--TWT--', $result->timers[1]->Days);
+        self::assertSame(0, $result->timers[16]->Enable);
+    }
+
+    public function testGetTimersConfigReturnsNullWhenTimersAreUnsupported(): void
+    {
+        $device = DeviceFactory::fromArray([1, 'socket-1', '192.168.1.8']);
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient([
+            new Response(200, [], '{"Command":"Unknown"}'),
+        ]), $this->getTestConfig());
+
+        self::assertNull($sonoff->getTimersConfig($device));
+    }
+
+    public function testSaveTimersSendsGlobalToggleAndIndividualTimerCommands(): void
+    {
+        $device = DeviceFactory::fromArray([1, 'socket-1', '192.168.1.8']);
+        $transactions = [];
+        $history = Middleware::history($transactions);
+        $responses = [];
+
+        foreach (range(1, 17) as $index) {
+            $responses[] = new Response(200, [], '{"Done":"true"}');
+        }
+
+        $mock = new MockHandler($responses);
+        $handlerStack = HandlerStack::create($mock);
+        $handlerStack->push($history);
+        $client = new Client(['handler' => $handlerStack]);
+
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $client, $this->getTestConfig());
+        $result = $sonoff->saveTimers($device, $this->getTimerSettingsPayload());
+
+        self::assertInstanceOf(\stdClass::class, $result);
+        self::assertCount(17, $transactions);
+        self::assertSame('http://192.168.1.8/cm?cmnd=Timers+1', (string) $transactions[0]['request']->getUri());
+        self::assertSame(
+            'http://192.168.1.8/cm?cmnd=Timer1+%7B%22Enable%22%3A1%2C%22Mode%22%3A2%2C%22Time%22%3A%2206%3A30%22%2C%22Window%22%3A15%2C%22Days%22%3A%22--TWT--%22%2C%22Repeat%22%3A1%2C%22Output%22%3A2%2C%22Action%22%3A3%7D',
+            (string) $transactions[1]['request']->getUri()
+        );
+        self::assertStringContainsString('Timer16+', (string) $transactions[16]['request']->getUri());
+    }
+
     public function testSearchReturnsEmptyArrayWhenNoUrlsAreProvided(): void
     {
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());
@@ -702,5 +772,25 @@ class SonoffTest extends TestCase
         }
 
         return $dataDir;
+    }
+
+    private function getTimerSettingsPayload(): array
+    {
+        $settings = ['Timers' => '1'];
+
+        foreach (range(1, 16) as $index) {
+            $settings['Timer'.$index] = [
+                'Enable' => 1 === $index ? '1' : '0',
+                'Mode' => 1 === $index ? '2' : '0',
+                'Time' => 1 === $index ? '06:30' : '00:00',
+                'Window' => 1 === $index ? '15' : '0',
+                'Days' => 1 === $index ? '--TWT--' : '-------',
+                'Repeat' => 1 === $index ? '1' : '0',
+                'Output' => 1 === $index ? '2' : '1',
+                'Action' => 1 === $index ? '3' : '0',
+            ];
+        }
+
+        return $settings;
     }
 }

@@ -11,41 +11,47 @@ $Sonoff = $container->get(Sonoff::class);
 $device = $Sonoff->getDeviceById($device_id);
 
 if (!empty($_POST['save'])) {
-    $activeTabIndex = $_POST['tab-index'];
+    $activeTabIndex = (int) $_POST['tab-index'];
     if (isset($_POST['save'])) {
         unset($_POST['save'], $_POST['tab-index']);
 
         $settings = $_POST;
-        if (!isset($_POST['Password1']) || empty($settings['Password1'])
-            || '' == $settings['Password1']) {
-            unset($settings['Password1']);
-        }
-        if (!isset($settings['Password2']) || empty($settings['Password2'])
-            || '' == $settings['Password2']) {
-            unset($settings['Password2']);
-        }
-        if (isset($settings['IPAddress1']) && !empty($settings['IPAddress1'])
-            && '' != $settings['IPAddress1']) {
-            if ('0.0.0.0' != $settings['IPAddress1']) {
-                if ($device->ip == $settings['IPAddress1']) {
-                    unset($settings['IPAddress1']);
+        if (3 === $activeTabIndex) {
+            $result = $Sonoff->saveTimers($device, $settings);
+        } else {
+            if (!isset($_POST['Password1']) || empty($settings['Password1'])
+                || '' == $settings['Password1']) {
+                unset($settings['Password1']);
+            }
+            if (!isset($settings['Password2']) || empty($settings['Password2'])
+                || '' == $settings['Password2']) {
+                unset($settings['Password2']);
+            }
+            if (isset($settings['IPAddress1']) && !empty($settings['IPAddress1'])
+                && '' != $settings['IPAddress1']) {
+                if ('0.0.0.0' != $settings['IPAddress1']) {
+                    if ($device->ip == $settings['IPAddress1']) {
+                        unset($settings['IPAddress1']);
+                    }
                 }
             }
-        }
 
-        $backlog = 'Backlog ';
-        foreach ($settings as $settingKey => $settingVal) {
-            $settingVal = trim($settingVal);
-            if ('' == $settingVal) {
-                continue;
+            $backlog = 'Backlog ';
+            foreach ($settings as $settingKey => $settingVal) {
+                $settingVal = trim($settingVal);
+                if ('' == $settingVal) {
+                    continue;
+                }
+                $backlog .= $settingKey.' '.$settingVal.'; ';
             }
-            $backlog .= $settingKey.' '.$settingVal.'; ';
-        }
-        $backlog = trim($backlog);
+            $backlog = trim($backlog);
 
-        $result = $Sonoff->saveConfig($device, $backlog);
+            $result = $Sonoff->saveConfig($device, $backlog);
+        }
         $msg = __('MSG_CONFIG_SAVED', 'DEVICE_CONFIG');
-        $msg .= '<br/> '.$backlog;
+        if (isset($backlog)) {
+            $msg .= '<br/> '.$backlog;
+        }
         sleep(count($settings));
     }
 }
@@ -69,6 +75,8 @@ if (empty($status->ERROR)) {
     $status->StatusMQT->StateTexts = $Sonoff->getStateTexts($device);
     sleep(1);
     $status->StatusMQT->MqttFingerprint = $Sonoff->getMqttFingerprint($device);
+    sleep(1);
+    $status->StatusTIMERS = $Sonoff->getTimersConfig($device);
 
     $status->StatusLOG->SetOptionDecoded = $Sonoff->decodeOptions($status->StatusLOG->SetOption[0]);
 }
@@ -150,6 +158,19 @@ if (empty($status->ERROR)) {
 								<?php echo __('TAB_HL_MQTT', 'DEVICE_CONFIG'); ?>
 							</a>
 						</li>
+						<?php if (isset($status->StatusTIMERS) && !empty($status->StatusTIMERS)) { ?>
+						<li class="nav-item">
+							<a class="nav-link <?php echo 3 == $activeTabIndex ? 'active' : ''; ?>"
+							   id="config_timer_tab-tab"
+							   data-bs-toggle="tab"
+							   href="#config_timer_tab"
+							   role="tab"
+							   aria-controls="profile"
+							   aria-selected="false">
+								<?php echo __('TAB_HL_TIMERS', 'DEVICE_CONFIG'); ?>
+							</a>
+						</li>
+						<?php } ?>
 
 					</ul>
 					<div class="tab-content mt-3" id="device_configContent">
@@ -171,6 +192,14 @@ if (empty($status->ERROR)) {
 							 aria-labelledby="config_mqtt_tab-tab">
 							<?php include_once _PAGESDIR_.'device_config_tabs/config_mqtt_tab.php'; ?>
 						</div>
+						<?php if (isset($status->StatusTIMERS) && !empty($status->StatusTIMERS)) { ?>
+						<div class="tab-pane fade <?php echo 3 == $activeTabIndex ? 'show active' : ''; ?>"
+							 id="config_timer_tab"
+							 role="tabpanel"
+							 aria-labelledby="config_timer_tab-tab">
+							<?php include_once _PAGESDIR_.'device_config_tabs/config_timer_tab.php'; ?>
+						</div>
+						<?php } ?>
 					</div>
 				</div>
 			</div>
