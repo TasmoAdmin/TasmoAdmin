@@ -6,6 +6,7 @@ const {
   parseUptimeToSeconds,
   extractFirstNumericValue,
   getEnergyPower,
+  getWifiDisplayInfo,
   getIlluminance,
   getSortableVersionValue,
 } = require("../../resources/js/status_helpers.js");
@@ -61,6 +62,7 @@ test("normalizeStatusData keeps wifi details when wifi status is present", () =>
     },
     StatusSTS: {
       Wifi: {
+        Channel: 11,
         RSSI: 64,
         SSId: "home-net",
       },
@@ -69,10 +71,45 @@ test("normalizeStatusData keeps wifi details when wifi status is present", () =>
 
   assert.equal(data.hasWifi, true);
   assert.deepEqual(data.wifi, {
+    channel: 11,
     rssi: 64,
     ssid: "home-net",
     uptime: "2T00:00:00",
   });
+});
+
+test("getWifiDisplayInfo includes ssid, channel and rssi when all details are available", () => {
+  assert.deepEqual(
+    getWifiDisplayInfo({
+      hasWifi: true,
+      wifi: {
+        ssid: "home-net",
+        channel: 11,
+        rssi: 64,
+      },
+    }),
+    {
+      summary: "64%",
+      details: "home-net / ch11",
+      tooltip: "home-net / ch11 / 64%",
+    },
+  );
+});
+
+test("getWifiDisplayInfo omits missing wifi details gracefully", () => {
+  assert.deepEqual(
+    getWifiDisplayInfo({
+      hasWifi: true,
+      wifi: {
+        rssi: 52,
+      },
+    }),
+    {
+      summary: "52%",
+      details: "",
+      tooltip: "52%",
+    },
+  );
 });
 
 test("getIlluminance extracts illuminance readings from sensor payloads", () => {
