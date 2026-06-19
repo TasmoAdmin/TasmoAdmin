@@ -710,6 +710,33 @@ body {
   padding: 1.35rem 1.45rem;
 }
 
+.device-config-page {
+  margin-bottom: 3rem;
+  --device-config-panel-border: rgba(17, 24, 39, 0.12);
+  --device-config-panel-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.device-config-page .device-config-timer-grid {
+  --bs-gutter-y: 1rem;
+}
+
+.device-config-page .device-config-timer-card {
+  border: 1px solid var(--device-config-panel-border);
+  border-radius: 1rem;
+  background: #ffffff;
+  box-shadow: var(--device-config-panel-shadow);
+}
+
+.device-config-page .device-config-timer-card .card-body {
+  padding: 1.35rem 1.45rem;
+}
+
+.device-config-page .device-config-timer-card .card-title,
+.device-config-page form[name="device_config_timers"] label,
+.device-config-page form[name="device_config_timers"] .form-label {
+  font-weight: 600;
+}
+
 .update-page .update-toolbar,
 .update-page .update-actions-row,
 .update-page .update-version-row {
@@ -2224,6 +2251,19 @@ hr {
   .update-page .update-card .card-body,
   .update-page .update-log-card .card-body,
   .update-page .update-version-arrow {
+    color: $whiteNightMode;
+  }
+
+  .device-config-page .device-config-timer-card {
+    background: #374151 !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  }
+
+  .device-config-page .device-config-timer-card .card-body,
+  .device-config-page .device-config-timer-card .card-title,
+  .device-config-page .device-config-timer-card label,
+  .device-config-page .device-config-timer-card .form-label {
     color: $whiteNightMode;
   }
 

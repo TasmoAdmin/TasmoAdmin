@@ -29,7 +29,7 @@ $timerOutputOptions = range(1, 16);
 		</small>
 	</div>
 
-	<div class="row g-3 mt-1">
+	<div class="row g-3 mt-1 device-config-timer-grid">
 		<?php foreach (range(1, 16) as $timerIndex) {
 		    $timerKey = 'Timer'.$timerIndex;
 		    $timer = $timers[$timerIndex] ?? (object) [
@@ -44,7 +44,7 @@ $timerOutputOptions = range(1, 16);
 		    ];
 		    ?>
 			<div class="col col-12">
-				<div class="card">
+				<div class="card device-config-timer-card">
 					<div class="card-body">
 						<h5 class="card-title mb-3"><?php echo __('DEVICE_CONFIG_TIMER_TITLE', 'DEVICE_CONFIG').' '.$timerIndex; ?></h5>
 						<div class="row g-3">
