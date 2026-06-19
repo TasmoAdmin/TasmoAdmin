@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use TasmoAdmin\Backup\BackupHelper;
 use TasmoAdmin\Backup\BackupResult;
 use TasmoAdmin\Backup\BackupResults;
+use TasmoAdmin\Config;
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Sonoff;
@@ -141,6 +142,138 @@ class BackupHelperTest extends TestCase
 
         self::assertTrue($results->successful());
         self::assertSame([], $results->getFailures());
+    }
+
+    public function testRestoreUploadsDumpAndDispatchesWebGetConfig(): void
+    {
+        $device = new Device(7, ['socket-7'], '192.168.1.70', '', '', 'img');
+        $upload = $this->createUploadedBackup('restore.dmp', 'backup');
+
+        $repository = $this->createMock(DeviceRepository::class);
+        $repository->expects(self::once())
+            ->method('getDeviceById')
+            ->with(7)
+            ->willReturn($device)
+        ;
+
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->expects(self::once())
+            ->method('restore')
+            ->with(
+                $device,
+                self::callback(static function (string $url): bool {
+                    return str_starts_with($url, 'http://192.168.1.1:8080/_BASEURL_/actions?downloadRestore=');
+                })
+            )
+            ->willReturn((object) ['WebGetConfig' => 'Started'])
+        ;
+
+        $helper = new BackupHelper(
+            $repository,
+            $sonoff,
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        $results = $helper->restore([7], $upload);
+
+        self::assertTrue($results->successful());
+        self::assertSame([], $results->getFailures());
+        self::assertCount(1, glob($this->tempDir.'/restore/*.dmp'));
+    }
+
+    public function testRestoreRejectsMultipleDevices(): void
+    {
+        $helper = new BackupHelper(
+            $this->createMock(DeviceRepository::class),
+            $this->createMock(Sonoff::class),
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('BACKUP_RESTORE_SINGLE_DEVICE_ONLY: ');
+
+        $helper->restore([1, 2], $this->createUploadedBackup('restore.dmp', 'backup'));
+    }
+
+    public function testRestoreRejectsFilesWithoutDumpExtension(): void
+    {
+        $helper = new BackupHelper(
+            $this->createMock(DeviceRepository::class),
+            $this->createMock(Sonoff::class),
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('BACKUP_RESTORE_FILE_WRONG_FORMAT: ');
+
+        $helper->restore([1], $this->createUploadedBackup('restore.zip', 'backup'));
+    }
+
+    public function testRestoreTurnsDeviceErrorsIntoFailureResults(): void
+    {
+        $device = new Device(9, ['socket-9'], '192.168.1.90', '', '', 'img');
+        $upload = $this->createUploadedBackup('restore.dmp', 'backup');
+
+        $repository = $this->createMock(DeviceRepository::class);
+        $repository->expects(self::once())
+            ->method('getDeviceById')
+            ->with(9)
+            ->willReturn($device)
+        ;
+
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->expects(self::once())
+            ->method('restore')
+            ->willReturn((object) ['ERROR' => 'Restore failed'])
+        ;
+
+        $helper = new BackupHelper(
+            $repository,
+            $sonoff,
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        $results = $helper->restore([9], $upload);
+        $failures = $results->getFailures();
+
+        self::assertFalse($results->successful());
+        self::assertCount(1, $failures);
+        self::assertSame('Restore failed', $failures[0]->getFailureReason());
+    }
+
+    private function createUploadedBackup(string $filename, string $contents): array
+    {
+        $tmpFile = tempnam($this->tempDir, 'restore-upload-');
+        file_put_contents($tmpFile, $contents);
+
+        return [
+            'name' => $filename,
+            'tmp_name' => $tmpFile,
+            'error' => UPLOAD_ERR_OK,
+            'size' => strlen($contents),
+        ];
+    }
+
+    private function createConfig(): Config
+    {
+        $dataDir = $this->tempDir.'/config-data/';
+        $appRoot = $this->tempDir.'/app-root/';
+        mkdir($dataDir, 0o755, true);
+        mkdir($appRoot, 0o755, true);
+
+        $config = new Config($dataDir, $appRoot);
+        $config->write('ota_server_ip', '192.168.1.1');
+        $config->write('ota_server_port', '8080');
+
+        return $config;
     }
 
     private function removeDirectory(string $directory): void

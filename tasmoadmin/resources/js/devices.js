@@ -314,6 +314,9 @@ function initCommandHelper() {
     if ($(this).val() !== "command") {
       $(".batchActionCommandInput").val("");
     }
+    if ($(this).val() !== "restore") {
+      $(".batchActionFileInput").val("");
+    }
     $(".batchActionField").val("");
     resetBatchActionFeedback();
     updateBatchActionUi();
@@ -350,10 +353,12 @@ function initCommandHelper() {
     const action = $(".batchActionSelect").val();
     const selectedDevices = getSelectedDevices();
     const command = $(".batchActionCommandInput").val().trim();
+    const uploadedFileName = $(".batchActionFileInput").val().trim();
     const validationError = validateBatchAction({
       action,
       selectedDeviceIds: selectedDevices,
       command,
+      uploadedFileName,
     });
 
     resetBatchActionFeedback();
@@ -364,7 +369,7 @@ function initCommandHelper() {
     }
 
     if (shouldSubmitBatchForm(action)) {
-      $(".batchActionField").val("backup");
+      $(".batchActionField").val(action);
       const form = $(this).closest("form").get(0);
 
       if (form) {
@@ -452,6 +457,10 @@ function updateBatchActionUi() {
   $(".batchActionCommandWrapper").toggleClass(
     "d-none",
     !actionConfig || !actionConfig.requiresCommand,
+  );
+  $(".batchActionFileWrapper").toggleClass(
+    "d-none",
+    !actionConfig || !actionConfig.requiresFile,
   );
 
   $(".applyBatchAction")
