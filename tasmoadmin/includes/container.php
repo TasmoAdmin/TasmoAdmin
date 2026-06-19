@@ -52,7 +52,9 @@ $container->set(i18n::class, new i18n());
 $container->set(BackupHelper::class, new BackupHelper(
     $container->get(DeviceRepository::class),
     $container->get(Sonoff::class),
-    _TMPDIR_.'backups/'
+    _TMPDIR_.'backups/',
+    $container->get(Config::class),
+    _BASEURL_
 ));
 $container->set(ViewHelper::class, new ViewHelper($container->get(Config::class)));
 $container->set(RedirectHelper::class, new RedirectHelper(_BASEURL_));

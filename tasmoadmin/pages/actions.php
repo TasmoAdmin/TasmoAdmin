@@ -84,6 +84,25 @@ if (isset($_GET['downloadBackup'])) {
     exit;
 }
 
+if (isset($_GET['downloadRestore'])) {
+    $backup = $container->get(BackupHelper::class);
+    $restorePath = $backup->getRestoreFilePath((string) $_GET['downloadRestore']);
+    if (null === $restorePath) {
+        http_response_code(404);
+
+        exit;
+    }
+
+    header('Content-type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="restore.dmp"');
+    header('Content-Length: '.filesize($restorePath));
+    ob_clean();
+    flush();
+    readfile($restorePath);
+
+    exit;
+}
+
 if (isset($_GET['clean'])) {
     $what = explode('_', $_GET['clean']);
 

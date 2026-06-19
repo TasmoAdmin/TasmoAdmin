@@ -6,16 +6,51 @@ use TasmoAdmin\Sonoff;
 $Sonoff = $container->get(Sonoff::class);
 $devices = $Sonoff->getDevices();
 
-if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isset($_POST['device_ids'])) {
+if (isset($_POST['batch_action'], $_POST['device_ids'])) {
     $backupHelper = $container->get(BackupHelper::class);
-    $backupResults = $backupHelper->backup($_POST['device_ids']);
-    $backupAction = $backupResults->successful() ? 'success' : 'danger';
+
+    try {
+        if ('backup' === $_POST['batch_action']) {
+            $backupResults = $backupHelper->backup($_POST['device_ids']);
+            $backupAction = $backupResults->successful() ? 'success' : 'danger';
+        }
+
+        if ('restore' === $_POST['batch_action']) {
+            $restoreResults = $backupHelper->restore($_POST['device_ids'], $_FILES['restore_backup'] ?? null);
+            $restoreAction = $restoreResults->successful() ? 'success' : 'danger';
+        }
+    } catch (RuntimeException $exception) {
+        $restoreAction = 'danger';
+        $restoreError = $exception->getMessage();
+    }
 }
 ?>
 <div class='row justify-content-sm-center'>
 	<div class='col col-12 devices-page'>
 
 		<?php if (!empty($devices)) { ?>
+            <?php if (isset($restoreAction)) { ?>
+                <div class="devices-panel">
+                    <div class="alert alert-<?php echo $restoreAction; ?> fade show mb-0" role="alert">
+                        <div class="col col-12">
+                            <?php if (isset($restoreError)) { ?>
+                                <?php echo $restoreError; ?>
+                            <?php } elseif (isset($restoreResults) && $restoreResults->successful()) { ?>
+                                <?php echo __('RESTORE_STARTED', 'BACKUP'); ?>
+                                <br>
+                                <small><?php echo __('RESTORE_WARNING', 'BACKUP'); ?></small>
+                            <?php } elseif (isset($restoreResults)) { ?>
+                                <?php echo __('RESTORE_FAILED', 'BACKUP'); ?>
+                                <ul class="mb-0">
+                                    <?php foreach ($restoreResults->getFailures() as $failure) { ?>
+                                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                                    <?php } ?>
+                                </ul>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
             <?php if (isset($backupResults, $backupAction)) { ?>
                 <div class="devices-panel">
                     <div class="alert alert-<?php echo $backupAction; ?> fade show mb-0" role="alert">
@@ -85,7 +120,7 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
 					</div>
 				</div>
 			</div>
-            <form method='post' action='<?php echo _BASEURL_; ?>devices' class='devices-batch-form'>
+            <form method='post' action='<?php echo _BASEURL_; ?>devices' class='devices-batch-form' enctype='multipart/form-data'>
                 <input type='hidden' name='batch_action' class='batchActionField' value=''>
                 <div class="devices-panel devices-table-panel">
 					<div class='table-responsive double-scroll'>
@@ -108,6 +143,7 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
                                 <option value=''><?php echo __('PLEASE_SELECT'); ?></option>
                                 <option value='command'><?php echo __('BTN_COMMAND', 'DEVICES'); ?></option>
                                 <option value='backup'><?php echo __('BACKUP', 'BACKUP'); ?></option>
+                                <option value='restore'><?php echo __('BTN_START_RESTORE', 'BACKUP'); ?></option>
                                 <option value='restart'><?php echo __('RESTART_SELECTED', 'DEVICES'); ?></option>
                                 <option value='delete'><?php echo __('DELETE_SELECTED', 'DEVICES'); ?></option>
                             </select>
@@ -118,6 +154,14 @@ if (isset($_POST['batch_action']) && 'backup' === $_POST['batch_action'] && isse
                                    class='form-control batchActionCommandInput'
                                    placeholder="<?php echo __('CB_COMMAND', 'DEVICES'); ?>"
                             >
+                        </div>
+                        <div class="col col-12 col-lg batchActionFileWrapper devices-batch-command-col d-none">
+                            <input type='file'
+                                   name='restore_backup'
+                                   class='form-control batchActionFileInput'
+                                   accept='.dmp'
+                            >
+                            <small class="form-text text-body-secondary"><?php echo __('RESTORE_WARNING', 'BACKUP'); ?></small>
                         </div>
                         <div class="col col-12 col-sm-auto devices-batch-submit-col">
                             <button type='button' class='btn btn-primary applyBatchAction w-100' disabled>
