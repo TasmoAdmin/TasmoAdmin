@@ -16,6 +16,7 @@ class DevicesPageBackupWorkflowTest extends TestCase
     protected function tearDown(): void
     {
         $_POST = [];
+        $_FILES = [];
     }
 
     public function testDevicesPageRendersBackupAsBatchAction(): void
@@ -24,7 +25,10 @@ class DevicesPageBackupWorkflowTest extends TestCase
         $output = $this->renderDevicesPage($devices);
 
         self::assertStringContainsString("<option value='backup'>", $output);
+        self::assertStringContainsString("<option value='restore'>", $output);
         self::assertStringContainsString('batchActionSelect', $output);
+        self::assertStringContainsString("name='restore_backup'", $output);
+        self::assertStringContainsString('BACKUP_RESTORE_WARNING:', $output);
     }
 
     public function testDevicesPageShowsInlineBackupResultAndFailures(): void
@@ -51,8 +55,37 @@ class DevicesPageBackupWorkflowTest extends TestCase
         self::assertStringContainsString('Shelf Plug: Connection timed out', $output);
     }
 
-    private function renderDevicesPage(array $devices, ?BackupResults $backupResults = null): string
+    public function testDevicesPageShowsInlineRestoreResultAndFailures(): void
     {
+        $_POST = [
+            'batch_action' => 'restore',
+            'device_ids' => ['1'],
+        ];
+        $_FILES = [
+            'restore_backup' => [
+                'name' => 'config.dmp',
+                'tmp_name' => '/tmp/config.dmp',
+                'error' => UPLOAD_ERR_OK,
+                'size' => 123,
+            ],
+        ];
+
+        $devices = [$this->createDevice(1, 'Desk Lamp')];
+        $results = new BackupResults([
+            new BackupResult($devices[0], false, 'Restore failed'),
+        ]);
+
+        $output = $this->renderDevicesPage($devices, null, $results);
+
+        self::assertStringContainsString('BACKUP_RESTORE_FAILED:', $output);
+        self::assertStringContainsString('Desk Lamp: Restore failed', $output);
+    }
+
+    private function renderDevicesPage(
+        array $devices,
+        ?BackupResults $backupResults = null,
+        ?BackupResults $restoreResults = null
+    ): string {
         if (!defined('_BASEURL_')) {
             define('_BASEURL_', '/');
         }
@@ -77,8 +110,12 @@ class DevicesPageBackupWorkflowTest extends TestCase
             }
         };
 
-        $container = new class($devices, $backupResults) {
-            public function __construct(private array $devices, private ?BackupResults $backupResults) {}
+        $container = new class($devices, $backupResults, $restoreResults) {
+            public function __construct(
+                private array $devices,
+                private ?BackupResults $backupResults,
+                private ?BackupResults $restoreResults
+            ) {}
 
             public function get(string $class): object
             {
@@ -91,12 +128,20 @@ class DevicesPageBackupWorkflowTest extends TestCase
                             return $this->devices;
                         }
                     },
-                    BackupHelper::class => new class($this->backupResults) {
-                        public function __construct(private ?BackupResults $backupResults) {}
+                    BackupHelper::class => new class($this->backupResults, $this->restoreResults) {
+                        public function __construct(
+                            private ?BackupResults $backupResults,
+                            private ?BackupResults $restoreResults = null
+                        ) {}
 
                         public function backup(array $deviceIds): BackupResults
                         {
                             return $this->backupResults ?? new BackupResults([]);
+                        }
+
+                        public function restore(array $deviceIds, ?array $uploadedFile): BackupResults
+                        {
+                            return $this->restoreResults ?? new BackupResults([]);
                         }
                     },
                     default => throw new \InvalidArgumentException('Unexpected class '.$class),

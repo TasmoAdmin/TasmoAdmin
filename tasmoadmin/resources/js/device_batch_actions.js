@@ -3,6 +3,7 @@ function getBatchActionConfig(action) {
     return {
       action,
       requiresCommand: true,
+      requiresFile: false,
       submitLabelKey: "SEND_COMMAND",
     };
   }
@@ -11,6 +12,7 @@ function getBatchActionConfig(action) {
     return {
       action,
       requiresCommand: false,
+      requiresFile: false,
       submitLabelKey: "DELETE_SELECTED",
     };
   }
@@ -19,6 +21,7 @@ function getBatchActionConfig(action) {
     return {
       action,
       requiresCommand: false,
+      requiresFile: false,
       submitLabelKey: "RESTART_SELECTED",
     };
   }
@@ -27,7 +30,17 @@ function getBatchActionConfig(action) {
     return {
       action,
       requiresCommand: false,
+      requiresFile: false,
       submitLabelKey: "BTN_START_BACKUP",
+    };
+  }
+
+  if (action === "restore") {
+    return {
+      action,
+      requiresCommand: false,
+      requiresFile: true,
+      submitLabelKey: "BTN_START_RESTORE",
     };
   }
 
@@ -38,6 +51,7 @@ function validateBatchAction({
   action = "",
   selectedDeviceIds = [],
   command = "",
+  uploadedFileName = "",
 } = {}) {
   const actionConfig = getBatchActionConfig(action);
 
@@ -53,11 +67,19 @@ function validateBatchAction({
     return "ERROR_PLS_ENTER_COMMAND";
   }
 
+  if (action === "restore" && selectedDeviceIds.length !== 1) {
+    return "ERROR_RESTORE_SINGLE_DEVICE_ONLY";
+  }
+
+  if (actionConfig.requiresFile && uploadedFileName.trim() === "") {
+    return "ERROR_RESTORE_SELECT_FILE";
+  }
+
   return null;
 }
 
 function shouldSubmitBatchForm(action = "") {
-  return action === "backup";
+  return action === "backup" || action === "restore";
 }
 
 module.exports = {

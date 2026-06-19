@@ -248,6 +248,27 @@ class SonoffTest extends TestCase
         self::assertSame('new-backup', file_get_contents($location));
     }
 
+    public function testRestoreUsesWebGetConfigCommand(): void
+    {
+        $device = DeviceFactory::fromArray([0, 'socket-1', '192.168.1.8']);
+        $transactions = [];
+        $history = Middleware::history($transactions);
+        $mock = new MockHandler([new Response(200, [], '{"WebGetConfig":"Started"}')]);
+        $handlerStack = HandlerStack::create($mock);
+        $handlerStack->push($history);
+        $client = new Client(['handler' => $handlerStack]);
+        $sonoff = new Sonoff($this->getTestDeviceRepository(), $client, $this->getTestConfig());
+
+        $result = $sonoff->restore($device, 'http://192.168.1.1:8080/_BASEURL_/actions?downloadRestore=abc123');
+
+        self::assertSame('Started', $result->WebGetConfig);
+        self::assertCount(1, $transactions);
+        self::assertSame(
+            'http://192.168.1.8/cm?cmnd=WebGetConfig+http%3A%2F%2F192.168.1.1%3A8080%2F_BASEURL_%2Factions%3FdownloadRestore%3Dabc123',
+            (string) $transactions[0]['request']->getUri()
+        );
+    }
+
     public function testRepositoryBackedEncryptedPasswordsStillWorkForUrlsAndBackup(): void
     {
         $repository = $this->getTestDeviceRepository();

@@ -53,6 +53,11 @@ class Sonoff
         return $downloadFilePath;
     }
 
+    public function restore(Device $device, string $backupUrl): \stdClass
+    {
+        return $this->doRequest($device, sprintf('WebGetConfig %s', $backupUrl));
+    }
+
     public function getNTPStatus(Device $device)
     {
         $cmnd = 'NtpServer1';
