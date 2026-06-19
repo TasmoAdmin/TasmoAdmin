@@ -28,6 +28,14 @@ body {
 
 :root {
   --page-panel-gap: 0.8rem;
+  --timepicker-accent: #2b79c2;
+  --timepicker-accent-strong: #1f5c98;
+  --timepicker-surface: #ffffff;
+  --timepicker-surface-alt: #f8fafc;
+  --timepicker-border: rgba(15, 23, 42, 0.14);
+  --timepicker-text: #1f2937;
+  --timepicker-muted: #64748b;
+  --timepicker-shadow: 0 18px 38px rgba(15, 23, 42, 0.18);
 }
 
 .footer {
@@ -257,6 +265,102 @@ body {
 
 .site-config-page .settings-option .form-check-input {
   margin-top: 0.2rem;
+}
+
+.device-config-time-picker-group {
+  width: 100%;
+}
+
+.device-config-time-picker-group .input-group-text {
+  min-width: 2.85rem;
+  justify-content: center;
+}
+
+.device-config-time-picker-group .flatpickr-wrapper {
+  display: block;
+  flex: 1 1 auto;
+  width: 1%;
+}
+
+.device-config-time-picker-group .flatpickr-wrapper .form-control {
+  width: 100%;
+}
+
+.flatpickr-calendar {
+  border: 1px solid var(--timepicker-border);
+  border-radius: 0.9rem;
+  background: var(--timepicker-surface);
+  box-shadow: var(--timepicker-shadow);
+  overflow: hidden;
+}
+
+.flatpickr-calendar.arrowTop:before {
+  border-bottom-color: var(--timepicker-border);
+}
+
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: var(--timepicker-accent);
+}
+
+.flatpickr-calendar.arrowBottom:before {
+  border-top-color: var(--timepicker-border);
+}
+
+.flatpickr-calendar.arrowBottom:after {
+  border-top-color: var(--timepicker-surface-alt);
+}
+
+.flatpickr-calendar.noCalendar.hasTime .flatpickr-time {
+  border: 0;
+  background: var(--timepicker-surface-alt);
+}
+
+.flatpickr-time {
+  border-top: 0;
+}
+
+.flatpickr-time .numInputWrapper {
+  min-width: 0;
+}
+
+.flatpickr-time .numInputWrapper input,
+.flatpickr-time .flatpickr-time-separator {
+  color: var(--timepicker-text);
+  font-size: 1rem;
+}
+
+.flatpickr-time .numInputWrapper input {
+  font-weight: 600;
+}
+
+.flatpickr-time .numInputWrapper:hover,
+.flatpickr-time .numInputWrapper input:hover,
+.flatpickr-time .numInputWrapper input:focus {
+  background: rgba(43, 121, 194, 0.08);
+}
+
+.flatpickr-time .numInputWrapper span {
+  border-color: transparent;
+}
+
+.flatpickr-time .numInputWrapper span.arrowUp:after {
+  border-bottom-color: var(--timepicker-muted);
+}
+
+.flatpickr-time .numInputWrapper span.arrowDown:after {
+  border-top-color: var(--timepicker-muted);
+}
+
+.flatpickr-time .numInputWrapper span:hover {
+  background: rgba(43, 121, 194, 0.12);
+}
+
+.flatpickr-time .numInputWrapper span:hover.arrowUp:after {
+  border-bottom-color: var(--timepicker-accent-strong);
+}
+
+.flatpickr-time .numInputWrapper span:hover.arrowDown:after {
+  border-top-color: var(--timepicker-accent-strong);
 }
 
 .site-config-page .settings-option .form-check-label {
@@ -716,10 +820,12 @@ body {
   --device-config-panel-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
 }
 
+.device-config-page .device-config-card-grid,
 .device-config-page .device-config-timer-grid {
   --bs-gutter-y: 1rem;
 }
 
+.device-config-page .device-config-card,
 .device-config-page .device-config-timer-card {
   border: 1px solid var(--device-config-panel-border);
   border-radius: 1rem;
@@ -727,11 +833,15 @@ body {
   box-shadow: var(--device-config-panel-shadow);
 }
 
+.device-config-page .device-config-card .card-body,
 .device-config-page .device-config-timer-card .card-body {
   padding: 1.35rem 1.45rem;
 }
 
+.device-config-page .device-config-card .card-title,
 .device-config-page .device-config-timer-card .card-title,
+.device-config-page .device-config-card label,
+.device-config-page .device-config-card .form-label,
 .device-config-page form[name="device_config_timers"] label,
 .device-config-page form[name="device_config_timers"] .form-label {
   font-weight: 600;
@@ -2037,6 +2147,21 @@ hr {
 
 .nightmode {
   --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
+  --nightmode-card-bg: #374151;
+  --nightmode-card-border-color: rgba(255, 255, 255, 0.12);
+  --nightmode-card-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
+  --nightmode-field-bg: rgba(17, 24, 39, 0.56);
+  --nightmode-field-placeholder: rgba(255, 255, 255, 0.45);
+  --nightmode-field-disabled-bg: rgba(255, 255, 255, 0.08);
+  --nightmode-field-disabled-color: rgba(255, 255, 255, 0.82);
+  --timepicker-accent: #4a9ae6;
+  --timepicker-accent-strong: #7cb7ee;
+  --timepicker-surface: #374151;
+  --timepicker-surface-alt: rgba(17, 24, 39, 0.88);
+  --timepicker-border: rgba(255, 255, 255, 0.12);
+  --timepicker-text: rgba(255, 255, 255, 0.9);
+  --timepicker-muted: rgba(255, 255, 255, 0.62);
+  --timepicker-shadow: 0 22px 42px rgba(0, 0, 0, 0.32);
   background-color: $color_mako_approx;
   color: $whiteNightMode;
 
@@ -2142,6 +2267,91 @@ hr {
     color: $whiteNightMode;
   }
 
+  .card {
+    background: var(--nightmode-card-bg) !important;
+    border-color: var(--nightmode-card-border-color) !important;
+    box-shadow: var(--nightmode-card-shadow);
+    color: $whiteNightMode;
+  }
+
+  .card .card-body,
+  .card .card-title,
+  .card .card-subtitle,
+  .card .card-text,
+  .card label,
+  .card .form-label {
+    color: $whiteNightMode;
+  }
+
+  .card .form-control,
+  .card .form-select,
+  .card textarea,
+  .card .input-group-text {
+    background-color: var(--nightmode-field-bg);
+    border-color: var(--nightmode-card-border-color);
+    color: $whiteNightMode;
+  }
+
+  .card .form-control::placeholder,
+  .card .form-select::placeholder,
+  .card textarea::placeholder {
+    color: var(--nightmode-field-placeholder) !important;
+  }
+
+  .card .form-control:disabled,
+  .card .form-select:disabled,
+  .card textarea:disabled {
+    background-color: var(--nightmode-field-disabled-bg);
+    color: var(--nightmode-field-disabled-color);
+    border-color: var(--nightmode-form-border-color);
+  }
+
+  .flatpickr-calendar {
+    background: var(--timepicker-surface);
+    border-color: var(--timepicker-border);
+    box-shadow: var(--timepicker-shadow);
+  }
+
+  .flatpickr-calendar.arrowTop:after {
+    border-bottom-color: var(--timepicker-accent);
+  }
+
+  .flatpickr-calendar.arrowBottom:after {
+    border-top-color: var(--timepicker-surface-alt);
+  }
+
+  .flatpickr-calendar.noCalendar.hasTime .flatpickr-time {
+    background: var(--timepicker-surface-alt);
+  }
+
+  .flatpickr-time .numInputWrapper input,
+  .flatpickr-time .flatpickr-time-separator {
+    color: var(--timepicker-text);
+  }
+
+  .flatpickr-time .numInputWrapper:hover,
+  .flatpickr-time .numInputWrapper input:hover,
+  .flatpickr-time .numInputWrapper input:focus,
+  .flatpickr-time .numInputWrapper span:hover {
+    background: rgba(74, 154, 230, 0.16);
+  }
+
+  .flatpickr-time .numInputWrapper span.arrowUp:after {
+    border-bottom-color: var(--timepicker-muted);
+  }
+
+  .flatpickr-time .numInputWrapper span.arrowDown:after {
+    border-top-color: var(--timepicker-muted);
+  }
+
+  .flatpickr-time .numInputWrapper span:hover.arrowUp:after {
+    border-bottom-color: var(--timepicker-text);
+  }
+
+  .flatpickr-time .numInputWrapper span:hover.arrowDown:after {
+    border-top-color: var(--timepicker-text);
+  }
+
   .devices-autoscan-page .nav-tabs {
     border-color: rgba(255, 255, 255, 0.18);
   }
@@ -2163,14 +2373,6 @@ hr {
     border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #374151;
   }
 
-  .devices-autoscan-page .autoscan-form-card,
-  .devices-autoscan-page .autoscan-summary-card,
-  .devices-autoscan-page .autoscan-device-card {
-    background: #374151 !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
-  }
-
   .devices-autoscan-page .autoscan-form-card .card-body,
   .devices-autoscan-page .autoscan-summary-card .card-body,
   .devices-autoscan-page .autoscan-device-card .card-body,
@@ -2182,28 +2384,6 @@ hr {
     color: $whiteNightMode;
   }
 
-  .devices-autoscan-page .autoscan-form-card .form-control,
-  .devices-autoscan-page .autoscan-form-card textarea,
-  .devices-autoscan-page .autoscan-form-card .input-group-text,
-  .devices-autoscan-page .autoscan-device-card .form-control {
-    background-color: rgba(17, 24, 39, 0.56);
-    border-color: rgba(255, 255, 255, 0.12);
-    color: $whiteNightMode;
-  }
-
-  .devices-autoscan-page .autoscan-form-card .form-control::placeholder,
-  .devices-autoscan-page .autoscan-form-card textarea::placeholder,
-  .devices-autoscan-page .autoscan-device-card .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.45);
-  }
-
-  .devices-autoscan-page .autoscan-form-card .form-control:disabled,
-  .devices-autoscan-page .autoscan-device-card .form-control:disabled {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.82);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
   .devices-autoscan-page .autoscan-device-name-help .default-name,
   .devices-autoscan-page .autoscan-summary-card a {
     color: #93c5fd;
@@ -2211,14 +2391,6 @@ hr {
 
   .devices-autoscan-page .autoscan-summary-card .text-danger {
     color: #fecdd3 !important;
-  }
-
-  .upload-form-page .upload-intro-card,
-  .upload-form-page .upload-form-card,
-  .upload-form-page .upload-notes-card {
-    background: #374151 !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
   }
 
   .upload-form-page .upload-intro-card .card-body,
@@ -2230,40 +2402,9 @@ hr {
     color: $whiteNightMode;
   }
 
-  .upload-form-page .upload-form-card .form-control,
-  .upload-form-page .upload-form-card .form-select {
-    background-color: rgba(17, 24, 39, 0.56);
-    border-color: rgba(255, 255, 255, 0.12);
-    color: $whiteNightMode;
-  }
-
-  .upload-form-page .upload-form-card .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.45) !important;
-  }
-
-  .update-page .update-card,
-  .update-page .update-log-card {
-    background: #374151 !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
-  }
-
   .update-page .update-card .card-body,
   .update-page .update-log-card .card-body,
   .update-page .update-version-arrow {
-    color: $whiteNightMode;
-  }
-
-  .device-config-page .device-config-timer-card {
-    background: #374151 !important;
-    border-color: rgba(255, 255, 255, 0.12) !important;
-    box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
-  }
-
-  .device-config-page .device-config-timer-card .card-body,
-  .device-config-page .device-config-timer-card .card-title,
-  .device-config-page .device-config-timer-card label,
-  .device-config-page .device-config-timer-card .form-label {
     color: $whiteNightMode;
   }
 

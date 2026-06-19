@@ -6,11 +6,15 @@
 	?>
 
 	<input type='hidden' name='tab-index' value='2'>
-
+	<div class="row g-3 device-config-card-grid">
+		<div class="col col-12">
+			<div class="card device-config-card">
+				<div class="card-body">
+					<h5 class="card-title mb-3"><?php echo __('TAB_HL_MQTT', 'DEVICE_CONFIG'); ?></h5>
 
 	<!-- SetOption3 MQTT enabled -->
 	<div class="form-group col">
-			<div class="form-check">
+		<div class="form-check">
 		<input id='SetOption3h' type='hidden' value='0' name='SetOption3'>
 		<input class="form-check-input"
 		       type="checkbox"
@@ -546,6 +550,11 @@
 		</div>
 	</div>
 
+
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<div class="row mt-5">
 		<div class="col col-12">
