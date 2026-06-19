@@ -13,6 +13,9 @@ if (!empty($_REQUEST['update_targets'])) {
 
 if (empty($updateTargets) && !empty($_REQUEST['new_firmware_path'])) {
     $updateTargets['default'] = [
+        'minimalOtaUrl' => !empty($_REQUEST['minimal_firmware_path'])
+            ? $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path'])
+            : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']),
         'targetVersion' => $_REQUEST['target_version'] ?? '',
     ];

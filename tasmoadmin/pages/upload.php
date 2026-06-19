@@ -186,12 +186,15 @@ if (isset($_REQUEST['upload'])) {
 
             $result = $tasmotaHelper->getLatestFirmwares($fwAsset);
 
+            $minimalFirmwarePath = '';
             if ($result->hasMinimalFirmware()) {
-                $minimal_firmware_path = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+                $minimalFirmwarePath = $firmwareDownloader->download($result->getMinimalFirmwareUrl());
+                $minimal_firmware_path = $minimalFirmwarePath;
             }
             $new_firmware_path = $firmwareDownloader->download($result->getFirmwareUrl());
             $targetVersion = $result->getTagName();
             $updateTargets[$platform] = [
+                'minimalFirmwarePath' => $minimalFirmwarePath,
                 'newFirmwarePath' => $new_firmware_path,
                 'targetVersion' => $targetVersion,
             ];
@@ -221,6 +224,9 @@ $otaHelper = new OtaHelper($Config, _BASEURL_);
 
 if (!isset($_REQUEST['auto']) && !empty($new_firmware_path)) {
     $updateTargets['default'] = [
+        'minimalOtaUrl' => !empty($minimal_firmware_path)
+            ? $otaHelper->getFirmwareUrl($minimal_firmware_path)
+            : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($new_firmware_path),
         'targetVersion' => $targetVersion,
     ];
@@ -232,36 +238,36 @@ foreach ($updateTargets as $platform => $updateTarget) {
     }
 
     $updateTargets[$platform] = [
+        'minimalOtaUrl' => !empty($updateTarget['minimalFirmwarePath'] ?? '')
+            ? $otaHelper->getFirmwareUrl($updateTarget['minimalFirmwarePath'])
+            : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($updateTarget['newFirmwarePath']),
         'targetVersion' => $updateTarget['targetVersion'],
     ];
 }
-
 $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));
 
 $checkForFirmware = '1' === $Config->read('update_be_check');
 
-if ($checkForFirmware && !empty($minimal_firmware_path) && !$firmwareChecker->isValid($otaHelper->getFirmwareUrl($minimal_firmware_path))) {
-    $errors[] = __('FIRMWARE_NOT_ACCESSIBLE', 'DEVICE_UPDATE', [
-        __('UPLOAD_FIRMWARE_MINIMAL_LABEL', 'DEVICE_UPDATE'),
-        $otaHelper->getFirmwareUrl($minimal_firmware_path),
-    ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
-}
-
 if ($checkForFirmware) {
     $validatedUrls = [];
     foreach ($updateTargets as $updateTarget) {
-        $otaUrl = $updateTarget['otaUrl'] ?? '';
-        if ('' === $otaUrl || in_array($otaUrl, $validatedUrls, true)) {
-            continue;
-        }
+        foreach ([
+            'minimalOtaUrl' => __('UPLOAD_FIRMWARE_MINIMAL_LABEL', 'DEVICE_UPDATE'),
+            'otaUrl' => __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'),
+        ] as $field => $label) {
+            $otaUrl = $updateTarget[$field] ?? '';
+            if ('' === $otaUrl || in_array($otaUrl, $validatedUrls, true)) {
+                continue;
+            }
 
-        $validatedUrls[] = $otaUrl;
-        if (!$firmwareChecker->isValid($otaUrl)) {
-            $errors[] = __('FIRMWARE_NOT_ACCESSIBLE', 'DEVICE_UPDATE', [
-                __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE'),
-                $otaUrl,
-            ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
+            $validatedUrls[] = $otaUrl;
+            if (!$firmwareChecker->isValid($otaUrl)) {
+                $errors[] = __('FIRMWARE_NOT_ACCESSIBLE', 'DEVICE_UPDATE', [
+                    $label,
+                    $otaUrl,
+                ]).'<br>'.__('FIRMWARE_NOT_ACCESSIBLE_HELP', 'DEVICE_UPDATE');
+            }
         }
     }
 }
