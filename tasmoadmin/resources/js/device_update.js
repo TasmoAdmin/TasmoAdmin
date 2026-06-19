@@ -1,4 +1,5 @@
 import {
+  determineUpgradePlan,
   resolveUpdateTarget,
   versionsEqual,
   versionUpgrade,
@@ -175,13 +176,8 @@ async function updateDevice(device) {
   try {
     log(device.id, $.i18n("BLOCK_GLOBAL_START"));
     let response = await checkStatus(device.id);
-    const { otaUrl, targetVersion } = resolveUpdateTarget(
-      updateTargets,
-      response,
-    );
-    if (targetVersion) {
-      log(device.id, $.i18n("BLOCK_UPDATE_ATTEMPT_TO_VERSION", targetVersion));
-    }
+    const updateTarget = resolveUpdateTarget(updateTargets, response);
+    const { targetVersion } = updateTarget;
     const beforeVersion = response.StatusFWR.Version;
     log(device.id, $.i18n("BLOCK_UPDATE_CURRENT_VERSION_IS", beforeVersion));
     if (
@@ -210,58 +206,84 @@ async function updateDevice(device) {
       return true;
     }
 
-    log(device.id, $.i18n("BLOCK_OTAURL_SET_URL_FWURL") + otaUrl);
-    await setOtaUrl(device.id, otaUrl);
-    log(device.id, $.i18n("BLOCK_UPDATE_START"));
-    await startUpgrade(device.id);
-    log(
-      device.id,
-      $.i18n("BLOCK_UPDATE_SLEEPING", defaultSleepDuration / 1000),
-    );
-    await sleep(defaultSleepDuration);
-    log(device.id, $.i18n("BLOCK_UPDATE_SUCCESS"));
+    const upgradePlan = determineUpgradePlan(updateTarget, response);
+    if (upgradePlan.type === "blocked") {
+      log(
+        device.id,
+        $.i18n(upgradePlan.key, ...upgradePlan.values),
+        Level.error,
+      );
+      return false;
+    }
 
-    let upgradeSuccessful = false;
-    for (let i = 0; i < defaultTries; i++) {
-      response = await checkStatus(device.id);
-
-      if (
-        shouldTreatStatusAsSuccessful({
-          targetVersion,
-          beforeVersion,
-          currentVersion: response.StatusFWR.Version,
-        })
-      ) {
-        upgradeSuccessful = true;
-        break;
+    for (const [index, step] of upgradePlan.steps.entries()) {
+      if (step.kind === "minimal") {
+        log(device.id, $.i18n("BLOCK_UPDATE_MINIMAL"));
       }
 
-      const statusMessageKey = targetVersion
-        ? "BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION"
-        : "BLOCK_UPDATE_VERSION_NOT_CHANGED";
-      log(device.id, $.i18n(statusMessageKey));
+      if (step.targetVersion) {
+        log(
+          device.id,
+          $.i18n("BLOCK_UPDATE_ATTEMPT_TO_VERSION", step.targetVersion),
+        );
+      }
+
+      log(device.id, $.i18n("BLOCK_OTAURL_SET_URL_FWURL") + step.otaUrl);
+      await setOtaUrl(device.id, step.otaUrl);
+      log(device.id, $.i18n("BLOCK_UPDATE_START"));
+      await startUpgrade(device.id);
       log(
         device.id,
         $.i18n("BLOCK_UPDATE_SLEEPING", defaultSleepDuration / 1000),
       );
       await sleep(defaultSleepDuration);
-    }
+      log(device.id, $.i18n("BLOCK_UPDATE_SUCCESS"));
 
-    if (!upgradeSuccessful) {
-      const failure = getFailureDetails({
-        targetVersion,
-        beforeVersion,
-        currentVersion: response.StatusFWR.Version,
-      });
-      log(device.id, $.i18n(failure.key, ...failure.values), Level.error);
-      return false;
-    }
+      let upgradeSuccessful = false;
+      const stepBeforeVersion = response.StatusFWR.Version;
+      for (let i = 0; i < defaultTries; i++) {
+        response = await checkStatus(device.id);
 
-    log(
-      device.id,
-      $.i18n("BLOCK_UPDATE_VERSION_IS", response.StatusFWR.Version),
-    );
-    log(device.id, $.i18n("BLOCK_UPDATE_FINISH_SUCCESS"), Level.success);
+        if (
+          shouldTreatStatusAsSuccessful({
+            targetVersion: step.targetVersion,
+            beforeVersion: stepBeforeVersion,
+            currentVersion: response.StatusFWR.Version,
+          })
+        ) {
+          upgradeSuccessful = true;
+          break;
+        }
+
+        const statusMessageKey = step.targetVersion
+          ? "BLOCK_UPDATE_VERSION_NOT_AT_TARGET_VERSION"
+          : "BLOCK_UPDATE_VERSION_NOT_CHANGED";
+        log(device.id, $.i18n(statusMessageKey));
+        log(
+          device.id,
+          $.i18n("BLOCK_UPDATE_SLEEPING", defaultSleepDuration / 1000),
+        );
+        await sleep(defaultSleepDuration);
+      }
+
+      if (!upgradeSuccessful) {
+        const failure = getFailureDetails({
+          targetVersion: step.targetVersion,
+          beforeVersion: stepBeforeVersion,
+          currentVersion: response.StatusFWR.Version,
+        });
+        log(device.id, $.i18n(failure.key, ...failure.values), Level.error);
+        return false;
+      }
+
+      log(
+        device.id,
+        $.i18n("BLOCK_UPDATE_VERSION_IS", response.StatusFWR.Version),
+      );
+      if (index === upgradePlan.steps.length - 1) {
+        log(device.id, $.i18n("BLOCK_UPDATE_FINISH_SUCCESS"), Level.success);
+      }
+    }
 
     return true;
   } catch (e) {
@@ -276,7 +298,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const otaUrls = [
       ...new Set(
         Object.values(updateTargets)
-          .map((target) => target?.otaUrl)
+          .flatMap((target) => [target?.otaUrl, target?.minimalOtaUrl])
           .filter(Boolean),
       ),
     ];

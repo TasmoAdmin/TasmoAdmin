@@ -3,6 +3,7 @@ const assert = require("node:assert/strict");
 
 const {
   detectDevicePlatform,
+  determineUpgradePlan,
   resolveUpdateTarget,
   shouldTreatStatusAsSuccessful,
   getFailureDetails,
@@ -125,6 +126,89 @@ test("target resolution falls back to the default target for manual uploads", ()
     {
       otaUrl: "http://example.test/upload.bin",
       targetVersion: "",
+    },
+  );
+});
+
+test("legacy ESP8266 auto updates are blocked with manual path guidance", () => {
+  assert.deepEqual(
+    determineUpgradePlan(
+      {
+        otaUrl: "http://example.test/tasmota.bin.gz",
+        minimalOtaUrl: "http://example.test/tasmota-minimal.bin.gz",
+        targetVersion: "14.4.2",
+      },
+      {
+        StatusFWR: {
+          Hardware: "ESP8266EX",
+          Version: "6.5.0(tasmota)",
+        },
+      },
+    ),
+    {
+      type: "blocked",
+      key: "BLOCK_UPDATE_LEGACY_PATH_REQUIRED",
+      values: ["6.5.0(tasmota)", "14.4.2", "9.1.3"],
+    },
+  );
+});
+
+test("ESP8266 auto updates can stage minimal before final once legacy multi-hop is not required", () => {
+  assert.deepEqual(
+    determineUpgradePlan(
+      {
+        otaUrl: "http://example.test/tasmota.bin.gz",
+        minimalOtaUrl: "http://example.test/tasmota-minimal.bin.gz",
+        targetVersion: "14.4.2",
+      },
+      {
+        StatusFWR: {
+          Hardware: "ESP8285",
+          Version: "9.1.3(tasmota)",
+        },
+      },
+    ),
+    {
+      type: "staged",
+      steps: [
+        {
+          kind: "minimal",
+          otaUrl: "http://example.test/tasmota-minimal.bin.gz",
+          targetVersion: "",
+        },
+        {
+          kind: "final",
+          otaUrl: "http://example.test/tasmota.bin.gz",
+          targetVersion: "14.4.2",
+        },
+      ],
+    },
+  );
+});
+
+test("direct updates remain unchanged when no minimal stage is required", () => {
+  assert.deepEqual(
+    determineUpgradePlan(
+      {
+        otaUrl: "http://example.test/tasmota32.bin",
+        targetVersion: "14.4.2",
+      },
+      {
+        StatusFWR: {
+          Hardware: "ESP32-D0WDQ6",
+          Version: "14.4.0(tasmota32)",
+        },
+      },
+    ),
+    {
+      type: "direct",
+      steps: [
+        {
+          kind: "final",
+          otaUrl: "http://example.test/tasmota32.bin",
+          targetVersion: "14.4.2",
+        },
+      ],
     },
   );
 });
