@@ -19,6 +19,7 @@ class ConfigMqttTabTest extends TestCase
         $output = ob_get_clean();
 
         self::assertIsString($output);
+        self::assertStringContainsString('device-config-card', $output);
         self::assertStringContainsString("name='SetOption19'", $output);
         self::assertStringContainsString('DEVICE_CONFIG_MQTT_DISCOVERY', $output);
     }
