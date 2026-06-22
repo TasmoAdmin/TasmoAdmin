@@ -86,7 +86,8 @@ if (isset($_GET['downloadBackup'])) {
 
 if (isset($_GET['downloadRestore'])) {
     $backup = $container->get(BackupHelper::class);
-    $restorePath = $backup->getRestoreFilePath((string) $_GET['downloadRestore']);
+    $restoreToken = (string) $_GET['downloadRestore'];
+    $restorePath = $backup->getRestoreFilePath($restoreToken);
     if (null === $restorePath) {
         http_response_code(404);
 
@@ -99,6 +100,7 @@ if (isset($_GET['downloadRestore'])) {
     ob_clean();
     flush();
     readfile($restorePath);
+    $backup->deleteRestoreFile($restoreToken);
 
     exit;
 }
