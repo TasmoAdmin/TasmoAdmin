@@ -81,10 +81,25 @@ class DevicesPageBackupWorkflowTest extends TestCase
         self::assertStringContainsString('Desk Lamp: Restore failed', $output);
     }
 
+    public function testDevicesPageShowsBackupExceptionsInBackupAlert(): void
+    {
+        $_POST = [
+            'batch_action' => 'backup',
+            'device_ids' => ['1'],
+        ];
+
+        $devices = [$this->createDevice(1, 'Desk Lamp')];
+        $output = $this->renderDevicesPage($devices, backupException: new \RuntimeException('Backup exploded'));
+
+        self::assertStringContainsString('Backup exploded', $output);
+        self::assertStringNotContainsString('BACKUP_RESTORE_FAILED:', $output);
+    }
+
     private function renderDevicesPage(
         array $devices,
         ?BackupResults $backupResults = null,
-        ?BackupResults $restoreResults = null
+        ?BackupResults $restoreResults = null,
+        ?\RuntimeException $backupException = null
     ): string {
         if (!defined('_BASEURL_')) {
             define('_BASEURL_', '/');
@@ -110,11 +125,12 @@ class DevicesPageBackupWorkflowTest extends TestCase
             }
         };
 
-        $container = new class($devices, $backupResults, $restoreResults) {
+        $container = new class($devices, $backupResults, $restoreResults, $backupException) {
             public function __construct(
                 private array $devices,
                 private ?BackupResults $backupResults,
-                private ?BackupResults $restoreResults
+                private ?BackupResults $restoreResults,
+                private ?\RuntimeException $backupException
             ) {}
 
             public function get(string $class): object
@@ -128,14 +144,19 @@ class DevicesPageBackupWorkflowTest extends TestCase
                             return $this->devices;
                         }
                     },
-                    BackupHelper::class => new class($this->backupResults, $this->restoreResults) {
+                    BackupHelper::class => new class($this->backupResults, $this->restoreResults, $this->backupException) {
                         public function __construct(
                             private ?BackupResults $backupResults,
-                            private ?BackupResults $restoreResults = null
+                            private ?BackupResults $restoreResults = null,
+                            private ?\RuntimeException $backupException = null
                         ) {}
 
                         public function backup(array $deviceIds): BackupResults
                         {
+                            if ($this->backupException instanceof \RuntimeException) {
+                                throw $this->backupException;
+                            }
+
                             return $this->backupResults ?? new BackupResults([]);
                         }
 

@@ -23,13 +23,16 @@ class BackupHelper
 
     private string $restorePath;
 
+    private bool $allowNonUploadedFiles;
+
     public function __construct(
         DeviceRepository $deviceRepository,
         Sonoff $sonoff,
         string $backupPath,
         ?Config $config = null,
         string $baseUrl = '',
-        ?string $restorePath = null
+        ?string $restorePath = null,
+        bool $allowNonUploadedFiles = false
     ) {
         $this->deviceRepository = $deviceRepository;
         $this->sonoff = $sonoff;
@@ -38,6 +41,7 @@ class BackupHelper
         $this->config = $config;
         $this->baseUrl = '' === $baseUrl ? '/' : $baseUrl;
         $this->restorePath = $restorePath ?? dirname(rtrim($backupPath, '/')).'/restore/';
+        $this->allowNonUploadedFiles = $allowNonUploadedFiles;
     }
 
     public function backup(array $deviceIds): BackupResults
@@ -200,6 +204,10 @@ class BackupHelper
     {
         if (is_uploaded_file($sourcePath)) {
             return move_uploaded_file($sourcePath, $targetPath);
+        }
+
+        if (!$this->allowNonUploadedFiles) {
+            return false;
         }
 
         if (@rename($sourcePath, $targetPath)) {

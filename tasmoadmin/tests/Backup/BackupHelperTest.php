@@ -173,7 +173,9 @@ class BackupHelperTest extends TestCase
             $sonoff,
             $this->backupPath,
             $this->createConfig(),
-            '/_BASEURL_/'
+            '/_BASEURL_/',
+            null,
+            true
         );
 
         $results = $helper->restore([7], $upload);
@@ -190,7 +192,9 @@ class BackupHelperTest extends TestCase
             $this->createMock(Sonoff::class),
             $this->backupPath,
             $this->createConfig(),
-            '/_BASEURL_/'
+            '/_BASEURL_/',
+            null,
+            true
         );
 
         $this->expectException(\RuntimeException::class);
@@ -206,7 +210,9 @@ class BackupHelperTest extends TestCase
             $this->createMock(Sonoff::class),
             $this->backupPath,
             $this->createConfig(),
-            '/_BASEURL_/'
+            '/_BASEURL_/',
+            null,
+            true
         );
 
         $this->expectException(\RuntimeException::class);
@@ -238,7 +244,9 @@ class BackupHelperTest extends TestCase
             $sonoff,
             $this->backupPath,
             $this->createConfig(),
-            '/_BASEURL_/'
+            '/_BASEURL_/',
+            null,
+            true
         );
 
         $results = $helper->restore([9], $upload);
@@ -262,7 +270,9 @@ class BackupHelperTest extends TestCase
             $this->createMock(Sonoff::class),
             $this->backupPath,
             $this->createConfig(),
-            '/_BASEURL_/'
+            '/_BASEURL_/',
+            null,
+            true
         );
 
         self::assertSame($restorePath, $helper->getRestoreFilePath($restoreToken));
@@ -271,6 +281,35 @@ class BackupHelperTest extends TestCase
 
         self::assertNull($helper->getRestoreFilePath($restoreToken));
         self::assertFileDoesNotExist($restorePath);
+    }
+
+    public function testRestoreRejectsNonUploadedTempFilesByDefault(): void
+    {
+        $device = new Device(10, ['socket-10'], '192.168.1.100', '', '', 'img');
+        $upload = $this->createUploadedBackup('restore.dmp', 'backup');
+
+        $repository = $this->createMock(DeviceRepository::class);
+        $repository->expects(self::once())
+            ->method('getDeviceById')
+            ->with(10)
+            ->willReturn($device)
+        ;
+
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->expects(self::never())->method('restore');
+
+        $helper = new BackupHelper(
+            $repository,
+            $sonoff,
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('BACKUP_RESTORE_FILE_COULD_NOT_SAVE: ');
+
+        $helper->restore([10], $upload);
     }
 
     private function createUploadedBackup(string $filename, string $contents): array
