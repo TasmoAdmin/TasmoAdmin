@@ -52,7 +52,7 @@ if (!empty($_POST['save'])) {
         if (isset($backlog)) {
             $msg .= '<br/> '.$backlog;
         }
-        sleep(count($settings));
+        sleep(3 === $activeTabIndex ? 2 : count($settings));
     }
 }
 
