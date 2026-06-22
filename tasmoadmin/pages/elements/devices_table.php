@@ -39,6 +39,7 @@ $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingTex
         <th data-column-id='name' data-column-label='<?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_NAME', 'DEVICES'); ?></th>
         <th data-column-id='ip' data-column-label='<?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_IP', 'DEVICES'); ?></th>
         <th data-column-id='status'><?php echo __('TABLE_HEAD_STATE', 'DEVICES'); ?></th>
+        <th data-column-id='timer' data-column-label='<?php echo __('TABLE_HEAD_TIMER', 'DEVICES'); ?>' data-column-toggle='true'><?php echo __('TABLE_HEAD_TIMER', 'DEVICES'); ?></th>
         <th data-column-id='rssi' data-column-label='<?php echo __('TABLE_HEAD_WIFI', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_WIFI', 'DEVICES'); ?></th>
         <th data-column-id='version' data-column-label='<?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
         <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
@@ -141,6 +142,13 @@ if (isset($devices) && !empty($devices)) {
                             <i></i>
                         </label>
 
+                    </td>
+                    <td class='timer' data-column-id='timer'>
+                        <span class='device-timer-indicator d-none'
+                              data-timer-indicator
+                        >
+                            <i class="fa-regular fa-clock"></i>
+                        </span>
                     </td>
                     <td class='rssi' data-column-id='rssi'>
 														<span>
