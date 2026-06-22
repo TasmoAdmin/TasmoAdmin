@@ -93,8 +93,7 @@ class DevicesTableSortableColumnsTest extends TestCase
         self::assertIsString($output);
         self::assertSame(0, substr_count($output, '<tfoot>'));
         self::assertSame(1, substr_count($output, 'id="select_all"'));
-        self::assertStringContainsString("data-column-id='timer'", $output);
-        self::assertStringContainsString('data-timer-indicator', $output);
+        self::assertStringContainsString("data-column-id='rssi'", $output);
     }
 
     public function testDevicesTableDoesNotUseBrokenStackLayout(): void
