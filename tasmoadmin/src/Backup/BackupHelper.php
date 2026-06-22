@@ -105,6 +105,14 @@ class BackupHelper
         return is_file($restorePath) ? $restorePath : null;
     }
 
+    public function deleteRestoreFile(string $restoreToken): void
+    {
+        $restorePath = $this->getRestoreFilePath($restoreToken);
+        if (null !== $restorePath) {
+            @unlink($restorePath);
+        }
+    }
+
     private function createZip(array $files): string
     {
         $zipFilePath = $this->getBackupZipPath();

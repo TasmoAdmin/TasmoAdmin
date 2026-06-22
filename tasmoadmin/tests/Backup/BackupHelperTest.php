@@ -249,6 +249,30 @@ class BackupHelperTest extends TestCase
         self::assertSame('Restore failed', $failures[0]->getFailureReason());
     }
 
+    public function testDeleteRestoreFileRemovesExistingDump(): void
+    {
+        $restoreToken = 'abcdefabcdefabcdefabcdef';
+        $restoreDir = $this->tempDir.'/restore/';
+        mkdir($restoreDir, 0o755, true);
+        $restorePath = $restoreDir.$restoreToken.'.dmp';
+        file_put_contents($restorePath, 'backup');
+
+        $helper = new BackupHelper(
+            $this->createMock(DeviceRepository::class),
+            $this->createMock(Sonoff::class),
+            $this->backupPath,
+            $this->createConfig(),
+            '/_BASEURL_/'
+        );
+
+        self::assertSame($restorePath, $helper->getRestoreFilePath($restoreToken));
+
+        $helper->deleteRestoreFile($restoreToken);
+
+        self::assertNull($helper->getRestoreFilePath($restoreToken));
+        self::assertFileDoesNotExist($restorePath);
+    }
+
     private function createUploadedBackup(string $filename, string $contents): array
     {
         $tmpFile = tempnam($this->tempDir, 'restore-upload-');
