@@ -720,6 +720,47 @@ class SonoffTest extends TestCase
         self::assertStringContainsString('Timer16+', (string) $transactions[16]['request']->getUri());
     }
 
+    public function testGetTimerSummariesMarksOnlyRelaysWithEnabledTimers(): void
+    {
+        $deviceRepository = $this->createMock(DeviceRepository::class);
+        $deviceRepository->method('getDevices')->willReturn([
+            new Device(1, ['desk', 'lamp'], '192.168.1.8', '', '', position: 1),
+            new Device(2, ['sensor'], '192.168.1.9', '', '', position: 2),
+        ]);
+
+        $responses = [
+            new Response(200, [], '{"Timers":"ON"}'),
+            new Response(200, [], '{"Timer1":{"Enable":1,"Mode":0,"Time":"06:30","Window":0,"Days":"SMTWTFS","Repeat":1,"Output":2,"Action":1}}'),
+        ];
+
+        foreach (range(2, 16) as $index) {
+            $responses[] = new Response(200, [], json_encode([
+                'Timer'.$index => [
+                    'Enable' => 0,
+                    'Mode' => 0,
+                    'Time' => '00:00',
+                    'Window' => 0,
+                    'Days' => '-------',
+                    'Repeat' => 0,
+                    'Output' => 1,
+                    'Action' => 0,
+                ],
+            ]));
+        }
+
+        $responses[] = new Response(200, [], '{"Command":"Unknown"}');
+
+        $sonoff = new Sonoff($deviceRepository, $this->getClient($responses), $this->getTestConfig());
+        $summaries = $sonoff->getTimerSummaries();
+
+        self::assertTrue($summaries[1]['supported']);
+        self::assertTrue($summaries[1]['hasActiveTimer']);
+        self::assertFalse($summaries[1]['relays'][1]['hasActiveTimer']);
+        self::assertTrue($summaries[1]['relays'][2]['hasActiveTimer']);
+        self::assertFalse($summaries[2]['supported']);
+        self::assertFalse($summaries[2]['hasActiveTimer']);
+    }
+
     public function testSearchReturnsEmptyArrayWhenNoUrlsAreProvided(): void
     {
         $sonoff = new Sonoff($this->getTestDeviceRepository(), $this->getClient(), $this->getTestConfig());

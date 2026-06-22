@@ -41,6 +41,16 @@ if (isset($_GET['doAjaxAll'])) {
     exit;
 }
 
+if (isset($_GET['timerSummaries'])) {
+    session_write_close();
+    $data = $Sonoff->getTimerSummaries();
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
+
+    exit;
+}
+
 if (isset($_GET['i18n'])) {
     $requestedLang = $_GET['lang'] ?? $lang;
     $supportedLanguages = SupportedLanguageHelper::getSupportedLanguages();

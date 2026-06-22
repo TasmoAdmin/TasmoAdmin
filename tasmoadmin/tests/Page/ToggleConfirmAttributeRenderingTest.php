@@ -98,6 +98,7 @@ class ToggleConfirmAttributeRenderingTest extends TestCase
 
         self::assertIsString($output);
         self::assertStringContainsString("data-device_confirm_toggle='0'", $output);
+        self::assertStringContainsString('data-timer-indicator', $output);
     }
 
     public function testStartPageSkipsDevicesHiddenFromStartpage(): void

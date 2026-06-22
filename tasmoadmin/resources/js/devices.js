@@ -17,6 +17,10 @@ import deviceListPreferences from "./device_list_preferences";
 import batchActions from "./device_batch_actions";
 import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
+import {
+  applyTimerIndicatorState,
+  loadTimerSummaries,
+} from "./timer_indicators";
 import toggleConfirmation from "./toggle_confirmation";
 
 const {
@@ -66,6 +70,11 @@ onI18nReady(function () {
   initCellDataSorting("vcc", ".vcc span", "data-sort-number", true);
   deviceTools();
   initDeviceListPreferences();
+  void loadTimerSummaries().then(() => {
+    $("#device-list tbody tr").each(function () {
+      applyTimerIndicatorState(this);
+    });
+  });
 
   if ($(".device-search").length > 0) {
     initDeviceFilter();
@@ -929,6 +938,10 @@ function updateRow(row, data, device_status) {
   let device_protect_off = $(row).data("device_protect_off");
 
   data = sonoff.parseStatusData(data);
+  applyTimerIndicatorState($(row).get(0), {
+    data,
+    deviceStatus: device_status,
+  });
 
   if (data.hasWifi) {
     const wifiDisplay = getWifiDisplayInfo(data);

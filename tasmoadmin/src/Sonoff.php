@@ -12,6 +12,7 @@ use TasmoAdmin\Tasmota\ResponseParser;
 class Sonoff
 {
     public const COMMAND_INFO_STATUS_ALL = 'status 0';
+    private const TIMER_SUMMARY_CACHE_TTL = 120;
 
     private DeviceRepository $deviceRepository;
 
@@ -279,7 +280,20 @@ class Sonoff
             );
         }
 
+        $this->invalidateTimerSummaryCache($device);
+
         return $result;
+    }
+
+    public function getTimerSummaries(): array
+    {
+        $summaries = [];
+
+        foreach ($this->getDevices() as $device) {
+            $summaries[$device->id] = $this->getTimerSummary($device);
+        }
+
+        return $summaries;
     }
 
     public function doAjax($deviceId, string $cmnd)
@@ -547,6 +561,111 @@ class Sonoff
             'Output' => (int) ($settings['Output'] ?? 1),
             'Action' => (int) ($settings['Action'] ?? 0),
         ];
+    }
+
+    private function getTimerSummary(Device $device): array
+    {
+        $cachePath = $this->getTimerSummaryCachePath($device);
+        $cachedSummary = null !== $cachePath ? $this->readTimerSummaryCache($cachePath) : null;
+
+        if (null !== $cachedSummary) {
+            return $cachedSummary;
+        }
+
+        $summary = $this->buildTimerSummary($device, $this->getTimersConfig($device));
+        if (null !== $cachePath) {
+            $this->writeTimerSummaryCache($cachePath, $summary);
+        }
+
+        return $summary;
+    }
+
+    private function buildTimerSummary(Device $device, ?\stdClass $timersConfig): array
+    {
+        $relayCount = max(1, count($device->names));
+        $relays = [];
+
+        foreach (range(1, $relayCount) as $relayIndex) {
+            $relays[$relayIndex] = [
+                'hasActiveTimer' => false,
+            ];
+        }
+
+        $summary = [
+            'supported' => null !== $timersConfig,
+            'hasActiveTimer' => false,
+            'relays' => $relays,
+        ];
+
+        if (null === $timersConfig || 1 !== (int) ($timersConfig->enabled ?? 0)) {
+            return $summary;
+        }
+
+        foreach ($timersConfig->timers as $timerConfig) {
+            if (!$timerConfig instanceof \stdClass || 1 !== (int) $timerConfig->Enable) {
+                continue;
+            }
+
+            $output = (int) $timerConfig->Output;
+            if (!isset($summary['relays'][$output])) {
+                continue;
+            }
+
+            $summary['relays'][$output]['hasActiveTimer'] = true;
+            $summary['hasActiveTimer'] = true;
+        }
+
+        return $summary;
+    }
+
+    private function getTimerSummaryCachePath(Device $device): ?string
+    {
+        if (!defined('_TMPDIR_')) {
+            return null;
+        }
+
+        $baseDir = rtrim(_TMPDIR_, '/');
+        $cacheDir = rtrim($baseDir, '/').'/cache/timer_summaries';
+
+        if (!is_dir($cacheDir)) {
+            @mkdir($cacheDir, 0o755, true);
+        }
+
+        return $cacheDir.'/device-'.$device->id.'.json';
+    }
+
+    private function readTimerSummaryCache(string $cachePath): ?array
+    {
+        if (!is_file($cachePath)) {
+            return null;
+        }
+
+        $cacheAge = time() - (int) filemtime($cachePath);
+        if ($cacheAge > self::TIMER_SUMMARY_CACHE_TTL) {
+            return null;
+        }
+
+        $content = file_get_contents($cachePath);
+        if (false === $content || '' === $content) {
+            return null;
+        }
+
+        $decoded = json_decode($content, true);
+
+        return is_array($decoded) ? $decoded : null;
+    }
+
+    private function writeTimerSummaryCache(string $cachePath, array $summary): void
+    {
+        @file_put_contents($cachePath, json_encode($summary, JSON_UNESCAPED_SLASHES));
+    }
+
+    private function invalidateTimerSummaryCache(Device $device): void
+    {
+        $cachePath = $this->getTimerSummaryCachePath($device);
+        if (null !== $cachePath && is_file($cachePath)) {
+            @unlink($cachePath);
+        }
     }
 
     private function doRequest(Device $device, string $cmnd, int $try = 1): \stdClass

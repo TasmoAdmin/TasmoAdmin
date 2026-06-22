@@ -108,6 +108,11 @@ $devices = array_values(array_filter(
 										<span>-</span>
 									</div>
 								</div>
+								<div class='device-timer-indicator d-none'
+									 data-timer-indicator
+								>
+									<i class="fa-regular fa-clock"></i>
+								</div>
 							</div>
 						</div>
 					</div>
