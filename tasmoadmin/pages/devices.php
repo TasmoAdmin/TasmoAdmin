@@ -20,8 +20,15 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
             $restoreAction = $restoreResults->successful() ? 'success' : 'danger';
         }
     } catch (RuntimeException $exception) {
-        $restoreAction = 'danger';
-        $restoreError = $exception->getMessage();
+        if ('backup' === $_POST['batch_action']) {
+            $backupAction = 'danger';
+            $backupError = $exception->getMessage();
+        }
+
+        if ('restore' === $_POST['batch_action']) {
+            $restoreAction = 'danger';
+            $restoreError = $exception->getMessage();
+        }
     }
 }
 ?>
@@ -51,10 +58,13 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                     </div>
                 </div>
             <?php } ?>
-            <?php if (isset($backupResults, $backupAction)) { ?>
+            <?php if (isset($backupAction)) { ?>
                 <div class="devices-panel">
                     <div class="alert alert-<?php echo $backupAction; ?> fade show mb-0" role="alert">
                         <div class="col col-12">
+                            <?php if (isset($backupError)) { ?>
+                                <?php echo $backupError; ?>
+                            <?php } elseif (isset($backupResults)) { ?>
                             <?php echo __('BACKUP_FINISHED', 'BACKUP'); ?> -
                             <a href="<?php echo _BASEURL_; ?>actions?downloadBackup"><?php echo __('DOWNLOAD_BACKUP', 'BACKUP'); ?></a>
                             <?php if (!$backupResults->successful()) { ?>
@@ -66,6 +76,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                                         <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
                                     <?php } ?>
                                 </ul>
+                            <?php } ?>
                             <?php } ?>
                         </div>
                     </div>
