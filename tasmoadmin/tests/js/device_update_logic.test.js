@@ -134,6 +134,7 @@ test("legacy ESP8266 auto updates are blocked with manual path guidance", () => 
   assert.deepEqual(
     determineUpgradePlan(
       {
+        source: "automatic",
         otaUrl: "http://example.test/tasmota.bin.gz",
         minimalOtaUrl: "http://example.test/tasmota-minimal.bin.gz",
         targetVersion: "14.4.2",
@@ -157,6 +158,7 @@ test("ESP8266 auto updates can stage minimal before final once legacy multi-hop 
   assert.deepEqual(
     determineUpgradePlan(
       {
+        source: "automatic",
         otaUrl: "http://example.test/tasmota.bin.gz",
         minimalOtaUrl: "http://example.test/tasmota-minimal.bin.gz",
         targetVersion: "14.4.2",
@@ -165,6 +167,40 @@ test("ESP8266 auto updates can stage minimal before final once legacy multi-hop 
         StatusFWR: {
           Hardware: "ESP8285",
           Version: "9.1.3(tasmota)",
+        },
+      },
+    ),
+    {
+      type: "staged",
+      steps: [
+        {
+          kind: "minimal",
+          otaUrl: "http://example.test/tasmota-minimal.bin.gz",
+          targetVersion: "",
+        },
+        {
+          kind: "final",
+          otaUrl: "http://example.test/tasmota.bin.gz",
+          targetVersion: "14.4.2",
+        },
+      ],
+    },
+  );
+});
+
+test("legacy ESP8266 manual uploads still use the staged minimal path", () => {
+  assert.deepEqual(
+    determineUpgradePlan(
+      {
+        source: "manual",
+        otaUrl: "http://example.test/tasmota.bin.gz",
+        minimalOtaUrl: "http://example.test/tasmota-minimal.bin.gz",
+        targetVersion: "14.4.2",
+      },
+      {
+        StatusFWR: {
+          Hardware: "ESP8266EX",
+          Version: "6.5.0(tasmota)",
         },
       },
     ),

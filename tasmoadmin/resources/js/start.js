@@ -10,10 +10,6 @@ import {
   chunkArray,
   onI18nReady,
 } from "./app";
-import {
-  applyTimerIndicatorState,
-  loadTimerSummaries,
-} from "./timer_indicators";
 import toggleConfirmation from "./toggle_confirmation";
 
 var longPressTimer;
@@ -27,12 +23,6 @@ const {
 const refreshtime = getRefreshTime();
 
 onI18nReady(function () {
-  void loadTimerSummaries().then(() => {
-    $("#content .box_device:not(#all_off)").each(function () {
-      applyTimerIndicatorState(this);
-    });
-  });
-
   deviceTools();
   updateStatus();
 
@@ -414,10 +404,6 @@ function updateBox(row, data, device_status) {
   let device_protect_off = $(row).data("device_protect_off");
 
   data = sonoff.parseStatusData(data);
-  applyTimerIndicatorState($(row).get(0), {
-    data,
-    deviceStatus: device_status,
-  });
   let infoBoxCounter = 1;
   let temp = getTemp(data, ", ");
 

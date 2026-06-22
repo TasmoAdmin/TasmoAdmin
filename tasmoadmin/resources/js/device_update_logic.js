@@ -85,8 +85,10 @@ function determineUpgradePlan(target, response) {
   const currentVersion = response?.StatusFWR?.Version ?? "";
   const minimalOtaUrl = target?.minimalOtaUrl ?? "";
   const targetVersion = target?.targetVersion ?? "";
+  const source = target?.source ?? "";
 
   if (
+    source === "automatic" &&
     platform === "esp8266" &&
     minimalOtaUrl &&
     targetVersion &&

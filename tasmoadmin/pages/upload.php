@@ -197,6 +197,7 @@ if (isset($_REQUEST['upload'])) {
                 'minimalFirmwarePath' => $minimalFirmwarePath,
                 'newFirmwarePath' => $new_firmware_path,
                 'targetVersion' => $targetVersion,
+                'source' => 'automatic',
             ];
             $messages[] = __('ASSET', 'DEVICE_UPDATE').': '.$fwAsset.' | '.__(
                 'VERSION',
@@ -229,6 +230,7 @@ if (!isset($_REQUEST['auto']) && !empty($new_firmware_path)) {
             : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($new_firmware_path),
         'targetVersion' => $targetVersion,
+        'source' => 'manual',
     ];
 }
 
@@ -243,6 +245,7 @@ foreach ($updateTargets as $platform => $updateTarget) {
             : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($updateTarget['newFirmwarePath']),
         'targetVersion' => $updateTarget['targetVersion'],
+        'source' => $updateTarget['source'] ?? 'automatic',
     ];
 }
 $firmwareChecker = new FirmwareChecker(GuzzleFactory::getClient($Config));

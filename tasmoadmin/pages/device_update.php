@@ -18,6 +18,7 @@ if (empty($updateTargets) && !empty($_REQUEST['new_firmware_path'])) {
             : '',
         'otaUrl' => $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']),
         'targetVersion' => $_REQUEST['target_version'] ?? '',
+        'source' => 'manual',
     ];
 }
 
