@@ -1178,6 +1178,11 @@ body {
     cursor: pointer;
   }
 
+  .devices-page #device-list.tablesaw-stack td.timer .tablesaw-cell-content {
+    display: inline-flex;
+    align-items: center;
+  }
+
   .devices-page #device-list.tablesaw-stack td.ip .tablesaw-sort-value {
     display: none;
   }
@@ -1995,6 +2000,11 @@ td {
 }
 
 #device-list {
+  td.timer {
+    text-align: center;
+    white-space: nowrap;
+  }
+
   td.actions {
     display: flex;
     align-items: center;
@@ -2108,6 +2118,27 @@ td {
   }
 }
 
+.device-timer-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 1rem;
+  line-height: 1;
+  font-size: 0.95rem;
+
+  &.timer-indicator-enabled {
+    color: #6b7280;
+  }
+
+  &.timer-indicator-active {
+    color: #198754;
+  }
+}
+
+.startpage .device-timer-indicator {
+  margin-top: 0.4rem;
+}
+
 .device-columns-menu {
   max-height: 24rem;
   min-width: 14rem;
@@ -2175,6 +2206,16 @@ hr {
 
   .text-body-secondary {
     color: $whiteSubNightMode !important;
+  }
+
+  .device-timer-indicator {
+    &.timer-indicator-enabled {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    &.timer-indicator-active {
+      color: #5fd38d;
+    }
   }
 
   small.text-body-secondary,
