@@ -6,6 +6,7 @@ use TasmoAdmin\Config;
 use TasmoAdmin\DevicePasswordCipher;
 use TasmoAdmin\DevicePasswordKeyProvider;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Health\HealthRepository;
 use TasmoAdmin\Helper\RedirectHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
@@ -58,5 +59,8 @@ $container->set(BackupHelper::class, new BackupHelper(
 ));
 $container->set(ViewHelper::class, new ViewHelper($container->get(Config::class)));
 $container->set(RedirectHelper::class, new RedirectHelper(_BASEURL_));
+$container->set(HealthRepository::class, new HealthRepository(
+    (getenv('TASMO_HEALTHDIR') ?: _APPROOT_.'health/').'health.db'
+));
 
 return $container;

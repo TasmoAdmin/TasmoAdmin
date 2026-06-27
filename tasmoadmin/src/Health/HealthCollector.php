@@ -7,11 +7,15 @@ use TasmoAdmin\Sonoff;
 
 final class HealthCollector
 {
+    private ?\Closure $clock;
+
     public function __construct(
         private HealthRepository $repo,
         private Sonoff $sonoff,
         private int $graceSeconds,
+        ?callable $clock = null,
     ) {
+        $this->clock = $clock ?? static fn() => (int) microtime(true);
     }
 
     public function pollHttpDevice(Device $device, int $now): void
@@ -109,5 +113,59 @@ final class HealthCollector
         $row['updated_at'] = $now;
 
         $this->repo->upsert($row);
+    }
+
+    public function runOnce(
+        \TasmoAdmin\Mqtt\MqttClientInterface $client,
+        string $subscription,
+        int $mqttDrainSeconds
+    ): void {
+        $devices = $this->sonoff->getDevices();
+        $now = ($this->clock)();
+
+        foreach ($devices as $device) {
+            $this->pollHttpDevice($device, ($this->clock)());
+        }
+
+        $loopStartedAt = microtime(true);
+        $client->subscribe($subscription, function (string $topic, string $message) use ($devices): void {
+            $this->handleMqttMessage($topic, $message, $devices, ($this->clock)());
+        });
+
+        $deadline = $now + max($mqttDrainSeconds, 1);
+        while (($this->clock)() < $deadline) {
+            $client->loopOnce($loopStartedAt);
+        }
+        usleep(50_000);
+    }
+
+    public function run(
+        \TasmoAdmin\Mqtt\MqttClientInterface $client,
+        string $subscription,
+        int $httpPollInterval
+    ): void {
+        $devices = $this->sonoff->getDevices();
+        $loopStartedAt = microtime(true);
+
+        $client->subscribe($subscription, function (string $topic, string $message) use (&$devices): void {
+            $this->handleMqttMessage($topic, $message, $devices, ($this->clock)());
+        });
+
+        $lastPoll = 0;
+        while (true) {
+            $now = ($this->clock)();
+            if (($now - $lastPoll) >= $httpPollInterval) {
+                $devices = $this->sonoff->getDevices();
+                foreach ($devices as $device) {
+                    $this->pollHttpDevice($device, ($this->clock)());
+                    // Keep broker keepalive serviced during sweep.
+                    $client->loopOnce($loopStartedAt);
+                }
+                $lastPoll = $now;
+            }
+
+            $client->loopOnce($loopStartedAt);
+            usleep(100_000);
+        }
     }
 }
