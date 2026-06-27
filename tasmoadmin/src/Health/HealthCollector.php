@@ -135,8 +135,8 @@ final class HealthCollector
         $deadline = $now + max($mqttDrainSeconds, 1);
         while (($this->clock)() < $deadline) {
             $client->loopOnce($loopStartedAt);
+            usleep(50_000);
         }
-        usleep(50_000);
     }
 
     public function run(
