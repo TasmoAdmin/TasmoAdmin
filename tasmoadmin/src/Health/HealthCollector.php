@@ -27,7 +27,6 @@ final class HealthCollector
         $row['http_up'] = $http_up;
         if ($http_up) {
             $row['last_http_ok'] = $now;
-            $row['last_seen'] = $now;
 
             if (isset($status->StatusSTS->Wifi->Signal)) {
                 $row['signal'] = (int) $status->StatusSTS->Wifi->Signal;
@@ -60,7 +59,6 @@ final class HealthCollector
 
         $online = TopicMatcher::lwtOnline($payload);
         $row['mqtt_up'] = $online ? 1 : 0;
-        $row['last_seen'] = $now;
         if ($online) {
             $row['last_mqtt_ok'] = $now;
         }
@@ -94,6 +92,11 @@ final class HealthCollector
             $mqttUp = (bool) $row['mqtt_up'];
         }
 
+        $row['last_seen'] = max(
+            (int) ($row['last_http_ok'] ?? 0),
+            (int) ($row['last_mqtt_ok'] ?? 0),
+        ) ?: null;
+
         $row['state'] = HealthState::resolve(
             httpUp: $httpUp,
             mqttUp: $mqttUp,
@@ -102,6 +105,8 @@ final class HealthCollector
             graceSeconds: $this->graceSeconds,
             previousState: $previousState,
         );
+
+        $row['updated_at'] = $now;
 
         $this->repo->upsert($row);
     }

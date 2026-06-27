@@ -98,4 +98,50 @@ final class HealthCollectorTest extends TestCase
 
         self::assertNull($this->repo->get('1'));
     }
+
+    /**
+     * Regression: LWT-Offline MUST NOT advance last_seen to $now.
+     *
+     * Scenario:
+     *   - LWT 'Online' at now=100  → last_mqtt_ok=100, last_seen=100.
+     *   - LWT 'Offline' at now=500 → mqtt_up=0, last_mqtt_ok stays 100.
+     *   - http_up is null (no HTTP poll ever occurred).
+     *   - Grace period = 180 s.  now - last_seen = 500 - 100 = 400 > 180 → OFFLINE.
+     *
+     * Against the old eager code ($row['last_seen']=$now inside handleMqttMessage)
+     * last_seen would be stamped to 500 on LWT-Offline, so now-last_seen = 0 < 180
+     * and the device would stay in the previous state (degraded_http) rather than
+     * transitioning to OFFLINE — the grace-period expiry could never fire.
+     */
+    public function testLwtOfflineDoesNotAdvanceLastSeenAndExpiresGrace(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+
+        // Step 1: MQTT comes online at now=100.
+        $collector->handleMqttMessage('tele/kitchen/LWT', 'Online', [$this->device(1, 'kitchen')], 100);
+        $row = $this->repo->get('1');
+        self::assertSame(100, (int) $row['last_mqtt_ok'], 'last_mqtt_ok must be 100 after Online LWT');
+        self::assertSame(100, (int) $row['last_seen'], 'last_seen must be 100 after Online LWT');
+
+        // Step 2: LWT 'Offline' arrives at now=500.
+        // http_up is still null (no HTTP poll), mqtt_up becomes 0.
+        // last_seen must stay at 100 (from last_mqtt_ok), NOT jump to 500.
+        $collector->handleMqttMessage('tele/kitchen/LWT', 'Offline', [$this->device(1, 'kitchen')], 500);
+
+        $row = $this->repo->get('1');
+
+        // last_seen must reflect last good signal (MQTT online at 100), NOT the LWT-Offline timestamp (500).
+        // This assertion FAILS against the old eager-last_seen code.
+        self::assertSame(100, (int) $row['last_seen'], 'last_seen must not be advanced by LWT-Offline');
+
+        // http_up=null (false), mqtt_up=0 (false) → both signals down.
+        // 500 - 100 = 400 > 180 grace → OFFLINE.
+        // This assertion FAILS against the old code because last_seen would be 500,
+        // making grace-check 500-500=0 < 180 → stay at previous state (degraded_http).
+        self::assertSame(HealthState::OFFLINE, $row['state'], 'state must be OFFLINE after grace expiry');
+
+        // updated_at must be set on every upsert.
+        self::assertSame(500, (int) $row['updated_at'], 'updated_at must be set to $now on upsert');
+    }
 }
