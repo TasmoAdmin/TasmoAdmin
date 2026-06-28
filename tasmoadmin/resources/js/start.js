@@ -11,6 +11,7 @@ import {
   onI18nReady,
 } from "./app";
 import toggleConfirmation from "./toggle_confirmation";
+import initAddDeviceModal from "./add_device_modal";
 
 var longPressTimer;
 const {
@@ -24,6 +25,7 @@ const refreshtime = getRefreshTime();
 
 onI18nReady(function () {
   deviceTools();
+  initAddDeviceModal();
   updateStatus();
 
   if (refreshtime) {

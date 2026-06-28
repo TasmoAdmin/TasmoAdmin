@@ -3,11 +3,12 @@
 namespace TasmoAdmin\Health;
 
 use TasmoAdmin\Device;
+use TasmoAdmin\Mqtt\MqttClientInterface;
 use TasmoAdmin\Sonoff;
 
 final class HealthCollector
 {
-    private ?\Closure $clock;
+    private \Closure $clock;
 
     public function __construct(
         private HealthRepository $repo,
@@ -15,7 +16,7 @@ final class HealthCollector
         private int $graceSeconds,
         ?callable $clock = null,
     ) {
-        $this->clock = $clock ?? static fn() => (int) microtime(true);
+        $this->clock = $clock ?? static fn () => (int) microtime(true);
     }
 
     public function pollHttpDevice(Device $device, int $now): void
@@ -48,7 +49,7 @@ final class HealthCollector
      */
     public function handleMqttMessage(string $topic, string $payload, array $devices, int $now): void
     {
-        if (!TopicMatcher::isLwtTopic($topic)) {
+        if (!TopicMatcher::isLwtTopic($topic) && !TopicMatcher::isStateTopic($topic)) {
             return;
         }
 
@@ -61,62 +62,29 @@ final class HealthCollector
         $previous = $this->repo->get($deviceId);
         $row = $this->mergePrevious($deviceId, $previous);
 
-        $online = TopicMatcher::lwtOnline($payload);
-        $row['mqtt_up'] = $online ? 1 : 0;
-        if ($online) {
+        if (TopicMatcher::isLwtTopic($topic)) {
+            $online = TopicMatcher::lwtOnline($payload);
+            $row['mqtt_up'] = $online ? 1 : 0;
+            if ($online) {
+                $row['last_mqtt_ok'] = $now;
+            }
+        } else {
+            $row['mqtt_up'] = 1;
             $row['last_mqtt_ok'] = $now;
+            $state = json_decode($payload);
+            if (isset($state->Wifi->Signal)) {
+                $row['signal'] = (int) $state->Wifi->Signal;
+            }
+            if (isset($state->Wifi->RSSI)) {
+                $row['rssi'] = (int) $state->Wifi->RSSI;
+            }
         }
 
         $this->recomputeAndSave($row, $now, $previous['state'] ?? HealthState::UNKNOWN);
     }
 
-    private function mergePrevious(string $deviceId, ?array $previous): array
-    {
-        return [
-            'device_id' => $deviceId,
-            'http_up' => isset($previous['http_up']) ? (int) $previous['http_up'] : null,
-            'mqtt_up' => isset($previous['mqtt_up']) ? (int) $previous['mqtt_up'] : null,
-            'last_http_ok' => isset($previous['last_http_ok']) ? (int) $previous['last_http_ok'] : null,
-            'last_mqtt_ok' => isset($previous['last_mqtt_ok']) ? (int) $previous['last_mqtt_ok'] : null,
-            'last_seen' => isset($previous['last_seen']) ? (int) $previous['last_seen'] : null,
-            'rssi' => isset($previous['rssi']) ? (int) $previous['rssi'] : null,
-            'signal' => isset($previous['signal']) ? (int) $previous['signal'] : null,
-        ];
-    }
-
-    private function recomputeAndSave(array $row, int $now, string $previousState): void
-    {
-        $httpUp = null;
-        if ($row['http_up'] !== null) {
-            $httpUp = (bool) $row['http_up'];
-        }
-
-        $mqttUp = null;
-        if ($row['mqtt_up'] !== null) {
-            $mqttUp = (bool) $row['mqtt_up'];
-        }
-
-        $row['last_seen'] = max(
-            (int) ($row['last_http_ok'] ?? 0),
-            (int) ($row['last_mqtt_ok'] ?? 0),
-        ) ?: null;
-
-        $row['state'] = HealthState::resolve(
-            httpUp: $httpUp,
-            mqttUp: $mqttUp,
-            lastSeen: $row['last_seen'],
-            now: $now,
-            graceSeconds: $this->graceSeconds,
-            previousState: $previousState,
-        );
-
-        $row['updated_at'] = $now;
-
-        $this->repo->upsert($row);
-    }
-
     public function runOnce(
-        \TasmoAdmin\Mqtt\MqttClientInterface $client,
+        MqttClientInterface $client,
         string $subscription,
         int $mqttDrainSeconds
     ): void {
@@ -140,7 +108,7 @@ final class HealthCollector
     }
 
     public function run(
-        \TasmoAdmin\Mqtt\MqttClientInterface $client,
+        MqttClientInterface $client,
         string $subscription,
         int $httpPollInterval
     ): void {
@@ -152,7 +120,7 @@ final class HealthCollector
         });
 
         $lastPoll = 0;
-        while (true) {
+        while ($this->shouldRun()) {
             $now = ($this->clock)();
             if (($now - $lastPoll) >= $httpPollInterval) {
                 $devices = $this->sonoff->getDevices();
@@ -167,5 +135,55 @@ final class HealthCollector
             $client->loopOnce($loopStartedAt);
             usleep(100_000);
         }
+    }
+
+    private function shouldRun(): bool
+    {
+        return true;
+    }
+
+    private function mergePrevious(string $deviceId, ?array $previous): array
+    {
+        return [
+            'device_id' => $deviceId,
+            'http_up' => isset($previous['http_up']) ? (int) $previous['http_up'] : null,
+            'mqtt_up' => isset($previous['mqtt_up']) ? (int) $previous['mqtt_up'] : null,
+            'last_http_ok' => isset($previous['last_http_ok']) ? (int) $previous['last_http_ok'] : null,
+            'last_mqtt_ok' => isset($previous['last_mqtt_ok']) ? (int) $previous['last_mqtt_ok'] : null,
+            'last_seen' => isset($previous['last_seen']) ? (int) $previous['last_seen'] : null,
+            'rssi' => isset($previous['rssi']) ? (int) $previous['rssi'] : null,
+            'signal' => isset($previous['signal']) ? (int) $previous['signal'] : null,
+        ];
+    }
+
+    private function recomputeAndSave(array $row, int $now, string $previousState): void
+    {
+        $httpUp = null;
+        if (null !== $row['http_up']) {
+            $httpUp = (bool) $row['http_up'];
+        }
+
+        $mqttUp = null;
+        if (null !== $row['mqtt_up']) {
+            $mqttUp = (bool) $row['mqtt_up'];
+        }
+
+        $row['last_seen'] = max(
+            (int) ($row['last_http_ok'] ?? 0),
+            (int) ($row['last_mqtt_ok'] ?? 0),
+        ) ?: null;
+
+        $row['state'] = HealthState::resolve(
+            httpUp: $httpUp,
+            mqttUp: $mqttUp,
+            lastSeen: $row['last_seen'],
+            now: $now,
+            graceSeconds: $this->graceSeconds,
+            previousState: $previousState,
+        );
+
+        $row['updated_at'] = $now;
+
+        $this->repo->upsert($row);
     }
 }

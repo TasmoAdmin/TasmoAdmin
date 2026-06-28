@@ -11,7 +11,15 @@ final class TopicMatcher
         $parts = explode('/', trim($topic, '/'));
         $last = end($parts);
 
-        return is_string($last) && 'LWT' === strtoupper($last);
+        return 'LWT' === strtoupper($last);
+    }
+
+    public static function isStateTopic(string $topic): bool
+    {
+        $parts = explode('/', trim($topic, '/'));
+        $last = end($parts);
+
+        return 'STATE' === strtoupper($last);
     }
 
     public static function lwtOnline(string $payload): bool

@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\Health\HealthRepository;
+
 $deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
 
 if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
@@ -8,6 +10,17 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
 
 $loadingText = htmlspecialchars(__('TEXT_LOADING'), ENT_QUOTES, 'UTF-8');
 $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingText}' data-bs-toggle='tooltip' data-bs-title='{$loadingText}'></span>";
+$healthRowsByDeviceId = [];
+if (isset($container)) {
+    try {
+        $healthRepo = $container->get(HealthRepository::class);
+        foreach ($healthRepo->all() as $healthRow) {
+            $healthRowsByDeviceId[(string) $healthRow['device_id']] = $healthRow;
+        }
+    } catch (Throwable) {
+        $healthRowsByDeviceId = [];
+    }
+}
 
 ?>
 
@@ -118,19 +131,29 @@ if (isset($devices) && !empty($devices)) {
                     <?php } ?>
                     <td data-column-id='id'><?php echo $device_group->id; ?></td>
                     <td data-column-id='position'><?php echo $device_group->position; ?></td>
-                    <td class='device_name' data-column-id='name'>
+            <td class='device_name' data-column-id='name'>
+                <div class="device-primary-cell">
+                    <?php
+                    $healthRow = $healthRowsByDeviceId[(string) $device_group->id] ?? null;
+
+                    include __DIR__.'/health_badge.php';
+                    ?>
+                    <div class="device-primary-copy">
                         <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
-                           target='_blank'
-                          data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                              'LINK_OPEN_DEVICE_WEBUI',
-                              'DEVICES'
-                          ); ?>'
-                        ><?php echo str_replace(
-                            ' ',
-                            '&nbsp;',
-                            $devicename
-                        ); ?></a>
-                    </td>
+                            target='_blank'
+                            data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                                'LINK_OPEN_DEVICE_WEBUI',
+                                'DEVICES'
+                            ); ?>'
+                            ><?php echo str_replace(
+                                ' ',
+                                '&nbsp;',
+                                $devicename
+                            ); ?></a>
+                        <span class="device-primary-meta"><?php echo $device_group->ip; ?></span>
+                    </div>
+                </div>
+            </td>
                     <td data-column-id='ip'>
                         <span class="tablesaw-sort-value"><?php echo sprintf('%u', ip2long($device_group->ip)); ?></span>
                         <span class="device-ip-text"><?php echo $device_group->ip; ?></span>

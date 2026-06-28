@@ -4,6 +4,7 @@
 // CLI bootstrap for the Fleet Health collector. Defines the same path
 // constants includes/container.php expects, then reuses the web DI wiring.
 
+use Selective\Container\Container;
 use TasmoAdmin\Config;
 use TasmoAdmin\Health\HealthCollector;
 use TasmoAdmin\Health\HealthRepository;
@@ -23,7 +24,16 @@ define('_RESOURCESDIR_', _APPROOT_.'resources/');
 
 require_once _APPROOT_.'vendor/autoload.php';
 
-/** @var \Selective\Container\Container $container */
+if (!function_exists('__')) {
+    function __(string $string, ?string $category = null, ?array $args = null): string
+    {
+        $key = $category ? $category.'_'.$string : $string;
+
+        return $args ? vsprintf($key, $args) : $key;
+    }
+}
+
+/** @var Container $container */
 $container = require _APPROOT_.'includes/container.php';
 
 $config = $container->get(Config::class);
@@ -35,6 +45,7 @@ $repo->ensureSchema();
 
 if ('1' !== $config->read('health_enabled')) {
     fwrite(STDERR, "health_enabled is off; exiting.\n");
+
     exit(0);
 }
 
@@ -42,6 +53,7 @@ $raw = $config->readAll(); // decrypted, NOT htmlspecialchars'd — same path di
 $host = (string) ($raw['mqtt_discovery_host'] ?? '');
 if ('' === $host) {
     fwrite(STDERR, "mqtt_discovery_host not configured; exiting.\n");
+
     exit(1);
 }
 $port = (int) ($raw['mqtt_discovery_port'] ?? 1883);
@@ -59,19 +71,22 @@ $once = in_array('--once', $argv, true);
 
 while (true) {
     $client = $factory->create($host, $port);
+
     try {
         $client->connect('' !== $username ? $username : null, '' !== $password ? $password : null, max($timeout, 1));
         if ($once) {
             $collector->runOnce($client, $subscription, max($timeout, 1));
             $client->disconnect();
+
             exit(0);
         }
         $collector->run($client, $subscription, max($pollInterval, 5));
-    } catch (\Throwable $e) {
+    } catch (Throwable $e) {
         fwrite(STDERR, 'collector error: '.$e->getMessage()."\n");
+
         try {
             $client->disconnect();
-        } catch (\Throwable) {
+        } catch (Throwable) {
             // ignore
         }
         if ($once) {

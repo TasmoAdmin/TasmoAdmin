@@ -25,13 +25,10 @@ final class HealthState
         $http = true === $httpUp;
         $mqtt = true === $mqttUp;
 
-        if ($http && $mqtt) {
-            return self::ONLINE;
+        if ($http) {
+            return $mqtt ? self::ONLINE : self::DEGRADED_MQTT;
         }
-        if ($http && !$mqtt) {
-            return self::DEGRADED_MQTT;
-        }
-        if (!$http && $mqtt) {
+        if ($mqtt) {
             return self::DEGRADED_HTTP;
         }
 

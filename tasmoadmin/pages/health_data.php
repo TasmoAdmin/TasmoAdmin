@@ -1,9 +1,10 @@
 <?php
 
+use Selective\Container\Container;
 use TasmoAdmin\Health\HealthRepository;
 use TasmoAdmin\Sonoff;
 
-/** @var \Selective\Container\Container $container */
+/** @var Container $container */
 $repo = $container->get(HealthRepository::class);
 $Sonoff = $container->get(Sonoff::class);
 
@@ -21,8 +22,7 @@ foreach ($rows as $row) {
         ++$counts[$state];
     }
     $row['name'] = $names[$row['device_id']] ?? $row['device_id'];
-    $row['channel_disagreement'] = (null !== $row['http_up'] && null !== $row['mqtt_up']
-        && (int) $row['http_up'] !== (int) $row['mqtt_up']) ? 1 : 0;
+    $row['channel_disagreement'] = (int) ($row['http_up'] ?? 0) !== (int) ($row['mqtt_up'] ?? 0) ? 1 : 0;
     $devices[] = $row;
 }
 

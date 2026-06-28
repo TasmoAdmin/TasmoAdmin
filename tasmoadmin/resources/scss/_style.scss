@@ -26,6 +26,59 @@ body {
   line-height: 1.2rem;
 }
 
+// ---------------------------------------------------------------------------
+// Typography — self-hosted Space Grotesk (display) + JetBrains Mono (data).
+// Body text keeps the native system stack for legibility; the display face is
+// spent only where it sets the tone (titles, brand, device names), and the
+// mono face is reserved for telemetry so numbers stay aligned and scannable.
+// ---------------------------------------------------------------------------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.navbar-brand,
+.card-title,
+.card-header,
+.modal-title,
+.box_device_name {
+  font-family: $font-display;
+  letter-spacing: -0.01em;
+}
+
+// Telemetry / identifiers: tabular monospace so columns line up digit-for-digit.
+.device-ip-text,
+#device-list td[data-column-id="ip"],
+#device-list td[data-column-id="mac"],
+#device-list td[data-column-id="hostname"],
+#device-list td[data-column-id="mqtt"],
+#device-list td[data-column-id="version"],
+#device-list td[data-column-id="rssi"],
+#device-list td[data-column-id="runtime"],
+#device-list td[data-column-id="energyPower"],
+#device-list td[data-column-id="temp"],
+#device-list td[data-column-id="humidity"],
+#device-list td[data-column-id="illuminance"],
+#device-list td[data-column-id="vcc"],
+#device-list td[data-column-id="bootcount"],
+#device-list td[data-column-id="savecount"],
+#device-list td[data-column-id="idx"],
+#device-list td[data-column-id="id"],
+#device-list td[data-column-id="position"],
+.startpage .box_device .info-holder .info {
+  font-family: $font-mono;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.02em;
+}
+
 :root {
   --page-panel-gap: 0.8rem;
   --timepicker-accent: #2b79c2;
@@ -274,6 +327,360 @@ body {
 .device-config-time-picker-group .input-group-text {
   min-width: 2.85rem;
   justify-content: center;
+}
+
+.health-count-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 4.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  color: inherit;
+  text-decoration: none;
+}
+
+.health-count-filter:hover,
+.health-count-filter.active {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 10px 26px rgba(43, 121, 194, 0.12);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.health-count-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 2.35rem;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.health-count-number.health-dot-degraded {
+  color: #1f2937;
+}
+
+.health-count-label {
+  min-width: 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.health-page .table-responsive {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
+}
+
+.health-page .table,
+.devices-page #device-list {
+  vertical-align: middle;
+}
+
+.health-page .table th,
+.health-page .table td {
+  white-space: nowrap;
+}
+
+.health-page .health-table {
+  margin-bottom: 0;
+}
+
+.health-page .health-table thead th,
+.devices-page #device-list thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.health-row-offline td:first-child,
+.health-row-degraded_mqtt td:first-child,
+.health-row-degraded_http td:first-child {
+  box-shadow: inset 4px 0 0 rgba(220, 53, 69, 0.55);
+}
+
+.health-row-degraded_mqtt td:first-child,
+.health-row-degraded_http td:first-child {
+  box-shadow: inset 4px 0 0 rgba(255, 193, 7, 0.8);
+}
+
+.health-page .table td:first-child {
+  white-space: normal;
+  min-width: 11rem;
+}
+
+.health-page .badge {
+  min-width: 4.8rem;
+}
+
+.health-state-dot {
+  display: inline-block;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+.health-device-cell,
+.device-primary-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.health-device-cell {
+  font-weight: 600;
+}
+
+.health-status-token,
+.health-channel-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 5.25rem;
+  font-weight: 600;
+}
+
+.health-status-token::before,
+.health-channel-token::before {
+  content: "";
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.health-status-token.health-dot-online,
+.health-channel-token.channel-up {
+  color: #198754;
+}
+
+.health-status-token.health-dot-degraded {
+  color: #9a6700;
+}
+
+.health-status-token.health-dot-offline,
+.health-channel-token.channel-down {
+  color: #dc3545;
+}
+
+.health-status-token.health-dot-unknown {
+  color: #6c757d;
+}
+
+.health-channel-summary {
+  min-width: 5.8rem;
+}
+
+.signal-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.12rem;
+  height: 0.85rem;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.signal-meter span {
+  display: block;
+  width: 0.22rem;
+  border-radius: 999px;
+  background: rgba(108, 117, 125, 0.35);
+}
+
+.signal-meter span:nth-child(1) {
+  height: 0.35rem;
+}
+
+.signal-meter span:nth-child(2) {
+  height: 0.6rem;
+}
+
+.signal-meter span:nth-child(3) {
+  height: 0.85rem;
+}
+
+.signal-bars-weak span:nth-child(1) {
+  background: #dc3545;
+}
+
+.signal-bars-medium span:nth-child(-n + 2) {
+  background: #ffc107;
+}
+
+.signal-bars-strong span {
+  background: #198754;
+}
+
+.signal-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.device-primary-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.device-primary-copy a {
+  font-weight: 600;
+}
+
+.device-primary-meta,
+.box_device_meta {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.device_name .health-state-dot {
+  flex: 0 0 auto;
+}
+
+.startpage .box_device .health-state-dot {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+}
+
+.health-state-dot.health-dot-online,
+.health-count-number.health-dot-online {
+  background: #198754;
+}
+
+.health-state-dot.health-dot-degraded,
+.health-count-number.health-dot-degraded {
+  background: #ffc107;
+}
+
+.health-state-dot.health-dot-offline,
+.health-count-number.health-dot-offline {
+  background: #dc3545;
+}
+
+.health-state-dot.health-dot-unknown,
+.health-count-number.health-dot-unknown {
+  background: #6c757d;
+}
+
+.dashboard-summary-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 4.25rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  color: inherit;
+}
+
+.dashboard-summary-link {
+  text-decoration: none;
+}
+
+.dashboard-summary-link:hover {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 10px 26px rgba(43, 121, 194, 0.12);
+  color: inherit;
+  transform: translateY(-1px);
+}
+
+.dashboard-summary-label {
+  min-width: 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.dashboard-summary-card strong {
+  font-size: 1.45rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.dashboard-summary-card strong.health-dot-online {
+  color: #198754;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-degraded {
+  color: #9a6700;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-offline {
+  color: #dc3545;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-unknown {
+  color: #6c757d;
+  background: transparent;
+}
+
+.start-dashboard-page .startpage {
+  align-items: stretch;
+}
+
+.start-dashboard-page .card-holder {
+  display: flex;
+}
+
+.dashboard-device-tile {
+  width: 100%;
+  min-height: 9.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+}
+
+.dashboard-device-tile:hover {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.dashboard-device-offline {
+  border-color: rgba(220, 53, 69, 0.35);
+  box-shadow: inset 4px 0 0 rgba(220, 53, 69, 0.75), 0 10px 24px rgba(15, 23, 42, 0.07);
+}
+
+.dashboard-device-degraded_mqtt,
+.dashboard-device-degraded_http {
+  border-color: rgba(255, 193, 7, 0.5);
+  box-shadow: inset 4px 0 0 rgba(255, 193, 7, 0.9), 0 10px 24px rgba(15, 23, 42, 0.07);
+}
+
+.dashboard-action-tile {
+  border-style: dashed;
+}
+
+.startpage .box_device_body {
+  padding-inline: 0.45rem;
+}
+
+.startpage .box_device_name {
+  margin-bottom: 0.15rem;
 }
 
 .device-config-time-picker-group .flatpickr-wrapper {
@@ -1086,6 +1493,12 @@ body {
   .devices-page #device-list.tablesaw-stack .tablesaw-cell-label {
     margin-bottom: 0;
     font-weight: 600;
+    // Keep the injected column labels in the UI/display voice (matching the
+    // desktop thead) — only the values stay in tabular mono.
+    font-family: $font-display;
+    font-variant-numeric: normal;
+    font-feature-settings: normal;
+    letter-spacing: 0;
   }
 
   .devices-page #device-list.tablesaw-stack td.device_name {
@@ -1731,16 +2144,22 @@ nav img {
   // Add bottom border only to thead
   thead th {
     border-bottom: 2px solid var(--bs-border-color);
-    background-color: #{$grey}; // Use darker gray for better visibility
+    background-color: #475569; // slate-600 — stronger dashboard header, AA contrast on white
     color: #{$white}; // White text for contrast
     vertical-align: middle;
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   // Add top border only to tfoot
   tfoot th {
     border-top: 2px solid var(--bs-border-color);
-    background-color: #{$grey};
+    background-color: #475569;
     color: #{$white};
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   // Make table body text lighter with more specific selector
@@ -2006,10 +2425,11 @@ td {
   }
 
   td.actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.4rem;
+    // Keep this a real table-cell (not display:flex) so it stretches to the
+    // full row height; otherwise the zebra stripe only fills one line and the
+    // right edge of wrapped rows shows the wrong colour.
+    text-align: right;
+    vertical-align: middle;
     white-space: nowrap;
   }
 
@@ -2017,8 +2437,13 @@ td {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
     min-width: 2rem;
     min-height: 2rem;
+  }
+
+  td.actions a + a {
+    margin-left: 0.4rem;
   }
 
   td.actions a i {
@@ -2157,7 +2582,7 @@ hr {
 
 .nightmode {
   --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
-  --nightmode-card-bg: #374151;
+  --nightmode-card-bg: #334155;
   --nightmode-card-border-color: rgba(255, 255, 255, 0.12);
   --nightmode-card-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
   --nightmode-field-bg: rgba(17, 24, 39, 0.56);
@@ -2166,7 +2591,7 @@ hr {
   --nightmode-field-disabled-color: rgba(255, 255, 255, 0.82);
   --timepicker-accent: #4a9ae6;
   --timepicker-accent-strong: #7cb7ee;
-  --timepicker-surface: #374151;
+  --timepicker-surface: #334155;
   --timepicker-surface-alt: rgba(17, 24, 39, 0.88);
   --timepicker-border: rgba(255, 255, 255, 0.12);
   --timepicker-text: rgba(255, 255, 255, 0.9);
@@ -2224,8 +2649,51 @@ hr {
 
   .site-config-page .settings-section {
     box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
-    background: #374151 !important;
+    background: #334155 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .health-state-dot {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.8);
+  }
+
+  .health-count-filter,
+  .health-page .table-responsive,
+  .dashboard-summary-card,
+  .dashboard-device-tile {
+    background: #334155;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+    color: $whiteNightMode;
+  }
+
+  .health-count-filter:hover,
+  .health-count-filter.active,
+  .dashboard-summary-link:hover,
+  .dashboard-device-tile:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
+    color: $whiteNightMode;
+  }
+
+  .dashboard-summary-label,
+  .device-primary-meta,
+  .box_device_meta {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .health-status-token.health-dot-degraded {
+    color: #facc15;
+  }
+
+  .health-channel-token.channel-up {
+    color: #4ade80;
+  }
+
+  .health-channel-token.channel-down,
+  .health-status-token.health-dot-offline {
+    color: #f87171;
   }
 
   .site-config-page .settings-option {
@@ -2378,9 +2846,9 @@ hr {
   }
 
   .devices-autoscan-page .nav-tabs .nav-link.active {
-    background: #374151;
+    background: #334155;
     color: $whiteNightMode;
-    border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #374151;
+    border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #334155;
   }
 
   .devices-autoscan-page .autoscan-form-card .card-body,

@@ -18,6 +18,7 @@ import batchActions from "./device_batch_actions";
 import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
 import toggleConfirmation from "./toggle_confirmation";
+import initAddDeviceModal from "./add_device_modal";
 
 const {
   extractFirstNumericValue,
@@ -65,6 +66,7 @@ onI18nReady(function () {
   initCellDataSorting("sleep", ".sleep span", "data-sort-number", true);
   initCellDataSorting("vcc", ".vcc span", "data-sort-number", true);
   deviceTools();
+  initAddDeviceModal();
   initDeviceListPreferences();
 
   if ($(".device-search").length > 0) {

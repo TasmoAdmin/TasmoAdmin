@@ -17,7 +17,7 @@ final class HealthCollectorTest extends TestCase
     protected function setUp(): void
     {
         $this->dir = sys_get_temp_dir().'/ta-coll-'.bin2hex(random_bytes(4));
-        mkdir($this->dir, 0777, true);
+        mkdir($this->dir, 0o777, true);
         $this->repo = new HealthRepository($this->dir.'/health.db');
         $this->repo->ensureSchema();
     }
@@ -26,11 +26,6 @@ final class HealthCollectorTest extends TestCase
     {
         array_map('unlink', glob($this->dir.'/*') ?: []);
         @rmdir($this->dir);
-    }
-
-    private function device(int $id, string $mqttTopic = 'kitchen'): Device
-    {
-        return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);
     }
 
     public function testHttpPollRecordsReachableDevice(): void
@@ -90,11 +85,26 @@ final class HealthCollectorTest extends TestCase
         self::assertSame(HealthState::DEGRADED_HTTP, $row['state']);
     }
 
-    public function testNonLwtMessageIsIgnored(): void
+    public function testMqttStateMessageMarksMqttUpAndStoresWifiMetrics(): void
     {
         $sonoff = $this->createMock(Sonoff::class);
         $collector = new HealthCollector($this->repo, $sonoff, 180);
-        $collector->handleMqttMessage('tele/kitchen/STATE', '{"Wifi":{}}', [$this->device(1)], 1000);
+        $collector->handleMqttMessage('tele/kitchen/STATE', '{"Wifi":{"RSSI":83,"Signal":-49}}', [$this->device(1)], 1000);
+
+        $row = $this->repo->get('1');
+
+        self::assertSame(1, (int) $row['mqtt_up']);
+        self::assertSame(1000, (int) $row['last_mqtt_ok']);
+        self::assertSame(83, (int) $row['rssi']);
+        self::assertSame(-49, (int) $row['signal']);
+        self::assertSame(HealthState::DEGRADED_HTTP, $row['state']);
+    }
+
+    public function testUnrelatedMqttMessageIsIgnored(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+        $collector->handleMqttMessage('tele/kitchen/SENSOR', '{}', [$this->device(1)], 1000);
 
         self::assertNull($this->repo->get('1'));
     }
@@ -143,5 +153,10 @@ final class HealthCollectorTest extends TestCase
 
         // updated_at must be set on every upsert.
         self::assertSame(500, (int) $row['updated_at'], 'updated_at must be set to $now on upsert');
+    }
+
+    private function device(int $id, string $mqttTopic = 'kitchen'): Device
+    {
+        return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);
     }
 }

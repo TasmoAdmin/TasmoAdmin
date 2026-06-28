@@ -180,7 +180,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                             </button>
                         </div>
                         <div class="col col-12 col-lg-auto ms-lg-auto devices-batch-add-col">
-                            <a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
+                            <a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary js-add-device">
                                 <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
                             </a>
                         </div>
@@ -204,7 +204,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 					</a>
 				</div>
 					<div class='col col-12 col-sm-4 col-lg-3'>
-					<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
+					<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary js-add-device">
 						<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
 					</a>
 					</div>
@@ -217,5 +217,6 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 	</div>
 </div>
 <?php include 'elements/modal_delete_device.php'; ?>
+<?php include 'elements/modal_add_device.php'; ?>
 
 <script src="<?php echo $urlHelper->js('compiled/devices'); ?>"></script>

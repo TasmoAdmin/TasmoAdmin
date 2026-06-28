@@ -8,16 +8,18 @@ use TasmoAdmin\Health\TopicMatcher;
 
 final class TopicMatcherTest extends TestCase
 {
-    private function device(int $id, string $mqttTopic): Device
-    {
-        return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);
-    }
-
     public function testIsLwtTopic(): void
     {
         self::assertTrue(TopicMatcher::isLwtTopic('tele/kitchen/LWT'));
         self::assertTrue(TopicMatcher::isLwtTopic('groundfloor/kitchen/lwt'));
         self::assertFalse(TopicMatcher::isLwtTopic('tele/kitchen/STATE'));
+    }
+
+    public function testIsStateTopic(): void
+    {
+        self::assertTrue(TopicMatcher::isStateTopic('tele/kitchen/STATE'));
+        self::assertTrue(TopicMatcher::isStateTopic('groundfloor/kitchen/state'));
+        self::assertFalse(TopicMatcher::isStateTopic('tele/kitchen/LWT'));
     }
 
     public function testLwtOnline(): void
@@ -55,5 +57,10 @@ final class TopicMatcherTest extends TestCase
         // 'kitchen' must not match 'kitchenette'
         $devices = [$this->device(1, 'kitchen')];
         self::assertNull(TopicMatcher::matchDevice('tele/kitchenette/LWT', $devices));
+    }
+
+    private function device(int $id, string $mqttTopic): Device
+    {
+        return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);
     }
 }

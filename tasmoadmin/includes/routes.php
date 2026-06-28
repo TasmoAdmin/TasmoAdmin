@@ -24,6 +24,10 @@ $routes->add('device_action', new Route('/device_action/{action}/{device_id}', [
     'device_id' => '-1',
     '_controller' => 'render_template',
 ]));
+$routes->add('device_action_modal', new Route('/device_action_modal/{action}/{device_id}', [
+    'device_id' => '-1',
+    '_controller' => 'render_raw',
+]));
 $routes->add('device_config', new Route('/device_config/{device_id}', [
     '_controller' => 'render_template',
 ]));
