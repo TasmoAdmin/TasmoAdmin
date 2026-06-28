@@ -60,7 +60,7 @@ $container->set(BackupHelper::class, new BackupHelper(
 $container->set(ViewHelper::class, new ViewHelper($container->get(Config::class)));
 $container->set(RedirectHelper::class, new RedirectHelper(_BASEURL_));
 $container->set(HealthRepository::class, new HealthRepository(
-    (getenv('TASMO_HEALTHDIR') ?: _APPROOT_.'health/').'health.db'
+    rtrim(getenv('TASMO_HEALTHDIR') ?: _APPROOT_.'health/', '/').'/health.db'
 ));
 
 return $container;
