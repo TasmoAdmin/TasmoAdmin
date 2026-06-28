@@ -675,6 +675,27 @@ h6,
   border-style: dashed;
 }
 
+.all-off-lock-indicator {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #dc3545;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(220, 53, 69, 0.22);
+}
+
+.all-off-unlocked .all-off-lock-indicator {
+  background: #198754;
+  box-shadow: 0 8px 18px rgba(25, 135, 84, 0.22);
+}
+
 .startpage .box_device_body {
   padding-inline: 0.45rem;
 }

@@ -96,8 +96,14 @@ usort(
 
     <div class='row justify-content-center startpage'>
 			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
-        <div class='box_device position-relative dashboard-device-tile dashboard-action-tile' id='all_off' style=''>
-					<div class=" rubberBand">
+        <div class='box_device position-relative dashboard-device-tile dashboard-action-tile' id='all_off' style='' aria-pressed="false">
+            <span class="all-off-lock-indicator"
+                  data-bs-toggle="tooltip"
+                  data-bs-title="<?php echo __('ALL_OFF_LOCKED', 'STARTPAGE'); ?>"
+                  aria-label="<?php echo __('ALL_OFF_LOCKED', 'STARTPAGE'); ?>">
+                <i class="fas fa-lock" aria-hidden="true"></i>
+            </span>
+            <div class=" rubberBand">
 						<?php // col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
 	                    if (!empty($device_group)) {
 	                        $type = $device_group->img;
