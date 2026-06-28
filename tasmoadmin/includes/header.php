@@ -113,6 +113,14 @@ $themeToggleMarkup = ob_get_clean();
 								); ?></a>
 							</li>
 						<?php } ?>
+						<?php if ($loggedin) { ?>
+							<li class="nav-item <?php echo 'health' == $page ? 'active' : ''; ?>">
+								<a class="nav-link" href="<?php echo _BASEURL_; ?>health"><?php echo __(
+								    'HEALTH',
+								    'NAVI'
+								); ?></a>
+							</li>
+						<?php } ?>
 
 						<?php if ($loggedin) { ?>
 							<li class="nav-item dropdown">

@@ -63,5 +63,11 @@ $routes->add('site_config', new Route('/site_config', [
 $routes->add('actions', new Route('actions', [
     '_controller' => 'render_raw',
 ]));
+$routes->add('health', new Route('/health', [
+    '_controller' => 'render_template',
+]));
+$routes->add('health_data', new Route('/health_data', [
+    '_controller' => 'render_raw',
+]));
 
 return $routes;
