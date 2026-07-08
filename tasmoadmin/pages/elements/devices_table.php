@@ -88,10 +88,10 @@ if (isset($devices) && !empty($devices)) {
                     data-device_id='<?php echo $device_group->id; ?>'
                     data-device_group='<?php echo count($device_group->names) > 1
                     ? 'multi' : 'single'; ?>'
-                    data-device_ip='<?php echo $device_group->ip; ?>'
+                    data-device_ip='<?php echo htmlspecialchars($device_group->ip, ENT_QUOTES, 'UTF-8'); ?>'
                     data-device_relais='<?php echo $key + 1; ?>'
                     data-device_confirm_toggle='<?php echo $device_group->deviceConfirmToggle ? '1' : '0'; ?>'
-                    data-keywords="<?php echo implode(' ', $device_group->keywords); ?>"
+                    data-keywords="<?php echo htmlspecialchars(implode(' ', $device_group->keywords), ENT_QUOTES, 'UTF-8'); ?>"
                 >
                     <?php if (isset($deviceLinks) && true === $deviceLinks) { ?>
                     <td class='cmd_cb <?php echo $deviceLinksHideClass; ?>'>
@@ -133,7 +133,7 @@ if (isset($devices) && !empty($devices)) {
                     </td>
                     <td data-column-id='ip'>
                         <span class="tablesaw-sort-value"><?php echo sprintf('%u', ip2long($device_group->ip)); ?></span>
-                        <span class="device-ip-text"><?php echo $device_group->ip; ?></span>
+                        <span class="device-ip-text"><?php echo htmlspecialchars($device_group->ip, ENT_QUOTES, 'UTF-8'); ?></span>
                     </td>
                     <td class='status' data-column-id='status'>
                         <label class="form-switch">
