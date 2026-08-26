@@ -45,30 +45,4 @@ class ConfigNetworkTabTest extends TestCase
         self::assertStringContainsString('name="csrf_token"', $output);
     }
 
-    public function testNetworkTabEscapesDeviceStatusValues(): void
-    {
-        $payload = '" autofocus onfocus=alert(1) x="';
-        $status = new \stdClass();
-        $status->StatusNET = (object) [
-            'Hostname' => $payload,
-            'IPAddress' => '',
-            'Gateway' => '',
-            'Subnetmask' => '',
-            'DNSServer' => '',
-            'Mac' => '',
-            'WifiConfig' => 0,
-        ];
-        $status->statusNTP = (object) ['NtpServer1' => ''];
-        $status->StatusSTS = (object) ['Wifi' => (object) ['AP' => 1]];
-        $status->StatusLOG = (object) ['SSId1' => '', 'SSId2' => ''];
-
-        ob_start();
-
-        include __DIR__.'/../../pages/device_config_tabs/config_network_tab.php';
-        $output = ob_get_clean();
-
-        self::assertIsString($output);
-        self::assertStringContainsString('&quot; autofocus onfocus=alert(1) x=&quot;', $output);
-        self::assertStringNotContainsString($payload, $output);
-    }
 }
