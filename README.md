@@ -64,7 +64,7 @@ by DrZzs
 
 TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin).
 
-This is a Linux Alpine based image with Nginx and PHP 8.2 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
+This is a Linux Alpine based image with Nginx and PHP 8.5 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
 
 This is the recommended way to get up and running.
 
@@ -82,8 +82,10 @@ Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki fo
 
 Some environment variables are configured to allow easier customisation of the application
 
-- `TASMO_DATADIR` - Path where to store data. If not provided defaults to `./tasmoadmin/data`
+- `TASMO_DATADIR` - Data directory, including a trailing slash. Defaults to `./tasmoadmin/data/`
 - `TASMO_BASEURL` - Customise the base URL for the application
+- `TASMO_TMPDIR` - Directory for sessions and temporary cache files, including a trailing slash. Defaults to `./tasmoadmin/tmp/`
+- `TASMO_DEBUG` - Set to `true` to display PHP errors. Disabled by default.
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
 - `TASMO_DEVICE_PASSWORD_KEY` - Base64-encoded 32-byte secret for device password encryption at rest
 - `TASMO_ALLOW_CROSS_SITE_IFRAME` - Set to `true` to embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr; HTTP requests remain restricted
