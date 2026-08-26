@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\Helper\HtmlAttributeHelper;
+
 $deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
 
 if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
@@ -85,7 +87,7 @@ if (isset($devices) && !empty($devices)) {
             $device_group->keywords[] = strtolower($devicename);
             ?>
                 <tr class='<?php echo $odd ? 'odd' : 'even'; ?>'
-                    data-device_id='<?php echo $device_group->id; ?>'
+                    data-device_id='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
                     data-device_group='<?php echo count($device_group->names) > 1
                     ? 'multi' : 'single'; ?>'
                     data-device_ip='<?php echo htmlspecialchars($device_group->ip, ENT_QUOTES, 'UTF-8'); ?>'
@@ -102,12 +104,12 @@ if (isset($devices) && !empty($devices)) {
                                        <?php if (isset($disabledDeviceIds) && array_key_exists($device_group->id, $disabledDeviceIds)) { ?>
                                            disabled="disabled"
                                        <?php } ?>
-                                       value='<?php echo $device_group->id; ?>'
-                                       id="cb_<?php echo $device_group->id; ?>"
+                                       value='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
+                                       id="cb_<?php echo HtmlAttributeHelper::escape($device_group->id); ?>"
                                        name='device_ids[]'
                                 >
                                 <label class="form-check-label"
-                                       for="cb_<?php echo $device_group->id; ?>"
+                                       for="cb_<?php echo HtmlAttributeHelper::escape($device_group->id); ?>"
                                 >
                                 </label>
                             </div>
@@ -116,10 +118,10 @@ if (isset($devices) && !empty($devices)) {
                         <?php } ?>
                     </td>
                     <?php } ?>
-                    <td data-column-id='id'><?php echo $device_group->id; ?></td>
-                    <td data-column-id='position'><?php echo $device_group->position; ?></td>
+                    <td data-column-id='id'><?php echo HtmlAttributeHelper::escape($device_group->id); ?></td>
+                    <td data-column-id='position'><?php echo HtmlAttributeHelper::escape($device_group->position); ?></td>
                     <td class='device_name' data-column-id='name'>
-                        <a href='<?php echo $device_group->getUrlWithAuth(); ?>'
+                        <a href='<?php echo HtmlAttributeHelper::escape($device_group->getUrlWithAuth()); ?>'
                            target='_blank'
                           data-bs-toggle="tooltip" data-bs-title='<?php echo __(
                               'LINK_OPEN_DEVICE_WEBUI',
@@ -128,7 +130,7 @@ if (isset($devices) && !empty($devices)) {
                         ><?php echo str_replace(
                             ' ',
                             '&nbsp;',
-                            $devicename
+                            HtmlAttributeHelper::escape($devicename)
                         ); ?></a>
                     </td>
                     <td data-column-id='ip'>
@@ -247,14 +249,14 @@ if (isset($devices) && !empty($devices)) {
 
 
                     <td class='col actions text-sm-right' data-column-id='actions'>
-                        <a href='<?php echo _BASEURL_; ?>device_config/<?php echo $device_group->id; ?>'>
+                        <a href='<?php echo _BASEURL_; ?>device_config/<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'>
                             <i class="fas fa-cogs fa-lg"
                                data-bs-toggle="tooltip" data-bs-title='<?php echo __(
                                    'LINK_DEVICE_CONFIG',
                                    'DEVICES'
                                ); ?>'
                             ></i></a>
-                        <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo $device_group->id; ?>'>
+                        <a href='<?php echo _BASEURL_; ?>device_action/edit/<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'>
                             <i class="fas fa-edit fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
                                   'LINK_DEVICE_EDIT',
@@ -276,15 +278,15 @@ if (isset($devices) && !empty($devices)) {
                                'DELETE_DEVICE_CONFIRM_TITLE',
                                'DEVICES'
                            ); ?>'
-                           data-dialog-text='<?php echo __(
+                           data-dialog-text='<?php echo HtmlAttributeHelper::escape(__(
                                'DELETE_DEVICE_CONFIRM_TEXT',
                                'DEVICES',
                                [
                                    $devicename,
                                    $device_group->ip,
                                ]
-                           ); ?>'
-                           data-dialog-device-id='<?php echo $device_group->id; ?>'
+                           )); ?>'
+                           data-dialog-device-id='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
                            href='#deleteDeviceModal'
                         >
                             <i class="fas fa-trash fa-lg"
@@ -298,18 +300,18 @@ if (isset($devices) && !empty($devices)) {
                            data-bs-toggle="modal"
                            data-bs-target="#deleteDeviceModal"
                            data-dialog-action="restart"
-                           data-dialog-device-id='<?php echo $device_group->id; ?>'
+                           data-dialog-device-id='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
                            data-dialog-btn-cancel-text='<?php echo __('CANCEL'); ?>'
                            data-dialog-btn-ok-text='<?php echo __('LINK_DEVICE_RESTART', 'DEVICES'); ?>'
                            data-dialog-title='<?php echo __('DELETE_DEVICE_CONFIRM_TITLE', 'DEVICES'); ?>'
-                           data-dialog-text='<?php echo __(
+                           data-dialog-text='<?php echo HtmlAttributeHelper::escape(__(
                                'RESTART_DEVICE_CONFIRM_TEXT',
                                'DEVICES',
                                [
                                    $devicename,
                                    $device_group->ip,
                                ]
-                           ); ?>'
+                           )); ?>'
                         >
                             <i class="fas fa-sync fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(

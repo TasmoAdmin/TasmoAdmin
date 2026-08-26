@@ -78,7 +78,7 @@ export function refreshTooltip(element, options = {}) {
 
   disposeTooltip(element);
   return window.bootstrap.Tooltip.getOrCreateInstance(element, {
-    html: true,
+    html: false,
     delay: 300,
     ...options,
   });

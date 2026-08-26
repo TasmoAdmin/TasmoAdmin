@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Sonoff;
 
 $msg = false;
@@ -87,7 +88,7 @@ if (empty($status->ERROR)) {
 		<div class='row'>
 			<div class='col col-12'>
 				<h2 class='text-sm-center'>
-					<?php echo __('CONFIG_HL', 'DEVICE_CONFIG'); ?>: <?php echo implode(' | ', $device->names); ?>
+					<?php echo __('CONFIG_HL', 'DEVICE_CONFIG'); ?>: <?php echo implode(' | ', array_map(HtmlAttributeHelper::escape(...), $device->names)); ?>
 
 				</h2>
 			</div>
@@ -96,7 +97,7 @@ if (empty($status->ERROR)) {
 			<div class='col col-12 mb-5'>
 				<div class='text-center'>
 					ID: <?php echo $device->id; ?>
-					<a href='http://<?php echo $device->ip; ?>' target='_blank'><?php echo $device->ip; ?>  </a>
+					<a href='http://<?php echo HtmlAttributeHelper::escape($device->ip); ?>' target='_blank'><?php echo HtmlAttributeHelper::escape($device->ip); ?>  </a>
 				</div>
 			</div>
 		</div>
@@ -112,7 +113,7 @@ if (empty($status->ERROR)) {
 				<?php if (isset($status->ERROR) && !empty($status->ERROR)) { ?>
 				<div class="alert alert-danger alert-dismissible fade show mb-5" role="alert">
 					<?php echo __('ERROR_COULD_NOT_GET_DATA', 'DEVICE_CONFIG'); ?><br/>
-					<?php echo $status->ERROR; ?><br/><br/>
+					<?php echo HtmlAttributeHelper::escape($status->ERROR); ?><br/><br/>
 					<a href='#' class='reload'><?php echo __('PAGE_RELOAD'); ?></a>
 					<a type="button" class="reload close" aria-label="Close">
 						<span aria-hidden="true">&times;</span>

@@ -41,6 +41,22 @@ class ConfigMqttTabTest extends TestCase
         );
     }
 
+    public function testMqttTabEscapesDeviceStatusValues(): void
+    {
+        $payload = '" autofocus onfocus=alert(1) x="';
+        $status = $this->getStatusWithDiscoveryOption(0);
+        $status->StatusMQT->MqttHost = $payload;
+
+        ob_start();
+
+        include __DIR__.'/../../pages/device_config_tabs/config_mqtt_tab.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertStringContainsString('&quot; autofocus onfocus=alert(1) x=&quot;', $output);
+        self::assertStringNotContainsString($payload, $output);
+    }
+
     private function getStatusWithDiscoveryOption(int $value): \stdClass
     {
         $status = json_decode(TestUtils::loadFixture('response-valid.json'));

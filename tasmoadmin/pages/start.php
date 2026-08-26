@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
@@ -47,8 +48,8 @@ $devices = array_values(array_filter(
 
 	    ?>
 						<img class='box_device_image'
-							 src='<?php echo $img; ?>'
-							 data-icon='<?php echo $type; ?>'
+							 src='<?php echo HtmlAttributeHelper::escape($img); ?>'
+							 data-icon='<?php echo HtmlAttributeHelper::escape($type); ?>'
 							 alt=''
 						>
 					</div>
@@ -67,26 +68,26 @@ $devices = array_values(array_filter(
 				    ?>
 					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
 						<div class='box_device position-relative' style=''
-							 data-device_id='<?php echo $device_group->id; ?>'
+							 data-device_id='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
 							 data-device_group='<?php echo count($device_group->names) > 1 ? 'multi' : 'single'; ?>'
-							 data-device_ip='<?php echo $device_group->ip; ?>'
+							 data-device_ip='<?php echo HtmlAttributeHelper::escape($device_group->ip); ?>'
 							 data-device_relais='<?php echo $key + 1; ?>'
 							 data-device_state='none'
-							 data-device_all_off='<?php echo $device_group->deviceAllOff; ?>'
-							 data-device_protect_on='<?php echo $device_group->deviceProtectionOn; ?>'
-							 data-device_protect_off='<?php echo $device_group->deviceProtectionOff; ?>'
+							 data-device_all_off='<?php echo HtmlAttributeHelper::escape($device_group->deviceAllOff); ?>'
+							 data-device_protect_on='<?php echo HtmlAttributeHelper::escape($device_group->deviceProtectionOn); ?>'
+							 data-device_protect_off='<?php echo HtmlAttributeHelper::escape($device_group->deviceProtectionOff); ?>'
 							 data-device_confirm_toggle='<?php echo $device_group->deviceConfirmToggle ? '1' : '0'; ?>'
 						>
 							<div class="animated rubberBand">
 								<img class='box_device_image'
-									 data-icon='<?php echo $device_group->img; ?>'
-									 src='<?php echo $img; ?>'
+									 data-icon='<?php echo HtmlAttributeHelper::escape($device_group->img); ?>'
+									 src='<?php echo HtmlAttributeHelper::escape($img); ?>'
 									 alt=''
 								>
 							</div>
 							<div class='box_device_body'>
 								<h5 class="box_device_name">
-									<?php echo $devicename; ?>
+									<?php echo HtmlAttributeHelper::escape($devicename); ?>
 								</h5>
 								<div class='info-holder'>
 									<div class='info info-1 hidden'>

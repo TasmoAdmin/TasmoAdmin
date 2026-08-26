@@ -3,6 +3,7 @@
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Sonoff;
 
@@ -180,7 +181,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 		<?php if (hasStatusError($status)) { ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<p><?php echo __('MSG_DEVICE_NOT_FOUND', 'DEVICE_ACTIONS'); ?></p>
-				<p><?php echo $status->ERROR; ?></p>
+				<p><?php echo HtmlAttributeHelper::escape($status->ERROR); ?></p>
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		<?php } elseif (null !== $msg && '' !== $msg && 'done' !== $action) { ?>
@@ -191,7 +192,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 		<?php } elseif (hasReachableStatus($status) && isset($status->WARNING) && '' !== $status->WARNING) { ?>
 			<div class="alert alert-warning alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<p><?php echo __('MSG_DEVICE_FOUND', 'DEVICE_ACTIONS'); ?></p>
-				<p><?php echo $status->WARNING; ?></p>
+				<p><?php echo HtmlAttributeHelper::escape($status->WARNING); ?></p>
 				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 			</div>
 		<?php } elseif (hasReachableStatus($status)) { ?>
@@ -216,7 +217,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 			<?php if (isset($device->id)) { ?>
 				<h3 class='text-sm-center mb-5'>
 					<?php echo __('DEVICE', 'DEVICE_CONFIG'); ?>:
-					<?php echo implode(' | ', $device->names); ?>
+					<?php echo implode(' | ', array_map(HtmlAttributeHelper::escape(...), $device->names)); ?>
 					<small>( ID: <?php echo $device->id; ?> )</small>
 				</h3>
 			<?php } ?>
@@ -240,7 +241,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 							   id="device_ip"
 							   name='device_ip'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                               value='<?php echo isset($device->id) && !isset($deviceRequest['device_ip']) ? $device->ip : ($deviceRequest['device_ip'] ?? ''); ?>'
+							   value='<?php echo HtmlAttributeHelper::escape(isset($device->id) && !isset($deviceRequest['device_ip']) ? $device->ip : ($deviceRequest['device_ip'] ?? '')); ?>'
                                required
 						>
 						<small id="device_ipHelp" class="text-muted">
@@ -256,7 +257,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
                                id="device_port"
                                name='device_port'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                               value='<?php echo isset($device->port) && !isset($deviceRequest['device_port']) ? $device->port : ($deviceRequest['device_port'] ?? Device::DEFAULT_PORT); ?>'
+						       value='<?php echo HtmlAttributeHelper::escape(isset($device->port) && !isset($deviceRequest['device_port']) ? $device->port : ($deviceRequest['device_port'] ?? Device::DEFAULT_PORT)); ?>'
                                required
                         >
                         <small id="device_portHelp" class="text-muted">
@@ -287,7 +288,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 						   class="form-control"
 						   id="device_username"
 						   name='device_username'
-						   value='<?php echo isset($device->id) && !isset($deviceRequest['device_username']) ? $device->username : ($deviceRequest['device_username'] ?? 'admin'); ?>'
+						   value='<?php echo HtmlAttributeHelper::escape(isset($device->id) && !isset($deviceRequest['device_username']) ? $device->username : ($deviceRequest['device_username'] ?? 'admin')); ?>'
 					>
 					<small id="device_usernameHelp" class="text-muted">
 						<?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
@@ -303,7 +304,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 						   class="form-control"
 						   id="device_password"
 						   name='device_password'
-						   value='<?php echo isset($device->id) && !isset($deviceRequest['device_password']) ? $device->password : ($deviceRequest['device_password'] ?? ''); ?>'
+						   value='<?php echo HtmlAttributeHelper::escape(isset($device->id) && !isset($deviceRequest['device_password']) ? $device->password : ($deviceRequest['device_password'] ?? '')); ?>'
 					>
 					<small id="device_passwordHelp" class="text-muted">
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
@@ -335,7 +336,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 							   class="form-control"
 							   id="device_position"
 							   name='device_position'
-						   value='<?php echo isset($device->position) && !isset($deviceRequest['device_position']) ? $device->position : ($deviceRequest['device_position'] ?? ''); ?>'
+						   value='<?php echo HtmlAttributeHelper::escape(isset($device->position) && !isset($deviceRequest['device_position']) ? $device->position : ($deviceRequest['device_position'] ?? '')); ?>'
 						>
 						<small id="device_positionHelp" class="form-text text-muted">
 							<?php echo __('DEVICE_POSITION_HELP', 'DEVICE_ACTIONS'); ?>

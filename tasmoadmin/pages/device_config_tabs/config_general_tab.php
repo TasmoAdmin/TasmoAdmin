@@ -1,8 +1,9 @@
 <form class='center config-form' name='device_config_general' method='post'>
 	<?php
-use TasmoAdmin\Helper\RequestHelper;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
+	use TasmoAdmin\Helper\RequestHelper;
 
-echo RequestHelper::csrfTokenField(); ?>
+	echo RequestHelper::csrfTokenField(); ?>
 	<input type='hidden' name='tab-index' value='0'>
 	<div class="row g-3 device-config-card-grid">
 		<div class="col col-12">
@@ -22,7 +23,7 @@ echo RequestHelper::csrfTokenField(); ?>
 										       id="FriendlyName<?php echo $key + 1; ?>"
 										       name='FriendlyName<?php echo $key + 1; ?>'
 										       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-										       value='<?php echo $friendlyName; ?>'>
+									       value='<?php echo HtmlAttributeHelper::escape($friendlyName); ?>'>
 										<small id="FriendlyName<?php echo $key + 1; ?>Help" class="form-text text-muted">
 											<?php echo __('CONFIG_FRIENDLYNAME_HELP', 'DEVICE_CONFIG'); ?>
 										</small>
@@ -32,8 +33,8 @@ echo RequestHelper::csrfTokenField(); ?>
 						</div>
 					<?php } else { // only one friendlyname was editable v < 5.12.0h?>
 						<?php
-	                            $friendlyName = is_array($status->Status->FriendlyName)
-	                                ? $status->Status->FriendlyName[0] : $status->Status->FriendlyName;
+	                                $friendlyName = is_array($status->Status->FriendlyName)
+	                                    ? $status->Status->FriendlyName[0] : $status->Status->FriendlyName;
 					    ?>
 						<div class="form-group">
 							<label for="FriendlyName" class="form-label">
@@ -44,7 +45,7 @@ echo RequestHelper::csrfTokenField(); ?>
 							       id="FriendlyName"
 							       name='FriendlyName'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-							       value='<?php echo $friendlyName; ?>'>
+						       value='<?php echo HtmlAttributeHelper::escape($friendlyName); ?>'>
 							<small id="FriendlyNameHelp" class="form-text text-muted">
 								<?php echo __('CONFIG_FRIENDLYNAME_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -134,8 +135,8 @@ echo RequestHelper::csrfTokenField(); ?>
 							       name='Sleep'
 							       step='1' max='250' min='0' pattern="\d{1,3}"
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-							       value='<?php echo isset($status->StatusPRM->Sleep)
-					             && !empty($status->StatusPRM->Sleep) ? $status->StatusPRM->Sleep : ''; ?>'>
+						       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusPRM->Sleep)
+					         && !empty($status->StatusPRM->Sleep) ? $status->StatusPRM->Sleep : ''); ?>'>
 							<small id="SleepHelp" class="form-text text-muted">
 								<?php echo __('CONFIG_SLEEP_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
