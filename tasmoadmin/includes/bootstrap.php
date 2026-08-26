@@ -3,7 +3,8 @@
 use TasmoAdmin\Helper\RequestHelper;
 
 error_reporting(E_ALL);
-ini_set('display_errors', 1);
+$debug = filter_var($_SERVER['TASMO_DEBUG'] ?? getenv('TASMO_DEBUG'), FILTER_VALIDATE_BOOLEAN);
+ini_set('display_errors', $debug ? '1' : '0');
 
 if (!function_exists('curl_init')) {
     echo 'ERROR: PHP cURL is missing.';
@@ -45,10 +46,12 @@ require_once _APPROOT_.'vendor/autoload.php';
 
 session_save_path(_TMPDIR_.'sessions');
 session_name('TASMO_SESSION');
+ini_set('session.use_strict_mode', '1');
+$isHttpsRequest = RequestHelper::isHttpsRequest($_SERVER);
 session_set_cookie_params(RequestHelper::sameSiteCookieParams(
     session_get_cookie_params(),
-    filter_var(getenv('TASMO_ALLOW_CROSS_SITE_IFRAME'), FILTER_VALIDATE_BOOLEAN)
-        && RequestHelper::isHttpsRequest($_SERVER)
+    filter_var(getenv('TASMO_ALLOW_CROSS_SITE_IFRAME'), FILTER_VALIDATE_BOOLEAN) && $isHttpsRequest,
+    $isHttpsRequest
 ));
 session_start();
 
@@ -66,7 +69,6 @@ use Whoops\Run;
 /** @var Container $container */
 $container = require _APPROOT_.'includes/container.php';
 
-$debug = isset($_SERVER['TASMO_DEBUG']);
 if ($debug) {
     $whoops = new Run();
     $whoops->pushHandler(new PrettyPageHandler());

@@ -21,6 +21,7 @@ if (!empty($_POST)) {
     $home = $Config->read('homepage');
     if (isset($_REQUEST['register']) && ('' === $user || '' === $password)) {
         $loginHelper->register($_REQUEST['username'], $_REQUEST['password']);
+        session_regenerate_id(true);
         $_SESSION['login'] = '1';
         header('Location: '._BASEURL_.$home, true, 302);
 
@@ -28,6 +29,7 @@ if (!empty($_POST)) {
     }
     if (isset($_REQUEST['login'])) {
         if ($user === $_REQUEST['username'] && $loginHelper->login($_REQUEST['password'], $password)) {
+            session_regenerate_id(true);
             $_SESSION['login'] = '1';
             header('Location: '._BASEURL_.$home, true, 302);
 

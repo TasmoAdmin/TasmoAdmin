@@ -200,7 +200,6 @@ try {
 } catch (MethodNotAllowedException $exception) {
     $response = new Response('Method Not Allowed', 405);
 } catch (Exception $exception) {
-    $debug = isset($_SERVER['TASMO_DEBUG']);
     if ($debug) {
         $whoops = new Run();
         $whoops->allowQuit(false);
@@ -208,7 +207,7 @@ try {
         $whoops->pushHandler(new PrettyPageHandler());
         $response = new Response($whoops->handleException($exception), 500);
     } else {
-        $response = new Response(var_dump($exception), 500);
+        $response = new Response('Internal Server Error', 500);
     }
 }
 
