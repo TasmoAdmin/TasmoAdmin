@@ -31,7 +31,7 @@ if (isset($_POST['doAjax'])) {
     exit;
 }
 
-if (isset($_GET['doAjaxAll'])) {
+if (isset($_POST['doAjaxAll'])) {
     session_write_close(); // stop blocking other ajax batch
     $data = $Sonoff->doAjaxAll();
 

@@ -10,7 +10,7 @@ class RequestHelper
 
     private const PUBLIC_I18N_QUERY_KEYS = ['i18n', 'lang'];
 
-    private const LEGACY_MUTATION_QUERY_KEYS = ['removeDevices', 'doAjax', 'clean', 'selfupdate', 'auto'];
+    private const LEGACY_MUTATION_QUERY_KEYS = ['removeDevices', 'doAjax', 'doAjaxAll', 'clean', 'selfupdate', 'auto'];
 
     public static function csrfToken(): string
     {
