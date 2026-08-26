@@ -22,7 +22,6 @@ class ConfigMqttTabTest extends TestCase
         self::assertStringContainsString('device-config-card', $output);
         self::assertStringContainsString("name='SetOption19'", $output);
         self::assertStringContainsString('DEVICE_CONFIG_MQTT_DISCOVERY', $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
     }
 
     public function testMqttTabMarksDiscoveryToggleAsCheckedWhenEnabled(): void

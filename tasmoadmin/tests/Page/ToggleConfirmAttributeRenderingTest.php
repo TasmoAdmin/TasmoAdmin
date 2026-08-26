@@ -191,5 +191,4 @@ class ToggleConfirmAttributeRenderingTest extends TestCase
         self::assertStringContainsString('desk-lamp', $output);
         self::assertStringNotContainsString('hidden-lamp', $output);
     }
-
 }

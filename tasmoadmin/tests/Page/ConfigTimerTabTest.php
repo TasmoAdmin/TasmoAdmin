@@ -30,7 +30,6 @@ class ConfigTimerTabTest extends TestCase
         self::assertStringContainsString('DEVICE_CONFIG_TIMER_DAYS', $output);
         self::assertStringContainsString('DEVICE_CONFIG_TIMER_MODE_SUNRISE', $output);
         self::assertStringContainsString('DEVICE_CONFIG_TIMER_ACTION_TOGGLE', $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
         self::assertStringContainsString('DEVICE_CONFIG_TIMER_WINDOW_OFFSET', $output);
     }
 

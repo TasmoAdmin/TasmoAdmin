@@ -3,7 +3,7 @@
         <h2 class="settings-section-title"><?php
 use TasmoAdmin\Helper\RequestHelper;
 
-echo __('CONFIG_MAINTENANCE_TITLE', 'USER_CONFIG'); ?></h2>
+        echo __('CONFIG_MAINTENANCE_TITLE', 'USER_CONFIG'); ?></h2>
     </div>
     <div class="cache-cleanup-row">
         <div class="cache-cleanup-row-copy">

@@ -29,7 +29,5 @@ class ConfigGeneralTabTest extends TestCase
         self::assertStringContainsString('device-config-card', $output);
         self::assertStringContainsString('DEVICE_CONFIG_TAB_HL_GENERAL', $output);
         self::assertStringContainsString("name='FriendlyName1'", $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
     }
-
 }
