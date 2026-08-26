@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Sonoff;
 
@@ -26,7 +27,7 @@ if (isset($_POST['device_ids'])) {
                     <?php echo __('BACKUP_FAILED', 'BACKUP'); ?>
                     <ul>
                     <?php foreach ($backupResults->getFailures() as $failure) { ?>
-                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                        <li><?php echo HtmlAttributeHelper::escape($failure->getDevice()->getName().': '.$failure->getFailureReason()); ?></li>
                     <?php } ?>
                     </ul>
                 <?php } ?>

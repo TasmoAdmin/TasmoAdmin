@@ -3,6 +3,7 @@
 use TasmoAdmin\Config;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\IpHelper;
 use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Mqtt\MqttDiscoveryRequest;
@@ -273,11 +274,11 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
 
         <?php if (isset($error) && $error) { ?>
             <div class="alert alert-danger fade show mb-5" role="alert">
-                <?php echo $msg; ?>
+                <?php echo HtmlAttributeHelper::escape($msg); ?>
             </div>
         <?php } elseif (isset($msg) && '' != $msg) { ?>
             <div class="alert alert-success fade show mb-5" role="alert">
-                <?php echo $msg; ?>
+                <?php echo HtmlAttributeHelper::escape($msg); ?>
                 <?php if ('done' == $action) { ?>
                     <div class="text-start mt-3">
                         <a class="btn btn-secondary col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
@@ -313,22 +314,22 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
                     </div>
                     <?php foreach ($mqttDiscoveryResult->updatedDevices as $updatedDevice) { ?>
                         <div class="small mt-3">
-                            <?php echo __('MQTT_DISCOVERY_UPDATED_DEVICE', 'DEVICES_AUTOSCAN', [
+                            <?php echo HtmlAttributeHelper::escape(__('MQTT_DISCOVERY_UPDATED_DEVICE', 'DEVICES_AUTOSCAN', [
                                 (string) $updatedDevice['name'],
                                 (string) $updatedDevice['oldIp'],
                                 (string) $updatedDevice['newIp'],
                                 (string) $updatedDevice['mqttTopic'],
-                            ]); ?>
+                            ])); ?>
                         </div>
                     <?php } ?>
                     <?php foreach ($mqttDiscoveryResult->offlineTopics as $offlineTopic) { ?>
                         <div class="small mt-2 text-body-secondary">
-                            <?php echo __('MQTT_DISCOVERY_OFFLINE_DEVICE', 'DEVICES_AUTOSCAN', [$offlineTopic['mqttTopic']]); ?>
+                            <?php echo HtmlAttributeHelper::escape(__('MQTT_DISCOVERY_OFFLINE_DEVICE', 'DEVICES_AUTOSCAN', [$offlineTopic['mqttTopic']])); ?>
                         </div>
                     <?php } ?>
                     <?php foreach ($mqttDiscoveryResult->conflicts as $conflict) { ?>
                         <div class="small mt-2 text-danger">
-                            <?php echo __('MQTT_DISCOVERY_CONFLICT_DEVICE', 'DEVICES_AUTOSCAN', [$conflict['mqttTopic']]); ?>
+                            <?php echo HtmlAttributeHelper::escape(__('MQTT_DISCOVERY_CONFLICT_DEVICE', 'DEVICES_AUTOSCAN', [$conflict['mqttTopic']])); ?>
                         </div>
                     <?php } ?>
                 </div>
@@ -337,7 +338,7 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
 
         <form class='form autoscan-form' name='autoscan_form' method='post' autocomplete="off">
             <?php echo RequestHelper::csrfTokenField(); ?>
-            <input type="hidden" name="scan_mode" value="<?php echo $scanMode; ?>">
+            <input type="hidden" name="scan_mode" value="<?php echo HtmlAttributeHelper::escape($scanMode); ?>">
             <div class="card autoscan-form-card mb-4">
                 <div class="card-body">
 
@@ -473,7 +474,7 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
                                        id="from_ip"
                                        name='from_ip'
                                        placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                                       value='<?php echo $scanFromIp; ?>'
+                                       value='<?php echo HtmlAttributeHelper::escape($scanFromIp); ?>'
                                        required
                                        autofocus="autofocus"
                                 >
@@ -490,7 +491,7 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
                                        id="to_ip"
                                        name='to_ip'
                                        placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                                       value='<?php echo $scanToIp; ?>'
+                                       value='<?php echo HtmlAttributeHelper::escape($scanToIp); ?>'
                                        required
                                 >
                                 <small id="to_ipHelp" class="text-muted">
@@ -524,7 +525,7 @@ $mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Conf
                                           name='additional_scan_ranges'
                                           rows="3"
                                           placeholder="192.168.2.2-192.168.2.254&#10;10.0.0.5"
-                                ><?php echo $additionalScanRanges; ?></textarea>
+                                ><?php echo HtmlAttributeHelper::escape($additionalScanRanges); ?></textarea>
                                 <small id="additionalScanRangesHelp" class="text-muted">
                                     <?php echo __('ADDITIONAL_SCAN_RANGES_HELP', 'DEVICES_AUTOSCAN'); ?>
                                 </small>

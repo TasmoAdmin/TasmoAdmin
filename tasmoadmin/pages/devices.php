@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Sonoff;
 
@@ -42,7 +43,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                     <div class="alert alert-<?php echo $restoreAction; ?> fade show mb-0" role="alert">
                         <div class="col col-12">
                             <?php if (isset($restoreError)) { ?>
-                                <?php echo $restoreError; ?>
+                                <?php echo HtmlAttributeHelper::escape($restoreError); ?>
                             <?php } elseif (isset($restoreResults) && $restoreResults->successful()) { ?>
                                 <?php echo __('RESTORE_STARTED', 'BACKUP'); ?>
                                 <br>
@@ -51,7 +52,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                                 <?php echo __('RESTORE_FAILED', 'BACKUP'); ?>
                                 <ul class="mb-0">
                                     <?php foreach ($restoreResults->getFailures() as $failure) { ?>
-                                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                                        <li><?php echo HtmlAttributeHelper::escape($failure->getDevice()->getName().': '.$failure->getFailureReason()); ?></li>
                                     <?php } ?>
                                 </ul>
                             <?php } ?>
@@ -64,7 +65,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                     <div class="alert alert-<?php echo $backupAction; ?> fade show mb-0" role="alert">
                         <div class="col col-12">
                             <?php if (isset($backupError)) { ?>
-                                <?php echo $backupError; ?>
+                                <?php echo HtmlAttributeHelper::escape($backupError); ?>
                             <?php } elseif (isset($backupResults)) { ?>
                             <?php echo __('BACKUP_FINISHED', 'BACKUP'); ?> -
                             <a href="<?php echo _BASEURL_; ?>actions?downloadBackup"><?php echo __('DOWNLOAD_BACKUP', 'BACKUP'); ?></a>
@@ -74,7 +75,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                                 <?php echo __('BACKUP_FAILED', 'BACKUP'); ?>
                                 <ul>
                                     <?php foreach ($backupResults->getFailures() as $failure) { ?>
-                                        <li><?php echo $failure->getDevice()->getName().': '.$failure->getFailureReason(); ?></li>
+                                        <li><?php echo HtmlAttributeHelper::escape($failure->getDevice()->getName().': '.$failure->getFailureReason()); ?></li>
                                     <?php } ?>
                                 </ul>
                             <?php } ?>

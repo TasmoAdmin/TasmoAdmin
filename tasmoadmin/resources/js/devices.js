@@ -484,7 +484,7 @@ function resetBatchActionFeedback() {
   $(".batchActionFeedback")
     .removeClass("text-danger text-success")
     .addClass("d-none")
-    .html("");
+    .text("");
 }
 
 function scheduleBatchActionFeedbackReset() {
@@ -498,16 +498,16 @@ function showBatchActionFeedback(message, className) {
   $(".batchActionFeedback")
     .removeClass("d-none text-danger text-success")
     .addClass(className)
-    .html(message);
+    .text(message);
   scheduleBatchActionFeedbackReset();
 }
 
 function appendBatchActionFeedback(message) {
   const feedback = $(".batchActionFeedback");
-  const currentContent = feedback.html();
+  const currentContent = feedback.text();
   const nextContent =
-    currentContent === "" ? message : `${currentContent}<br/>${message}`;
-  feedback.removeClass("d-none").html(nextContent);
+    currentContent === "" ? message : `${currentContent}\n${message}`;
+  feedback.removeClass("d-none").text(nextContent);
   scheduleBatchActionFeedbackReset();
 }
 
@@ -625,7 +625,7 @@ function processRow($tr) {
                   .find("td")
                   .each(function (key, td) {
                     if ($(td).find(".loader").length > 0) {
-                      $(td).find("span").html("-");
+                      $(td).find("span").text("-");
                     }
                   });
               }
@@ -721,7 +721,7 @@ function updateAllStatus() {
             disposeTooltip(tr);
             $(tr).attr("data-bs-title", msg).attr("data-bs-toggle", "tooltip");
             refreshTooltip(tr, {
-              html: true,
+              html: false,
               delay: 700,
             });
           } else {
@@ -737,7 +737,7 @@ function updateAllStatus() {
               .find("td")
               .each(function (key, td) {
                 if ($(td).find(".loader").length > 0) {
-                  $(td).find("span").html("-");
+                  $(td).find("span").text("-");
                 }
               });
           }
@@ -851,7 +851,7 @@ function deviceTools() {
     modal.data("dialog-device-ids", button.data("dialog-device-ids") || "");
 
     modal.find(".modal-title").text(button.data("dialog-title") || "");
-    modal.find(".modal-body").html(button.data("dialog-text") || "");
+    modal.find(".modal-body").text(button.data("dialog-text") || "");
     modal
       .find(".btn-secondary")
       .text(button.data("dialog-btn-cancel-text") || $.i18n("CANCEL"));
@@ -926,7 +926,7 @@ function deviceTools() {
       $(this)
         .parent()
         .removeClass("dont-update")
-        .html($.i18n("TEXT_LOADING"))
+        .text($.i18n("TEXT_LOADING"))
         .removeClass("dont-update");
       if (target == "device") {
         sonoff.updateConfig(device_id, cmnd, newvalue, updateStatus);
@@ -966,7 +966,7 @@ function updateRow(row, data, device_status) {
         .attr("data-bs-title", wifiDisplay.tooltip)
         .attr("data-bs-toggle", "tooltip");
       refreshTooltip(rssiSpan.get(0), {
-        html: true,
+        html: false,
         delay: 700,
       });
     } else {
@@ -985,7 +985,7 @@ function updateRow(row, data, device_status) {
 
   let energyPower = getEnergyPower(data, " / ");
   if (energyPower !== "") {
-    $(row).find(".energyPower span").html(energyPower);
+    $(row).find(".energyPower span").text(energyPower);
     setSortAttribute(
       row,
       ".energyPower span",
@@ -1000,7 +1000,7 @@ function updateRow(row, data, device_status) {
   let temp = getTemp(data);
 
   if (temp !== "") {
-    $(row).find(".temp span").html(temp);
+    $(row).find(".temp span").text(temp);
     setSortAttribute(
       row,
       ".temp span",
@@ -1015,7 +1015,7 @@ function updateRow(row, data, device_status) {
   let humidity = getHumidity(data);
 
   if (humidity !== "") {
-    $(row).find(".humidity span").html(humidity);
+    $(row).find(".humidity span").text(humidity);
     setSortAttribute(
       row,
       ".humidity span",
@@ -1030,7 +1030,7 @@ function updateRow(row, data, device_status) {
   let illuminance = getIlluminance(data);
 
   if (illuminance !== "") {
-    $(row).find(".illuminance span").html(illuminance);
+    $(row).find(".illuminance span").text(illuminance);
     setSortAttribute(
       row,
       ".illuminance span",
@@ -1045,39 +1045,39 @@ function updateRow(row, data, device_status) {
   let pressure = getPressure(data);
 
   if (pressure !== "") {
-    $(row).find(".pressure span").html(pressure);
+    $(row).find(".pressure span").text(pressure);
     $("#device-list .pressure").removeClass("hidden");
   }
 
   let seapressure = getSeaPressure(data);
 
   if (seapressure !== "") {
-    $(row).find(".seapressure span").html(seapressure);
+    $(row).find(".seapressure span").text(seapressure);
     $("#device-list .seapressure").removeClass("hidden");
   }
 
   let distance = getDistance(data);
 
   if (distance !== "") {
-    $(row).find(".distance span").html(distance);
+    $(row).find(".distance span").text(distance);
     $("#device-list .distance").removeClass("hidden");
   }
 
   let gas = getGas(data);
 
   if (gas !== "") {
-    $(row).find(".gas span").html(gas);
+    $(row).find(".gas span").text(gas);
     $("#device-list .gas").removeClass("hidden");
   }
 
   let idx = data.idx ? data.idx : "";
   if (idx !== "") {
-    $(row).find(".idx span").html(idx);
+    $(row).find(".idx span").text(idx);
     $("#device-list .idx").removeClass("hidden").show();
   }
 
   const version = data.StatusFWR.Version ?? "?";
-  $(row).find(".version span").html(version);
+  $(row).find(".version span").text(version);
   setSortAttribute(
     row,
     ".version span",
@@ -1164,7 +1164,7 @@ function updateRow(row, data, device_status) {
 
     $(row)
       .find(".runtime span")
-      .html(runtime.text)
+      .text(runtime.text)
       .attr("data-runtime-seconds", runtime.sortValue ?? "")
       .attr(
         "data-bs-title",
@@ -1172,14 +1172,14 @@ function updateRow(row, data, device_status) {
       )
       .attr("data-bs-toggle", "tooltip");
     refreshTooltip($(row).find(".runtime span").get(0), {
-      html: true,
+      html: false,
       delay: 700,
     });
   } else {
     disposeTooltip($(row).find(".runtime span").get(0));
     $(row)
       .find(".runtime span")
-      .html(runtime.text)
+      .text(runtime.text)
       .attr("data-runtime-seconds", runtime.sortValue ?? "")
       .removeAttr("data-bs-title")
       .removeAttr("data-bs-toggle");
@@ -1191,7 +1191,7 @@ function updateRow(row, data, device_status) {
   if (!$(row).find(".hostname span").hasClass("dont-update")) {
     $(row)
       .find(".hostname span")
-      .html(
+      .text(
         data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?",
       );
   }
@@ -1199,37 +1199,37 @@ function updateRow(row, data, device_status) {
   if (!$(row).find(".mac span").hasClass("dont-update")) {
     $(row)
       .find(".mac span")
-      .html(data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?");
+      .text(data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?");
   }
 
   if (!$(row).find(".mqtt span").hasClass("dont-update")) {
     $(row)
       .find(".mqtt span")
-      .html(data.StatusMQT !== undefined ? "1" : "0");
+      .text(data.StatusMQT !== undefined ? "1" : "0");
   }
 
   if (!$(row).find(".poweronstate span").hasClass("dont-update")) {
     $(row)
       .find(".poweronstate span")
-      .html(data?.Status?.PowerOnState ?? "?");
+      .text(data?.Status?.PowerOnState ?? "?");
   }
 
   if (!$(row).find(".ledstate span").hasClass("dont-update")) {
     $(row)
       .find(".ledstate span")
-      .html(data?.Status?.LedState ?? "?");
+      .text(data?.Status?.LedState ?? "?");
   }
 
   if (!$(row).find(".savedata span").hasClass("dont-update")) {
     $(row)
       .find(".savedata span")
-      .html(data?.Status?.SaveData ?? "?");
+      .text(data?.Status?.SaveData ?? "?");
   }
 
   if (!$(row).find(".sleep span").hasClass("dont-update")) {
     $(row)
       .find(".sleep span")
-      .html(
+      .text(
         data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
       );
     setSortAttribute(
@@ -1244,17 +1244,17 @@ function updateRow(row, data, device_status) {
 
   $(row)
     .find(".bootcount span")
-    .html(
+    .text(
       data.StatusPRM.BootCount !== undefined ? data.StatusPRM.BootCount : "?",
     );
   $(row)
     .find(".savecount span")
-    .html(
+    .text(
       data.StatusPRM.SaveCount !== undefined ? data.StatusPRM.SaveCount : "?",
     );
   $(row)
     .find(".log span")
-    .html(
+    .text(
       (data.StatusLOG.SerialLog !== undefined
         ? data.StatusLOG.SerialLog
         : "?") +
@@ -1267,7 +1267,7 @@ function updateRow(row, data, device_status) {
   if (!$(row).find(".wificonfig span").hasClass("dont-update")) {
     $(row)
       .find(".wificonfig span")
-      .html(
+      .text(
         data.StatusNET.WifiConfig !== undefined
           ? data.StatusNET.WifiConfig
           : "?",
@@ -1276,7 +1276,7 @@ function updateRow(row, data, device_status) {
 
   $(row)
     .find(".vcc span")
-    .html(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
+    .text(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
   setSortAttribute(
     row,
     ".vcc span",

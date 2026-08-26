@@ -410,7 +410,7 @@ function updateBox(row, data, device_status) {
   if (temp !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(temp)
+      .text(temp)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -420,7 +420,7 @@ function updateBox(row, data, device_status) {
   if (humidity !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(humidity)
+      .text(humidity)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -430,7 +430,7 @@ function updateBox(row, data, device_status) {
   if (pressure !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(pressure)
+      .text(pressure)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -441,7 +441,7 @@ function updateBox(row, data, device_status) {
   if (seapressure !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(seapressure)
+      .text(seapressure)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -452,7 +452,7 @@ function updateBox(row, data, device_status) {
   if (distance !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(distance)
+      .text(distance)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -463,7 +463,7 @@ function updateBox(row, data, device_status) {
   if (energyPower !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(energyPower)
+      .text(energyPower)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -474,7 +474,7 @@ function updateBox(row, data, device_status) {
   if (gas !== "") {
     $(row)
       .find(".info-" + infoBoxCounter + " span")
-      .html(gas)
+      .text(gas)
       .parent()
       .removeClass("hidden");
     infoBoxCounter++;
@@ -483,11 +483,11 @@ function updateBox(row, data, device_status) {
   let idx = data.idx ? data.idx : "";
 
   if (idx !== "") {
-    $(row).find(".idx span").html(idx);
+    $(row).find(".idx span").text(idx);
     $("#device-list .idx").removeClass("hidden").show();
   }
 
-  $(row).find(".version span").html(data.StatusFWR.Version);
+  $(row).find(".version span").text(data.StatusFWR.Version);
 
   $(row).data("device_state", device_status.toLowerCase());
 
@@ -522,42 +522,42 @@ function updateBox(row, data, device_status) {
   //MORE
   $(row)
     .find(".hostname span")
-    .html(
+    .text(
       data.StatusNET.Hostname !== undefined ? data.StatusNET.Hostname : "?",
     );
   $(row)
     .find(".mac span")
-    .html(data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?");
+    .text(data.StatusNET.Mac !== undefined ? data.StatusNET.Mac : "?");
   $(row)
     .find(".mqtt span")
-    .html(data.StatusMQT !== undefined ? "1" : "0");
+    .text(data.StatusMQT !== undefined ? "1" : "0");
   $(row)
     .find(".poweronstate span")
-    .html(data?.Status?.PowerOnState ?? "?");
+    .text(data?.Status?.PowerOnState ?? "?");
   $(row)
     .find(".ledstate span")
-    .html(data?.Status?.LedState ?? "?");
+    .text(data?.Status?.LedState ?? "?");
   $(row)
     .find(".savedata span")
-    .html(data?.Status?.SaveData ?? "?");
+    .text(data?.Status?.SaveData ?? "?");
   $(row)
     .find(".sleep span")
-    .html(
+    .text(
       data.StatusPRM.Sleep !== undefined ? data.StatusPRM.Sleep + "ms" : "?",
     );
   $(row)
     .find(".bootcount span")
-    .html(
+    .text(
       data.StatusPRM.BootCount !== undefined ? data.StatusPRM.BootCount : "?",
     );
   $(row)
     .find(".savecount span")
-    .html(
+    .text(
       data.StatusPRM.SaveCount !== undefined ? data.StatusPRM.SaveCount : "?",
     );
   $(row)
     .find(".log span")
-    .html(
+    .text(
       (data.StatusLOG.SerialLog !== undefined
         ? data.StatusLOG.SerialLog
         : "?") +
@@ -568,12 +568,12 @@ function updateBox(row, data, device_status) {
     );
   $(row)
     .find(".wificonfig span")
-    .html(
+    .text(
       data.StatusNET.WifiConfig !== undefined ? data.StatusNET.WifiConfig : "?",
     );
   $(row)
     .find(".vcc span")
-    .html(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
+    .text(data.StatusSTS.Vcc !== undefined ? data.StatusSTS.Vcc + "V" : "?");
 
   $(row).removeClass("updating");
 }

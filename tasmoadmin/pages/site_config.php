@@ -182,7 +182,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   id="username"
 						   name='username'
 						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						   value='<?php echo $config['username']; ?>'
+						   value='<?php echo HtmlAttributeHelper::escape($config['username']); ?>'
 					>
 				</div>
 				<div class="col col-12 col-sm-6">
@@ -233,7 +233,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   id="ota_server_ip"
 						   name='ota_server_ip'
 						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						   value='<?php echo $config['ota_server_ip']; ?>'
+						   value='<?php echo HtmlAttributeHelper::escape($config['ota_server_ip']); ?>'
 					>
 					<small id="from_ipHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_SERVER_IP_HELP', 'USER_CONFIG'); ?>
@@ -248,8 +248,8 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						   id="ota_server_port"
 						   name='ota_server_port'
 						   placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						   value='<?php echo !empty($config['ota_server_port']) ? $config['ota_server_port']
-                               : $_SERVER['SERVER_PORT']; ?>'
+						   value='<?php echo HtmlAttributeHelper::escape(!empty($config['ota_server_port']) ? $config['ota_server_port']
+                               : $_SERVER['SERVER_PORT']); ?>'
 					>
 					<small id="from_ipHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_SERVER_PORT_HELP', 'USER_CONFIG'); ?>
@@ -274,10 +274,10 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<?php } ?>
 
 						<?php foreach ($tasmotaEsp8266Releases as $tr) { ?>
-							<option value='<?php echo $tr; ?>'
+							<option value='<?php echo HtmlAttributeHelper::escape($tr); ?>'
 								<?php echo $config['update_automatic_lang'] == $tr ? 'selected="selected"' : ''; ?>
 							>
-								<?php echo $tr; ?>
+								<?php echo HtmlAttributeHelper::escape($tr); ?>
 							</option>
 						<?php } ?>
 					</select>
@@ -292,10 +292,10 @@ $autoFirmwareChannels = ['stable', 'dev'];
 						<?php } ?>
 
 						<?php foreach ($tasmotaEsp32Releases as $tr) { ?>
-							<option value='<?php echo $tr; ?>'
+							<option value='<?php echo HtmlAttributeHelper::escape($tr); ?>'
 								<?php echo $config['update_automatic_lang_esp32'] == $tr ? 'selected="selected"' : ''; ?>
 							>
-								<?php echo $tr; ?>
+								<?php echo HtmlAttributeHelper::escape($tr); ?>
 							</option>
 						<?php } ?>
 					</select>
@@ -521,7 +521,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            id="connect_timeout"
                            name='connect_timeout'
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                           value='<?php echo $config['connect_timeout']; ?>'
+                           value='<?php echo HtmlAttributeHelper::escape($config['connect_timeout']); ?>'
                     >
                     					<small id="connect_timeoutHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_CONNECT_TIMEOUT_HELP', 'USER_CONFIG'); ?>
@@ -536,7 +536,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            id="timeout"
                            name='timeout'
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                           value='<?php echo $config['timeout']; ?>'
+                           value='<?php echo HtmlAttributeHelper::escape($config['timeout']); ?>'
                     >
                     					<small id="timeoutHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_TIMEOUT_HELP', 'USER_CONFIG'); ?>
@@ -551,7 +551,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
                            id="request_concurrency"
                            name='request_concurrency'
                            placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                           value='<?php echo $config['request_concurrency']; ?>'
+                           value='<?php echo HtmlAttributeHelper::escape($config['request_concurrency']); ?>'
                     >
                     					<small id="requestConcurrencyHelp" class="text-body-secondary">
 						<?php echo __('CONFIG_REQUEST_CONCURRENCY_HELP', 'USER_CONFIG'); ?>

@@ -179,7 +179,7 @@ function getRuntimeInfo(data, labels, now = new Date()) {
   };
 }
 
-function getIlluminance(data, joinString = "<br/>") {
+function getIlluminance(data, joinString = " / ") {
   const normalized = ensureStatusSections(data);
   const illuminance = [];
 
@@ -196,7 +196,7 @@ function getIlluminance(data, joinString = "<br/>") {
   return illuminance.join(joinString);
 }
 
-function getEnergyPower(data, joinString = "<br/>") {
+function getEnergyPower(data, joinString = " / ") {
   const normalized = ensureStatusSections(data);
   const energyPower = [];
   const energy = normalized.StatusSNS.ENERGY;

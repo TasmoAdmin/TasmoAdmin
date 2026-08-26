@@ -281,7 +281,7 @@ class Sonoff {
             newvalue,
         );
 
-        td.html(data.position);
+        td.text(data.position);
       },
       error: function (data, xmlhttprequest, textstatus, message) {
         console.log("ERROR setDeviceValue");
