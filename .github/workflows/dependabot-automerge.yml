@@ -1,4 +1,4 @@
-name: Enable Dependabot minor-update auto-merge
+name: Automerger
 
 on:
   pull_request_target:
