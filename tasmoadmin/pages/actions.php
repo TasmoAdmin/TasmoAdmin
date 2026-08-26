@@ -10,20 +10,20 @@ use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
 
-if (isset($_GET['removeDevices'], $_GET['ids'])) {
+if (isset($_POST['removeDevices'], $_POST['ids'])) {
     $deviceRepository = $container->get(DeviceRepository::class);
-    $ids = array_map('intval', explode(',', $_GET['ids']));
+    $ids = array_map('intval', explode(',', $_POST['ids']));
     $deviceRepository->removeDevices($ids);
 
     exit;
 }
 
-if (isset($_GET['doAjax'])) {
+if (isset($_POST['doAjax'])) {
     session_write_close(); // stop blocking other ajax batch
-    if (isset($_REQUEST['target'])) {
-        $data = $Sonoff->setDeviceValue((int) $_REQUEST['id'], $_REQUEST['field'], $_REQUEST['newvalue']);
+    if (isset($_POST['target'])) {
+        $data = $Sonoff->setDeviceValue((int) $_POST['id'], $_POST['field'], $_POST['newvalue']);
     } else {
-        $data = $Sonoff->doAjax($_REQUEST['id'], urldecode($_REQUEST['cmnd']));
+        $data = $Sonoff->doAjax($_POST['id'], urldecode($_POST['cmnd']));
     }
     header('Content-Type: application/json');
     echo json_encode($data);
@@ -95,8 +95,8 @@ if (isset($_GET['downloadRestore'])) {
     exit;
 }
 
-if (isset($_GET['clean'])) {
-    $what = explode('_', $_GET['clean']);
+if (isset($_POST['clean'])) {
+    $what = explode('_', $_POST['clean']);
 
     if (array_intersect(['sessions', 'i18n'], $what)) {
         CacheCleanupHelper::cleanTargets(_TMPDIR_, $what);

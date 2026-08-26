@@ -4,6 +4,7 @@ use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Symfony\Component\BrowserKit\HttpBrowser;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\HtmlAttributeHelper;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
@@ -40,6 +41,7 @@ $fwAssetEsp32 = $Config->read('update_automatic_lang_esp32');
 		<form class='upload-form' name='update_form' method='post' enctype='multipart/form-data'
 			  action='<?php echo _BASEURL_; ?>upload'
 		>
+			<?php echo RequestHelper::csrfTokenField(); ?>
 			<div class="card upload-form-card mb-4">
 				<div class="card-body">
 					<div class='row g-4 upload-form-row mb-3'>

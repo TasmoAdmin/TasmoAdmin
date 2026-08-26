@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Backup\BackupHelper;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Sonoff;
 
 $Sonoff = $container->get(Sonoff::class);
@@ -132,6 +133,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 				</div>
 			</div>
             <form method='post' action='<?php echo _BASEURL_; ?>devices' class='devices-batch-form' enctype='multipart/form-data'>
+                <?php echo RequestHelper::csrfTokenField(); ?>
                 <input type='hidden' name='batch_action' class='batchActionField' value=''>
                 <div class="devices-panel devices-table-panel">
 					<div class='table-responsive double-scroll'>

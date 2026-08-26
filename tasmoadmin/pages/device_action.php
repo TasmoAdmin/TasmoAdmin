@@ -3,6 +3,7 @@
 use TasmoAdmin\Device;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Sonoff;
 
 function normalizeDeviceNames($values): array
@@ -100,6 +101,7 @@ function getDeviceNameState(?Device $device, $status, array $request): array
 $status = null;
 $device = null;
 $msg = null;
+$deviceRequest = $_POST;
 
 $Sonoff = $container->get(Sonoff::class);
 $deviceRepository = $container->get(DeviceRepository::class);
@@ -114,36 +116,36 @@ if ('edit' == $action) {
             $msg .= $status->ERROR.'<br/>';
         }
     }
-} elseif ('delete' == $action) {
+} elseif ('delete' == $action && 'POST' === $_SERVER['REQUEST_METHOD']) {
     $deviceRepository->removeDevice((int) $device_id);
     $msg = __('MSG_DEVICE_DELETE_DONE', 'DEVICE_ACTIONS');
     $action = 'done';
 }
 
-if (!empty($_POST)) {
-    if (isset($_REQUEST['search'])) {
-        $deviceIp = trim((string) ($_REQUEST['device_ip'] ?? ''));
+if (!empty($deviceRequest)) {
+    if (isset($deviceRequest['search'])) {
+        $deviceIp = trim((string) ($deviceRequest['device_ip'] ?? ''));
 
         if ('' === $deviceIp) {
             $msg = __('ERROR_PLEASE_ENTER_DEVICE_IP', 'DEVICE_ACTIONS');
         } else {
-            if (!($device instanceof Device) && !empty($_REQUEST['device_id'])) {
-                $device = $deviceRepository->getDeviceById((int) $_REQUEST['device_id']);
+            if (!($device instanceof Device) && !empty($deviceRequest['device_id'])) {
+                $device = $deviceRepository->getDeviceById((int) $deviceRequest['device_id']);
             }
 
             if (!$device instanceof Device) {
                 $device = DeviceFactory::fakeDevice(
                     $deviceIp,
-                    (int) ($_REQUEST['device_port'] ?? Device::DEFAULT_PORT),
-                    (string) ($_REQUEST['device_username'] ?? ''),
-                    (string) ($_REQUEST['device_password'] ?? '')
+                    (int) ($deviceRequest['device_port'] ?? Device::DEFAULT_PORT),
+                    (string) ($deviceRequest['device_username'] ?? ''),
+                    (string) ($deviceRequest['device_password'] ?? '')
                 );
             }
 
             $device->ip = $deviceIp;
-            $device->port = (int) ($_REQUEST['device_port'] ?? Device::DEFAULT_PORT);
-            $device->username = (string) ($_REQUEST['device_username'] ?? '');
-            $device->password = (string) ($_REQUEST['device_password'] ?? '');
+            $device->port = (int) ($deviceRequest['device_port'] ?? Device::DEFAULT_PORT);
+            $device->username = (string) ($deviceRequest['device_username'] ?? '');
+            $device->password = (string) ($deviceRequest['device_password'] ?? '');
 
             $status = $Sonoff->getAllStatus($device);
             if (hasStatusError($status)) {
@@ -151,23 +153,23 @@ if (!empty($_POST)) {
                 $msg .= $status->ERROR.'<br/>';
             }
         }
-    } elseif (!empty($_REQUEST['device_id'])) {
-        $device = DeviceFactory::fromRequest($_REQUEST);
+    } elseif (!empty($deviceRequest['device_id'])) {
+        $device = DeviceFactory::fromRequest($deviceRequest);
         $deviceRepository->updateDevice($device);
         $msg = __('MSG_DEVICE_EDIT_DONE', 'DEVICE_ACTIONS');
         $action = 'done';
     } else {
-        $deviceRepository->addDevice($_REQUEST);
+        $deviceRepository->addDevice($deviceRequest);
         $msg = __('MSG_DEVICE_ADD_DONE', 'DEVICE_ACTIONS');
         $action = 'done';
     }
 }
 
-[$deviceNames, $friendlyNames] = getDeviceNameState($device, $status, $_REQUEST);
+[$deviceNames, $friendlyNames] = getDeviceNameState($device, $status, $deviceRequest);
 $showDeviceFields = ('edit' == $action && $device instanceof Device) || hasReachableStatus($status);
 $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatus($status);
-$deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
-    ? '1' === (string) $_REQUEST['device_confirm_toggle']
+$deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
+    ? '1' === (string) $deviceRequest['device_confirm_toggle']
     : (($device instanceof Device) ? $device->deviceConfirmToggle : ('1' === $Config->read('confirm_device_toggles')));
 ?>
 <div class='row justify-content-sm-center'>
@@ -224,6 +226,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 				  method='post'
 				  action='<?php echo _BASEURL_; ?>device_action/<?php echo $action; ?><?php echo isset($device->id) ? '/'.$device->id : ''; ?>'
 			>
+				<?php echo RequestHelper::csrfTokenField(); ?>
 				<input type='hidden' name='device_id' value='<?php echo $device->id ?? ''; ?>'>
 
 				<div class="row g-3">
@@ -237,7 +240,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 							   id="device_ip"
 							   name='device_ip'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                               value='<?php echo isset($device->id) && !isset($_REQUEST['device_ip']) ? $device->ip : ($_REQUEST['device_ip'] ?? ''); ?>'
+                               value='<?php echo isset($device->id) && !isset($deviceRequest['device_ip']) ? $device->ip : ($deviceRequest['device_ip'] ?? ''); ?>'
                                required
 						>
 						<small id="device_ipHelp" class="text-muted">
@@ -253,7 +256,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
                                id="device_port"
                                name='device_port'
                                placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-                               value='<?php echo isset($device->port) && !isset($_REQUEST['device_port']) ? $device->port : ($_REQUEST['device_port'] ?? Device::DEFAULT_PORT); ?>'
+                               value='<?php echo isset($device->port) && !isset($deviceRequest['device_port']) ? $device->port : ($deviceRequest['device_port'] ?? Device::DEFAULT_PORT); ?>'
                                required
                         >
                         <small id="device_portHelp" class="text-muted">
@@ -284,7 +287,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 						   class="form-control"
 						   id="device_username"
 						   name='device_username'
-						   value='<?php echo isset($device->id) && !isset($_REQUEST['device_username']) ? $device->username : ($_REQUEST['device_username'] ?? 'admin'); ?>'
+						   value='<?php echo isset($device->id) && !isset($deviceRequest['device_username']) ? $device->username : ($deviceRequest['device_username'] ?? 'admin'); ?>'
 					>
 					<small id="device_usernameHelp" class="text-muted">
 						<?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
@@ -300,7 +303,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 						   class="form-control"
 						   id="device_password"
 						   name='device_password'
-						   value='<?php echo isset($device->id) && !isset($_REQUEST['device_password']) ? $device->password : ($_REQUEST['device_password'] ?? ''); ?>'
+						   value='<?php echo isset($device->id) && !isset($deviceRequest['device_password']) ? $device->password : ($deviceRequest['device_password'] ?? ''); ?>'
 					>
 					<small id="device_passwordHelp" class="text-muted">
 						<?php echo __('DEVICE_PASSWORD_HELP', 'DEVICE_ACTIONS'); ?>
@@ -314,9 +317,9 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 						   class="form-control"
 						   id="device_mqtt_topic"
 						   name='device_mqtt_topic'
-						   value='<?php echo isset($device->mqttTopic) && !isset($_REQUEST['device_mqtt_topic'])
+						   value='<?php echo isset($device->mqttTopic) && !isset($deviceRequest['device_mqtt_topic'])
                                ? htmlspecialchars($device->mqttTopic, ENT_QUOTES)
-                               : htmlspecialchars((string) ($_REQUEST['device_mqtt_topic'] ?? ''), ENT_QUOTES); ?>'
+                               : htmlspecialchars((string) ($deviceRequest['device_mqtt_topic'] ?? ''), ENT_QUOTES); ?>'
 					>
 					<small id="device_mqtt_topicHelp" class="text-muted">
 						<?php echo __('MQTT_DEVICE_TOPIC_HELP', 'DEVICE_ACTIONS'); ?>
@@ -332,7 +335,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $_REQUEST)
 							   class="form-control"
 							   id="device_position"
 							   name='device_position'
-							   value='<?php echo isset($device->position) && !isset($_REQUEST['device_position']) ? $device->position : ($_REQUEST['device_position'] ?? ''); ?>'
+						   value='<?php echo isset($device->position) && !isset($deviceRequest['device_position']) ? $device->position : ($deviceRequest['device_position'] ?? ''); ?>'
 						>
 						<small id="device_positionHelp" class="form-text text-muted">
 							<?php echo __('DEVICE_POSITION_HELP', 'DEVICE_ACTIONS'); ?>

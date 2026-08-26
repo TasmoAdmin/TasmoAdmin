@@ -1,6 +1,10 @@
 <form class='center config-form' name='device_config_mqtt' method='post'>
 	<?php
-        $o = &$status->StatusLOG->SetOptionDecoded;
+use TasmoAdmin\Helper\RequestHelper;
+
+echo RequestHelper::csrfTokenField(); ?>
+	<?php
+	        $o = &$status->StatusLOG->SetOptionDecoded;
 
 	// TODO: add link to https://github.com/arendst/Tasmota/wiki/MQTT-Features
 	?>

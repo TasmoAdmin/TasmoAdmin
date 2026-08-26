@@ -7,6 +7,7 @@ use TasmoAdmin\Helper\FirmwareFolderHelper;
 use TasmoAdmin\Helper\FirmwareVersionExtractor;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\OtaHelper;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 use TasmoAdmin\Sonoff;
@@ -26,9 +27,11 @@ $updateTargets = [];
 $maxMb = 5;
 $maxFileSize = $maxMb * 1024 * 1024;
 
-FirmwareFolderHelper::clean($firmwarefolder);
+if (!empty($_POST)) {
+    FirmwareFolderHelper::clean($firmwarefolder);
+}
 
-if (isset($_REQUEST['upload'])) {
+if (isset($_POST['upload'])) {
     if ('' == $_FILES['minimal_firmware']['name']) {
         $errors[] = __('UPLOAD_FIRMWARE_MINIMAL_LABEL', 'DEVICE_UPDATE').': '.__(
             'UPLOAD_FIRMWARE_MINIMAL_SKIP',
@@ -154,7 +157,7 @@ if (isset($_REQUEST['upload'])) {
     } catch (RuntimeException $e) {
         $errors[] = __('UPLOAD_FIRMWARE_FULL_LABEL', 'DEVICE_UPDATE').': '.$e->getMessage().'!';
     }
-} elseif (isset($_REQUEST['auto'])) {
+} elseif (isset($_POST['auto'])) {
     $client = GuzzleFactory::getClient($Config);
     $tasmotaHelper = new TasmotaHelper(
         new GithubFlavoredMarkdownConverter(),
@@ -167,8 +170,8 @@ if (isset($_REQUEST['upload'])) {
         'esp8266' => 'update_automatic_lang',
         'esp32' => 'update_automatic_lang_esp32',
     ] as $configKey) {
-        if (!empty($_REQUEST[$configKey])) {
-            $Config->write($configKey, $_REQUEST[$configKey]);
+        if (!empty($_POST[$configKey])) {
+            $Config->write($configKey, $_POST[$configKey]);
         }
     }
 
@@ -215,15 +218,17 @@ if (isset($_REQUEST['upload'])) {
     $errors[] = __('UPLOAD_PLEASE_UPLOAD_FIRMWARE', 'DEVICE_UPDATE').'<br/>';
 }
 
-$ota_server_ip = $_REQUEST['ota_server_ip'] ?? '';
-$ota_server_port = $_REQUEST['ota_server_port'] ?? '';
+$ota_server_ip = $_POST['ota_server_ip'] ?? $Config->read('ota_server_ip');
+$ota_server_port = $_POST['ota_server_port'] ?? $Config->read('ota_server_port');
 
-$Config->write('ota_server_ip', $ota_server_ip);
-$Config->write('ota_server_port', $ota_server_port);
+if (!empty($_POST)) {
+    $Config->write('ota_server_ip', $ota_server_ip);
+    $Config->write('ota_server_port', $ota_server_port);
+}
 
 $otaHelper = new OtaHelper($Config, _BASEURL_);
 
-if (!isset($_REQUEST['auto']) && !empty($new_firmware_path)) {
+if (!isset($_POST['auto']) && !empty($new_firmware_path)) {
     $updateTargets['default'] = [
         'minimalOtaUrl' => !empty($minimal_firmware_path)
             ? $otaHelper->getFirmwareUrl($minimal_firmware_path)
@@ -303,7 +308,7 @@ if ($checkForFirmware) {
     }));
 
     ?>
-	<?php if (isset($_REQUEST['auto'])) { ?>
+<?php if (isset($_POST['auto'])) { ?>
 		<div class="alert alert-warning fade show mb-4" data-bs-dismiss="alert" role="alert">
 			<?php echo __('AUTO_WARNING_CFG_HOLDER', 'DEVICE_UPDATE'); ?>
 		</div>
@@ -321,6 +326,7 @@ if ($checkForFirmware) {
 					  method='post'
 					  action='<?php echo _BASEURL_; ?>device_update'
 				>
+					<?php echo RequestHelper::csrfTokenField(); ?>
 					<input type='hidden' name='update_targets' value='<?php echo htmlspecialchars(json_encode($updateTargets), ENT_QUOTES); ?>'>
 
 					<div class='row g-3 update-toolbar mb-4'>

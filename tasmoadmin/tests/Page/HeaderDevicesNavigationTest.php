@@ -33,6 +33,7 @@ class HeaderDevicesNavigationTest extends TestCase
                 return match ($key) {
                     'homepage' => 'devices',
                     'nightmode' => 'disable',
+                    'login' => '1',
                     default => '0',
                 };
             }
@@ -88,5 +89,7 @@ class HeaderDevicesNavigationTest extends TestCase
         self::assertStringNotContainsString('NAVI_DEVICES_BACKUP:', $output);
         self::assertStringContainsString('NAVI_DEVICE_LIST:', $output);
         self::assertStringContainsString('NAVI_DEVICES_AUTOSCAN:', $output);
+        self::assertStringContainsString('name="csrf_token"', $output);
+        self::assertStringContainsString('method="post" action="/logout"', $output);
     }
 }

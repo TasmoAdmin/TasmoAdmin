@@ -284,8 +284,8 @@ if (isset($devices) && !empty($devices)) {
                                    $device_group->ip,
                                ]
                            ); ?>'
-                           data-dialog-url='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
-                           href='<?php echo _BASEURL_; ?>device_action/delete/<?php echo $device_group->id; ?>'
+                           data-dialog-device-id='<?php echo $device_group->id; ?>'
+                           href='#deleteDeviceModal'
                         >
                             <i class="fas fa-trash fa-lg"
                               data-bs-toggle="tooltip" data-bs-title='<?php echo __(
