@@ -42,5 +42,6 @@ class ConfigNetworkTabTest extends TestCase
         self::assertStringContainsString('device-config-card', $output);
         self::assertStringContainsString('DEVICE_CONFIG_TAB_HL_NETWORK', $output);
         self::assertStringContainsString("name='WifiConfig'", $output);
+        self::assertStringContainsString('name="csrf_token"', $output);
     }
 }

@@ -1,6 +1,9 @@
 <div class="cache-cleanup-panel settings-section">
     <div class="cache-cleanup-copy">
-        <h2 class="settings-section-title"><?php echo __('CONFIG_MAINTENANCE_TITLE', 'USER_CONFIG'); ?></h2>
+        <h2 class="settings-section-title"><?php
+use TasmoAdmin\Helper\RequestHelper;
+
+echo __('CONFIG_MAINTENANCE_TITLE', 'USER_CONFIG'); ?></h2>
     </div>
     <div class="cache-cleanup-row">
         <div class="cache-cleanup-row-copy">
@@ -9,6 +12,7 @@
         </div>
         <div class="cache-cleanup-actions">
             <form method="post" class="cache-cleanup-form">
+                <?php echo RequestHelper::csrfTokenField(); ?>
                 <button type="submit" class="btn btn-outline-secondary" name="clean_temp_cache" value="1">
                     <?php echo __('BTN_CLEAR_CACHE', 'USER_CONFIG'); ?>
                 </button>

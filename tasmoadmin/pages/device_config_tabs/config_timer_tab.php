@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\Helper\RequestHelper;
+
 $timersConfig = $status->StatusTIMERS ?? null;
 $timers = $timersConfig->timers ?? [];
 
@@ -77,6 +79,7 @@ foreach (range(-12 * 60, 12 * 60, 5) as $offsetMinutes) {
 }
 ?>
 <form class='center config-form' name='device_config_timers' method='post'>
+	<?php echo RequestHelper::csrfTokenField(); ?>
 	<input type='hidden' name='tab-index' value='3'>
 
 	<div class="form-group col">

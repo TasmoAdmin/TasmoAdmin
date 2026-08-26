@@ -7,22 +7,22 @@ $otaHelper = new OtaHelper($Config, _BASEURL_);
 
 $updateTargets = [];
 
-if (!empty($_REQUEST['update_targets'])) {
-    $updateTargets = json_decode($_REQUEST['update_targets'], true) ?? [];
+if (!empty($_POST['update_targets'])) {
+    $updateTargets = json_decode($_POST['update_targets'], true) ?? [];
 }
 
-if (empty($updateTargets) && !empty($_REQUEST['new_firmware_path'])) {
+if (empty($updateTargets) && !empty($_POST['new_firmware_path'])) {
     $updateTargets['default'] = [
-        'minimalOtaUrl' => !empty($_REQUEST['minimal_firmware_path'])
-            ? $otaHelper->getFirmwareUrl($_REQUEST['minimal_firmware_path'])
+        'minimalOtaUrl' => !empty($_POST['minimal_firmware_path'])
+            ? $otaHelper->getFirmwareUrl($_POST['minimal_firmware_path'])
             : '',
-        'otaUrl' => $otaHelper->getFirmwareUrl($_REQUEST['new_firmware_path']),
-        'targetVersion' => $_REQUEST['target_version'] ?? '',
+        'otaUrl' => $otaHelper->getFirmwareUrl($_POST['new_firmware_path']),
+        'targetVersion' => $_POST['target_version'] ?? '',
         'source' => 'manual',
     ];
 }
 
-$deviceIds = $_REQUEST['device_ids'] ?? [];
+$deviceIds = $_POST['device_ids'] ?? [];
 
 $deviceRepository = $container->get(DeviceRepository::class);
 $devices = $deviceRepository->getDevicesByIds($deviceIds);

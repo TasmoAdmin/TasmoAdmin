@@ -4,6 +4,7 @@ use TasmoAdmin\Config;
 use TasmoAdmin\DeviceFactory;
 use TasmoAdmin\DeviceRepository;
 use TasmoAdmin\Helper\IpHelper;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Mqtt\MqttDiscoveryRequest;
 use TasmoAdmin\Mqtt\MqttDiscoveryResult;
 use TasmoAdmin\Mqtt\MqttDiscoveryService;
@@ -86,30 +87,30 @@ $devicesFound = [];
 $msg = null;
 $action = '';
 $error = false;
-$scanMode = getAutoscanMode($_REQUEST);
+$scanMode = getAutoscanMode($_POST ?: $_GET);
 $mqttDiscoveryResult = new MqttDiscoveryResult();
 $rawConfig = $Config->readAll();
 
-if (isset($_REQUEST) && !empty($_REQUEST)) {
+if (!empty($_POST)) {
     try {
-        if (isset($_REQUEST['search'])) {
-            $httpPort = (int) htmlspecialchars($_REQUEST['port'] ?? $Config->read('port'));
-            $deviceUsername = htmlspecialchars($_REQUEST['device_username'] ?? '');
-            $devicePassword = htmlspecialchars($_REQUEST['device_password'] ?? '');
+        if (isset($_POST['search'])) {
+            $httpPort = (int) htmlspecialchars($_POST['port'] ?? $Config->read('port'));
+            $deviceUsername = htmlspecialchars($_POST['device_username'] ?? '');
+            $devicePassword = htmlspecialchars($_POST['device_password'] ?? '');
 
             if ('mqtt' === $scanMode) {
-                $mqttDiscoveryHost = trim((string) ($_REQUEST['mqtt_discovery_host'] ?? ''));
-                $mqttDiscoveryPort = (int) ($_REQUEST['mqtt_discovery_port'] ?? 1883);
-                $mqttDiscoveryUsername = trim((string) ($_REQUEST['mqtt_discovery_username'] ?? ''));
-                $mqttDiscoveryPasswordInput = (string) ($_REQUEST['mqtt_discovery_password'] ?? '');
+                $mqttDiscoveryHost = trim((string) ($_POST['mqtt_discovery_host'] ?? ''));
+                $mqttDiscoveryPort = (int) ($_POST['mqtt_discovery_port'] ?? 1883);
+                $mqttDiscoveryUsername = trim((string) ($_POST['mqtt_discovery_username'] ?? ''));
+                $mqttDiscoveryPasswordInput = (string) ($_POST['mqtt_discovery_password'] ?? '');
                 $mqttDiscoveryPassword = '' !== $mqttDiscoveryPasswordInput
                     ? $mqttDiscoveryPasswordInput
                     : (string) ($rawConfig['mqtt_discovery_password'] ?? '');
-                $mqttDiscoveryCmndPrefix = trim((string) ($_REQUEST['mqtt_discovery_cmnd_prefix'] ?? 'cmnd'));
-                $mqttDiscoveryStatPrefix = trim((string) ($_REQUEST['mqtt_discovery_stat_prefix'] ?? 'stat'));
-                $mqttDiscoveryTelePrefix = trim((string) ($_REQUEST['mqtt_discovery_tele_prefix'] ?? 'tele'));
-                $mqttDiscoverySubscriptions = trim((string) ($_REQUEST['mqtt_discovery_subscriptions'] ?? ''));
-                $mqttDiscoveryTimeoutSeconds = (int) ($_REQUEST['mqtt_discovery_timeout_seconds'] ?? 5);
+                $mqttDiscoveryCmndPrefix = trim((string) ($_POST['mqtt_discovery_cmnd_prefix'] ?? 'cmnd'));
+                $mqttDiscoveryStatPrefix = trim((string) ($_POST['mqtt_discovery_stat_prefix'] ?? 'stat'));
+                $mqttDiscoveryTelePrefix = trim((string) ($_POST['mqtt_discovery_tele_prefix'] ?? 'tele'));
+                $mqttDiscoverySubscriptions = trim((string) ($_POST['mqtt_discovery_subscriptions'] ?? ''));
+                $mqttDiscoveryTimeoutSeconds = (int) ($_POST['mqtt_discovery_timeout_seconds'] ?? 5);
                 $subscriptionFilters = array_values(array_filter(
                     array_map('trim', preg_split('/\R+/', $mqttDiscoverySubscriptions) ?: []),
                     static fn ($value) => '' !== $value
@@ -167,9 +168,9 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                     $error = true;
                 }
             } else {
-                $fromIp = htmlspecialchars($_REQUEST['from_ip']);
-                $toIp = htmlspecialchars($_REQUEST['to_ip']);
-                $additionalScanRanges = trim((string) ($_REQUEST['additional_scan_ranges'] ?? ''));
+                $fromIp = htmlspecialchars($_POST['from_ip']);
+                $toIp = htmlspecialchars($_POST['to_ip']);
+                $additionalScanRanges = trim((string) ($_POST['additional_scan_ranges'] ?? ''));
 
                 $ipHelper = new IpHelper();
                 $devices = $Sonoff->getDevices();
@@ -207,24 +208,24 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
                     $msg = __('MSG_DEVICES_FOUND_COUNT', 'DEVICES_AUTOSCAN').': '.count($devicesFound);
                 }
             }
-        } elseif (isset($_REQUEST['save_device'])) {
+        } elseif (isset($_POST['save_device'])) {
             $deviceRepository = $container->get(DeviceRepository::class);
-            $deviceUsername = htmlspecialchars($_REQUEST['device_username'] ?? '');
-            $devicePassword = htmlspecialchars($_REQUEST['device_password'] ?? '');
-            $deviceIndex = filter_var($_REQUEST['save_device'], FILTER_VALIDATE_INT);
+            $deviceUsername = htmlspecialchars($_POST['device_username'] ?? '');
+            $devicePassword = htmlspecialchars($_POST['device_password'] ?? '');
+            $deviceIndex = filter_var($_POST['save_device'], FILTER_VALIDATE_INT);
 
-            if (false === $deviceIndex || !isset($_REQUEST['devices'][$deviceIndex])) {
+            if (false === $deviceIndex || !isset($_POST['devices'][$deviceIndex])) {
                 throw new InvalidArgumentException(__('MSG_NO_DEVICES_FOUND', 'DEVICES_AUTOSCAN'));
             }
 
-            $deviceRepository->addDevices([$_REQUEST['devices'][$deviceIndex]], $deviceUsername, $devicePassword);
+            $deviceRepository->addDevices([$_POST['devices'][$deviceIndex]], $deviceUsername, $devicePassword);
             $msg = __('MSG_DEVICES_ADD_DONE', 'DEVICES_AUTOSCAN');
             $action = 'done';
-        } elseif (isset($_REQUEST['save_all'])) {
+        } elseif (isset($_POST['save_all'])) {
             $deviceRepository = $container->get(DeviceRepository::class);
-            $deviceUsername = htmlspecialchars($_REQUEST['device_username'] ?? '');
-            $devicePassword = htmlspecialchars($_REQUEST['device_password'] ?? '');
-            $deviceRepository->addDevices($_REQUEST['devices'], $deviceUsername, $devicePassword);
+            $deviceUsername = htmlspecialchars($_POST['device_username'] ?? '');
+            $devicePassword = htmlspecialchars($_POST['device_password'] ?? '');
+            $deviceRepository->addDevices($_POST['devices'], $deviceUsername, $devicePassword);
             $msg = __('MSG_DEVICES_ADD_DONE', 'DEVICES_AUTOSCAN');
             $action = 'done';
         }
@@ -237,16 +238,16 @@ if (isset($_REQUEST) && !empty($_REQUEST)) {
 $scanFromIp = $Config->read('scan_from_ip');
 $scanToIp = $Config->read('scan_to_ip');
 $additionalScanRanges = $Config->read('additional_scan_ranges');
-$port = $_REQUEST['port'] ?? $Config->read('port');
-$mqttDiscoveryHost = $_REQUEST['mqtt_discovery_host'] ?? $Config->read('mqtt_discovery_host');
-$mqttDiscoveryPort = $_REQUEST['mqtt_discovery_port'] ?? $Config->read('mqtt_discovery_port');
-$mqttDiscoveryUsername = $_REQUEST['mqtt_discovery_username'] ?? $Config->read('mqtt_discovery_username');
+$port = $_POST['port'] ?? $Config->read('port');
+$mqttDiscoveryHost = $_POST['mqtt_discovery_host'] ?? $Config->read('mqtt_discovery_host');
+$mqttDiscoveryPort = $_POST['mqtt_discovery_port'] ?? $Config->read('mqtt_discovery_port');
+$mqttDiscoveryUsername = $_POST['mqtt_discovery_username'] ?? $Config->read('mqtt_discovery_username');
 $mqttDiscoveryPasswordStored = '' !== $Config->read('mqtt_discovery_password');
-$mqttDiscoveryCmndPrefix = $_REQUEST['mqtt_discovery_cmnd_prefix'] ?? $Config->read('mqtt_discovery_cmnd_prefix');
-$mqttDiscoveryStatPrefix = $_REQUEST['mqtt_discovery_stat_prefix'] ?? $Config->read('mqtt_discovery_stat_prefix');
-$mqttDiscoveryTelePrefix = $_REQUEST['mqtt_discovery_tele_prefix'] ?? $Config->read('mqtt_discovery_tele_prefix');
-$mqttDiscoverySubscriptions = $_REQUEST['mqtt_discovery_subscriptions'] ?? $Config->read('mqtt_discovery_subscriptions');
-$mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $Config->read('mqtt_discovery_timeout_seconds');
+$mqttDiscoveryCmndPrefix = $_POST['mqtt_discovery_cmnd_prefix'] ?? $Config->read('mqtt_discovery_cmnd_prefix');
+$mqttDiscoveryStatPrefix = $_POST['mqtt_discovery_stat_prefix'] ?? $Config->read('mqtt_discovery_stat_prefix');
+$mqttDiscoveryTelePrefix = $_POST['mqtt_discovery_tele_prefix'] ?? $Config->read('mqtt_discovery_tele_prefix');
+$mqttDiscoverySubscriptions = $_POST['mqtt_discovery_subscriptions'] ?? $Config->read('mqtt_discovery_subscriptions');
+$mqttDiscoveryTimeoutSeconds = $_POST['mqtt_discovery_timeout_seconds'] ?? $Config->read('mqtt_discovery_timeout_seconds');
 
 ?>
 <div class='row justify-content-sm-center devices-autoscan-page'>
@@ -335,6 +336,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
         <?php } ?>
 
         <form class='form autoscan-form' name='autoscan_form' method='post' autocomplete="off">
+            <?php echo RequestHelper::csrfTokenField(); ?>
             <input type="hidden" name="scan_mode" value="<?php echo $scanMode; ?>">
             <div class="card autoscan-form-card mb-4">
                 <div class="card-body">
@@ -557,7 +559,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
                                    class="form-control"
                                    id="device_username"
                                    name='device_username'
-                                   value='<?php echo htmlspecialchars((string) ($_REQUEST['device_username'] ?? 'admin'), ENT_QUOTES); ?>'
+                                   value='<?php echo htmlspecialchars((string) ($_POST['device_username'] ?? 'admin'), ENT_QUOTES); ?>'
                             >
                             <small id="device_usernameHelp" class="text-muted">
                                 <?php echo __('DEVICE_USERNAME_HELP', 'DEVICE_ACTIONS'); ?>
@@ -576,7 +578,7 @@ $mqttDiscoveryTimeoutSeconds = $_REQUEST['mqtt_discovery_timeout_seconds'] ?? $C
                                        name='device_password'
                                        autocomplete="off"
                                        aria-autocomplete="none"
-                                       value='<?php echo htmlspecialchars((string) ($_REQUEST['device_password'] ?? ''), ENT_QUOTES); ?>'
+                                       value='<?php echo htmlspecialchars((string) ($_POST['device_password'] ?? ''), ENT_QUOTES); ?>'
                                 >
                                 <div class="input-group-text">
                                     <span class="input-group-text show-hide-password"><i class="far fa-eye"></i></span>

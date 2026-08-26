@@ -1,4 +1,8 @@
 <form class='center config-form' name='device_config_network' method='post'>
+	<?php
+use TasmoAdmin\Helper\RequestHelper;
+
+echo RequestHelper::csrfTokenField(); ?>
 	<input type='hidden' name='tab-index' value='1'>
 	<div class="row g-3 device-config-card-grid">
 		<div class="col col-12">
@@ -16,7 +20,7 @@
 							       name='Hostname'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->Hostname)
-                                 && !empty($status->StatusNET->Hostname) ? $status->StatusNET->Hostname : ''; ?>'>
+	                                 && !empty($status->StatusNET->Hostname) ? $status->StatusNET->Hostname : ''; ?>'>
 							<small id="HostnameHelp" class="form-text text-muted">
 								<?php echo __('CONFIG_HOSTNAME_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -31,7 +35,7 @@
 							       name='NtpServer1'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->statusNTP->NtpServer1)
-                                 && !empty($status->statusNTP->NtpServer1) ? $status->statusNTP->NtpServer1 : ''; ?>'>
+	                                 && !empty($status->statusNTP->NtpServer1) ? $status->statusNTP->NtpServer1 : ''; ?>'>
 							<small id="NtpServer1Help" class="form-text text-muted">
 								<?php echo __('CONFIG_NTPSERVER_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -46,7 +50,7 @@
 							       name='IPAddress1'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->IPAddress)
-                                 && !empty($status->StatusNET->IPAddress) ? $status->StatusNET->IPAddress : ''; ?>'>
+	                                 && !empty($status->StatusNET->IPAddress) ? $status->StatusNET->IPAddress : ''; ?>'>
 							<small id="IPAddress1Help" class="form-text text-muted">
 								<?php echo __('CONFIG_IPADDRESS_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -61,7 +65,7 @@
 							       name='IPAddress2'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->Gateway)
-                                 && !empty($status->StatusNET->Gateway) ? $status->StatusNET->Gateway : ''; ?>'>
+	                                 && !empty($status->StatusNET->Gateway) ? $status->StatusNET->Gateway : ''; ?>'>
 							<small id="IPAddress2Help" class="form-text text-muted">
 								<?php echo __('CONFIG_GATEWAY_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -76,7 +80,7 @@
 							       name='IPAddress3'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->Subnetmask)
-                                 && !empty($status->StatusNET->Subnetmask) ? $status->StatusNET->Subnetmask : ''; ?>'>
+	                                 && !empty($status->StatusNET->Subnetmask) ? $status->StatusNET->Subnetmask : ''; ?>'>
 							<small id="IPAddress3Help" class="form-text text-muted">
 								<?php echo __('CONFIG_SUBNETMASK_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -91,7 +95,7 @@
 							       name='IPAddress4'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->DNSServer)
-                                 && !empty($status->StatusNET->DNSServer) ? $status->StatusNET->DNSServer : ''; ?>'>
+	                                 && !empty($status->StatusNET->DNSServer) ? $status->StatusNET->DNSServer : ''; ?>'>
 							<small id="IPAddress4Help" class="form-text text-muted">
 								<?php echo __('CONFIG_DNSSERVER_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -106,7 +110,7 @@
 							       name='' readonly disabled
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusNET->Mac)
-                                 && !empty($status->StatusNET->Mac) ? $status->StatusNET->Mac : ''; ?>'>
+	                                 && !empty($status->StatusNET->Mac) ? $status->StatusNET->Mac : ''; ?>'>
 							<small id="MacHelp" class="form-text text-muted">
 								<?php echo __('CONFIG_MACADDRESS_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -126,8 +130,8 @@
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="AP" id="AP1" value="1"
 								<?php echo isset($status->StatusSTS->Wifi->AP)
-                           && !empty($status->StatusSTS->Wifi->AP)
-                           && 1 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>>
+	                           && !empty($status->StatusSTS->Wifi->AP)
+	                           && 1 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>>
 							<label class="form-check-label" for="AP1">
 								<?php echo __('CONFIG_AP1', 'DEVICE_CONFIG'); ?>
 							</label>
@@ -135,8 +139,8 @@
 						<div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="AP" id="AP2" value="2"
 								<?php echo isset($status->StatusSTS->Wifi->AP)
-                           && !empty($status->StatusSTS->Wifi->AP)
-                           && 2 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>>
+	                           && !empty($status->StatusSTS->Wifi->AP)
+	                           && 2 == $status->StatusSTS->Wifi->AP ? 'checked="checked"' : ''; ?>>
 							<label class="form-check-label" for="AP2">
 								<?php echo __('CONFIG_AP2', 'DEVICE_CONFIG'); ?>
 							</label>
@@ -156,7 +160,7 @@
 							       name='SSId1'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusLOG->SSId1)
-                                 && !empty($status->StatusLOG->SSId1) ? $status->StatusLOG->SSId1 : ''; ?>'>
+	                                 && !empty($status->StatusLOG->SSId1) ? $status->StatusLOG->SSId1 : ''; ?>'>
 							<small id="SSId1Help" class="form-text text-muted">
 								<?php echo __('CONFIG_SSID1_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -185,7 +189,7 @@
 							       name='SSId2'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
 							       value='<?php echo isset($status->StatusLOG->SSId2)
-                                 && !empty($status->StatusLOG->SSId2) ? $status->StatusLOG->SSId2 : ''; ?>'>
+	                                 && !empty($status->StatusLOG->SSId2) ? $status->StatusLOG->SSId2 : ''; ?>'>
 							<small id="SSId2Help" class="form-text text-muted">
 								<?php echo __('CONFIG_SSID2_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
@@ -210,27 +214,27 @@
 							</label>
 							<select class="form-control form-select" id="WifiConfig" name='WifiConfig'>
 								<option value='0' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 0 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 0 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_0', 'DEVICE_CONFIG'); ?>
 								</option>
 								<option value='1' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 1 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 1 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_1', 'DEVICE_CONFIG'); ?>
 								</option>
 								<option value='2' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 2 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 2 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_2', 'DEVICE_CONFIG'); ?>
 								</option>
 								<option value='3' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 3 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 3 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_3', 'DEVICE_CONFIG'); ?>
 								</option>
 								<option value='4' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 4 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 4 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_4', 'DEVICE_CONFIG'); ?>
 								</option>
 								<option value='5' <?php echo isset($status->StatusNET->WifiConfig)
-                                         && 5 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
+	                                         && 5 == $status->StatusNET->WifiConfig ? 'selected="selected"' : ''; ?>>
 									<?php echo __('CONFIG_WIFICONFIG_OPTION_5', 'DEVICE_CONFIG'); ?>
 								</option>
 							</select>

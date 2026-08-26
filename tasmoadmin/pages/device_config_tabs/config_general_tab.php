@@ -1,4 +1,8 @@
 <form class='center config-form' name='device_config_general' method='post'>
+	<?php
+use TasmoAdmin\Helper\RequestHelper;
+
+echo RequestHelper::csrfTokenField(); ?>
 	<input type='hidden' name='tab-index' value='0'>
 	<div class="row g-3 device-config-card-grid">
 		<div class="col col-12">
@@ -28,8 +32,8 @@
 						</div>
 					<?php } else { // only one friendlyname was editable v < 5.12.0h?>
 						<?php
-                            $friendlyName = is_array($status->Status->FriendlyName)
-                                ? $status->Status->FriendlyName[0] : $status->Status->FriendlyName;
+	                            $friendlyName = is_array($status->Status->FriendlyName)
+	                                ? $status->Status->FriendlyName[0] : $status->Status->FriendlyName;
 					    ?>
 						<div class="form-group">
 							<label for="FriendlyName" class="form-label">

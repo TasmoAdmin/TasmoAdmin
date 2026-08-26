@@ -1,5 +1,7 @@
 <?php
 
+use TasmoAdmin\Helper\RequestHelper;
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -39,15 +41,16 @@ define('_DATADIR_', getenv('TASMO_DATADIR') ?: _APPROOT_.'data/');
 define('_LANGDIR_', _APPROOT_.'lang/');
 define('_CSVFILE_', _DATADIR_.'devices.csv');
 
+require_once _APPROOT_.'vendor/autoload.php';
+
 session_save_path(_TMPDIR_.'sessions');
 session_name('TASMO_SESSION');
+session_set_cookie_params(RequestHelper::sameSiteLaxCookieParams(session_get_cookie_params()));
 session_start();
 
 global $loggedin, $docker;
 $loggedin = false;
 $docker = false;
-
-require_once _APPROOT_.'vendor/autoload.php';
 
 use Selective\Container\Container;
 use TasmoAdmin\Config;

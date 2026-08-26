@@ -10,13 +10,20 @@ use TasmoAdmin\Sonoff;
 
 class DevicesAutoscanPageTest extends TestCase
 {
+    protected function tearDown(): void
+    {
+        $_GET = [];
+        $_POST = [];
+    }
+
     public function testAutoscanPageRendersNetworkAndMqttTabs(): void
     {
         if (!defined('_BASEURL_')) {
             define('_BASEURL_', '/');
         }
 
-        $_REQUEST = [];
+        $_GET = [];
+        $_POST = [];
         $title = 'AutoScan';
         $container = new class {
             public function get(string $class): object
@@ -75,6 +82,7 @@ class DevicesAutoscanPageTest extends TestCase
         self::assertStringContainsString('NETWORK', $output);
         self::assertStringContainsString('MQTT', $output);
         self::assertStringContainsString('name="scan_mode"', $output);
+        self::assertStringContainsString('name="csrf_token"', $output);
     }
 
     public function testAutoscanPageDoesNotRenderStoredMqttPassword(): void
@@ -83,7 +91,8 @@ class DevicesAutoscanPageTest extends TestCase
             define('_BASEURL_', '/');
         }
 
-        $_REQUEST = ['scan_mode' => 'mqtt'];
+        $_GET = ['scan_mode' => 'mqtt'];
+        $_POST = [];
         $title = 'AutoScan';
         $container = new class {
             public function get(string $class): object

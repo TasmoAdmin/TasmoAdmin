@@ -7,6 +7,7 @@ use TasmoAdmin\Helper\CacheCleanupHelper;
 use TasmoAdmin\Helper\GuzzleFactory;
 use TasmoAdmin\Helper\HtmlAttributeHelper;
 use TasmoAdmin\Helper\LoginHelper;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\TasmotaHelper;
 use TasmoAdmin\Helper\TasmotaOtaScraper;
 
@@ -120,6 +121,7 @@ $autoFirmwareChannels = ['stable', 'dev'];
 		<?php } ?>
 		<div class="settings-page">
 		<form name='web_config' method='post' class="settings-form">
+			<?php echo RequestHelper::csrfTokenField(); ?>
 			<div class="settings-section">
 			<div class="row g-4 settings-row">
 				<div class="col col-12 col-md-6">

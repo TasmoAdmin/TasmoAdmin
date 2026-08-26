@@ -12,6 +12,7 @@ const { normalizeStatusData } = statusHelpers;
 class Sonoff {
   constructor(options) {
     this.options = {
+      csrf_token: "",
       timeout: 10,
     };
 
@@ -106,12 +107,14 @@ class Sonoff {
     var ip = ip || id;
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjax`,
+      url: `${this.options.base_url}actions`,
       timeout: this.options.timeout * 1000,
       cache: false,
       type: "post",
       async: true,
       data: {
+        doAjax: 1,
+        csrf_token: this.options.csrf_token,
         id: id,
         cmnd: encodeURIComponent(cmnd),
       },
@@ -142,7 +145,7 @@ class Sonoff {
       url: `${this.options.base_url}actions?doAjaxAll`,
       timeout: timeout * 1000,
       cache: false,
-      type: "post",
+      type: "get",
       data: {
         cmnd: encodeURIComponent(cmnd),
       },
@@ -244,11 +247,13 @@ class Sonoff {
   setDeviceValue(id, field, newvalue, td) {
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjax`,
+      url: `${this.options.base_url}actions`,
       timeout: this.options.timeout * 1000,
       cache: false,
       type: "post",
       data: {
+        doAjax: 1,
+        csrf_token: this.options.csrf_token,
         id: id,
         field: encodeURIComponent(field),
         newvalue: encodeURIComponent(newvalue),

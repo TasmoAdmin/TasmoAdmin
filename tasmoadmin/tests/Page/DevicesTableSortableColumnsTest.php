@@ -147,7 +147,8 @@ class DevicesTableSortableColumnsTest extends TestCase
         self::assertStringContainsString('data-bs-target="#deleteDeviceModal"', $output);
         self::assertStringContainsString('data-dialog-action="delete"', $output);
         self::assertStringContainsString("data-dialog-title='", $output);
-        self::assertStringContainsString('/device_action/delete/1', $output);
+        self::assertStringContainsString("data-dialog-device-id='1'", $output);
+        self::assertStringContainsString("href='#deleteDeviceModal'", $output);
     }
 
     public function testDevicesTableRestartLinkOpensConfirmationModal(): void

@@ -392,8 +392,11 @@ function initCommandHelper() {
         return false;
       }
 
-      const idsParam = selectedDevices.join(",");
-      $.get(`${config.base_url}actions?removeDevices&ids=${idsParam}`)
+      $.post(`${config.base_url}actions`, {
+        removeDevices: 1,
+        ids: selectedDevices.join(","),
+        csrf_token: config.csrf_token,
+      })
         .done(() => window.location.reload())
         .fail(() => showBatchActionFeedback($.i18n("ERROR"), "text-danger"));
 
@@ -844,7 +847,6 @@ function deviceTools() {
       return;
     }
     modal.data("dialog-action", button.data("dialog-action") || "delete");
-    modal.data("dialog-url", button.data("dialog-url") || button.attr("href"));
     modal.data("dialog-device-id", button.data("dialog-device-id") || "");
     modal.data("dialog-device-ids", button.data("dialog-device-ids") || "");
 
@@ -884,9 +886,14 @@ function deviceTools() {
       return;
     }
 
-    let url = modal.data("dialog-url");
-    if (url) {
-      window.location.href = url;
+    const deviceId = modal.data("dialog-device-id");
+    if (deviceId) {
+      const form = document.createElement("form");
+      form.method = "post";
+      form.action = `${config.base_url}device_action/delete/${deviceId}`;
+      form.innerHTML = `<input type="hidden" name="csrf_token" value="${config.csrf_token}">`;
+      document.body.appendChild(form);
+      form.submit();
     }
   });
 

@@ -1,6 +1,7 @@
 <!doctype html>
 <?php
 
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
@@ -61,6 +62,7 @@ $themeToggleMarkup = ob_get_clean();
             const config = {
                 base_url: '<?php echo _BASEURL_; ?>',
                 resource_url: '<?php echo _RESOURCESURL_; ?>',
+                csrf_token: '<?php echo RequestHelper::csrfToken(); ?>',
                 nightmodeconfig: '<?php echo $Config->read('nightmode'); ?>',
                 confirm_device_toggles: <?php echo $viewHelper->getValue(1 == $Config->read('confirm_device_toggles')); ?>,
                 update_fe_check: <?php echo $viewHelper->getValue(1 == $Config->read('update_fe_check')); ?>,
@@ -272,15 +274,18 @@ $themeToggleMarkup = ob_get_clean();
 					<?php if ($loggedin) { ?>
 						<?php if ('1' == $Config->read('login')) { ?>
 							<div class="my-2 my-lg-0 ms-3">
-								<a class="error"
-								   href='<?php echo _BASEURL_; ?>logout'
-								   title='<?php echo __('LOGOUT', 'NAVI'); ?>'
-								>
+								<form method="post" action="<?php echo _BASEURL_; ?>logout">
+									<?php echo RequestHelper::csrfTokenField(); ?>
+									<button class="error border-0 bg-transparent p-0"
+											type="submit"
+											title="<?php echo __('LOGOUT', 'NAVI'); ?>"
+									>
 									<i class='fas fa-sign-out-alt fa-lg'></i>
 									<span class='d-inline d-sm-none'>
 										<?php echo __('LOGOUT', 'NAVI'); ?>
 									</span>
-								</a>
+									</button>
+								</form>
 							</div>
 						<?php } ?>
 					<?php } ?>
