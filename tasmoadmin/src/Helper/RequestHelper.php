@@ -40,16 +40,11 @@ class RequestHelper
             && hash_equals((string) $_SESSION[self::CSRF_TOKEN_FIELD], $token);
     }
 
-    public static function sameSiteCookieParams(array $params, bool $allowCrossSiteIframe): array
+    public static function sameSiteCookieParams(array $params, bool $allowCrossSiteIframe, bool $isHttps): array
     {
-        if ($allowCrossSiteIframe) {
-            $params['samesite'] = 'None';
-            $params['secure'] = true;
-
-            return $params;
-        }
-
-        $params['samesite'] = 'Lax';
+        $params['httponly'] = true;
+        $params['secure'] = $allowCrossSiteIframe || $isHttps || !empty($params['secure']);
+        $params['samesite'] = $allowCrossSiteIframe ? 'None' : 'Lax';
 
         return $params;
     }

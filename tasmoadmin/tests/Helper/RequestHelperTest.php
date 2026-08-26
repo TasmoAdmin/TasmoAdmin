@@ -38,19 +38,19 @@ class RequestHelperTest extends TestCase
         self::assertTrue(RequestHelper::hasValidCsrfToken(Request::create('/actions', 'POST', ['csrf_token' => 'expected-token'])));
     }
 
-    public function testSameSiteCookieParamsRetainExistingValuesAndSetLax(): void
+    public function testSameSiteCookieParamsSetHttpOnlyAndSecureForHttps(): void
     {
         self::assertSame(
-            ['path' => '/tasmo', 'secure' => true, 'samesite' => 'Lax'],
-            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => true], false)
+            ['path' => '/tasmo', 'secure' => true, 'httponly' => true, 'samesite' => 'Lax'],
+            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => false], false, true)
         );
     }
 
     public function testCrossSiteIframeCookieParamsRequireSecureSameSiteNone(): void
     {
         self::assertSame(
-            ['path' => '/tasmo', 'secure' => true, 'samesite' => 'None'],
-            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => false], true)
+            ['path' => '/tasmo', 'secure' => true, 'httponly' => true, 'samesite' => 'None'],
+            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => false], true, true)
         );
     }
 
