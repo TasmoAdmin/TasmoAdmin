@@ -64,6 +64,7 @@ class RequestHelperTest extends TestCase
     public function testLegacyMutationRequestsAreRejectedOutsidePost(): void
     {
         self::assertTrue(RequestHelper::isLegacyMutationRequest(Request::create('/actions?doAjax=1'), 'actions'));
+        self::assertTrue(RequestHelper::isLegacyMutationRequest(Request::create('/actions?doAjaxAll=1'), 'actions'));
         self::assertTrue(RequestHelper::isLegacyMutationRequest(Request::create('/actions?clean=config'), 'actions'));
         self::assertTrue(RequestHelper::isLegacyMutationRequest(Request::create('/device_action/delete/1'), 'device_action', 'delete'));
         self::assertTrue(RequestHelper::isLegacyMutationRequest(Request::create('/selfupdate?selfupdate=1'), 'selfupdate'));

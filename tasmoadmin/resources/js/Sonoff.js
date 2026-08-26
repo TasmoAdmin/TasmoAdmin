@@ -142,11 +142,13 @@ class Sonoff {
     var timeout = timeout || this.options.timeout;
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjaxAll`,
+      url: `${this.options.base_url}actions`,
       timeout: timeout * 1000,
       cache: false,
-      type: "get",
+      type: "post",
       data: {
+        doAjaxAll: 1,
+        csrf_token: this.options.csrf_token,
         cmnd: encodeURIComponent(cmnd),
       },
       success: function (data) {
