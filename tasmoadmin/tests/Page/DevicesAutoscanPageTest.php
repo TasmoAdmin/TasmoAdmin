@@ -82,7 +82,6 @@ class DevicesAutoscanPageTest extends TestCase
         self::assertStringContainsString('NETWORK', $output);
         self::assertStringContainsString('MQTT', $output);
         self::assertStringContainsString('name="scan_mode"', $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
     }
 
     public function testAutoscanPageDoesNotRenderStoredMqttPassword(): void

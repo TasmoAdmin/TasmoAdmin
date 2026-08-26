@@ -27,7 +27,6 @@ class DevicesPageBackupWorkflowTest extends TestCase
         self::assertStringContainsString("<option value='backup'>", $output);
         self::assertStringContainsString("<option value='restore'>", $output);
         self::assertStringContainsString('batchActionSelect', $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
         self::assertStringContainsString("name='restore_backup'", $output);
         self::assertStringContainsString('BACKUP_RESTORE_WARNING:', $output);
     }

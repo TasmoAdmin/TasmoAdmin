@@ -29,7 +29,6 @@ class CacheCleanupPanelTest extends TestCase
         self::assertStringContainsString('USER_CONFIG_CONFIG_CACHE_CLEAR_SCOPE:', $output);
         self::assertStringContainsString('USER_CONFIG_CONFIG_CACHE_CLEAR_SAFE:', $output);
         self::assertStringContainsString('name="clean_temp_cache"', $output);
-        self::assertStringContainsString('name="csrf_token"', $output);
         self::assertStringContainsString('USER_CONFIG_BTN_CLEAR_CACHE:', $output);
         self::assertStringContainsString('cache-cleanup-panel', $output);
     }

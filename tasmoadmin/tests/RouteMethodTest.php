@@ -21,17 +21,18 @@ class RouteMethodTest extends TestCase
         $postRequest = Request::create($path, 'POST');
         $context = new RequestContext();
         $context->fromRequest($postRequest);
+        $matcher = new UrlMatcher($routes, $context);
 
         self::assertSame(
             'render_raw',
-            new UrlMatcher($routes, $context)->match($postRequest->getPathInfo())['_controller']
+            $matcher->match($postRequest->getPathInfo())['_controller']
         );
 
         $getRequest = Request::create($path);
         $context->fromRequest($getRequest);
 
         $this->expectException(MethodNotAllowedException::class);
-        new UrlMatcher($routes, $context)->match($getRequest->getPathInfo());
+        $matcher->match($getRequest->getPathInfo());
     }
 
     public static function postOnlyRoutes(): array
