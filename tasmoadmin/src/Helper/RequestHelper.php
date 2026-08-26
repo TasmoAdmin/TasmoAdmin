@@ -40,11 +40,25 @@ class RequestHelper
             && hash_equals((string) $_SESSION[self::CSRF_TOKEN_FIELD], $token);
     }
 
-    public static function sameSiteLaxCookieParams(array $params): array
+    public static function sameSiteCookieParams(array $params, bool $allowCrossSiteIframe): array
     {
+        if ($allowCrossSiteIframe) {
+            $params['samesite'] = 'None';
+            $params['secure'] = true;
+
+            return $params;
+        }
+
         $params['samesite'] = 'Lax';
 
         return $params;
+    }
+
+    public static function isHttpsRequest(array $server): bool
+    {
+        return 'on' === strtolower((string) ($server['HTTPS'] ?? ''))
+            || '1' === (string) ($server['HTTPS'] ?? '')
+            || '443' === (string) ($server['SERVER_PORT'] ?? '');
     }
 
     public static function isLegacyMutationRequest(Request $request, string $route, ?string $action = null): bool

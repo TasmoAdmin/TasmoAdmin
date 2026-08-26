@@ -86,6 +86,7 @@ Some environment variables are configured to allow easier customisation of the a
 - `TASMO_BASEURL` - Customise the base URL for the application
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
 - `TASMO_DEVICE_PASSWORD_KEY` - Base64-encoded 32-byte secret for device password encryption at rest
+- `TASMO_ALLOW_CROSS_SITE_IFRAME` - Set to `true` to embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr; HTTP requests remain restricted
 
 ### Device Password Encryption
 
@@ -102,7 +103,7 @@ On the first read after upgrading, legacy plaintext password cells are migrated 
 
 ### Session and CSRF protection
 
-Authenticated state changes require a POST request with the session CSRF token. The session cookie uses `SameSite=Lax`, so an iframe deployment continues to work when the parent and TasmoAdmin are same-site. Cross-site framing requires a separate, explicitly designed deployment policy.
+Authenticated state changes require a POST request with the session CSRF token. The session cookie uses `SameSite=Lax` by default, so an iframe deployment continues to work when the parent and TasmoAdmin are same-site. To embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr, set `TASMO_ALLOW_CROSS_SITE_IFRAME=true`. This uses `SameSite=None; Secure` only for HTTPS requests; HTTP stays at `SameSite=Lax`. Browsers that block third-party cookies may still require a user exception.
 
 For a deployment check, verify an authenticated device command and self-update form in both day and night mode, then confirm that a cross-site POST and a legacy state-changing GET URL leave the installation unchanged.
 

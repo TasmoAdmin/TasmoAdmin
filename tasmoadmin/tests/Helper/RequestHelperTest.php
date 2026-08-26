@@ -42,8 +42,23 @@ class RequestHelperTest extends TestCase
     {
         self::assertSame(
             ['path' => '/tasmo', 'secure' => true, 'samesite' => 'Lax'],
-            RequestHelper::sameSiteLaxCookieParams(['path' => '/tasmo', 'secure' => true])
+            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => true], false)
         );
+    }
+
+    public function testCrossSiteIframeCookieParamsRequireSecureSameSiteNone(): void
+    {
+        self::assertSame(
+            ['path' => '/tasmo', 'secure' => true, 'samesite' => 'None'],
+            RequestHelper::sameSiteCookieParams(['path' => '/tasmo', 'secure' => false], true)
+        );
+    }
+
+    public function testCrossSiteIframeRequiresHttps(): void
+    {
+        self::assertTrue(RequestHelper::isHttpsRequest(['HTTPS' => 'on']));
+        self::assertTrue(RequestHelper::isHttpsRequest(['SERVER_PORT' => '443']));
+        self::assertFalse(RequestHelper::isHttpsRequest(['HTTPS' => 'off', 'SERVER_PORT' => '80']));
     }
 
     public function testLegacyMutationRequestsAreRejectedOutsidePost(): void
