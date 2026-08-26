@@ -313,7 +313,7 @@ function submitForm(e) {
       function (idx, felem) {
         felem = $(felem);
 
-        if (itemsToSubmit[felem.attr("name")] === undefined) {
+        if (shouldDisableUnchangedField(felem.attr("name"), itemsToSubmit)) {
           felem.attr("disabled", "disabled");
         }
       },
@@ -325,6 +325,10 @@ function submitForm(e) {
     e.preventDefault();
     return false;
   }
+}
+
+function shouldDisableUnchangedField(fieldName, changedItems) {
+  return fieldName !== "csrf_token" && changedItems[fieldName] === undefined;
 }
 
 function hashDiff(h1, h2) {
@@ -372,6 +376,7 @@ if (typeof module !== "undefined") {
     normalizeTimerClockTimeValue,
     resolveTimerTimePickerFactory,
     setElementVisibility,
+    shouldDisableUnchangedField,
     syncTimerTimeInput,
     syncTimerDayGroup,
   };
