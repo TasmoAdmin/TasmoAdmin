@@ -70,7 +70,7 @@ This is the recommended way to get up and running.
 
 ### Home Assistant Addon
 
-TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/) addon, please refer to [Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-tasmoadmin) for more information.
+TasmoAdmin is also available as a [Home Assistant](https://www.home-assistant.io/) addon. See the [TasmoAdmin Home Assistant app](https://github.com/hassio-addons/app-tasmoadmin) for more information.
 
 ### Using a Web Server
 
