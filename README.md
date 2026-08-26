@@ -100,6 +100,12 @@ Encrypted password cells are stored as `enc:v1:<base64(iv||tag||ciphertext)>`.
 
 On the first read after upgrading, legacy plaintext password cells are migrated in place to the encrypted format. Running `clean=devices` removes both `devices.csv` and `.device-password.key` for file-backed installs.
 
+### Session and CSRF protection
+
+Authenticated state changes require a POST request with the session CSRF token. The session cookie uses `SameSite=Lax`, so an iframe deployment continues to work when the parent and TasmoAdmin are same-site. Cross-site framing requires a separate, explicitly designed deployment policy.
+
+For a deployment check, verify an authenticated device command and self-update form in both day and night mode, then confirm that a cross-site POST and a legacy state-changing GET URL leave the installation unchanged.
+
 ### MQTT Discovery
 
 TasmoAdmin can discover devices through your MQTT broker in addition to classic network autoscan.
