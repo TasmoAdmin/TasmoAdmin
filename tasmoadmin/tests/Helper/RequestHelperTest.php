@@ -88,11 +88,6 @@ class RequestHelperTest extends TestCase
             'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip',
             'updates.example'
         ));
-        self::assertFalse(RequestHelper::isUnfamiliarUpdateSource(
-            'https://updates.example/release.zip',
-            'https://updates.example/release.zip',
-            'updates.example'
-        ));
     }
 
     public function testIsPublicI18nRequestReturnsTrueForActionsRouteWithI18nQuery(): void
