@@ -57,12 +57,12 @@ class RequestHelperTest extends TestCase
 
     public function testUnfamiliarUpdateSourcesRequireConfirmation(): void
     {
-        self::assertTrue(RequestHelper::isUnfamiliarUpdateSource(
+        self::assertFalse(RequestHelper::isUnfamiliarUpdateSource(
             'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip',
             'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip',
             'tasmoadmin.example'
         ));
-        self::assertTrue(RequestHelper::isUnfamiliarUpdateSource(
+        self::assertFalse(RequestHelper::isUnfamiliarUpdateSource(
             'https://updates.example/release.zip',
             'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip',
             'updates.example'

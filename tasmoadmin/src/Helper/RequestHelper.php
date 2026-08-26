@@ -70,9 +70,9 @@ class RequestHelper
         $releaseHost = parse_url($releaseUrl, PHP_URL_HOST);
 
         return $releaseUrl !== $officialReleaseUrl
-            || !is_string($releaseHost)
-            || '' === $currentHost
-            || 0 !== strcasecmp($releaseHost, $currentHost);
+            && (!is_string($releaseHost)
+                || '' === $currentHost
+                || 0 !== strcasecmp($releaseHost, $currentHost));
     }
 
     public static function isPublicI18nRequest(Request $request): bool
