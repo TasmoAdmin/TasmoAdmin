@@ -19,6 +19,7 @@
 /tasmoadmin/resources/css/*.min.css
 /tasmoadmin/resources/js/*.min.js
 /tasmoadmin/resources/js/compiled/
+/tasmoadmin/resources/manifest.json
 /tasmoadmin/data/updates/*.zip
 /tasmoadmin/.version
 

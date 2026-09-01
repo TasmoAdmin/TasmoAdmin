@@ -1,122 +1,114 @@
 import * as esbuild from "esbuild";
 import { sassPlugin } from "esbuild-sass-plugin";
-import { fileURLToPath } from "node:url";
+import { writeFile, rm, mkdir } from "node:fs/promises";
+import path from "node:path";
 
 const scssPaths = ["resources/scss/all.scss"];
+const watch = process.env.WATCH_MODE === "true";
 
-const jsPaths = ["resources/js/*.js"];
-
-const watch = process.env.WATCH_MODE || false;
-
-function shouldIgnoreSassWarning(message, opts = {}) {
-  const warningPath = opts.span?.url?.pathname ?? "";
-
-  if (
-    message.startsWith("Found no color leading to 4.5:1 contrast ratio") ||
-    message.includes("repetitive deprecation warnings omitted.")
-  ) {
-    return true;
-  }
-
-  if (
-    warningPath.includes("/node_modules/bootstrap/") &&
-    message.startsWith("The Sass if() syntax is deprecated")
-  ) {
-    return true;
-  }
-
-  return false;
+// Cleanup before build
+if (!watch) {
+    await rm("resources/js/compiled/", { recursive: true, force: true });
+    await rm("resources/css/compiled/", { recursive: true, force: true });
+    await mkdir("resources/js/compiled/", { recursive: true });
+    await mkdir("resources/css/compiled/", { recursive: true });
 }
 
-function getSassWarningPath(url) {
-  if (!url) {
-    return "";
-  }
-
-  return url.protocol === "file:"
-    ? fileURLToPath(url)
-    : (url.pathname ?? String(url));
-}
-
-function logSassWarning(message, opts = {}) {
-  const lines = [`sass warning: ${message}`];
-
-  if (opts.span?.url) {
-    lines.push(
-      "",
-      `${getSassWarningPath(opts.span.url)}:${opts.span.start.line}:${opts.span.start.column}`,
-    );
-  }
-
-  if (opts.span?.text) {
-    lines.push(opts.span.text);
-  }
-
-  if (opts.stack) {
-    lines.push("", opts.stack);
-  }
-
-  console.warn(lines.join("\n"));
-}
-
-async function buildCSS() {
-  const options = {
-    entryPoints: scssPaths,
+const commonOptions = {
     bundle: true,
-    outfile: "resources/css/compiled/all.css",
+    metafile: true,
+    minify: !watch,
+    entryNames: watch ? "[name]" : "[name]-[hash]",
     loader: {
-      ".ttf": "file",
-      ".otf": "file",
-      ".svg": "file",
-      ".eot": "file",
-      ".woff": "file",
-      ".woff2": "file",
+        ".ttf": "file",
+        ".otf": "file",
+        ".woff2": "file",
+        ".woff": "file",
+        ".eot": "file",
+        ".svg": "file",
     },
-    plugins: [
-      sassPlugin({
-        quietDeps: true,
-        silenceDeprecations: ["color-functions", "global-builtin", "import"],
-        logger: {
-          warn(message, opts) {
-            if (shouldIgnoreSassWarning(message, opts)) {
-              return;
+};
+
+const sassOptions = {
+    quietDeps: true,
+    silenceDeprecations: ['import', 'color-functions', 'global-builtin', 'if-function'],
+};
+
+async function build() {
+    if (watch) {
+        const cssContext = await esbuild.context({
+            ...commonOptions,
+            entryPoints: scssPaths,
+            plugins: [sassPlugin(sassOptions)],
+            outdir: "resources/css/compiled/",
+        });
+        await cssContext.watch();
+
+        const jsContext = await esbuild.context({
+            ...commonOptions,
+            entryPoints: [
+                "resources/js/app.js",
+                "resources/js/Sonoff.js",
+                "resources/js/vendor.js",
+                "resources/js/devices.js",
+                "resources/js/device_config.js",
+                "resources/js/device_update.js",
+                "resources/js/start.js",
+                "resources/js/toggle_confirmation.js",
+                "resources/js/status_helpers.js",
+                "resources/js/nightmode.js",
+                "resources/js/ip_sort.js",
+                "resources/js/device_update_logic.js",
+                "resources/js/device_list_preferences.js"
+            ],
+            outdir: "resources/js/compiled/",
+            metafile: true,
+        });
+        await jsContext.watch();
+        console.log("Watching for changes...");
+    } else {
+        const cssResult = await esbuild.build({
+            ...commonOptions,
+            entryPoints: scssPaths,
+            plugins: [sassPlugin(sassOptions)],
+            outdir: "resources/css/compiled/",
+        });
+
+        const jsResult = await esbuild.build({
+            ...commonOptions,
+            entryPoints: [
+                "resources/js/app.js",
+                "resources/js/Sonoff.js",
+                "resources/js/vendor.js",
+                "resources/js/devices.js",
+                "resources/js/device_config.js",
+                "resources/js/device_update.js",
+                "resources/js/start.js",
+                "resources/js/toggle_confirmation.js",
+                "resources/js/status_helpers.js",
+                "resources/js/nightmode.js",
+                "resources/js/ip_sort.js",
+                "resources/js/device_update_logic.js",
+                "resources/js/device_list_preferences.js"
+            ],
+            outdir: "resources/js/compiled/",
+            metafile: true,
+        });
+
+        // Generate manifest
+        const manifest = {};
+        const outputs = { ...cssResult.metafile.outputs, ...jsResult.metafile.outputs };
+
+        for (const [key, value] of Object.entries(outputs)) {
+            if (value.entryPoint) {
+                const entryName = path.basename(value.entryPoint, path.extname(value.entryPoint));
+                const outputName = path.basename(key);
+                manifest[entryName] = outputName;
             }
-
-            logSassWarning(message, opts);
-          },
-        },
-      }),
-    ],
-  };
-
-  if (watch) {
-    const ctx = await esbuild.context(options);
-    await ctx.watch();
-    console.log("⚡ CSS Watching! ⚡");
-    return;
-  }
-
-  await esbuild.build(options);
-  console.log("⚡ CSS Build complete! ⚡");
+        }
+        await writeFile("resources/manifest.json", JSON.stringify(manifest, null, 2));
+        console.log("Build complete with manifest generation.");
+    }
 }
 
-async function buildJS() {
-  const options = {
-    entryPoints: jsPaths,
-    bundle: true,
-    outdir: "resources/js/compiled/",
-  };
-
-  if (watch) {
-    const ctx = await esbuild.context(options);
-    await ctx.watch();
-    console.log("⚡ JS Watching! ⚡");
-    return;
-  }
-
-  await esbuild.build(options);
-  console.log("⚡ JS Build complete! ⚡");
-}
-
-await buildCSS();
-await buildJS();
+await build();

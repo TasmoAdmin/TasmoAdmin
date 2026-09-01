@@ -25,7 +25,7 @@
     "prettier": "^3.8.4"
   },
   "scripts": {
-    "build": "node esbuild.mjs && node minify.js",
+    "build": "node esbuild.mjs",
     "build:dev": "WATCH_MODE=true node esbuild.mjs --watch=true",
     "test:js": "node --test \"tests/js/**/*.test.js\"",
     "prettier:format": "prettier . --write",

@@ -10,54 +10,46 @@ class UrlHelper
 
     private string $resourceDir;
 
-    private bool $minimizeResources;
-
     private ?string $currentGitTag;
+
+    private array $manifest = [];
 
     public function __construct(Config $config, string $resourceUrl, string $resourceDir)
     {
         $this->resourceUrl = $resourceUrl;
         $this->resourceDir = $resourceDir;
-        $this->minimizeResources = '1' === $config->read('minimize_resources');
         $this->currentGitTag = $config->read('current_git_tag');
+
+        $manifestPath = $resourceDir . 'manifest.json';
+        if (file_exists($manifestPath)) {
+            $this->manifest = json_decode(file_get_contents($manifestPath), true);
+        }
     }
 
     public function style(string $filename): string
     {
         $csspath = $this->resourceUrl.'css/';
         $cssReal = $this->resourceDir.'css/';
-        $min = '';
-        if ($this->minimizeResources) {
-            $min = '.min';
+
+        $name = basename($filename);
+        if (isset($this->manifest[$name])) {
+            return $csspath . 'compiled/' . $this->manifest[$name];
         }
 
-        $path = $filename.$min.'.css';
-        if (file_exists($cssReal.$path)) {
-            $filepath = $csspath.$path.$this->getCacheTag($cssReal.$path);
-        } else {
-            $filepath = $csspath.$filename.'.css'.$this->getCacheTag($cssReal.$filename.'.css');
-        }
-
-        return $filepath;
+        return $csspath.$filename.'.css'.$this->getCacheTag($cssReal.$filename.'.css');
     }
 
     public function js(string $filename): string
     {
         $jspath = $this->resourceUrl.'js/';
         $jsReal = $this->resourceDir.'js/';
-        $min = '';
-        if ($this->minimizeResources) {
-            $min = '.min';
+
+        $name = basename($filename);
+        if (isset($this->manifest[$name])) {
+            return $jspath . 'compiled/' . $this->manifest[$name];
         }
 
-        $path = $filename.$min.'.js';
-        if (file_exists($jsReal.$path)) {
-            $filepath = $jspath.$path.$this->getCacheTag($jsReal.$path);
-        } else {
-            $filepath = $jspath.$filename.'.js'.$this->getCacheTag($jsReal.$filename.'.js');
-        }
-
-        return $filepath;
+        return $jspath.$filename.'.js'.$this->getCacheTag($jsReal.$filename.'.js');
     }
 
     private function getCacheTag(?string $assetPath = null): string
