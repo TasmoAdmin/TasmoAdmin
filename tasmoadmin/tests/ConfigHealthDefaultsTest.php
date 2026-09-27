@@ -12,7 +12,7 @@ final class ConfigHealthDefaultsTest extends TestCase
     protected function setUp(): void
     {
         $this->dataDir = sys_get_temp_dir().'/ta-cfg-'.bin2hex(random_bytes(4)).'/';
-        mkdir($this->dataDir, 0777, true);
+        mkdir($this->dataDir, 0o777, true);
     }
 
     protected function tearDown(): void

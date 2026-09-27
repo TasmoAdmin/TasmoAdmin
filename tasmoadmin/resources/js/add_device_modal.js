@@ -45,7 +45,10 @@ function loadFragment(url) {
   body.innerHTML = getLoadingMarkup();
   window.bootstrap.Modal.getOrCreateInstance(modalEl).show();
 
-  fetch(url, { credentials: "same-origin", headers: { "X-Requested-With": "XMLHttpRequest" } })
+  fetch(url, {
+    credentials: "same-origin",
+    headers: { "X-Requested-With": "XMLHttpRequest" },
+  })
     .then((response) => {
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`);

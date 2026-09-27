@@ -177,7 +177,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 // the form renders as a modal-friendly fragment (no page heading, dismiss
 // buttons instead of "Back" links, and a machine-readable state marker the
 // add-device modal JS reads to decide keep-open / swap-body / close-and-reload).
-$modal = $modal ?? false;
+$modal ??= false;
 $modalState = 'done' === $action ? 'done' : ($showDeviceFields ? 'found' : 'search');
 ?>
 <div class='row justify-content-sm-center'<?php echo $modal ? ' data-da-state="'.$modalState.'"' : ''; ?>>
@@ -520,7 +520,7 @@ $modalState = 'done' === $action ? 'done' : ($showDeviceFields ? 'found' : 'sear
 		<?php } ?>
 	</div>
 </div>
-<?php if (!$modal) { // In modal mode these behaviours are bound by add_device_modal.js via delegation. ?>
+<?php if (!$modal) { // In modal mode these behaviours are bound by add_device_modal.js via delegation.?>
 <script>
     $(document).ready(function()
     {
