@@ -38,6 +38,17 @@ class RequestHelperTest extends TestCase
         self::assertTrue(RequestHelper::hasValidCsrfToken(Request::create('/actions', 'POST', ['csrf_token' => 'expected-token'])));
     }
 
+    public function testCsrfValidationAcceptsTokenHeaderForJsonRequests(): void
+    {
+        $_SESSION[RequestHelper::CSRF_TOKEN_FIELD] = 'expected-token';
+
+        $valid = Request::create('/passkey/delete', 'POST', [], [], [], ['HTTP_X_CSRF_TOKEN' => 'expected-token'], '{}');
+        $wrong = Request::create('/passkey/delete', 'POST', [], [], [], ['HTTP_X_CSRF_TOKEN' => 'wrong-token'], '{}');
+
+        self::assertTrue(RequestHelper::hasValidCsrfToken($valid));
+        self::assertFalse(RequestHelper::hasValidCsrfToken($wrong));
+    }
+
     public function testSameSiteCookieParamsSetHttpOnlyAndSecureForHttps(): void
     {
         self::assertSame(

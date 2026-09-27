@@ -7,12 +7,16 @@ import {
   getDistance,
   getEnergyPower,
   getRefreshTime,
+  refreshTooltip,
   chunkArray,
   onI18nReady,
 } from "./app";
 import toggleConfirmation from "./toggle_confirmation";
+import initAddDeviceModal from "./add_device_modal";
 
 var longPressTimer;
+var allOffUnlockTimer;
+const ALL_OFF_UNLOCK_MS = 5000;
 const {
   confirmAction,
   createTouchConfirmController,
@@ -24,6 +28,7 @@ const refreshtime = getRefreshTime();
 
 onI18nReady(function () {
   deviceTools();
+  initAddDeviceModal();
   updateStatus();
 
   if (refreshtime) {
@@ -183,6 +188,9 @@ function processBox($box) {
 
 function deviceTools() {
   const toggleConfirmationController = createTouchConfirmController();
+  const $allOffButton = $("#all_off");
+
+  lockAllOffButton($allOffButton);
 
   $("#content .box_device:not(#all_off)")
     .on("mousedown touchstart", function () {
@@ -312,6 +320,15 @@ function deviceTools() {
 
   $("#all_off").on("click", function (e) {
     e.preventDefault();
+    const allOffButton = $(this);
+
+    if (!allOffButton.hasClass("all-off-unlocked")) {
+      unlockAllOffButton(allOffButton);
+      return;
+    }
+
+    lockAllOffButton(allOffButton);
+
     const boxes = $("#content .box_device:not(#all_off)")
       .toArray()
       .filter(function (box) {
@@ -335,15 +352,8 @@ function deviceTools() {
       return;
     }
 
-    const requiresConfirmation = boxes.some((box) =>
-      resolveToggleConfirmationSetting(
-        $(box).data("device_confirm_toggle"),
-        config.confirm_device_toggles,
-      ),
-    );
-
     void confirmAction({
-      requiresConfirmation,
+      requiresConfirmation: true,
       confirm: toggleConfirmationController.confirm,
       modalOptions: getToggleConfirmationOptions({
         i18n: $.i18n,
@@ -397,6 +407,33 @@ function deviceTools() {
       },
     });
   });
+}
+
+function setAllOffLockIndicator($button, unlocked) {
+  const indicator = $button.find(".all-off-lock-indicator");
+  const label = $.i18n(unlocked ? "ALL_OFF_UNLOCKED" : "ALL_OFF_LOCKED");
+
+  indicator
+    .attr("aria-label", label)
+    .attr("data-bs-title", label)
+    .find("i")
+    .attr("class", unlocked ? "fas fa-unlock" : "fas fa-lock");
+  refreshTooltip(indicator.get(0));
+}
+
+function lockAllOffButton($button) {
+  clearTimeout(allOffUnlockTimer);
+  $button.removeClass("all-off-unlocked").attr("aria-pressed", "false");
+  setAllOffLockIndicator($button, false);
+}
+
+function unlockAllOffButton($button) {
+  $button.addClass("all-off-unlocked").attr("aria-pressed", "true");
+  setAllOffLockIndicator($button, true);
+  clearTimeout(allOffUnlockTimer);
+  allOffUnlockTimer = setTimeout(function () {
+    lockAllOffButton($button);
+  }, ALL_OFF_UNLOCK_MS);
 }
 
 function updateBox(row, data, device_status) {

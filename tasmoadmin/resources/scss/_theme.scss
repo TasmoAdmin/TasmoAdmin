@@ -1,0 +1,653 @@
+// ---------------------------------------------------------------------------
+// Theme layer — semantic tokens for day and night mode.
+// Loaded last so it can re-skin the shared surfaces (navbar, panels, cards,
+// tables, forms) from one set of variables instead of per-page overrides.
+// ---------------------------------------------------------------------------
+
+:root {
+  color-scheme: light;
+  --ta-bg: #f3f5f9;
+  --ta-surface: #ffffff;
+  --ta-surface-2: #f7f9fc;
+  --ta-surface-hover: #eef2f8;
+  --ta-border: rgba(15, 23, 42, 0.08);
+  --ta-border-strong: rgba(15, 23, 42, 0.14);
+  --ta-text: #0f172a;
+  --ta-text-2: #334155;
+  --ta-text-muted: #64748b;
+  --ta-accent: #2563eb;
+  --ta-accent-soft: rgba(37, 99, 235, 0.1);
+  --ta-link: #1d4ed8;
+  --ta-field-bg: #ffffff;
+  --ta-nav-bg: rgba(255, 255, 255, 0.82);
+  // Opaque nav colour for the browser/PWA status bar (meta theme-color).
+  --ta-theme-color: #ffffff;
+  --ta-nav-text: #475569;
+  --ta-nav-text-active: #0f172a;
+  --ta-table-head-bg: #f1f5f9;
+  --ta-table-head-text: #64748b;
+  --ta-row-hover: rgba(37, 99, 235, 0.04);
+  // Rows of devices that are switched on: warm "light on" tint + edge bar.
+  --ta-row-on-bg: rgba(245, 158, 11, 0.12);
+  --ta-row-on-bg-hover: rgba(245, 158, 11, 0.18);
+  --ta-row-on-accent: #f59e0b;
+  --ta-switch-off: #cbd5e1;
+  --ta-switch-on: #2563eb;
+  --ta-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.05);
+  --ta-shadow-hover:
+    0 1px 2px rgba(15, 23, 42, 0.06), 0 10px 28px rgba(15, 23, 42, 0.1);
+  --ta-radius: 14px;
+  --ta-radius-sm: 10px;
+
+  --bs-body-bg: var(--ta-bg);
+  --bs-body-color: var(--ta-text);
+  --bs-border-color: var(--ta-border-strong);
+  --bs-secondary-color: var(--ta-text-muted);
+  --bs-emphasis-color: var(--ta-text);
+  --device-chip-bg: rgba(15, 23, 42, 0.05);
+}
+
+.nightmode {
+  color-scheme: dark;
+  --ta-bg: #0b1020;
+  --ta-surface: #131a2b;
+  --ta-surface-2: #182135;
+  --ta-surface-hover: #1e2940;
+  --ta-border: rgba(148, 163, 184, 0.12);
+  --ta-border-strong: rgba(148, 163, 184, 0.2);
+  --ta-text: #e2e8f0;
+  --ta-text-2: #cbd5e1;
+  --ta-text-muted: #94a3b8;
+  --ta-accent: #60a5fa;
+  --ta-accent-soft: rgba(96, 165, 250, 0.14);
+  --ta-link: #93c5fd;
+  --ta-field-bg: #0f1627;
+  --ta-nav-bg: rgba(11, 16, 32, 0.78);
+  --ta-theme-color: #0b1020;
+  --ta-nav-text: #94a3b8;
+  --ta-nav-text-active: #f1f5f9;
+  --ta-table-head-bg: #182135;
+  --ta-table-head-text: #94a3b8;
+  --ta-row-hover: rgba(96, 165, 250, 0.06);
+  --ta-row-on-bg: rgba(251, 191, 36, 0.14);
+  --ta-row-on-bg-hover: rgba(251, 191, 36, 0.2);
+  --ta-row-on-accent: #fbbf24;
+  --ta-switch-off: #334155;
+  --ta-switch-on: #3b82f6;
+  --ta-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
+  --ta-shadow-hover:
+    0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 32px rgba(0, 0, 0, 0.4);
+
+  --bs-body-bg: var(--ta-bg);
+  --bs-body-color: var(--ta-text);
+  --bs-border-color: var(--ta-border-strong);
+  --bs-secondary-color: var(--ta-text-muted);
+  --bs-emphasis-color: var(--ta-text);
+  --device-chip-bg: rgba(148, 163, 184, 0.12);
+
+  // Existing night-mode rules read these; point them at the tokens.
+  --nightmode-card-bg: var(--ta-surface);
+  --nightmode-card-border-color: var(--ta-border);
+  --nightmode-card-shadow: var(--ta-shadow);
+  --nightmode-field-bg: var(--ta-field-bg);
+  --nightmode-form-border-color: var(--ta-border-strong);
+  --timepicker-surface: var(--ta-surface);
+  --timepicker-surface-alt: var(--ta-surface-2);
+  --timepicker-border: var(--ta-border-strong);
+  --timepicker-text: var(--ta-text);
+  --timepicker-muted: var(--ta-text-muted);
+}
+
+body,
+body.nightmode {
+  background-color: var(--ta-bg);
+  color: var(--ta-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.nightmode h1,
+.nightmode h2,
+.nightmode h3,
+.nightmode h4,
+.nightmode h5,
+.nightmode h6 {
+  color: var(--ta-text);
+}
+
+// Navbar and footer: translucent bar that follows the page theme.
+.navbar.fixed-top.bg-dark,
+.footer .navbar.bg-dark {
+  background-color: var(--ta-nav-bg) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+}
+
+.navbar.fixed-top.bg-dark {
+  border-bottom: 1px solid var(--ta-border);
+}
+
+.footer .navbar.bg-dark {
+  border-top: 1px solid var(--ta-border);
+  font-size: 0.8rem;
+}
+
+.navbar.fixed-top .navbar-nav .nav-link,
+.navbar.fixed-top .navbar-nav .nav-link i,
+.footer .navbar-dark .navbar-text,
+.footer .navbar-dark a,
+.footer .navbar-dark a i {
+  color: var(--ta-nav-text) !important;
+}
+
+.navbar.fixed-top .navbar-nav .nav-link {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .navbar.fixed-top .navbar-nav > .nav-item > .nav-link {
+    padding: 0.4rem 0.75rem;
+    margin: 0 0.1rem;
+  }
+}
+
+.navbar.fixed-top .navbar-nav .nav-link:hover,
+.navbar.fixed-top .navbar-nav .nav-link:focus,
+.navbar.fixed-top .navbar-nav .nav-link:hover i,
+.navbar.fixed-top .navbar-nav .nav-link:focus i,
+.navbar.fixed-top .navbar-nav .active > .nav-link,
+.navbar.fixed-top .navbar-nav .active > .nav-link i,
+.footer .navbar-dark a:hover,
+.footer .navbar-dark a:focus {
+  color: var(--ta-nav-text-active) !important;
+}
+
+.navbar.fixed-top .navbar-nav .nav-link:hover,
+.navbar.fixed-top .navbar-nav > .active > .nav-link {
+  background-color: var(--ta-accent-soft);
+}
+
+.navbar.fixed-top .dropdown-menu.bg-dark {
+  background-color: var(--ta-surface) !important;
+  border: 1px solid var(--ta-border);
+  border-radius: var(--ta-radius-sm);
+  box-shadow: var(--ta-shadow-hover);
+  padding: 0.35rem;
+}
+
+.navbar.fixed-top .dropdown-menu .dropdown-item,
+.navbar.fixed-top .dropdown-menu .dropdown-item i {
+  color: var(--ta-text-2) !important;
+  border-radius: 8px;
+  background-color: transparent;
+}
+
+.navbar.fixed-top .dropdown-menu .dropdown-item:hover,
+.navbar.fixed-top .dropdown-menu .dropdown-item:focus,
+.navbar.fixed-top .dropdown-menu .dropdown-item:hover i,
+.navbar.fixed-top .dropdown-menu .dropdown-item:focus i {
+  color: var(--ta-text) !important;
+  background-color: var(--ta-accent-soft);
+}
+
+.navbar.fixed-top .navbar-toggler {
+  border-color: var(--ta-border-strong);
+}
+
+body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
+  filter: invert(1) brightness(0.35);
+}
+
+.navbar.fixed-top .theme-toggle-side {
+  color: var(--ta-nav-text);
+}
+
+// Surfaces: one card treatment for panels, tiles and settings sections.
+.card,
+.devices-page .devices-panel,
+.dashboard-summary-card,
+.dashboard-device-tile,
+.health-count-filter,
+.site-config-page .settings-section,
+.nightmode .card,
+.nightmode .devices-page .devices-panel,
+.nightmode .dashboard-summary-card,
+.nightmode .dashboard-device-tile,
+.nightmode .health-count-filter,
+.nightmode .site-config-page .settings-section {
+  background: var(--ta-surface) !important;
+  border-color: var(--ta-border) !important;
+  box-shadow: var(--ta-shadow);
+  color: var(--ta-text);
+}
+
+.devices-page .devices-panel,
+.site-config-page .settings-section,
+.dashboard-summary-card,
+.dashboard-device-tile,
+.health-count-filter {
+  border-radius: var(--ta-radius);
+}
+
+.health-count-filter .health-count-label {
+  color: var(--ta-text);
+}
+
+.dashboard-summary-link:hover,
+.dashboard-device-tile:hover,
+.health-count-filter:hover,
+.health-count-filter.active,
+.nightmode .dashboard-summary-link:hover,
+.nightmode .dashboard-device-tile:hover,
+.nightmode .health-count-filter:hover,
+.nightmode .health-count-filter.active {
+  border-color: color-mix(
+    in srgb,
+    var(--ta-accent) 45%,
+    transparent
+  ) !important;
+  box-shadow: var(--ta-shadow-hover);
+  color: var(--ta-text);
+}
+
+.dashboard-action-tile,
+.nightmode .dashboard-action-tile {
+  border-style: dashed;
+  border-color: var(--ta-border-strong) !important;
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.dashboard-summary-label,
+.box_device_meta,
+.device-primary-meta,
+.nightmode .dashboard-summary-label,
+.nightmode .box_device_meta,
+.nightmode .device-primary-meta {
+  color: var(--ta-text-muted);
+}
+
+.startpage .card-holder .box_device .box_device_name,
+.nightmode .startpage .card-holder .box_device .box_device_name {
+  color: var(--ta-text);
+}
+
+.startpage .card-holder .box_device .info-holder,
+.nightmode .startpage .card-holder .box_device .info-holder {
+  color: var(--ta-text-2);
+}
+
+.site-config-page .settings-option,
+.nightmode .site-config-page .settings-option {
+  background: var(--ta-surface-2) !important;
+  border-color: var(--ta-border) !important;
+}
+
+.card .card-body,
+.card .card-title,
+.card .card-text,
+.card label,
+.card .form-label,
+.nightmode .card .card-body,
+.nightmode .card .card-title,
+.nightmode .card .card-text,
+.nightmode .card label,
+.nightmode .card .form-label {
+  color: var(--ta-text);
+}
+
+.card .card-header,
+.nightmode .card .card-header {
+  background: var(--ta-surface-2);
+  border-color: var(--ta-border);
+  color: var(--ta-text);
+}
+
+.modal-content {
+  background: var(--ta-surface);
+  border: 1px solid var(--ta-border);
+  border-radius: var(--ta-radius);
+  box-shadow: var(--ta-shadow-hover);
+  color: var(--ta-text);
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--ta-border);
+}
+
+// Forms
+.form-control,
+.form-select,
+.input-group-text,
+.nightmode .form-control,
+.nightmode .form-select,
+.nightmode .input-group-text,
+.nightmode .card .form-control,
+.nightmode .card .form-select,
+.nightmode .card textarea,
+.nightmode .card .input-group-text,
+.nightmode .devices-page .device-search,
+.nightmode .devices-page .device-search-group .input-group-text,
+.nightmode
+  .site-config-page
+  .mqtt-discovery-settings-section
+  .mqtt-discovery-field
+  .form-control {
+  background-color: var(--ta-field-bg) !important;
+  border-color: var(--ta-border-strong);
+  color: var(--ta-text);
+}
+
+.input-group-text,
+.nightmode .input-group-text {
+  background-color: var(--ta-surface-2) !important;
+  color: var(--ta-text-muted);
+}
+
+.form-control:disabled,
+.form-select:disabled,
+.nightmode .form-control:disabled,
+.nightmode .form-select:disabled {
+  background-color: var(--ta-surface-2) !important;
+  color: var(--ta-text-muted);
+}
+
+.form-control::placeholder,
+.nightmode .form-control::placeholder,
+.nightmode .devices-page .device-search::placeholder {
+  color: var(--ta-text-muted) !important;
+  opacity: 0.8;
+}
+
+.form-control:focus,
+.form-select:focus,
+.nightmode .form-control:focus,
+.nightmode .form-select:focus {
+  border-color: var(--ta-accent);
+  box-shadow: 0 0 0 0.2rem var(--ta-accent-soft);
+  color: var(--ta-text);
+}
+
+.btn {
+  border-radius: var(--ta-radius-sm);
+  font-weight: 500;
+}
+
+.btn-primary {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12);
+}
+
+// Tables: flat header, hairline rows, hover instead of zebra stripes.
+.table,
+.nightmode .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--ta-text);
+  --bs-table-hover-bg: var(--ta-row-hover);
+  --bs-table-striped-bg: transparent;
+  color: var(--ta-text);
+}
+
+.table thead th,
+.table tfoot th,
+.nightmode .table thead th,
+.nightmode .table tfoot th {
+  background-color: var(--ta-table-head-bg);
+  color: var(--ta-table-head-text);
+  border-bottom: 1px solid var(--ta-border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: var(--ta-radius-sm);
+  border-bottom-left-radius: var(--ta-radius-sm);
+}
+
+.table thead th:last-child {
+  border-top-right-radius: var(--ta-radius-sm);
+  border-bottom-right-radius: var(--ta-radius-sm);
+}
+
+.table thead th a,
+.table tfoot th a,
+.table th.link a,
+.table thead th a:hover,
+.table thead th a:focus {
+  color: var(--ta-table-head-text) !important;
+}
+
+.table tbody td,
+.nightmode .table tbody td {
+  color: var(--ta-text-2) !important;
+  border-bottom: 1px solid var(--ta-border);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > td,
+.table-striped > tbody > tr:nth-of-type(odd) > th,
+.nightmode .table-striped > tbody > tr:nth-of-type(odd) > td,
+.nightmode .table-striped > tbody > tr:nth-of-type(odd) > th {
+  background-color: transparent;
+}
+
+.table tbody tr:hover > td {
+  background-color: var(--ta-row-hover);
+}
+
+.devices-page #device-list td.device_name a,
+.health-page .health-table .device-primary-copy a,
+.nightmode .devices-page #device-list td.device_name a,
+.nightmode .health-page .health-table .device-primary-copy a {
+  color: var(--ta-text) !important;
+  font-weight: 600;
+}
+
+// Mobile device cards sit on a slightly raised surface instead of stripes.
+@media all and (max-width: 767px) {
+  .devices-page #device-list.tablesaw-stack tbody tr,
+  .devices-page #device-list.tablesaw-stack tbody tr.odd,
+  .devices-page #device-list.tablesaw-stack tbody tr.even,
+  .nightmode .devices-page #device-list.tablesaw-stack tbody tr.odd,
+  .nightmode .devices-page #device-list.tablesaw-stack tbody tr.even {
+    background-color: var(--ta-surface-2);
+    border: 1px solid var(--ta-border);
+    border-radius: var(--ta-radius-sm);
+    margin-bottom: 0.6rem;
+  }
+
+  .devices-page #device-list.tablesaw-stack tbody td {
+    border-bottom: 0;
+  }
+
+  .table tbody tr:hover > td {
+    background-color: transparent;
+  }
+}
+
+// Device rows whose relay is on. Driven by the switch state, so polling,
+// toggles and optimistic updates all restyle the row without extra JS.
+#device-list tbody tr:has(> td.status input:checked) {
+  > td {
+    background-color: var(--ta-row-on-bg);
+  }
+
+  > td:first-child {
+    box-shadow: inset 4px 0 0 var(--ta-row-on-accent);
+  }
+
+  &:hover > td {
+    background-color: var(--ta-row-on-bg-hover);
+  }
+}
+
+@media all and (max-width: 767px) {
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    tr:has(> td.status input:checked) {
+    background-color: var(--ta-row-on-bg);
+    border-color: var(--ta-row-on-accent);
+    box-shadow: inset 4px 0 0 var(--ta-row-on-accent);
+
+    > td,
+    &:hover > td {
+      background-color: transparent;
+    }
+
+    > td:first-child {
+      box-shadow: none;
+    }
+  }
+}
+
+// Switch: neutral track, accent when on, white knob in both themes.
+.form-switch i,
+.form-switch i::before,
+.nightmode .form-switch i,
+.nightmode .form-switch i::before {
+  background-color: var(--ta-switch-off);
+  box-shadow: none;
+}
+
+.form-switch i::after,
+.nightmode .form-switch i::after {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+}
+
+.form-switch input:checked + i,
+.nightmode .form-switch input:checked + i {
+  background-color: var(--ta-switch-on);
+}
+
+// Alerts: tinted instead of saturated blocks in night mode.
+.nightmode .alert {
+  border-color: var(--ta-border-strong);
+}
+
+.nightmode .alert-info {
+  background-color: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: #bae6fd;
+}
+
+.nightmode .alert-success {
+  background-color: rgba(74, 222, 128, 0.1);
+  border-color: rgba(74, 222, 128, 0.25);
+  color: #bbf7d0;
+}
+
+.nightmode .alert-warning {
+  background-color: rgba(250, 204, 21, 0.1);
+  border-color: rgba(250, 204, 21, 0.25);
+  color: #fef08a;
+}
+
+.nightmode .alert-danger {
+  background-color: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.25);
+  color: #fecaca;
+}
+
+.text-body-secondary,
+.nightmode .text-body-secondary,
+.nightmode small.text-muted,
+.nightmode .form-text {
+  color: var(--ta-text-muted) !important;
+}
+
+// Login card and passkey list
+.login-card {
+  border-radius: var(--ta-radius);
+}
+
+.login-card .card-body {
+  padding: 1.5rem;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: var(--ta-text-muted);
+  font-size: 0.85rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--ta-border-strong);
+}
+
+.passkey-list .list-group-item {
+  background: var(--ta-surface-2);
+  border-color: var(--ta-border);
+  color: var(--ta-text);
+}
+
+.passkey-list .btn {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.btn-passkey,
+.btn-passkey i {
+  color: var(--ta-text) !important;
+}
+
+.btn-passkey {
+  background: var(--ta-surface);
+  border: 1px solid var(--ta-border-strong);
+}
+
+.btn-passkey:hover,
+.btn-passkey:focus {
+  background: var(--ta-accent-soft);
+  border-color: var(--ta-accent);
+}
+
+// The theme toggle was drawn for a dark navbar; give it a visible track in day mode.
+body:not(.nightmode) .navbar .theme-toggle {
+  border-color: var(--ta-border-strong);
+  background: var(--ta-surface-2);
+}
+
+// Offline fallback page served by the service worker.
+.offline-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  .login-card {
+    max-width: 26rem;
+  }
+}
+
+// The navbar install entry is a <button>; make it read like the other nav links.
+.navbar .js-pwa-install {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: start;
+  text-decoration: none;
+}

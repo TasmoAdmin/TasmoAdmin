@@ -103,6 +103,7 @@ if (!window.__tasmoAppInitialized) {
   onI18nReady(function () {
     checkNightmode(config.nightmodeconfig || "auto");
     initNightmodeToggle();
+    registerServiceWorker();
     checkForUpdate(true);
 
     $(".double-scroll").doubleScroll({
@@ -587,6 +588,7 @@ function checkNightmode(config) {
 
   $("body").toggleClass("nightmode", isNightmodeEnabled);
   syncNightmodeToggle(isNightmodeEnabled);
+  syncThemeColor();
 
   if (config === "disable" && override === null) {
     console.log("[APP][checkNightmode] disabled");
@@ -610,6 +612,56 @@ function checkNightmode(config) {
     }
   }
   nightmode = isNightmodeEnabled;
+}
+
+// Keeps the browser / installed app status bar in step with the active theme.
+function syncThemeColor() {
+  const color = getComputedStyle(document.body)
+    .getPropertyValue("--ta-theme-color")
+    .trim();
+  if (color) {
+    $('meta[name="theme-color"]').attr("content", color);
+  }
+}
+
+// Chrome only offers installation through its menu unless the page asks;
+// keep the prompt and surface it as a navbar entry.
+let deferredInstallPrompt = null;
+
+function syncInstallButton() {
+  $(".pwa-install-item").prop("hidden", deferredInstallPrompt === null);
+}
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  $(syncInstallButton);
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  syncInstallButton();
+});
+
+$(document).on("click", ".js-pwa-install", async () => {
+  if (deferredInstallPrompt === null) {
+    return;
+  }
+  const prompt = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  syncInstallButton();
+  await prompt.prompt();
+});
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || !window.isSecureContext) {
+    return;
+  }
+  navigator.serviceWorker
+    .register(`${config.base_url}service-worker`, { scope: config.base_url })
+    .catch((error) =>
+      console.warn("[APP][registerServiceWorker] failed", error),
+    );
 }
 
 function syncNightmodeToggle(isNightmodeEnabled) {

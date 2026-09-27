@@ -1,0 +1,6 @@
+#!/usr/bin/with-contenv bash
+# ==============================================================================
+# Fleet Health: run the collector as the nginx user so it can read the
+# nginx-owned device-password key and share DB file ownership with php-fpm.
+# ==============================================================================
+exec s6-setuidgid nginx php /var/www/tasmoadmin/bin/health-collector

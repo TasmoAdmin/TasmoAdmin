@@ -59,6 +59,10 @@ class Config
         'mqtt_discovery_tele_prefix' => 'tele',
         'mqtt_discovery_subscriptions' => 'tele/+/LWT',
         'mqtt_discovery_timeout_seconds' => '5',
+        'health_enabled' => '1',
+        'health_http_poll_interval' => '60',
+        'health_offline_grace' => '180',
+        'health_mqtt_subscription' => '#',
     ];
 
     private array $cachedConfig = [];

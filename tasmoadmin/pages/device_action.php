@@ -172,12 +172,21 @@ $canSave = ('edit' == $action && $device instanceof Device) || hasReachableStatu
 $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
     ? '1' === (string) $deviceRequest['device_confirm_toggle']
     : (($device instanceof Device) ? $device->deviceConfirmToggle : ('1' === $Config->read('confirm_device_toggles')));
+
+// When included via the device_action_modal route, $modal is preset to true so
+// the form renders as a modal-friendly fragment (no page heading, dismiss
+// buttons instead of "Back" links, and a machine-readable state marker the
+// add-device modal JS reads to decide keep-open / swap-body / close-and-reload).
+$modal ??= false;
+$modalState = 'done' === $action ? 'done' : ($showDeviceFields ? 'found' : 'search');
 ?>
-<div class='row justify-content-sm-center'>
-	<div class='col col-12 col-md-8 col-xl-6'>
-		<h2 class='text-sm-center mb-5'>
-			<?php echo $title; ?>
-		</h2>
+<div class='row justify-content-sm-center'<?php echo $modal ? ' data-da-state="'.$modalState.'"' : ''; ?>>
+	<div class='col col-12<?php echo $modal ? '' : ' col-md-8 col-xl-6'; ?>'>
+		<?php if (!$modal) { ?>
+			<h2 class='text-sm-center mb-5'>
+				<?php echo $title; ?>
+			</h2>
+		<?php } ?>
 		<?php if (hasStatusError($status)) { ?>
 			<div class="alert alert-danger alert-dismissible fade show mb-5" data-bs-dismiss="alert" role="alert">
 				<p><?php echo __('MSG_DEVICE_NOT_FOUND', 'DEVICE_ACTIONS'); ?></p>
@@ -207,9 +216,15 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 					<?php echo $msg; ?>
 				</div>
 				<div class="col col-12 text-start mt-3">
-					<a class="btn btn-secondary col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
-						<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
-					</a>
+					<?php if ($modal) { ?>
+						<button type="button" class="btn btn-secondary col-12 col-sm-auto" data-bs-dismiss="modal">
+							<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
+						</button>
+					<?php } else { ?>
+						<a class="btn btn-secondary col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
+							<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
+						</a>
+					<?php } ?>
 				</div>
 			</div>
 		<?php } ?>
@@ -225,7 +240,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 			<form class='form'
 				  name='save_device'
 				  method='post'
-				  action='<?php echo _BASEURL_; ?>device_action/<?php echo $action; ?><?php echo isset($device->id) ? '/'.$device->id : ''; ?>'
+				  action='<?php echo _BASEURL_; ?>device_action<?php echo $modal ? '_modal' : ''; ?>/<?php echo $action; ?><?php echo isset($device->id) ? '/'.$device->id : ''; ?>'
 			>
 				<?php echo RequestHelper::csrfTokenField(); ?>
 				<input type='hidden' name='device_id' value='<?php echo $device->id ?? ''; ?>'>
@@ -478,9 +493,15 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 
 				<div class="row">
 					<div class="col col-12 col-sm-6 text-start">
-						<a class="btn btn-secondary col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
-							<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
-						</a>
+						<?php if ($modal) { ?>
+							<button type="button" class="btn btn-secondary col-12 col-sm-auto" data-bs-dismiss="modal">
+								<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
+							</button>
+						<?php } else { ?>
+							<a class="btn btn-secondary col-12 col-sm-auto" href='<?php echo _BASEURL_; ?>devices'>
+								<?php echo __('BTN_BACK', 'DEVICE_ACTIONS'); ?>
+							</a>
+						<?php } ?>
 					</div>
 					<div class="col col-12 col-sm-6 text-end">
 						<button type='submit'
@@ -499,6 +520,7 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
 		<?php } ?>
 	</div>
 </div>
+<?php if (!$modal) { // In modal mode these behaviours are bound by add_device_modal.js via delegation.?>
 <script>
     $(document).ready(function()
     {
@@ -523,3 +545,4 @@ $deviceConfirmToggle = array_key_exists('device_confirm_toggle', $deviceRequest)
         });
     });
 </script>
+<?php } ?>
