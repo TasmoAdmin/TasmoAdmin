@@ -1,6 +1,7 @@
 <!doctype html>
 <?php
 
+use TasmoAdmin\Helper\PwaHelper;
 use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Helper\UrlHelper;
 use TasmoAdmin\Helper\ViewHelper;
@@ -50,10 +51,13 @@ $themeToggleMarkup = ob_get_clean();
         <link rel="apple-touch-icon" sizes="180x180" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-16x16.png">
-        <link rel="manifest" href="<?php echo _RESOURCESURL_; ?>img/favicons/site.webmanifest">
+        <link rel="manifest" href="<?php echo _BASEURL_; ?>manifest">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="apple-mobile-web-app-title" content="TasmoAdmin">
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
+		<meta name="theme-color" content="<?php echo PwaHelper::THEME_COLOR; ?>">
 
 
 		<title><?php echo isset($title) ? $title.' - ' : ''; ?>TasmoAdmin</title>

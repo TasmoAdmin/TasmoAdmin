@@ -147,7 +147,7 @@ function shouldReturnCredentialErrorJson(?array $matched, Request $request): boo
 $request = Request::createFromGlobals();
 $matched = null;
 
-$authByPassedPages = ['login', 'change_language', 'passkey'];
+$authByPassedPages = ['login', 'change_language', 'passkey', 'manifest', 'service_worker', 'offline'];
 
 try {
     $routes = include './includes/routes.php';

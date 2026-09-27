@@ -102,6 +102,7 @@ if (!window.__tasmoAppInitialized) {
   onI18nReady(function () {
     checkNightmode(config.nightmodeconfig || "auto");
     initNightmodeToggle();
+    registerServiceWorker();
     checkForUpdate(true);
 
     $(".double-scroll").doubleScroll({
@@ -583,6 +584,7 @@ function checkNightmode(config) {
 
   $("body").toggleClass("nightmode", isNightmodeEnabled);
   syncNightmodeToggle(isNightmodeEnabled);
+  syncThemeColor();
 
   if (config === "disable" && override === null) {
     console.log("[APP][checkNightmode] disabled");
@@ -606,6 +608,27 @@ function checkNightmode(config) {
     }
   }
   nightmode = isNightmodeEnabled;
+}
+
+// Keeps the browser / installed app status bar in step with the active theme.
+function syncThemeColor() {
+  const color = getComputedStyle(document.body)
+    .getPropertyValue("--ta-theme-color")
+    .trim();
+  if (color) {
+    $('meta[name="theme-color"]').attr("content", color);
+  }
+}
+
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator) || !window.isSecureContext) {
+    return;
+  }
+  navigator.serviceWorker
+    .register(`${config.base_url}service-worker`, { scope: config.base_url })
+    .catch((error) =>
+      console.warn("[APP][registerServiceWorker] failed", error),
+    );
 }
 
 function syncNightmodeToggle(isNightmodeEnabled) {

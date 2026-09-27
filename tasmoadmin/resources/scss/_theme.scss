@@ -20,6 +20,8 @@
   --ta-link: #1d4ed8;
   --ta-field-bg: #ffffff;
   --ta-nav-bg: rgba(255, 255, 255, 0.82);
+  // Opaque nav colour for the browser/PWA status bar (meta theme-color).
+  --ta-theme-color: #ffffff;
   --ta-nav-text: #475569;
   --ta-nav-text-active: #0f172a;
   --ta-table-head-bg: #f1f5f9;
@@ -58,6 +60,7 @@
   --ta-link: #93c5fd;
   --ta-field-bg: #0f1627;
   --ta-nav-bg: rgba(11, 16, 32, 0.78);
+  --ta-theme-color: #0b1020;
   --ta-nav-text: #94a3b8;
   --ta-nav-text-active: #f1f5f9;
   --ta-table-head-bg: #182135;
@@ -575,4 +578,17 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 body:not(.nightmode) .navbar .theme-toggle {
   border-color: var(--ta-border-strong);
   background: var(--ta-surface-2);
+}
+
+// Offline fallback page served by the service worker.
+.offline-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  .login-card {
+    max-width: 26rem;
+  }
 }

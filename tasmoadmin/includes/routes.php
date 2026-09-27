@@ -77,4 +77,14 @@ $routes->add('health_data', new Route('/health_data', [
     '_controller' => 'render_raw',
 ]));
 
+$routes->add('manifest', new Route('/manifest', [
+    '_controller' => 'render_raw',
+]));
+$routes->add('service_worker', new Route('/service-worker', [
+    '_controller' => 'render_raw',
+]));
+$routes->add('offline', new Route('/offline', [
+    '_controller' => 'render_raw',
+]));
+
 return $routes;
