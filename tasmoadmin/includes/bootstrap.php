@@ -39,8 +39,27 @@ define('_DATADIR_', getenv('TASMO_DATADIR') ?: _APPROOT_.'data/');
 define('_LANGDIR_', _APPROOT_.'lang/');
 define('_CSVFILE_', _DATADIR_.'devices.csv');
 
-session_save_path(_TMPDIR_.'sessions');
+// Sessions live next to the config so they survive container restarts.
+define('_SESSIONDIR_', getenv('TASMO_SESSIONDIR') ?: _DATADIR_.'sessions/');
+define('_SESSION_LIFETIME_', 30 * 24 * 3600);
+
+if (!is_dir(_SESSIONDIR_)) {
+    @mkdir(_SESSIONDIR_, 0o700, true);
+}
+
+$sessionCookieParams = [
+    'lifetime' => _SESSION_LIFETIME_,
+    'path' => '/',
+    'secure' => (!empty($_SERVER['HTTPS']) && 'off' !== $_SERVER['HTTPS'])
+        || 'https' === ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? ''),
+    'httponly' => true,
+    'samesite' => 'Lax',
+];
+
+ini_set('session.gc_maxlifetime', (string) _SESSION_LIFETIME_);
+session_save_path(is_dir(_SESSIONDIR_) ? _SESSIONDIR_ : _TMPDIR_.'sessions');
 session_name('TASMO_SESSION');
+session_set_cookie_params($sessionCookieParams);
 session_start();
 
 global $loggedin, $docker;
@@ -96,6 +115,17 @@ if ((isset($_SESSION['login']) && '1' == $_SESSION['login'])
     || EnvironmentHelper::isEnabled('NO_AUTH')
 ) {
     $loggedin = true;
+}
+
+// Slide the session cookie expiry forward while the user keeps using the app.
+if (isset($_SESSION['login']) && '1' == $_SESSION['login'] && !headers_sent()) {
+    setcookie(session_name(), session_id(), [
+        'expires' => time() + _SESSION_LIFETIME_,
+        'path' => $sessionCookieParams['path'],
+        'secure' => $sessionCookieParams['secure'],
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
 }
 
 function __(string $string, ?string $category = null, ?array $args = null)

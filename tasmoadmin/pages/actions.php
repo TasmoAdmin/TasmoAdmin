@@ -99,7 +99,7 @@ if (isset($_GET['clean'])) {
     $what = explode('_', $_GET['clean']);
 
     if (array_intersect(['sessions', 'i18n'], $what)) {
-        CacheCleanupHelper::cleanTargets(_TMPDIR_, $what);
+        CacheCleanupHelper::cleanTargets(_TMPDIR_, $what, _SESSIONDIR_);
     }
 
     if (in_array('firmwares', $what)) {
