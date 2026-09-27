@@ -40,6 +40,14 @@ final class HealthViewTest extends TestCase
         self::assertSame('CHANNEL_BOTH_DOWN', HealthView::channelSummaryKey(false, false));
     }
 
+    public function testChannelSummaryForHttpOnlyDevicesIsNeutral(): void
+    {
+        self::assertSame('CHANNEL_HTTP_MONITORED', HealthView::channelSummaryKey(true, false, false));
+        self::assertSame('bg-secondary', HealthView::channelSummaryClass(true, false, false));
+        self::assertSame('bg-danger', HealthView::channelSummaryClass(false, false, false));
+        self::assertSame('bg-warning text-dark', HealthView::channelSummaryClass(true, false));
+    }
+
     public function testSeverityRanksWorstStatesFirst(): void
     {
         self::assertLessThan(HealthView::severityRank(HealthState::DEGRADED_MQTT), HealthView::severityRank(HealthState::OFFLINE));

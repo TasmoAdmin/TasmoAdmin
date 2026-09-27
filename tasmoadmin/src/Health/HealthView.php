@@ -54,8 +54,11 @@ final class HealthView
         };
     }
 
-    public static function channelSummaryKey(bool $httpUp, bool $mqttUp): string
+    public static function channelSummaryKey(bool $httpUp, bool $mqttUp, bool $mqttExpected = true): string
     {
+        if (!$mqttExpected) {
+            return 'CHANNEL_HTTP_MONITORED';
+        }
         if ($httpUp && $mqttUp) {
             return 'CHANNEL_BOTH_UP';
         }
@@ -69,8 +72,11 @@ final class HealthView
         return 'CHANNEL_BOTH_DOWN';
     }
 
-    public static function channelSummaryClass(bool $httpUp, bool $mqttUp): string
+    public static function channelSummaryClass(bool $httpUp, bool $mqttUp, bool $mqttExpected = true): string
     {
+        if (!$mqttExpected) {
+            return $httpUp ? 'bg-secondary' : 'bg-danger';
+        }
         if ($httpUp && $mqttUp) {
             return 'bg-success';
         }

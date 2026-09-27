@@ -215,14 +215,12 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 .dashboard-summary-card,
 .dashboard-device-tile,
 .health-count-filter,
-.health-page .table-responsive,
 .site-config-page .settings-section,
 .nightmode .card,
 .nightmode .devices-page .devices-panel,
 .nightmode .dashboard-summary-card,
 .nightmode .dashboard-device-tile,
 .nightmode .health-count-filter,
-.nightmode .health-page .table-responsive,
 .nightmode .site-config-page .settings-section {
   background: var(--ta-surface) !important;
   border-color: var(--ta-border) !important;
@@ -236,6 +234,10 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 .dashboard-device-tile,
 .health-count-filter {
   border-radius: var(--ta-radius);
+}
+
+.health-count-filter .health-count-label {
+  color: var(--ta-text);
 }
 
 .dashboard-summary-link:hover,
@@ -446,7 +448,9 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 }
 
 .devices-page #device-list td.device_name a,
-.nightmode .devices-page #device-list td.device_name a {
+.health-page .health-table .device-primary-copy a,
+.nightmode .devices-page #device-list td.device_name a,
+.nightmode .health-page .health-table .device-primary-copy a {
   color: var(--ta-text) !important;
   font-weight: 600;
 }
