@@ -620,6 +620,35 @@ function syncThemeColor() {
   }
 }
 
+// Chrome only offers installation through its menu unless the page asks;
+// keep the prompt and surface it as a navbar entry.
+let deferredInstallPrompt = null;
+
+function syncInstallButton() {
+  $(".pwa-install-item").prop("hidden", deferredInstallPrompt === null);
+}
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  $(syncInstallButton);
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+  syncInstallButton();
+});
+
+$(document).on("click", ".js-pwa-install", async () => {
+  if (deferredInstallPrompt === null) {
+    return;
+  }
+  const prompt = deferredInstallPrompt;
+  deferredInstallPrompt = null;
+  syncInstallButton();
+  await prompt.prompt();
+});
+
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator) || !window.isSecureContext) {
     return;

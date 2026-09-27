@@ -635,3 +635,15 @@ body:not(.nightmode) .navbar .theme-toggle {
     max-width: 26rem;
   }
 }
+
+// The navbar install entry is a <button>; make it read like the other nav links.
+.navbar .js-pwa-install {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: start;
+  text-decoration: none;
+}

@@ -178,6 +178,13 @@ $themeToggleMarkup = ob_get_clean();
 							</li>
 						<?php } ?>
 
+						<li class="nav-item pwa-install-item" hidden>
+							<button type="button" class="nav-link btn btn-link js-pwa-install">
+								<i class="fas fa-download"></i>
+								<?php echo __('INSTALL_APP', 'NAVI'); ?>
+							</button>
+						</li>
+
 						<?php if ($loggedin && !$docker) { ?>
 							<li class="nav-item">
 								<a class="nav-link <?php echo 'selfupdate' == $page ? 'active' : ''; ?>"
