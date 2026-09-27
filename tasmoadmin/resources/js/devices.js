@@ -979,6 +979,9 @@ function updateRow(row, data, device_status) {
   }
 
   let energyPower = getEnergyPower(data, " / ");
+  $(row)
+    .find("td.energyPower")
+    .toggleClass("has-value", energyPower !== "");
   if (energyPower !== "") {
     $(row).find(".energyPower span").html(energyPower);
     setSortAttribute(
@@ -994,6 +997,9 @@ function updateRow(row, data, device_status) {
 
   let temp = getTemp(data);
 
+  $(row)
+    .find("td.temp")
+    .toggleClass("has-value", temp !== "");
   if (temp !== "") {
     $(row).find(".temp span").html(temp);
     setSortAttribute(
@@ -1009,6 +1015,9 @@ function updateRow(row, data, device_status) {
 
   let humidity = getHumidity(data);
 
+  $(row)
+    .find("td.humidity")
+    .toggleClass("has-value", humidity !== "");
   if (humidity !== "") {
     $(row).find(".humidity span").html(humidity);
     setSortAttribute(
@@ -1024,6 +1033,9 @@ function updateRow(row, data, device_status) {
 
   let illuminance = getIlluminance(data);
 
+  $(row)
+    .find("td.illuminance")
+    .toggleClass("has-value", illuminance !== "");
   if (illuminance !== "") {
     $(row).find(".illuminance span").html(illuminance);
     setSortAttribute(

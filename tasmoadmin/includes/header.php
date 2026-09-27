@@ -83,13 +83,13 @@ $themeToggleMarkup = ob_get_clean();
 	</head>
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
-			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
+			<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-1">
 				<div class="container-fluid">
 					<?php // var_dump( $page );?>
 					<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
 						<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
 					</a>
-					<div class="mobile-header-actions d-sm-none ms-auto">
+					<div class="mobile-header-actions d-md-none ms-auto">
 						<?php echo $themeToggleMarkup; ?>
 					</div>
 					<button class="navbar-toggler"
@@ -262,10 +262,10 @@ $themeToggleMarkup = ob_get_clean();
 						</li>
 					</ul>
 					<div class="header-actions ms-auto">
-						<div class="desktop-theme-toggle d-none d-sm-flex">
+						<div class="desktop-theme-toggle d-none d-md-flex">
 							<?php echo $themeToggleMarkup; ?>
 						</div>
-						<div class='my-2 my-sm-0 language-switch-holder'>
+						<div class='my-2 my-md-0 language-switch-holder'>
 							<select name='language-switch' id='language-switch' class='form-select'>
 								<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
 									<option value='<?php echo $l; ?>'
@@ -285,7 +285,7 @@ $themeToggleMarkup = ob_get_clean();
 								   title='<?php echo __('LOGOUT', 'NAVI'); ?>'
 								>
 									<i class='fas fa-sign-out-alt fa-lg'></i>
-									<span class='d-inline d-sm-none'>
+									<span class='d-inline d-md-none'>
 										<?php echo __('LOGOUT', 'NAVI'); ?>
 									</span>
 								</a>

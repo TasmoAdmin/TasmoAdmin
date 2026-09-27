@@ -81,6 +81,7 @@ h6,
 
 :root {
   --page-panel-gap: 0.8rem;
+  --device-chip-bg: rgba(15, 23, 42, 0.06);
   --timepicker-accent: #2b79c2;
   --timepicker-accent-strong: #1f5c98;
   --timepicker-surface: #ffffff;
@@ -95,6 +96,11 @@ h6,
   position: fixed;
   bottom: 0;
   width: 100%;
+
+  // On phones a fixed footer hides the last rows; let it sit after the content.
+  @media all and (max-width: 767.98px) {
+    position: static;
+  }
 }
 
 #content {
@@ -651,7 +657,10 @@ h6,
   border-radius: 0.5rem;
   background: #ffffff;
   box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
-  transition: border-color 0.16s ease, box-shadow 0.16s ease, transform 0.16s ease;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.16s ease;
 }
 
 .dashboard-device-tile:hover {
@@ -662,13 +671,17 @@ h6,
 
 .dashboard-device-offline {
   border-color: rgba(220, 53, 69, 0.35);
-  box-shadow: inset 4px 0 0 rgba(220, 53, 69, 0.75), 0 10px 24px rgba(15, 23, 42, 0.07);
+  box-shadow:
+    inset 4px 0 0 rgba(220, 53, 69, 0.75),
+    0 10px 24px rgba(15, 23, 42, 0.07);
 }
 
 .dashboard-device-degraded_mqtt,
 .dashboard-device-degraded_http {
   border-color: rgba(255, 193, 7, 0.5);
-  box-shadow: inset 4px 0 0 rgba(255, 193, 7, 0.9), 0 10px 24px rgba(15, 23, 42, 0.07);
+  box-shadow:
+    inset 4px 0 0 rgba(255, 193, 7, 0.9),
+    0 10px 24px rgba(15, 23, 42, 0.07);
 }
 
 .dashboard-action-tile {
@@ -1369,7 +1382,6 @@ h6,
   .devices-page .devices-toolbar .dropdown,
   .devices-page .devices-toolbar .dropdown-toggle,
   .devices-page .device-search-group,
-  .devices-page .devices-toolbar-lock-col,
   .devices-page .batchActionSelect,
   .devices-page .batchActionCommandInput,
   .devices-page .applyBatchAction,
@@ -1383,8 +1395,14 @@ h6,
     padding: 0.95rem 0.85rem 0.55rem;
   }
 
-  .devices-page .devices-toolbar-lock-col {
-    margin-left: 0;
+  .devices-page .devices-protection-toggle .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    height: 100%;
+    font-size: 0.85rem;
+    line-height: 1.15;
   }
 
   .devices-page .devices-batch-add-col {
@@ -1426,13 +1444,16 @@ h6,
     display: none !important;
   }
 
+  // Mobile device card: header line (checkbox, health + name, switch), a row
+  // of compact telemetry chips, sensor rows only when the device reports them,
+  // then the actions.
   .devices-page #device-list.tablesaw-stack tbody tr {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.32rem 0.8rem;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.4rem;
     width: 100% !important;
-    padding: 0.7rem 0.75rem;
-    align-items: start;
+    padding: 0.75rem 0.8rem 0.4rem;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     background: transparent;
@@ -1455,29 +1476,55 @@ h6,
     box-shadow: none !important;
   }
 
+  // Default visible cell: full-width "label | value" detail row.
   .devices-page
     #device-list.tablesaw-stack
     tbody
-    td[data-column-id]:not(.device-column-hidden),
-  .devices-page
-    #device-list.tablesaw-stack
-    tbody
-    th[data-column-id]:not(.device-column-hidden) {
-    display: block !important;
+    td[data-column-id]:not(.device-column-hidden) {
+    display: grid !important;
+    grid-template-columns: minmax(3.8rem, 5.5rem) minmax(0, 1fr);
+    column-gap: 0.55rem;
+    align-items: start;
+    flex: 1 1 100%;
     width: auto !important;
     min-width: 0;
-    justify-self: stretch;
     padding: 0 !important;
     margin: 0;
     background: transparent !important;
   }
 
+  // ID, position and the IP column repeat what the card header already shows.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(
+      [data-column-id="id"],
+      [data-column-id="position"],
+      [data-column-id="ip"]
+    ):not(.device-column-hidden) {
+    display: none !important;
+  }
+
+  // Sensor rows only render for devices that actually report the value.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.energyPower, .temp, .humidity, .illuminance):not(.has-value) {
+    display: none !important;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.energyPower, .temp, .humidity, .illuminance)
+    .tablesaw-cell-content {
+    font-weight: 600;
+  }
+
   .devices-page #device-list.tablesaw-stack tbody td.cmd_cb {
     display: flex !important;
-    grid-column: 1 / 2;
-    grid-row: 1;
+    flex: 0 0 auto;
     width: auto !important;
-    justify-self: start;
     align-self: center;
     align-items: center;
     padding-right: 0.35rem !important;
@@ -1508,7 +1555,7 @@ h6,
     width: auto;
     max-width: none;
     padding: 0;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .devices-page #device-list.tablesaw-stack .tablesaw-cell-label {
@@ -1522,61 +1569,90 @@ h6,
     letter-spacing: 0;
   }
 
-  .devices-page #device-list.tablesaw-stack td.device_name {
-    grid-column: 1 / 2;
-    grid-row: 1;
+  // Long header hints (e.g. the energy breakdown) stay desktop-only.
+  .devices-page #device-list.tablesaw-stack .column-label-detail {
+    display: none;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.device_name:not(.device-column-hidden) {
+    display: block !important;
+    // A wide basis keeps the header line to checkbox + name + switch, so the
+    // telemetry chips always start on the next line.
+    flex: 1 1 calc(100% - 7rem);
     align-self: center;
-    min-width: 0;
   }
 
   .devices-page #device-list.tablesaw-stack .device_name a {
     display: block;
     max-width: none;
-    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
   }
 
   .devices-page
     #device-list.tablesaw-stack
     tbody
-    td[data-column-id]:not(.device_name):not(.status):not(.actions):not(
-      .device-column-hidden
-    ),
-  .devices-page
-    #device-list.tablesaw-stack
-    tbody
-    th[data-column-id]:not(.device_name):not(.status):not(.actions):not(
-      .device-column-hidden
-    ) {
-    display: grid !important;
-    grid-template-columns: minmax(3.8rem, 5rem) minmax(0, 1fr);
-    column-gap: 0.55rem;
-    align-items: start;
-    min-width: 0;
-    grid-column: 1 / -1;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.ip {
-    grid-column: 1 / 2;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.actions {
+    td.status:not(.device-column-hidden) {
     display: flex !important;
-    grid-column: 1 / -1;
-    width: 100% !important;
-    justify-self: stretch;
-    align-self: end;
-    justify-content: flex-end;
-    margin-top: 0.1rem;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.status {
-    display: flex !important;
-    grid-column: 2 / 3;
-    grid-row: 1;
-    width: auto !important;
-    justify-self: end;
+    flex: 0 0 auto;
     align-self: center;
+    margin-left: auto;
     cursor: default;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status .form-switch {
+    margin: 0;
+    padding: 0.35rem 0 0.35rem 0.35rem;
+    cursor: pointer;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status .form-switch i {
+    margin-right: 0;
+  }
+
+  // Telemetry chips: WiFi, firmware and uptime share one wrapping line.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.rssi, .version, .runtime):not(.device-column-hidden) {
+    display: inline-flex !important;
+    flex: 0 1 auto;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem !important;
+    border-radius: 999px;
+    background: var(--device-chip-bg) !important;
+    font-size: 0.8rem;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    td:is(.rssi, .version, .runtime)
+    .tablesaw-cell-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.65;
+  }
+
+  // SSID / channel stay in the WiFi tooltip on phones.
+  .devices-page #device-list.tablesaw-stack td.rssi br,
+  .devices-page #device-list.tablesaw-stack td.rssi small {
+    display: none;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.actions:not(.device-column-hidden) {
+    display: flex !important;
+    flex: 1 1 100%;
+    margin-top: 0.1rem;
   }
 
   .devices-page #device-list.tablesaw-stack td.device_name .tablesaw-cell-label,
@@ -1591,7 +1667,7 @@ h6,
     align-items: center;
     width: 100%;
     justify-content: flex-end;
-    gap: 0.4rem;
+    gap: 0.25rem;
     min-width: 0;
   }
 
@@ -1599,17 +1675,14 @@ h6,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.4rem;
-    min-height: 2.4rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 
-  .devices-page #device-list.tablesaw-stack td.actions a i {
-    padding: 0.45rem;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.status .form-switch {
-    margin: 0;
-    cursor: pointer;
+  // Keep delete away from the everyday actions to avoid mis-taps.
+  .devices-page #device-list.tablesaw-stack td.actions a.delete {
+    order: -1;
+    margin-right: auto;
   }
 
   .devices-page #device-list.tablesaw-stack td.timer .tablesaw-cell-content {
@@ -2603,6 +2676,7 @@ hr {
 
 .nightmode {
   --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
+  --device-chip-bg: rgba(255, 255, 255, 0.08);
   --nightmode-card-bg: #334155;
   --nightmode-card-border-color: rgba(255, 255, 255, 0.12);
   --nightmode-card-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
