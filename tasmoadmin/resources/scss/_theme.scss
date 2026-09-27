@@ -518,3 +518,61 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 .nightmode .form-text {
   color: var(--ta-text-muted) !important;
 }
+
+// Login card and passkey list
+.login-card {
+  border-radius: var(--ta-radius);
+}
+
+.login-card .card-body {
+  padding: 1.5rem;
+}
+
+.login-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0;
+  color: var(--ta-text-muted);
+  font-size: 0.85rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--ta-border-strong);
+}
+
+.passkey-list .list-group-item {
+  background: var(--ta-surface-2);
+  border-color: var(--ta-border);
+  color: var(--ta-text);
+}
+
+.passkey-list .btn {
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.btn-passkey,
+.btn-passkey i {
+  color: var(--ta-text) !important;
+}
+
+.btn-passkey {
+  background: var(--ta-surface);
+  border: 1px solid var(--ta-border-strong);
+}
+
+.btn-passkey:hover,
+.btn-passkey:focus {
+  background: var(--ta-accent-soft);
+  border-color: var(--ta-accent);
+}
+
+// The theme toggle was drawn for a dark navbar; give it a visible track in day mode.
+body:not(.nightmode) .navbar .theme-toggle {
+  border-color: var(--ta-border-strong);
+  background: var(--ta-surface-2);
+}

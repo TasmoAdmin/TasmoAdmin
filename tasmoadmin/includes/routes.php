@@ -52,6 +52,9 @@ $routes->add('devices_autoscan', new Route('/devices_autoscan', [
 $routes->add('login', new Route('/login', [
     '_controller' => 'render_template',
 ]));
+$routes->add('passkey', new Route('/passkey/{action}', [
+    '_controller' => 'render_raw',
+]));
 $routes->add('logout', new Route('/logout', [
     '_controller' => 'render_raw',
 ]));

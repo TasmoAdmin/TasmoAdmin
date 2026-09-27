@@ -1,6 +1,7 @@
 <?php
 
 use TasmoAdmin\Helper\LoginHelper;
+use TasmoAdmin\PasskeyRepository;
 
 $register = false;
 $msg = false;
@@ -21,6 +22,7 @@ if (!empty($_POST)) {
     $home = $Config->read('homepage');
     if (isset($_REQUEST['register']) && ('' === $user || '' === $password)) {
         $loginHelper->register($_REQUEST['username'], $_REQUEST['password']);
+        session_regenerate_id(true);
         $_SESSION['login'] = '1';
         header('Location: '._BASEURL_.$home, true, 302);
 
@@ -28,6 +30,7 @@ if (!empty($_POST)) {
     }
     if (isset($_REQUEST['login'])) {
         if ($user === $_REQUEST['username'] && $loginHelper->login($_REQUEST['password'], $password)) {
+            session_regenerate_id(true);
             $_SESSION['login'] = '1';
             header('Location: '._BASEURL_.$home, true, 302);
 
@@ -42,6 +45,8 @@ if (empty($user) || empty($password)) {
     $register = true;
 }
 
+$hasPasskeys = [] !== (new PasskeyRepository(_DATADIR_.'passkeys.json'))->all();
+
 ?>
 
 
@@ -49,7 +54,7 @@ if (empty($user) || empty($password)) {
 	<div id='content-holder'>
 		<div class="row mx-0">
 			<div class="col col-md-12">
-				<h2 class="text-center text-white mb-4"><?php echo $title; ?></h2>
+				<h2 class="text-center mb-4"><?php echo $title; ?></h2>
 				<div class="row">
 					<div class="col col-md-6 mx-auto">
 						<span class="anchor" id="formLogin"></span>
@@ -63,14 +68,15 @@ if (empty($user) || empty($password)) {
 							</div>
 						<?php } ?>
 						<!-- form card login -->
-						<div class="card rounded-0 bg-dark text-white">
+						<div class="card login-card">
 							<div class="card-body">
 								<form class="form" name='loginform' method='POST'>
 									<div class="form-group col mb-3">
 										<label for="username" class="form-label"><?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="text"
 											   autofocus="autofocus"
-											   class="form-control form-control-lg rounded-0"
+										   autocomplete="username"
+											   class="form-control form-control-lg"
 											   name="username"
 											   id="username"
 											   placeholder='<?php echo __('LOGIN_USERNAME_PLACEHOLDER', 'LOGIN'); ?>'
@@ -80,7 +86,7 @@ if (empty($user) || empty($password)) {
 									<div class="form-group col mb-4">
 										<label for="password" class="form-label"><?php echo __('LOGIN_PASSWORD_PLACEHOLDER', 'LOGIN'); ?></label>
 										<input type="password"
-											   class="form-control form-control-lg rounded-0"
+											   class="form-control form-control-lg"
 											   id="password"
 											   name="password"
 											   required=""
@@ -90,7 +96,7 @@ if (empty($user) || empty($password)) {
 									<div class='col col-12'>
 										<button type='submit'
 												name='<?php echo $register ? 'register' : 'login'; ?>'
-												class='btn btn-success btn-lg float-end'
+												class='btn btn-primary btn-lg w-100'
 										>
 											<?php echo $register
                                                 ? __('BTN_REGISTER', 'LOGIN')
@@ -101,6 +107,17 @@ if (empty($user) || empty($password)) {
 										</button>
 									</div>
 								</form>
+								<?php if (!$register && $hasPasskeys) { ?>
+									<div class="login-divider"><span><?php echo __('LOGIN_OR', 'LOGIN'); ?></span></div>
+									<button type="button"
+											id="passkey-login"
+											class="btn btn-lg w-100 btn-passkey"
+											data-error-text="<?php echo __('PASSKEY_FAILED', 'LOGIN'); ?>"
+									>
+										<i class="fas fa-fingerprint me-2" aria-hidden="true"></i><?php echo __('BTN_LOGIN_PASSKEY', 'LOGIN'); ?>
+									</button>
+									<div id="passkey-message" role="alert" hidden></div>
+								<?php } ?>
 							</div>
 							<!--/card-block-->
 						</div>
@@ -119,3 +136,4 @@ if (empty($user) || empty($password)) {
 	</div>
 </div>
 <!--/container-->
+<script src="<?php echo $urlHelper->js('compiled/passkey'); ?>"></script>

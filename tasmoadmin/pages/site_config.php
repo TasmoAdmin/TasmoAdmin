@@ -14,7 +14,7 @@ $msg = false;
 $settings = [];
 
 if (isset($_POST['clean_temp_cache'])) {
-    CacheCleanupHelper::cleanTargets(_TMPDIR_, ['sessions', 'i18n']);
+    CacheCleanupHelper::cleanTargets(_TMPDIR_, ['sessions', 'i18n'], _SESSIONDIR_);
     $msg = __('MSG_CACHE_CLEARED', 'USER_CONFIG');
 } elseif (isset($_POST['save'])) {
     $settings = $_POST;
@@ -568,7 +568,41 @@ $autoFirmwareChannels = ['stable', 'dev'];
 				</div>
 			</div>
 		</form>
+		<div class="settings-section passkey-settings-section mt-3">
+			<h2 class="settings-section-title"><?php echo __('CONFIG_PASSKEYS_TITLE', 'USER_CONFIG'); ?></h2>
+			<p class="form-text mt-0"><?php echo __('CONFIG_PASSKEYS_HELP', 'USER_CONFIG'); ?></p>
+			<ul class="list-group passkey-list mb-3"
+				data-empty-text="<?php echo __('CONFIG_PASSKEYS_EMPTY', 'USER_CONFIG'); ?>"
+				data-created-label="<?php echo __('CONFIG_PASSKEYS_CREATED', 'USER_CONFIG'); ?>"
+				data-used-label="<?php echo __('CONFIG_PASSKEYS_LAST_USED', 'USER_CONFIG'); ?>"
+				data-delete-label="<?php echo __('CONFIG_PASSKEYS_DELETE', 'USER_CONFIG'); ?>"
+				data-delete-confirm="<?php echo __('CONFIG_PASSKEYS_DELETE_CONFIRM', 'USER_CONFIG'); ?>"
+			></ul>
+			<div class="row g-2 align-items-end">
+				<div class="col col-12 col-sm">
+					<label for="passkey_name"><?php echo __('CONFIG_PASSKEYS_NAME', 'USER_CONFIG'); ?></label>
+					<input type="text"
+						   class="form-control passkey-name"
+						   id="passkey_name"
+						   maxlength="64"
+						   placeholder="<?php echo __('CONFIG_PASSKEYS_NAME_PLACEHOLDER', 'USER_CONFIG'); ?>"
+					>
+				</div>
+				<div class="col col-12 col-sm-auto">
+					<button type="button"
+							class="btn btn-primary passkey-add w-100"
+							data-success-text="<?php echo __('CONFIG_PASSKEYS_ADDED', 'USER_CONFIG'); ?>"
+							data-error-text="<?php echo __('PASSKEY_FAILED', 'LOGIN'); ?>"
+							data-unsupported-text="<?php echo __('CONFIG_PASSKEYS_UNSUPPORTED', 'USER_CONFIG'); ?>"
+					>
+						<i class="fas fa-fingerprint me-1" aria-hidden="true"></i><?php echo __('CONFIG_PASSKEYS_ADD', 'USER_CONFIG'); ?>
+					</button>
+				</div>
+			</div>
+			<div class="passkey-message" role="alert" hidden></div>
+		</div>
 		</div>
         <?php include __DIR__.'/elements/cache_cleanup_panel.php'; ?>
 	</div>
 </div>
+<script src="<?php echo $urlHelper->js('compiled/passkey'); ?>"></script>
