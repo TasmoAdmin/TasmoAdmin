@@ -56,8 +56,16 @@ const fetchWithRetries = async (
 };
 
 async function doAjax(deviceId, cmnd) {
-  const url = `${config.base_url}actions?doAjax&id=${deviceId}&cmnd=${encodeURIComponent(cmnd)}`;
-  let response = await fetchWithRetries(url);
+  let response = await fetchWithRetries(`${config.base_url}actions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams({
+      doAjax: "1",
+      id: String(deviceId),
+      cmnd,
+      csrf_token: config.csrf_token,
+    }),
+  });
   response = await response.json();
 
   if (response.hasOwnProperty("ERROR")) {

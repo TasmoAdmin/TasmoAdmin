@@ -2,6 +2,7 @@
 
 use League\CommonMark\GithubFlavoredMarkdownConverter;
 use TasmoAdmin\Helper\GuzzleFactory;
+use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\TasmoAdminHelper;
 use TasmoAdmin\SelfUpdate;
 use TasmoAdmin\Update\UpdateChecker;
@@ -16,14 +17,28 @@ $updateChecker = new UpdateChecker(
     GuzzleFactory::getClient($Config)
 );
 
-if (isset($_REQUEST['selfupdate']) || isset($_GET['selfupdate'])) {
-    $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
-    $result = $selfUpdate->update($_POST['release_url'], $_POST['latest_tag']);
-    $msg = implode('<br/>', $result['logs']);
-    $msgClass = $result['success'] ? 'success' : 'danger';
-}
-
 $newUpdate = $updateChecker->checkForUpdate();
+$officialReleaseUrl = (string) ($newUpdate['release_url'] ?? '');
+$releaseUrl = (string) ($_POST['release_url'] ?? $officialReleaseUrl);
+$latestTag = (string) ($_POST['latest_tag'] ?? $newUpdate['latest_tag'] ?? $currentGitTag);
+$currentHost = (string) parse_url('http://'.($_SERVER['HTTP_HOST'] ?? ''), PHP_URL_HOST);
+$unfamiliarSource = RequestHelper::isUnfamiliarUpdateSource($releaseUrl, $officialReleaseUrl, $currentHost);
+
+if (isset($_POST['selfupdate'])) {
+    $scheme = parse_url($releaseUrl, PHP_URL_SCHEME);
+    if (!filter_var($releaseUrl, FILTER_VALIDATE_URL) || !in_array($scheme, ['http', 'https'], true)) {
+        $msg = __('INVALID_RELEASE_URL', 'SELFUPDATE');
+        $msgClass = 'danger';
+    } elseif ($unfamiliarSource && '1' !== ($_POST['confirm_unfamiliar_source'] ?? '')) {
+        $msg = __('UNFAMILIAR_SOURCE_WARNING', 'SELFUPDATE');
+        $msgClass = 'warning';
+    } else {
+        $selfUpdate = new SelfUpdate($Config, GuzzleFactory::getClient($Config));
+        $result = $selfUpdate->update($releaseUrl, $latestTag);
+        $msg = implode('<br/>', $result['logs']);
+        $msgClass = $result['success'] ? 'success' : 'danger';
+    }
+}
 
 $tasmoAdminHelper = new TasmoAdminHelper(new GithubFlavoredMarkdownConverter(), GuzzleFactory::getClient($Config));
 $changelog = $tasmoAdminHelper->getChangelog();
@@ -85,14 +100,36 @@ $changelog = $tasmoAdminHelper->getChangelog();
 					</div>
 				</div>
 			</div>
-			<?php if (in_array($Config->read('update_channel'), ['dev', 'beta', 'stable'])) { ?>
+			<?php } else { ?>
+			<div class="alert alert-info fade show mb-5" role="alert">
+				<?php echo __('NO_UPDATE_FOUND', 'SELFUPDATE'); ?>
+			</div>
+			<?php } ?>
+
+			<?php if (!$docker && in_array($Config->read('update_channel'), ['dev', 'beta', 'stable'])) { ?>
 				<div class='card update-card mb-5'>
 					<div class='card-body'>
 						<form name='selfupdateform' method='post'>
-							<div class='row justify-content-sm-center'>
-								<div class="col col-12 col-sm-8 col-lg-5 text-center">
-									<input type="hidden" name="latest_tag" value="<?php echo $newUpdate['latest_tag']; ?>" />
-									<input type="hidden" name="release_url" value="<?php echo $newUpdate['release_url']; ?>" />
+							<?php echo RequestHelper::csrfTokenField(); ?>
+							<div class='row g-3 justify-content-sm-center'>
+								<div class="col col-12 col-sm-8">
+									<label for="release_url" class="form-label"><?php echo __('RELEASE_URL', 'SELFUPDATE'); ?></label>
+									<input type="url" class="form-control" id="release_url" name="release_url" value="<?php echo htmlspecialchars($releaseUrl, ENT_QUOTES, 'UTF-8'); ?>" required>
+								</div>
+								<div class="col col-12 col-sm-8">
+									<label for="latest_tag" class="form-label"><?php echo __('RELEASE_TAG', 'SELFUPDATE'); ?></label>
+									<input type="text" class="form-control" id="latest_tag" name="latest_tag" value="<?php echo htmlspecialchars($latestTag, ENT_QUOTES, 'UTF-8'); ?>" required>
+								</div>
+								<?php if ($unfamiliarSource) { ?>
+									<div class="col col-12 col-sm-8">
+										<div class="alert alert-warning mb-0" role="alert"><?php echo __('UNFAMILIAR_SOURCE_WARNING', 'SELFUPDATE'); ?></div>
+										<div class="form-check mt-3">
+											<input class="form-check-input" type="checkbox" value="1" id="confirm_unfamiliar_source" name="confirm_unfamiliar_source">
+											<label class="form-check-label" for="confirm_unfamiliar_source"><?php echo __('CONFIRM_UNFAMILIAR_SOURCE', 'SELFUPDATE'); ?></label>
+										</div>
+									</div>
+								<?php } ?>
+								<div class="col col-12 col-sm-8 text-center">
 									<button type='submit' name='selfupdate' value='selfupdate' class='btn btn-primary w-100'>
 										<?php echo __('BTN_START_SELFUPDATE', 'SELFUPDATE'); ?>
 									</button>
@@ -102,11 +139,6 @@ $changelog = $tasmoAdminHelper->getChangelog();
 					</div>
 				</div>
 			<?php } ?>
-		<?php } else { ?>
-			<div class="alert alert-info fade show mb-5" role="alert">
-				<?php echo __('NO_UPDATE_FOUND', 'SELFUPDATE'); ?>
-			</div>
-		<?php } ?>
 
 		<?php if (!empty($changelog)) { ?>
 			<div class='card update-card update-changelog-card'>

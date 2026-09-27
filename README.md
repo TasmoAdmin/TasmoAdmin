@@ -64,13 +64,13 @@ by DrZzs
 
 TasmoAdmin is available as a Docker image on [GitHub packages](https://github.com/orgs/TasmoAdmin/packages/container/package/tasmoadmin).
 
-This is a Linux Alpine based image with Nginx and PHP 8.2 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
+This is a Linux Alpine based image with Nginx and PHP 8.5 installed. It supports multiple architectures, **amd64** (i.e. Synology DSM), **arm** (i.e. Raspberry PI3) and  **arm64** (i.e. Pine64). Check out the [Guide for TasmoAdmin on Docker](https://github.com/reloxx13/TasmoAdmin/wiki/Guide-for-TasmoAdmin-on-Docker) for setup instructions.
 
 This is the recommended way to get up and running.
 
 ### Home Assistant Addon
 
-TasmoAdmin is also available as [Home Assistant](https://www.home-assistant.io/) addon, please refer to [Home Assistant - addon TasmoAdmin](https://github.com/hassio-addons/addon-tasmoadmin) for more information.
+TasmoAdmin is also available as a [Home Assistant](https://www.home-assistant.io/) addon. See the [TasmoAdmin Home Assistant app](https://github.com/hassio-addons/app-tasmoadmin) for more information.
 
 ### Using a Web Server
 
@@ -82,10 +82,13 @@ Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki fo
 
 Some environment variables are configured to allow easier customisation of the application
 
-- `TASMO_DATADIR` - Path where to store data. If not provided defaults to `./tasmoadmin/data`
+- `TASMO_DATADIR` - Data directory, including a trailing slash. Defaults to `./tasmoadmin/data/`
 - `TASMO_BASEURL` - Customise the base URL for the application
+- `TASMO_TMPDIR` - Directory for sessions and temporary cache files, including a trailing slash. Defaults to `./tasmoadmin/tmp/`
+- `TASMO_DEBUG` - Set to `true` to display PHP errors. Disabled by default.
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
 - `TASMO_DEVICE_PASSWORD_KEY` - Base64-encoded 32-byte secret for device password encryption at rest
+- `TASMO_ALLOW_CROSS_SITE_IFRAME` - Set to `true` to embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr; HTTP requests remain restricted
 
 ### Device Password Encryption
 
@@ -99,6 +102,12 @@ TasmoAdmin encrypts only the `password` column in `devices.csv`. Usernames, colu
 Encrypted password cells are stored as `enc:v1:<base64(iv||tag||ciphertext)>`.
 
 On the first read after upgrading, legacy plaintext password cells are migrated in place to the encrypted format. Running `clean=devices` removes both `devices.csv` and `.device-password.key` for file-backed installs.
+
+### Session and CSRF protection
+
+Authenticated state changes require a POST request with the session CSRF token. The session cookie uses `SameSite=Lax` by default, so an iframe deployment continues to work when the parent and TasmoAdmin are same-site. To embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr, set `TASMO_ALLOW_CROSS_SITE_IFRAME=true`. This uses `SameSite=None; Secure` only for HTTPS requests; HTTP stays at `SameSite=Lax`. Browsers that block third-party cookies may still require a user exception.
+
+For a deployment check, verify an authenticated device command and self-update form in both day and night mode, then confirm that a cross-site POST and a legacy state-changing GET URL leave the installation unchanged.
 
 ### MQTT Discovery
 

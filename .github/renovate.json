@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "rebaseWhen": "conflicted",
+  "separateMinorPatch": true,
   "prConcurrentLimit": 3,
   "prHourlyLimit": 1,
   "minimumReleaseAge": "7 days",
@@ -19,6 +20,14 @@
         "major"
       ],
       "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Automerge isolated minor dependency updates",
+      "matchUpdateTypes": [
+        "minor"
+      ],
+      "automerge": true,
+      "platformAutomerge": false
     },
     {
       "groupName": "npm non-major dependencies",

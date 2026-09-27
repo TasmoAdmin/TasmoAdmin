@@ -8,9 +8,19 @@ const {
   normalizeTimerClockTimeValue,
   normalizeTimerDayMask,
   setElementVisibility,
+  shouldDisableUnchangedField,
   syncTimerTimeInput,
   syncTimerDayGroup,
 } = require("../../resources/js/device_config.js");
+
+test("config submit always retains the CSRF token", () => {
+  assert.equal(shouldDisableUnchangedField("csrf_token", {}), false);
+  assert.equal(shouldDisableUnchangedField("FriendlyName1", {}), true);
+  assert.equal(
+    shouldDisableUnchangedField("FriendlyName1", { FriendlyName1: "Kitchen" }),
+    false,
+  );
+});
 
 test("normalizeTimerDayMask keeps selected weekdays readable and canonical", () => {
   assert.equal(normalizeTimerDayMask("--TWT--"), "--TWT--");

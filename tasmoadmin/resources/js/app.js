@@ -11,6 +11,7 @@ export const { getEnergyPower, getIlluminance } = statusHelpers;
 
 const sonoff = new Sonoff({
   base_url: config.base_url,
+  csrf_token: config.csrf_token,
   timeout: 15,
 });
 window.sonoff = sonoff;
@@ -77,7 +78,7 @@ export function refreshTooltip(element, options = {}) {
 
   disposeTooltip(element);
   return window.bootstrap.Tooltip.getOrCreateInstance(element, {
-    html: true,
+    html: false,
     delay: 300,
     ...options,
   });
@@ -181,9 +182,12 @@ if (!window.__tasmoAppInitialized) {
 
     $("select#language-switch").on("change", function (event, ui) {
       const valueSelected = this.value;
-      let curUrl = `${config.base_url}change_language/${valueSelected}?current=${window.location.pathname}`;
-      curUrl = curUrl.replace(/([^:]\/)\/+/g, "$1");
-      window.location.href = curUrl;
+      const form = document.createElement("form");
+      form.method = "post";
+      form.action = `${config.base_url}change_language/${encodeURIComponent(valueSelected)}`;
+      form.innerHTML = `<input type="hidden" name="csrf_token" value="${config.csrf_token}"><input type="hidden" name="current" value="${window.location.pathname}">`;
+      document.body.appendChild(form);
+      form.submit();
     });
 
     $("body").on("click", ".show-hide-password", function (e) {

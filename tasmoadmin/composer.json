@@ -1,7 +1,8 @@
 {
     "name": "tasmoadmin/tasmoadmin",
+    "description": "Administrative platform for devices flashed with Tasmota.",
     "type": "project",
-    "license": "GPL3",
+    "license": "GPL-3.0-only",
     "require": {
         "php": ">=8.2",
         "ext-json": "*",

@@ -1,6 +1,11 @@
 <form class='center config-form' name='device_config_mqtt' method='post'>
 	<?php
-        $o = &$status->StatusLOG->SetOptionDecoded;
+use TasmoAdmin\Helper\HtmlAttributeHelper;
+	use TasmoAdmin\Helper\RequestHelper;
+
+	echo RequestHelper::csrfTokenField(); ?>
+	<?php
+	            $o = &$status->StatusLOG->SetOptionDecoded;
 
 	// TODO: add link to https://github.com/arendst/Tasmota/wiki/MQTT-Features
 	?>
@@ -41,8 +46,8 @@
 			       name='MqttHost'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttHost)
-	                                 && !empty($status->StatusMQT->MqttHost) ? $status->StatusMQT->MqttHost : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttHost)
+	                                 && !empty($status->StatusMQT->MqttHost) ? $status->StatusMQT->MqttHost : ''); ?>'
 			>
 			<small id="MqttHostHelp" class="form-text text-muted">
 				<?php echo __('MQTT_HOST_HELP', 'DEVICE_CONFIG'); ?>
@@ -59,8 +64,8 @@
 			       min='2'
 			       max='65535'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttPort)
-	                                 && !empty($status->StatusMQT->MqttPort) ? $status->StatusMQT->MqttPort : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttPort)
+	                                 && !empty($status->StatusMQT->MqttPort) ? $status->StatusMQT->MqttPort : ''); ?>'
 			>
 			<small id="MqttPortHelp" class="form-text text-muted">
 				<?php echo __('MQTT_PORT_HELP', 'DEVICE_CONFIG'); ?>
@@ -78,9 +83,9 @@
 			       name='MqttClient'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttClient)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttClient)
 	                                 && !empty($status->StatusMQT->MqttClient) ? $status->StatusMQT->MqttClient
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="MqttClientHelp" class="form-text text-muted">
 				<?php echo __('MQTT_CLIENT_HELP', 'DEVICE_CONFIG'); ?>
@@ -96,8 +101,8 @@
 			       name='MqttFingerprint'
 			       maxlength='59'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->MqttFingerprint) ? $status->StatusMQT->MqttFingerprint
-	                   : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->MqttFingerprint) ? $status->StatusMQT->MqttFingerprint
+	                   : ''); ?>'
 			>
 			<small id="MqttFingerprintHelp" class="form-text text-muted">
 				<?php echo __('MQTTFINGERPRINT_HELP', 'DEVICE_CONFIG'); ?>
@@ -115,8 +120,8 @@
 			       name='MqttUser'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttUser)
-	                                 && !empty($status->StatusMQT->MqttUser) ? $status->StatusMQT->MqttUser : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttUser)
+	                                 && !empty($status->StatusMQT->MqttUser) ? $status->StatusMQT->MqttUser : ''); ?>'
 			>
 			<small id="MqttUserHelp" class="form-text text-muted">
 				<?php echo __('MQTT_USER_HELP', 'DEVICE_CONFIG'); ?>
@@ -132,9 +137,9 @@
 			       name='MqttPassword'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttPassword)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttPassword)
 	                                 && !empty($status->StatusMQT->MqttPassword) ? $status->StatusMQT->MqttPassword
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="MqttPasswordHelp" class="form-text text-muted">
 				<?php echo __('MQTT_PASSWORD_HELP', 'DEVICE_CONFIG'); ?>
@@ -154,8 +159,8 @@
 			       name='Topic'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->Status->Topic)
-	                                 && !empty($status->Status->Topic) ? $status->Status->Topic : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->Status->Topic)
+	                                 && !empty($status->Status->Topic) ? $status->Status->Topic : ''); ?>'
 			>
 			<small id="TopicHelp" class="form-text text-muted">
 				<?php echo __('TOPIC_HELP', 'DEVICE_CONFIG'); ?>
@@ -171,9 +176,9 @@
 			       name='FullTopic'
 			       maxlength='100'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->FullTopic)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->FullTopic)
 	                                 && !empty($status->StatusMQT->FullTopic) ? $status->StatusMQT->FullTopic
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="FullTopicHelp" class="form-text text-muted">
 				<?php echo __('FULLTOPIC_HELP', 'DEVICE_CONFIG'); ?>
@@ -193,9 +198,9 @@
 			       name='GroupTopic'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusPRM->GroupTopic)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusPRM->GroupTopic)
 	                                 && !empty($status->StatusPRM->GroupTopic) ? $status->StatusPRM->GroupTopic
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="GroupTopicHelp" class="form-text text-muted">
 				<?php echo __('GROUPTOPIC_HELP', 'DEVICE_CONFIG'); ?>
@@ -211,8 +216,8 @@
 			       name='ButtonTopic'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->Status->ButtonTopic)
-	                                 || '0' == $status->Status->ButtonTopic ? $status->Status->ButtonTopic : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->Status->ButtonTopic)
+	                                 || '0' == $status->Status->ButtonTopic ? $status->Status->ButtonTopic : ''); ?>'
 			>
 			<small id="ButtonTopicHelp" class="form-text text-muted">
 				<?php echo __('BUTTONTOPIC_HELP', 'DEVICE_CONFIG'); ?>
@@ -228,9 +233,9 @@
 			       name='SwitchTopic'
 			       maxlength='32'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->SwitchTopic)
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->SwitchTopic)
 	                                 || '0' == $status->StatusMQT->SwitchTopic ? $status->StatusMQT->SwitchTopic
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="SwitchTopicHelp" class="form-text text-muted">
 				<?php echo __('SWITCHTOPIC_HELP', 'DEVICE_CONFIG'); ?>
@@ -250,8 +255,8 @@
 			       name='Prefix1'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->Prefixe->Prefix1)
-	                   ? $status->StatusMQT->Prefixe->Prefix1 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->Prefixe->Prefix1)
+	                   ? $status->StatusMQT->Prefixe->Prefix1 : ''); ?>'
 			>
 			<small id="Prefix1Help" class="form-text text-muted">
 				<?php echo __('PREFIX1_HELP', 'DEVICE_CONFIG'); ?>
@@ -267,8 +272,8 @@
 			       name='Prefix2'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->Prefixe->Prefix2)
-	                   ? $status->StatusMQT->Prefixe->Prefix2 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->Prefixe->Prefix2)
+	                   ? $status->StatusMQT->Prefixe->Prefix2 : ''); ?>'
 			>
 			<small id="Prefix2Help" class="form-text text-muted">
 				<?php echo __('PREFIX2_HELP', 'DEVICE_CONFIG'); ?>
@@ -284,8 +289,8 @@
 			       name='Prefix3'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->Prefixe->Prefix3)
-	                   ? $status->StatusMQT->Prefixe->Prefix3 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->Prefixe->Prefix3)
+	                   ? $status->StatusMQT->Prefixe->Prefix3 : ''); ?>'
 			>
 			<small id="Prefix3Help" class="form-text text-muted">
 				<?php echo __('PREFIX3_HELP', 'DEVICE_CONFIG'); ?>
@@ -306,8 +311,8 @@
 			       name='StateText1'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->StateTexts->StateText1)
-	                   ? $status->StatusMQT->StateTexts->StateText1 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->StateTexts->StateText1)
+	                   ? $status->StatusMQT->StateTexts->StateText1 : ''); ?>'
 			>
 			<small id="StateText1Help" class="form-text text-muted">
 				<?php echo __('STATUSTEXT1_HELP', 'DEVICE_CONFIG'); ?>
@@ -323,8 +328,8 @@
 			       name='StateText2'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->StateTexts->StateText2)
-	                   ? $status->StatusMQT->StateTexts->StateText2 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->StateTexts->StateText2)
+	                   ? $status->StatusMQT->StateTexts->StateText2 : ''); ?>'
 			>
 			<small id="StateText2Help" class="form-text text-muted">
 				<?php echo __('STATUSTEXT2_HELP', 'DEVICE_CONFIG'); ?>
@@ -342,8 +347,8 @@
 			       name='StateText3'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->StateTexts->StateText3)
-	                   ? $status->StatusMQT->StateTexts->StateText3 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->StateTexts->StateText3)
+	                   ? $status->StatusMQT->StateTexts->StateText3 : ''); ?>'
 			>
 			<small id="StateText3Help" class="form-text text-muted">
 				<?php echo __('STATUSTEXT3_HELP', 'DEVICE_CONFIG'); ?>
@@ -359,8 +364,8 @@
 			       name='StateText4'
 			       maxlength='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo !empty($status->StatusMQT->StateTexts->StateText4)
-	                   ? $status->StatusMQT->StateTexts->StateText4 : ''; ?>'
+			       value='<?php echo HtmlAttributeHelper::escape(!empty($status->StatusMQT->StateTexts->StateText4)
+	                   ? $status->StatusMQT->StateTexts->StateText4 : ''); ?>'
 			>
 			<small id="StateText4Help" class="form-text text-muted">
 				<?php echo __('STATUSTEXT4_HELP', 'DEVICE_CONFIG'); ?>
@@ -380,9 +385,9 @@
 			       max='32000'
 			       min='10'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->MqttRetry)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->MqttRetry)
 	                                 && !empty($status->StatusMQT->MqttRetry) ? $status->StatusMQT->MqttRetry
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="MqttRetryHelp" class="form-text text-muted">
 				<?php echo __('MQTTRETRY_HELP', 'DEVICE_CONFIG'); ?>
@@ -399,9 +404,9 @@
 			       max='32000'
 			       min='0'
 			       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-			       value='<?php echo isset($status->StatusMQT->TelePeriod)
+			       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusMQT->TelePeriod)
 	                                 && !empty($status->StatusMQT->TelePeriod) ? $status->StatusMQT->TelePeriod
-	                   : ''; ?>'
+	                   : ''); ?>'
 			>
 			<small id="TelePeriodHelp" class="form-text text-muted">
 				<?php echo __('TELEPERIOD_HELP', 'DEVICE_CONFIG'); ?>

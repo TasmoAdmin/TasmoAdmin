@@ -41,6 +41,30 @@ class ToggleConfirmAttributeRenderingTest extends TestCase
         self::assertStringContainsString("data-device_confirm_toggle='0'", $output);
     }
 
+    public function testDevicesTableEscapesStoredDeviceNames(): void
+    {
+        if (!defined('_BASEURL_')) {
+            define('_BASEURL_', '/');
+        }
+        if (!defined('_RESOURCESURL_')) {
+            define('_RESOURCESURL_', '/resources/');
+        }
+
+        $payload = '<img src=x onerror=alert(1)>';
+        $devices = [new Device(1, [$payload], '192.168.1.10', '', '')];
+        $deviceLinks = false;
+        $deviceLinksHideClass = '';
+
+        ob_start();
+
+        include __DIR__.'/../../pages/elements/devices_table.php';
+        $output = ob_get_clean();
+
+        self::assertIsString($output);
+        self::assertStringContainsString('&lt;img src=x onerror=alert(1)&gt;', $output);
+        self::assertStringNotContainsString($payload, $output);
+    }
+
     public function testStartPageRendersDisabledDeviceConfirmationAsZero(): void
     {
         if (!defined('_RESOURCESURL_')) {

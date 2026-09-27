@@ -77,7 +77,11 @@ async function postJson(url, body) {
   const response = await fetch(url, {
     method: "POST",
     credentials: "same-origin",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRF-Token":
+        (typeof config !== "undefined" && config.csrf_token) || "",
+    },
     body: JSON.stringify(body || {}),
   });
   const data = await response.json().catch(() => ({}));

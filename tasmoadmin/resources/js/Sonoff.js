@@ -12,6 +12,7 @@ const { normalizeStatusData } = statusHelpers;
 class Sonoff {
   constructor(options) {
     this.options = {
+      csrf_token: "",
       timeout: 10,
     };
 
@@ -106,12 +107,14 @@ class Sonoff {
     var ip = ip || id;
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjax`,
+      url: `${this.options.base_url}actions`,
       timeout: this.options.timeout * 1000,
       cache: false,
       type: "post",
       async: true,
       data: {
+        doAjax: 1,
+        csrf_token: this.options.csrf_token,
         id: id,
         cmnd: encodeURIComponent(cmnd),
       },
@@ -139,11 +142,13 @@ class Sonoff {
     var timeout = timeout || this.options.timeout;
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjaxAll`,
+      url: `${this.options.base_url}actions`,
       timeout: timeout * 1000,
       cache: false,
       type: "post",
       data: {
+        doAjaxAll: 1,
+        csrf_token: this.options.csrf_token,
         cmnd: encodeURIComponent(cmnd),
       },
       success: function (data) {
@@ -244,11 +249,13 @@ class Sonoff {
   setDeviceValue(id, field, newvalue, td) {
     $.ajax({
       dataType: "json",
-      url: `${this.options.base_url}actions?doAjax`,
+      url: `${this.options.base_url}actions`,
       timeout: this.options.timeout * 1000,
       cache: false,
       type: "post",
       data: {
+        doAjax: 1,
+        csrf_token: this.options.csrf_token,
         id: id,
         field: encodeURIComponent(field),
         newvalue: encodeURIComponent(newvalue),
@@ -274,7 +281,7 @@ class Sonoff {
             newvalue,
         );
 
-        td.html(data.position);
+        td.text(data.position);
       },
       error: function (data, xmlhttprequest, textstatus, message) {
         console.log("ERROR setDeviceValue");

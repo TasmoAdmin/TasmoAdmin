@@ -3,6 +3,7 @@
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use TasmoAdmin\DeviceCredentialException;
@@ -173,24 +174,32 @@ try {
         exit;
     }
 
-    $request->attributes->add($matched);
-    $request->attributes->add([
-        'loggedin' => $loggedin,
-        'docker' => $docker,
-        'Config' => $Config,
-        'container' => $container,
-        'lang' => $lang,
-        'page' => $matched['_route'],
-    ]);
-    $response = call_user_func($request->attributes->get('_controller'), $request);
+    if ($loggedin && RequestHelper::isLegacyMutationRequest($request, $matched['_route'], $matched['action'] ?? null)) {
+        $response = new Response('Method Not Allowed', 405);
+    } elseif ($loggedin && $request->isMethod('POST') && 'login' !== $matched['_route'] && !RequestHelper::hasValidCsrfToken($request)) {
+        $response = new Response('Invalid CSRF token', 403);
+    } else {
+        unset($_POST[RequestHelper::CSRF_TOKEN_FIELD]);
+        $request->attributes->add($matched);
+        $request->attributes->add([
+            'loggedin' => $loggedin,
+            'docker' => $docker,
+            'Config' => $Config,
+            'container' => $container,
+            'lang' => $lang,
+            'page' => $matched['_route'],
+        ]);
+        $response = call_user_func($request->attributes->get('_controller'), $request);
+    }
 } catch (DeviceCredentialException $exception) {
     $response = shouldReturnCredentialErrorJson($matched, $request)
         ? renderCredentialErrorJson($exception)
         : renderCredentialErrorPage($exception);
 } catch (ResourceNotFoundException $exception) {
     $response = new Response('Not Found', 404);
+} catch (MethodNotAllowedException $exception) {
+    $response = new Response('Method Not Allowed', 405);
 } catch (Exception $exception) {
-    $debug = isset($_SERVER['TASMO_DEBUG']);
     if ($debug) {
         $whoops = new Run();
         $whoops->allowQuit(false);
@@ -198,7 +207,7 @@ try {
         $whoops->pushHandler(new PrettyPageHandler());
         $response = new Response($whoops->handleException($exception), 500);
     } else {
-        $response = new Response(var_dump($exception), 500);
+        $response = new Response('Internal Server Error', 500);
     }
 }
 

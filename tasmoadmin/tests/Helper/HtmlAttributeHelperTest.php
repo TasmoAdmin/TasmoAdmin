@@ -7,6 +7,11 @@ use TasmoAdmin\Helper\HtmlAttributeHelper;
 
 class HtmlAttributeHelperTest extends TestCase
 {
+    public function testEscapeHandlesTextAndHtmlAttributeDelimiters(): void
+    {
+        self::assertSame('&quot;&lt;script&gt;&amp;', HtmlAttributeHelper::escape('"<script>&'));
+    }
+
     public function testSelectedReturnsHtmlAttributeWhenSelected(): void
     {
         self::assertSame('selected="selected"', HtmlAttributeHelper::selected(true));
