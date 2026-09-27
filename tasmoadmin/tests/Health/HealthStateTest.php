@@ -43,4 +43,15 @@ final class HealthStateTest extends TestCase
     {
         self::assertSame(HealthState::OFFLINE, HealthState::resolve(false, false, null, 1000, 180));
     }
+
+    public function testHttpUpWithoutMonitoredMqttIsOnline(): void
+    {
+        self::assertSame(HealthState::ONLINE, HealthState::resolve(true, null, 100, 100, 180, mqttExpected: false));
+        self::assertSame(HealthState::ONLINE, HealthState::resolve(true, false, 100, 100, 180, mqttExpected: false));
+    }
+
+    public function testHttpDownWithoutMonitoredMqttIsOffline(): void
+    {
+        self::assertSame(HealthState::OFFLINE, HealthState::resolve(false, null, 100, 1000, 180, mqttExpected: false));
+    }
 }

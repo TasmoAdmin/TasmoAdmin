@@ -13,7 +13,7 @@ final class HealthRepositoryTest extends TestCase
     protected function setUp(): void
     {
         $this->dir = sys_get_temp_dir().'/ta-health-'.bin2hex(random_bytes(4));
-        mkdir($this->dir, 0777, true);
+        mkdir($this->dir, 0o777, true);
         $this->dbPath = $this->dir.'/health.db';
     }
 
@@ -70,5 +70,22 @@ final class HealthRepositoryTest extends TestCase
         $repo->ensureSchema();
         $repo->ensureSchema();
         self::assertSame([], $repo->all());
+    }
+
+    public function testEnsureSchemaAddsColumnsToExistingDatabase(): void
+    {
+        $pdo = new \PDO('sqlite:'.$this->dbPath);
+        $pdo->exec('CREATE TABLE device_health (device_id TEXT PRIMARY KEY, state TEXT, http_up INTEGER, mqtt_up INTEGER, last_http_ok INTEGER, last_mqtt_ok INTEGER, last_seen INTEGER, rssi INTEGER, signal INTEGER, updated_at INTEGER)');
+        $pdo->exec("INSERT INTO device_health (device_id, state) VALUES ('1', 'online')");
+        unset($pdo);
+
+        $repo = new HealthRepository($this->dbPath);
+        $repo->ensureSchema();
+        $repo->ensureSchema();
+        $repo->upsert(['device_id' => '1', 'state' => 'online', 'mqtt_topic' => 'kitchen', 'mqtt_expected' => 1]);
+
+        $row = $repo->get('1');
+        self::assertSame('kitchen', $row['mqtt_topic']);
+        self::assertSame(1, (int) $row['mqtt_expected']);
     }
 }

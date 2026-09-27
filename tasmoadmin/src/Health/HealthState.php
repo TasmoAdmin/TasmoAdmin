@@ -17,7 +17,14 @@ final class HealthState
         int $now,
         int $graceSeconds,
         string $previousState = self::UNKNOWN,
+        bool $mqttExpected = true,
     ): string {
+        // Devices without a known topic, or with MQTT disabled, are HTTP-only:
+        // a silent MQTT channel says nothing about their health.
+        if (!$mqttExpected) {
+            $mqttUp = null;
+        }
+
         if (null === $httpUp && null === $mqttUp) {
             return self::UNKNOWN;
         }
@@ -26,7 +33,7 @@ final class HealthState
         $mqtt = true === $mqttUp;
 
         if ($http) {
-            return $mqtt ? self::ONLINE : self::DEGRADED_MQTT;
+            return $mqtt || !$mqttExpected ? self::ONLINE : self::DEGRADED_MQTT;
         }
         if ($mqtt) {
             return self::DEGRADED_HTTP;

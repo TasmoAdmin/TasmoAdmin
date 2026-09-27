@@ -155,6 +155,83 @@ final class HealthCollectorTest extends TestCase
         self::assertSame(500, (int) $row['updated_at'], 'updated_at must be set to $now on upsert');
     }
 
+    public function testReportedTopicIsLearnedAndMatchesMqtt(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->method('getAllStatus')->willReturn($this->statusZero('tasmota_ABC123', '192.168.1.2'));
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+        $device = $this->device(1, '');
+
+        $collector->pollHttpDevice($device, 1000);
+        $row = $this->repo->get('1');
+        self::assertSame('tasmota_ABC123', $row['mqtt_topic']);
+        self::assertSame(1, (int) $row['mqtt_expected']);
+        self::assertSame(HealthState::DEGRADED_MQTT, $row['state']);
+
+        $collector->handleMqttMessage('tele/tasmota_ABC123/LWT', 'Online', [$device], 1001);
+        self::assertSame(HealthState::ONLINE, $this->repo->get('1')['state']);
+    }
+
+    public function testDeviceWithMqttDisabledIsOnlineOverHttpAlone(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->method('getAllStatus')->willReturn($this->statusZero('tasmota_ABC123', null));
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+
+        $collector->pollHttpDevice($this->device(1), 1000);
+
+        $row = $this->repo->get('1');
+        self::assertSame(0, (int) $row['mqtt_expected']);
+        self::assertSame(HealthState::ONLINE, $row['state']);
+    }
+
+    public function testDeviceWithoutAnyTopicIsNotMarkedMqttDegraded(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->method('getAllStatus')->willReturn(new \stdClass());
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+
+        $collector->pollHttpDevice($this->device(1, ''), 1000);
+
+        self::assertSame(HealthState::ONLINE, $this->repo->get('1')['state']);
+    }
+
+    public function testPlaceholderTopicIsNotLearned(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->method('getAllStatus')->willReturn($this->statusZero('tasmota_%06X', '192.168.1.2'));
+        $collector = new HealthCollector($this->repo, $sonoff, 180);
+
+        $collector->pollHttpDevice($this->device(1, ''), 1000);
+
+        self::assertSame('', (string) $this->repo->get('1')['mqtt_topic']);
+    }
+
+    public function testRestartedCollectorReusesStoredTopic(): void
+    {
+        $sonoff = $this->createMock(Sonoff::class);
+        $sonoff->method('getAllStatus')->willReturn($this->statusZero('tasmota_ABC123', '192.168.1.2'));
+        new HealthCollector($this->repo, $sonoff, 180)->pollHttpDevice($this->device(1, ''), 1000);
+
+        $restarted = new HealthCollector($this->repo, $this->createMock(Sonoff::class), 180);
+        $restarted->handleMqttMessage('tele/tasmota_ABC123/LWT', 'Online', [$this->device(1, '')], 1001);
+
+        self::assertSame(1, (int) $this->repo->get('1')['mqtt_up']);
+    }
+
+    private function statusZero(string $topic, ?string $mqttHost): \stdClass
+    {
+        $status = new \stdClass();
+        $status->Status = new \stdClass();
+        $status->Status->Topic = $topic;
+        if (null !== $mqttHost) {
+            $status->StatusMQT = new \stdClass();
+            $status->StatusMQT->MqttHost = $mqttHost;
+        }
+
+        return $status;
+    }
+
     private function device(int $id, string $mqttTopic = 'kitchen'): Device
     {
         return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);

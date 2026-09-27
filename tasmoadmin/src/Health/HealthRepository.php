@@ -2,18 +2,22 @@
 
 namespace TasmoAdmin\Health;
 
-use PDO;
-use PDOException;
-
 class HealthRepository
 {
     private const COLUMNS = [
         'device_id', 'state', 'http_up', 'mqtt_up',
         'last_http_ok', 'last_mqtt_ok', 'last_seen',
         'rssi', 'signal', 'updated_at',
+        'mqtt_topic', 'mqtt_expected',
     ];
 
-    private ?PDO $pdo = null;
+    // Columns added after the first release; created on existing databases.
+    private const LATER_COLUMNS = [
+        'mqtt_topic' => 'TEXT',
+        'mqtt_expected' => 'INTEGER',
+    ];
+
+    private ?\PDO $pdo = null;
 
     public function __construct(private string $dbPath) {}
 
@@ -41,6 +45,13 @@ class HealthRepository
             .'updated_at INTEGER'
             .')'
         );
+
+        $existing = array_column($pdo->query('PRAGMA table_info(device_health)')->fetchAll(\PDO::FETCH_ASSOC), 'name');
+        foreach (self::LATER_COLUMNS as $column => $type) {
+            if (!in_array($column, $existing, true)) {
+                $pdo->exec(sprintf('ALTER TABLE device_health ADD COLUMN %s %s', $column, $type));
+            }
+        }
     }
 
     public function upsert(array $row): void
@@ -84,10 +95,10 @@ class HealthRepository
             $pdo = $this->connect(false);
             $statement = $pdo->prepare('SELECT * FROM device_health WHERE device_id = :id');
             $statement->execute([':id' => $deviceId]);
-            $row = $statement->fetch(PDO::FETCH_ASSOC);
+            $row = $statement->fetch(\PDO::FETCH_ASSOC);
 
             return false === $row ? null : $row;
-        } catch (PDOException) {
+        } catch (\PDOException) {
             return null;
         }
     }
@@ -98,24 +109,24 @@ class HealthRepository
             $pdo = $this->connect(false);
             $statement = $pdo->query('SELECT * FROM device_health ORDER BY device_id');
 
-            return $statement->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException) {
+            return $statement->fetchAll(\PDO::FETCH_ASSOC);
+        } catch (\PDOException) {
             return [];
         }
     }
 
-    private function connect(bool $createIfMissing): PDO
+    private function connect(bool $createIfMissing): \PDO
     {
         if (null !== $this->pdo) {
             return $this->pdo;
         }
 
         if (!$createIfMissing && !file_exists($this->dbPath)) {
-            throw new PDOException('health db not present');
+            throw new \PDOException('health db not present');
         }
 
-        $this->pdo = new PDO('sqlite:'.$this->dbPath);
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo = new \PDO('sqlite:'.$this->dbPath);
+        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 
         return $this->pdo;
     }

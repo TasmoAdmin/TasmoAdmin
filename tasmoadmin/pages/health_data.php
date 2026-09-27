@@ -22,7 +22,9 @@ foreach ($rows as $row) {
         ++$counts[$state];
     }
     $row['name'] = $names[$row['device_id']] ?? $row['device_id'];
-    $row['channel_disagreement'] = (int) ($row['http_up'] ?? 0) !== (int) ($row['mqtt_up'] ?? 0) ? 1 : 0;
+    // Devices without MQTT are only checked over HTTP, so there is nothing to disagree with.
+    $mqttExpected = 0 !== (int) ($row['mqtt_expected'] ?? 1);
+    $row['channel_disagreement'] = $mqttExpected && (int) ($row['http_up'] ?? 0) !== (int) ($row['mqtt_up'] ?? 0) ? 1 : 0;
     $devices[] = $row;
 }
 

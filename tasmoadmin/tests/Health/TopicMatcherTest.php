@@ -59,6 +59,23 @@ final class TopicMatcherTest extends TestCase
         self::assertNull(TopicMatcher::matchDevice('tele/kitchenette/LWT', $devices));
     }
 
+    public function testFallsBackToReportedTopicWhenNoneConfigured(): void
+    {
+        $devices = [$this->device(1, ''), $this->device(2, 'bedroom')];
+
+        $match = TopicMatcher::matchDevice('tele/tasmota_ABC123/STATE', $devices, ['1' => 'tasmota_ABC123']);
+
+        self::assertNotNull($match);
+        self::assertSame(1, $match->id);
+    }
+
+    public function testConfiguredTopicWinsOverReportedTopic(): void
+    {
+        $devices = [$this->device(1, 'kitchen')];
+
+        self::assertNull(TopicMatcher::matchDevice('tele/other/LWT', $devices, ['1' => 'other']));
+    }
+
     private function device(int $id, string $mqttTopic): Device
     {
         return new Device($id, ['dev'.$id], '192.168.1.'.$id, '', '', Device::DEFAULT_IMAGE, 1, true, false, false, [], true, 80, [], false, $mqttTopic);

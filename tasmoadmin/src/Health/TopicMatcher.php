@@ -28,16 +28,18 @@ final class TopicMatcher
     }
 
     /**
-     * @param Device[] $devices
+     * @param Device[]                  $devices
+     * @param array<int|string, string> $fallbackTopics device id => topic reported by the device,
+     *                                                  used when no topic is configured in TasmoAdmin
      */
-    public static function matchDevice(string $topic, array $devices): ?Device
+    public static function matchDevice(string $topic, array $devices, array $fallbackTopics = []): ?Device
     {
         // Bound the haystack with slashes so a topic segment matches whole,
         // never as a partial substring (kitchen != kitchenette).
         $haystack = '/'.trim($topic, '/').'/';
 
         foreach ($devices as $device) {
-            $needle = trim($device->mqttTopic, '/');
+            $needle = trim('' !== $device->mqttTopic ? $device->mqttTopic : ($fallbackTopics[(string) $device->id] ?? ''), '/');
             if ('' === $needle) {
                 continue;
             }
