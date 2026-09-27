@@ -27,6 +27,10 @@
   --ta-table-head-bg: #f1f5f9;
   --ta-table-head-text: #64748b;
   --ta-row-hover: rgba(37, 99, 235, 0.04);
+  // Rows of devices that are switched on: warm "light on" tint + edge bar.
+  --ta-row-on-bg: rgba(245, 158, 11, 0.12);
+  --ta-row-on-bg-hover: rgba(245, 158, 11, 0.18);
+  --ta-row-on-accent: #f59e0b;
   --ta-switch-off: #cbd5e1;
   --ta-switch-on: #2563eb;
   --ta-shadow:
@@ -66,6 +70,9 @@
   --ta-table-head-bg: #182135;
   --ta-table-head-text: #94a3b8;
   --ta-row-hover: rgba(96, 165, 250, 0.06);
+  --ta-row-on-bg: rgba(251, 191, 36, 0.14);
+  --ta-row-on-bg-hover: rgba(251, 191, 36, 0.2);
+  --ta-row-on-accent: #fbbf24;
   --ta-switch-off: #334155;
   --ta-switch-on: #3b82f6;
   --ta-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.25);
@@ -463,6 +470,42 @@ body:not(.nightmode) .navbar.fixed-top .navbar-toggler-icon {
 
   .table tbody tr:hover > td {
     background-color: transparent;
+  }
+}
+
+// Device rows whose relay is on. Driven by the switch state, so polling,
+// toggles and optimistic updates all restyle the row without extra JS.
+#device-list tbody tr:has(> td.status input:checked) {
+  > td {
+    background-color: var(--ta-row-on-bg);
+  }
+
+  > td:first-child {
+    box-shadow: inset 4px 0 0 var(--ta-row-on-accent);
+  }
+
+  &:hover > td {
+    background-color: var(--ta-row-on-bg-hover);
+  }
+}
+
+@media all and (max-width: 767px) {
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    tr:has(> td.status input:checked) {
+    background-color: var(--ta-row-on-bg);
+    border-color: var(--ta-row-on-accent);
+    box-shadow: inset 4px 0 0 var(--ta-row-on-accent);
+
+    > td,
+    &:hover > td {
+      background-color: transparent;
+    }
+
+    > td:first-child {
+      box-shadow: none;
+    }
   }
 }
 
