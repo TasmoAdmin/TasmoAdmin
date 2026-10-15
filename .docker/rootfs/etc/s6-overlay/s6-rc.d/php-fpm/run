@@ -6,4 +6,10 @@
 # shellcheck disable=SC1091
 #source /usr/lib/hassio-addons/base.sh
 
-exec php-fpm85 --nodaemonize
+source /lib/init/s6-functions.sh
+
+if is_unprivileged; then
+    exec s6-setuidgid nginx php-fpm85 --nodaemonize
+else
+    exec php-fpm85 --nodaemonize
+fi
