@@ -98,6 +98,10 @@ RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
 # Copy root filesystem
 COPY .docker/rootfs /
 
+# Pristine nginx config used to repair an incomplete /data/nginx
+RUN mkdir -p /usr/share/tasmoadmin/nginx-defaults \
+    && cp -a /etc/nginx/nginx.conf /etc/nginx/nginx-ssl.conf /etc/nginx/certs /usr/share/tasmoadmin/nginx-defaults/
+
 # Setup application
 COPY --from=builder /tasmoadmin /var/www/tasmoadmin
 RUN find /var/www/tasmoadmin -type f -name ".htaccess" -depth -exec rm -f {} \; \
@@ -109,7 +113,7 @@ VOLUME [ "/data" ]
 # Expose
 EXPOSE 80 443
 
-HEALTHCHECK CMD curl --fail http://127.0.0.1:${HTTP_PORT:-80} || curl --fail -k https://127.0.0.1:${HTTP_PORT:-443} || exit 1
+HEALTHCHECK CMD curl --fail http://127.0.0.1:${LISTEN_PORT:-80} || curl --fail -k https://127.0.0.1:${LISTEN_PORT:-443} || exit 1
 
 ENTRYPOINT ["/init"]
 

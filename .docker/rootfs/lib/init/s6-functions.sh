@@ -4,9 +4,9 @@ is_unprivileged() {
     USER_ID=${PUID:-0}
     GROUP_ID=${PGID:-0}
     if ${SSL}; then
-        LISTEN_PORT=${HTTP_PORT:-443}
+        HTTP_PORT=${LISTEN_PORT:-443}
     else
-        LISTEN_PORT=${HTTP_PORT:-80}
+        HTTP_PORT=${LISTEN_PORT:-80}
     fi
 
     if ! [[ "${USER_ID}" =~ ^[0-9]+$ ]]; then
@@ -26,8 +26,8 @@ is_unprivileged() {
 
     USER_ID=$((10#${USER_ID:-0}))
     GROUP_ID=$((10#${GROUP_ID:-0}))
-    LISTEN_PORT=$((10#${LISTEN_PORT:-80}))
-    export USER_ID GROUP_ID LISTEN_PORT
+    HTTP_PORT=$((10#${HTTP_PORT:-80}))
+    export USER_ID GROUP_ID HTTP_PORT
 
     if (( USER_ID == 0 && GROUP_ID == 0 )); then
         return 1
@@ -38,8 +38,8 @@ is_unprivileged() {
         exit 1
     fi
 
-    if (( LISTEN_PORT <= 1024 )); then
-        echo "ERROR: Cannot bind to privileged port ${LISTEN_PORT} under non-root UID ${USER_ID}." >&2
+    if (( HTTP_PORT <= 1024 )); then
+        echo "ERROR: Cannot bind to privileged port ${HTTP_PORT} under non-root UID ${USER_ID}." >&2
         exit 1
     fi
 

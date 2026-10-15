@@ -8,23 +8,17 @@
 
 source /lib/init/s6-functions.sh
 
-# Setup structure if it does not exists
-if [ ! -d "/data/nginx" ]; then
-  echo 'Data nginx directory not initialized, doing that now...'
-  mkdir -p /data/nginx/certs
-  cp -Rv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.org
-  cp -Rv /etc/nginx/nginx.conf.org /data/nginx/nginx.conf.org
-  cp -Rv /data/nginx/nginx.conf.org /data/nginx/nginx.conf
-  cp -Rv /etc/nginx/nginx-ssl.conf /data/nginx/nginx-ssl.conf
-  cp -Rv /etc/nginx/certs/* /data/nginx/certs
+# Copy default nginx files to /data/nginx only when they do not exist yet
+mkdir -p /data/nginx/certs
+
+# A symlink here is a leftover from older versions
+if [[ -L /data/nginx/nginx.conf ]]; then
+  rm -f /data/nginx/nginx.conf
 fi
 
-if [[ -L "/data/nginx/nginx.conf" ]]; then
-  echo "ERROR: /data/nginx/nginx.conf is a symlink, try to download the default nginx.conf from github";
-  rm -rf /data/nginx/nginx.conf
-  wget -O /data/nginx/nginx.conf https://raw.githubusercontent.com/TasmoAdmin/TasmoAdmin/master/.docker/rootfs/etc/nginx/nginx.conf
-  cp -Rv /data/nginx/nginx.conf /etc/nginx/nginx.conf.org
-fi
+cp -nv /usr/share/tasmoadmin/nginx-defaults/nginx.conf /data/nginx/nginx.conf
+cp -nv /usr/share/tasmoadmin/nginx-defaults/nginx-ssl.conf /data/nginx/nginx-ssl.conf
+cp -nv /usr/share/tasmoadmin/nginx-defaults/certs/* /data/nginx/certs/
 
 echo 'Symlinking /etc/nginx.conf from persistent storage location...'
 rm -rf /etc/nginx/nginx.conf
@@ -53,6 +47,6 @@ if is_unprivileged; then
   sed -i -E 's@^pid .*;@pid /run/nginx/nginx.pid;@' /data/nginx/nginx.conf /data/nginx/nginx-ssl.conf
 fi
 
-echo "Setting nginx HTTP listen port to ${LISTEN_PORT}..."
-sed -i -E 's/^([[:space:]]*listen[[:space:]]+)[0-9]+/\1'"${LISTEN_PORT}"'/' \
+echo "Setting nginx HTTP listen port to ${HTTP_PORT}..."
+sed -i -E 's/^([[:space:]]*listen[[:space:]]+)[0-9]+/\1'"${HTTP_PORT}"'/' \
     /data/nginx/nginx.conf /data/nginx/nginx-ssl.conf
