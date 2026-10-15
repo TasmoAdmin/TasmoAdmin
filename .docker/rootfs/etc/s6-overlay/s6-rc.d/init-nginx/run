@@ -6,6 +6,8 @@
 # shellcheck disable=SC1091
 #source /usr/lib/hassio-addons/base.sh
 
+source /lib/init/s6-functions.sh
+
 # Setup structure if it does not exists
 if [ ! -d "/data/nginx" ]; then
   echo 'Data nginx directory not initialized, doing that now...'
@@ -32,10 +34,25 @@ declare certfile
 declare keyfile
 
 if ${SSL}; then
-    echo 'Symlinking /etc/nginx.conf to nginx-ssl.config on persistent storage...'
-    rm -f -r /etc/nginx/nginx.conf
-    ln -s /data/nginx/nginx-ssl.conf /etc/nginx/nginx.conf
-    rm -f -r /etc/nginx/certs
-    echo 'Symlinking /etc/nginx/certs to persistent storage...'
-    ln -s /data/nginx/certs /etc/nginx/certs
+  echo 'Symlinking /etc/nginx.conf to nginx-ssl.config on persistent storage...'
+  rm -f -r /etc/nginx/nginx.conf
+  ln -s /data/nginx/nginx-ssl.conf /etc/nginx/nginx.conf
+  rm -f -r /etc/nginx/certs
+  echo 'Symlinking /etc/nginx/certs to persistent storage...'
+  ln -s /data/nginx/certs /etc/nginx/certs
 fi
+
+if is_unprivileged; then
+  chown -R nginx:nginx /etc/nginx
+  chown -R nginx:nginx /data/nginx
+
+  mkdir -p /run/nginx /var/lib/nginx/tmp /var/log/nginx /var/log/php85
+  chown -R nginx:nginx /run/nginx /var/lib/nginx /var/log/nginx /var/log/php85
+
+  # Non-root nginx cannot write the default pid location
+  sed -i -E 's@^pid .*;@pid /run/nginx/nginx.pid;@' /data/nginx/nginx.conf /data/nginx/nginx-ssl.conf
+fi
+
+echo "Setting nginx HTTP listen port to ${LISTEN_PORT}..."
+sed -i -E 's/^([[:space:]]*listen[[:space:]]+)[0-9]+/\1'"${LISTEN_PORT}"'/' \
+    /data/nginx/nginx.conf /data/nginx/nginx-ssl.conf

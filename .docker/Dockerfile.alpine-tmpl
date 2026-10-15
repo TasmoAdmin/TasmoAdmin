@@ -89,6 +89,8 @@ RUN apk add --no-cache --virtual .build-dependencies \
 ENV BUILD_VERSION=${BUILD_VERSION}
 ENV BUILD_REF=${BUILD_REF}
 ENV SSL=false
+# Stop the container when an init script fails
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_params
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params
@@ -107,7 +109,7 @@ VOLUME [ "/data" ]
 # Expose
 EXPOSE 80 443
 
-HEALTHCHECK CMD curl --fail http://127.0.0.1 || curl --fail https://127.0.0.1 || exit 1
+HEALTHCHECK CMD curl --fail http://127.0.0.1:${HTTP_PORT:-80} || curl --fail -k https://127.0.0.1:${HTTP_PORT:-443} || exit 1
 
 ENTRYPOINT ["/init"]
 
