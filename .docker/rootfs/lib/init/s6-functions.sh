@@ -19,8 +19,8 @@ is_unprivileged() {
         exit 1
     fi
 
-    if ! [[ "${LISTEN_PORT}" =~ ^[0-9]+$ ]]; then
-        echo "ERROR: LISTEN_PORT=${LISTEN_PORT} is not valid." >&2
+    if ! [[ "${HTTP_PORT}" =~ ^[0-9]+$ ]]; then
+        echo "ERROR: LISTEN_PORT=${HTTP_PORT} is not valid." >&2
         exit 1
     fi
 
