@@ -15,8 +15,6 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
     - uses: actions/checkout@v6
-    - name: Set image name from repository
-      run: echo "TARGET=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v4
       with:
