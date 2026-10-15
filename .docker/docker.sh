@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o errexit
 
-TARGET=ghcr.io/tasmoadmin/tasmoadmin
+TARGET="${TARGET:=ghcr.io/tasmoadmin/tasmoadmin}"
 ALPINE_VERSION=3.24
 BUILD_REF="${BUILD_REF:=dev}"
 BUILD_VERSION="${BUILD_VERSION:=dev}"
