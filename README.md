@@ -68,6 +68,30 @@ This is a Linux Alpine based image with Nginx and PHP 8.5 installed. It supports
 
 This is the recommended way to get up and running.
 
+#### Docker user and port
+
+By default the container runs as root and nginx listens on port 80 (443 when `SSL=true`). These variables can change that:
+
+- `PUID` / `PGID` - User and group ID that nginx, PHP-FPM and the files in `TASMO_DATADIR` use. Both must be set to values above 0, or both left unset (0). Setting only one is an error.
+- `LISTEN_PORT` - Port nginx listens on inside the container. Defaults to 80 (443 with `SSL=true`). Update the published port mapping to match.
+
+When `PUID` and `PGID` are above 0, `LISTEN_PORT` must be above 1024, because a non-root user cannot bind a lower port. An invalid combination stops the container with an error in its log.
+
+```yaml
+services:
+  tasmoadmin:
+    image: ghcr.io/tasmoadmin/tasmoadmin:latest
+    ports:
+      - 80:8380
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - LISTEN_PORT=8380
+    volumes:
+      - ./tasmoadmin/data:/data
+```
+
+
 ### Home Assistant Addon
 
 TasmoAdmin is also available as a [Home Assistant](https://www.home-assistant.io/) addon. See the [TasmoAdmin Home Assistant app](https://github.com/hassio-addons/app-tasmoadmin) for more information.
@@ -82,8 +106,10 @@ Check the [guides](https://github.com/TasmoAdmin/TasmoAdmin/wiki) on the Wiki fo
 
 Some environment variables are configured to allow easier customisation of the application
 
+- `PUID` / `PGID` - User and group ID that nginx, PHP-FPM and the files in `TASMO_DATADIR` use. If set both must be set to values above 0, or both left unset (0). Setting only one is an error. Default is to run as a root (0)
+- `LISTEN_PORT` - Port nginx listens on inside the container. Defaults to 80 (443 with `SSL=true`). Update the published port mapping to match. When `PUID` and `PGID` are above 0, `LISTEN_PORT` must be above 1024, because a non-root user cannot bind a lower port
 - `TASMO_DATADIR` - Data directory, including a trailing slash. Defaults to `./tasmoadmin/data/`
-- `TASMO_BASEURL` - Customise the base URL for the application
+- `TASMO_BASEURL` - Customize the base URL for the application
 - `TASMO_TMPDIR` - Directory for sessions and temporary cache files, including a trailing slash. Defaults to `./tasmoadmin/tmp/`
 - `TASMO_DEBUG` - Set to `true` to display PHP errors. Disabled by default.
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally

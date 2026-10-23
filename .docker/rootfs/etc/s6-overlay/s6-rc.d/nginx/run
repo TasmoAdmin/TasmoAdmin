@@ -6,7 +6,13 @@
 # shellcheck disable=SC1091
 #source /usr/lib/hassio-addons/base.sh
 
+source /lib/init/s6-functions.sh
+
 # Wait for PHP-FPM to become available
 s6-svwait -u -t 5000 /var/run/service/php-fpm
 
-exec nginx -g "daemon off;"
+if is_unprivileged; then
+    exec s6-setuidgid nginx nginx -g "daemon off;"
+else
+    exec nginx -g "daemon off;"
+fi
