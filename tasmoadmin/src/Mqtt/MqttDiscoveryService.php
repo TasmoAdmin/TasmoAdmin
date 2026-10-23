@@ -8,6 +8,18 @@ use TasmoAdmin\Tasmota\ResponseParser;
 
 class MqttDiscoveryService
 {
+    /**
+     * Suffixes accepted as a reply to a published "STATUS 0" command.
+     *
+     * Real Tasmota devices never publish a literal "STATUS0" topic for this
+     * command: they fan the reply out across "STATUS" (general info, incl.
+     * FriendlyName) and "STATUS1".."STATUS11" (one per section), with the
+     * network section - "STATUS5", containing StatusNET.IPAddress - as the
+     * one this service needs. "STATUS0" is kept here too in case a future
+     * firmware or bridge ever does emit it verbatim.
+     */
+    private const RELEVANT_STATUS_SUFFIXES = ['STATUS0', 'STATUS', 'STATUS5'];
+
     public function __construct(
         private DeviceRepository $deviceRepository,
         private ResponseParser $responseParser,
@@ -32,7 +44,7 @@ class MqttDiscoveryService
         ): void {
             $statusTopic = $this->extractStatusTopic($topic, $request->statPrefix);
             if (null !== $statusTopic) {
-                $statusPayloads[$statusTopic] = $message;
+                $statusPayloads[$statusTopic] = $this->mergeStatusPayload($statusPayloads[$statusTopic] ?? null, $message);
 
                 return;
             }
@@ -219,10 +231,14 @@ class MqttDiscoveryService
 
     private function extractStatusTopic(string $topic, string $statPrefix): ?string
     {
-        return $this->extractTopicForPrefix($topic, $statPrefix, 'STATUS0');
+        return $this->extractTopicForPrefix($topic, $statPrefix, self::RELEVANT_STATUS_SUFFIXES);
     }
 
-    private function extractTopicForPrefix(string $topic, string $prefix, ?string $requiredSuffix = null): ?string
+    /**
+     * @param null|string|string[] $allowedSuffixes a single required suffix, a list of acceptable
+     *                                              suffixes (any one matches), or null to accept any suffix
+     */
+    private function extractTopicForPrefix(string $topic, string $prefix, array|string|null $allowedSuffixes = null): ?string
     {
         $topicParts = $this->splitTopic($topic);
         $prefixParts = $this->splitTopic($prefix);
@@ -236,15 +252,43 @@ class MqttDiscoveryService
             }
         }
 
-        $suffix = array_pop($topicParts);
-        if (null !== $requiredSuffix && strtoupper((string) $suffix) !== strtoupper($requiredSuffix)) {
-            return null;
+        $suffix = strtoupper((string) array_pop($topicParts));
+        if (null !== $allowedSuffixes) {
+            $allowedSuffixes = array_map('strtoupper', (array) $allowedSuffixes);
+            if (!in_array($suffix, $allowedSuffixes, true)) {
+                return null;
+            }
         }
 
         $mqttTopicParts = array_slice($topicParts, count($prefixParts));
         $mqttTopic = trim(implode('/', $mqttTopicParts));
 
         return '' !== $mqttTopic ? $mqttTopic : null;
+    }
+
+    /**
+     * Merge a newly received status-family payload into any previously accumulated
+     * payload for the same topic. Real Tasmota devices answer a single "STATUS 0"
+     * command with several distinct top-level sections (e.g. "Status" and
+     * "StatusNET") delivered as separate MQTT messages, so this combines them into
+     * one object - the same shape ResponseParser already expects from the legacy
+     * concatenated HTTP "status 0" reply (see fixJsonFormatV5100).
+     */
+    private function mergeStatusPayload(?string $existing, string $incoming): string
+    {
+        $incomingData = json_decode($incoming, true);
+        if (!is_array($incomingData)) {
+            return $existing ?? $incoming;
+        }
+
+        $existingData = null !== $existing ? json_decode($existing, true) : [];
+        if (!is_array($existingData)) {
+            $existingData = [];
+        }
+
+        $merged = json_encode(array_merge($existingData, $incomingData));
+
+        return false !== $merged ? $merged : $incoming;
     }
 
     private function buildTopic(string $prefix, string $mqttTopic, string $suffix): string
