@@ -47,7 +47,9 @@ class MqttDiscoveryService
                 return;
             }
 
-            $client->publish($this->buildTopic($request->commandPrefix, $mqttTopic, 'STATUS'), '0');
+            // `STATUS0` returns every status section in one `stat/<topic>/STATUS0` message.
+            // `STATUS` with payload `0` publishes them separately (`STATUS`, `STATUS1`, ...).
+            $client->publish($this->buildTopic($request->commandPrefix, $mqttTopic, 'STATUS0'), '');
             $publishedTopics[$mqttTopic] = true;
         };
 
