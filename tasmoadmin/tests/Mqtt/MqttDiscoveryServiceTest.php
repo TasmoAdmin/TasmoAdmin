@@ -54,7 +54,7 @@ class MqttDiscoveryServiceTest extends TestCase
         self::assertSame('192.168.1.44', $repository->getDeviceById(1)->ip);
         self::assertSame('kitchen-plug', $repository->getDeviceById(1)->mqttTopic);
         self::assertSame(8080, $repository->getDeviceById(1)->port);
-        self::assertSame([['cmnd/kitchen-plug/STATUS0', '']], $client->publishedMessages);
+        self::assertSame([['cmnd/kitchen-plug/STATUS0', '0']], $client->publishedMessages);
     }
 
     public function testScanBackfillsLegacyDeviceUsingAddressMatchAndCustomPrefixes(): void
@@ -89,7 +89,7 @@ class MqttDiscoveryServiceTest extends TestCase
 
         self::assertCount(1, $result->updatedDevices);
         self::assertSame('boiler', $repository->getDeviceById(1)->mqttTopic);
-        self::assertSame([['command/boiler/STATUS0', '']], $client->publishedMessages);
+        self::assertSame([['command/boiler/STATUS0', '0']], $client->publishedMessages);
     }
 
     public function testScanReturnsNewOfflineAndConflictBuckets(): void
@@ -234,27 +234,19 @@ class MqttDiscoveryServiceTest extends TestCase
 
         self::assertCount(1, $result->newDevices);
         self::assertSame('downstairs/lamp', $result->newDevices[0]->TasmoAdminMqttTopic);
-        self::assertSame([['home/cmnd/downstairs/lamp/STATUS0', '']], $client->publishedMessages);
+        self::assertSame([['home/cmnd/downstairs/lamp/STATUS0', '0']], $client->publishedMessages);
     }
 
-    public function testScanRequestsTheCombinedStatus0ResponseThatTasmotaPublishes(): void
+    public function testScanUsesTheCombinedStatus0ReplyOfCurrentTasmota(): void
     {
         $repository = $this->createRepository();
-        $statusPayload = $this->buildStatusPayload('192.168.1.95', ['Garden Pump']);
+        $statusPayload = $this->buildStatusPayload('192.168.1.95', ['Garden Pump', 'Garden Light']);
         $client = new FakeMqttClient(
             [['tele/garden-pump/LWT', 'Online']],
-            static function (string $topic, string $payload) use ($statusPayload): array {
-                // Tasmota publishes stat/<topic>/STATUS0 only for the STATUS0 command;
-                // STATUS with payload 0 publishes each section on its own topic.
+            static function (string $topic) use ($statusPayload): array {
+                // Tasmota 9.5.0+: the STATUS0 command gets one combined reply.
                 if ('cmnd/garden-pump/STATUS0' === $topic) {
                     return [['stat/garden-pump/STATUS0', $statusPayload]];
-                }
-
-                if ('cmnd/garden-pump/STATUS' === $topic && '0' === $payload) {
-                    return [
-                        ['stat/garden-pump/STATUS', '{"Status":{"FriendlyName":["Garden Pump"]}}'],
-                        ['stat/garden-pump/STATUS5', '{"StatusNET":{"IPAddress":"192.168.1.95"}}'],
-                    ];
                 }
 
                 return [];
@@ -266,6 +258,47 @@ class MqttDiscoveryServiceTest extends TestCase
 
         self::assertCount(1, $result->newDevices);
         self::assertSame('garden-pump', $result->newDevices[0]->TasmoAdminMqttTopic);
+        self::assertSame('192.168.1.95', $result->newDevices[0]->StatusNET->IPAddress);
+        self::assertSame('ON', $result->newDevices[0]->StatusSTS->POWER);
+        self::assertCount(0, $result->offlineTopics);
+    }
+
+    public function testScanMergesTheSplitStatusRepliesOfTasmotaBefore950(): void
+    {
+        $repository = $this->createRepository();
+        $client = new FakeMqttClient(
+            [['tele/old-relay/LWT', 'Online']],
+            static function (string $topic, string $payload): array {
+                // Before 9.5.0 the index is ignored: payload 0 publishes one message per section,
+                // an empty payload only the general STATUS section.
+                if ('cmnd/old-relay/STATUS0' !== $topic) {
+                    return [];
+                }
+
+                if ('0' !== $payload) {
+                    return [['stat/old-relay/STATUS', '{"Status":{"FriendlyName":["Old Relay 1","Old Relay 2"]}}']];
+                }
+
+                return [
+                    ['stat/old-relay/STATUS', '{"Status":{"FriendlyName":["Old Relay 1","Old Relay 2"]}}'],
+                    ['stat/old-relay/STATUS1', '{"StatusPRM":{"Baudrate":115200}}'],
+                    ['stat/old-relay/STATUS2', '{"StatusFWR":{"Version":"9.1.0(tasmota)"}}'],
+                    ['stat/old-relay/STATUS5', '{"StatusNET":{"Hostname":"old-relay","IPAddress":"192.168.1.96"}}'],
+                    ['stat/old-relay/STATUS11', '{"StatusSTS":{"POWER1":"ON","POWER2":"OFF"}}'],
+                ];
+            }
+        );
+        $service = $this->createService($repository, $client);
+
+        $result = $service->scan($this->createRequest());
+
+        self::assertCount(1, $result->newDevices);
+        $device = $result->newDevices[0];
+        self::assertSame('old-relay', $device->TasmoAdminMqttTopic);
+        self::assertSame(['Old Relay 1', 'Old Relay 2'], $device->Status->FriendlyName);
+        self::assertSame('192.168.1.96', $device->StatusNET->IPAddress);
+        self::assertSame('OFF', $device->StatusSTS->POWER2);
+        self::assertFalse(isset($device->StatusPRM));
         self::assertCount(0, $result->offlineTopics);
     }
 
