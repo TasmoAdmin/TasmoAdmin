@@ -57,6 +57,42 @@ class MqttDiscoveryServiceTest extends TestCase
         self::assertSame([['cmnd/kitchen-plug/STATUS', '0']], $client->publishedMessages);
     }
 
+    /**
+     * Real Tasmota devices never publish a literal "STATUS0" topic in reply to
+     * "STATUS 0": they fan the reply out across "STATUS" (general info, incl.
+     * FriendlyName) and "STATUS1".."STATUS11" (one per section), with
+     * "StatusNET.IPAddress" living under "STATUS5". This reproduces that real
+     * split-message shape end to end, observed live against a Gosund
+     * EP2+MT681 running Tasmota 13.4.0.
+     */
+    public function testScanRefreshesExistingDeviceFromRealTasmotaStatusAndStatus5Split(): void
+    {
+        $repository = $this->createRepository();
+        $repository->addDevices([[
+            'device_name' => ['kitchen-plug'],
+            'device_ip' => '192.168.1.20',
+            'device_port' => 80,
+            'device_mqtt_topic' => 'kitchen-plug',
+        ]], 'user', 'pass');
+
+        $client = new FakeMqttClient([
+            ['tele/kitchen-plug/LWT', 'Online'],
+            ['stat/kitchen-plug/STATUS', json_encode([
+                'Status' => ['FriendlyName' => ['Kitchen Plug']],
+            ], JSON_THROW_ON_ERROR)],
+            ['stat/kitchen-plug/STATUS5', json_encode([
+                'StatusNET' => ['IPAddress' => '192.168.1.44'],
+            ], JSON_THROW_ON_ERROR)],
+        ]);
+        $service = $this->createService($repository, $client);
+
+        $result = $service->scan($this->createRequest());
+
+        self::assertCount(1, $result->updatedDevices);
+        self::assertSame('192.168.1.44', $repository->getDeviceById(1)->ip);
+        self::assertSame('kitchen-plug', $repository->getDeviceById(1)->mqttTopic);
+    }
+
     public function testScanBackfillsLegacyDeviceUsingAddressMatchAndCustomPrefixes(): void
     {
         $repository = $this->createRepository();
