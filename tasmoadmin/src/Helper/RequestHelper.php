@@ -8,6 +8,9 @@ class RequestHelper
 {
     public const CSRF_TOKEN_FIELD = 'csrf_token';
 
+    // JSON requests cannot carry a form field, so they send the token as a header.
+    public const CSRF_TOKEN_HEADER = 'X-CSRF-Token';
+
     private const PUBLIC_I18N_QUERY_KEYS = ['i18n', 'lang'];
 
     private const LEGACY_MUTATION_QUERY_KEYS = ['removeDevices', 'doAjax', 'doAjaxAll', 'clean', 'selfupdate', 'auto'];
@@ -32,7 +35,7 @@ class RequestHelper
 
     public static function hasValidCsrfToken(Request $request): bool
     {
-        $token = $request->request->get(self::CSRF_TOKEN_FIELD);
+        $token = $request->request->get(self::CSRF_TOKEN_FIELD) ?? $request->headers->get(self::CSRF_TOKEN_HEADER);
 
         return $request->isMethod('POST')
             && is_string($token)

@@ -60,6 +60,8 @@ RUN apk add --no-cache --virtual .build-dependencies \
         php85-dom \
         php85-json \
         php85-openssl \
+        php85-pdo \
+        php85-pdo_sqlite \
         php85-session \
         php85-zip \
         php85-mbstring \
@@ -89,6 +91,7 @@ RUN apk add --no-cache --virtual .build-dependencies \
 ENV BUILD_VERSION=${BUILD_VERSION}
 ENV BUILD_REF=${BUILD_REF}
 ENV SSL=false
+ENV TASMO_HEALTHDIR=/health/
 
 RUN echo "fastcgi_param BUILD_VERSION ${BUILD_VERSION};" >> /etc/nginx/fastcgi_params
 RUN echo "fastcgi_param BUILD_REF ${BUILD_REF};" >> /etc/nginx/fastcgi_params

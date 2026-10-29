@@ -1,5 +1,19 @@
 @use "sass:color";
 
+// Typography (self-hosted via @fontsource — see all.scss). Space Grotesk gives
+// the UI a deliberate, hardware/IoT-flavoured display voice; JetBrains Mono with
+// tabular figures keeps telemetry (IPs, MACs, power, sensor readings) aligned.
+$font-display:
+  "Space Grotesk",
+  "Segoe UI",
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  sans-serif;
+$font-mono:
+  "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+  "Liberation Mono", monospace;
+
 $green: #02a030;
 $greenBtn: $green;
 $greenBtnBorder: $green;
@@ -15,18 +29,18 @@ $nmGreenIconHover: $nmGreenBtnHover;
 $greenIcon: $greenBtn;
 $greenIconHover: $greenBtnHover;
 
-$blue: #007bff;
+$blue: #2563eb; // modern indigo-blue (was BS4 #007bff); matches focus-ring slate
 $blueBtn: $blue;
 $blueBtnBorder: $blue;
 $blueBtnHover: color.adjust($blueBtn, $lightness: -5%);
 $blueBtnBorderHover: color.adjust($blueBtnBorder, $lightness: -10%);
 
-$nmBlueBtn: #005c84;
-$nmBlueBtnHover: #0073a5;
+$nmBlueBtn: #1d4ed8; // night primary, same indigo-blue family as $blue
+$nmBlueBtnHover: #2563eb;
 $nmBlueBtnBorder: $nmBlueBtn;
 $nmBlueBtnBorderHover: color.adjust($nmBlueBtnHover, $lightness: -5%);
 
-$grey: #6c757d;
+$grey: #64748b; // slate-500 — unifies neutrals with the slate shadows/night mode
 $greyDark: color.adjust($grey, $lightness: -20%);
 $greyBtn: $grey;
 $greyBtnBorder: $grey;
@@ -74,7 +88,7 @@ $color_pizazz_approx: darkorange;
 $color_tuna_approx: #343a40;
 $color_gravel_approx: #4b4b4b;
 $color_pirate_gold_approx: #ca8500;
-$color_mako_approx: #44494f;
+$color_mako_approx: #1e293b; // night body (slate-800) — sits darker than #334155 cards for correct elevation
 $color_bay_of_many_approx: #284681;
 $color_pacific_blue_40_approx: rgba(0, 148, 204, 0.4);
 $color_gulf_blue_approx: #031959;

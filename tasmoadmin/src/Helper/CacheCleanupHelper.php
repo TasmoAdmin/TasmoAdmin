@@ -9,16 +9,17 @@ class CacheCleanupHelper
      *
      * @return array{sessions:int,i18n:int}
      */
-    public static function cleanTargets(string $tmpDir, array $targets): array
+    public static function cleanTargets(string $tmpDir, array $targets, ?string $sessionDir = null): array
     {
         $tmpDir = rtrim($tmpDir, '/');
+        $sessionDir = null === $sessionDir ? $tmpDir.'/sessions' : rtrim($sessionDir, '/');
         $result = [
             'sessions' => 0,
             'i18n' => 0,
         ];
 
         if (in_array('sessions', $targets, true)) {
-            $result['sessions'] = self::cleanDirectory($tmpDir.'/sessions', true);
+            $result['sessions'] = self::cleanDirectory($sessionDir, true);
         }
 
         if (in_array('i18n', $targets, true)) {

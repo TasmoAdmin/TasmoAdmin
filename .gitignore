@@ -4,6 +4,7 @@
 
 /tasmoadmin/tmp/backups/*
 /tasmoadmin/tmp/sessions/*
+/tasmoadmin/health/
 /tasmoadmin/tmp/cache/i18n/*
 /tasmoadmin/tmp/reloxx13-tasmoadmin-*
 /tasmoadmin/lang/lang_new.ini

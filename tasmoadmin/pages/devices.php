@@ -86,7 +86,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
             <?php } ?>
 			<div class="devices-panel devices-toolbar">
 				<div class='row g-3 align-items-end devices-toolbar-row'>
-					<div class="col col-12 col-md-auto">
+					<div class="col col-6 col-md-auto devices-toolbar-columns-col">
 						<div class="dropdown" data-bs-auto-close="outside">
 							<button class="btn btn-secondary dropdown-toggle"
 									type="button"
@@ -102,7 +102,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 						</div>
 					</div>
 					<?php if (1 == $Config->read('show_search')) { ?>
-						<div class="col col-12 col-lg-5 devices-toolbar-search">
+						<div class="col col-12 col-lg-5 order-first order-lg-0 devices-toolbar-search">
 							<div class="input-group device-search-group">
 								<input type="text"
 									   name="searchterm"
@@ -116,7 +116,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 							</div>
 						</div>
 					<?php } ?>
-						<div class="col col-12 col-lg-auto ms-lg-auto devices-toolbar-lock-col">
+						<div class="col col-6 col-lg-auto ms-auto devices-toolbar-lock-col">
 						<div class="form-check ps-0 devices-protection-toggle">
 							<input type="checkbox"
 								   class="form-check-input ignoreProtections d-none"
@@ -128,6 +128,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 								   for="ignoreProtections"
 							>
 								<i class="fas fa-lock" style="width: 18px;"></i>
+								<span class="devices-protection-toggle-text d-lg-none"><?php echo __('BTN_UNLOCK_TOOLTIP', 'DEVICES'); ?></span>
 							</label>
 						</div>
 					</div>
@@ -183,7 +184,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
                             </button>
                         </div>
                         <div class="col col-12 col-lg-auto ms-lg-auto devices-batch-add-col">
-                            <a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
+                            <a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary js-add-device">
                                 <?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
                             </a>
                         </div>
@@ -207,7 +208,7 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 					</a>
 				</div>
 					<div class='col col-12 col-sm-4 col-lg-3'>
-					<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary">
+					<a href='<?php echo _BASEURL_; ?>device_action/add' class="btn btn-primary js-add-device">
 						<?php echo __('TABLE_HEAD_NEW_DEVICE', 'DEVICES'); ?>
 					</a>
 					</div>
@@ -220,5 +221,6 @@ if (isset($_POST['batch_action'], $_POST['device_ids'])) {
 	</div>
 </div>
 <?php include 'elements/modal_delete_device.php'; ?>
+<?php include 'elements/modal_add_device.php'; ?>
 
 <script src="<?php echo $urlHelper->js('compiled/devices'); ?>"></script>

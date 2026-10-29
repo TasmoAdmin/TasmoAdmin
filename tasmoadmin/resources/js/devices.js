@@ -18,6 +18,7 @@ import batchActions from "./device_batch_actions";
 import { getSortableIpCellValue } from "./ip_sort";
 import statusHelpers from "./status_helpers";
 import toggleConfirmation from "./toggle_confirmation";
+import initAddDeviceModal from "./add_device_modal";
 
 const {
   extractFirstNumericValue,
@@ -65,6 +66,7 @@ onI18nReady(function () {
   initCellDataSorting("sleep", ".sleep span", "data-sort-number", true);
   initCellDataSorting("vcc", ".vcc span", "data-sort-number", true);
   deviceTools();
+  initAddDeviceModal();
   initDeviceListPreferences();
 
   if ($(".device-search").length > 0) {
@@ -984,6 +986,9 @@ function updateRow(row, data, device_status) {
   }
 
   let energyPower = getEnergyPower(data, " / ");
+  $(row)
+    .find("td.energyPower")
+    .toggleClass("has-value", energyPower !== "");
   if (energyPower !== "") {
     $(row).find(".energyPower span").text(energyPower);
     setSortAttribute(
@@ -999,6 +1004,9 @@ function updateRow(row, data, device_status) {
 
   let temp = getTemp(data);
 
+  $(row)
+    .find("td.temp")
+    .toggleClass("has-value", temp !== "");
   if (temp !== "") {
     $(row).find(".temp span").text(temp);
     setSortAttribute(
@@ -1014,6 +1022,9 @@ function updateRow(row, data, device_status) {
 
   let humidity = getHumidity(data);
 
+  $(row)
+    .find("td.humidity")
+    .toggleClass("has-value", humidity !== "");
   if (humidity !== "") {
     $(row).find(".humidity span").text(humidity);
     setSortAttribute(
@@ -1029,6 +1040,9 @@ function updateRow(row, data, device_status) {
 
   let illuminance = getIlluminance(data);
 
+  $(row)
+    .find("td.illuminance")
+    .toggleClass("has-value", illuminance !== "");
   if (illuminance !== "") {
     $(row).find(".illuminance span").text(illuminance);
     setSortAttribute(

@@ -46,6 +46,13 @@ TasmoAdmin (previously SonWEB) is an administrative platform for devices flashed
   * Hide selected devices from the startpage without removing them from the inventory
 * Support for multiple sensors
 * Encrypt stored device passwords at rest
+* Fleet health monitoring
+  * Background collector combines HTTP polling and MQTT (LWT/telemetry) into one state per device
+  * Health page with state filters, search, per-channel status, signal strength and last seen
+  * Health dots on the startpage and device list
+* Passkey (WebAuthn) sign-in next to username and password
+* Installable progressive web app with an offline fallback page
+* Light and dark themes built on shared design tokens, with compact device cards on mobile
 
 ### Supported Platforms
 * Apache2 and Nginx
@@ -84,7 +91,9 @@ Some environment variables are configured to allow easier customisation of the a
 
 - `TASMO_DATADIR` - Data directory, including a trailing slash. Defaults to `./tasmoadmin/data/`
 - `TASMO_BASEURL` - Customise the base URL for the application
-- `TASMO_TMPDIR` - Directory for sessions and temporary cache files, including a trailing slash. Defaults to `./tasmoadmin/tmp/`
+- `TASMO_TMPDIR` - Directory for temporary cache files, including a trailing slash. Defaults to `./tasmoadmin/tmp/`
+- `TASMO_SESSIONDIR` - Directory for login sessions, including a trailing slash. Defaults to `sessions/` inside the data directory so logins survive container restarts
+- `TASMO_HEALTHDIR` - Directory for the fleet health database, including a trailing slash. Defaults to `./tasmoadmin/health/`; the Docker image uses `/health/`
 - `TASMO_DEBUG` - Set to `true` to display PHP errors. Disabled by default.
 - `NO_AUTH` - Set to `true` to bypass the built-in login when authentication is handled externally
 - `TASMO_DEVICE_PASSWORD_KEY` - Base64-encoded 32-byte secret for device password encryption at rest
@@ -108,6 +117,36 @@ On the first read after upgrading, legacy plaintext password cells are migrated 
 Authenticated state changes require a POST request with the session CSRF token. The session cookie uses `SameSite=Lax` by default, so an iframe deployment continues to work when the parent and TasmoAdmin are same-site. To embed TasmoAdmin in another HTTPS site, such as Home Assistant or Organizr, set `TASMO_ALLOW_CROSS_SITE_IFRAME=true`. This uses `SameSite=None; Secure` only for HTTPS requests; HTTP stays at `SameSite=Lax`. Browsers that block third-party cookies may still require a user exception.
 
 For a deployment check, verify an authenticated device command and self-update form in both day and night mode, then confirm that a cross-site POST and a legacy state-changing GET URL leave the installation unchanged.
+
+Login sessions last 30 days and are extended while TasmoAdmin is in use. The session id is regenerated on login. Behind a reverse proxy that terminates TLS, the session cookie is marked `Secure` when the proxy sends `X-Forwarded-Proto: https`.
+
+### Passkeys
+
+Signed-in users can register passkeys under `Settings -> Passkeys` and then use `Sign in with a passkey` on the login page. Browsers only offer passkeys in a secure context, so TasmoAdmin must be served over HTTPS (or from `localhost`). Passkeys are bound to the host name used when registering them. Public keys are stored in `passkeys.json` in the data directory; username and password login keeps working.
+
+### Fleet Health
+
+The Docker image runs a `health-collector` service next to PHP-FPM. It polls every device over HTTP (`Status 0`) and listens on the MQTT broker configured under `Settings -> MQTT discovery`, then stores one state per device in a SQLite database:
+
+* `online` - HTTP and MQTT are up, or HTTP is up for a device that does not use MQTT
+* `degraded_mqtt` / `degraded_http` - only one of the two channels answers
+* `offline` - neither channel answered within the grace period
+* `unknown` - the collector has not seen the device yet
+
+The MQTT topic is taken from the device form or, when that is empty, read from the device's own `Status 0` reply. Devices with MQTT disabled are monitored over HTTP only and show MQTT as `Not monitored`.
+
+The collector reads these keys from `MyConfig.json`:
+
+* `health_enabled` - `1` to run the collector (default `1`)
+* `health_http_poll_interval` - seconds between HTTP polls (default `60`, minimum `5`)
+* `health_offline_grace` - seconds without an answer before a channel counts as down (default `180`)
+* `health_mqtt_subscription` - MQTT subscription used to watch devices (default `#`)
+
+Outside Docker, run `php tasmoadmin/bin/health-collector` as a long-running service and point `TASMO_HEALTHDIR` at a directory outside the web root that both the collector and the web server can write to. `health_data` returns the same data as JSON.
+
+### Progressive Web App
+
+TasmoAdmin serves a web app manifest (`manifest`) and a service worker (`service-worker`) from its base URL, so it can be installed from the browser menu, or from the `Install app` entry that appears in the navigation when the browser allows it. The service worker caches static assets and an offline page only; device state and commands always go to the network.
 
 ### MQTT Discovery
 

@@ -1,0 +1,97 @@
+#!/usr/bin/env php
+<?php
+
+// CLI bootstrap for the Fleet Health collector. Defines the same path
+// constants includes/container.php expects, then reuses the web DI wiring.
+
+use Selective\Container\Container;
+use TasmoAdmin\Config;
+use TasmoAdmin\Health\HealthCollector;
+use TasmoAdmin\Health\HealthRepository;
+use TasmoAdmin\Mqtt\PhpMqttClientFactory;
+use TasmoAdmin\Sonoff;
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+define('_APPROOT_', dirname(__DIR__).'/');
+define('_BASEURL_', getenv('TASMO_BASEURL') ?: '/');
+define('_TMPDIR_', getenv('TASMO_TMPDIR') ?: _APPROOT_.'tmp/');
+define('_DATADIR_', getenv('TASMO_DATADIR') ?: _APPROOT_.'data/');
+define('_CSVFILE_', _DATADIR_.'devices.csv');
+define('_RESOURCESURL_', _BASEURL_.'resources/');
+define('_RESOURCESDIR_', _APPROOT_.'resources/');
+
+require_once _APPROOT_.'vendor/autoload.php';
+
+if (!function_exists('__')) {
+    function __(string $string, ?string $category = null, ?array $args = null): string
+    {
+        $key = $category ? $category.'_'.$string : $string;
+
+        return $args ? vsprintf($key, $args) : $key;
+    }
+}
+
+/** @var Container $container */
+$container = require _APPROOT_.'includes/container.php';
+
+$config = $container->get(Config::class);
+$sonoff = $container->get(Sonoff::class);
+
+$healthDir = getenv('TASMO_HEALTHDIR') ?: _APPROOT_.'health/';
+$repo = new HealthRepository(rtrim($healthDir, '/').'/health.db');
+$repo->ensureSchema();
+
+if ('1' !== $config->read('health_enabled')) {
+    fwrite(STDERR, "health_enabled is off; exiting.\n");
+
+    exit(0);
+}
+
+$raw = $config->readAll(); // decrypted, NOT htmlspecialchars'd — same path discovery uses
+$host = (string) ($raw['mqtt_discovery_host'] ?? '');
+if ('' === $host) {
+    fwrite(STDERR, "mqtt_discovery_host not configured; exiting.\n");
+
+    exit(1);
+}
+$port = (int) ($raw['mqtt_discovery_port'] ?? 1883);
+$username = (string) ($raw['mqtt_discovery_username'] ?? '');
+$password = (string) ($raw['mqtt_discovery_password'] ?? '');
+$timeout = (int) ($raw['mqtt_discovery_timeout_seconds'] ?? 5);
+$subscription = (string) ($raw['health_mqtt_subscription'] ?? '#');
+$pollInterval = (int) ($raw['health_http_poll_interval'] ?? 60);
+$grace = (int) ($raw['health_offline_grace'] ?? 180);
+
+$collector = new HealthCollector($repo, $sonoff, $grace);
+$factory = new PhpMqttClientFactory();
+
+$once = in_array('--once', $argv, true);
+
+while (true) {
+    $client = $factory->create($host, $port);
+
+    try {
+        $client->connect('' !== $username ? $username : null, '' !== $password ? $password : null, max($timeout, 1));
+        if ($once) {
+            $collector->runOnce($client, $subscription, max($timeout, 1));
+            $client->disconnect();
+
+            exit(0);
+        }
+        $collector->run($client, $subscription, max($pollInterval, 5));
+    } catch (Throwable $e) {
+        fwrite(STDERR, 'collector error: '.$e->getMessage()."\n");
+
+        try {
+            $client->disconnect();
+        } catch (Throwable) {
+            // ignore
+        }
+        if ($once) {
+            exit(1);
+        }
+        sleep(5); // bounded backoff before reconnect
+    }
+}

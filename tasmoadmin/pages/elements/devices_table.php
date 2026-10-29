@@ -1,5 +1,6 @@
 <?php
 
+use TasmoAdmin\Health\HealthRepository;
 use TasmoAdmin\Helper\HtmlAttributeHelper;
 
 $deviceLinksHideClass = isset($deviceLinksDefaultHide) && $deviceLinksDefaultHide ? 'd-none' : '';
@@ -10,6 +11,17 @@ if (isset($deviceLinks) && $deviceLinks && !isset($deviceLinkActionText)) {
 
 $loadingText = htmlspecialchars(__('TEXT_LOADING'), ENT_QUOTES, 'UTF-8');
 $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingText}' data-bs-toggle='tooltip' data-bs-title='{$loadingText}'></span>";
+$healthRowsByDeviceId = [];
+if (isset($container)) {
+    try {
+        $healthRepo = $container->get(HealthRepository::class);
+        foreach ($healthRepo->all() as $healthRow) {
+            $healthRowsByDeviceId[(string) $healthRow['device_id']] = $healthRow;
+        }
+    } catch (Throwable) {
+        $healthRowsByDeviceId = [];
+    }
+}
 
 ?>
 
@@ -44,10 +56,10 @@ $loadingIndicator = "<span class='loader' role='status' aria-label='{$loadingTex
         <th data-column-id='rssi' data-column-label='<?php echo __('TABLE_HEAD_WIFI', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col data-tablesaw-sortable-numeric><?php echo __('TABLE_HEAD_WIFI', 'DEVICES'); ?></th>
         <th data-column-id='version' data-column-label='<?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_VERSION', 'DEVICES'); ?></th>
         <th data-column-id='runtime' data-column-label='<?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col><?php echo __('TABLE_HEAD_RUNTIME', 'DEVICES'); ?></th>
-        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __('TABLE_HEAD_ENERGY', 'DEVICES').' '.__(
+        <th data-column-id='energyPower' data-column-label='<?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='energyPower hidden'><?php echo __('TABLE_HEAD_ENERGY', 'DEVICES'); ?> <span class='column-label-detail'><?php echo __(
             'TABLE_HEAD_ENERGY_DETAIL',
             'DEVICES'
-        ); ?></th>
+        ); ?></span></th>
         <th data-column-id='temp' data-column-label='<?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='temp hidden'><?php echo __('TABLE_HEAD_TEMP', 'DEVICES'); ?></th>
         <th data-column-id='humidity' data-column-label='<?php echo __('TABLE_HEAD_HUMIDITY', 'DEVICES'); ?>' data-column-toggle='true' data-tablesaw-sortable-col class='humidity hidden'><?php echo __(
             'TABLE_HEAD_HUMIDITY',
@@ -120,19 +132,29 @@ if (isset($devices) && !empty($devices)) {
                     <?php } ?>
                     <td data-column-id='id'><?php echo HtmlAttributeHelper::escape($device_group->id); ?></td>
                     <td data-column-id='position'><?php echo HtmlAttributeHelper::escape($device_group->position); ?></td>
-                    <td class='device_name' data-column-id='name'>
+            <td class='device_name' data-column-id='name'>
+                <div class="device-primary-cell">
+                    <?php
+                    $healthRow = $healthRowsByDeviceId[(string) $device_group->id] ?? null;
+
+            include __DIR__.'/health_badge.php';
+            ?>
+                    <div class="device-primary-copy">
                         <a href='<?php echo HtmlAttributeHelper::escape($device_group->getUrlWithAuth()); ?>'
-                           target='_blank'
-                          data-bs-toggle="tooltip" data-bs-title='<?php echo __(
-                              'LINK_OPEN_DEVICE_WEBUI',
-                              'DEVICES'
-                          ); ?>'
-                        ><?php echo str_replace(
-                            ' ',
-                            '&nbsp;',
-                            HtmlAttributeHelper::escape($devicename)
-                        ); ?></a>
-                    </td>
+                            target='_blank'
+                            data-bs-toggle="tooltip" data-bs-title='<?php echo __(
+                                'LINK_OPEN_DEVICE_WEBUI',
+                                'DEVICES'
+                            ); ?>'
+                            ><?php echo str_replace(
+                                ' ',
+                                '&nbsp;',
+                                HtmlAttributeHelper::escape($devicename)
+                            ); ?></a>
+                        <span class="device-primary-meta"><?php echo HtmlAttributeHelper::escape($device_group->ip); ?></span>
+                    </div>
+                </div>
+            </td>
                     <td data-column-id='ip'>
                         <span class="tablesaw-sort-value"><?php echo sprintf('%u', ip2long($device_group->ip)); ?></span>
                         <span class="device-ip-text"><?php echo htmlspecialchars($device_group->ip, ENT_QUOTES, 'UTF-8'); ?></span>
