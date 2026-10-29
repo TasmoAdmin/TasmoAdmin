@@ -8,6 +8,13 @@ use TasmoAdmin\Tasmota\ResponseParser;
 
 class MqttDiscoveryService
 {
+    /**
+     * Tasmota 9.5.0 and later answer `STATUS0` with one combined `STATUS0` message. Older
+     * firmware ignores the index and answers payload `0` with one message per section, of
+     * which `STATUS` (FriendlyName), `STATUS5` (StatusNET) and `STATUS11` (StatusSTS) are needed.
+     */
+    private const STATUS_REPLY_SUFFIXES = ['STATUS0', 'STATUS', 'STATUS5', 'STATUS11'];
+
     public function __construct(
         private DeviceRepository $deviceRepository,
         private ResponseParser $responseParser,
@@ -32,7 +39,7 @@ class MqttDiscoveryService
         ): void {
             $statusTopic = $this->extractStatusTopic($topic, $request->statPrefix);
             if (null !== $statusTopic) {
-                $statusPayloads[$statusTopic] = $message;
+                $statusPayloads[$statusTopic] = $this->mergeStatusPayload($statusPayloads[$statusTopic] ?? null, $message);
 
                 return;
             }
@@ -47,7 +54,7 @@ class MqttDiscoveryService
                 return;
             }
 
-            $client->publish($this->buildTopic($request->commandPrefix, $mqttTopic, 'STATUS'), '0');
+            $client->publish($this->buildTopic($request->commandPrefix, $mqttTopic, 'STATUS0'), '0');
             $publishedTopics[$mqttTopic] = true;
         };
 
@@ -219,10 +226,13 @@ class MqttDiscoveryService
 
     private function extractStatusTopic(string $topic, string $statPrefix): ?string
     {
-        return $this->extractTopicForPrefix($topic, $statPrefix, 'STATUS0');
+        return $this->extractTopicForPrefix($topic, $statPrefix, self::STATUS_REPLY_SUFFIXES);
     }
 
-    private function extractTopicForPrefix(string $topic, string $prefix, ?string $requiredSuffix = null): ?string
+    /**
+     * @param null|string[] $allowedSuffixes
+     */
+    private function extractTopicForPrefix(string $topic, string $prefix, ?array $allowedSuffixes = null): ?string
     {
         $topicParts = $this->splitTopic($topic);
         $prefixParts = $this->splitTopic($prefix);
@@ -236,8 +246,8 @@ class MqttDiscoveryService
             }
         }
 
-        $suffix = array_pop($topicParts);
-        if (null !== $requiredSuffix && strtoupper((string) $suffix) !== strtoupper($requiredSuffix)) {
+        $suffix = strtoupper((string) array_pop($topicParts));
+        if (null !== $allowedSuffixes && !in_array($suffix, $allowedSuffixes, true)) {
             return null;
         }
 
@@ -245,6 +255,24 @@ class MqttDiscoveryService
         $mqttTopic = trim(implode('/', $mqttTopicParts));
 
         return '' !== $mqttTopic ? $mqttTopic : null;
+    }
+
+    private function mergeStatusPayload(?string $existing, string $incoming): string
+    {
+        if (null === $existing) {
+            return $incoming;
+        }
+
+        $existingData = json_decode($existing);
+        $incomingData = json_decode($incoming);
+        if (!$existingData instanceof \stdClass || !$incomingData instanceof \stdClass) {
+            return $existing;
+        }
+
+        return (string) json_encode(
+            (object) array_merge((array) $existingData, (array) $incomingData),
+            JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+        );
     }
 
     private function buildTopic(string $prefix, string $mqttTopic, string $suffix): string
