@@ -1,6 +1,7 @@
 const { compareVersions } = require("compare-versions");
 
 const LEGACY_ESP8266_MULTI_HOP_BASELINE = "9.1.3";
+const MINIMAL_FIRMWARE_NAME = "tasmota-minimal";
 
 function extractVersionFromResponse(response) {
   const actualMatch = /(\d+(\.\d+)+(\d+)*)/.exec(response);
@@ -35,6 +36,50 @@ function shouldTreatStatusAsSuccessful({
   }
 
   return !versionsEqual(beforeVersion, currentVersion);
+}
+
+// Since Tasmota 11.0.0.4 the ESP8266 minimal image only knows Upgrade, Upload,
+// OtaUrl, Seriallog and Restart, so it answers Status 0 with Command Unknown.
+function isMinimalFirmwareResponse(response) {
+  return response?.Command === "Unknown" && !response?.StatusFWR;
+}
+
+function getReportedVersion(response) {
+  if (isMinimalFirmwareResponse(response)) {
+    return "";
+  }
+
+  return response?.StatusFWR?.Version ?? "";
+}
+
+function describeReportedVersion(response) {
+  if (isMinimalFirmwareResponse(response)) {
+    return MINIMAL_FIRMWARE_NAME;
+  }
+
+  return getReportedVersion(response);
+}
+
+function isUpgradeStepComplete({
+  stepKind,
+  targetVersion,
+  beforeVersion,
+  response,
+}) {
+  if (isMinimalFirmwareResponse(response)) {
+    return stepKind === "minimal";
+  }
+
+  const currentVersion = getReportedVersion(response);
+  if (!targetVersion && !beforeVersion) {
+    return currentVersion !== "";
+  }
+
+  return shouldTreatStatusAsSuccessful({
+    targetVersion,
+    beforeVersion,
+    currentVersion,
+  });
 }
 
 function getFailureDetails({ targetVersion, beforeVersion, currentVersion }) {
@@ -139,10 +184,14 @@ function determineUpgradePlan(target, response) {
 }
 
 module.exports = {
+  describeReportedVersion,
   detectDevicePlatform,
   determineUpgradePlan,
   extractVersionFromResponse,
   getFailureDetails,
+  getReportedVersion,
+  isMinimalFirmwareResponse,
+  isUpgradeStepComplete,
   resolveUpdateTarget,
   shouldTreatStatusAsSuccessful,
   versionUpgrade,

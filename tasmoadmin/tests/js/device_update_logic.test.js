@@ -7,7 +7,13 @@ const {
   resolveUpdateTarget,
   shouldTreatStatusAsSuccessful,
   getFailureDetails,
+  describeReportedVersion,
+  getReportedVersion,
+  isMinimalFirmwareResponse,
+  isUpgradeStepComplete,
 } = require("../../resources/js/device_update_logic.js");
+
+const minimalFirmwareResponse = { Command: "Unknown", Input: "Status 0" };
 
 test("manual uploads stay pending while the device reports its pre-update version", () => {
   assert.equal(
@@ -246,5 +252,79 @@ test("direct updates remain unchanged when no minimal stage is required", () => 
         },
       ],
     },
+  );
+});
+
+test("Command Unknown without firmware status is recognised as the minimal image", () => {
+  assert.equal(isMinimalFirmwareResponse(minimalFirmwareResponse), true);
+  assert.equal(
+    isMinimalFirmwareResponse({ StatusFWR: { Version: "15.6.0.1(tasmota)" } }),
+    false,
+  );
+  assert.equal(getReportedVersion(minimalFirmwareResponse), "");
+  assert.equal(describeReportedVersion(minimalFirmwareResponse), "tasmota-minimal");
+  assert.equal(
+    describeReportedVersion({ StatusFWR: { Version: "16.0.0(tasmota)" } }),
+    "16.0.0(tasmota)",
+  );
+});
+
+test("minimal step stays pending while the device still runs its old firmware", () => {
+  assert.equal(
+    isUpgradeStepComplete({
+      stepKind: "minimal",
+      targetVersion: "",
+      beforeVersion: "15.6.0.1(tasmota)",
+      response: { StatusFWR: { Version: "15.6.0.1(tasmota)" } },
+    }),
+    false,
+  );
+});
+
+test("minimal step completes once the minimal image answers Status 0 with Command Unknown", () => {
+  assert.equal(
+    isUpgradeStepComplete({
+      stepKind: "minimal",
+      targetVersion: "",
+      beforeVersion: "15.6.0.1(tasmota)",
+      response: minimalFirmwareResponse,
+    }),
+    true,
+  );
+});
+
+test("final step stays pending while the device still runs the minimal image", () => {
+  assert.equal(
+    isUpgradeStepComplete({
+      stepKind: "final",
+      targetVersion: "16.0.0",
+      beforeVersion: "",
+      response: minimalFirmwareResponse,
+    }),
+    false,
+  );
+});
+
+test("final step after the minimal image completes at the target version", () => {
+  assert.equal(
+    isUpgradeStepComplete({
+      stepKind: "final",
+      targetVersion: "16.0.0",
+      beforeVersion: "",
+      response: { StatusFWR: { Version: "16.0.0(tasmota)" } },
+    }),
+    true,
+  );
+});
+
+test("manual final step after the minimal image completes once a full firmware reports a version", () => {
+  assert.equal(
+    isUpgradeStepComplete({
+      stepKind: "final",
+      targetVersion: "",
+      beforeVersion: "",
+      response: { StatusFWR: { Version: "14.4.1(tasmota)" } },
+    }),
+    true,
   );
 });

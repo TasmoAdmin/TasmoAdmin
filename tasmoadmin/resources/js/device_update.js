@@ -3,8 +3,10 @@ import {
   resolveUpdateTarget,
   versionsEqual,
   versionUpgrade,
-  shouldTreatStatusAsSuccessful,
   getFailureDetails,
+  describeReportedVersion,
+  getReportedVersion,
+  isUpgradeStepComplete,
 } from "./device_update_logic.js";
 import { waitForI18n } from "./app";
 
@@ -55,7 +57,7 @@ const fetchWithRetries = async (
   }
 };
 
-async function doAjax(deviceId, cmnd) {
+async function doAjax(deviceId, cmnd, { allowUnknownCommand = false } = {}) {
   let response = await fetchWithRetries(`${config.base_url}actions`, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -72,7 +74,11 @@ async function doAjax(deviceId, cmnd) {
     throw Error($.i18n("BLOCK_UPDATE_ERROR_FROM_BACKEND", response.ERROR));
   }
 
-  if (response.hasOwnProperty("Command") && response.Command === "Unknown") {
+  if (
+    response.hasOwnProperty("Command") &&
+    response.Command === "Unknown" &&
+    !allowUnknownCommand
+  ) {
     throw Error($.i18n("BLOCK_UPDATE_ERROR_FROM_BACKEND", response.Command));
   }
 
@@ -117,10 +123,10 @@ async function startUpgrade(deviceId) {
   }
 }
 
-async function checkStatus(deviceId, tries = defaultTries) {
+async function checkStatus(deviceId, tries = defaultTries, options = {}) {
   try {
     log(deviceId, $.i18n("BLOCK_UPDATE_CHECKING_VERSION"));
-    return await doAjax(deviceId, "Status 0");
+    return await doAjax(deviceId, "Status 0", options);
   } catch (e) {
     if (tries > 0) {
       const remainingTries = --tries;
@@ -133,7 +139,7 @@ async function checkStatus(deviceId, tries = defaultTries) {
         ),
       );
       await sleep(defaultSleepDuration);
-      return await checkStatus(deviceId, remainingTries);
+      return await checkStatus(deviceId, remainingTries, options);
     } else {
       console.error(e);
       throw e;
@@ -248,15 +254,18 @@ async function updateDevice(device) {
       log(device.id, $.i18n("BLOCK_UPDATE_SUCCESS"));
 
       let upgradeSuccessful = false;
-      const stepBeforeVersion = response.StatusFWR.Version;
+      const stepBeforeVersion = getReportedVersion(response);
       for (let i = 0; i < defaultTries; i++) {
-        response = await checkStatus(device.id);
+        response = await checkStatus(device.id, defaultTries, {
+          allowUnknownCommand: true,
+        });
 
         if (
-          shouldTreatStatusAsSuccessful({
+          isUpgradeStepComplete({
+            stepKind: step.kind,
             targetVersion: step.targetVersion,
             beforeVersion: stepBeforeVersion,
-            currentVersion: response.StatusFWR.Version,
+            response,
           })
         ) {
           upgradeSuccessful = true;
@@ -278,7 +287,7 @@ async function updateDevice(device) {
         const failure = getFailureDetails({
           targetVersion: step.targetVersion,
           beforeVersion: stepBeforeVersion,
-          currentVersion: response.StatusFWR.Version,
+          currentVersion: describeReportedVersion(response),
         });
         log(device.id, $.i18n(failure.key, ...failure.values), Level.error);
         return false;
@@ -286,7 +295,7 @@ async function updateDevice(device) {
 
       log(
         device.id,
-        $.i18n("BLOCK_UPDATE_VERSION_IS", response.StatusFWR.Version),
+        $.i18n("BLOCK_UPDATE_VERSION_IS", describeReportedVersion(response)),
       );
       if (index === upgradePlan.steps.length - 1) {
         log(device.id, $.i18n("BLOCK_UPDATE_FINISH_SUCCESS"), Level.success);
