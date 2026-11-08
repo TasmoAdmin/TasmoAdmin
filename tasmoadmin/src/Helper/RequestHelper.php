@@ -2,6 +2,8 @@
 
 namespace TasmoAdmin\Helper;
 
+use GuzzleHttp\Psr7\Uri;
+use GuzzleHttp\Psr7\UriResolver;
 use Symfony\Component\HttpFoundation\Request;
 
 class RequestHelper
@@ -82,6 +84,38 @@ class RequestHelper
             && (!is_string($releaseHost)
                 || '' === $currentHost
                 || 0 !== strcasecmp($releaseHost, $currentHost));
+    }
+
+    public static function isAllowedUpdateSource(string $releaseUrl, string $officialReleaseUrl): bool
+    {
+        if ('' !== $officialReleaseUrl && hash_equals($officialReleaseUrl, $releaseUrl)) {
+            return true;
+        }
+
+        if (1 === preg_match('/[\x00-\x1f\x7f]/', $releaseUrl)) {
+            return false;
+        }
+
+        try {
+            $uri = new Uri($releaseUrl);
+        } catch (\InvalidArgumentException $e) {
+            return false;
+        }
+
+        $scheme = strtolower($uri->getScheme());
+        $host = strtolower($uri->getHost());
+
+        $path = $uri->getPath();
+        do {
+            $decoded = rawurldecode($path);
+            $changed = $decoded !== $path;
+            $path = $decoded;
+        } while ($changed);
+        $path = strtolower(UriResolver::removeDotSegments($path));
+
+        return 'https' === $scheme
+            && in_array($host, ['github.com', 'www.github.com'], true)
+            && str_starts_with($path, '/tasmoadmin/tasmoadmin/');
     }
 
     public static function isPublicI18nRequest(Request $request): bool
