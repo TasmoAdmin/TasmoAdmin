@@ -24,6 +24,10 @@ $routes->add('device_action', new Route('/device_action/{action}/{device_id}', [
     'device_id' => '-1',
     '_controller' => 'render_template',
 ]));
+$routes->add('device_action_modal', new Route('/device_action_modal/{action}/{device_id}', [
+    'device_id' => '-1',
+    '_controller' => 'render_raw',
+]));
 $routes->add('device_config', new Route('/device_config/{device_id}', [
     '_controller' => 'render_template',
 ]));
@@ -48,6 +52,9 @@ $routes->add('devices_autoscan', new Route('/devices_autoscan', [
 $routes->add('login', new Route('/login', [
     '_controller' => 'render_template',
 ]));
+$routes->add('passkey', new Route('/passkey/{action}', [
+    '_controller' => 'render_raw',
+]));
 $routes->add('logout', new Route('/logout', [
     '_controller' => 'render_raw',
 ], [], [], '', [], ['POST']));
@@ -61,6 +68,22 @@ $routes->add('site_config', new Route('/site_config', [
     '_controller' => 'render_template',
 ]));
 $routes->add('actions', new Route('actions', [
+    '_controller' => 'render_raw',
+]));
+$routes->add('health', new Route('/health', [
+    '_controller' => 'render_template',
+]));
+$routes->add('health_data', new Route('/health_data', [
+    '_controller' => 'render_raw',
+]));
+
+$routes->add('manifest', new Route('/manifest', [
+    '_controller' => 'render_raw',
+]));
+$routes->add('service_worker', new Route('/service-worker', [
+    '_controller' => 'render_raw',
+]));
+$routes->add('offline', new Route('/offline', [
     '_controller' => 'render_raw',
 ]));
 

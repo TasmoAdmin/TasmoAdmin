@@ -19,6 +19,11 @@ Changelog information was migrated to GitHub releases. Check the [releases](http
 * Show git fallback version and branch details in the footer when release metadata is unavailable
 * Add repo-managed pre-commit hooks, update the repo Node.js runtime to `v24`, and migrate Docker CI jobs to managed QEMU/Buildx actions
 * Expand PHP and JavaScript regression coverage across config, update, MQTT, helper, and device-list workflows
+* Add fleet health monitoring: a background collector fusing HTTP polling and MQTT, a health page with filters, search and mobile cards, and health dots on the startpage and device list
+* Add passkey (WebAuthn) sign-in and passkey management in settings
+* Make TasmoAdmin an installable progressive web app with an offline fallback page and an install entry in the navigation
+* Rework light and dark themes on shared design tokens, add compact mobile device cards and highlight rows of devices that are switched on
+* Keep login sessions for 30 days in the data directory so they survive container restarts
 
 ## PUBLISHED
 

@@ -6,7 +6,15 @@
 @import "./../../node_modules/flatpickr/dist/themes/material_blue.css";
 @import "./../../node_modules/tablesaw/dist/tablesaw.css";
 
+// Self-hosted fonts (offline/LAN-safe — no CDN). esbuild's file loader emits the
+// woff2 referenced by these stylesheets. Display: Space Grotesk; data: JetBrains Mono.
+@import "./../../node_modules/@fontsource/space-grotesk/latin-500.css";
+@import "./../../node_modules/@fontsource/space-grotesk/latin-700.css";
+@import "./../../node_modules/@fontsource/jetbrains-mono/latin-400.css";
+@import "./../../node_modules/@fontsource/jetbrains-mono/latin-500.css";
+
 @import "animate";
 @import "style";
 @import "start";
 @import "mobile";
+@import "theme";

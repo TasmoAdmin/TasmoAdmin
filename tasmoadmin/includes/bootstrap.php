@@ -44,15 +44,28 @@ define('_CSVFILE_', _DATADIR_.'devices.csv');
 
 require_once _APPROOT_.'vendor/autoload.php';
 
-session_save_path(_TMPDIR_.'sessions');
-session_name('TASMO_SESSION');
-ini_set('session.use_strict_mode', '1');
-$isHttpsRequest = RequestHelper::isHttpsRequest($_SERVER);
-session_set_cookie_params(RequestHelper::sameSiteCookieParams(
-    session_get_cookie_params(),
+// Sessions live next to the config so they survive container restarts.
+define('_SESSIONDIR_', getenv('TASMO_SESSIONDIR') ?: _DATADIR_.'sessions/');
+define('_SESSION_LIFETIME_', 30 * 24 * 3600);
+
+if (!is_dir(_SESSIONDIR_)) {
+    @mkdir(_SESSIONDIR_, 0o700, true);
+}
+
+// TLS usually ends at a reverse proxy, so trust its forwarded scheme as well.
+$isHttpsRequest = RequestHelper::isHttpsRequest($_SERVER)
+    || 'https' === ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '');
+$sessionCookieParams = RequestHelper::sameSiteCookieParams(
+    ['lifetime' => _SESSION_LIFETIME_, 'path' => '/'] + session_get_cookie_params(),
     filter_var(getenv('TASMO_ALLOW_CROSS_SITE_IFRAME'), FILTER_VALIDATE_BOOLEAN) && $isHttpsRequest,
     $isHttpsRequest
-));
+);
+
+ini_set('session.gc_maxlifetime', (string) _SESSION_LIFETIME_);
+ini_set('session.use_strict_mode', '1');
+session_save_path(is_dir(_SESSIONDIR_) ? _SESSIONDIR_ : _TMPDIR_.'sessions');
+session_name('TASMO_SESSION');
+session_set_cookie_params($sessionCookieParams);
 session_start();
 
 global $loggedin, $docker;
@@ -105,6 +118,17 @@ if ((isset($_SESSION['login']) && '1' == $_SESSION['login'])
     || EnvironmentHelper::isEnabled('NO_AUTH')
 ) {
     $loggedin = true;
+}
+
+// Slide the session cookie expiry forward while the user keeps using the app.
+if (isset($_SESSION['login']) && '1' == $_SESSION['login'] && !headers_sent()) {
+    setcookie(session_name(), session_id(), [
+        'expires' => time() + _SESSION_LIFETIME_,
+        'path' => $sessionCookieParams['path'],
+        'secure' => $sessionCookieParams['secure'],
+        'httponly' => true,
+        'samesite' => $sessionCookieParams['samesite'],
+    ]);
 }
 
 function __(string $string, ?string $category = null, ?array $args = null)
