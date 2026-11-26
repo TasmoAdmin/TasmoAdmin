@@ -6,6 +6,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class DeviceRepository
 {
+    public const PLAINTEXT_BACKUP_SUFFIX = '.pre-encryption.bak';
     private const CSV_ESCAPE = '\\';
     private const UPDATE_FIELD_PROPERTY_MAP = [
         'device_all_off' => 'deviceAllOff',
@@ -15,8 +16,6 @@ class DeviceRepository
     ];
 
     private string $file;
-
-    private string $tmpDir;
 
     private Filesystem $filesystem;
 
@@ -45,12 +44,10 @@ class DeviceRepository
 
     public function __construct(
         string $file,
-        string $tmpDir,
         DevicePasswordCipher $devicePasswordCipher,
         bool $defaultConfirmDeviceToggles = false
     ) {
         $this->file = $file;
-        $this->tmpDir = $tmpDir;
         $this->filesystem = new Filesystem();
         $this->devicePasswordCipher = $devicePasswordCipher;
         $this->defaultConfirmDeviceToggles = $defaultConfirmDeviceToggles;
@@ -98,11 +95,13 @@ class DeviceRepository
         $device = null;
         $storageRows = [];
         $needsRewrite = false;
+        $passwordMigrated = false;
         $file = $this->openInputFile();
         while (($line = fgetcsv($file, escape: self::CSV_ESCAPE)) !== false) {
-            [$storageRow, $rowNeedsRewrite] = $this->prepareStorageRow($line);
+            [$storageRow, $rowNeedsRewrite, $rowPasswordMigrated] = $this->prepareStorageRow($line);
             $storageRows[] = $storageRow;
             $needsRewrite = $needsRewrite || $rowNeedsRewrite;
+            $passwordMigrated = $passwordMigrated || $rowPasswordMigrated;
 
             if ($line[0] == $id) {
                 $device = $this->createDeviceObject($storageRow);
@@ -111,7 +110,7 @@ class DeviceRepository
         fclose($file);
 
         if ($needsRewrite) {
-            $this->rewriteRows($storageRows);
+            $this->rewriteRows($storageRows, $passwordMigrated);
         }
 
         return $device;
@@ -125,17 +124,19 @@ class DeviceRepository
         $devices = [];
         $storageRows = [];
         $needsRewrite = false;
+        $passwordMigrated = false;
         $file = $this->openInputFile();
         while (($line = fgetcsv($file, escape: self::CSV_ESCAPE)) !== false) {
-            [$storageRow, $rowNeedsRewrite] = $this->prepareStorageRow($line);
+            [$storageRow, $rowNeedsRewrite, $rowPasswordMigrated] = $this->prepareStorageRow($line);
             $storageRows[] = $storageRow;
             $needsRewrite = $needsRewrite || $rowNeedsRewrite;
+            $passwordMigrated = $passwordMigrated || $rowPasswordMigrated;
             $devices[] = $this->createDeviceObject($storageRow);
         }
         fclose($file);
 
         if ($needsRewrite) {
-            $this->rewriteRows($storageRows);
+            $this->rewriteRows($storageRows, $passwordMigrated);
         }
 
         return $devices;
@@ -211,20 +212,22 @@ class DeviceRepository
     public function setDeviceConfirmToggleForAll(bool $enabled): void
     {
         $storageRows = [];
+        $passwordMigrated = false;
         $input = $this->openInputFile();
         while (($data = fgetcsv($input, escape: self::CSV_ESCAPE)) !== false) {
-            [$storageRow] = $this->prepareStorageRow($data);
+            [$storageRow, , $rowPasswordMigrated] = $this->prepareStorageRow($data);
+            $passwordMigrated = $passwordMigrated || $rowPasswordMigrated;
             $storageRow[13] = $enabled ? 1 : 0;
             $storageRows[] = $storageRow;
         }
         fclose($input);
 
-        $this->rewriteRows($storageRows);
+        $this->rewriteRows($storageRows, $passwordMigrated);
     }
 
     public function removeDevices(array $ids): void
     {
-        $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
+        $tempFile = $this->filesystem->tempnam(dirname($this->file), 'tmp');
 
         if (!$input = fopen($this->file, 'r')) {
             exit(__('ERROR_CANNOT_READ_CSV_FILE', 'DEVICE_ACTIONS', ['csvFilePath' => _CSVFILE_]));
@@ -271,7 +274,7 @@ class DeviceRepository
             $deviceArr[$key] = trim($field);
         }
 
-        $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
+        $tempFile = $this->filesystem->tempnam(dirname($this->file), 'tmp');
         $input = $this->openInputFile();
         $output = $this->openOutputFile($tempFile);
 
@@ -329,12 +332,12 @@ class DeviceRepository
 
         $password = (string) ($deviceLine[4] ?? '');
         if ('' === $password || $this->devicePasswordCipher->isRecognizedEncryptedPayload($password)) {
-            return [$deviceLine, $needsRewrite];
+            return [$deviceLine, $needsRewrite, false];
         }
 
         $deviceLine[4] = $this->devicePasswordCipher->encrypt($password);
 
-        return [$deviceLine, true];
+        return [$deviceLine, true, true];
     }
 
     private function getNextId(): int
@@ -363,9 +366,13 @@ class DeviceRepository
         return $this->devicePasswordCipher->encrypt($password);
     }
 
-    private function rewriteRows(array $rows): void
+    private function rewriteRows(array $rows, bool $backupPlaintext = false): void
     {
-        $tempFile = $this->filesystem->tempnam($this->tmpDir, 'tmp');
+        if ($backupPlaintext) {
+            $this->backupPlaintextCsv();
+        }
+
+        $tempFile = $this->filesystem->tempnam(dirname($this->file), 'tmp');
         $output = $this->openOutputFile($tempFile);
 
         foreach ($rows as $row) {
@@ -374,6 +381,20 @@ class DeviceRepository
 
         fclose($output);
         $this->filesystem->rename($tempFile, $this->file, true);
+    }
+
+    /**
+     * Best-effort snapshot of the pre-encryption CSV so the migration can be
+     * reversed manually (downgrade or recovery). Only written once.
+     */
+    private function backupPlaintextCsv(): void
+    {
+        $backupFile = $this->file.self::PLAINTEXT_BACKUP_SUFFIX;
+        if ($this->filesystem->exists($backupFile)) {
+            return;
+        }
+
+        $this->filesystem->copy($this->file, $backupFile, true);
     }
 
     private function openInputFile()

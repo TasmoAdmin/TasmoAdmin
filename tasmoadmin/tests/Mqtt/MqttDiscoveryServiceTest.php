@@ -425,19 +425,8 @@ class MqttDiscoveryServiceTest extends TestCase
 
         return new DeviceRepository(
             $deviceFile,
-            $this->getTmpDir(),
             new DevicePasswordCipher(new DevicePasswordKeyProvider($this->getDataDir()))
         );
-    }
-
-    private function getTmpDir(): string
-    {
-        $tmpDir = $this->root->url().'/tmp/';
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir);
-        }
-
-        return $tmpDir;
     }
 
     private function getDataDir(): string

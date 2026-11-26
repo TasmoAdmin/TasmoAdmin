@@ -28,18 +28,33 @@ class DevicePasswordKeyProvider
             return $this->key;
         }
 
+        // Decode both sources leniently first: a malformed value in one source
+        // must not hold a valid key in the other source hostage. Malformed
+        // values only become hard errors when no usable key remains.
         $sidecarKey = null;
         $sidecarEncodedKey = null;
+        $sidecarError = null;
         if ($this->filesystem->exists($this->getKeyFilePath())) {
             $sidecarEncodedKey = trim((string) file_get_contents($this->getKeyFilePath()));
-            $sidecarKey = $this->decodeKey($sidecarEncodedKey, 'sidecar');
+
+            try {
+                $sidecarKey = $this->decodeKey($sidecarEncodedKey, 'sidecar');
+            } catch (DeviceCredentialException $exception) {
+                $sidecarError = $exception;
+            }
         }
 
         $envEncodedKey = getenv(self::ENV_NAME);
         $envKey = null;
+        $envError = null;
         if (false !== $envEncodedKey && '' !== trim($envEncodedKey)) {
             $envEncodedKey = trim($envEncodedKey);
-            $envKey = $this->decodeKey($envEncodedKey, 'environment');
+
+            try {
+                $envKey = $this->decodeKey($envEncodedKey, 'environment');
+            } catch (DeviceCredentialException $exception) {
+                $envError = $exception;
+            }
         }
 
         if (null !== $sidecarKey) {
@@ -56,6 +71,14 @@ class DevicePasswordKeyProvider
 
         if (null !== $envKey) {
             return $this->key = $envKey;
+        }
+
+        if (null !== $sidecarError) {
+            throw $sidecarError;
+        }
+
+        if (null !== $envError) {
+            throw $envError;
         }
 
         return $this->key = $this->generateAndPersistKey();

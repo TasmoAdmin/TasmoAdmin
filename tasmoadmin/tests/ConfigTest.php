@@ -26,7 +26,7 @@ class ConfigTest extends TestCase
     {
         putenv('PATH='.$this->originalPath);
         putenv('BUILD_VERSION');
-        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY');
+        putenv('TASMO_DEVICE_PASSWORD_KEY');
         $_SERVER = $this->serverBackup;
     }
 
@@ -91,7 +91,7 @@ class ConfigTest extends TestCase
 
     public function testWriteAllEncryptsMqttDiscoveryPasswordAtRest(): void
     {
-        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        putenv('TASMO_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
         $config = $this->getConfig();
 
         $config->writeAll(['mqtt_discovery_password' => 'broker-secret']);
@@ -104,7 +104,7 @@ class ConfigTest extends TestCase
 
     public function testReadAllReturnsRawMqttDiscoveryPasswordWithoutHtmlEscaping(): void
     {
-        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        putenv('TASMO_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
         $config = $this->getConfig();
         $config->writeAll(['mqtt_discovery_password' => 'broker&"<>\'secret']);
 
@@ -114,7 +114,7 @@ class ConfigTest extends TestCase
 
     public function testWriteAllDoesNotReencryptRecognizedCiphertext(): void
     {
-        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        putenv('TASMO_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
         $config = $this->getConfig();
 
         $config->writeAll(['mqtt_discovery_password' => 'broker-secret']);
@@ -130,7 +130,7 @@ class ConfigTest extends TestCase
 
     public function testWriteAllTrimsWhitespaceOnlyMqttPasswordToEmptyString(): void
     {
-        putenv('TASMOADMIN_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
+        putenv('TASMO_DEVICE_PASSWORD_KEY='.base64_encode(random_bytes(32)));
         $config = $this->getConfig();
 
         $config->writeAll(['mqtt_discovery_password' => " \n\t "]);
