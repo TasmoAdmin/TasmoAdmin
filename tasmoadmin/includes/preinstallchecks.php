@@ -41,6 +41,10 @@ class PreInstallChecks
             $result->addError('ERROR: PHP XML is missing.');
         }
 
+        if (!extension_loaded('openssl')) {
+            $result->addError('ERROR: PHP OpenSSL is missing.');
+        }
+
         if (PHP_VERSION_ID < 80200) {
             $result->addError('ERROR: PHP 8.2 or higher is required.');
         }

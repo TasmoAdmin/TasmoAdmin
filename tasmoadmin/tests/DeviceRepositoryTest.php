@@ -199,6 +199,42 @@ class DeviceRepositoryTest extends TestCase
         self::assertStringNotContainsString(',password,', (string) file_get_contents($deviceFile));
     }
 
+    public function testPasswordMigrationWritesPlaintextBackupOnce(): void
+    {
+        $deviceFile = $this->copyFixtureToVirtualFile('devices.csv');
+        $originalContents = (string) file_get_contents($deviceFile);
+        $repo = $this->createRepository($deviceFile);
+
+        $repo->getDevices();
+
+        $backupFile = $deviceFile.DeviceRepository::PLAINTEXT_BACKUP_SUFFIX;
+        self::assertFileExists($backupFile);
+        self::assertSame($originalContents, (string) file_get_contents($backupFile));
+        self::assertStringNotContainsString(DevicePasswordCipher::STORAGE_PREFIX, (string) file_get_contents($backupFile));
+
+        // A second migration-triggering read must not overwrite the original backup.
+        file_put_contents($backupFile, 'sentinel');
+        $repo->getDevices();
+        self::assertSame('sentinel', (string) file_get_contents($backupFile));
+    }
+
+    public function testSchemaOnlyRewriteDoesNotWritePlaintextBackup(): void
+    {
+        $cipher = $this->getCipher();
+        $deviceFile = $this->root->url().'/devices-schema-only.csv';
+        // Short legacy row with an already-encrypted password: schema backfill
+        // triggers the rewrite but no plaintext password migration happens.
+        file_put_contents(
+            $deviceFile,
+            sprintf('1,socket-1,192.168.1.2,user,%s', $cipher->encrypt('password')).PHP_EOL
+        );
+
+        $repo = $this->createRepository($deviceFile);
+        $repo->getDevices();
+
+        self::assertFileDoesNotExist($deviceFile.DeviceRepository::PLAINTEXT_BACKUP_SUFFIX);
+    }
+
     public function testMixedPlaintextAndEncryptedRowsConvergeToEncryptedStorage(): void
     {
         $cipher = $this->getCipher();
@@ -691,7 +727,7 @@ class DeviceRepositoryTest extends TestCase
 
     private function createRepository(string $deviceFile, bool $defaultConfirmDeviceToggles = false): DeviceRepository
     {
-        return new DeviceRepository($deviceFile, $this->getTmpDir(), $this->getCipher(), $defaultConfirmDeviceToggles);
+        return new DeviceRepository($deviceFile, $this->getCipher(), $defaultConfirmDeviceToggles);
     }
 
     private function getCipher(): DevicePasswordCipher
@@ -710,16 +746,6 @@ class DeviceRepositoryTest extends TestCase
     private function getVirtualDeviceFilePath(string $fileName = 'devices.csv'): string
     {
         return $this->root->url().'/'.$fileName;
-    }
-
-    private function getTmpDir(): string
-    {
-        $tmpDir = $this->root->url().'/tmp/';
-        if (!is_dir($tmpDir)) {
-            mkdir($tmpDir);
-        }
-
-        return $tmpDir;
     }
 
     private function getDataDir(): string

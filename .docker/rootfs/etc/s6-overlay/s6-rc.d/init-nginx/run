@@ -24,6 +24,18 @@ if [[ -L "/data/nginx/nginx.conf" ]]; then
   cp -Rv /data/nginx/nginx.conf /etc/nginx/nginx.conf.org
 fi
 
+# Migration: tighten access to the data volume. The old configs only denied
+# /data/tasmoadmin/, which never matched anything useful: /var/www/tasmoadmin/data
+# is a symlink into the volume, so /data/devices.csv, MyConfig.json and the
+# .device-password.key encryption key were served over HTTP. Patch existing
+# persistent configs in place, keeping any user customizations.
+for conf in /data/nginx/nginx.conf /data/nginx/nginx.conf.org /data/nginx/nginx-ssl.conf; do
+  if [ -f "$conf" ] && grep -q 'location /data/tasmoadmin/ {' "$conf"; then
+    echo "Migration: denying direct /data/ access in $conf..."
+    sed -i 's@location /data/tasmoadmin/ {@location ^~ /data/ {@' "$conf"
+  fi
+done
+
 echo 'Symlinking /etc/nginx.conf from persistent storage location...'
 rm -rf /etc/nginx/nginx.conf
 ln -s /data/nginx/nginx.conf /etc/nginx/nginx.conf

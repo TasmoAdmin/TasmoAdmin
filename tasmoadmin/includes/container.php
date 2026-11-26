@@ -33,7 +33,6 @@ $container->set(DevicePasswordCipher::class, new DevicePasswordCipher($container
 $container->set(ResponseParser::class, new ResponseParser());
 $container->set(DeviceRepository::class, new DeviceRepository(
     _CSVFILE_,
-    _TMPDIR_,
     $container->get(DevicePasswordCipher::class),
     '1' === $container->get(Config::class)->read('confirm_device_toggles')
 ));

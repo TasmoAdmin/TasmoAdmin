@@ -115,10 +115,22 @@ function renderCredentialErrorPage(DeviceCredentialException $exception): Respon
         $title = __('ERROR_DEVICE_CREDENTIAL_STORAGE', 'DEVICE_ACTIONS');
     }
 
+    $dataDir = defined('_DATADIR_') ? _DATADIR_ : 'data/';
+    $recovery = sprintf(
+        'Recovery: '
+        .'<ul>'
+        .'<li>The encryption key is stored in <code>%1$s.device-password.key</code> or the <code>TASMO_DEVICE_PASSWORD_KEY</code> environment variable (base64-encoded 32 bytes). If both exist they must match exactly - fix or remove one of them.</li>'
+        .'<li>If the key was lost or rotated, restore the original key. Device passwords encrypted with a lost key cannot be recovered: re-enter them in the UI or restore <code>devices.csv</code> from <code>devices.csv.pre-encryption.bak</code> (plaintext backup written before migration) and re-add current passwords.</li>'
+        .'<li>To downgrade to a version before 5.1.0, restore <code>%1$sdevices.csv</code> from the plaintext backup first.</li>'
+        .'</ul>',
+        htmlspecialchars($dataDir, ENT_QUOTES, 'UTF-8')
+    );
+
     $body = sprintf(
-        '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>%1$s</title></head><body><h1>%1$s</h1><p>%2$s</p></body></html>',
+        '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>%1$s</title></head><body><h1>%1$s</h1><p>%2$s</p><div>%3$s</div></body></html>',
         htmlspecialchars($title, ENT_QUOTES, 'UTF-8'),
-        htmlspecialchars(createCredentialErrorMessage($exception), ENT_QUOTES, 'UTF-8')
+        htmlspecialchars(createCredentialErrorMessage($exception), ENT_QUOTES, 'UTF-8'),
+        $recovery
     );
 
     return new Response($body, 500);

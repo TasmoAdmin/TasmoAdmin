@@ -761,10 +761,7 @@ class SonoffTest extends TestCase
         $deviceFile = $this->root->url().'/devices.csv';
         touch($deviceFile);
 
-        $tmpDir = $this->root->url().'/tmp/';
-        mkdir($tmpDir);
-
-        return new DeviceRepository($deviceFile, $tmpDir, $this->getCipher());
+        return new DeviceRepository($deviceFile, $this->getCipher());
     }
 
     private function getCipher(): DevicePasswordCipher

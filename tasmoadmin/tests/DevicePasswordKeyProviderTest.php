@@ -63,6 +63,38 @@ class DevicePasswordKeyProviderTest extends TestCase
         self::assertSame(base64_decode($encodedKey, true), $provider->getKey());
     }
 
+    public function testMalformedEnvironmentKeyDoesNotBlockValidSidecarKey(): void
+    {
+        $encodedKey = base64_encode(random_bytes(DevicePasswordKeyProvider::KEY_LENGTH));
+        file_put_contents($this->getDataDir().DevicePasswordKeyProvider::SIDECAR_FILENAME, $encodedKey);
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'=not-valid-base64!!!');
+
+        $provider = new DevicePasswordKeyProvider($this->getDataDir());
+
+        self::assertSame(base64_decode($encodedKey, true), $provider->getKey());
+    }
+
+    public function testMalformedSidecarFallsBackToValidEnvironmentKey(): void
+    {
+        file_put_contents($this->getDataDir().DevicePasswordKeyProvider::SIDECAR_FILENAME, 'corrupt');
+        $encodedKey = base64_encode(random_bytes(DevicePasswordKeyProvider::KEY_LENGTH));
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'='.$encodedKey);
+
+        $provider = new DevicePasswordKeyProvider($this->getDataDir());
+
+        self::assertSame(base64_decode($encodedKey, true), $provider->getKey());
+    }
+
+    public function testMalformedEnvironmentKeyStillRejectedWithoutSidecar(): void
+    {
+        putenv(DevicePasswordKeyProvider::ENV_NAME.'=invalid');
+
+        $provider = new DevicePasswordKeyProvider($this->getDataDir());
+
+        $this->expectException(DeviceCredentialException::class);
+        $provider->getKey();
+    }
+
     public function testRejectsInvalidSidecarKey(): void
     {
         file_put_contents($this->getDataDir().DevicePasswordKeyProvider::SIDECAR_FILENAME, 'invalid');
