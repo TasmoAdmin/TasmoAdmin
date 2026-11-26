@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+# ==============================================================================
+# Remaps the nginx user/group to USER_ID/GROUP_ID when running unprivileged
+# ==============================================================================
+source /lib/init/s6-functions.sh
+
+if is_unprivileged; then
+    echo "Change nginx user/group to ${USER_ID}:${GROUP_ID} for unprivileged execution"
+
+    deluser nginx 2>/dev/null || true
+    delgroup nginx 2>/dev/null || true
+    addgroup -g "${GROUP_ID}" nginx || exit 1
+    adduser -D -H -h /var/lib/nginx -s /sbin/nologin -u "${USER_ID}" -G nginx nginx || exit 1
+fi
