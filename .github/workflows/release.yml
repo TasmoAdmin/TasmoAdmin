@@ -12,7 +12,7 @@ env:
 jobs:
   release-docker:
     name: Release new version
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v6
     - name: Set up QEMU
@@ -41,7 +41,7 @@ jobs:
       run: ./.docker/docker.sh manifest-list
   release-artifact:
     name: Release new version
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v6
     - uses: shivammathur/setup-php@v2
