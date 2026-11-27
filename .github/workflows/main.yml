@@ -11,7 +11,7 @@ env:
 jobs:
   pre-commit:
     name: Run pre-commit checks
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v5
@@ -26,7 +26,7 @@ jobs:
         run: pre-commit run --all-files --show-diff-on-failure --color=always
   phpstan:
     name: Run PHPStan
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v7
     - name: Install PHP
@@ -41,7 +41,7 @@ jobs:
         ./vendor/bin/phpstan
   php-cs-fixer:
     name: Run php-cs-fixer
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
       - name: Install PHP
@@ -56,7 +56,7 @@ jobs:
           ./vendor/bin/php-cs-fixer fix --dry-run
   php-tests:
     name: Run PHP tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         php-version: ['8.5', '8.4', '8.3', '8.2']
@@ -79,7 +79,7 @@ jobs:
         files: ./tasmoadmin/coverage.xml
   npm-build:
     name: Run npm build
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v7
@@ -99,7 +99,7 @@ jobs:
           npm run build
   js-tests:
     name: Run JS tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v7
@@ -119,7 +119,7 @@ jobs:
           npm run test:js
   prettier-check:
     name: Run prettier:check
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v7
@@ -140,7 +140,7 @@ jobs:
 
   docker-test:
     name: Run Docker tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     strategy:
       matrix:
         arch:

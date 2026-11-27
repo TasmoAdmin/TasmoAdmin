@@ -11,7 +11,7 @@ permissions:
 jobs:
   enable-automerge:
     if: github.actor == 'dependabot[bot]'
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - id: metadata
         uses: dependabot/fetch-metadata@v3
