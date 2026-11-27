@@ -1,6 +1,7 @@
 <!doctype html>
 <?php
 
+use TasmoAdmin\Helper\PwaHelper;
 use TasmoAdmin\Helper\RequestHelper;
 use TasmoAdmin\Helper\SupportedLanguageHelper;
 use TasmoAdmin\Helper\UrlHelper;
@@ -51,10 +52,13 @@ $themeToggleMarkup = ob_get_clean();
         <link rel="apple-touch-icon" sizes="180x180" href="<?php echo _RESOURCESURL_; ?>img/favicons/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="<?php echo _RESOURCESURL_; ?>img/favicons/favicon-16x16.png">
-        <link rel="manifest" href="<?php echo _RESOURCESURL_; ?>img/favicons/site.webmanifest">
+        <link rel="manifest" href="<?php echo _BASEURL_; ?>manifest">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="default">
+		<meta name="apple-mobile-web-app-title" content="TasmoAdmin">
 		<meta name="msapplication-TileColor" content="#ffffff">
 		<meta name="msapplication-TileImage" content="<?php echo _RESOURCESURL_; ?>img/favicons/ms-icon-144x144.png">
-		<meta name="theme-color" content="#ffffff">
+		<meta name="theme-color" content="<?php echo PwaHelper::THEME_COLOR; ?>">
 
 
 		<title><?php echo isset($title) ? $title.' - ' : ''; ?>TasmoAdmin</title>
@@ -85,13 +89,13 @@ $themeToggleMarkup = ob_get_clean();
 	</head>
 	<body class='<?php echo $container->get(ViewHelper::class)->getNightMode(date('H')); ?>'>
 		<header>
-			<nav class="navbar navbar-expand-sm navbar-dark bg-dark fixed-top py-1">
+			<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top py-1">
 				<div class="container-fluid">
 					<?php // var_dump( $page );?>
 					<a class="navbar-brand py-0 logo" href='<?php echo _BASEURL_.$Config->read('homepage'); ?>'>
 						<img src='<?php echo _RESOURCESURL_; ?>img/logo.svg' height='50px'/>
 					</a>
-					<div class="mobile-header-actions d-sm-none ms-auto">
+					<div class="mobile-header-actions d-md-none ms-auto">
 						<?php echo $themeToggleMarkup; ?>
 					</div>
 					<button class="navbar-toggler"
@@ -111,6 +115,14 @@ $themeToggleMarkup = ob_get_clean();
 							<li class="nav-item <?php echo 'start' == $page ? 'active' : ''; ?>">
 								<a class="nav-link" href="<?php echo _BASEURL_; ?>start"><?php echo __(
 								    'STARTPAGE',
+								    'NAVI'
+								); ?></a>
+							</li>
+						<?php } ?>
+						<?php if ($loggedin) { ?>
+							<li class="nav-item <?php echo 'health' == $page ? 'active' : ''; ?>">
+								<a class="nav-link" href="<?php echo _BASEURL_; ?>health"><?php echo __(
+								    'HEALTH',
 								    'NAVI'
 								); ?></a>
 							</li>
@@ -167,6 +179,13 @@ $themeToggleMarkup = ob_get_clean();
 								</a>
 							</li>
 						<?php } ?>
+
+						<li class="nav-item pwa-install-item" hidden>
+							<button type="button" class="nav-link btn btn-link js-pwa-install">
+								<i class="fas fa-download"></i>
+								<?php echo __('INSTALL_APP', 'NAVI'); ?>
+							</button>
+						</li>
 
 						<?php if ($loggedin && !$docker) { ?>
 							<li class="nav-item">
@@ -256,10 +275,10 @@ $themeToggleMarkup = ob_get_clean();
 						</li>
 					</ul>
 					<div class="header-actions ms-auto">
-						<div class="desktop-theme-toggle d-none d-sm-flex">
+						<div class="desktop-theme-toggle d-none d-md-flex">
 							<?php echo $themeToggleMarkup; ?>
 						</div>
-						<div class='my-2 my-sm-0 language-switch-holder'>
+						<div class='my-2 my-md-0 language-switch-holder'>
 							<select name='language-switch' id='language-switch' class='form-select'>
 								<?php foreach (SupportedLanguageHelper::getSupportedLanguages() as $l => $name) { ?>
 									<option value='<?php echo $l; ?>'
@@ -281,7 +300,7 @@ $themeToggleMarkup = ob_get_clean();
 											title="<?php echo __('LOGOUT', 'NAVI'); ?>"
 									>
 									<i class='fas fa-sign-out-alt fa-lg'></i>
-									<span class='d-inline d-sm-none'>
+									<span class='d-inline d-md-none'>
 										<?php echo __('LOGOUT', 'NAVI'); ?>
 									</span>
 									</button>

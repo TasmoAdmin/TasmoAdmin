@@ -1,0 +1,7 @@
+#!/usr/bin/with-contenv bash
+# ==============================================================================
+# Fleet Health: ensure the health DB directory exists and is owned by nginx
+# so the collector (writer) and php-fpm workers (readers) share WAL sidecars.
+# ==============================================================================
+mkdir -p /health
+chown -R nginx:nginx /health

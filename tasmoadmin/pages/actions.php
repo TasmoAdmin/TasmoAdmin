@@ -108,7 +108,7 @@ if (isset($_POST['clean'])) {
     $what = explode('_', $_POST['clean']);
 
     if (array_intersect(['sessions', 'i18n'], $what)) {
-        CacheCleanupHelper::cleanTargets(_TMPDIR_, $what);
+        CacheCleanupHelper::cleanTargets(_TMPDIR_, $what, _SESSIONDIR_);
     }
 
     if (in_array('firmwares', $what)) {

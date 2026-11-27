@@ -26,8 +26,62 @@ body {
   line-height: 1.2rem;
 }
 
+// ---------------------------------------------------------------------------
+// Typography — self-hosted Space Grotesk (display) + JetBrains Mono (data).
+// Body text keeps the native system stack for legibility; the display face is
+// spent only where it sets the tone (titles, brand, device names), and the
+// mono face is reserved for telemetry so numbers stay aligned and scannable.
+// ---------------------------------------------------------------------------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.navbar-brand,
+.card-title,
+.card-header,
+.modal-title,
+.box_device_name {
+  font-family: $font-display;
+  letter-spacing: -0.01em;
+}
+
+// Telemetry / identifiers: tabular monospace so columns line up digit-for-digit.
+.device-ip-text,
+#device-list td[data-column-id="ip"],
+#device-list td[data-column-id="mac"],
+#device-list td[data-column-id="hostname"],
+#device-list td[data-column-id="mqtt"],
+#device-list td[data-column-id="version"],
+#device-list td[data-column-id="rssi"],
+#device-list td[data-column-id="runtime"],
+#device-list td[data-column-id="energyPower"],
+#device-list td[data-column-id="temp"],
+#device-list td[data-column-id="humidity"],
+#device-list td[data-column-id="illuminance"],
+#device-list td[data-column-id="vcc"],
+#device-list td[data-column-id="bootcount"],
+#device-list td[data-column-id="savecount"],
+#device-list td[data-column-id="idx"],
+#device-list td[data-column-id="id"],
+#device-list td[data-column-id="position"],
+.startpage .box_device .info-holder .info {
+  font-family: $font-mono;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: -0.02em;
+}
+
 :root {
   --page-panel-gap: 0.8rem;
+  --device-chip-bg: rgba(15, 23, 42, 0.06);
   --timepicker-accent: #2b79c2;
   --timepicker-accent-strong: #1f5c98;
   --timepicker-surface: #ffffff;
@@ -42,6 +96,11 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
+
+  // On phones a fixed footer hides the last rows; let it sit after the content.
+  @media all and (max-width: 767.98px) {
+    position: static;
+  }
 }
 
 #content {
@@ -274,6 +333,410 @@ body {
 .device-config-time-picker-group .input-group-text {
   min-width: 2.85rem;
   justify-content: center;
+}
+
+.health-count-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-height: 4.25rem;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  color: inherit;
+  text-decoration: none;
+}
+
+.health-count-filter:hover,
+.health-count-filter.active {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 10px 26px rgba(43, 121, 194, 0.12);
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.health-count-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  flex: 0 0 2.35rem;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.health-count-number.health-dot-degraded {
+  color: #1f2937;
+}
+
+.health-count-label {
+  min-width: 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.health-page .health-counts {
+  margin-block: var(--devices-panel-gap);
+}
+
+.health-page .table,
+.devices-page #device-list {
+  vertical-align: middle;
+}
+
+.health-page .table th,
+.health-page .table td {
+  white-space: nowrap;
+}
+
+.health-page .health-table {
+  margin-bottom: 0;
+}
+
+.health-page .health-table thead th,
+.devices-page #device-list thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.health-row-offline td:first-child,
+.health-row-degraded_mqtt td:first-child,
+.health-row-degraded_http td:first-child {
+  box-shadow: inset 4px 0 0 rgba(220, 53, 69, 0.55);
+}
+
+.health-row-degraded_mqtt td:first-child,
+.health-row-degraded_http td:first-child {
+  box-shadow: inset 4px 0 0 rgba(255, 193, 7, 0.8);
+}
+
+.health-page .table td:first-child {
+  white-space: normal;
+  min-width: 11rem;
+}
+
+.health-page .badge {
+  min-width: 4.8rem;
+}
+
+.health-state-dot {
+  display: inline-block;
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+.health-device-cell,
+.device-primary-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.health-device-cell {
+  font-weight: 600;
+}
+
+.health-status-token,
+.health-channel-token {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 5.25rem;
+  font-weight: 600;
+}
+
+.health-status-token::before,
+.health-channel-token::before {
+  content: "";
+  width: 0.52rem;
+  height: 0.52rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.health-status-token.health-dot-online,
+.health-channel-token.channel-up {
+  color: #198754;
+}
+
+.health-status-token.health-dot-degraded {
+  color: #9a6700;
+}
+
+.health-status-token.health-dot-offline,
+.health-channel-token.channel-down {
+  color: #dc3545;
+}
+
+.health-status-token.health-dot-unknown,
+.health-channel-token.channel-off {
+  color: var(--ta-text-muted);
+}
+
+.nightmode .health-status-token.health-dot-online,
+.nightmode .health-channel-token.channel-up {
+  color: #4ade80;
+}
+
+.nightmode .health-status-token.health-dot-degraded {
+  color: #facc15;
+}
+
+.nightmode .health-status-token.health-dot-offline,
+.nightmode .health-channel-token.channel-down {
+  color: #f87171;
+}
+
+.health-channel-token.channel-off::before {
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.health-channel-summary {
+  min-width: 5.8rem;
+}
+
+.signal-meter {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.12rem;
+  height: 0.85rem;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.signal-meter span {
+  display: block;
+  width: 0.22rem;
+  border-radius: 999px;
+  background: rgba(108, 117, 125, 0.35);
+}
+
+.signal-meter span:nth-child(1) {
+  height: 0.35rem;
+}
+
+.signal-meter span:nth-child(2) {
+  height: 0.6rem;
+}
+
+.signal-meter span:nth-child(3) {
+  height: 0.85rem;
+}
+
+.signal-bars-weak span:nth-child(1) {
+  background: #dc3545;
+}
+
+.signal-bars-medium span:nth-child(-n + 2) {
+  background: #ffc107;
+}
+
+.signal-bars-strong span {
+  background: #198754;
+}
+
+.signal-value {
+  font-variant-numeric: tabular-nums;
+}
+
+.health-signal {
+  display: inline-flex;
+  align-items: center;
+}
+
+.device-primary-copy {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.device-primary-copy a {
+  font-weight: 600;
+}
+
+.device-primary-meta,
+.box_device_meta {
+  color: #64748b;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.device_name .health-state-dot {
+  flex: 0 0 auto;
+}
+
+.startpage .box_device .health-state-dot {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+}
+
+.health-state-dot.health-dot-online,
+.health-count-number.health-dot-online {
+  background: #198754;
+}
+
+.health-state-dot.health-dot-degraded,
+.health-count-number.health-dot-degraded {
+  background: #ffc107;
+}
+
+.health-state-dot.health-dot-offline,
+.health-count-number.health-dot-offline {
+  background: #dc3545;
+}
+
+.health-state-dot.health-dot-unknown,
+.health-count-number.health-dot-unknown {
+  background: #6c757d;
+}
+
+.dashboard-summary-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  min-height: 4.25rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  color: inherit;
+}
+
+.dashboard-summary-link {
+  text-decoration: none;
+}
+
+.dashboard-summary-link:hover {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 10px 26px rgba(43, 121, 194, 0.12);
+  color: inherit;
+  transform: translateY(-1px);
+}
+
+.dashboard-summary-label {
+  min-width: 0;
+  color: #64748b;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.dashboard-summary-card strong {
+  font-size: 1.45rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.dashboard-summary-card strong.health-dot-online {
+  color: #198754;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-degraded {
+  color: #9a6700;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-offline {
+  color: #dc3545;
+  background: transparent;
+}
+
+.dashboard-summary-card strong.health-dot-unknown {
+  color: #6c757d;
+  background: transparent;
+}
+
+.start-dashboard-page .startpage {
+  align-items: stretch;
+}
+
+.start-dashboard-page .card-holder {
+  display: flex;
+}
+
+.dashboard-device-tile {
+  width: 100%;
+  min-height: 9.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 0.5rem;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.07);
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.16s ease;
+}
+
+.dashboard-device-tile:hover {
+  border-color: rgba(43, 121, 194, 0.45);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.dashboard-device-offline {
+  border-color: rgba(220, 53, 69, 0.35);
+  box-shadow:
+    inset 4px 0 0 rgba(220, 53, 69, 0.75),
+    0 10px 24px rgba(15, 23, 42, 0.07);
+}
+
+.dashboard-device-degraded_mqtt,
+.dashboard-device-degraded_http {
+  border-color: rgba(255, 193, 7, 0.5);
+  box-shadow:
+    inset 4px 0 0 rgba(255, 193, 7, 0.9),
+    0 10px 24px rgba(15, 23, 42, 0.07);
+}
+
+.dashboard-action-tile {
+  border-style: dashed;
+}
+
+.all-off-lock-indicator {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #dc3545;
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(220, 53, 69, 0.22);
+}
+
+.all-off-unlocked .all-off-lock-indicator {
+  background: #198754;
+  box-shadow: 0 8px 18px rgba(25, 135, 84, 0.22);
+}
+
+.startpage .box_device_body {
+  padding-inline: 0.45rem;
+}
+
+.startpage .box_device_name {
+  margin-bottom: 0.15rem;
 }
 
 .device-config-time-picker-group .flatpickr-wrapper {
@@ -888,6 +1351,80 @@ body {
 }
 
 @media all and (max-width: 767px) {
+  .health-page .health-table-panel .table-responsive {
+    overflow: visible;
+  }
+
+  .health-page .health-table thead {
+    display: none;
+  }
+
+  .health-page .health-table,
+  .health-page .health-table tbody {
+    display: block;
+  }
+
+  .health-page .health-table .health-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem 0.9rem;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--ta-border);
+    border-radius: var(--ta-radius-sm);
+  }
+
+  .health-page .health-table .health-row + .health-row {
+    margin-top: 0.6rem;
+  }
+
+  .health-page .health-table .health-row td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    white-space: normal;
+  }
+
+  .health-page .health-table .health-row td::before {
+    content: attr(data-label);
+    color: var(--ta-text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .health-page .health-table .health-row td.health-device {
+    grid-column: 1 / -1;
+  }
+
+  .health-page .health-table .health-row td.health-device::before {
+    content: none;
+  }
+
+  .health-page .health-table .health-row td.health-device {
+    min-width: 0;
+    padding-bottom: 0.1rem;
+  }
+
+  .health-page .health-row-offline,
+  .health-page .health-row-degraded_mqtt,
+  .health-page .health-row-degraded_http {
+    box-shadow: inset 4px 0 0 rgba(220, 53, 69, 0.55);
+  }
+
+  .health-page .health-row-degraded_mqtt,
+  .health-page .health-row-degraded_http {
+    box-shadow: inset 4px 0 0 rgba(255, 193, 7, 0.8);
+  }
+}
+
+@media all and (max-width: 767px) {
   :root {
     --page-panel-gap: 0.4rem;
   }
@@ -941,7 +1478,6 @@ body {
   .devices-page .devices-toolbar .dropdown,
   .devices-page .devices-toolbar .dropdown-toggle,
   .devices-page .device-search-group,
-  .devices-page .devices-toolbar-lock-col,
   .devices-page .batchActionSelect,
   .devices-page .batchActionCommandInput,
   .devices-page .applyBatchAction,
@@ -955,8 +1491,14 @@ body {
     padding: 0.95rem 0.85rem 0.55rem;
   }
 
-  .devices-page .devices-toolbar-lock-col {
-    margin-left: 0;
+  .devices-page .devices-protection-toggle .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    height: 100%;
+    font-size: 0.85rem;
+    line-height: 1.15;
   }
 
   .devices-page .devices-batch-add-col {
@@ -998,13 +1540,16 @@ body {
     display: none !important;
   }
 
+  // Mobile device card: header line (checkbox, health + name, switch), a row
+  // of compact telemetry chips, sensor rows only when the device reports them,
+  // then the actions.
   .devices-page #device-list.tablesaw-stack tbody tr {
-    display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.32rem 0.8rem;
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem 0.4rem;
     width: 100% !important;
-    padding: 0.7rem 0.75rem;
-    align-items: start;
+    padding: 0.75rem 0.8rem 0.4rem;
     box-sizing: border-box;
     border-bottom: 1px solid rgba(0, 0, 0, 0.08);
     background: transparent;
@@ -1027,29 +1572,55 @@ body {
     box-shadow: none !important;
   }
 
+  // Default visible cell: full-width "label | value" detail row.
   .devices-page
     #device-list.tablesaw-stack
     tbody
-    td[data-column-id]:not(.device-column-hidden),
-  .devices-page
-    #device-list.tablesaw-stack
-    tbody
-    th[data-column-id]:not(.device-column-hidden) {
-    display: block !important;
+    td[data-column-id]:not(.device-column-hidden) {
+    display: grid !important;
+    grid-template-columns: minmax(3.8rem, 5.5rem) minmax(0, 1fr);
+    column-gap: 0.55rem;
+    align-items: start;
+    flex: 1 1 100%;
     width: auto !important;
     min-width: 0;
-    justify-self: stretch;
     padding: 0 !important;
     margin: 0;
     background: transparent !important;
   }
 
+  // ID, position and the IP column repeat what the card header already shows.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(
+      [data-column-id="id"],
+      [data-column-id="position"],
+      [data-column-id="ip"]
+    ):not(.device-column-hidden) {
+    display: none !important;
+  }
+
+  // Sensor rows only render for devices that actually report the value.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.energyPower, .temp, .humidity, .illuminance):not(.has-value) {
+    display: none !important;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.energyPower, .temp, .humidity, .illuminance)
+    .tablesaw-cell-content {
+    font-weight: 600;
+  }
+
   .devices-page #device-list.tablesaw-stack tbody td.cmd_cb {
     display: flex !important;
-    grid-column: 1 / 2;
-    grid-row: 1;
+    flex: 0 0 auto;
     width: auto !important;
-    justify-self: start;
     align-self: center;
     align-items: center;
     padding-right: 0.35rem !important;
@@ -1080,69 +1651,104 @@ body {
     width: auto;
     max-width: none;
     padding: 0;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   .devices-page #device-list.tablesaw-stack .tablesaw-cell-label {
     margin-bottom: 0;
     font-weight: 600;
+    // Keep the injected column labels in the UI/display voice (matching the
+    // desktop thead) — only the values stay in tabular mono.
+    font-family: $font-display;
+    font-variant-numeric: normal;
+    font-feature-settings: normal;
+    letter-spacing: 0;
   }
 
-  .devices-page #device-list.tablesaw-stack td.device_name {
-    grid-column: 1 / 2;
-    grid-row: 1;
+  // Long header hints (e.g. the energy breakdown) stay desktop-only.
+  .devices-page #device-list.tablesaw-stack .column-label-detail {
+    display: none;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.device_name:not(.device-column-hidden) {
+    display: block !important;
+    // A wide basis keeps the header line to checkbox + name + switch, so the
+    // telemetry chips always start on the next line.
+    flex: 1 1 calc(100% - 7rem);
     align-self: center;
-    min-width: 0;
   }
 
   .devices-page #device-list.tablesaw-stack .device_name a {
     display: block;
     max-width: none;
-    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 600;
   }
 
   .devices-page
     #device-list.tablesaw-stack
     tbody
-    td[data-column-id]:not(.device_name):not(.status):not(.actions):not(
-      .device-column-hidden
-    ),
-  .devices-page
-    #device-list.tablesaw-stack
-    tbody
-    th[data-column-id]:not(.device_name):not(.status):not(.actions):not(
-      .device-column-hidden
-    ) {
-    display: grid !important;
-    grid-template-columns: minmax(3.8rem, 5rem) minmax(0, 1fr);
-    column-gap: 0.55rem;
-    align-items: start;
-    min-width: 0;
-    grid-column: 1 / -1;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.ip {
-    grid-column: 1 / 2;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.actions {
+    td.status:not(.device-column-hidden) {
     display: flex !important;
-    grid-column: 1 / -1;
-    width: 100% !important;
-    justify-self: stretch;
-    align-self: end;
-    justify-content: flex-end;
-    margin-top: 0.1rem;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.status {
-    display: flex !important;
-    grid-column: 2 / 3;
-    grid-row: 1;
-    width: auto !important;
-    justify-self: end;
+    flex: 0 0 auto;
     align-self: center;
+    margin-left: auto;
     cursor: default;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status .form-switch {
+    margin: 0;
+    padding: 0.35rem 0 0.35rem 0.35rem;
+    cursor: pointer;
+  }
+
+  .devices-page #device-list.tablesaw-stack td.status .form-switch i {
+    margin-right: 0;
+  }
+
+  // Telemetry chips: WiFi, firmware and uptime share one wrapping line.
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td:is(.rssi, .version, .runtime):not(.device-column-hidden) {
+    display: inline-flex !important;
+    flex: 0 1 auto;
+    align-items: baseline;
+    gap: 0.35rem;
+    padding: 0.25rem 0.6rem !important;
+    border-radius: 999px;
+    background: var(--device-chip-bg) !important;
+    font-size: 0.8rem;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    td:is(.rssi, .version, .runtime)
+    .tablesaw-cell-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.65;
+  }
+
+  // SSID / channel stay in the WiFi tooltip on phones.
+  .devices-page #device-list.tablesaw-stack td.rssi br,
+  .devices-page #device-list.tablesaw-stack td.rssi small {
+    display: none;
+  }
+
+  .devices-page
+    #device-list.tablesaw-stack
+    tbody
+    td.actions:not(.device-column-hidden) {
+    display: flex !important;
+    flex: 1 1 100%;
+    margin-top: 0.1rem;
   }
 
   .devices-page #device-list.tablesaw-stack td.device_name .tablesaw-cell-label,
@@ -1157,7 +1763,7 @@ body {
     align-items: center;
     width: 100%;
     justify-content: flex-end;
-    gap: 0.4rem;
+    gap: 0.25rem;
     min-width: 0;
   }
 
@@ -1165,17 +1771,14 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 2.4rem;
-    min-height: 2.4rem;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
   }
 
-  .devices-page #device-list.tablesaw-stack td.actions a i {
-    padding: 0.45rem;
-  }
-
-  .devices-page #device-list.tablesaw-stack td.status .form-switch {
-    margin: 0;
-    cursor: pointer;
+  // Keep delete away from the everyday actions to avoid mis-taps.
+  .devices-page #device-list.tablesaw-stack td.actions a.delete {
+    order: -1;
+    margin-right: auto;
   }
 
   .devices-page #device-list.tablesaw-stack td.timer .tablesaw-cell-content {
@@ -1731,16 +2334,22 @@ nav img {
   // Add bottom border only to thead
   thead th {
     border-bottom: 2px solid var(--bs-border-color);
-    background-color: #{$grey}; // Use darker gray for better visibility
+    background-color: #475569; // slate-600 — stronger dashboard header, AA contrast on white
     color: #{$white}; // White text for contrast
     vertical-align: middle;
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   // Add top border only to tfoot
   tfoot th {
     border-top: 2px solid var(--bs-border-color);
-    background-color: #{$grey};
+    background-color: #475569;
     color: #{$white};
+    font-family: $font-display;
+    font-weight: 500;
+    letter-spacing: 0.02em;
   }
 
   // Make table body text lighter with more specific selector
@@ -2006,10 +2615,11 @@ td {
   }
 
   td.actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 0.4rem;
+    // Keep this a real table-cell (not display:flex) so it stretches to the
+    // full row height; otherwise the zebra stripe only fills one line and the
+    // right edge of wrapped rows shows the wrong colour.
+    text-align: right;
+    vertical-align: middle;
     white-space: nowrap;
   }
 
@@ -2017,8 +2627,13 @@ td {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    vertical-align: middle;
     min-width: 2rem;
     min-height: 2rem;
+  }
+
+  td.actions a + a {
+    margin-left: 0.4rem;
   }
 
   td.actions a i {
@@ -2157,7 +2772,8 @@ hr {
 
 .nightmode {
   --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
-  --nightmode-card-bg: #374151;
+  --device-chip-bg: rgba(255, 255, 255, 0.08);
+  --nightmode-card-bg: #334155;
   --nightmode-card-border-color: rgba(255, 255, 255, 0.12);
   --nightmode-card-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
   --nightmode-field-bg: rgba(17, 24, 39, 0.56);
@@ -2166,7 +2782,7 @@ hr {
   --nightmode-field-disabled-color: rgba(255, 255, 255, 0.82);
   --timepicker-accent: #4a9ae6;
   --timepicker-accent-strong: #7cb7ee;
-  --timepicker-surface: #374151;
+  --timepicker-surface: #334155;
   --timepicker-surface-alt: rgba(17, 24, 39, 0.88);
   --timepicker-border: rgba(255, 255, 255, 0.12);
   --timepicker-text: rgba(255, 255, 255, 0.9);
@@ -2224,8 +2840,51 @@ hr {
 
   .site-config-page .settings-section {
     box-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
-    background: #374151 !important;
+    background: #334155 !important;
     border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
+  .health-state-dot {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.8);
+  }
+
+  .health-count-filter,
+  .health-page .table-responsive,
+  .dashboard-summary-card,
+  .dashboard-device-tile {
+    background: #334155;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
+    color: $whiteNightMode;
+  }
+
+  .health-count-filter:hover,
+  .health-count-filter.active,
+  .dashboard-summary-link:hover,
+  .dashboard-device-tile:hover {
+    border-color: rgba(96, 165, 250, 0.5);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.3);
+    color: $whiteNightMode;
+  }
+
+  .dashboard-summary-label,
+  .device-primary-meta,
+  .box_device_meta {
+    color: rgba(255, 255, 255, 0.68);
+  }
+
+  .health-status-token.health-dot-degraded {
+    color: #facc15;
+  }
+
+  .health-channel-token.channel-up {
+    color: #4ade80;
+  }
+
+  .health-channel-token.channel-down,
+  .health-status-token.health-dot-offline {
+    color: #f87171;
   }
 
   .site-config-page .settings-option {
@@ -2378,9 +3037,9 @@ hr {
   }
 
   .devices-autoscan-page .nav-tabs .nav-link.active {
-    background: #374151;
+    background: #334155;
     color: $whiteNightMode;
-    border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #374151;
+    border-color: rgba(255, 255, 255, 0.16) rgba(255, 255, 255, 0.16) #334155;
   }
 
   .devices-autoscan-page .autoscan-form-card .card-body,
