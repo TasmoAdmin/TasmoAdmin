@@ -132,6 +132,10 @@ class BackupHelper
 
         $zip->close();
 
+        foreach ($files as $file) {
+            @unlink($file);
+        }
+
         return $zipFilePath;
     }
 

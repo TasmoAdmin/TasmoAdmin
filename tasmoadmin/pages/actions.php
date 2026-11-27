@@ -63,13 +63,22 @@ if (isset($_GET['i18n'])) {
 
 if (isset($_GET['downloadBackup'])) {
     $backup = $container->get(BackupHelper::class);
+    $zipPath = $backup->getBackupZipPath();
 
+    if (!is_file($zipPath)) {
+        http_response_code(404);
+
+        exit;
+    }
+
+    ignore_user_abort(true);
     header('Content-type: application/zip');
     header('Content-Disposition: attachment; filename="tasmota-backup.zip"');
-    header('Content-Length: '.filesize($backup->getBackupZipPath()));
+    header('Content-Length: '.filesize($zipPath));
     ob_clean();
     flush();
-    readfile($backup->getBackupZipPath());
+    readfile($zipPath);
+    unlink($zipPath);
 
     exit;
 }
