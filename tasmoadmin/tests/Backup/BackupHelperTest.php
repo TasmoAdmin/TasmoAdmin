@@ -66,6 +66,7 @@ class BackupHelperTest extends TestCase
         self::assertTrue($zip->open($helper->getBackupZipPath()));
         self::assertSame('backup', $zip->getFromName('device-1.dmp'));
         $zip->close();
+        self::assertFileDoesNotExist($backupDump);
     }
 
     public function testBackupCollectsConnectionFailures(): void
