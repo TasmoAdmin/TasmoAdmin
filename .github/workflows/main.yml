@@ -84,7 +84,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'tasmoadmin/.nvmrc'
           cache: 'npm'
@@ -104,7 +104,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'tasmoadmin/.nvmrc'
           cache: 'npm'
@@ -124,7 +124,7 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v6
       - name: Setup Node.js
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v7
         with:
           node-version-file: 'tasmoadmin/.nvmrc'
           cache: 'npm'
