@@ -48,7 +48,7 @@ jobs:
       with:
         php-version: '8.5'
     - name: Setup Node.js
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@v7
       with:
         node-version-file: 'tasmoadmin/.nvmrc'
         cache: 'npm'
