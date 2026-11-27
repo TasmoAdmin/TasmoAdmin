@@ -1613,16 +1613,16 @@
         },
         {
             "name": "symfony/browser-kit",
-            "version": "v7.4.23",
+            "version": "v7.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/browser-kit.git",
-                "reference": "a0d19ca90c1fcce29d3337decb761b5adb808965"
+                "reference": "5a02c9be0e0dc712deee3146e355f85835dd66d0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/a0d19ca90c1fcce29d3337decb761b5adb808965",
-                "reference": "a0d19ca90c1fcce29d3337decb761b5adb808965",
+                "url": "https://api.github.com/repos/symfony/browser-kit/zipball/5a02c9be0e0dc712deee3146e355f85835dd66d0",
+                "reference": "5a02c9be0e0dc712deee3146e355f85835dd66d0",
                 "shasum": ""
             },
             "require": {
@@ -1663,7 +1663,7 @@
             "description": "Simulates the behavior of a web browser, allowing you to make requests, click on links and submit forms programmatically",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/browser-kit/tree/v7.4.23"
+                "source": "https://github.com/symfony/browser-kit/tree/v7.4.25"
             },
             "funding": [
                 {
@@ -1683,8 +1683,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-01T07:00:22+00:00",
-            "published-time": "2026-11-04T11:28:24+00:00"
+            "time": "2026-11-27T13:50:25+00:00",
+            "published-time": "2026-11-27T14:41:56+00:00"
         },
         {
             "name": "symfony/css-selector",
@@ -1903,16 +1903,16 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v7.4.23",
+            "version": "v7.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "53d609da66578dad5a39fe290e8f924ec8f05e93"
+                "reference": "c6adf2262feb9e08ba64632d2703987c24555e0d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/53d609da66578dad5a39fe290e8f924ec8f05e93",
-                "reference": "53d609da66578dad5a39fe290e8f924ec8f05e93",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/c6adf2262feb9e08ba64632d2703987c24555e0d",
+                "reference": "c6adf2262feb9e08ba64632d2703987c24555e0d",
                 "shasum": ""
             },
             "require": {
@@ -1949,7 +1949,7 @@
             "description": "Provides basic utilities for the filesystem",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/filesystem/tree/v7.4.23"
+                "source": "https://github.com/symfony/filesystem/tree/v7.4.25"
             },
             "funding": [
                 {
@@ -1969,21 +1969,21 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-04T08:27:22+00:00",
-            "published-time": "2026-11-04T11:28:00+00:00"
+            "time": "2026-11-27T10:49:08+00:00",
+            "published-time": "2026-11-27T14:43:03+00:00"
         },
         {
             "name": "symfony/http-client",
-            "version": "v7.4.23",
+            "version": "v7.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "ed012bfca0f7b45d97016efcdf9b0639c52a1722"
+                "reference": "fe047cdc68aee54b315b2f142ab4c0e9c705cefc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/ed012bfca0f7b45d97016efcdf9b0639c52a1722",
-                "reference": "ed012bfca0f7b45d97016efcdf9b0639c52a1722",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/fe047cdc68aee54b315b2f142ab4c0e9c705cefc",
+                "reference": "fe047cdc68aee54b315b2f142ab4c0e9c705cefc",
                 "shasum": ""
             },
             "require": {
@@ -2016,6 +2016,7 @@
                 "symfony/amphp-http-client-meta": "^1.0|^2.0",
                 "symfony/cache": "^6.4|^7.0|^8.0",
                 "symfony/dependency-injection": "^6.4|^7.0|^8.0",
+                "symfony/http-foundation": "^6.4.50|^7.4.23|^8.1.11",
                 "symfony/http-kernel": "^6.4|^7.0|^8.0",
                 "symfony/messenger": "^6.4|^7.0|^8.0",
                 "symfony/process": "^6.4|^7.0|^8.0",
@@ -2051,7 +2052,7 @@
                 "http"
             ],
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v7.4.23"
+                "source": "https://github.com/symfony/http-client/tree/v7.4.25"
             },
             "funding": [
                 {
@@ -2071,8 +2072,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-04T08:27:22+00:00",
-            "published-time": "2026-11-04T11:28:32+00:00"
+            "time": "2026-11-27T13:02:26+00:00",
+            "published-time": "2026-11-27T14:42:41+00:00"
         },
         {
             "name": "symfony/http-client-contracts",
@@ -2159,16 +2160,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v7.4.23",
+            "version": "v7.4.25",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "7fb73cffa06e2bcc2cb523fcccb1e8174106b206"
+                "reference": "1ebfef402856383ce114ff009d4fc961bf290743"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/7fb73cffa06e2bcc2cb523fcccb1e8174106b206",
-                "reference": "7fb73cffa06e2bcc2cb523fcccb1e8174106b206",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/1ebfef402856383ce114ff009d4fc961bf290743",
+                "reference": "1ebfef402856383ce114ff009d4fc961bf290743",
                 "shasum": ""
             },
             "require": {
@@ -2217,7 +2218,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v7.4.23"
+                "source": "https://github.com/symfony/http-foundation/tree/v7.4.25"
             },
             "funding": [
                 {
@@ -2237,8 +2238,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-04T08:27:22+00:00",
-            "published-time": "2026-11-04T11:28:53+00:00"
+            "time": "2026-11-27T13:27:53+00:00",
+            "published-time": "2026-11-27T14:42:01+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2578,16 +2579,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v7.4.23",
+            "version": "v7.4.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "0000ade604b7bc798cb1e75edf6f17df48185f73"
+                "reference": "63fd985c6afe7ac69f89fb90a72715ca20cddc08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/0000ade604b7bc798cb1e75edf6f17df48185f73",
-                "reference": "0000ade604b7bc798cb1e75edf6f17df48185f73",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/63fd985c6afe7ac69f89fb90a72715ca20cddc08",
+                "reference": "63fd985c6afe7ac69f89fb90a72715ca20cddc08",
                 "shasum": ""
             },
             "require": {
@@ -2639,7 +2640,7 @@
                 "url"
             ],
             "support": {
-                "source": "https://github.com/symfony/routing/tree/v7.4.23"
+                "source": "https://github.com/symfony/routing/tree/v7.4.24"
             },
             "funding": [
                 {
@@ -2659,8 +2660,8 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-11-04T08:27:22+00:00",
-            "published-time": "2026-11-04T11:28:04+00:00"
+            "time": "2026-11-24T18:01:43+00:00",
+            "published-time": "2026-11-25T09:25:58+00:00"
         },
         {
             "name": "symfony/service-contracts",
