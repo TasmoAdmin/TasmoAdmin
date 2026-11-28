@@ -15,6 +15,6 @@ class SupportedLanguageHelperTest extends TestCase
         self::assertSame('English', $languages['en']);
         self::assertArrayHasKey('de', $languages);
         self::assertArrayHasKey('zh_TW', $languages);
-        self::assertCount(12, $languages);
+        self::assertCount(13, $languages);
     }
 }
