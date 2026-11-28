@@ -2390,7 +2390,7 @@ hr {
 
 .nightmode {
   --nightmode-form-border-color: rgba(255, 255, 255, 0.1);
-  --nightmode-card-bg: #1d4ed8;
+  --nightmode-card-bg: #374151;
   --nightmode-card-border-color: rgba(255, 255, 255, 0.12);
   --nightmode-card-shadow: 0 18px 38px rgba(0, 0, 0, 0.24);
   --nightmode-field-bg: rgba(17, 24, 39, 0.56);
@@ -2405,7 +2405,7 @@ hr {
   --timepicker-text: rgba(255, 255, 255, 0.9);
   --timepicker-muted: rgba(255, 255, 255, 0.62);
   --timepicker-shadow: 0 22px 42px rgba(0, 0, 0, 0.32);
-  background-color: #172554;
+  background-color: $color_mako_approx;
   color: $whiteNightMode;
 
   .loader {

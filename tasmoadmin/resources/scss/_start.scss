@@ -156,7 +156,8 @@
 
 .nightmode {
   .startpage {
-    --ta-card-bg: #1e3a8a;
+    background-color: #172554;
+    --ta-card-bg: #1d4ed8;
     --ta-card-text: #{$white};
     --ta-card-muted: #{$whiteNightMode};
     --ta-card-shadow:
