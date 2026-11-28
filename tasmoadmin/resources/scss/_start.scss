@@ -1,95 +1,58 @@
 .startpage {
   padding-top: 15px;
 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
+
+  --ta-card-bg: #{$white};
+  --ta-card-border: #{$whiteBorder};
+  --ta-card-text: #{$black};
+  --ta-card-muted: #{$grey};
+  --ta-card-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.05);
+  --ta-card-shadow-hover:
+    0 2px 4px rgba(0, 0, 0, 0.08), 0 8px 20px rgba(0, 0, 0, 0.09);
+  --ta-state-on: #{$color_pirate_gold_approx};
+  --ta-state-error: #{$red};
+
   .card-holder {
-    padding-left: 5px;
-    padding-right: 5px;
-
-    -ms-flex: 0 0 100%;
-    flex: 0 0 100%;
-    max-width: 100%;
-
-    @media (min-width: 200px) {
-      -ms-flex: 0 0 50%;
-      flex: 0 0 50%;
-      max-width: 50%;
-    }
-
-    @media (min-width: 320px) {
-      -ms-flex: 0 0 25%;
-      flex: 0 0 25%;
-      max-width: 30%;
-    }
-
-    @media (min-width: 380px) {
-      -ms-flex: 0 0 20%;
-      flex: 0 0 20%;
-      max-width: 20%;
-    }
-
-    @media (min-width: 450px) {
-      -ms-flex: 0 0 20%;
-      flex: 0 0 20%;
-      max-width: 20%;
-    }
-
-    @media (min-width: 520px) {
-      -ms-flex: 0 0 16.66666666666667%;
-      flex: 0 0 16.66666666666667%;
-      max-width: 16.66666666666667%;
-    }
-    @media (min-width: 650px) {
-      -ms-flex: 0 0 15%;
-      flex: 0 0 15%;
-      max-width: 15%;
-    }
-
-    @media (min-width: 700px) {
-      -ms-flex: 0 0 15%;
-      flex: 0 0 15%;
-      max-width: 15%;
-    }
-
-    @media (min-width: 760px) {
-      -ms-flex: 0 0 12%;
-      flex: 0 0 12%;
-      max-width: 12%;
-    }
-
-    @media (min-width: 1000px) {
-      -ms-flex: 0 0 10%;
-      flex: 0 0 10%;
-      max-width: 10%;
-    }
-    @media (min-width: 1100px) {
-      -ms-flex: 0 0 8%;
-      flex: 0 0 8%;
-      max-width: 8%;
-    }
-    @media (min-width: 1200px) {
-      -ms-flex: 0 0 7%;
-      flex: 0 0 7%;
-      max-width: 7%;
-    }
-
-    min-width: 15px !important;
+    min-width: 0;
 
     .box_device {
-      border: 0px none;
       cursor: pointer;
-      background-color: transparent;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 8px 8px;
+      background-color: var(--ta-card-bg);
+      border: 1px solid var(--ta-card-border);
+      border-radius: 12px;
+      box-shadow: var(--ta-card-shadow);
+      transition:
+        box-shadow 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.15s ease;
 
-      &.error {
+      &:hover,
+      &:focus-within {
+        box-shadow: var(--ta-card-shadow-hover);
+        transform: translateY(-1px);
       }
 
       .rubberBand {
+        width: 100%;
         text-align: center;
       }
 
       img {
         display: block;
-        width: 100%;
-        padding: 0px 10px 0px;
+        width: 80%;
+        max-width: 96px;
+        margin: 0 auto;
         box-sizing: border-box;
         height: auto;
       }
@@ -104,63 +67,74 @@
         }
       }
 
+      // on / error state follows the icon the JS swaps in, so no extra
+      // class bookkeeping is needed in start.js
+      &:has(img[src*="_on.png"]) {
+        border-color: var(--ta-state-on);
+        box-shadow:
+          var(--ta-card-shadow),
+          0 0 14px -4px var(--ta-state-on);
+      }
+
+      &.error,
+      &:has(img[src*="_error.png"]) {
+        border-color: var(--ta-state-error);
+      }
+
+      &.error {
+        animation: ta-error-pulse 1.6s ease-in-out infinite;
+      }
+
+      &.updating {
+        .box_device_name {
+          color: var(--ta-card-muted);
+        }
+      }
+
       .box_device_body {
         padding: 0px;
         text-align: center;
+        width: 100%;
       }
 
       .box_device_name {
-        color: $black;
+        color: var(--ta-card-text);
         text-align: center;
         width: 100%;
-        font-size: 0.8rem;
-        line-height: 1rem;
+        font-size: 0.85rem;
+        line-height: 1.2;
+        overflow-wrap: anywhere;
         overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
         margin-bottom: 3px;
         margin-top: 8px;
-        font-weight: bold;
-        text-transform: uppercase;
+        font-weight: 600;
       }
 
       .info-holder {
-        //position : absolute;
         width: 100%;
-        height: 100%;
-        color: $black;
+        color: var(--ta-card-muted);
 
         .info {
-          //position         : relative;
           padding: 0px;
-          font-size: 0.8rem;
-          line-height: 0.9rem;
+          font-size: 0.75rem;
+          line-height: 1.25;
           overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
       }
 
-      @media all and (min-width: 600px) {
-        .box_device_name {
-          font-size: 0.7rem;
-          line-height: 0.7rem;
-        }
-
-        .info-holder {
-          .info {
-            font-size: 0.7rem;
-            line-height: 0.7rem;
-          }
-        }
-      }
-
-      @media all and (min-width: 1200px) {
+      @media all and (min-width: 768px) {
         .box_device_name {
           font-size: 0.9rem;
-          line-height: 0.9rem;
         }
 
         .info-holder {
           .info {
-            font-size: 0.9rem;
-            line-height: 0.9rem;
+            font-size: 0.78rem;
           }
         }
       }
@@ -168,24 +142,29 @@
   }
 }
 
+@keyframes ta-error-pulse {
+  0%,
+  100% {
+    box-shadow: var(--ta-card-shadow);
+  }
+  50% {
+    box-shadow:
+      var(--ta-card-shadow),
+      0 0 12px -2px var(--ta-state-error);
+  }
+}
+
 .nightmode {
   .startpage {
-    .card-holder {
-      .box_device {
-        .box_device_name {
-          color: $whiteNightMode;
-        }
-
-        .info-holder {
-          color: $whiteNightMode;
-        }
-
-        &.error {
-        }
-
-        .info {
-        }
-      }
-    }
+    --ta-card-bg: var(--nightmode-card-bg);
+    --ta-card-text: #{$white};
+    --ta-card-muted: #{$whiteNightMode};
+    --ta-card-border: rgba(17, 24, 39, 0.12);
+    --ta-card-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
+    --ta-card-shadow-hover:
+      0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.3);
+    --ta-state-on: #{$nmGreenBtn};
+    --ta-state-error: #{$redError};
   }
 }
