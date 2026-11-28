@@ -866,24 +866,257 @@ body {
   color: #6b7280;
 }
 
-.update-page #logGlobal,
-.update-page #progressbox {
-  min-height: 8rem;
+.update-page .update-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
 }
 
-.update-page #progressbox .device + .device {
-  margin-top: 1.5rem;
-  padding-top: 1.5rem;
+.update-page .update-summary-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.update-page .update-summary-elapsed {
+  color: #6b7280;
+  font-variant-numeric: tabular-nums;
+}
+
+.update-page .update-summary-counts {
+  display: flex;
+  gap: 1.25rem;
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+}
+
+.update-page .update-count-success i {
+  color: $color_japanese_laurel_approx;
+}
+
+.update-page .update-count-error i {
+  color: $red;
+}
+
+.update-page .update-count-active i {
+  color: #0d6efd;
+}
+
+.update-page #logGlobal:not(:empty) {
+  margin-top: 0.75rem;
+  padding-top: 0.5rem;
   border-top: 1px solid rgba(17, 24, 39, 0.12);
 }
 
-.update-page #progressbox .device h1 {
-  margin-bottom: 1rem;
-  font-size: 1.35rem;
+.update-page .update-device-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.update-page .update-log-output span + span,
-.update-page .update-progress-output span + span {
+.update-page .update-device-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 0.6rem;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+.update-page .update-device-row[data-state="error"] {
+  border-color: $red;
+}
+
+.update-page .update-device-row[data-state="active"] {
+  border-color: #0d6efd;
+}
+
+.update-page .update-status {
+  flex: 0 0 auto;
+  width: 1.2rem;
+  text-align: center;
+}
+
+.update-page .update-status::before {
+  font-family: "Font Awesome 6 Free", "Font Awesome 5 Free";
+  font-weight: 900;
+  content: "\f111";
+  color: #9ca3af;
+}
+
+.update-page .update-device-row[data-state="active"] .update-status::before {
+  content: "\f110";
+  color: #0d6efd;
+  animation: update-status-spin 1.2s linear infinite;
+  display: inline-block;
+}
+
+@keyframes update-status-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.update-page .update-device-row[data-state="success"] .update-status::before {
+  content: "\f058";
+  color: $color_japanese_laurel_approx;
+}
+
+.update-page .update-device-row[data-state="skipped"] .update-status::before {
+  content: "\f05e";
+  color: $color_pizazz_approx;
+}
+
+.update-page .update-device-row[data-state="error"] .update-status::before {
+  content: "\f06a";
+  color: $red;
+}
+
+.update-page .update-device-body {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.update-page .update-device-title-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: baseline;
+}
+
+.update-page .update-device-name {
+  font-weight: 600;
+}
+
+.update-page .update-device-version {
+  font-size: 0.8rem;
+  color: #6b7280;
+  font-variant-numeric: tabular-nums;
+}
+
+.update-page .update-device-phase {
+  font-size: 0.8rem;
+  color: #374151;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.update-page .update-device-actions {
+  flex: 0 0 auto;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.update-page .update-steps {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+}
+
+.update-page .update-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #6b7280;
+}
+
+.update-page .update-step i {
+  display: inline-block;
+  width: 0.65rem;
+  height: 0.65rem;
+  border: 2px solid #9ca3af;
+  border-radius: 50%;
+}
+
+.update-page .update-step[data-state="active"] {
+  color: #0d6efd;
+}
+
+.update-page .update-step[data-state="active"] i {
+  border-color: #0d6efd;
+}
+
+.update-page .update-step[data-state="done"] {
+  color: $color_japanese_laurel_approx;
+}
+
+.update-page .update-step[data-state="done"] i {
+  border-color: $color_japanese_laurel_approx;
+  background: $color_japanese_laurel_approx;
+}
+
+.update-page .update-step-connector {
+  width: 1.5rem;
+  height: 2px;
+  background: rgba(17, 24, 39, 0.18);
+}
+
+.update-page .update-log {
+  flex: 0 0 auto;
+  max-width: 100%;
+}
+
+.update-page .update-log[open] {
+  flex-basis: 100%;
+  text-align: left;
+}
+
+.update-page .update-log[open] summary {
+  margin-right: 0.5rem;
+}
+
+.update-page .update-log summary {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.update-page .update-device-actions .update-copy-log {
+  font-size: 0.75rem;
+  padding: 0 0.25rem;
+  margin-left: 0.5rem;
+  vertical-align: baseline;
+}
+
+.update-page .update-log-lines {
+  width: 100%;
+  max-height: 14rem;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.4rem;
+  background: rgba(17, 24, 39, 0.04);
+  font-family: monospace;
+  font-size: 0.75rem;
+}
+
+.update-page .update-log-lines span,
+.update-page #logGlobal span {
+  display: block;
+  line-height: 1.3rem;
+
+  &.error {
+    color: $red;
+  }
+
+  &.success {
+    color: $color_japanese_laurel_approx;
+  }
+
+  &.warning {
+    color: $color_pizazz_approx;
+  }
+}
+
+.update-page .update-log-output span + span {
   margin-top: 0.35rem;
 }
 
@@ -2418,7 +2651,31 @@ hr {
     color: $whiteNightMode;
   }
 
-  .update-page #progressbox .device + .device {
+  .update-page .update-device-row {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+    color: $whiteNightMode;
+  }
+
+  .update-page .update-device-row[data-state="error"] {
+    border-color: $red;
+  }
+
+  .update-page .update-device-row[data-state="active"] {
+    border-color: #0d6efd;
+  }
+
+  .update-page .update-device-phase,
+  .update-page .update-summary-counts {
+    color: $whiteNightMode;
+  }
+
+  .update-page .update-log-lines {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .update-page #logGlobal:not(:empty) {
     border-top-color: rgba(255, 255, 255, 0.12);
   }
 
@@ -3051,26 +3308,6 @@ hr {
     height: 26px;
     position: relative;
     top: -6px;
-  }
-}
-
-#progressbox span,
-#logGlobal {
-  width: 100%;
-  display: block;
-  font-size: 0.8rem;
-  line-height: 1rem;
-
-  &.error {
-    color: $red;
-  }
-
-  &.success {
-    color: $color_japanese_laurel_approx;
-  }
-
-  &.warning {
-    color: $color_pizazz_approx;
   }
 }
 
