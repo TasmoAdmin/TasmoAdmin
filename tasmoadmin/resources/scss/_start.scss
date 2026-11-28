@@ -159,6 +159,7 @@
     --ta-card-bg: var(--nightmode-card-bg);
     --ta-card-text: #{$white};
     --ta-card-muted: #{$whiteNightMode};
+    --ta-card-border: rgba(17, 24, 39, 0.12);
     --ta-card-shadow:
       0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
     --ta-card-shadow-hover:
