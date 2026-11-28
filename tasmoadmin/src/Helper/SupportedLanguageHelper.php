@@ -17,6 +17,7 @@ class SupportedLanguageHelper
             'it' => 'Italiano',
             'nl' => 'Nederlands',
             'pl' => 'Polski',
+            'pt_BR' => 'Português (Brasil)',
             'ru' => 'Русский',
             'zh_TW' => '繁體中文',
         ];
