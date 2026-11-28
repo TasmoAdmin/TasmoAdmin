@@ -2,6 +2,7 @@
 
 namespace Tests\TasmoAdmin\Helper;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 use TasmoAdmin\Helper\RequestHelper;
@@ -88,6 +89,47 @@ class RequestHelperTest extends TestCase
             'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip',
             'updates.example'
         ));
+    }
+
+    #[DataProvider('allowedUpdateSourceProvider')]
+    public function testIsAllowedUpdateSourceAccepts(string $releaseUrl, string $officialReleaseUrl): void
+    {
+        self::assertTrue(RequestHelper::isAllowedUpdateSource($releaseUrl, $officialReleaseUrl));
+    }
+
+    public static function allowedUpdateSourceProvider(): array
+    {
+        $officialReleaseUrl = 'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip';
+
+        return [
+            'official release url exact match' => [$officialReleaseUrl, $officialReleaseUrl],
+            'github release download' => [$officialReleaseUrl, ''],
+            'www.github.com host' => ['https://www.github.com/tasmoadmin/tasmoadmin/releases/download/v1/release.zip', ''],
+            'case-insensitive host and path' => ['https://GITHUB.COM/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip', ''],
+        ];
+    }
+
+    #[DataProvider('rejectedUpdateSourceProvider')]
+    public function testIsAllowedUpdateSourceRejects(string $releaseUrl, string $officialReleaseUrl): void
+    {
+        self::assertFalse(RequestHelper::isAllowedUpdateSource($releaseUrl, $officialReleaseUrl));
+    }
+
+    public static function rejectedUpdateSourceProvider(): array
+    {
+        $officialReleaseUrl = 'https://github.com/TasmoAdmin/TasmoAdmin/releases/download/v1/release.zip';
+
+        return [
+            'http scheme' => ['http://github.com/tasmoadmin/tasmoadmin/releases/download/v1/release.zip', $officialReleaseUrl],
+            'non-github host' => ['https://evil.example/tasmoadmin/tasmoadmin/releases/download/v1/release.zip', $officialReleaseUrl],
+            'github subdomain lookalike' => ['https://github.com.evil.example/tasmoadmin/tasmoadmin/releases/download/v1/release.zip', $officialReleaseUrl],
+            'wrong repository path' => ['https://github.com/other/repo/releases/download/v1/release.zip', $officialReleaseUrl],
+            'repository path without trailing slash' => ['https://github.com/tasmoadmin/tasmoadmin', $officialReleaseUrl],
+            'encoded traversal escaping prefix' => ['https://github.com/tasmoadmin/%2e%2e/%2e%2e/evil.zip', $officialReleaseUrl],
+            'control characters' => ["https://github.com/tasmoadmin/tasmoadmin/\x01release.zip", $officialReleaseUrl],
+            'not a url' => ['not a url', $officialReleaseUrl],
+            'empty url' => ['', $officialReleaseUrl],
+        ];
     }
 
     public function testIsPublicI18nRequestReturnsTrueForActionsRouteWithI18nQuery(): void
