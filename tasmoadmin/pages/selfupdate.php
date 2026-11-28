@@ -26,7 +26,7 @@ $unfamiliarSource = RequestHelper::isUnfamiliarUpdateSource($releaseUrl, $offici
 
 if (isset($_POST['selfupdate'])) {
     $scheme = parse_url($releaseUrl, PHP_URL_SCHEME);
-    if (!filter_var($releaseUrl, FILTER_VALIDATE_URL) || !in_array($scheme, ['http', 'https'], true)) {
+    if (!filter_var($releaseUrl, FILTER_VALIDATE_URL) || !in_array($scheme, ['http', 'https'], true) || !RequestHelper::isAllowedUpdateSource($releaseUrl, $officialReleaseUrl)) {
         $msg = __('INVALID_RELEASE_URL', 'SELFUPDATE');
         $msgClass = 'danger';
     } elseif ($unfamiliarSource && '1' !== ($_POST['confirm_unfamiliar_source'] ?? '')) {
