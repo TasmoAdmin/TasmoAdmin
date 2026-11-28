@@ -156,15 +156,14 @@
 
 .nightmode {
   .startpage {
-    background-color: #172554;
-    --ta-card-bg: #1d4ed8;
+    --ta-card-bg: #{$color_tuna_approx};
     --ta-card-text: #{$white};
     --ta-card-muted: #{$whiteNightMode};
     --ta-card-shadow:
       0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.25);
     --ta-card-shadow-hover:
       0 2px 4px rgba(0, 0, 0, 0.35), 0 8px 20px rgba(0, 0, 0, 0.3);
-    --ta-state-on: #ffc94d;
-    --ta-state-error: #ff5a6a;
+    --ta-state-on: #{$nmGreenBtn};
+    --ta-state-error: #{$redError};
   }
 }
