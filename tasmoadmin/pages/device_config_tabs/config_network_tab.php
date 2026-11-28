@@ -95,12 +95,29 @@ use TasmoAdmin\Helper\HtmlAttributeHelper;
 							       id="IPAddress4"
 							       name='IPAddress4'
 							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
-						       value='<?php echo HtmlAttributeHelper::escape(isset($status->StatusNET->DNSServer)
-	                                     && !empty($status->StatusNET->DNSServer) ? $status->StatusNET->DNSServer : ''); ?>'>
+					       value='<?php echo HtmlAttributeHelper::escape(($dnsServer1 = $status->StatusNET->DNSServer1
+	                                         ?? $status->StatusNET->DNSServer ?? '') === '0.0.0.0' ? '' : $dnsServer1); ?>'>
 							<small id="IPAddress4Help" class="form-text text-muted">
 								<?php echo __('CONFIG_DNSSERVER_HELP', 'DEVICE_CONFIG'); ?>
 							</small>
 						</div>
+						<?php if (isset($status->StatusNET->DNSServer2)) { ?>
+						<div class="form-group col col-12 col-md-6">
+							<label for="IPAddress5" class="form-label">
+								<?php echo __('CONFIG_DNSSERVER2', 'DEVICE_CONFIG'); ?>
+							</label>
+							<input type="text"
+							       class="form-control"
+							       id="IPAddress5"
+							       name='IPAddress5'
+							       placeholder="<?php echo __('PLEASE_ENTER'); ?>"
+						       value='<?php echo HtmlAttributeHelper::escape('0.0.0.0' === $status->StatusNET->DNSServer2
+	                                         ? '' : $status->StatusNET->DNSServer2); ?>'>
+							<small id="IPAddress5Help" class="form-text text-muted">
+								<?php echo __('CONFIG_DNSSERVER2_HELP', 'DEVICE_CONFIG'); ?>
+							</small>
+						</div>
+						<?php } ?>
 						<div class="form-group col col-12">
 							<label for="Mac" class="form-label">
 								<?php echo __('CONFIG_MACADDRESS', 'DEVICE_CONFIG'); ?>
