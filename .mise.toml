@@ -1,3 +1,4 @@
 [tools]
 python = '3.15.2'
 pre-commit = '4.7.0'
+transifex = "1.6.17"
