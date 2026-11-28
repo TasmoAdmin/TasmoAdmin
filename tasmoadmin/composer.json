@@ -12,7 +12,7 @@
         "ext-zlib": "*",
         "ext-dom": "*",
         "philipp15b/php-i18n": "^4.0",
-        "guzzlehttp/guzzle": "^7.0",
+        "guzzlehttp/guzzle": "^8.0",
         "symfony/filesystem": "^7.4",
         "composer/semver": "^3.3",
         "filp/whoops": "^2.14",
