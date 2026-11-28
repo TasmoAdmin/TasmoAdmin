@@ -156,7 +156,7 @@
 
 .nightmode {
   .startpage {
-    --ta-card-bg: #{$color_tuna_approx};
+    --ta-card-bg: var(--nightmode-card-bg);
     --ta-card-text: #{$white};
     --ta-card-muted: #{$whiteNightMode};
     --ta-card-shadow:
