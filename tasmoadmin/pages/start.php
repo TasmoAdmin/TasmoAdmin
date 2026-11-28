@@ -34,8 +34,8 @@ $devices = array_values(array_filter(
 	        $imgNight = 'night/';
 	    }
 	    ?>
-		<div class='row justify-content-center startpage'>
-			<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
+		<div class='startpage'>
+			<div class='card-holder'>
 				<div class='box_device position-relative' id='all_off' style=''>
 					<div class=" rubberBand">
 						<?php // col col-xs-6 col-4 col-sm-3 col-md-2 col-xl-1
@@ -66,7 +66,7 @@ $devices = array_values(array_filter(
 					<?php
 	                        $img = _RESOURCESURL_.'img/device_icons/'.$imgNight.$device_group->img.'_off.png';
 				    ?>
-					<div class='card-holder col-6 col-sm-3 col-md-2 col-xl-1 col-xxl-1 mb-4'>
+					<div class='card-holder'>
 						<div class='box_device position-relative' style=''
 							 data-device_id='<?php echo HtmlAttributeHelper::escape($device_group->id); ?>'
 							 data-device_group='<?php echo count($device_group->names) > 1 ? 'multi' : 'single'; ?>'
